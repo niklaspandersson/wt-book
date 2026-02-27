@@ -1,0 +1,4 @@
+# Javascript på klientsidan
+En bok om att programmera i JavaScript på klientsidan. Boken är menad att användas som kurslitteratur i kurserna Webbteknik 2 och Webbteknik 3 på Linnéuniversitetet. Den är också tänkt att vara en resurs för alla som vill lära sig mer om JavaScript på klientsidan.
+
+Boken är skriven på svenska och riktar sig till studenter utan tidigare teknisk bakgrund. Boken skall kännas som en traditionell lärobok, med löpande text varvat med exempel som introducerar, förklarar och fördjupar koncepten som ingår. Wekkteknik 2 och 3 är kurser på universitetsnivå, så det skall finnas ett visst teoretiskt djup, även om kurserna främst är av praktisk karaktär. Studenterna skall lära sig "hantverket" webbutveckling. De behöver finnas exempel och övningar, men laborationer som fungerar bra finns redan på kursens fristående webbplats. Det är viktigt att övningarna undviker "klipp och klistra"-fällan.

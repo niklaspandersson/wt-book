@@ -1,0 +1,56 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+This is a Quarto book project — *Javascript på klientsidan* — a Swedish-language textbook on client-side JavaScript. It is intended as course literature for the courses Webbteknik 2 and 3 at Linnéuniversitetet, targeting students without a prior technical background. The book should read like a traditional textbook: continuous prose interspersed with examples and exercises, with a certain theoretical depth while remaining primarily practical. Avoid the "copy-paste trap" in exercises.
+
+## Commands
+
+All commands must be run from the `manuscript/` directory:
+
+```bash
+cd manuscript
+
+# Build HTML and PDF output
+quarto render
+
+# Live preview with hot reload (opens browser)
+quarto preview
+```
+
+Build output lands in `manuscript/_book/`.
+
+## Structure
+
+- `manuscript/_quarto.yml` — book configuration (title, author, chapter list, output formats)
+- `manuscript/*.qmd` — chapter files in Quarto Markdown
+- `manuscript/references.bib` — BibTeX bibliography
+- `manuscript/_book/` — generated output (gitignored)
+
+Chapters must be listed explicitly under `book.chapters` in `_quarto.yml`. The output formats are HTML (cosmo theme) and PDF (scrreprt document class).
+
+## Content Plan
+
+See [OUTLINE.md](OUTLINE.md) for the full chapter plan. The book is organized into four parts:
+
+- **Del I** (Ch. 1–10): Foundational JavaScript — values, variables, conditions, loops, functions, arrays, strings, objects, DOM, events
+- **Del II**: The web as a platform — DOM deep-dive, timers, forms, storage, Fetch/JSON, HTTP/REST, audio, drag-and-drop, security, performance
+- **Del III**: The language in depth — closures, async/await, modules, OOP, functional array transforms, error handling
+- **Del IV**: Craft and methodology — Git/GitHub, debugging
+
+Plus two appendices on HTML and CSS reference.
+
+## Writing Conventions
+
+- Language: Swedish throughout
+- Audience: University students, no prior technical background assumed
+- Style: Traditional textbook — flowing prose with integrated examples that introduce, explain, and deepen concepts
+- Exercises must avoid the "copy-paste trap"; students should reason and apply, not just transcribe
+- Perfer to start each chapter with some concrete scenario or problem that the students caan recognize, then introduce concepts as tools to solve it.
+- Provide tips and guidance to students on how to use AI tools like ChatGPT effectively for learning and problem-solving, without encouraging over-reliance on AI for completing exercises.
+- Update the chapter list in `_quarto.yml` as you add new chapters, and ensure they are in the correct order for the intended progression.
+- Reference authorative online documentation (e.g., MDN Web Docs) where appropriate.
+- Add references to `references.bib` as needed, and cite them in the text using standard Quarto Markdown citation syntax.
+- Update [OUTLINE.md](OUTLINE.md) as needed to reflect changes in the chapter plan or structure.
