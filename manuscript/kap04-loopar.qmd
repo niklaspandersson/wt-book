@@ -1,0 +1,376 @@
+# Loopar
+
+## Tusen gånger samma sak
+
+Tänk dig att du ska skriva ett program som skriver ut alla heltal från 1 till 10. Det är lätt:
+
+```javascript
+console.log(1);
+console.log(2);
+console.log(3);
+// ...
+console.log(10);
+```
+
+Tio rader. Jobbigt men görbart. Nu ska programmet skriva ut alla heltal från 1 till 1&nbsp;000. Plötsligt är det inte görbart längre – åtminstone inte på ett meningsfullt sätt. Och om antalet inte är känt i förväg utan beror på användarens inmatning? Då är det omöjligt.
+
+Det är ett fundamentalt problem i programmering: hur instruerar man datorn att upprepa en handling ett godtyckligt antal gånger? Svaret är **loopar** – konstruktioner som kör samma kodblock om och om igen, antingen ett bestämt antal gånger eller tills ett villkor upphör att gälla.
+
+Loopar är ett av de kraftfullaste verktygen i programmeringsverktygslådan. De är det som gör det möjligt att bearbeta listor med hundratals poster, söka igenom stora datamängder, och driva spel som körs frame för frame. De är också det som gör det möjligt att göra fel på ett imponerande effektivt sätt – men vi återkommer till det.
+
+---
+
+## `while`-loopen
+
+Den grundläggande loopkonstruktionen i JavaScript är `while`. Den upprepar ett block så länge ett villkor är sant:
+
+```javascript
+while (villkor) {
+    // kod som körs om och om igen
+}
+```
+
+Innan varje upprepning kontrolleras villkoret. Om det är `true` körs blocket. Sedan kontrolleras villkoret igen. Och igen. Tills villkoret är `false` – då hoppar programmet förbi loopen och fortsätter med resten av koden.
+
+Så här löser vi det inledande problemet:
+
+```javascript
+let i = 1;
+
+while (i <= 10) {
+    console.log(i);
+    i = i + 1;
+}
+```
+
+Gå igenom koden rad för rad:
+
+1. `let i = 1` – vi skapar en variabel `i` som håller reda på var vi är i sekvensen. Den kallas ofta en **räknare** eller **iterationsvariabel**.
+2. `while (i <= 10)` – kontrollera: är `i` mindre än eller lika med 10?
+3. Om ja, kör blocket: skriv ut `i`, öka sedan `i` med 1.
+4. Gå tillbaka till rad 2 och kontrollera igen.
+5. När `i` blivit 11 är villkoret falskt – loopen avslutas.
+
+Resultatet är tio rader med talen 1 till 10. Och om vi vill ha 1&nbsp;000 tal behöver vi bara ändra `10` till `1000`.
+
+### Räknarvariabeln
+
+Variabelnamnet `i` är en konvention – det är en förkortning av *index* eller *iteration* och används nästan universellt för enkla räknare. Du kan döpa den till vad som helst, men `i`, `j` och `k` är de vedertagna valen. Välj ett mer beskrivande namn om det gör koden tydligare i sammanhanget.
+
+::: {.callout-note}
+## `i++` och `i += 1`
+
+`i = i + 1` är ett långt och lite svårttolkat sätt att uttrycka att `i` skall öka med 1. JavaScript erbjuder kortformer för detta vanliga mönster:
+
+- `i++` – ökar `i` med 1 (postfix-inkrement)
+- `i--` – minskar `i` med 1 (postfix-dekrement)
+- `i += 2` – ökar `i` med 2 (kortform för `i = i + 2`)
+- `i -= 1` – minskar `i` med 1 (kortform för `i = i - 1`)
+- `i *= 2` – multiplicerar `i` med 2
+
+`i++` är den mest förekommande kortformen i loopar. Den gör precis samma sak som `i = i + 1`.
+:::
+
+---
+
+## Den oändliga loopen
+
+Vad händer om villkoret *aldrig* blir falskt? Loopen körs för evigt – eller tills webbläsaren märker att sidan har "hängt sig" och avbryter körningen.
+
+```javascript
+// Varning: kör INTE den här koden
+let i = 1;
+while (i > 0) {
+    console.log(i);
+    i++;
+}
+```
+
+Här ökar `i` för varje iteration, och villkoret `i > 0` är alltid sant. Det här är en **oändlig loop** (*infinite loop*) och en av de vanligaste misstagen bland nybörjare.
+
+::: {.callout-important}
+## Kontrollera alltid att loopen kan avslutas
+
+Innan du kör en `while`-loop, fråga dig: *förändras räknarvariabeln på ett sätt som garanterat gör att villkoret till slut blir falskt?*
+
+De vanligaste orsakerna till oändliga loopar:
+
+- Glömde att uppdatera räknarvariabeln inuti blocket.
+- Uppdaterar fel variabel (ändrar `j` när villkoret beror på `i`).
+- Villkoret är alltid sant av logiska skäl.
+
+Om webbläsaren verkar hänga och inte svarar är en oändlig loop den troligaste orsaken. Stäng fliken.
+:::
+
+---
+
+## `for`-loopen
+
+`while`-loopen är fundamental men kräver att man skriver räknarvariabeln, villkoret och uppdateringen på separata ställen. Det vanligaste mönstret – räkna från A till B och uppdatera räknaren med ett steg – är så vanligt att det finns en dedikerad syntax för det: `for`-loopen.
+
+```javascript
+for (initiering; villkor; uppdatering) {
+    // kod som upprepas
+}
+```
+
+De tre delarna inom parenteserna, separerade av semikolon:
+
+1. **Initiering** – körs en gång innan loopen börjar; typiskt skapas räknarvariabeln här.
+2. **Villkor** – kontrolleras innan varje iteration; loopen fortsätter så länge det är `true`.
+3. **Uppdatering** – körs efter varje iteration; typiskt ökas räknaren.
+
+Samma loop som tidigare, nu med `for`:
+
+```javascript
+for (let i = 1; i <= 10; i++) {
+    console.log(i);
+}
+```
+
+All information om loopens kontroll finns samlad på en rad. Det gör koden mer kompakt och lättare att läsa – det är direkt uppenbart att vi räknar från 1 till 10 med steget 1.
+
+::: {.callout-note}
+## `let` inuti `for`
+
+Variabeln `i` deklareras med `let` inuti `for`-satsens initieringsdel. Det innebär att `i` bara existerar *inuti* loopen – utanför är den inte tillgänglig. Det är god praxis; håll variabler så lokalt avgränsade som möjligt. Vi återkommer till begreppet scope i kapitel 5.
+:::
+
+### Räkna baklänges
+
+`for`-loopen är flexibel. Man kan räkna nedåt:
+
+```javascript
+for (let i = 10; i >= 1; i--) {
+    console.log(i);
+}
+```
+
+Eller använda ett annat steg:
+
+```javascript
+// Skriv ut jämna tal från 2 till 20
+for (let i = 2; i <= 20; i += 2) {
+    console.log(i);
+}
+```
+
+### När ska man använda `while` respektive `for`?
+
+Tumregeln är:
+
+- Använd **`for`** när antalet körningar kan kontrolleras med en räknare.
+- Använd **`while`** när loopen styrs av ett villkor som kan ändras på oförutsägbara sätt.
+
+I praktiken kan man alltid ersätta den ena med den andra, men rätt val gör koden mer läsbar och kommunicerar avsikten tydligare.
+
+---
+
+## `break` – avbryt loopen
+
+Ibland behöver man avsluta en loop i förtid, utan att vänta på att villkoret naturligt ska bli falskt. Det gör man med `break`.
+
+Föreställ dig att du söker igenom en lista med studentresultat och vill hitta det första underkända:
+
+```javascript
+const poäng = [82, 91, 73, 44, 68, 55]; 
+let underkändHittad = false;
+
+for (let i = 0; i < poäng.length; i++) {
+    if (poäng[i] < 50) {
+        console.log(`Underkänt resultat: ${poäng[i]}`);
+        underkändHittad = true;
+        break;  // avbryt – vi har hittat vad vi sökte
+    }
+}
+```
+
+När `break` nås hoppar programmet direkt ut ur loopen och fortsätter med koden efter den. Utan `break` hade vi fortsatt iterera genom hela listan även efter att vi hittat det vi sökte.
+
+::: {.callout-note}
+## Vad är `[82, 91, 73, 44, 68, 55]`?
+
+`poäng` innehåller en **lista** av värden – i JavaScript kallas det en *array*. Med `poäng[i]` hämtar man värdet på position `i` (räknat från noll), och `poäng.length` ger listans längd. Loopar och listor hänger tätt ihop: en loop är ofta det naturliga sättet att gå igenom alla värden i en lista ett i taget. Vi tittar närmare på hur arrayer fungerar i kapitel 6.
+:::
+
+
+---
+
+## `continue` – hoppa över en iteration
+
+Istället för att avbryta hela loopen kan man hoppa över *resten av den aktuella iterationen* och gå direkt till nästa. Det gör man med `continue`.
+
+```javascript
+// Skriv ut alla tal från 1 till 10 utom 5
+for (let i = 1; i <= 10; i++) {
+    if (i === 5) {
+        continue;  // hoppa över resten av den här iterationen
+    }
+    console.log(i);
+}
+```
+
+När `continue` nås för `i === 5` hoppar programmet tillbaka till uppdateringen (`i++`) och därefter till villkorskontrollen – utan att köra `console.log(5)`.
+
+`break` och `continue` gör loopar mer flexibla, men ska användas med omdöme. Överdrivet användande kan göra flödet svårt att följa. I många fall är ett tydligare villkor att föredra framför ett `continue` mitt i ett block.
+
+---
+
+## `do...while` – kör alltid minst en gång
+
+Det finns en variant av `while`-loopen där blocket alltid körs minst en gång, oavsett om villkoret är sant från början:
+
+```javascript
+do {
+    // kod som alltid körs minst en gång
+} while (villkor);
+```
+
+Skillnaden mot vanlig `while`: villkoret kontrolleras *efter* varje körning, inte *innan*. Det är användbart i situationer där man behöver köra loopen en gång och sedan bestämma om man ska fortsätta – ett klassiskt exempel är att be om inmatning tills den är giltig:
+
+```javascript
+let svar;
+do {
+    svar = prompt("Ange ett tal mellan 1 och 10:");
+} while (svar < 1 || svar > 10);
+```
+
+`do...while` är betydligt ovanligare än `while` och `for`. Stöter du på det i ett kodexempel är det viktigaste att komma ihåg att blocket garanterat körs åtminstone en gång.
+
+---
+
+## Nästlade loopar
+
+Precis som `if`-satser kan nästlas kan loopar placeras inuti varandra – **nästlade loopar**. Det är användbart för att arbeta med tvådimensionell data, till exempel en matris eller en tabell.
+
+Klassikerexemplet är att skriva ut en multiplikationstabell:
+
+```javascript
+for (let rad = 1; rad <= 5; rad++) {
+    let radtext = "";
+    for (let kol = 1; kol <= 5; kol++) {
+        radtext += `${rad * kol}\t`;
+    }
+    console.log(radtext);
+}
+```
+
+Yttre loopen itererar över raderna (1–5). För varje rad kör den inre loopen *hela sin sekvens* – kolumnerna (1–5). Totalt körs den inre loopens kropp 5 × 5 = 25 gånger.
+
+::: {.callout-note}
+## Välj distinkta räknarnamn
+
+I nästlade loopar är det viktigt att använda distinkta namn på räknarvariablerna. Det är konvention att använda `i` för den yttre loopen och `j` för den inre (och `k` för en eventuell tredje). Att råka skriva `i` när man menar `j` – eller tvärtom – är en vanlig källa till svårfunna buggar.
+:::
+
+Nästlade loopar kan snabbt bli kostsamma. Om yttre loopen kör *n* gånger och den inre *m* gånger kör den innersta koden *n × m* gånger. Med tre nivåers nästling är det *n × m × k* körningar. För stora tal kan det bli ett problem – men det är ett ämne för kapitel om optimering.
+
+---
+
+## Sammanfattning
+
+Loopar ger programmet förmågan att upprepa instruktioner – det som gör det möjligt att bearbeta listor, söka i data och driva applikationer som reagerar kontinuerligt.
+
+- **`while`** upprepar ett block så länge villkoret är sant. Kontrollera alltid att villkoret till slut blir falskt.
+- **`for`** samlar initiering, villkor och uppdatering på en rad – välj den när du räknar med en räknarvariabel.
+- **`break`** avslutar loopen i förtid; **`continue`** hoppar över resten av den aktuella iterationen.
+- **`do...while`** körs alltid minst en gång – villkoret kontrolleras efter blocket.
+- **Nästlade loopar** används för flerdimensionell data; välj distinkta räknarnamn.
+
+Loopar kan göra ofantligt mycket på kort tid – och de kan göra det med fel på ofantligt effektivt sätt. En oändlig loop hänger webbläsaren; en räknare som startar på fel värde ger systematiskt fel resultat. Träna på att spåra loopars exekvering manuellt, rad för rad, tills du kan förutsäga resultatet utan att köra koden.
+
+I nästa kapitel introduceras **funktioner** – ett sätt att namnge och återanvända kodblock. Kombinationen av loopar och funktioner är grunden för nästan all praktisk programmering.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Loopar är ett av de första ställen där "spårning" – att följa kodens exekvering steg för steg – verkligen behövs för att bygga förståelse. AI kan vara en tålmodig partner för den typen av genomgångar.
+
+**Be AI:n spåra en loop med dig:**
+
+> *"Gå igenom följande `for`-loop steg för steg och visa värdet på `i` och vad som skrivs ut i varje steg: `for (let i = 1; i <= 5; i++) { console.log(i * i); }`"*
+
+**Fråga om skillnader du är osäker på:**
+
+> *"Vad är skillnaden mellan `while` och `do...while`? Ge ett exempel där resultatet skiljer sig beroende på vilket man väljer."*
+
+> *"När ska man använda `break` kontra att skriva ett tydligare villkor i `while`-satsen? Finns det situationer där det ena är tydligare?"*
+
+**Testa din förståelse med en felsökning:**
+
+> *"Jag har skrivit en loop som ska summera talen 1 till 10 men resultatet blir 45 istället för 55. Jag förstår verkligen inte, kan du förklara vad som kan ha gått fel?"*
+
+AI:n är bra på att förklara varför något *inte* fungerar – om du skriver en loop som ger fel svar, klistra in den och beskriv vad du förväntade dig.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning 4.1 – Spåra loopen för hand
+
+Gå igenom följande kod rad för rad utan att köra den. Ange exakt vad som skrivs ut.
+
+```javascript
+let summa = 0;
+for (let i = 1; i <= 5; i++) {
+    summa += i;
+    console.log(`i = ${i}, summa = ${summa}`);
+}
+console.log(`Slutsumma: ${summa}`);
+```
+
+Vad är slutsumman? Varför? Kan du förklara mönstret utan att referera till koden?
+:::
+
+::: {.callout-note}
+## Övning 4.2 – Hitta felet
+
+Följande kod ska skriva ut alla udda tal mellan 1 och 9, men den gör inte det. Hitta felet och förklara varför det uppstår.
+
+```javascript
+for (let i = 0; i <= 9; i += 2) {
+    console.log(i);
+}
+```
+
+Skriv sedan en korrekt version.
+:::
+
+::: {.callout-note}
+## Övning 4.3 – FizzBuzz
+
+Skriv ett program som skriver ut talen 1 till 30 med följande regler:
+
+- Om talet är delbart med 3 skrivs "Fizz" ut istället för talet.
+- Om talet är delbart med 5 skrivs "Buzz" ut istället för talet.
+- Om talet är delbart med *både* 3 och 5 skrivs "FizzBuzz" ut.
+- Annars skrivs talet ut som vanligt.
+
+*Tips:* operatorn `%` (modulo) ger resten vid heltalsdivision: `10 % 3` är `1`, `9 % 3` är `0`. Tänk på i vilken ordning villkoren behöver kontrolleras.
+:::
+
+::: {.callout-note}
+## Övning 4.4 – Summera en sekvens
+
+Skriv kod som beräknar och skriver ut summan av alla heltal från 1 till ett godtyckligt tal `n`. Testa med `n = 100`. Vad bör summan vara? (Summan av de första *n* heltalen är en *aritmetisk summa* och kan beräknas med formeln $\frac{n(n+1)}{2}$ [@wiki-aritmetisk-summa] – stämmer ditt programs svar med formeln?)
+:::
+
+::: {.callout-note}
+## Övning 4.5 – Mönster med nästlade loopar
+
+Skriv ett program som skriver ut följande mönster i konsolen (med `console.log`):
+
+```
+*
+**
+***
+****
+*****
+```
+
+Varje rad består av ett antal asterisker lika med radnumret. Använd nästlade loopar: en yttre loop för raderna och en inre loop för att bygga upp varje rads sträng.
+
+**Bonusutmaning:** Skriv ut mönstret omvänt (fem asterisker överst, en nederst).
+:::

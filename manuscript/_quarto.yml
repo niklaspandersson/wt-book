@@ -10,6 +10,7 @@ book:
     - kap01-om-javascript.qmd
     - kap02-variabler.qmd
     - kap03-villkor.qmd
+    - kap04-loopar.qmd
     - summary.qmd
     - references.qmd
 
