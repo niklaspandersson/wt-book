@@ -8,6 +8,7 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - kap02-variabler.qmd
     - summary.qmd
     - references.qmd
 
