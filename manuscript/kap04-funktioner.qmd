@@ -52,7 +52,7 @@ function namn(parameter1, parameter2) {
 
 - `function` är nyckelordet som inleder deklarationen.
 - `namn` är funktionens namn – du väljer själv namn, som på en variabel, men välj ett namn som beskriver vad funktionen *gör*.
-- **Parametrarna** inom parenteserna är platshållare för de värden som skickas in vid anropet. En funktion kan ha noll, en eller flera parametrar. I funktionen fungerar de som vilka  variabler som helst.
+- **Parametrarna** inom parenteserna är platshållare för de värden som skickas in vid anropet. En funktion kan ha noll, en eller flera parametrar.
 - **Kroppen** – koden innanför `{ }` – körs varje gång funktionen anropas.
 
 Momsberäkningen som en funktion:
@@ -242,7 +242,7 @@ Early return är ett idiom som du kommer att se ofta i professionell kod. Det g�
 
 ## Scope – variablers räckvidd
 
-Variabler som deklareras inuti en funktion *existerar bara där*. De är **lokala** för funktionen och kan inte nås utifrån:
+Variabler som deklareras inuti en funktion *existerar bara där* – de kan inte nås utifrån:
 
 ```javascript
 function beräkna() {
@@ -254,7 +254,24 @@ beräkna();
 console.log(mellanvärde);   // ReferenceError: mellanvärde is not defined
 ```
 
-Det här kallas **scope** – räckvidden för en variabels synlighet. Variabler deklarerade inuti en funktion har **lokalt scope** och är osynliga utanför. Variabler deklarerade utanför alla funktioner har **globalt scope** och kan nås inifrån funktioner:
+Det här kallas **scope** – räckvidden för en variabels synlighet. Men det är egentligen inte *funktionen* i sig som skapar scopet – det är **klammerparenteserna** `{}`. Varje block av klammerparenteser definierar ett nytt scope, och `let`- och `const`-variabler är synliga enbart inuti det block där de deklarerades. Det kallas **block scope**.
+
+Det innebär att samma sak gäller inuti ett `if`-block:
+
+```javascript
+const poäng = 73;
+
+if (poäng >= 50) {
+    const meddelande = "Godkänd";
+    console.log(meddelande);   // fungerar
+}
+
+console.log(meddelande);   // ReferenceError: meddelande is not defined
+```
+
+`meddelande` existerar bara inuti `if`-blockets `{}` och är osynlig utanför. Det spelar ingen roll att `if`-satsen inte är en funktion – det räcker med klammerparenteserna.
+
+Variabler deklarerade *utanför* alla block har **globalt scope** och kan nås inifrån funktioner och block:
 
 ```javascript
 const hälsning = "Hej";   // global variabel
@@ -269,7 +286,7 @@ skrivUt("Ida");   // Hej, Ida!
 ::: {.callout-important}
 ## Undvik globala variabler
 
-Globala variabler kan läsas och ändras från *var som helst* i koden. Det gör dem svåra att resonera om: vem ändrade den variabeln? Var? När? Sträva efter att hålla variabler lokala – deklarera dem i den funktion eller det block där de behövs. Det minskar risken för oavsiktliga bieffekter och gör koden lättare att förstå och felsöka.
+Globala variabler kan läsas och ändras från *var som helst* i koden. Det gör dem svåra att resonera om: vem ändrade den variabeln? Var? När? Sträva efter att hålla variabler lokala – deklarera dem i det innersta block där de behövs. Det minskar risken för oavsiktliga bieffekter och gör koden lättare att förstå och felsöka.
 :::
 
 Scope är ett ämne som vi återkommer till på djupet i Del III, när vi behandlar closures och mer avancerade mönster.
@@ -278,11 +295,13 @@ Scope är ett ämne som vi återkommer till på djupet i Del III, när vi behand
 
 ## Funktionsuttryck och pilfunktioner
 
-Hittills har vi definierat funktioner med en *funktionsdeklaration*. Det finns andra former som du kommer att stöta på.
+Hittills har vi definierat funktioner med en *funktionsdeklaration*. Det finns andra former som du kommer att stöta på — och de avslöjar något viktigt om JavaScript.
+
+I JavaScript är funktioner **värden**, precis som tal och strängar. De kan lagras i variabler, skickas som argument till andra funktioner och returneras från funktioner. Det kallas *förstklassiga funktioner* (*first-class functions*) och är ett drag som är centralt för hur modern JavaScript skrivs. Vi återkommer till det på djupet i Del III — för stunden räcker det att notera att en funktion kan stå var som helst ett värde kan stå.
 
 ### Funktionsuttryck
 
-En funktion kan tilldelas en variabel – det kallas ett **funktionsuttryck**:
+Att tilldela en funktion till en variabel kallas ett **funktionsuttryck**:
 
 ```javascript
 const prisMedMoms = function(pris) {
@@ -292,7 +311,7 @@ const prisMedMoms = function(pris) {
 console.log(prisMedMoms(320));   // 400
 ```
 
-Resultatet är detsamma: `prisMedMoms` är ett namn man kan anropa med parenteser. Men det finns en skillnad: en funktionsdeklaration är *hoistable* – JavaScript läser den innan koden körs, vilket innebär att man kan anropa funktionen *innan* den definierats i filen. Funktionsuttryck är inte hoistable – variabeln existerar inte förrän raden körs.
+Resultatet är detsamma: `prisMedMoms` är ett namn man kan anropa med parenteser. Men det finns en skillnad: en funktionsdeklaration är *hoistable* (ungefär: "lyftbara") – JavaScript hittar och läser funktionen innan koden körs, vilket innebär att man kan anropa funktionen *innan* den definierats i filen. Funktionsuttryck är inte hoistable – variabeln existerar inte förrän raden körs.
 
 I praktiken är det enklast att alltid definiera funktioner innan de används, oavsett form.
 
@@ -312,7 +331,7 @@ Om kroppen består av ett enda uttryck kan man utelämna `{}` och `return` – u
 const prisMedMoms = (pris) => pris * 1.25;
 ```
 
-Om det bara finns en parameter kan parenteserna utelämnas:
+Och om det bara finns en parameter kan parenteserna utelämnas:
 
 ```javascript
 const prisMedMoms = pris => pris * 1.25;
@@ -354,21 +373,22 @@ Nu kan du använda `beräknaBetyg` för beräkningar och `skrivUtResultat` för 
 
 Att sätta bra namn på funktioner är en konst. Ett bra funktionsnamn:
 
-- Är ett verb (beskriver vad funktionen *gör*): `beräkna`, `kontrollera`, `konvertera`, `hämta`.
+- Är ofta ett verb (beskriver vad funktionen *gör*): `beräkna`, `kontrollera`, `konvertera`, `hämta`.
+- Är ibland ett substantiv, om det beskriver vad funktionen *returnerar*: `prisMedMoms`, `betyg`, `area`.
 - Är specifikt nog att man förstår vad funktionen gör utan att behöva läsa kroppen.
-- Är inte för långt – tre till fyra ord räcker oftast.
+- Är inte för långt – två till tre ord räcker oftast.
 
 ---
 
 ## Sammanfattning
 
-Funktioner är ett av de viktigaste verktygen i en programmerares verktygslåda. De ger koden struktur, minskar upprepning och gör beräkningar namngivna och återanvändbara.
+Funktioner är ett av de viktigaste verktygen i en programmerares verktygslåda. De ger koden struktur, minskar upprepning och gör beräkningar och algoritmer namngivna och återanvändbara.
 
 - En **funktionsdeklaration** definierar en namngiven funktion med `function namn(parametrar) { kropp }`.
 - En funktion **anropas** med `namn(argument)`.
 - **Parametrar** är platshållare för värden som skickas in; **argument** är de faktiska värdena vid anropet.
 - **`return`** avslutar funktionen och skickar tillbaka ett värde.
-- **Early return** – tidiga `return`-satser för felfall – minskar nästling och gör flödet rakare.
+- **Early return** – tidiga `return`-satser – minskar nästling och gör flödet rakare.
 - Variabler inuti en funktion har **lokalt scope** och existerar bara där.
 - **Funktionsuttryck** och **pilfunktioner** är alternativa syntaxer för att definiera funktioner.
 
@@ -379,9 +399,9 @@ I nästa kapitel introduceras **loopar** – ett sätt att upprepa instruktioner
 
 Funktioner är ett av de ställen där förvirring lätt uppstår – inte för att syntaxen är komplicerad, utan för att det är lätt att *tro* att man förstår utan att riktigt göra det. AI är ett bra redskap för att testa sin förståelse.
 
-**Testa skillnaden mellan parametrar och argument:**
+**Funktioner och resultatet av funktioner**
 
-> *"Förklara skillnaden mellan en parameter och ett argument i JavaScript, och ge ett konkret exempel."*
+> *"Varför behövs () för att anropa en funktion utan argument?"*
 
 > *"Vad händer om jag anropar en funktion med fler argument än den har parametrar? Och med färre?"*
 
