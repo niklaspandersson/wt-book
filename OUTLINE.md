@@ -4,8 +4,8 @@
 Kap. 1 – JavaScript och webbläsaren
 Kap. 2 – Värden, variabler och datatyper
 Kap. 3 – Villkorssatser och logik
-Kap. 4 – Loopar
-Kap. 5 – Funktioner
+Kap. 4 – Funktioner
+Kap. 5 – Loopar
 Kap. 6 – Listor och arrayer
 Kap. 7 – Text och strängar
 Kap. 8 – Objekt
