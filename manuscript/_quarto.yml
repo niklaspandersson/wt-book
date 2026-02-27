@@ -7,7 +7,7 @@ book:
   date: "2/27/2026"
   chapters:
     - index.qmd
-    - intro.qmd
+    - kap01-om-javascript.qmd
     - kap02-variabler.qmd
     - kap03-villkor.qmd
     - summary.qmd

@@ -1,7 +1,7 @@
 **Del I – Grunden: det du behöver för att komma igång**
 *(kronologisk progression)*
 
-Kap. 1 – Vad är programmering? JavaScript och webbläsaren
+Kap. 1 – JavaScript och webbläsaren
 Kap. 2 – Värden, variabler och datatyper
 Kap. 3 – Villkorssatser och logik
 Kap. 4 – Loopar
