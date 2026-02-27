@@ -329,7 +329,7 @@ if (poäng >= 50) {
 }
 ```
 
-Nästling är ibland oundviklig, men var försiktig: djup nästling gör koden svår att läsa och förstå. Redan vid tre nivåers nästling börjar det bli svårt att hålla reda på vilka villkor som gäller var. I sådana fall kan det vara en signal om att koden bör struktureras om – kanske med hjälp av funktioner, vilket vi tar upp i kapitel 5.
+Nästling är ibland oundviklig, men var försiktig: djup nästling gör koden svår att läsa och förstå. Redan vid tre nivåers nästling börjar det bli svårt att hålla reda på vilka villkor som gäller var. I sådana fall kan det vara en signal om att koden bör struktureras om – kanske med hjälp av funktioner, vilket vi tar upp i nästa kapitel.
 
 En teknik för att minska nästling är **early return** (tidig avslutning): kontrollera felfall eller negativa villkor tidigt och avsluta, så att resten av koden inte behöver nästlas. Det återkommer vi till i detalj när vi behandlar funktioner.
 
