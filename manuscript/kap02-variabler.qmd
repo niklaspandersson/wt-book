@@ -222,6 +222,31 @@ En vanlig källa till förvirring är att `null == undefined` är `true` med lö
 
 ---
 
+## Uttryck och satser
+
+Det finns en grundläggande distinktion i JavaScript som löper genom hela språket: skillnaden mellan ett **uttryck** och en **sats**.
+
+Ett **uttryck** (*expression*) är ett kodstycke som *utvärderas till ett värde*. Alla följande är uttryck:
+
+```javascript
+42              // utvärderas till 42
+3 + 4           // utvärderas till 7
+"Hej"           // utvärderas till "Hej"
+```
+
+Uttryck kan kombineras och nästlas: `3 + 4` kombinerar värdena `3` och `4` med operatorn `+` och producerar värdet `7`. Det är också anledningen till att du kan skriva `${poäng * 2}` inuti en templatesträng – det som står innanför `${}` är ett uttryck som utvärderas och bäddas in i strängen.
+
+En **sats** (*statement*) är en *instruktion* som *gör* något, snarare än att producera ett värde. Satser avslutas vanligtvis med ett semikolon:
+
+```javascript
+let poäng = 0;       // en variabeldeklaration
+poäng = poäng + 10;  // en tilldelning
+```
+
+Distinktioen är värd att känna till eftersom JavaScript i vissa sammanhang förväntar sig ett uttryck (t.ex. inuti `${}` eller som villkor i ett `if`) och i andra en sats. Du kommer att se orden *if-sats*, *return-sats* och *deklarationssats* framöver – de är alla satser, instruktioner som *gör* något. Enskilda värden och beräkningar – saker som *är* något – är uttryck.
+
+---
+
 ## Variabler
 
 Hittills har vi skrivit literalvärden direkt i koden – `42`, `"Anna"`, `true`. Men ett program som bara jobbar med hårdkodade värden är inte särskilt användbart. Vad vi vill är att *lagra* värden och kunna referera till dem, uppdatera dem och använda dem på flera ställen.
