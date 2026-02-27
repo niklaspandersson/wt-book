@@ -9,6 +9,7 @@ book:
     - index.qmd
     - intro.qmd
     - kap02-variabler.qmd
+    - kap03-villkor.qmd
     - summary.qmd
     - references.qmd
 

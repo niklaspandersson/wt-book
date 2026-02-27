@@ -1,0 +1,471 @@
+# Villkorssatser och logik
+
+## Programmet som fattar beslut
+
+De program vi skrivit hittills körs rakt igenom, rad för rad, utan att någonsin välja väg. Men ett program som alltid gör exakt samma sak – oavsett vad som händer – är begränsat. Det intressanta uppstår när programmet kan *reagera*: göra en sak om ett villkor är uppfyllt, och något annat annars.
+
+Föreställ dig att du ska skriva ett hjälpprogram för en kurs. Studenterna gör ett prov med 100 möjliga poäng, och du vill att programmet automatiskt ska:
+
+- avgöra om studenten är godkänd (minst 50 poäng),
+- sätta ett betyg (F, E, D, C, B eller A),
+- skriva ut ett kort meddelande anpassat till resultatet.
+
+Det är tre separata beslut, vart och ett beroende av poängen. Inget av dem kan skrivas som en enkel beräkning – de kräver att programmet *väljer* vilket kodsegment som ska köras. Det är precis vad **villkorssatser** är till för.
+
+---
+
+## `if`-satsen
+
+Den grundläggande konstruktionen för att fatta beslut är `if`-satsen. Syntaxen är:
+
+```javascript
+if (villkor) {
+    // kod som körs om villkoret är sant
+}
+```
+
+`villkor` är ett uttryck som utvärderas till `true` eller `false`. Om det är `true` körs koden innanför klammerparenteserna `{ }`. Om det är `false` hoppas blocket över.
+
+Ett första steg i betygsprogrammet:
+
+```javascript
+const poäng = 73;
+
+if (poäng >= 50) {
+    console.log("Godkänd");
+}
+```
+
+Koden `poäng >= 50` är ett **jämförelseuttryck** – det utvärderas till `true` om poängen är 50 eller mer, och `false` annars. Vi återkommer till jämförelseoperatorerna i detalj om ett ögonblick.
+
+Klammerparenteserna definierar ett **kodblock**. Alla rader inuti blocket körs (eller hoppas över) som en enhet. Det är god praxis att alltid använda klammerparenteser, även om blocket bara innehåller en enda rad – det gör koden tydligare och förebygger misstag när man lägger till rader senare.
+
+::: {.callout-note}
+## Indentering
+
+Koden inuti ett `if`-block indenteras med ett steg (fyra mellanslag eller ett tabbstopp). Det är inte ett krav i JavaScript – tolken bryr sig inte om blanksteg – men det är en oundgänglig konvention. Korrekt indentering gör att nästlad struktur syns direkt, och är lika viktig för läsbarhet som att ha meningar i ett stycke.
+:::
+
+---
+
+## `else` – vad händer annars?
+
+En `if`-sats på egen hand hanterar bara fallet då villkoret är sant. För att hantera *båda* fallen – sant och falskt – används `else`:
+
+```javascript
+if (poäng >= 50) {
+    console.log("Godkänd");
+} else {
+    console.log("Underkänd");
+}
+```
+
+Nu täcks alla möjliga poängvärden: antingen är man godkänd, eller så är man inte det. Precis ett av de två blocken kommer att köras.
+
+---
+
+## `else if` – flera grenar
+
+Ibland räcker det inte med två utfall. Betygsskalan har sex steg: F, E, D, C, B, A. Då kan man kedja ihop flera villkor med `else if`:
+
+```javascript
+if (poäng >= 90) {
+    console.log("Betyg: A");
+} else if (poäng >= 80) {
+    console.log("Betyg: B");
+} else if (poäng >= 70) {
+    console.log("Betyg: C");
+} else if (poäng >= 60) {
+    console.log("Betyg: D");
+} else if (poäng >= 50) {
+    console.log("Betyg: E");
+} else {
+    console.log("Betyg: F – underkänd");
+}
+```
+
+JavaScript utvärderar villkoren uppifrån och ned och kör det första blocket vars villkor är sant – sedan hoppar det över resten. Det är därför det räcker med `poäng >= 90` för A, utan att också behöva skriva `poäng < 100`: om vi nått det blocket vet vi redan att inget av de tidigare villkoren stämde.
+
+Det sista `else` är ett "i alla andra fall"-block och kräver inget villkor. Det är valfritt men ofta viktigt – det fångar upp fall som inte täcks av de övriga grenarna.
+
+::: {.callout-important}
+## Ordningen spelar roll
+
+I en `if`/`else if`-kedja körs *bara det första* matchande blocket. Om du råkar skriva villkoren i fel ordning kan du få fel resultat utan att det uppstår något felmeddelande:
+
+```javascript
+// Fel ordning – alla poäng >= 50 hamnar i E-grenen
+if (poäng >= 50) {
+    console.log("Betyg: E");
+} else if (poäng >= 90) {
+    console.log("Betyg: A");   // nås aldrig!
+}
+```
+
+Placera alltid de snävaste villkoren (de högsta trösklarna) överst.
+:::
+
+---
+
+## Jämförelseoperatorer
+
+Vi har redan använt `>=` och `===` i förbigående. Nu är det dags att gå igenom **jämförelseoperatorerna** systematiskt. Alla returnerar ett booleskt värde – `true` eller `false`.
+
+| Operator | Betydelse             | Exempel           | Resultat |
+|----------|-----------------------|-------------------|----------|
+| `===`    | Strikt lika med       | `5 === 5`         | `true`   |
+| `!==`    | Strikt inte lika med  | `5 !== 3`         | `true`   |
+| `<`      | Mindre än             | `3 < 5`           | `true`   |
+| `>`      | Större än             | `3 > 5`           | `false`  |
+| `<=`     | Mindre än eller lika  | `5 <= 5`          | `true`   |
+| `>=`     | Större än eller lika  | `5 >= 6`          | `false`  |
+
+### Strikt jämförelse: `===` och `!==`
+
+JavaScript har två sorters likhetsoperatorer. Den **strikta** (`===`) kräver att både värde *och typ* stämmer överens. Den **lösa** (`==`) gör automatiska typkonverteringar innan jämförelsen – och ger ibland resultat som kan verka magiska:
+
+```javascript
+5 === 5       // true
+5 === "5"     // false – olika typer
+5 == "5"      // true  – "5" konverteras till 5 innan jämförelsen
+0 == false    // true  – false konverteras till 0
+"" == false   // true  – båda konverteras till 0
+null == undefined  // true
+```
+
+**Använd alltid `===` och `!==`.** Den lösa jämförelsen kan ge logiska buggar som är svåra att spåra – du tror att du jämför tal, men jämför i verkligheten tal med strängar och får `true` ändå. Strikt jämförelse är förutsägbar och explicit.
+
+### Jämförelse av strängar
+
+Strängoperatorerna `<`, `>`, `<=`, `>=` fungerar också på strängar och jämför dem lexikografiskt – ungefär som i ett lexikon, tecken för tecken enligt deras Unicode-värde:
+
+```javascript
+"Anna" < "Björn"    // true  – 'A' kommer före 'B'
+"anna" < "Anna"     // false – gemener har högre Unicode-värde än versaler
+"10" < "9"          // true  – "1" < "9" som tecken, inte 10 < 9 som tal
+```
+
+Den sista raden är en klassisk källa till buggar: om du jämför tal som råkar vara strängar (t.ex. från ett formulär) fungerar inte `<` och `>` numeriskt. Konvertera alltid till `number` med `Number()` om du ska jämföra numeriskt.
+
+---
+
+## Logiska operatorer
+
+Ibland behöver ett villkor bero på *flera* saker samtidigt. **Logiska operatorer** kombinerar booleska värden.
+
+### `&&` – och
+
+`&&` är `true` bara om *båda* operanderna är `true`:
+
+```javascript
+const poäng = 73;
+const inlämnadITid = true;
+
+if (poäng >= 50 && inlämnadITid) {
+    console.log("Godkänd");
+}
+```
+
+Studenten är godkänd bara om *både* poängen räcker *och* uppgiften lämnades in i tid.
+
+| `a`     | `b`     | `a && b` |
+|---------|---------|----------|
+| `true`  | `true`  | `true`   |
+| `true`  | `false` | `false`  |
+| `false` | `true`  | `false`  |
+| `false` | `false` | `false`  |
+
+### `||` – eller
+
+`||` är `true` om *minst en* operand är `true`:
+
+```javascript
+if (poäng >= 50 || harKomplettering) {
+    console.log("Kan gå vidare till nästa kurs");
+}
+```
+
+Studenten kan gå vidare om poängen räcker, *eller* om hen har rätt till komplettering.
+
+| `a`     | `b`     | `a || b` |
+|---------|---------|------------|
+| `true`  | `true`  | `true`     |
+| `true`  | `false` | `true`     |
+| `false` | `true`  | `true`     |
+| `false` | `false` | `false`    |
+
+### `!` – inte
+
+`!` inverterar ett booleskt värde:
+
+```javascript
+const registrerad = false;
+
+if (!registrerad) {
+    console.log("Du måste registrera dig först.");
+}
+```
+
+`!false` är `true`, och `!true` är `false`.
+
+### Kortslutningsutvärdering
+
+JavaScript utvärderar logiska operatorer med **kortslutning** (*short-circuit evaluation*): om resultatet kan avgöras efter att den första operanden utvärderats, utvärderas inte den andra.
+
+- `false && vad_som_helst` → alltid `false`, andra operanden utvärderas inte
+- `true || vad_som_helst` → alltid `true`, andra operanden utvärderas inte
+
+Det betyder att om vänstra sidan av `&&` är falsy, körs aldrig höger sida. Det är användbart, men kan också leda till svårtolkad kod om man inte är försiktig.
+
+---
+
+## Truthy och falsy
+
+I kapitel 2 nämnde vi att JavaScript har ett begrepp för värden som *beter sig* som `true` eller `false` i ett booleskt sammanhang, utan att vara just de värdena. Nu är vi i positionen att använda det på riktigt.
+
+Följande värden är **falsy** – de betraktas som falska i sammanhang där ett booleskt värde förväntas, exempelvis i villkoret i en `if`-sats:
+
+```javascript
+false
+0
+""          // tom sträng
+null
+undefined
+NaN
+```
+
+Alla andra värden är **truthy** – de betraktas som sanna. Det inkluderar `"0"` (en sträng med ett nollstecken), `[]` (en tom array) och `{}` (ett tomt objekt) – saker som intuitivt kan kännas som "tomma" men som alltså inte är falsy.
+
+Det innebär att man kan skriva villkor utan explicit jämförelse:
+
+```javascript
+const lagnamn = "Röda stjärnor";
+
+if (lagnamn) {
+    console.log(`Laget heter ${lagnamn}`);
+} else {
+    console.log("Inget lag angivet.");
+}
+```
+
+Om `lagnamn` är en icke-tom sträng är den truthy och blocket körs. Om den är `""`, `null` eller `undefined` är den falsy och `else`-blocket körs. Det är ett vanligt och idiomatiskt mönster i JavaScript – men använd det bara när intentionen är tydlig. Om du faktiskt vill kontrollera att något inte är `null`, skriv hellre `=== null` explicit.
+
+---
+
+## Ternäroperatorn
+
+För enkla val – ett värde om villkoret är sant, ett annat om det är falskt – finns en kompaktare syntax: **ternäroperatorn**:
+
+```javascript
+villkor ? värdeOmSant : värdeOmFalskt
+```
+
+Istället för:
+
+```javascript
+let status;
+if (poäng >= 50) {
+    status = "Godkänd";
+} else {
+    status = "Underkänd";
+}
+```
+
+Kan man skriva:
+
+```javascript
+const status = poäng >= 50 ? "Godkänd" : "Underkänd";
+```
+
+Ternäroperatorn passar bra när man ska tilldela ett av två alternativa värden baserat på ett villkor. Den passar *inte* bra när grenarna innehåller komplicerad logik, flera rader, eller när man behöver mer än två utfall – då är `if`/`else` tydligare. Kompakthet ska aldrig gå ut över läsbarhet.
+
+---
+
+## `switch`-satsen
+
+När man har en lång kedja av `else if` som alla jämför *samma variabel* mot olika exakta värden finns ett alternativ: `switch`.
+
+```javascript
+const dag = "måndag";
+
+switch (dag) {
+    case "måndag":
+    case "tisdag":
+    case "onsdag":
+    case "torsdag":
+    case "fredag":
+        console.log("Vardag");
+        break;
+    case "lördag":
+    case "söndag":
+        console.log("Helg");
+        break;
+    default:
+        console.log("Okänd dag");
+}
+```
+
+`switch` jämför uttrycket mot varje `case`-etikett med strikt jämförelse (`===`). Det matchande blocket körs, och `break` avslutar `switch`-satsen. Saknas `break` fortsätter exekveringen till nästa `case` – ett beteende kallat **fall-through** som ibland är avsiktligt (som ovan, där måndag–fredag delar block) men oftast är en bugg.
+
+`default` är `switch`-satsens motsvarighet till `else` – det körs om inget `case` matchade.
+
+`switch` är mest värdefull när man har många exakta matchningar. För intervall och komplexa villkor är `if`/`else if` att föredra.
+
+---
+
+## Nästlade villkor
+
+Villkorssatser kan placeras inuti varandra – **nästlade villkor**:
+
+```javascript
+if (poäng >= 50) {
+    if (inlämnadIPtid) {
+        console.log("Godkänd med bonus");
+    } else {
+        console.log("Godkänd men inlämnad försent");
+    }
+} else {
+    console.log("Underkänd");
+}
+```
+
+Nästling är ibland oundviklig, men var försiktig: djup nästling gör koden svår att läsa och förstå. Redan vid tre nivåers nästling börjar det bli svårt att hålla reda på vilka villkor som gäller var. I sådana fall kan det vara en signal om att koden bör struktureras om – kanske med hjälp av funktioner, vilket vi tar upp i kapitel 5.
+
+En teknik för att minska nästling är **early return** (tidig avslutning): kontrollera felfall eller negativa villkor tidigt och avsluta, så att resten av koden inte behöver nästlas. Det återkommer vi till i detalj när vi behandlar funktioner.
+
+---
+
+## Sammanfattning
+
+Villkorssatser ger programmet förmågan att välja väg:
+
+- **`if`** kör ett block om villkoret är sant.
+- **`else`** kör ett alternativt block om villkoret är falskt.
+- **`else if`** kedjor täcker flera utfall; det första matchande blocket körs.
+- **Jämförelseoperatorerna** (`===`, `!==`, `<`, `>`, `<=`, `>=`) returnerar `true` eller `false`. Använd alltid `===` och `!==` för likhetstest.
+- **Logiska operatorer** kombinerar villkor: `&&` (och), `||` (eller), `!` (inte).
+- JavaScript utvärderar villkor med **kortslutning** – om resultatet kan avgöras tidigt utvärderas inte resten.
+- Värden som `0`, `""`, `null` och `undefined` är **falsy**; allt annat är **truthy**.
+- **Ternäroperatorn** (`? :`) är en kompakt form för enkla tvåvägsbeslut.
+- **`switch`** passar för många exakta matchningar mot samma variabel.
+
+Med villkorssatser kan programmet reagera på data. Kombinerat med nästa kapitels verktyg – loopar – kan vi börja skriva program som inte bara fattar ett beslut, utan upprepar beslut om och om igen.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Villkorssatser och logik är ett område där det är lätt att tro sig förstå mer än man gör – tills man ska skriva ett villkor själv och det inte beter sig som förväntat. AI är ett bra verktyg för att förstå *varför* specifika uttryck utvärderas som de gör.
+
+**Fråga om specifika uttryck du är osäker på:**
+
+> *"Varför är `"0" == false` sant i JavaScript men `"0" === false` falskt?"*
+
+> *"Varför är en tom array `[]` truthy i JavaScript när en tom sträng `""` är falsy?"*
+
+Den här typen av frågor är effektiva för att förstå JavaScripts typmodell på djupet, inte bara memorera regler.
+
+**Be om ett motexempel:**
+
+> *"Kan du visa ett exempel där `&&` och `||` ger ett oväntat resultat på grund av kortslutning?"*
+
+> *"Ge ett exempel där ordningen i en `else if`-kedja spelar roll och felaktig ordning ger fel svar utan att det uppstår ett felmeddelande."*
+
+Motexempel är effektiva för att testa gränserna för din förståelse. Om du kan förutsäga resultatet av ett svårare exempel förstår du konceptet – inte bara det enkla normalfallet.
+
+**Testa din förklaring:**
+
+> *"Förklara vad kortslutningsutvärdering innebär och varför det kan vara användbart – stämmer den här förklaringen: [din förklaring]?"*
+
+Att formulera en förklaring av kortslutning eller truthy/falsy med egna ord avslöjar snabbt om du har en intuitiv förståelse eller om du bara sett syntaxen.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning 3.1 – Spåra exekveringen
+
+Gå igenom följande kod för hand, rad för rad. Vad skrivs ut? Ange svaret innan du kör koden i konsolen.
+
+```javascript
+const x = 15;
+
+if (x > 20) {
+    console.log("A");
+} else if (x > 10) {
+    console.log("B");
+} else if (x > 5) {
+    console.log("C");
+} else {
+    console.log("D");
+}
+```
+
+Vad hade hänt om villkoren stod i omvänd ordning (`x > 5` överst, `x > 20` underst)? Förklara.
+:::
+
+::: {.callout-note}
+## Övning 3.2 – Hitta felet
+
+Följande funktion ska kontrollera om ett år är ett skottår. Ett år är ett skottår om det är delbart med 4, *utom* om det är delbart med 100, *såvida* det inte också är delbart med 400. (2000 är ett skottår, 1900 är det inte, 2024 är det.)
+
+```javascript
+const år = 2024;
+
+if (år % 4 === 0) {
+    console.log("Skottår");
+} else if (år % 100 === 0) {
+    console.log("Inte skottår");
+} else if (år % 400 === 0) {
+    console.log("Skottår");
+} else {
+    console.log("Inte skottår");
+}
+```
+
+Koden ger fel svar för år 400. Vad är felet, och varför uppstår det? Skriv en korrekt version.
+:::
+
+::: {.callout-note}
+## Övning 3.3 – Formulera villkoren
+
+Skriv villkorssatser för följande situationer. Du bestämmer själv variabelnamn och värden för att testa.
+
+1. En biobiljett kostar 120 kr för vuxna. Barn under 12 år betalar 80 kr, och pensionärer (65 år eller äldre) betalar 90 kr. Skriv kod som skriver ut rätt pris baserat på en variabel `ålder`.
+
+2. En webbshop ger fri frakt om ordervärdet är minst 500 kr, *eller* om kunden är premiummedlem. Annars kostar frakten 49 kr. Skriv kod som beräknar fraktkostnaden och skriver ut den.
+
+3. En tjänst kräver att användaren är inloggad *och* har bekräftat sin e-postadress *och* inte är avstängd för att få åtkomst. Skriv villkoret och lämpliga meddelanden för alla fall.
+:::
+
+::: {.callout-note}
+## Övning 3.4 – `if/else` eller ternär?
+
+Nedan finns tre situationer. För varje situation: ska du använda `if/else` eller ternäroperatorn? Motivera valet och skriv sedan koden.
+
+1. Tilldela variabeln `rabatt` värdet `0.2` om `ärMedlem` är sant, annars `0`.
+2. Beroende på om `temperatur` är under 0, mellan 0 och 20, eller över 20, ska tre olika meddelanden skrivas ut.
+3. Tilldela variabeln `visningsnamn` värdet av `användarnamn` om det inte är en tom sträng, annars `"Anonym"`.
+:::
+
+::: {.callout-note}
+## Övning 3.5 – Logiktabellen
+
+Ange utan att köra koden vilka av följande uttryck som är `true` och vilka som är `false`. Motivera varje svar.
+
+```javascript
+true && false
+false || true
+!false
+true && true && false
+false || false || true
+!(3 > 5)
+3 > 2 && 10 < 5
+3 > 2 || 10 < 5
+0 || "hej"
+null && "hej"
+```
+
+De två sista raderna är lite annorlunda – `&&` och `||` returnerar inte alltid `true` eller `false` exakt. Vad returnerar de, och varför?
+:::
