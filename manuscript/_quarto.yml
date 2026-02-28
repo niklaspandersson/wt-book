@@ -12,6 +12,7 @@ book:
     - kap03-villkor.qmd
     - kap04-funktioner.qmd
     - kap05-loopar.qmd
+    - moduler.qmd
     - summary.qmd
     - references.qmd
 

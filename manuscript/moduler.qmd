@@ -1,0 +1,662 @@
+# Moduler
+
+## En fil som växer
+
+Du har byggt en webbapplikation. I början var allt enkelt: en HTML-fil, en CSS-fil och en JavaScript-fil. Femtio rader JavaScript som hanterade ett formulär och uppdaterade DOM:en. Överskådligt och lätt att hålla i huvudet.
+
+Sedan växte projektet. Du la till en bildkarusell. En valideringslogik för formuläret. En funktion som hämtar data från ett API. En annan som formaterar datum. Plötsligt är din `app.js` 800 rader lång, och varje gång du öppnar filen måste du scrolla och leta för att hitta den del du vill arbeta med.
+
+Värre: du har funktioner som heter `format`, `validate` och `update` — namn som i den smala kontexten där de skrevs var tillräckliga, men som nu krockar med varandra. Du har variabler som deklareras överst i filen och används långt ner, och du kan inte riktigt minnas vilka funktioner som hänger ihop med vilka. Om en kollega ska hjälpa till med koden vet hen inte var hen ska börja.
+
+Det här är inte ett tecken på dålig programmering. Det är ett tecken på att projektet behöver **struktur** — ett sätt att dela upp koden i avgränsade, namngivna delar som kan utvecklas och förstås var för sig.
+
+Det verktyget heter **moduler**.
+
+---
+
+## Problemet med en enda fil
+
+Innan vi tittar på hur moduler fungerar är det värt att förstå *varför* de behövs — det gör lösningen meningsfull istället för att bara vara syntax att memorera.
+
+### Globalt scope och namnkollisioner
+
+I ett vanligt `<script>`-element lever allt i **globalt scope**. Varje variabel och funktion som deklareras på översta nivån är synlig för all annan JavaScript på sidan. Det gäller inte bara din egen kod utan även andra skript som laddas på samma sida.
+
+```javascript
+// utils.js
+function format(datum) {
+    return datum.toLocaleDateString("sv-SE");
+}
+
+// validation.js
+function format(meddelande) {
+    return meddelande.trim().toLowerCase();
+}
+```
+
+Om båda dessa filer laddas med vanliga `<script>`-taggar skriver den senare funktionen `format` över den tidigare. JavaScript ger inget felmeddelande — den ersätter tyst den första definitionen med den andra. Det är en bugg som kan vara mycket svår att hitta.
+
+### Oklara beroenden
+
+Med separata skriptfiler utan modulsystem finns inget formellt sätt att uttrycka att en fil *beror på* en annan. Om `karusell.js` använder en hjälpfunktion från `utils.js` måste `utils.js` laddas *först* — men det framgår inte av koden, bara av ordningen på `<script>`-taggarna i HTML-filen. Ändrar någon ordningen slutar programmet fungera, och felmeddelandet pekar sällan på den verkliga orsaken.
+
+### Svårt att återanvända
+
+Om du skriver en bra hjälpfunktion i ett projekt och vill använda den i ett annat behöver du kopiera och klistra in koden — med alla de problem som upprepning medför (som vi diskuterade redan i kapitlet om funktioner). Det finns inget sätt att säga "hämta den här specifika funktionen från den filen".
+
+---
+
+## Moduler i JavaScript
+
+**ES-moduler** (ECMAScript-moduler) är JavaScripts inbyggda modulsystem. Det introducerades som en del av ES2015-standarden och stöds idag av alla moderna webbläsare.
+
+Grundidén är enkel:
+
+- Varje fil är en **modul** med sitt eget scope — variabler och funktioner inuti filen är *inte* synliga utifrån om de inte uttryckligen exporteras.
+- En modul kan **exportera** utvalda delar av sin kod — funktioner, variabler, klasser — som andra moduler kan använda.
+- En modul kan **importera** det den behöver från andra moduler.
+
+Det ger tre konkreta fördelar:
+
+1. **Inget globalt scope** — varje modul har sitt eget scope, så namnkollisioner mellan filer är omöjliga.
+2. **Explicita beroenden** — en `import`-sats visar exakt vad en modul behöver och varifrån.
+3. **Återanvändbarhet** — en modul kan importeras i flera filer utan att koden behöver kopieras.
+
+---
+
+## Att använda moduler i webbläsaren
+
+För att webbläsaren ska behandla en JavaScript-fil som en modul behöver `<script>`-taggen attributet `type="module"`:
+
+```html
+<script type="module" src="app.js"></script>
+```
+
+Det här ändrar tre saker jämfört med ett vanligt `<script>`:
+
+1. **Eget scope** — variabler och funktioner som deklareras i filen läcker inte ut till det globala scopet.
+2. **Strikt läge** — moduler körs alltid i *strict mode*, som vi kort berört i tidigare kapitel. Det innebär bland annat att odeklarerade variabler ger felmeddelanden istället för att tyst skapa globala variabler.
+3. **Uppskjuten körning** — moduler laddas och körs automatiskt efter att HTML-dokumentet har parsats, ungefär som `defer`-attributet på vanliga skript.
+
+En viktig detalj: moduler i webbläsaren kräver att filerna serveras via en webbserver (HTTP/HTTPS). Om du öppnar en HTML-fil direkt från filsystemet (`file://`) kommer importen att blockeras av webbläsarens säkerhetsbegränsningar. Använd en lokal utvecklingsserver — till exempel Live Server-tillägget i VS Code.
+
+::: {.callout-note}
+## Lokal utvecklingsserver
+
+Om du använder VS Code kan du installera tillägget **Live Server**. Högerklicka på din HTML-fil och välj "Open with Live Server". Det startar en lokal webbserver och öppnar sidan i webbläsaren — och modulimporter fungerar direkt.
+
+Alternativt kan du köra `npx serve .` i terminalen om du har Node.js installerat.
+:::
+
+---
+
+## Exportera från en modul
+
+Det finns två sätt att göra kod tillgänglig för andra moduler: **namngivna exporter** och **default-exporter**.
+
+### Namngivna exporter
+
+Det vanligaste sättet är att sätta nyckelordet `export` framför en deklaration:
+
+```javascript
+// moms.js
+export function prisMedMoms(pris) {
+    return pris * 1.25;
+}
+
+export function prisUtanMoms(pris) {
+    return pris / 1.25;
+}
+
+export const momssats = 0.25;
+```
+
+Varje `export`-deklaration gör just det namnet tillgängligt för import. Allt som *inte* har `export` förblir privat — synligt bara inuti modulen:
+
+```javascript
+// moms.js
+const MOMS_FAKTOR = 1.25;  // privat — kan inte importeras
+
+export function prisMedMoms(pris) {
+    return pris * MOMS_FAKTOR;
+}
+
+export function prisUtanMoms(pris) {
+    return pris / MOMS_FAKTOR;
+}
+```
+
+`MOMS_FAKTOR` används av de exporterade funktionerna men är inte tillgänglig utifrån. Det är en av modulernas stora styrkor: du kan dölja implementationsdetaljer och bara visa det publika gränssnittet.
+
+### Exportlista
+
+Istället för att skriva `export` framför varje deklaration kan man samla alla exporter i en lista längst ner i filen:
+
+```javascript
+// moms.js
+const MOMS_FAKTOR = 1.25;
+
+function prisMedMoms(pris) {
+    return pris * MOMS_FAKTOR;
+}
+
+function prisUtanMoms(pris) {
+    return pris / MOMS_FAKTOR;
+}
+
+export { prisMedMoms, prisUtanMoms };
+```
+
+Resultatet är identiskt. Välj den stil som passar dig — det viktigaste är konsekvens inom projektet.
+
+---
+
+## Importera i en modul
+
+### Namngivna importer
+
+En annan modul kan nu importera det den behöver:
+
+```javascript
+// app.js
+import { prisMedMoms, prisUtanMoms } from './moms.js';
+
+const pris = 400;
+console.log(`Med moms: ${prisMedMoms(pris)} kr`);
+console.log(`Utan moms: ${prisUtanMoms(pris)} kr`);
+```
+
+Några saker att notera:
+
+- **Klammerparenteser** — namnen inom `{ }` måste matcha exakt det som exporterats i källmodulen.
+- **Sökvägen** — `'./moms.js'` är en *relativ* sökväg. Punkten och snedstrecket (`./`) betyder "i samma katalog". Modulimporter i webbläsaren kräver alltid en sökväg — du kan inte skriva bara `'moms.js'` utan `./`-prefixet.
+- **Filändelse** — i webbläsaren måste filändelsen `.js` anges explicit.
+
+### Importera allt
+
+Om du vill importera allt som en modul exporterar kan du använda `* as`:
+
+```javascript
+import * as moms from './moms.js';
+
+console.log(moms.prisMedMoms(400));    // 500
+console.log(moms.prisUtanMoms(500));   // 400
+```
+
+Nu samlas alla exporterade namn under objektet `moms`. Det kan vara praktiskt när en modul exporterar många saker och du vill ha ett tydligt prefix som visar varifrån de kommer.
+
+### Byta namn vid import
+
+Om ett importerat namn krockar med ett namn i den importerande modulen — eller om du helt enkelt vill använda ett annat namn — kan du byta namn med `as`:
+
+```javascript
+import { prisMedMoms as inklusiveMoms } from './moms.js';
+
+console.log(inklusiveMoms(400));   // 500
+```
+
+---
+
+## Default-exporter
+
+Förutom namngivna exporter finns **default-exporter** — ett sätt att markera en enda sak som modulens "huvudexport":
+
+```javascript
+// Greeting.js
+export default function hälsa(namn) {
+    return `Hej, ${namn}!`;
+}
+```
+
+Den som importerar kan välja *valfritt namn* — inga klammerparenteser behövs:
+
+```javascript
+import hälsa from './Greeting.js';
+console.log(hälsa("Astrid"));   // Hej, Astrid!
+```
+
+```javascript
+// Fungerar lika bra med ett annat namn:
+import greet from './Greeting.js';
+console.log(greet("Astrid"));   // Hej, Astrid!
+```
+
+En modul kan ha *högst en* default-export men kan kombinera den med namngivna exporter:
+
+```javascript
+// formatering.js
+export default function formateraDatum(datum) {
+    return datum.toLocaleDateString("sv-SE");
+}
+
+export function formateraTid(datum) {
+    return datum.toLocaleTimeString("sv-SE");
+}
+```
+
+```javascript
+import formateraDatum, { formateraTid } from './formatering.js';
+```
+
+### Namngivna eller default?
+
+Det finns ingen hård regel, men en vanlig riktlinje:
+
+- Använd **namngivna exporter** när en modul exporterar flera relaterade saker (funktioner, konstanter). Det gör det tydligt vad som importeras och ger bättre stöd i kodredigerarens autokomplettering.
+- Använd **default-exporter** när en modul har ett enda huvudsyfte — till exempel en klass eller en central funktion.
+
+I praktiken är namngivna exporter vanligare i modern JavaScript-kod. De gör det lättare att söka i kodbasen efter var en specifik funktion definieras och används, eftersom namnet är detsamma i alla filer.
+
+---
+
+## Modulers scope
+
+En av de viktigaste egenskaperna hos moduler är att varje modul har **sitt eget scope**. Kod på toppnivå i en modul — variabler, funktioner, konstanter — är *inte* synlig i andra moduler om den inte explicit exporteras.
+
+Det innebär att följande *inte* fungerar:
+
+```javascript
+// config.js
+const appNamn = "Min app";
+```
+
+```javascript
+// app.js
+import './config.js';
+console.log(appNamn);   // ReferenceError: appNamn is not defined
+```
+
+Att importera en modul utan att ange vad som ska importeras (en så kallad *side-effect import*) kör modulens kod men gör *inte* dess variabler tillgängliga. För att `appNamn` ska vara tillgänglig måste den exporteras:
+
+```javascript
+// config.js
+export const appNamn = "Min app";
+```
+
+```javascript
+// app.js
+import { appNamn } from './config.js';
+console.log(appNamn);   // "Min app"
+```
+
+Det här är en fundamental skillnad mot vanliga `<script>`-taggar, där allting lever i globalt scope. Moduler tvingar dig att vara *explicit* om vad som delas mellan filer — och det är en styrka, inte en begränsning. Det gör beroenden synliga och koden lättare att resonera om.
+
+---
+
+## Moduler körs bara en gång
+
+En viktig egenskap: oavsett hur många gånger en modul importeras i olika filer körs den **bara en gång**. Resultatet cachelagras och delas av alla som importerar den.
+
+```javascript
+// räknare.js
+console.log("Räknarmodulen laddas");
+let antal = 0;
+
+export function öka() {
+    antal++;
+}
+
+export function hämta() {
+    return antal;
+}
+```
+
+```javascript
+// a.js
+import { öka } from './räknare.js';
+öka();
+```
+
+```javascript
+// b.js
+import { hämta } from './räknare.js';
+console.log(hämta());   // 1 — inte 0!
+```
+
+`"Räknarmodulen laddas"` skrivs ut *en enda gång*, även om modulen importeras i både `a.js` och `b.js`. Och eftersom det är samma instans av modulen delar `a.js` och `b.js` samma `antal`-variabel — `öka()` i `a.js` påverkar vad `hämta()` returnerar i `b.js`.
+
+Det här beteendet gör moduler lämpliga för att hålla delat tillstånd — men det betyder också att man ska vara medveten om att moduler inte ger "fräscha" kopior vid varje import.
+
+---
+
+## Att organisera ett projekt med moduler
+
+Moduler handlar inte bara om syntax — de handlar om att **tänka i ansvar**. En modul bör ha ett tydligt, avgränsat ansvar: momsberäkning, datumformatering, DOM-manipulation, API-kommunikation.
+
+### En praktisk katalogstruktur
+
+Föreställ dig en webbapplikation för en enkel bokhandel. Så här kan projektet organiseras:
+
+```
+bokhandel/
+├── index.html
+├── css/
+│   └── style.css
+└── js/
+    ├── app.js           ← startpunkt (importeras i HTML)
+    ├── api.js           ← hämtar data från servern
+    ├── dom.js           ← skapar och uppdaterar DOM-element
+    ├── formatering.js   ← formaterar priser och datum
+    └── varukorg.js      ← hanterar varukorgslogik
+```
+
+Varje fil har ett tydligt ansvar. `app.js` är programmets startpunkt — den importerar det den behöver från de andra modulerna och sätter ihop delarna:
+
+```javascript
+// app.js
+import { hämtaBöcker } from './api.js';
+import { visaBöcker } from './dom.js';
+
+async function starta() {
+    const böcker = await hämtaBöcker();
+    visaBöcker(böcker);
+}
+
+starta();
+```
+
+```javascript
+// api.js
+export async function hämtaBöcker() {
+    const svar = await fetch('/api/bocker');
+    return svar.json();
+}
+```
+
+```javascript
+// dom.js
+import { formateraPris } from './formatering.js';
+
+export function visaBöcker(böcker) {
+    const lista = document.querySelector('#boklista');
+
+    for (const bok of böcker) {
+        const element = document.createElement('div');
+        element.textContent = `${bok.titel} — ${formateraPris(bok.pris)}`;
+        lista.appendChild(element);
+    }
+}
+```
+
+```javascript
+// formatering.js
+export function formateraPris(belopp) {
+    return `${belopp.toFixed(2)} kr`;
+}
+```
+
+HTML-filen behöver bara ladda startpunkten:
+
+```html
+<script type="module" src="js/app.js"></script>
+```
+
+Webbläsaren följer importkedjan automatiskt: `app.js` importerar `api.js` och `dom.js`, som i sin tur importerar `formatering.js`. Alla beroenden löses upp utan att du behöver lista varje fil i HTML:en.
+
+### Principen om ett enda ansvar
+
+En bra tumregel för hur man delar upp kod i moduler är **principen om ett enda ansvar**: varje modul ska ha *en* anledning att förändras. Om du ändrar hur priser formateras bör du bara behöva ändra i `formatering.js`. Om du byter API-endpoint bör bara `api.js` beröras.
+
+Det innebär inte att varje modul bara får innehålla en funktion — en modul kan exportera flera funktioner som hör ihop. Men om en fil innehåller både API-anrop, DOM-manipulation och prisberäkning är det ett tecken på att den gör för mycket och bör delas upp.
+
+---
+
+## Re-export — att samla moduler
+
+I större projekt vill man ibland samla exporter från flera moduler i en enda "ingångsmodul". Det kallas **re-export**:
+
+```javascript
+// formatering/datum.js
+export function formateraDatum(d) {
+    return d.toLocaleDateString("sv-SE");
+}
+```
+
+```javascript
+// formatering/pris.js
+export function formateraPris(belopp) {
+    return `${belopp.toFixed(2)} kr`;
+}
+```
+
+```javascript
+// formatering/index.js
+export { formateraDatum } from './datum.js';
+export { formateraPris } from './pris.js';
+```
+
+Nu kan andra moduler importera allt från en enda plats:
+
+```javascript
+import { formateraDatum, formateraPris } from './formatering/index.js';
+```
+
+Re-export gör att du kan omorganisera den interna strukturen i `formatering/`-mappen utan att ändra importerna i resten av projektet — den yttre kontaktytan förblir densamma.
+
+---
+
+## Vanliga misstag
+
+### Glömd filändelse
+
+```javascript
+// Fel — fungerar inte i webbläsaren
+import { format } from './utils';
+
+// Rätt
+import { format } from './utils.js';
+```
+
+Webbläsaren kräver att filändelsen anges. Verktyg som bundlers (till exempel Vite eller Webpack) kan vara mer flexibla, men i ren webbläsarkod behövs `.js`.
+
+### Glömt `type="module"`
+
+```html
+<!-- Fel — importen ignoreras och ger ett syntaxfel -->
+<script src="app.js"></script>
+
+<!-- Rätt -->
+<script type="module" src="app.js"></script>
+```
+
+Utan `type="module"` tolkar webbläsaren filen som ett vanligt skript, och `import`/`export`-satser ger ett syntaxfel.
+
+### Cirkulära beroenden
+
+Om modul A importerar från modul B och modul B importerar från modul A har du ett **cirkulärt beroende**. JavaScript hanterar det i viss mån, men resultatet kan bli förvirrande — importerade värden kan vara `undefined` om de inte hunnit initieras.
+
+Den bästa strategin är att undvika cirkulära beroenden helt. Om två moduler behöver varandras kod är det ofta ett tecken på att en del av koden bör brytas ut till en tredje modul.
+
+---
+
+## Sammanfattning
+
+Moduler är JavaScripts verktyg för att organisera kod i avgränsade, namngivna enheter med tydliga gränssnitt. De löser problemen med global scope-förorening, namnkollisioner och oklara beroenden som uppstår när all kod lever i en enda fil.
+
+- **`export`** gör funktioner, variabler och konstanter tillgängliga för andra moduler. Det som inte exporteras förblir privat.
+- **`import { namn } from './fil.js'`** hämtar namngivna exporter från en annan modul.
+- **`export default`** markerar en sak som modulens huvudexport; den importeras utan klammerparenteser.
+- Moduler har **eget scope** — ingenting läcker ut till det globala scopet.
+- Moduler **körs bara en gång**, oavsett hur många gånger de importeras.
+- I HTML aktiveras moduler med **`<script type="module">`**.
+- Organisera kod efter **ansvar** — en modul, ett ansvarsområde.
+
+Moduler förändrar hur man tänker om kod. Istället för att se ett program som en lång rad instruktioner ser man det som ett samarbete mellan avgränsade delar, var och en med sin uppgift. Det är en mental modell som skalar — från små projekt med en handfull filer till stora applikationer med hundratals moduler.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Moduler handlar till stor del om *organisation* — och det är svårare att öva på i isolerade kodexempel än till exempel loopar eller villkor. AI kan hjälpa dig att tänka kring strukturfrågor.
+
+**Förstå import och export:**
+
+> *"Jag har två JavaScript-filer. Filen `math.js` har en funktion `add` och en funktion `multiply`. Visa hur jag exporterar dem och sedan importerar bara `add` i en annan fil."*
+
+**Felsök modulproblem:**
+
+> *"Jag får felet 'Cannot use import statement outside a module' i webbläsaren. Vad kan ha gått fel? Här är min HTML: [klistra in koden]"*
+
+**Diskutera struktur:**
+
+> *"Jag har ett webbprojekt med 300 rader JavaScript i en enda fil. Koden hanterar formulärvalidering, API-anrop och DOM-uppdateringar. Hur borde jag dela upp den i moduler?"*
+
+> *"Vad är skillnaden mellan namngivna exporter och default-exporter? När bör jag använda den ena framför den andra?"*
+
+Att klistra in din *faktiska* filstruktur eller kod ger mer konkreta och användbara svar än att fråga i allmänna termer.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Identifiera problemen
+
+Följande HTML-fil laddar tre skript utan modulsystem. Läs igenom koden och beskriv vilka problem som kan uppstå. Vad händer om ordningen på `<script>`-taggarna ändras? Finns det namnkollisioner?
+
+```html
+<script src="utils.js"></script>
+<script src="format.js"></script>
+<script src="app.js"></script>
+```
+
+```javascript
+// utils.js
+function format(text) {
+    return text.toUpperCase();
+}
+
+function beräkna(a, b) {
+    return a + b;
+}
+```
+
+```javascript
+// format.js
+function format(tal) {
+    return tal.toFixed(2) + " kr";
+}
+```
+
+```javascript
+// app.js
+console.log(format("hej"));
+console.log(beräkna(3, 4));
+```
+
+Förklara vad som skrivs ut och varför. Beskriv sedan hur du skulle lösa problemen med ES-moduler.
+:::
+
+::: {.callout-note}
+## Övning – Din första modul
+
+Skapa två filer:
+
+1. `matematik.js` — som exporterar funktionerna `addera(a, b)`, `subtrahera(a, b)` och `multiplicera(a, b)`.
+2. `app.js` — som importerar alla tre funktioner och använder dem för att beräkna och skriva ut resultaten av `addera(10, 5)`, `subtrahera(10, 5)` och `multiplicera(10, 5)`.
+
+Skapa en HTML-fil som laddar `app.js` som en modul. Kontrollera att resultaten visas i webbläsarens konsol.
+:::
+
+::: {.callout-note}
+## Övning – Privat och publikt
+
+Utgå från följande modul:
+
+```javascript
+// temperatur.js
+const ABSOLUTA_NOLLPUNKTEN = -273.15;
+
+export function celsiusTillFahrenheit(c) {
+    return c * 9 / 5 + 32;
+}
+
+export function fahrenheitTillCelsius(f) {
+    return (f - 32) * 5 / 9;
+}
+
+function ärUnderAbsolutaNollpunkten(c) {
+    return c < ABSOLUTA_NOLLPUNKTEN;
+}
+```
+
+Besvara följande frågor utan att köra koden:
+
+a) Vilka namn kan importeras från denna modul? Vilka kan *inte* importeras?
+
+b) Vad händer om du i en annan fil skriver `import { ABSOLUTA_NOLLPUNKTEN } from './temperatur.js'`?
+
+c) Funktionen `ärUnderAbsolutaNollpunkten` är inte exporterad. Betyder det att den inte kan användas alls? Förklara.
+
+d) Skriv en `import`-sats som importerar båda de tillgängliga funktionerna och byter namn på `celsiusTillFahrenheit` till `cTillF`.
+:::
+
+::: {.callout-note}
+## Övning – Dela upp ett program
+
+Följande program ligger i en enda fil. Dela upp det i tre moduler med tydligt avgränsade ansvar, och skriv en `app.js` som importerar och använder dem. Välj själv filnamn och vilka funktioner som hör ihop.
+
+```javascript
+const MOMSSATS = 0.25;
+
+function prisMedMoms(pris) {
+    return pris * (1 + MOMSSATS);
+}
+
+function prisUtanMoms(pris) {
+    return pris / (1 + MOMSSATS);
+}
+
+function skapaProduktElement(namn, pris) {
+    const div = document.createElement("div");
+    div.classList.add("produkt");
+    div.innerHTML = `
+        <h3>${namn}</h3>
+        <p>Pris: ${formateraPris(prisMedMoms(pris))}</p>
+    `;
+    return div;
+}
+
+function formateraPris(belopp) {
+    return belopp.toFixed(2) + " kr";
+}
+
+function visaProdukter(produkter) {
+    const lista = document.querySelector("#produktlista");
+    for (const produkt of produkter) {
+        const element = skapaProduktElement(produkt.namn, produkt.pris);
+        lista.appendChild(element);
+    }
+}
+
+const produkter = [
+    { namn: "Bok", pris: 200 },
+    { namn: "Penna", pris: 15 },
+    { namn: "Anteckningsblock", pris: 45 }
+];
+
+visaProdukter(produkter);
+```
+
+Tänk på: vilka funktioner hör logiskt ihop? Vilka delar bör vara privata (inte exporteras)? Var ska konstanten `MOMSSATS` bo?
+:::
+
+::: {.callout-note}
+## Övning – Läsa och förstå importer
+
+Studera följande importrader och besvara frågorna.
+
+```javascript
+import { hämtaBöcker, hämtaFörfattare } from './api.js';
+import visaLista from './dom.js';
+import * as config from './config.js';
+```
+
+a) Vilken typ av export (namngiven eller default) har `hämtaBöcker` och `hämtaFörfattare`?
+
+b) Vilken typ av export har `visaLista`?
+
+c) Hur kommer man åt ett exporterat värde `maxResultat` från `config.js` i den importerande filen?
+
+d) Om `dom.js` även har en namngiven export `rensaLista`, hur skriver du en import som hämtar både default-exporten och `rensaLista`?
+:::
