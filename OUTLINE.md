@@ -33,7 +33,8 @@ Kap. ?? – Optimering, SEO och webbprestanda
 Kap. ?? – Funktioner på djupet: scope, closures och callbacks
 Kap. ?? – Asynkron programmering: promises och async/await
 Kap. ?? – Moduler: att organisera sin kodbas
-Kap. ?? – Objektorienterad programmering
+Kap. ?? – Objektorienterad programmering (klasser, inkapsling, komposition)
+Kap. ?? – Arv och polymorfism
 Kap. ?? – Funktionell arraytransformation: map, filter och find
 Kap. ?? – Felhantering och robusthet
 

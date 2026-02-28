@@ -1,0 +1,812 @@
+# Objektorienterad programmering
+
+## Samma form, om och om igen
+
+Föreställ dig att du bygger en produktkatalog för en enkel webbshop. Varje produkt har ett namn, ett pris och ett antal i lager. Du har lärt dig att objekt är ett naturligt sätt att samla relaterad data:
+
+```javascript
+const produkt1 = {
+    namn: "Trådlös mus",
+    pris: 299,
+    lager: 45
+};
+
+const produkt2 = {
+    namn: "Mekaniskt tangentbord",
+    pris: 1299,
+    lager: 12
+};
+
+const produkt3 = {
+    namn: "USB-C-hubb",
+    pris: 549,
+    lager: 0
+};
+```
+
+Det fungerar. Men snart behöver du samma *beteende* för varje produkt: beräkna priset med rabatt, kontrollera om produkten finns i lager, visa en formaterad beskrivning. Du skriver funktioner:
+
+```javascript
+function prisEfterRabatt(produkt, rabattProcent) {
+    return produkt.pris * (1 - rabattProcent / 100);
+}
+
+function ärTillgänglig(produkt) {
+    return produkt.lager > 0;
+}
+
+console.log(prisEfterRabatt(produkt1, 10));  // 269.1
+console.log(ärTillgänglig(produkt3));         // false
+```
+
+Det fungerar också. Men det finns problem. Funktionerna tar produkten som argument – de *vet om* produkter men *tillhör* dem inte. Ingenting hindrar dig från att skicka in ett objekt som saknar `pris` eller `lager`, och det felet upptäcks inte förrän programmet kraschar. Om du lägger till en ny egenskap – till exempel en kategori – måste du komma ihåg att lägga till den i varje enskilt objekt. Glömmer du det märks det kanske inte alls, eller så kraschar koden långt från det ställe där felet egentligen uppstod.
+
+Data och beteende lever åtskilda, utan något som binder ihop dem. Och ju fler produkter och funktioner du lägger till, desto svårare blir det att hålla reda på vad som hör till vad.
+
+Det finns ett sätt att organisera kod som löser precis de här problemen: **objektorienterad programmering**.
+
+---
+
+## Vad är objektorienterad programmering?
+
+Objektorienterad programmering – ofta förkortat **OOP** – är ett sätt att strukturera kod kring *objekt* som kombinerar data och beteende i en enhet. Istället för att ha data i en struktur och funktioner som opererar på den separat knyter man ihop dem: en produkt ska inte bara *ha* ett pris – den ska *kunna* beräkna sitt rabatterade pris. En student ska inte bara *ha* en lista med betyg – den ska *kunna* beräkna sitt snitt.
+
+OOP bygger på några centrala begrepp:
+
+- **Klass** – en *ritning* eller *mall* som beskriver vilken data och vilka beteenden en typ av objekt har.
+- **Objekt** (eller *instans*) – en konkret sak skapad utifrån en klass. Klassen `Produkt` är mallen; den enskilda musen eller tangentbordet är instanser av den.
+- **Egenskap** (*property*) – data som tillhör ett objekt, till exempel `namn` och `pris`.
+- **Metod** – en funktion som tillhör ett objekt och kan operera på dess data.
+- **Inkapsling** (*encapsulation*) – att dölja interna detaljer och bara exponera det som andra delar av koden behöver.
+
+Vi börjar med klasser och bygger på steg för steg.
+
+---
+
+## Klasser: ritningen för objekt
+
+I JavaScript definierar man en klass med nyckelordet `class`:
+
+```javascript
+class Produkt {
+    constructor(namn, pris, lager) {
+        this.namn = namn;
+        this.pris = pris;
+        this.lager = lager;
+    }
+}
+```
+
+Det finns flera nya saker här:
+
+- `class Produkt` deklarerar en klass med namnet `Produkt`. Klassnamn skrivs av konvention med stor begynnelsebokstav och i så kallad *PascalCase* – varje delord börjar med versal: `Produkt`, `VarukorgRad`, `SpelKaraktär`.
+- `constructor` är en speciell metod som körs automatiskt när ett nytt objekt skapas. Den tar emot de värden som objektet behöver för att sättas upp.
+- `this` refererar till det objekt som håller på att skapas. `this.namn = namn` innebär: spara parametern `namn` som en egenskap på det nya objektet.
+
+Man skapar ett objekt av klassen – en *instans* – med nyckelordet `new`:
+
+```javascript
+const mus = new Produkt("Trådlös mus", 299, 45);
+const tangentbord = new Produkt("Mekaniskt tangentbord", 1299, 12);
+```
+
+`new Produkt(...)` gör tre saker:
+
+1. Skapar ett nytt, tomt objekt.
+2. Kör `constructor` med det nya objektet som `this`.
+3. Returnerar det nya objektet.
+
+Resultatet är att `mus` och `tangentbord` är två separata objekt med samma *struktur* men olika *värden*:
+
+```javascript
+console.log(mus.namn);          // "Trådlös mus"
+console.log(tangentbord.pris);  // 1299
+```
+
+Klassen garanterar att varje produkt skapas med exakt samma uppsättning egenskaper. Strukturen definieras en gång, i klassen, och varje `new` ger en korrekt uppbyggd instans.
+
+---
+
+## Metoder
+
+En klass blir verkligt användbar när den har **metoder** – funktioner som tillhör objektet och kan arbeta med dess data.
+
+Metoder definieras direkt inuti klassens kropp, utan nyckelordet `function`:
+
+```javascript
+class Produkt {
+    constructor(namn, pris, lager) {
+        this.namn = namn;
+        this.pris = pris;
+        this.lager = lager;
+    }
+
+    prisEfterRabatt(rabattProcent) {
+        return this.pris * (1 - rabattProcent / 100);
+    }
+
+    ärTillgänglig() {
+        return this.lager > 0;
+    }
+
+    beskrivning() {
+        const status = this.ärTillgänglig() ? "I lager" : "Slut";
+        return `${this.namn} – ${this.pris} kr (${status})`;
+    }
+}
+```
+
+Notera tre saker:
+
+- Metoder skrivs utan `function` – bara `namn(parametrar) { ... }`.
+- Inuti en metod refererar `this` till det objekt som metoden anropas på.
+- En metod kan anropa andra metoder på samma objekt: `this.ärTillgänglig()`.
+
+Nu kan vi använda metoderna:
+
+```javascript
+const mus = new Produkt("Trådlös mus", 299, 45);
+const hubb = new Produkt("USB-C-hubb", 549, 0);
+
+console.log(mus.prisEfterRabatt(10));   // 269.1
+console.log(hubb.ärTillgänglig());       // false
+console.log(mus.beskrivning());          // "Trådlös mus – 299 kr (I lager)"
+console.log(hubb.beskrivning());         // "USB-C-hubb – 549 kr (Slut)"
+```
+
+Skillnaden mot de fristående funktionerna vi hade i inledningen: nu *tillhör* beteendet objektet. `mus.prisEfterRabatt(10)` läser naturligt – "musens pris efter 10 procent rabatt". Data och beteende hör ihop.
+
+---
+
+## `this` – det aktuella objektet
+
+`this` är ett nyckelord som, inuti en metod, refererar till det objekt som metoden anropades på. Det är det som gör att samma metod kan ge olika resultat beroende på vilket objekt den tillhör:
+
+```javascript
+const a = new Produkt("Mus", 299, 45);
+const b = new Produkt("Hubb", 549, 0);
+
+// Samma metod, olika objekt, olika resultat
+console.log(a.beskrivning());  // "Mus – 299 kr (I lager)"
+console.log(b.beskrivning());  // "Hubb – 549 kr (Slut)"
+```
+
+När `a.beskrivning()` exekveras refererar `this` till `a`. När `b.beskrivning()` exekveras refererar `this` till `b`. Det är alltid objektet *före punkten* som `this` syftar på.
+
+::: {.callout-important}
+## `this` i JavaScript
+
+`this` i JavaScript beter sig annorlunda än i många andra programmeringsspråk. I metoder som definieras i en klass fungerar det intuitivt – det refererar till det objekt som metoden anropas på. Men i andra sammanhang kan `this` vara överraskande. Vi håller oss i det här kapitlet till den enkla och förutsägbara användningen inuti klasser.
+:::
+
+---
+
+## Metoder som ändrar tillståndet
+
+Metoder kan inte bara *läsa* objektets data – de kan också *ändra* den. Det kallas att ändra objektets **tillstånd** (*state*):
+
+```javascript
+class Produkt {
+    constructor(namn, pris, lager) {
+        this.namn = namn;
+        this.pris = pris;
+        this.lager = lager;
+    }
+
+    sälj(antal = 1) {
+        if (antal > this.lager) {
+            console.log(
+                `Kan inte sälja ${antal} st – bara ${this.lager} i lager.`
+            );
+            return false;
+        }
+        this.lager -= antal;
+        return true;
+    }
+
+    fyllPå(antal) {
+        this.lager += antal;
+    }
+}
+```
+
+```javascript
+const mus = new Produkt("Trådlös mus", 299, 3);
+console.log(mus.lager);  // 3
+
+mus.sälj(2);
+console.log(mus.lager);  // 1
+
+mus.sälj(5);
+// "Kan inte sälja 5 st – bara 1 i lager."
+console.log(mus.lager);  // 1 (oförändrat)
+
+mus.fyllPå(10);
+console.log(mus.lager);  // 11
+```
+
+Metoden `sälj` kontrollerar att det finns tillräckligt i lager innan den minskar antalet. Det här är en form av **skydd** – objektet kontrollerar att operationer på dess data är giltiga. Det är en av kärnidéerna i OOP: objektet *ansvarar* för sin egen data och säkerställer att den alltid befinner sig i ett rimligt tillstånd.
+
+Men det finns en lucka. Ingenting hindrar någon från att kringgå metoden:
+
+```javascript
+mus.lager = -5;  // Helt tillåtet – ingen kontroll!
+```
+
+Det hade inneburit ett ogiltigt lagersaldo. I nästa avsnitt ser vi hur man kan förhindra det.
+
+---
+
+## Inkapsling med privata fält
+
+JavaScript erbjuder **privata fält** – egenskaper som bara kan nås inifrån klassen. De deklareras med ett `#`-tecken framför namnet:
+
+```javascript
+class Produkt {
+    #lager;
+
+    constructor(namn, pris, lager) {
+        this.namn = namn;
+        this.pris = pris;
+        this.#lager = lager;
+    }
+
+    get lagerSaldo() {
+        return this.#lager;
+    }
+
+    sälj(antal = 1) {
+        if (antal > this.#lager) {
+            console.log(
+                `Kan inte sälja ${antal} st – bara ${this.#lager} i lager.`
+            );
+            return false;
+        }
+        this.#lager -= antal;
+        return true;
+    }
+
+    fyllPå(antal) {
+        if (antal <= 0) return;
+        this.#lager += antal;
+    }
+}
+```
+
+```javascript
+const mus = new Produkt("Trådlös mus", 299, 3);
+console.log(mus.lagerSaldo);   // 3
+console.log(mus.#lager);       // SyntaxError: Private field '#lager'
+mus.#lager = -5;               // SyntaxError
+```
+
+Det privata fältet `#lager` kan bara läsas och ändras inifrån klassen. Utifrån kan man läsa lagersaldot via `lagerSaldo` (en *getter* – mer om dem strax) och ändra det via `sälj` och `fyllPå`, som båda kontrollerar att operationen är giltig.
+
+Det här mönstret – att dölja intern data och bara exponera kontrollerade sätt att interagera med den – kallas **inkapsling** (*encapsulation*). Det är en av de viktigaste principerna i objektorienterad programmering.
+
+Privata fält deklareras överst i klassens kropp, före `constructor`. Det är tillåtet att ha flera privata fält:
+
+```javascript
+class BankKonto {
+    #saldo;
+    #historik;
+
+    constructor(ägare, startSaldo = 0) {
+        this.ägare = ägare;
+        this.#saldo = startSaldo;
+        this.#historik = [];
+    }
+
+    insättning(belopp) {
+        if (belopp <= 0) return;
+        this.#saldo += belopp;
+        this.#historik.push(`+${belopp} kr`);
+    }
+
+    uttag(belopp) {
+        if (belopp <= 0 || belopp > this.#saldo) return false;
+        this.#saldo -= belopp;
+        this.#historik.push(`-${belopp} kr`);
+        return true;
+    }
+
+    get saldo() {
+        return this.#saldo;
+    }
+
+    get transaktioner() {
+        return [...this.#historik];  // returnerar en kopia
+    }
+}
+```
+
+Klassen `BankKonto` skyddar både saldot och historiken. Man kan inte sätta saldot direkt – man måste gå via `insättning` och `uttag`, som kontrollerar att beloppet är giltigt. Och `transaktioner` returnerar en *kopia* av historiken, inte originalarrayen, så att ingen kan ändra den utifrån.
+
+::: {.callout-note}
+## Varför inkapsling?
+
+Inkapsling handlar inte om att misstro andra programmerare. Det handlar om att *begränsa kontaktytan*. Om den enda vägen till saldot är via `insättning` och `uttag` behöver du aldrig oroa dig för att saldot hamnar i ett ogiltigt tillstånd. Det gör koden lättare att resonera om, lättare att testa, och lättare att ändra utan att bryta annan kod som beror på den.
+:::
+
+---
+
+## Getters och setters
+
+I exemplen ovan använde vi `get` framför ett metodnamn. Det är en **getter** – en metod som beter sig som en egenskap:
+
+```javascript
+class Cirkel {
+    constructor(radie) {
+        this.radie = radie;
+    }
+
+    get area() {
+        return Math.PI * this.radie * this.radie;
+    }
+
+    get omkrets() {
+        return 2 * Math.PI * this.radie;
+    }
+}
+```
+
+```javascript
+const c = new Cirkel(5);
+console.log(c.area);      // 78.539... (inte c.area()!)
+console.log(c.omkrets);   // 31.415...
+```
+
+En getter anropas *utan parenteser*, precis som om den vore en vanlig egenskap. Det är syntaktiskt socker – under ytan är det fortfarande en funktion som exekveras, men användningen känns naturlig: en cirkels area *är* en egenskap, inte en handling.
+
+Det finns också **setters** – metoder som anropas automatiskt när man tilldelar ett värde:
+
+```javascript
+class Produkt {
+    #pris;
+
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.#pris = pris;
+    }
+
+    get pris() {
+        return this.#pris;
+    }
+
+    set pris(nyttPris) {
+        if (nyttPris < 0) {
+            throw new Error("Priset kan inte vara negativt.");
+        }
+        this.#pris = nyttPris;
+    }
+}
+```
+
+```javascript
+const produkt = new Produkt("Mus", 299);
+console.log(produkt.pris);  // 299
+
+produkt.pris = 249;          // anropar settern
+console.log(produkt.pris);   // 249
+
+produkt.pris = -50;          // Error: Priset kan inte vara negativt.
+```
+
+Settern låter oss kontrollera att tilldelningen är giltig. Utifrån ser det ut som en vanlig tilldelning – `produkt.pris = 249` – men under ytan körs valideringslogik. Kombinationen av en getter och en setter med ett privat fält ger full kontroll: man bestämmer exakt hur en egenskap läses och skrivs.
+
+---
+
+## Statiska metoder
+
+Ibland behöver man en funktion som logiskt hör till en klass men inte opererar på en enskild instans. Till exempel: jämföra två produkter, eller skapa ett objekt utifrån en annan datastruktur. Sådana funktioner definieras med nyckelordet `static`:
+
+```javascript
+class Produkt {
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.pris = pris;
+    }
+
+    static billigast(a, b) {
+        return a.pris <= b.pris ? a : b;
+    }
+
+    static frånObjekt(obj) {
+        return new Produkt(obj.namn, obj.pris);
+    }
+}
+```
+
+```javascript
+const mus = new Produkt("Mus", 299);
+const tangentbord = new Produkt("Tangentbord", 1299);
+
+const bästaKöpet = Produkt.billigast(mus, tangentbord);
+console.log(bästaKöpet.namn);  // "Mus"
+
+// Skapa en produkt från ett vanligt objekt (t.ex. från JSON-data)
+const data = { namn: "Skärm", pris: 3499 };
+const skärm = Produkt.frånObjekt(data);
+console.log(skärm.namn);  // "Skärm"
+```
+
+Notera att `billigast` och `frånObjekt` anropas på *klassen* (`Produkt.billigast(...)`) – inte på en instans. En statisk metod har inte tillgång till `this` i den mening att det finns något enskilt objekt att referera till, eftersom den inte hör till någon instans.
+
+Statiska metoder fyller samma roll som fristående funktioner, men de lever under klassnamnet och signalerar tydligt att de hör till den typen av objekt.
+
+---
+
+## Klasser som samarbetar
+
+I verkliga program arbetar flera klasser tillsammans. Varje klass ansvarar för en avgränsad del, och de samverkar genom att anropa varandras metoder. Det här kallas ibland **komposition** – att bygga komplexa system av enklare delar.
+
+Låt oss utöka webbshop-exemplet med en `Varukorg`:
+
+```javascript
+class Produkt {
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.pris = pris;
+    }
+}
+
+class VarukorgRad {
+    constructor(produkt, antal) {
+        this.produkt = produkt;
+        this.antal = antal;
+    }
+
+    radSumma() {
+        return this.produkt.pris * this.antal;
+    }
+}
+
+class Varukorg {
+    #rader;
+
+    constructor() {
+        this.#rader = [];
+    }
+
+    läggTill(produkt, antal = 1) {
+        const befintlig = this.#rader.find(
+            rad => rad.produkt === produkt
+        );
+        if (befintlig) {
+            befintlig.antal += antal;
+        } else {
+            this.#rader.push(new VarukorgRad(produkt, antal));
+        }
+    }
+
+    get totalSumma() {
+        let summa = 0;
+        for (const rad of this.#rader) {
+            summa += rad.radSumma();
+        }
+        return summa;
+    }
+
+    get antalProdukter() {
+        let total = 0;
+        for (const rad of this.#rader) {
+            total += rad.antal;
+        }
+        return total;
+    }
+
+    visa() {
+        for (const rad of this.#rader) {
+            const s = rad.radSumma();
+            console.log(`${rad.produkt.namn} x${rad.antal} = ${s} kr`);
+        }
+        console.log(`Totalt: ${this.totalSumma} kr`);
+    }
+}
+```
+
+```javascript
+const mus = new Produkt("Trådlös mus", 299);
+const hubb = new Produkt("USB-C-hubb", 549);
+
+const korg = new Varukorg();
+korg.läggTill(mus, 2);
+korg.läggTill(hubb);
+korg.läggTill(mus, 1);   // läggs till den befintliga raden
+
+korg.visa();
+// Trådlös mus x3 = 897 kr
+// USB-C-hubb x1 = 549 kr
+// Totalt: 1446 kr
+
+console.log(korg.antalProdukter);  // 4
+```
+
+Tre klasser samverkar, var och en med ett tydligt avgränsat ansvar:
+
+- `Produkt` vet vad en produkt heter och kostar.
+- `VarukorgRad` kopplar ihop en produkt med ett antal och kan beräkna radsumman.
+- `Varukorg` hanterar samlingen av rader och kan beräkna totalen.
+
+Den här uppdelningen gör koden lättare att förstå, testa och utöka. Om du vill lägga till en rabattfunktion behöver du bara ändra den klass som ansvarar för priser – inte gräva igenom en lång, sammanblandad kodbas.
+
+::: {.callout-note}
+## Komposition framför komplexitet
+
+Ett vanligt misstag bland nybörjare är att försöka stoppa in allt beteende i en enda stor klass. Bättre är att dela upp ansvaret i flera små klasser som samarbetar. En tumregel: om en klass gör mer än en sak, överväg att bryta ut delar av den i en separat klass.
+:::
+
+---
+
+## Ett fullständigt exempel: Quizspel
+
+Låt oss samla begreppen i ett lite större exempel – ett enkelt quizspel som ställer flervalsfrågor och räknar poäng:
+
+```javascript
+class Fråga {
+    #korrektIndex;
+
+    constructor(text, alternativ, korrektIndex) {
+        this.text = text;
+        this.alternativ = alternativ;
+        this.#korrektIndex = korrektIndex;
+    }
+
+    ärKorrekt(svarsIndex) {
+        return svarsIndex === this.#korrektIndex;
+    }
+
+    get korrektSvar() {
+        return this.alternativ[this.#korrektIndex];
+    }
+
+    visa() {
+        console.log(this.text);
+        for (let i = 0; i < this.alternativ.length; i++) {
+            console.log(`  ${i + 1}. ${this.alternativ[i]}`);
+        }
+    }
+}
+
+class Quiz {
+    #frågor;
+    #poäng;
+    #aktuellIndex;
+
+    constructor(titel) {
+        this.titel = titel;
+        this.#frågor = [];
+        this.#poäng = 0;
+        this.#aktuellIndex = 0;
+    }
+
+    läggTillFråga(text, alternativ, korrektIndex) {
+        this.#frågor.push(new Fråga(text, alternativ, korrektIndex));
+    }
+
+    get aktuellfråga() {
+        return this.#frågor[this.#aktuellIndex] ?? null;
+    }
+
+    get ärSlut() {
+        return this.#aktuellIndex >= this.#frågor.length;
+    }
+
+    besvarAktuell(svarsIndex) {
+        const fråga = this.aktuellfråga;
+        if (!fråga) return null;
+
+        const rätt = fråga.ärKorrekt(svarsIndex);
+        if (rätt) {
+            this.#poäng++;
+        }
+        this.#aktuellIndex++;
+        return rätt;
+    }
+
+    get resultat() {
+        return `${this.#poäng} av ${this.#frågor.length} rätt`;
+    }
+}
+```
+
+```javascript
+const quiz = new Quiz("JavaScript-quiz");
+
+quiz.läggTillFråga(
+    "Vad står DOM för?",
+    ["Document Object Model", "Data Object Mode", "Digital Output Manager"],
+    0
+);
+
+quiz.läggTillFråga(
+    "Vilket nyckelord skapar en konstant?",
+    ["var", "let", "const"],
+    2
+);
+
+quiz.läggTillFråga(
+    "Vad returnerar typeof null?",
+    ["null", "undefined", "object"],
+    2
+);
+
+// Spela quizet
+while (!quiz.ärSlut) {
+    const fråga = quiz.aktuellfråga;
+    fråga.visa();
+
+    // I en riktig applikation hade svaret kommit från användaren
+    const svar = 0;  // väljer alltid första alternativet
+    const rätt = quiz.besvarAktuell(svar);
+    console.log(rätt ? "Rätt!" : `Fel – rätt svar: ${fråga.korrektSvar}`);
+    console.log();
+}
+
+console.log(quiz.resultat);  // "1 av 3 rätt"
+```
+
+Exemplet visar hur de begrepp vi gått igenom – klasser, konstruktorer, metoder, privata fält och getters – samverkar i ett sammanhängande program. Klassen `Fråga` kapslar in en enskild fråga med dess alternativ och korrekta svar. Klassen `Quiz` hanterar samlingen av frågor, håller reda på vilken fråga som är aktuell, och räknar poäng. Varje klass har ett avgränsat ansvar, och den interna datan (korrekt svar, poäng, index) skyddas med privata fält.
+
+---
+
+## Sammanfattning
+
+Objektorienterad programmering handlar om att organisera kod kring objekt som binder samman data och beteende. Det ger strukturerad, läsbar kod där varje del av programmet har ett tydligt ansvar.
+
+- En **klass** definieras med `class Namn { ... }` och fungerar som en ritning för objekt.
+- **`constructor`** körs automatiskt vid `new` och sätter upp objektets initiala tillstånd.
+- **Metoder** är funktioner som tillhör klassen och når objektets data via `this`.
+- **`this`** refererar till det aktuella objektet – det som står före punkten vid anropet.
+- **Privata fält** (`#fält`) kan bara nås inifrån klassen och ger **inkapsling**.
+- **Getters** (`get namn()`) och **setters** (`set namn(v)`) ger kontrollerad åtkomst till data och anropas utan parenteser.
+- **Statiska metoder** (`static`) hör till klassen, inte till enskilda instanser.
+- **Komposition** – att låta klasser samarbeta – är ett kraftfullt sätt att bygga komplexa system av enkla delar.
+
+I kommande kapitel bygger vi vidare på dessa grunder med **arv** – en mekanism som låter klasser dela och specialisera beteende.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Klasser och OOP introducerar flera nya begrepp på en gång – `class`, `constructor`, `this`, `new`, privata fält. AI kan hjälpa dig att reda ut dem ett i taget.
+
+**Förstå begreppen:**
+
+> *"Förklara skillnaden mellan en klass och en instans i JavaScript. Ge ett konkret exempel med en klass som representerar en bil."*
+
+> *"Vad händer steg för steg när jag skriver `new Produkt("Mus", 299)`? Vad gör `new`?"*
+
+**Testa din förståelse av `this`:**
+
+> *"Jag har en klass med en metod som använder `this`. Kan du ge mig ett exempel som visar vad `this` refererar till vid olika anrop?"*
+
+**Utforska inkapsling:**
+
+> *"Varför skulle jag använda privata fält med `#` istället för vanliga egenskaper? Ge ett exempel där det spelar roll."*
+
+**Designa egna klasser:**
+
+> *"Jag vill skapa en klass för att representera en spellista med låtar. Vilka egenskaper och metoder borde den ha? Hjälp mig tänka igenom designen innan jag börjar koda."*
+
+Att be AI:n hjälpa dig *designa* en klass – inte bara skriva den – tränar det tänkande som är kärnan i objektorienterad programmering.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Spåra koden
+
+Gå igenom följande kod för hand, utan att köra den. Vad skrivs ut?
+
+```javascript
+class Räknare {
+    #värde;
+
+    constructor(start = 0) {
+        this.#värde = start;
+    }
+
+    öka() {
+        this.#värde++;
+    }
+
+    minska() {
+        this.#värde--;
+    }
+
+    get värde() {
+        return this.#värde;
+    }
+}
+
+const a = new Räknare(10);
+const b = new Räknare();
+
+a.öka();
+a.öka();
+b.minska();
+
+console.log(a.värde);
+console.log(b.värde);
+
+a.minska();
+console.log(a.värde);
+```
+
+Förklara: varför har `a` och `b` olika värden trots att de skapades från samma klass?
+:::
+
+::: {.callout-note}
+## Övning – Rektangel
+
+Skriv en klass `Rektangel` med egenskaperna `bredd` och `höjd` (angivna i konstruktorn).
+
+Lägg till:
+
+- En getter `area` som returnerar arean ($\text{bredd} \times \text{höjd}$).
+- En getter `omkrets` som returnerar omkretsen ($2 \times (\text{bredd} + \text{höjd})$).
+- En metod `ärKvadrat()` som returnerar `true` om bredden och höjden är lika.
+
+Skapa några rektanglar och testa metoderna. Vad returnerar `ärKvadrat()` för en rektangel med bredd 5 och höjd 5?
+:::
+
+::: {.callout-note}
+## Övning – Inkapsla med privata fält
+
+Skriv en klass `Temperatur` som representerar en temperatur i Celsius. Temperaturen ska lagras i ett privat fält.
+
+- Konstruktorn tar en temperatur i Celsius.
+- En getter `celsius` returnerar temperaturen.
+- En getter `fahrenheit` returnerar temperaturen omräknad till Fahrenheit (formeln: $F = C \times 1.8 + 32$).
+- En setter `celsius` ändrar temperaturen, men kastar ett fel om man försöker sätta den under $-273.15$ (absoluta nollpunkten).
+
+```javascript
+const t = new Temperatur(20);
+console.log(t.celsius);     // 20
+console.log(t.fahrenheit);  // 68
+t.celsius = 100;
+console.log(t.fahrenheit);  // 212
+t.celsius = -300;            // Error!
+```
+:::
+
+::: {.callout-note}
+## Övning – Djurpark
+
+Designa och implementera en klass `Djur` med egenskaper för `namn`, `art` och `ålder`, samt en metod `presentation()` som returnerar en sträng i formatet `"Kalle är en björn, 12 år gammal"`.
+
+Skapa sedan en klass `Djurpark` som har:
+
+- Ett namn (publikt).
+- En privat lista med djur.
+- En metod `läggTill(djur)` som lägger till ett `Djur`-objekt.
+- En getter `antalDjur` som returnerar antalet djur.
+- En metod `hittaArt(art)` som returnerar en array med alla djur av en viss art.
+- En metod `listaDjur()` som skriver ut alla djurs presentationer.
+
+Testa genom att skapa en djurpark, lägga till minst fyra djur av minst två arter, och visa resultatet av varje metod.
+:::
+
+::: {.callout-note}
+## Övning – Poängkort
+
+Du ska bygga ett poängkort för ett spel. Skriv en klass `Spelare` med:
+
+- Ett namn (publikt).
+- En privat poäng som börjar på 0.
+- En metod `vinn(p)` som lägger till `p` poäng (standardvärde 1).
+- En metod `förlora(p)` som drar av `p` poäng (standardvärde 1), men poängen får aldrig gå under 0.
+- En getter `poäng` som returnerar aktuell poäng.
+
+Skriv sedan en klass `Poängtavla` med:
+
+- En privat lista med spelare.
+- En metod `registrera(namn)` som skapar och lägger till en ny `Spelare`.
+- En metod `hittaSpelare(namn)` som returnerar en spelare med det angivna namnet (eller `null`).
+- En getter `ledare` som returnerar spelaren med högst poäng.
+- En metod `visa()` som skriver ut alla spelare sorterade efter poäng i fallande ordning.
+
+Simulera ett antal vinn/förlora-rundor och visa tavlan.
+:::
