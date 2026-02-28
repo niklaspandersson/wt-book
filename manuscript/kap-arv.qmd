@@ -1,0 +1,747 @@
+# Arv och polymorfism
+
+## Lika men ändå olika
+
+I förra kapitlet byggde vi en klass `Produkt` för en webbshop. Varje produkt har ett namn och ett pris, och klassen kapslar in beteende som att beräkna rabatterat pris och visa en beskrivning. Det fungerar utmärkt – så länge alla produkter beter sig likadant.
+
+Men tänk om webbshopen säljer *olika typer* av produkter? En fysisk produkt har en vikt och en fraktkostnad. En digital produkt – ett spel, en e-bok, en programvarulicens – har ingen vikt, kräver ingen frakt, och kan levereras direkt. En prenumerationsprodukt har ett pris per månad istället för ett engångspris.
+
+Alla tre typer *är* produkter. De har namn och pris. De ska kunna visas i katalogen och läggas i varukorgen. Men de skiljer sig i detaljer – vilken data de har och hur vissa beteenden fungerar.
+
+En lösning vore att skapa helt separata klasser: `FysiskProdukt`, `DigitalProdukt`, `Prenumeration` – var och en med sina egna egenskaper och metoder. Men det innebär att du duplicerar allt gemensamt: namn, pris, `beskrivning()`, `prisEfterRabatt()`. Ändrar du något i den gemensamma logiken måste du ändra i varje klass. Det bryter mot en grundprincip: *skriv inte samma kod två gånger*.
+
+Det vi behöver är ett sätt att säga: "en digital produkt är en *sorts* produkt – den har allt en vanlig produkt har, plus en del eget." Det är precis vad **arv** gör.
+
+---
+
+## Arv: att bygga på det som redan finns
+
+**Arv** (*inheritance*) innebär att en klass kan baseras på en annan. Den nya klassen *ärver* alla egenskaper och metoder från den befintliga, och kan sedan lägga till egna eller ändra de ärvda.
+
+Terminologin:
+
+- **Basklass** (eller *superklass*, *förälderklass*) – den klass man ärver ifrån. Ibland kallas den *parent class* på engelska.
+- **Subklass** (eller *barnklass*, *härledd klass*) – den klass som ärver. Den *utökar* basklassen med ny eller förändrad funktionalitet.
+
+I JavaScript anger man arv med nyckelordet `extends`:
+
+```javascript
+class Produkt {
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.pris = pris;
+    }
+
+    prisEfterRabatt(rabattProcent) {
+        return this.pris * (1 - rabattProcent / 100);
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr`;
+    }
+}
+
+class DigitalProdukt extends Produkt {
+    constructor(namn, pris, filstorlek) {
+        super(namn, pris);
+        this.filstorlek = filstorlek;
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr (digital, ${this.filstorlek} MB)`;
+    }
+}
+```
+
+Här händer det flera nya saker. Låt oss gå igenom dem.
+
+---
+
+## `extends` – ärva från en annan klass
+
+Raden `class DigitalProdukt extends Produkt` innebär att `DigitalProdukt` ärver allt från `Produkt`. Alla metoder och egenskaper som `Produkt` definierar finns automatiskt tillgängliga i `DigitalProdukt`:
+
+```javascript
+const bok = new DigitalProdukt("JavaScript-guide", 149, 12);
+
+// Metoden prisEfterRabatt är ärvd från Produkt
+console.log(bok.prisEfterRabatt(20));  // 119.2
+
+// Egenskaperna namn och pris är ärvda
+console.log(bok.namn);  // "JavaScript-guide"
+console.log(bok.pris);  // 149
+
+// filstorlek är specifik för DigitalProdukt
+console.log(bok.filstorlek);  // 12
+```
+
+`DigitalProdukt` behövde inte definiera `prisEfterRabatt` – den ärvde metoden från `Produkt`. Men den kan använda den som om den vore sin egen. Arv innebär alltså att man *återanvänder* befintlig kod utan att kopiera den.
+
+---
+
+## `super` – anropa basklassens konstruktor
+
+I subklassens `constructor` måste man anropa `super(...)` innan man använder `this`. `super(...)` anropar basklassens konstruktor:
+
+```javascript
+class DigitalProdukt extends Produkt {
+    constructor(namn, pris, filstorlek) {
+        super(namn, pris);         // anropar Produkt:s constructor
+        this.filstorlek = filstorlek;  // lägger till egen egenskap
+    }
+}
+```
+
+`super(namn, pris)` kör `Produkt`s `constructor`, som sätter `this.namn` och `this.pris`. Sedan lägger `DigitalProdukt` till sin egen egenskap, `this.filstorlek`.
+
+::: {.callout-important}
+## `super()` måste komma först
+
+I en subklass *måste* `super()` anropas innan du kan använda `this`. Ordningen är obligatorisk – basklassen måste sättas upp innan subklassen kan bygga vidare på den. Om du glömmer `super()` eller använder `this` före anropet får du ett felmeddelande.
+:::
+
+Om subklassen inte behöver en egen konstruktor – om den inte har några extra egenskaper att sätta upp – kan man utelämna `constructor` helt. JavaScript skapar då automatiskt en konstruktor som bara vidarebefordrar alla argument till basklassen:
+
+```javascript
+class PremiumProdukt extends Produkt {
+    // Ingen egen constructor – ärver Produkt:s
+
+    ärPremium() {
+        return true;
+    }
+}
+
+const p = new PremiumProdukt("Guldmus", 999);
+console.log(p.namn);        // "Guldmus"
+console.log(p.ärPremium()); // true
+```
+
+---
+
+## Överskuggning: att ändra ärvt beteende
+
+En subklass kan definiera en metod med samma namn som en ärvd metod. Det kallas att **överskugga** (*override*) metoden. Subklassens version ersätter basklassens:
+
+```javascript
+class Produkt {
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.pris = pris;
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr`;
+    }
+}
+
+class DigitalProdukt extends Produkt {
+    constructor(namn, pris, filstorlek) {
+        super(namn, pris);
+        this.filstorlek = filstorlek;
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr (digital, ${this.filstorlek} MB)`;
+    }
+}
+
+class FysiskProdukt extends Produkt {
+    constructor(namn, pris, vikt) {
+        super(namn, pris);
+        this.vikt = vikt;
+    }
+
+    fraktkostnad() {
+        return this.vikt * 15;  // 15 kr per kg
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr (${this.vikt} kg, frakt ${this.fraktkostnad()} kr)`;
+    }
+}
+```
+
+```javascript
+const bok = new DigitalProdukt("JavaScript-guide", 149, 12);
+const mus = new FysiskProdukt("Trådlös mus", 299, 0.1);
+
+console.log(bok.beskrivning());
+// "JavaScript-guide – 149 kr (digital, 12 MB)"
+
+console.log(mus.beskrivning());
+// "Trådlös mus – 299 kr (0.1 kg, frakt 1.5 kr)"
+```
+
+Tre klasser, tre versioner av `beskrivning()`. Varje klass vet bäst hur den ska presentera sig själv. Men alla delar den gemensamma grunden: namn, pris, och `prisEfterRabatt()`.
+
+---
+
+## `super.metod()` – anropa basklassens version
+
+Ibland vill man inte helt ersätta basklassens metod, utan *utöka* den. Då kan man anropa basklassens version med `super.metodnamn()`:
+
+```javascript
+class Produkt {
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.pris = pris;
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr`;
+    }
+}
+
+class FysiskProdukt extends Produkt {
+    constructor(namn, pris, vikt) {
+        super(namn, pris);
+        this.vikt = vikt;
+    }
+
+    fraktkostnad() {
+        return this.vikt * 15;
+    }
+
+    beskrivning() {
+        const bas = super.beskrivning();  // "Trådlös mus – 299 kr"
+        return `${bas} (frakt ${this.fraktkostnad()} kr)`;
+    }
+}
+```
+
+```javascript
+const mus = new FysiskProdukt("Trådlös mus", 299, 0.1);
+console.log(mus.beskrivning());
+// "Trådlös mus – 299 kr (frakt 1.5 kr)"
+```
+
+`super.beskrivning()` anropar `Produkt`s version av metoden. Sedan bygger `FysiskProdukt` vidare på resultatet och lägger till fraktinformation. Det här är ett kraftfullt mönster: subklassen behöver inte upprepa logik som basklassen redan hanterar.
+
+::: {.callout-note}
+## `super` i konstruktorn och i metoder
+
+`super` har två användningar:
+
+- I `constructor`: `super(...)` anropar basklassens konstruktor. Måste komma före `this`.
+- I metoder: `super.metodnamn()` anropar basklassens version av en överskuggad metod.
+:::
+
+---
+
+## Polymorfism: samma gränssnitt, olika beteende
+
+Nu kommer vi till en av de mest kraftfulla idéerna inom objektorienterad programmering: **polymorfism**.
+
+Ordet kommer från grekiskan och betyder "många former". I programmering innebär det att objekt av *olika typer* kan användas på *samma sätt*, men bete sig *olika*.
+
+Vi har redan sett det: `Produkt`, `DigitalProdukt` och `FysiskProdukt` har alla en metod `beskrivning()`. Kod som anropar `beskrivning()` behöver inte veta vilken typ av produkt det handlar om – metoden finns på alla tre:
+
+```javascript
+const produkter = [
+    new Produkt("Presentkort", 500),
+    new DigitalProdukt("JavaScript-guide", 149, 12),
+    new FysiskProdukt("Trådlös mus", 299, 0.1),
+    new DigitalProdukt("Fotoredigerare", 899, 450),
+    new FysiskProdukt("Skrivbordsstativ", 1299, 4.5)
+];
+
+for (const p of produkter) {
+    console.log(p.beskrivning());
+}
+```
+
+Utskrift:
+
+```
+Presentkort – 500 kr
+JavaScript-guide – 149 kr (digital, 12 MB)
+Trådlös mus – 299 kr (0.1 kg, frakt 1.5 kr)
+Fotoredigerare – 899 kr (digital, 450 MB)
+Skrivbordsstativ – 1299 kr (4.5 kg, frakt 67.5 kr)
+```
+
+Loopen behandlar alla produkter likadant – `p.beskrivning()` – men varje objekt svarar på sitt eget sätt. Det är polymorfism.
+
+Varför är detta värdefullt? Tänk dig att du skriver en funktion som visar en produktkatalog:
+
+```javascript
+function visaKatalog(produkter) {
+    console.log("=== Produktkatalog ===");
+    for (const p of produkter) {
+        console.log(p.beskrivning());
+    }
+    console.log(`${produkter.length} produkter totalt.`);
+}
+```
+
+Funktionen behöver inte veta om det finns fysiska, digitala eller andra typer av produkter. Den anropar `beskrivning()` – och varje objekt tar hand om resten. Om du i framtiden lägger till en ny typ, till exempel `PrenumerationsProdukt`, behöver du inte ändra `visaKatalog`. Så länge den nya klassen har en `beskrivning()`-metod fungerar allt.
+
+Kod som arbetar med basklassens gränssnitt kan hantera *alla* subklasser – även sådana som inte existerar ännu. Det gör systemet **öppet för utökning** utan att befintlig kod behöver ändras.
+
+---
+
+## `instanceof` – kontrollera typ
+
+Ibland behöver du veta vilken typ ett objekt har. Operatorn `instanceof` testar om ett objekt skapades från en viss klass (eller en subklass av den):
+
+```javascript
+const bok = new DigitalProdukt("Guide", 149, 12);
+const mus = new FysiskProdukt("Mus", 299, 0.1);
+
+console.log(bok instanceof DigitalProdukt);  // true
+console.log(bok instanceof Produkt);          // true
+console.log(bok instanceof FysiskProdukt);    // false
+
+console.log(mus instanceof FysiskProdukt);    // true
+console.log(mus instanceof Produkt);          // true
+```
+
+Notera att `bok instanceof Produkt` returnerar `true` – en digital produkt *är* en produkt. `instanceof` kontrollerar hela kedjan av arv.
+
+Det kan vara användbart i situationer där du behöver typspecifik logik:
+
+```javascript
+function visaLeveransInfo(produkt) {
+    if (produkt instanceof FysiskProdukt) {
+        console.log(`Fraktkostnad: ${produkt.fraktkostnad()} kr`);
+    } else if (produkt instanceof DigitalProdukt) {
+        console.log("Levereras digitalt – ingen frakt.");
+    } else {
+        console.log("Kontakta kundtjänst för leveransinformation.");
+    }
+}
+```
+
+::: {.callout-note}
+## Polymorfism först, `instanceof` sedan
+
+Ofta är polymorfism ett bättre alternativ än `instanceof`. Istället för att kontrollera typen och göra olika saker kan man låta varje klass definiera sin egen version av metoden. Jämför `visaLeveransInfo` ovan med att ge varje produktklass en metod `leveransInfo()` som returnerar rätt text – det andra alternativet är enklare att underhålla och utöka.
+
+Använd `instanceof` när du verkligen behöver typspecifik logik som inte hör hemma i klassen själv.
+:::
+
+---
+
+## Arv i flera led
+
+En subklass kan i sin tur vara basklass för en annan. Det skapar en *kedja* av arv:
+
+```javascript
+class Produkt {
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.pris = pris;
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr`;
+    }
+}
+
+class DigitalProdukt extends Produkt {
+    constructor(namn, pris, filstorlek) {
+        super(namn, pris);
+        this.filstorlek = filstorlek;
+    }
+}
+
+class Prenumeration extends DigitalProdukt {
+    #månader;
+
+    constructor(namn, prisMånad, filstorlek, månader) {
+        super(namn, prisMånad, filstorlek);
+        this.#månader = månader;
+    }
+
+    get totalKostnad() {
+        return this.pris * this.#månader;
+    }
+
+    beskrivning() {
+        return `${this.namn} – ${this.pris} kr/mån (${this.#månader} mån, totalt ${this.totalKostnad} kr)`;
+    }
+}
+```
+
+```javascript
+const abb = new Prenumeration("Fotoredigerare", 99, 450, 12);
+console.log(abb.beskrivning());
+// "Fotoredigerare – 99 kr/mån (12 mån, totalt 1188 kr)"
+
+console.log(abb instanceof Prenumeration);    // true
+console.log(abb instanceof DigitalProdukt);   // true
+console.log(abb instanceof Produkt);           // true
+```
+
+`Prenumeration` ärver från `DigitalProdukt`, som ärver från `Produkt`. En prenumeration *är* en digital produkt, som *är* en produkt. Egenskaper och metoder ärvs genom hela kedjan.
+
+Det är tillåtet att bygga långa arvskedjor, men i praktiken bör man hålla dem korta – två eller tre led är vanligtvis lagom. Djupa hierarkier blir snabbt svåra att förstå och underhålla.
+
+---
+
+## Arv och privata fält
+
+Privata fält (de med `#`) ärvs *inte* – de är helt oåtkomliga utanför den klass som definierar dem. Det gäller även för subklasser:
+
+```javascript
+class Produkt {
+    #pris;
+
+    constructor(namn, pris) {
+        this.namn = namn;
+        this.#pris = pris;
+    }
+
+    get pris() {
+        return this.#pris;
+    }
+}
+
+class FysiskProdukt extends Produkt {
+    constructor(namn, pris, vikt) {
+        super(namn, pris);
+        this.vikt = vikt;
+    }
+
+    fraktkostnad() {
+        // this.#pris fungerar INTE här – #pris tillhör Produkt
+        // Använd den publika gettern istället:
+        return this.pris > 500 ? 0 : this.vikt * 15;
+    }
+}
+```
+
+Det kan tyckas restriktivt, men det är ett medvetet designval. Privata fält garanterar att bara den klass som äger fältet kan påverka det. Subklasser interagerar med basklassens data via dess publika metoder och getters – det vill säga via det *gränssnitt* basklassen exponerar. Det stärker inkapslingen.
+
+---
+
+## Arv eller komposition?
+
+Arv är ett kraftfullt verktyg, men det är inte alltid rätt val. En vanlig fälla är att använda arv bara för att *återanvända* kod, även när relationen "är en" inte stämmer.
+
+Jämför:
+
+- "En digital produkt *är en* produkt" – arv passar.
+- "En varukorg *har* produkter" – komposition passar.
+
+Om du försöker göra `Varukorg extends Produkt` för att återanvända priset eller namnet, modellerar du fel. En varukorg *är inte* en produkt – den *innehåller* produkter. Komposition, som vi såg i förra kapitlet, är rätt val där.
+
+En tumregel:
+
+- Använd **arv** när subklassen verkligen *är en sorts* basklass – den delar samma grundläggande natur och kan användas överallt där basklassen förväntas.
+- Använd **komposition** när en klass *använder* en annan som en del av sin interna struktur.
+
+::: {.callout-important}
+## Favor composition over inheritance
+
+Uttrycket "favor composition over inheritance" (föredra komposition framför arv) är ett etablerat designråd inom objektorienterad programmering. Det betyder inte att arv är dåligt – det betyder att man bör tänka efter innan man ärver. Om komposition löser problemet lika bra är det ofta det enklare och mer flexibla valet.
+:::
+
+---
+
+## Ett fullständigt exempel: Figurer
+
+Låt oss avsluta med ett exempel som samlar kapitlets begrepp: en enkel figurhierarki.
+
+```javascript
+class Figur {
+    constructor(färg = "svart") {
+        this.färg = färg;
+    }
+
+    area() {
+        return 0;  // basklassen vet inte vilken form det är
+    }
+
+    beskrivning() {
+        return `${this.constructor.name}: area ${this.area().toFixed(1)}, färg ${this.färg}`;
+    }
+}
+
+class Cirkel extends Figur {
+    constructor(radie, färg) {
+        super(färg);
+        this.radie = radie;
+    }
+
+    area() {
+        return Math.PI * this.radie ** 2;
+    }
+}
+
+class Rektangel extends Figur {
+    constructor(bredd, höjd, färg) {
+        super(färg);
+        this.bredd = bredd;
+        this.höjd = höjd;
+    }
+
+    area() {
+        return this.bredd * this.höjd;
+    }
+}
+
+class Triangel extends Figur {
+    constructor(bas, höjd, färg) {
+        super(färg);
+        this.bas = bas;
+        this.höjd = höjd;
+    }
+
+    area() {
+        return (this.bas * this.höjd) / 2;
+    }
+}
+```
+
+```javascript
+const figurer = [
+    new Cirkel(5, "röd"),
+    new Rektangel(4, 6, "blå"),
+    new Triangel(3, 8, "grön"),
+    new Cirkel(2.5, "gul")
+];
+
+for (const f of figurer) {
+    console.log(f.beskrivning());
+}
+// Cirkel: area 78.5, färg röd
+// Rektangel: area 24.0, färg blå
+// Triangel: area 12.0, färg grön
+// Cirkel: area 19.6, färg gul
+
+// Beräkna den totala arean
+let totalArea = 0;
+for (const f of figurer) {
+    totalArea += f.area();
+}
+console.log(`Total area: ${totalArea.toFixed(1)}`);
+// Total area: 134.2
+```
+
+Några saker att notera:
+
+- **Gemensamt gränssnitt**: Alla figurer har `area()` och `beskrivning()`. Kod som arbetar med en `Figur` fungerar automatiskt med alla sorters figurer.
+- **Överskuggning**: Varje subklass överskuggar `area()` med sin egen beräkning. `Figur`s version (som returnerar 0) fungerar som en *standardimplementation*.
+- **Polymorfism**: Loopen itererar över en blandad samling och anropar `beskrivning()` – rätt version körs automatiskt baserat på objektets typ.
+- **`super` i konstruktorn**: Alla subklasser skickar `färg` vidare till `Figur`s konstruktor.
+- **`this.constructor.name`**: Ett inbyggt sätt att få klassnamnet som sträng. `Cirkel`-instanser ger `"Cirkel"`, `Rektangel`-instanser ger `"Rektangel"`, och så vidare.
+
+---
+
+## Sammanfattning
+
+Arv låter en klass bygga vidare på en annan. Subklassen ärver allt från basklassen och kan lägga till egna egenskaper, metoder, och överskugga ärvda metoder med specialiserade versioner.
+
+- **`extends`** skapar en subklass som ärver från en basklass: `class Sub extends Bas { ... }`.
+- **`super(...)`** i konstruktorn anropar basklassens konstruktor och måste komma före `this`.
+- **`super.metod()`** i en metod anropar basklassens version av den överskuggade metoden.
+- **Överskuggning** (*override*) innebär att en subklass definierar sin egen version av en ärvd metod.
+- **Polymorfism** innebär att objekt av olika typer kan användas via samma gränssnitt. Samma anrop, olika beteende beroende på objektets typ.
+- **`instanceof`** testar om ett objekt tillhör en viss klass (eller en subklass av den).
+- **Privata fält** (`#`) ärvs inte – subklasser når basklassens data via publika metoder och getters.
+- **Arv vs. komposition**: Använd arv för "är en"-relationer, komposition för "har en"-relationer. Välj det enklaste som löser problemet.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Arv och polymorfism kan vara svåra att greppa i början. Här är några sätt att använda AI för att fördjupa din förståelse.
+
+**Visualisera arvskedjor:**
+
+> *"Jag har klasserna Fordon, Bil och Elbil som ärver från varandra. Visa steg för steg vad som händer när jag skapar en ny Elbil – vilka konstruktorer körs och i vilken ordning?"*
+
+**Förstå överskuggning:**
+
+> *"Ge mig ett enkelt exempel i JavaScript där en subklass överskuggar en metod, och visa vad som skrivs ut. Förklara varför det blir just det resultatet."*
+
+**Utforska designval:**
+
+> *"Jag bygger ett system med olika typer av meddelanden: textmeddelande, bildmeddelande och röstmeddelande. Bör jag använda arv eller komposition? Vilka är för- och nackdelarna med varje ansats?"*
+
+**Felsöka `super`:**
+
+> *"Min subklass kastar felet 'Must call super constructor before accessing this'. Vad betyder det och hur löser jag det?"*
+
+Att ställa "varför"-frågor – *varför arv här?*, *varför inte?* – är ofta mer lärorikt än att fråga om syntaxen.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Spåra arv
+
+Gå igenom följande kod för hand, utan att köra den. Vad skrivs ut?
+
+```javascript
+class A {
+    constructor(x) {
+        this.x = x;
+    }
+
+    visa() {
+        console.log(`A: ${this.x}`);
+    }
+}
+
+class B extends A {
+    constructor(x, y) {
+        super(x);
+        this.y = y;
+    }
+
+    visa() {
+        super.visa();
+        console.log(`B: ${this.y}`);
+    }
+}
+
+class C extends B {
+    visa() {
+        console.log(`C: ${this.x + this.y}`);
+    }
+}
+
+const b = new B(3, 7);
+const c = new C(10, 5);
+
+b.visa();
+c.visa();
+
+console.log(b instanceof A);
+console.log(c instanceof B);
+console.log(b instanceof C);
+```
+
+Förklara resultatet steg för steg.
+:::
+
+::: {.callout-note}
+## Övning – Fordonshierarki
+
+Skapa en basklass `Fordon` med egenskaperna `märke` och `årsmodell`, samt en metod `info()` som returnerar en sträng i formatet `"Volvo (2023)"`.
+
+Skapa sedan:
+
+- En subklass `Bil` som lägger till `antalDörrar` och överskuggar `info()` till att inkludera det: `"Volvo (2023), 4 dörrar"`.
+- En subklass `Motorcykel` som lägger till `typ` (t.ex. "sport" eller "touring") och överskuggar `info()` på motsvarande sätt.
+
+Skapa en blandad array med bilar och motorcyklar. Iterera över den och skriv ut `info()` för varje fordon.
+:::
+
+::: {.callout-note}
+## Övning – Konto med specialisering
+
+Utgå från en basklass `Konto` med:
+
+- Ett privat saldo (startar på 0).
+- Metoder `insättning(belopp)` och `uttag(belopp)`.
+- `uttag` ska neka uttag som överstiger saldot och returnera `false`.
+- En getter `saldo`.
+
+Skapa sedan:
+
+- En subklass `Sparkonto` som lägger till en `ränta` (i procent). Lägg till en metod `beräknaRänta()` som returnerar räntan på aktuellt saldo (utan att förändra saldot).
+- En subklass `Kreditkonto` som har en `kreditgräns`. Överskugga `uttag` så att man kan ta ut mer än saldot, men inte mer än saldot plus kreditgränsen.
+
+Testa genom att göra insättningar och uttag på alla tre kontotyper. Kontrollera att kreditkontot tillåter negativt saldo (ner till kreditgränsen) och att vanligt konto inte gör det.
+:::
+
+::: {.callout-note}
+## Övning – Mediabibliotek
+
+Designa ett mediabibliotek med en basklass `Media` och subklasserna `Bok`, `Film` och `Podcast`.
+
+`Media` ska ha:
+
+- Egenskaper: `titel` och `år`.
+- En metod `sammanfattning()` som returnerar en beskrivande sträng.
+
+Varje subklass lägger till egna egenskaper:
+
+- `Bok`: `författare` och `antalSidor`.
+- `Film`: `regissör` och `längd` (i minuter).
+- `Podcast`: `värd` och `antalAvsnitt`.
+
+Överskugga `sammanfattning()` i varje subklass så att den inkluderar den typspecifika informationen.
+
+Skapa en klass `Bibliotek` som:
+
+- Har en privat lista med media.
+- Har en metod `läggTill(media)`.
+- Har en metod `sökTitel(sökord)` som returnerar alla medier vars titel innehåller sökordet (använd `includes` på strängen).
+- Har en metod `filtreraTyp(klass)` som returnerar alla medier av en viss typ (använd `instanceof`).
+- Har en metod `listaAllt()` som skriver ut `sammanfattning()` för varje media.
+
+Fyll biblioteket med minst sex objekt (blandade typer), testa sökning och filtrering.
+:::
+
+::: {.callout-note}
+## Övning – Refaktorera med arv
+
+Studera följande två klasser:
+
+```javascript
+class Hund {
+    constructor(namn, ras) {
+        this.namn = namn;
+        this.ras = ras;
+        this.energi = 100;
+    }
+
+    äta(mängd) {
+        this.energi += mängd;
+        if (this.energi > 100) this.energi = 100;
+    }
+
+    sova() {
+        this.energi += 20;
+        if (this.energi > 100) this.energi = 100;
+    }
+
+    ljud() {
+        this.energi -= 5;
+        return `${this.namn} skäller: Voff!`;
+    }
+
+    info() {
+        return `${this.namn} (${this.ras}), energi: ${this.energi}`;
+    }
+}
+
+class Katt {
+    constructor(namn, ras) {
+        this.namn = namn;
+        this.ras = ras;
+        this.energi = 100;
+    }
+
+    äta(mängd) {
+        this.energi += mängd;
+        if (this.energi > 100) this.energi = 100;
+    }
+
+    sova() {
+        this.energi += 20;
+        if (this.energi > 100) this.energi = 100;
+    }
+
+    ljud() {
+        this.energi -= 3;
+        return `${this.namn} jamar: Mjau!`;
+    }
+
+    info() {
+        return `${this.namn} (${this.ras}), energi: ${this.energi}`;
+    }
+}
+```
+
+Det finns uppenbar duplicering. Refaktorera koden:
+
+1. Skapa en basklass `Husdjur` som innehåller det gemensamma.
+2. Låt `Hund` och `Katt` ärva från `Husdjur` och bara definiera det som skiljer sig.
+3. Se till att beteendet efter refaktoreringen är identiskt – metoderna ska ge samma resultat som innan.
+:::

@@ -14,6 +14,8 @@ book:
     - kap05-villkor.qmd
     - kap06-loopar.qmd
     - kap07-funktioner.qmd
+    - kap-oop.qmd
+    - kap-arv.qmd
     - summary.qmd
     - references.qmd
 
