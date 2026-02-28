@@ -13,6 +13,7 @@ book:
     - kap04-funktioner.qmd
     - kap05-loopar.qmd
     - kap-oop.qmd
+    - kap-arv.qmd
     - summary.qmd
     - references.qmd
 
