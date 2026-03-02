@@ -18,6 +18,11 @@ Eller tänk på loopkapitlet, där vi hade en lista med poäng: `[82, 91, 73, 44
 
 Det vi behöver är ett sätt att samla flera värden under ett gemensamt namn – en **lista** som man kan gå igenom element för element, söka i och ändra. I JavaScript heter den strukturen **array**.
 
+::: {.callout-note}
+## Arrayer är objekt
+Tekniskt sett är en array en speciell typ av **objekt** – den datastruktur som JavaScript använder för att samla data och funktionalitet under ett gemensamt namn. Det är därför arrayer kan ha egenskaper och inbyggda metoder, precis som andra objekt. Men eftersom ordnade listor är en så vanlig datastruktur i programmering har arrayer fått en egen syntax med hakparenteser `[]` och ett antal specialanpassade metoder som gör dem smidiga att arbeta med. Vi kommer att titta närmare på vanliga objekt i ett senare kapitel – just nu räcker det att veta att arrayer är en praktisk specialvariant av dem.
+:::
+
 ---
 
 ## Skapa en array
