@@ -1,0 +1,290 @@
+# Din kod möter webbsidan
+
+## Från konsolen till sidan
+
+Hittills har allt vi gjort synts i webbläsarens konsol — ett verktyg som bara programmeraren ser. Användaren av webbsidan ser ingenting av det. Men i kapitel 1 började vi med att beskriva vad JavaScript kan: sökförslag som dyker upp, bilder som laddas, spel som reagerar. Allt det *syns* på webbsidan, inte i konsolen.
+
+Nu har vi verktygen att ta det steget. Du vet vad värden, variabler, objekt och funktionsanrop är. Det som återstår är att lära dig *vilken* funktion du anropar för att nå webbsidans element — och det är enklare än du kanske tror.
+
+---
+
+## Webbsidan som en modell
+
+När webbläsaren laddar en HTML-sida händer mer än att den ritar upp text och bilder. Webbläsaren bygger en intern modell av sidan — en strukturerad representation av alla element, deras egenskaper och deras relationer. Den modellen kallas **DOM** (*Document Object Model*).
+
+Tänk på det så här: HTML-koden är ritningen, och DOM:en är det färdiga huset. Ritningen är statisk text i en fil; huset är en levande struktur som kan förändras. JavaScript arbetar med huset, inte med ritningen.
+
+Betrakta följande HTML:
+
+```html
+<body>
+    <h1>Quizkväll</h1>
+    <p>Poäng: 0</p>
+</body>
+```
+
+Webbläsaren bygger en trädstruktur av detta: `body` är roten, och inuti den finns `h1` och `p` som grenar. Varje gren är ett **element** med egenskaper — text, CSS-stilar, attribut — som JavaScript kan läsa och ändra.
+
+Vi behöver inte förstå hela trädstrukturen i detalj ännu. Det viktiga just nu är att varje HTML-element på sidan finns som ett **objekt** i DOM:en, och att JavaScript kan hämta det objektet och förändra det.
+
+---
+
+## Hämta ett element med `querySelector`
+
+Funktionen `document.querySelector()` söker igenom sidan och returnerar det första HTML-element som matchar en **CSS-selektor**:
+
+```javascript
+const rubrik = document.querySelector("h1");
+```
+
+`document` är ett inbyggt objekt i webbläsaren som representerar det aktuella html-dokumentet. `querySelector` är en metod på `document` — ett funktionsanrop, precis som de vi lärde oss i förra kapitlet. Argumentet `"h1"` är en CSS-selektor som säger "hitta det första `<h1>`-elementet".
+
+Resultatet — det som returneras — är ett objekt som *representerar* elementet på sidan. Vi sparar den i variabeln `rubrik`. Nu kan vi använda den variabeln för att läsa och ändra elementet.
+
+### CSS-selektorer som du redan kan
+
+`querySelector` tar samma selektorer som du redan använder i CSS:
+
+```javascript
+document.querySelector("h1")           // första <h1>-elementet
+document.querySelector("p")            // första <p>-elementet
+document.querySelector(".resultat")    // första elementet med class="resultat"
+document.querySelector("#poäng")       // elementet med id="poäng"
+```
+
+Selektorn `.resultat` matchar klasser, och `#poäng` matchar id:n — precis som i CSS. Om ingen matchning hittas returnerar `querySelector` värdet `null`.
+
+::: {.callout-important}
+## Vad händer om elementet inte finns?
+
+Om `querySelector` inte hittar något element returneras `null`. Försöker du sedan använda resultatet — till exempel läsa `.textContent` — får du ett felmeddelande:
+
+```javascript
+const element = document.querySelector(".finns-inte");
+console.log(element);            // null
+element.textContent = "Hej!";   // TypeError: Cannot set properties of null
+```
+
+Det är ett av de vanligaste felen i webbutveckling. Om du ser *"Cannot read properties of null"* i konsolen, kontrollera att selektorn stämmer och att elementet verkligen finns i HTML:en.
+:::
+
+---
+
+## Ändra text med `textContent`
+
+Varje element i DOM:en har egenskapen `textContent` — den text som elementet innehåller. Du kan både *läsa* och *skriva* den:
+
+```javascript
+const rubrik = document.querySelector("h1");
+
+// Läsa
+console.log(rubrik.textContent);   // "Quizkväll"
+
+// Skriva
+rubrik.textContent = "Quizkväll 2025";
+```
+
+Den sista raden ändrar texten *direkt på sidan* — ingen omladdning behövs. Det är det här som gör JavaScript kraftfullt: du kan förändra vad användaren ser, i realtid, som svar på data och beräkningar i din kod.
+
+Låt oss bygga vidare på quizkväll-exemplet. Anta att vi har denna HTML:
+
+```html
+<h1>Quizkväll</h1>
+<p id="lagnamn">Lag: —</p>
+<p id="poäng">Poäng: 0</p>
+```
+
+Nu kan vi uppdatera sidan med JavaScript:
+
+```javascript
+const lagnamn = "Röda stjärnor";
+const poäng = 15;
+
+document.querySelector("#lagnamn").textContent = `Lag: ${lagnamn}`;
+document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
+```
+
+Två rader kod — och sidan visar lagets namn och poäng. Ingen konsol behövs; användaren ser resultatet direkt.
+
+---
+
+## Ändra utseende med `.style`
+
+Förutom text kan du ändra ett elements CSS-egenskaper via `.style`:
+
+```javascript
+const rubrik = document.querySelector("h1");
+rubrik.style.color = "darkblue";
+rubrik.style.fontSize = "2.5rem";
+rubrik.style.textAlign = "center";
+```
+
+Varje CSS-egenskap finns som en egenskap på `.style`-objektet, men med **camelCase** istället för bindestreck: `font-size` i CSS blir `fontSize` i JavaScript, `background-color` blir `backgroundColor`, och så vidare.
+
+```javascript
+const poängElement = document.querySelector("#poäng");
+poängElement.style.backgroundColor = "lightyellow";
+poängElement.style.padding = "1rem";
+poängElement.style.borderRadius = "8px";
+```
+
+::: {.callout-note}
+## CSS-klasser vs `.style`
+
+Att ändra stilar direkt med `.style` fungerar bra för enstaka ändringar. Men om du vill ändra *många* egenskaper på en gång, eller växla mellan fördefinierade stilar, är det bättre att använda CSS-klasser. Det återkommer vi till när vi fördjupar oss i DOM-manipulation.
+:::
+
+---
+
+## En mall att utgå från
+
+Från och med nu kan du använda följande HTML-mall som grund för övningar som visar resultat på sidan. Spara den som `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Övning</title>
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+    <h1>Rubrik</h1>
+    <p id="resultat">Resultat visas här.</p>
+</body>
+</html>
+```
+
+I `script.js` kan du sedan skriva:
+
+```javascript
+document.querySelector("h1").textContent = "Min övning";
+document.querySelector("#resultat").textContent = "Det fungerar!";
+```
+
+Öppna sidan med Live Server, och du ser texten ändras direkt. Från och med nu har du *två* sätt att visa resultat: konsolen (för felsökning och inspektion) och sidan (för användaren).
+
+---
+
+## `console.log()` lever kvar
+
+Att vi nu kan visa resultat på webbsidan betyder inte att `console.log()` blir överflödigt. Tvärtom — de två verktygen har olika roller:
+
+- **`console.log()`** är för *dig som programmerare*. Använd det för att inspektera värden, felsöka och förstå vad koden gör under körning. Användaren ser det inte.
+- **DOM-manipulation** är för *användaren*. Använd det för att visa resultat, uppdatera gränssnitt och ge visuell respons.
+
+I praktiken använder du ofta båda i samma program: `console.log()` för att kontrollera att beräkningen stämmer, och DOM-manipulation för att visa resultatet för användaren.
+
+```javascript
+const poäng = 42;
+const maxPoäng = 50;
+const procent = Math.round((poäng / maxPoäng) * 100);
+
+console.log("Beräknad procent:", procent);   // för dig — felsökning
+document.querySelector("#resultat").textContent = `Du fick ${procent}% rätt!`;   // för användaren
+```
+
+---
+
+## Sammanfattning
+
+- Webbläsaren bygger en **DOM** (*Document Object Model*) — en levande modell av HTML-sidan som JavaScript kan läsa och ändra.
+- **`document.querySelector(selektor)`** hämtar det första elementet som matchar en CSS-selektor. Returnerar `null` om inget hittas.
+- **`.textContent`** läser eller skriver ett elements textinnehåll.
+- **`.style`** ger åtkomst till ett elements CSS-egenskaper. Egenskapsnamn skrivs i camelCase.
+- **`console.log()`** är för programmeraren; **DOM-manipulation** är för användaren.
+- Använd en standard-HTML-mall med `<script type="module">` som grund för övningar.
+
+Nu kan vi visa resultat på webbsidan — inte bara i konsolen. I nästa kapitel lär vi oss att fatta beslut: att *villkora* vad som visas baserat på data. Kombinationen av villkorssatser och DOM-manipulation gör att programmet kan reagera på olika sätt beroende på situationen.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+DOM-manipulation innebär att du nu arbetar med *två* saker samtidigt: JavaScript-koden och HTML-strukturen. Om något inte fungerar som förväntat kan felet finnas i antingen koden eller HTML:en. AI-verktyg är bra för att felsöka den typen av problem.
+
+**Felsök med AI:**
+
+> *"Jag får felmeddelandet 'Cannot set properties of null' när jag kör `document.querySelector('#pong').textContent = '10'`. Vad kan vara fel?"*
+
+Det här är ett mycket specifikt och vanligt fel. AI:n kan hjälpa dig lista ut att selektorn inte matchar — kanske är id:t felstavat.
+
+**Fråga om selektorer:**
+
+> *"Hur skriver jag en CSS-selektor som väljer det tredje `<li>`-elementet i en lista? Kan jag använda den i `querySelector`?"*
+
+CSS-selektorer kan bli komplexa. Det är helt legitimt att fråga om hjälp med syntaxen.
+
+**Utforska vad som finns:**
+
+> *"Vilka egenskaper förutom `textContent` och `style` kan jag ändra på ett HTML-element med JavaScript?"*
+
+Det finns många — `innerHTML`, `classList`, `dataset`, `hidden` — och vi återkommer till flera av dem. Men det skadar aldrig att utforska i förväg.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning 4.1 – Ändra sidan
+
+Utgå från HTML-mallen ovan (med `<h1>` och `<p id="resultat">`). Skriv JavaScript som:
+
+1. Ändrar rubrikens text till ditt eget namn.
+2. Ändrar texten i `<p>`-elementet till "Välkommen till min sida!".
+3. Ändrar rubrikens färg till valfri färg med `.style.color`.
+
+Öppna sidan med Live Server och kontrollera att ändringarna syns.
+:::
+
+::: {.callout-note}
+## Övning 4.2 – Quizpoäng på sidan
+
+Skapa en HTML-sida med följande struktur:
+
+```html
+<h1>Quizkväll</h1>
+<p id="lag">Lag: —</p>
+<p id="poäng">Poäng: —</p>
+<p id="runda">Runda: —</p>
+```
+
+Skriv JavaScript som deklarerar tre variabler (`lagnamn`, `poäng` och `runda`) och uppdaterar alla tre `<p>`-element med variablernas värden. Använd templatesträngar.
+:::
+
+::: {.callout-note}
+## Övning 4.3 – Från konsol till sida
+
+I kapitel 2, övning 2.5, skapade du templatesträngar för quizprogrammet. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska resultaten visas i tre separata `<p>`-element på sidan. Du behöver uppdatera HTML-filen med tre element med unika id:n.
+:::
+
+::: {.callout-note}
+## Övning 4.4 – Stiländringar
+
+Utgå från quizpoäng-sidan i övning 4.2. Lägg till JavaScript som:
+
+1. Gör rubrikens bakgrundsfärg mörkblå och textfärgen vit.
+2. Ger `<p>`-elementet med id `poäng` en gul bakgrundsfärg och 1rem padding.
+3. Centrerar all text på sidan genom att ändra `body`-elementets `textAlign`.
+
+Tips: `document.querySelector("body")` hämtar `<body>`-elementet.
+:::
+
+::: {.callout-note}
+## Övning 4.5 – Felsök selektorn
+
+Följande HTML och JavaScript fungerar inte — inget händer på sidan. Undersök koden och hitta felet. (Kör inte koden direkt — resonera först.)
+
+```html
+<p id="meddelande">Originaltext</p>
+```
+
+```javascript
+const element = document.querySelector(".meddelande");
+element.textContent = "Ny text!";
+```
+
+1. Vad är felet?
+2. Vad händer om du kör koden som den är? Vilket felmeddelande får du?
+3. Rätta felet.
+:::

@@ -3,13 +3,13 @@
 
 Kap. 1 – JavaScript och webbläsaren
 Kap. 2 – Värden, variabler och datatyper
-Kap. 3 – Villkorssatser och logik
-Kap. 4 – Funktioner
-Kap. 5 – Loopar
-Kap. 6 – Listor och arrayer
-Kap. 7 – Text och strängar
-Kap. 8 – Objekt
-Kap. 9 – Document Object Model
+Kap. 3 – Att använda funktioner *(funktionsanrop, argument, returvärden, inbyggda funktioner, metoder)*
+Kap. 4 – Din kod möter webbsidan *(grundläggande DOM: querySelector, textContent, style)*
+Kap. 5 – Villkorssatser och logik
+Kap. 6 – Loopar
+Kap. 7 – Att skriva egna funktioner *(funktionsdeklarationer, parametrar, scope, pilfunktioner)*
+Kap. 8 – Listor och arrayer
+Kap. 9 – Objekt
 Kap. 10 – Händelser och interaktivitet
 
 **Del II – Fördjupning: webben som plattform**

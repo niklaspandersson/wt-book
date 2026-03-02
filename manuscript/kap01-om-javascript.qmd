@@ -61,7 +61,7 @@ console.log("Hej, världen!");
 
 Den raden instruerar webbläsaren att skriva ut texten `Hej, världen!` i konsolen. Det är ett komplett program – litet, men komplett. Det tar ingen indata, fattar inga beslut och hanterar inga händelser. Men det är en giltig instruktion som datorn kan följa.
 
-Verkliga program är längre och mer komplexa – de tar emot indata, fattar beslut baserade på data (som vi ska se i kapitel 3), upprepar instruktioner (kapitel 4), och är organiserade i återanvändbara delar (kapitel 5). Men principen är densamma: en sekvens av precisa instruktioner.
+Verkliga program är längre och mer komplexa – de tar emot indata, fattar beslut baserade på data (som vi ska se i kapitel 5), upprepar instruktioner (kapitel 6), och är organiserade i återanvändbara delar (kapitel 3). Men principen är densamma: en sekvens av precisa instruktioner.
 
 ---
 
@@ -92,7 +92,7 @@ Det JavaScript *kan* göra är att manipulera webbsidans innehåll, kommunicera 
 ::: {.callout-note}
 ## En förhandsvarning om okänd syntax
 
-Exemplen i de första kapitlen kommer innehålla kod som bygger på koncept som ännu inte introducerats – rader som manipulerar HTML-element, reagerar på klick, eller loopar igenom listor. Det är helt naturligt och nödvändigt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Det är inte meningen att du ska förstå varje rad i detalj direkt; fokus ska ligga på det koncept som just introduceras. Allt annat förklaras när vi kommer dit.
+Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras — allt annat förklaras när vi kommer dit. Redan i kapitel 3 formaliserar vi vad funktionsanrop som `console.log()` egentligen är, och i kapitel 4 lär vi oss att förändra webbsidan direkt.
 :::
 
 Det enklaste sättet att köra JavaScript är via webbläsarens inbyggda **konsol**. Öppna den med `F12` (eller `Cmd+Option+J` på Mac), välj fliken *Console*, och du har ett interaktivt JavaScript-skal framför dig.

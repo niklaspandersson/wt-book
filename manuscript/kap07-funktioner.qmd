@@ -1,6 +1,8 @@
-# Funktioner
+# Att skriva egna funktioner
 
 ## Att sätta namn på en beräkning
+
+I kapitel 3 lärde du dig att *använda* funktioner — anropa `Number()`, `Math.round()`, `"hej".toUpperCase()` och `document.querySelector()`. Alla dessa är funktioner som någon annan redan skrivit åt dig. Nu är det dags att lära dig *skriva egna*.
 
 Föreställ dig att du ska sätta upp en enkel prislista på webben. Du har ett antal produkter med priser exklusive moms och behöver räkna ut vad de kostar inklusive moms – 25 procent för de flesta varor.
 
@@ -26,11 +28,11 @@ Det finns ett bättre sätt: **funktioner**.
 
 ---
 
-## Vad är en funktion?
+## Från att använda till att skapa
 
-En funktion är ett **namngett kodblock** – en samling instruktioner som man kan anropa när som helst, hur många gånger som helst, utan att skriva om koden.
+Du vet redan vad ett funktionsanrop gör: du skriver ett namn, skickar in argument inom parenteser, och får tillbaka ett resultat. Nu ska vi se hur man *definierar* en egen funktion — ett namngivet kodblock som man kan anropa när som helst, hur många gånger som helst, utan att skriva om koden.
 
-Funktioner löser tre problem på en gång:
+Egna funktioner löser tre problem på en gång:
 
 1. **Undviker upprepning** – skriv logiken en gång, använd den överallt.
 2. **Ger namn åt beräkningar** – `prisMedMoms(320)` är tydligare än `320 * 1.25`.
@@ -66,25 +68,11 @@ function prisMedMoms(pris) {
 
 Funktionen tar ett argument (`pris`), beräknar priset inklusive moms, och *returnerar* det med `return`. Notera att vi gett funktionen ett substantiv som namn – `prisMedMoms` beskriver vad den returnerar.
 
----
-
-## Att anropa en funktion
-
-Att *definiera* en funktion gör ingenting i sig – koden i kroppen körs inte förrän funktionen *anropas*. Ett **funktionsanrop** skrivs som funktionens namn följt av parenteser med eventuella argument:
+Men att *definiera* en funktion gör ingenting i sig – koden i kroppen körs inte förrän funktionen *anropas*. Ett **funktionsanrop** skrivs, som vi såg i kapitel 3, som funktionens namn följt av parenteser med eventuella argument:
 
 ```javascript
-prisMedMoms(320)     // anropar funktionen med 320 som argument
-```
-
-Det värde som funktionen returnerar kan användas direkt:
-
-```javascript
-console.log(prisMedMoms(320));    // 400
-console.log(prisMedMoms(195));    // 243.75
-console.log(prisMedMoms(450));    // 562.5
-
-const totalpris = prisMedMoms(320);
-console.log(`320 kr exkl. moms → ${totalpris} kr inkl. moms`);
+let medMoms1 = prisMedMoms(320)  // anropar funktionen med 320 som argument
+console.log(prisMedMoms(25))     // anropar funktionen med 25 som argument
 ```
 
 Nu finns faktorn på exakt ett ställe. Ändras momssatsen – ändras den en gång, och alla anrop till `prisMedMoms` ger automatiskt rätt svar.
@@ -200,13 +188,13 @@ console.log(betyg(73));   // C
 console.log(betyg(41));   // F
 ```
 
-Det betygsprogram vi byggde i kapitel 3 är nu inkapslat i en funktion. Skillnaden: nu kan du använda `betyg(poäng)` i resten av programmet utan att upprepa logiken.
+Det betygsprogram vi byggde i kapitel 5 är nu inkapslat i en funktion. Skillnaden: nu kan du använda `betyg(poäng)` i resten av programmet utan att upprepa logiken.
 
 ---
 
 ## Early return – tidig avslutning
 
-I kapitel 3 nämnde vi tekniken *early return* som ett sätt att minska djupt nästlade villkorssatser. Nu när vi har funktioner kan vi se hur den fungerar i praktiken.
+I kapitel 5 tog vi upp problemet med djupt nästlade villkorssatser. Nu när vi kan skapa funktioner har vi verktyg för att undvika det. En teknik är **early return** – att kontrollera felvillkor tidigt och avsluta, så att resten av koden inte behöver nästlas.
 
 Istället för djup nästling:
 
@@ -297,7 +285,7 @@ Scope är ett ämne som vi återkommer till på djupet i Del III, när vi behand
 
 Hittills har vi definierat funktioner med en *funktionsdeklaration*. Det finns andra former som du kommer att stöta på — och de avslöjar något viktigt om JavaScript.
 
-I JavaScript är funktioner **värden**, precis som tal och strängar. De kan lagras i variabler, skickas som argument till andra funktioner och returneras från funktioner. Det kallas *förstklassiga funktioner* (*first-class functions*) och är ett drag som är centralt för hur modern JavaScript skrivs. Vi återkommer till det på djupet i Del III — för stunden räcker det att notera att en funktion kan stå var som helst ett värde kan stå.
+I JavaScript är funktioner **värden**, precis som tal och strängar. De kan lagras i variabler, skickas som argument till andra funktioner och returneras från funktioner. Det kallas *förstklassiga funktioner* (*first-class functions*) och är ett drag som är centralt för hur modern JavaScript skrivs. Vi återkommer till det på djupet i Del III — för stunden räcker det att notera att en funktion kan stå var som helst där ett värde kan stå.
 
 ### Funktionsuttryck
 
@@ -308,10 +296,10 @@ const prisMedMoms = function(pris) {
     return pris * 1.25;
 };
 
-console.log(prisMedMoms(320));   // 400
+console.log(prisMedMoms(100));   // 125
 ```
 
-Resultatet är detsamma: `prisMedMoms` är ett namn man kan anropa med parenteser. Men det finns en skillnad: en funktionsdeklaration är *hoistable* (ungefär: "lyftbara") – JavaScript hittar och läser funktionen innan koden körs, vilket innebär att man kan anropa funktionen *innan* den definierats i filen. Funktionsuttryck är inte hoistable – variabeln existerar inte förrän raden körs.
+Resultatet är detsamma: `prisMedMoms` är ett namn man kan anropa med parenteser. Men det finns en skillnad: en funktionsdeklaration är *hoistable* (ungefär: "lyftbara") – JavaScript hittar och läser funktionen *innan* koden körs, vilket innebär att man kan anropa funktionen innan den definierats i filen. Funktionsuttryck är inte hoistable – variabeln existerar inte förrän raden körs.
 
 I praktiken är det enklast att alltid definiera funktioner innan de används, oavsett form.
 
@@ -392,7 +380,7 @@ Funktioner är ett av de viktigaste verktygen i en programmerares verktygslåda.
 - Variabler inuti en funktion har **lokalt scope** och existerar bara där.
 - **Funktionsuttryck** och **pilfunktioner** är alternativa syntaxer för att definiera funktioner.
 
-I nästa kapitel introduceras **loopar** – ett sätt att upprepa instruktioner ett godtyckligt antal gånger. Kombinationen av loopar och funktioner är grunden för nästan all praktisk programmering.
+I nästa kapitel introduceras **listor och arrayer** — datastrukturer för att samla flera värden. Loopar och funktioner kombinerat med arrayer är grunden för nästan all praktisk programmering.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -425,7 +413,7 @@ En konkret och begränsad fråga ger ett mer användbart svar. Att klistra in fa
 ## Övningar
 
 ::: {.callout-note}
-## Övning 4.1 – Spåra exekveringen
+## Övning 7.1 – Spåra exekveringen
 
 Gå igenom följande kod för hand, rad för rad. Vad skrivs ut, och i vilken ordning?
 
@@ -450,7 +438,7 @@ Förklara steg för steg: i vilken ordning anropas funktionerna? Vilket värde r
 :::
 
 ::: {.callout-note}
-## Övning 4.2 – Skriv en funktion
+## Övning 7.2 – Skriv en funktion
 
 Skriv en funktion `cirkelArea(radie)` som tar radien som parameter och returnerar cirkelns area. Formeln är $A = \pi r^2$. I JavaScript kan du använda `Math.PI` för $\pi$ och `r * r` för kvadrering.
 
@@ -458,7 +446,7 @@ Testa funktionen med radier 1, 5 och 10 och kontrollera att resultaten verkar ri
 :::
 
 ::: {.callout-note}
-## Övning 4.3 – Funktioner med villkorssatser
+## Övning 7.3 – Funktioner med villkorssatser
 
 Skriv en funktion `klassificera(temperatur)` som tar en temperatur i Celsius och returnerar en sträng:
 
@@ -470,7 +458,7 @@ Skriv sedan kod som anropar funktionen med temperaturerna −10, 5, 15, 20 och 3
 :::
 
 ::: {.callout-note}
-## Övning 4.4 – Hitta scope-felet
+## Övning 7.4 – Hitta scope-felet
 
 Följande kod ger ett fel. Vad är felet, och varför uppstår det? Förklara med egna ord vad som händer, och skriv sedan en korrekt version som fungerar.
 
@@ -486,7 +474,7 @@ console.log(dubbelt + tredubbelt);
 :::
 
 ::: {.callout-note}
-## Övning 4.5 – Refaktorera med funktioner
+## Övning 7.5 – Refaktorera med funktioner
 
 Följande kod fungerar men innehåller upprepning:
 
@@ -523,4 +511,22 @@ console.log(`${namn3}: ${status3}`);
 ```
 
 Refaktorera koden: skriv en funktion `bedöm(namn, poäng)` som innehåller logiken och skriver ut resultatet. Ersätt sedan de tre upprepade blocken med tre anrop till funktionen. Hur mycket kortare och tydligare blir koden?
+:::
+
+::: {.callout-note}
+## Övning 7.6 – Funktioner som uppdaterar sidan
+
+Skapa en HTML-sida med följande struktur:
+
+```html
+<h2 id="namn">—</h2>
+<p id="betyg">—</p>
+```
+
+Skriv två funktioner:
+
+1. `beräknaBetyg(poäng)` — tar poäng (0–100) och returnerar betyget som en sträng ("A"–"F") enligt betygsskalan från kapitlet.
+2. `visaResultat(namn, poäng)` — tar ett namn och poäng, anropar `beräknaBetyg`, och uppdaterar sidan: `<h2>` ska visa namnet, `<p>` ska visa betyget, och `<p>`-elementets färg ska vara grön för A–C, orange för D–E och röd för F.
+
+Testa med tre olika anrop: `visaResultat("Karin", 78)`, `visaResultat("Erik", 43)`, `visaResultat("Lena", 91)`. (Notera att bara det sista anropet syns på sidan — varför?)
 :::

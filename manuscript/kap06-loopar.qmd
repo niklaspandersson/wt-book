@@ -279,7 +279,7 @@ Loopar ger programmet förmågan att upprepa instruktioner – det som gör det 
 
 Loopar kan göra ofantligt mycket på kort tid – och de kan göra det med fel på ofantligt effektivt sätt. En oändlig loop hänger webbläsaren; en räknare som startar på fel värde ger systematiskt fel resultat. Träna på att spåra loopars exekvering manuellt, rad för rad, tills du kan förutsäga resultatet utan att köra koden.
 
-I nästa kapitel introduceras **listor och arrayer** – datastrukturer för att samla flera värden i en och samma variabel. Loopar och listor hänger tätt ihop: en loop är ofta det naturliga sättet att gå igenom alla värden i en lista ett i taget.
+I nästa kapitel tar vi steget till att *skriva egna funktioner* — namngivna, återanvändbara kodblock. I kombination med loopar och villkorssatser ger det oss verktygen att strukturera riktiga program.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -308,7 +308,7 @@ AI:n är bra på att förklara varför något *inte* fungerar – om du skriver 
 ## Övningar
 
 ::: {.callout-note}
-## Övning 5.1 – Spåra loopen för hand
+## Övning 6.1 – Spåra loopen för hand
 
 Gå igenom följande kod rad för rad utan att köra den. Ange exakt vad som skrivs ut.
 
@@ -325,7 +325,7 @@ Vad är slutsumman? Varför? Kan du förklara mönstret utan att referera till k
 :::
 
 ::: {.callout-note}
-## Övning 5.2 – Hitta felet
+## Övning 6.2 – Hitta felet
 
 Följande kod ska skriva ut alla udda tal mellan 1 och 9, men den gör inte det. Hitta felet och förklara varför det uppstår.
 
@@ -339,7 +339,7 @@ Skriv sedan en korrekt version.
 :::
 
 ::: {.callout-note}
-## Övning 5.3 – FizzBuzz
+## Övning 6.3 – FizzBuzz
 
 Skriv ett program som skriver ut talen 1 till 30 med följande regler:
 
@@ -352,13 +352,13 @@ Skriv ett program som skriver ut talen 1 till 30 med följande regler:
 :::
 
 ::: {.callout-note}
-## Övning 5.4 – Summera en sekvens
+## Övning 6.4 – Summera en sekvens
 
 Skriv kod som beräknar och skriver ut summan av alla heltal från 1 till ett godtyckligt tal `n`. Testa med `n = 100`. Vad bör summan vara? (Summan av de första *n* heltalen är en *aritmetisk summa* och kan beräknas med formeln $\frac{n(n+1)}{2}$ [@wiki-aritmetisk-summa] – stämmer ditt programs svar med formeln?)
 :::
 
 ::: {.callout-note}
-## Övning 5.5 – Mönster med nästlade loopar
+## Övning 6.5 – Mönster med nästlade loopar
 
 Skriv ett program som skriver ut följande mönster i konsolen (med `console.log`):
 
@@ -373,4 +373,22 @@ Skriv ett program som skriver ut följande mönster i konsolen (med `console.log
 Varje rad består av ett antal asterisker lika med radnumret. Använd nästlade loopar: en yttre loop för raderna och en inre loop för att bygga upp varje rads sträng.
 
 **Bonusutmaning:** Skriv ut mönstret omvänt (fem asterisker överst, en nederst).
+:::
+
+::: {.callout-note}
+## Övning 6.6 – Nedräkning på sidan
+
+Skapa en HTML-sida med ett `<p>`-element med id `"nedräkning"`. Skriv en loop som bygger upp en sträng med talen 10 ner till 1, separerade med mellanslag, och visa den i elementet med `textContent`.
+
+Förväntat resultat på sidan: `10 9 8 7 6 5 4 3 2 1`
+
+Tips: Skapa en tom sträng före loopen och bygg på den i varje iteration. Tilldela den sedan till elementets `textContent` *efter* att loopen är klar.
+:::
+
+::: {.callout-note}
+## Övning 6.7 – FizzBuzz på sidan
+
+Gå tillbaka till FizzBuzz-övningen (6.3) och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan.
+
+Tips: `<pre>`-elementet bevarar radbrytningar, vilket gör att `\n` syns som faktiska radbrytningar på sidan.
 :::

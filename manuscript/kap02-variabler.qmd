@@ -28,7 +28,7 @@ Först behöver vi dock förstå vilka *sorters* värden som finns.
 
 ---
 
-## Datatyper
+## Primitiva datatyper
 
 JavaScript är ett **dynamiskt typat** språk, vilket innebär att varje värde har en typ, men du behöver inte deklarera typen explicit – JavaScript räknar ut det själv. Det finns sju primitiva datatyper i JavaScript, men tre av dem är de absolut viktigaste att känna till från start: `number`, `string`, `boolean`, samt de tomma typerna `null` och `undefined`.
 
@@ -94,6 +94,40 @@ Mozilla Developer Network (MDN) är den auktoritativa referensen för webbstanda
 
 ---
 
+### Sanningsvärden – `boolean`
+
+**Booleska värden** (*boolean values*) kan bara vara ett av två: `true` eller `false`. Typen är uppkallad efter logikern George Boole, som på 1800-talet formaliserade algebran med sanning och lögn som enda värden.
+
+I quizkväll-programmet är frågan "var svaret rätt?" ett klassiskt booleskt värde: antingen ja (`true`) eller nej (`false`). Detsamma gäller "är spelet slut?", "är spelaren inloggad?" och mängder av andra ja/nej-frågor som uppstår i program.
+
+```javascript
+true
+false
+```
+
+Booleska värden uppstår typiskt när man **jämför** två värden. Jämförelseoperatorer returnerar alltid `true` eller `false`:
+
+```javascript
+10 > 5      // true  – tio är större än fem
+3 === 3     // true  – tre är lika med tre
+7 < 2       // false – sju är inte mindre än två
+"hej" === "Hej"  // false – strängjämförelse är skiftlägeskänslig
+```
+
+Notera operatorn `===` (*strikt likhet*). I JavaScript finns det två likhetsjämförelser: `==` och `===`. Använd alltid `===` – den kontrollerar att *både värdet och typen* är identiska, och undviker en klass av subtila buggar som uppstår med `==`. Vi återkommer till detta i kapitlet om villkorssatser.
+
+Booleska värden kan kombineras med **logiska operatorer**:
+
+| Operator | Betyder | Exempel                   | Resultat |
+|----------|---------|---------------------------|----------|
+| `&&`     | och     | `true && false`           | `false`  |
+| `\|\|`   | eller   | `false \|\| true`         | `true`   |
+| `!`      | inte    | `!true`                   | `false`  |
+
+Dessa används framför allt i villkorssatser, som vi tittar på i kapitel 5.
+
+---
+
 ### Text – `string`
 
 En **sträng** (*string*) är en sekvens av tecken – bokstäver, siffror, mellanslag, symboler. Strängar används för all text: lagets namn, en fråga i quizet, ett meddelande till användaren.
@@ -146,14 +180,14 @@ Med templatesträngar är behovet av escaping ovanligare, men det är bra att k�
 
 #### Stränglängd och grundläggande strängoperationer
 
-Varje sträng har en egenskap `length` som anger hur många tecken den innehåller:
+Varje sträng har en **egenskap** `length` som anger hur många tecken den innehåller:
 
 ```javascript
 "Röda stjärnor".length   // 14
 "".length                // 0 – tom sträng
 ```
 
-Det finns också en rad inbyggda metoder för att manipulera strängar. Metoderna anropas med punkt-notationen `sträng.metodnamn()`:
+Det finns också en rad inbyggda så kallade **metoder** för att manipulera strängar. Metoderna anropas med punkt-notationen `sträng.metodnamn()`:
 
 ```javascript
 "anna".toUpperCase()         // "ANNA"
@@ -163,40 +197,6 @@ Det finns också en rad inbyggda metoder för att manipulera strängar. Metodern
 ```
 
 Vi återkommer till strängar och deras metoder i ett eget kapitel.
-
----
-
-### Sanningsvärden – `boolean`
-
-**Booleska värden** (*boolean values*) kan bara vara ett av två: `true` eller `false`. Typen är uppkallad efter logikern George Boole, som på 1800-talet formaliserade algebran med sanning och lögn som enda värden.
-
-I quizkväll-programmet är frågan "var svaret rätt?" ett klassiskt booleskt värde: antingen ja (`true`) eller nej (`false`). Detsamma gäller "är spelet slut?", "är spelaren inloggad?" och mängder av andra ja/nej-frågor som uppstår i program.
-
-```javascript
-true
-false
-```
-
-Booleska värden uppstår typiskt när man **jämför** två värden. Jämförelseoperatorer returnerar alltid `true` eller `false`:
-
-```javascript
-10 > 5      // true  – tio är större än fem
-3 === 3     // true  – tre är lika med tre
-7 < 2       // false – sju är inte mindre än två
-"hej" === "Hej"  // false – strängjämförelse är skiftlägeskänslig
-```
-
-Notera operatorn `===` (*strikt likhet*). I JavaScript finns det två likhetsjämförelser: `==` och `===`. Använd alltid `===` – den kontrollerar att *både värdet och typen* är identiska, och undviker en klass av subtila buggar som uppstår med `==`. Vi återkommer till detta i kapitlet om villkorssatser.
-
-Booleska värden kan kombineras med **logiska operatorer**:
-
-| Operator | Betyder | Exempel                   | Resultat |
-|----------|---------|---------------------------|----------|
-| `&&`     | och     | `true && false`           | `false`  |
-| `\|\|`   | eller   | `false \|\| true`         | `true`   |
-| `!`      | inte    | `!true`                   | `false`  |
-
-Dessa används framför allt i villkorssatser, som vi tittar på i nästa kapitel.
 
 ---
 
@@ -212,7 +212,7 @@ JavaScript har två speciella värden som båda representerar *frånvaron av ett
 let vinnare = null;   // inget lag har vunnit än – det är avsiktligt tomt
 ```
 
-I praktiken: om du ser `undefined` är det ofta ett tecken på att något inte initierats som det ska. Om du ser `null` är det troligare att det är avsiktligt. Distinktioen kan kännas hårfin i början – du lär dig intuitivt vilken som hör hemma var med erfarenhet.
+I praktiken: om du ser `undefined` är det ofta ett tecken på att något inte initierats som det ska. Om du ser `null` är det troligare att det är avsiktligt. Distinktionen kan kännas hårfin i början – du lär dig intuitivt vilken som hör hemma var med erfarenhet.
 
 ::: {.callout-important}
 ## `null` vs. `undefined`
@@ -222,28 +222,39 @@ En vanlig källa till förvirring är att `null == undefined` är `true` med lö
 
 ---
 
-## Uttryck och satser
+## Objekt – en första bekantskap
 
-Det finns en grundläggande distinktion i JavaScript som löper genom hela språket: skillnaden mellan ett **uttryck** och en **sats**.
+De datatyper vi hittills tittat på – tal, strängar, booleska värden, `null` och `undefined` – kallas **primitiva** typer. De representerar ett enda, odelbart värde: `42` är alltid `42`.
 
-Ett **uttryck** (*expression*) är ett kodstycke som *utvärderas till ett värde*. Alla följande är uttryck:
+Men program behöver ofta gruppera flera värden som hör ihop. I quizkväll-exemplet hänger lagets namn, dess poäng och huruvida det är lagets tur samman – de beskriver *samma lag*. JavaScript löser det med **objekt** (*objects*): sammansatta värden som samlar flera namngivna **egenskaper** och **metoder** under ett gemensamt namn. Egenskaper är data som hör till objektet, och metoder är funktioner som kan utföras på objektet. 
 
-```javascript
-42              // utvärderas till 42
-3 + 4           // utvärderas till 7
-"Hej"           // utvärderas till "Hej"
-```
+### Punktnotation
 
-Uttryck kan kombineras och nästlas: `3 + 4` kombinerar värdena `3` och `4` med operatorn `+` och producerar värdet `7`. Det är också anledningen till att du kan skriva `${poäng * 2}` inuti en templatesträng – det som står innanför `${}` är ett uttryck som utvärderas och bäddas in i strängen.
-
-En **sats** (*statement*) är en *instruktion* som *gör* något, snarare än att producera ett värde. Satser avslutas vanligtvis med ett semikolon:
+För att komma åt en egenskap eller metod på ett objekt använder man **punktnotation** – objektets namn, en punkt och egenskapens namn:
 
 ```javascript
-let poäng = 0;       // en variabeldeklaration
-poäng = poäng + 10;  // en tilldelning
+lag.namn       // "Röda stjärnor"
+lag.poäng      // 12
+lag.ärAktivt   // true
 ```
 
-Distinktioen är värd att känna till eftersom JavaScript i vissa sammanhang förväntar sig ett uttryck (t.ex. inuti `${}` eller som villkor i ett `if`) och i andra en sats. Du kommer att se orden *if-sats*, *return-sats* och *deklarationssats* framöver – de är alla satser, instruktioner som *gör* något. Enskilda värden och beräkningar – saker som *är* något – är uttryck.
+Objekt finns överallt i JavaScript, och du har faktiskt redan sett exakt samma mönster tidigare, exempelvis i `console.log()`. `console` är ett inbyggt objekt som webbläsaren tillhandahåller, och `log` är en metod. När du skriver `console.log("hej")` använder du punktnotation för att nå metoden `log` på objektet `console`, och anropar den sedan med parenteser.
+
+Samma princip gäller strängmetoderna vi tittade på tidigare:
+
+```javascript
+"anna".toUpperCase()       // metoden toUpperCase på en sträng
+"hej världen".includes("hej")  // metoden includes på en sträng
+"Röda stjärnor".length     // egenskapen length på en sträng
+```
+
+Mönstret `värde.egenskap` och `värde.metod()` löper som en röd tråd genom JavaScript. Varje gång du ser en punkt i koden kan du tänka: "till vänster finns ett objekt (eller värde), till höger finns en egenskap eller metod som hör till det".
+
+::: {.callout-note}
+Primitiva värden som strängar och tal är *inte* objekt, men JavaScript låter dig ändå använda punktnotation på dem. Bakom kulisserna skapar JavaScript tillfälligt ett **wrapper-objekt** som ger tillgång till metoderna, och kastar det sedan. Du behöver inte tänka på den mekanismen – det räcker att veta att `"text".length` fungerar, trots att strängar är primitiva.
+:::
+
+Vi kommer att arbeta mycket mer med objekt längre fram i boken. För stunden räcker det att veta tre saker: objekt grupperar värden med namngivna egenskaper, man når dem med punktnotation, och de finns överallt i JavaScript.
 
 ---
 
@@ -272,8 +283,6 @@ När en variabel väl är deklarerad kan vi använda dess namn var som helst i p
 let lagnamn = "Röda stjärnor";
 console.log(lagnamn);   // skriver ut: Röda stjärnor
 ```
-
-`console.log()` skriver ut ett värde i webbläsarens konsol – det är ditt främsta verktyg för att inspektera vad ditt program gör. Du öppnar konsolen i de flesta webbläsare med tangenten `F12` och fliken *Console*.
 
 En variabel deklarerad med `let` kan **tilldelas om** – dess värde kan ändras:
 
@@ -436,18 +445,44 @@ Begreppet *falsy* och *truthy* är viktigt i JavaScript: vissa värden betraktas
 
 ---
 
+## Uttryck och satser
+
+Det finns en grundläggande distinktion i JavaScript som löper genom hela språket: skillnaden mellan ett **uttryck** och en **sats**.
+
+Ett **uttryck** (*expression*) är ett kodstycke som *utvärderas till ett värde*. Alla följande är uttryck:
+
+```javascript
+42              // utvärderas till 42
+3 + 4           // utvärderas till 7
+"Hej"           // utvärderas till "Hej"
+```
+
+Uttryck kan kombineras och nästlas: `3 + 4` kombinerar värdena `3` och `4` med operatorn `+` och producerar värdet `7`. Det är också anledningen till att du kan skriva `${poäng * 2}` inuti en templatesträng – det som står innanför `${}` är ett uttryck som utvärderas och bäddas in i strängen.
+
+En **sats** (*statement*) är en *instruktion* som *gör* något, snarare än att producera ett värde. Satser avslutas vanligtvis med ett semikolon:
+
+```javascript
+let poäng = 0;       // en variabeldeklaration
+poäng = poäng + 10;  // en tilldelning
+```
+
+Distinktionen är värd att känna till eftersom JavaScript i vissa sammanhang förväntar sig ett uttryck (t.ex. inuti `${}` eller som villkor i ett `if()` och i andra en sats. Du kommer att se orden *if-sats*, *return-sats* och *deklarationssats* framöver – de är alla satser, instruktioner som *gör* något. Enskilda värden och beräkningar – saker som *är* något – är uttryck.
+
+---
+
 ## Sammanfattning
 
 I det här kapitlet har vi lagt grunden för hur JavaScript representerar och lagrar information:
 
 - Ett **värde** är ett stycke data, och varje värde har en **datatyp**.
 - De viktigaste primitiva datatyperna är `number` (tal), `string` (text), `boolean` (sant/falskt), `null` och `undefined`.
+- **Objekt** är sammansatta värden som grupperar flera egenskaper under ett namn. Man når egenskaper med **punktnotation** (`objekt.egenskap`), samma mönster som i `console.log()`.
 - **Variabler** är namngivna behållare för värden. Deklarera dem med `let` (om värdet ska kunna ändras) eller `const` (om det ska vara konstant).
 - Namn på variabler bör vara **beskrivande** och följa konventionen **camelCase**.
 - Operatorn `typeof` returnerar ett värdes typ som en sträng.
 - JavaScript är **dynamiskt typat** och utför ibland **implicit typkonvertering** – vilket kan ge oväntade resultat. Använd `Number()`, `String()` och `Boolean()` för att konvertera explicit.
 
-Med de här verktygen kan vi börja representera information i kod. I nästa kapitel tar vi det vidare och lär oss att fatta beslut – att låta programmet göra olika saker beroende på värdenas tillstånd.
+Med de här verktygen kan vi börja representera information i kod. I nästa kapitel tar vi det vidare och formaliserar något du redan har gjort: att *använda funktioner* — vad som egentligen händer när du skriver `console.log()`, `Number()` eller `"anna".toUpperCase()`.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
