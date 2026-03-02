@@ -49,8 +49,9 @@ Plus two appendices on HTML and CSS reference.
 - Style: Traditional textbook — flowing prose with integrated examples that introduce, explain, and deepen concepts
 - Exercises must avoid the "copy-paste trap"; students should reason and apply, not just transcribe
 - Perfer to start each chapter with some concrete scenario or problem that the students caan recognize, then introduce concepts as tools to solve it.
-- Each chapter should include one `{.callout-tip}` box titled "AI som studieverktyg", placed in the **summary section** (not mid-chapter). The box must be specific to the chapter's content — generic framing belongs in the introduction chapter only.
+- Each chapter should include one `{.callout-tip}` box with ideas on how to use AI tools to practice the related topic in a meaningfull way. It can be placed in the end, right adter the **summary section** if it covers the entire chapter. It if only covers a section, the box should be placed in the end of that section. The box must be specific to the chapter's content — generic framing belongs in the introduction chapter only.
   - Give suggestions of prompts that students can use to deepen their understanding of the chapter's content.
+  - Or give suggestions of how students can use AI tools to practice the chapter's content in a meaningfull way. it could be generating flash cards, example problems to solve etc.
 - Update the chapter list in `_quarto.yml` as you add new chapters, and ensure they are in the correct order for the intended progression.
 - Reference authorative online documentation (e.g., MDN Web Docs) where appropriate.
 - Add references to `references.bib` as needed, and cite them in the text using standard Quarto Markdown citation syntax.
