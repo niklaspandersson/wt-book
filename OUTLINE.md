@@ -4,20 +4,23 @@
 Kap. 1 – JavaScript och webbläsaren
 Kap. 2 – Värden, variabler och datatyper
 Kap. 3 – Att använda funktioner *(funktionsanrop, argument, returvärden, inbyggda funktioner, metoder)*
-Kap. 4 – Din kod möter webbsidan *(grundläggande DOM: querySelector, textContent, style)*
+Kap. 4 – Din kod möter webbsidan *(grundläggande DOM: querySelector, textContent, innerHTML)*
 Kap. 5 – Villkorssatser och logik
-Kap. 6 – Loopar
-Kap. 7 – Att skriva egna funktioner *(funktionsdeklarationer, parametrar, scope, pilfunktioner)*
-Kap. 8 – Listor och arrayer
-Kap. 9 – Objekt
-Kap. 10 – Händelser och interaktivitet
+Kap. 6 – Stil och utseende *(.style, classList, när man väljer vad)*
+Kap. 7 – Loopar
+Kap. 8 – Att skriva egna funktioner *(funktionsdeklarationer, parametrar, scope, pilfunktioner)*
+Kap. 9 – Händelser och interaktivitet *(addEventListener, click, event-objektet, andra händelsetyper)*
+Kap. 10 – Listor och arrayer *(querySelectorAll, NodeList-iteration)*
+Kap. 11 – Objekt
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
 
-Kap. ?? – DOM på djupet: skapa, ändra och ta bort element, dataset och traversering
+Kap. ?? – DOM-traversering och data *(parentElement, children, siblings, closest, dataset)*
+Kap. ?? – Skapa och ändra element *(createElement, appendChild, remove, insertAdjacentHTML)*
+Kap. ?? – Händelser på djupet *(propagering, delegation, preventDefault, removeEventListener)*
+Kap. ?? – Formulär och användarinmatning *(form-element, .value, submit/input/change, validering)*
 Kap. ?? – Tid och animationer
-Kap. ?? – Formulär och användarinmatning
 Kap. ?? – Webblagring: localStorage och sessionStorage
 Kap. ?? – Fetch, JSON och datautbyte
 Kap. ?? – HTTP på djupet: REST, webb-API:er och query-parametrar

@@ -347,7 +347,7 @@ Villkorssatser ger programmet förmågan att välja väg:
 - **Ternäroperatorn** (`? :`) är en kompakt form för enkla tvåvägsbeslut.
 - **`switch`** passar för många exakta matchningar mot samma variabel.
 
-Med villkorssatser kan programmet reagera på data — och nu när du kan manipulera DOM:en kan du *visa* den reaktionen på webbsidan: ändra text, byta färg, visa olika meddelanden. I nästa kapitel lägger vi till nästa verktyg – loopar – som gör att programmet kan upprepa beslut om och om igen.
+Med villkorssatser kan programmet reagera på data — och nu när du kan manipulera DOM:en kan du *visa* den reaktionen på webbsidan: ändra text, visa olika meddelanden beroende på situationen. I nästa kapitel tar vi steget vidare och lär oss ändra *utseendet* på element — färger, storlekar och CSS-klasser — med JavaScript. Kombinationen av villkor och stiländringar gör att sidan kan reagera visuellt på data.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

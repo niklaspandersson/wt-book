@@ -108,30 +108,49 @@ Två rader kod — och sidan visar lagets namn och poäng. Ingen konsol behövs;
 
 ---
 
-## Ändra utseende med `.style`
+## Infoga HTML med `innerHTML`
 
-Förutom text kan du ändra ett elements CSS-egenskaper via `.style`:
-
-```javascript
-const rubrik = document.querySelector("h1");
-rubrik.style.color = "darkblue";
-rubrik.style.fontSize = "2.5rem";
-rubrik.style.textAlign = "center";
-```
-
-Varje CSS-egenskap finns som en egenskap på `.style`-objektet, men med **camelCase** istället för bindestreck: `font-size` i CSS blir `fontSize` i JavaScript, `background-color` blir `backgroundColor`, och så vidare.
+`textContent` ändrar den rena texten i ett element. Men ibland vill du infoga *HTML-kod* — till exempel göra ett ord fetstilt, eller lägga in en länk. Då använder du `innerHTML` istället:
 
 ```javascript
-const poängElement = document.querySelector("#poäng");
-poängElement.style.backgroundColor = "lightyellow";
-poängElement.style.padding = "1rem";
-poängElement.style.borderRadius = "8px";
+const resultat = document.querySelector("#resultat");
+
+// textContent — ren text, HTML-taggar visas bokstavligt
+resultat.textContent = "Du fick <strong>15</strong> poäng";
+// Visar: Du fick <strong>15</strong> poäng
+
+// innerHTML — HTML-taggar tolkas och renderas
+resultat.innerHTML = "Du fick <strong>15</strong> poäng";
+// Visar: Du fick **15** poäng (med fetstil)
 ```
 
-::: {.callout-note}
-## CSS-klasser vs `.style`
+Med `innerHTML` kan du alltså bygga rikare innehåll — fetstil, kursiv, listor, länkar:
 
-Att ändra stilar direkt med `.style` fungerar bra för enstaka ändringar. Men om du vill ändra *många* egenskaper på en gång, eller växla mellan fördefinierade stilar, är det bättre att använda CSS-klasser. Det återkommer vi till när vi fördjupar oss i DOM-manipulation.
+```javascript
+document.querySelector("#laginfo").innerHTML =
+    `<strong>${lagnamn}</strong> har <em>${poäng} poäng</em>`;
+```
+
+### När ska du använda vilket?
+
+- **`textContent`** när du bara vill visa ren text. Det är snabbare och säkrare.
+- **`innerHTML`** när du behöver HTML-formatering i innehållet.
+
+Som tumregel: börja med `textContent`. Byt till `innerHTML` bara när du verkligen behöver HTML-taggar i resultatet.
+
+::: {.callout-warning}
+## Säkerhetsvarning: innerHTML och användardata
+
+Sätt **aldrig** in ofiltrerad användardata med `innerHTML`. Om en användare skriver in text som innehåller HTML-taggar — till exempel `<script>` — kommer webbläsaren att tolka det som riktig HTML-kod. Det kan utnyttjas för attacker som kallas *cross-site scripting* (XSS).
+
+```javascript
+// FARLIGT — gör aldrig detta med data från användaren!
+const namn = prompt("Vad heter du?");
+element.innerHTML = namn;   // Om användaren skriver "<img src=x onerror=alert('hacked')>"
+                             // körs skadlig kod
+```
+
+Så länge du bara använder `innerHTML` med text som *du själv kontrollerar* i din kod — strängar, variabler du satt, templatesträngar med dina egna värden — är det säkert. Problemet uppstår först när du blandar in data som kommer utifrån. Vi återkommer till webbasäkerhet i ett senare kapitel.
 :::
 
 ---
@@ -190,8 +209,8 @@ document.querySelector("#resultat").textContent = `Du fick ${procent}% rätt!`; 
 
 - Webbläsaren bygger en **DOM** (*Document Object Model*) — en levande modell av HTML-sidan som JavaScript kan läsa och ändra.
 - **`document.querySelector(selektor)`** hämtar det första elementet som matchar en CSS-selektor. Returnerar `null` om inget hittas.
-- **`.textContent`** läser eller skriver ett elements textinnehåll.
-- **`.style`** ger åtkomst till ett elements CSS-egenskaper. Egenskapsnamn skrivs i camelCase.
+- **`.textContent`** läser eller skriver ett elements textinnehåll som ren text.
+- **`.innerHTML`** läser eller skriver ett elements HTML-innehåll. Använd det när du behöver formatering — men aldrig med ofiltrerad användardata.
 - **`console.log()`** är för programmeraren; **DOM-manipulation** är för användaren.
 - Använd en standard-HTML-mall med `<script type="module">` som grund för övningar.
 
@@ -216,9 +235,9 @@ CSS-selektorer kan bli komplexa. Det är helt legitimt att fråga om hjälp med 
 
 **Utforska vad som finns:**
 
-> *"Vilka egenskaper förutom `textContent` och `style` kan jag ändra på ett HTML-element med JavaScript?"*
+> *"Vilka egenskaper förutom `textContent` och `innerHTML` kan jag ändra på ett HTML-element med JavaScript?"*
 
-Det finns många — `innerHTML`, `classList`, `dataset`, `hidden` — och vi återkommer till flera av dem. Men det skadar aldrig att utforska i förväg.
+Det finns många — `classList`, `dataset`, `hidden`, `style` — och vi återkommer till flera av dem. Men det skadar aldrig att utforska i förväg.
 :::
 
 ---
@@ -230,9 +249,8 @@ Det finns många — `innerHTML`, `classList`, `dataset`, `hidden` — och vi å
 
 Utgå från HTML-mallen ovan (med `<h1>` och `<p id="resultat">`). Skriv JavaScript som:
 
-1. Ändrar rubrikens text till ditt eget namn.
-2. Ändrar texten i `<p>`-elementet till "Välkommen till min sida!".
-3. Ändrar rubrikens färg till valfri färg med `.style.color`.
+1. Ändrar rubrikens text till ditt eget namn med `textContent`.
+2. Ändrar innehållet i `<p>`-elementet till "Välkommen till <strong>min</strong> sida!" med `innerHTML` (så att "min" visas i fetstil).
 
 Öppna sidan med Live Server och kontrollera att ändringarna syns.
 :::
@@ -259,15 +277,9 @@ I kapitel 2, övning 2.5, skapade du templatesträngar för quizprogrammet. Gå 
 :::
 
 ::: {.callout-note}
-## Övning 4.4 – Stiländringar
+## Övning 4.4 – innerHTML i praktiken
 
-Utgå från quizpoäng-sidan i övning 4.2. Lägg till JavaScript som:
-
-1. Gör rubrikens bakgrundsfärg mörkblå och textfärgen vit.
-2. Ger `<p>`-elementet med id `poäng` en gul bakgrundsfärg och 1rem padding.
-3. Centrerar all text på sidan genom att ändra `body`-elementets `textAlign`.
-
-Tips: `document.querySelector("body")` hämtar `<body>`-elementet.
+Utgå från quizpoäng-sidan i övning 4.2. Ändra JavaScript-koden så att lagets namn visas i fetstil och poängen i kursiv, med hjälp av `innerHTML` och HTML-taggarna `<strong>` respektive `<em>`.
 :::
 
 ::: {.callout-note}
