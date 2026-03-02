@@ -1,0 +1,17 @@
+# Sammanfattning av Del I {.unnumbered}
+
+Du har kommit långt. I elva kapitel har du gått från att inte ha skrivit en enda rad JavaScript till att kunna bygga interaktiva webbsidor som reagerar på vad användaren gör. Det du lärt dig kan delas in i två spår som löpt parallellt genom hela delen.
+
+Det första spåret handlar om **själva språket**. Du kan lagra värden i variabler, skilja på datatyper, fatta beslut med villkorssatser, upprepa saker med loopar, samla data i arrayer och objekt, och organisera din kod i funktioner. Det är JavaScripts grundläggande ordförråd — de byggstenar som all vidare programmering vilar på.
+
+Det andra spåret handlar om **mötet med webbsidan**. Du kan hämta element ur DOM:en med `querySelector`, ändra text och HTML, styra stil och CSS-klasser, och — kanske viktigast — reagera på vad användaren gör med händelser och `addEventListener`. Det är det som förvandlar ett skript till en interaktiv upplevelse.
+
+De två spåren är oskiljaktiga i praktiken: du behöver språket för att kunna göra något meningsfullt med webbsidan, och du behöver webbsidan för att språket ska bli något mer än abstrakt logik. 
+
+## Vad kommer härnäst?
+
+**Del II — Webben som plattform** fortsätter det andra spåret. Här utforskar vi vad webbläsaren kan erbjuda utöver det du redan sett: formulärhantering, webblagring, att hämta data från servrar, timers, ljud, drag-and-drop och mer.
+
+**Del III — JavaScript på djupet** fortsätter det första spåret. Här fördjupar vi oss i själva språket: closures, asynkron programmering, moduler, objektorienterad programmering, funktionella arraymetoder och felhantering.
+
+Till skillnad från Del I, där kapitlen byggde på varandra i en bestämd ordning, är kapitlen i Del II och Del III mer fristående. Du behöver inte läsa dem från början till slut — välj det som intresserar dig eller som din kurs kräver. Om ett kapitel förutsätter kunskap utöver det du lärt dig i Del I anges det tydligt i kapitlets inledning.

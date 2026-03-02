@@ -7,20 +7,28 @@ book:
   date: "2/27/2026"
   chapters:
     - index.qmd
-    - kap01-om-javascript.qmd
-    - kap02-variabler.qmd
-    - kap03-anropa-funktioner.qmd
-    - kap04-dom-intro.qmd
-    - kap05-villkor.qmd
-    - kap06-stil.qmd
-    - kap07-loopar.qmd
-    - kap08-arrayer.qmd
-    - kap09-funktioner.qmd
-    - kap10-handelser.qmd
-    - kap11-objekt.qmd
-    - kap-moduler.qmd
-    - kap-oop.qmd
-    - kap-arv.qmd
+    - part: "Del I - Grunden"
+      chapters:
+        - kap01-om-javascript.qmd
+        - kap02-variabler.qmd
+        - kap03-anropa-funktioner.qmd
+        - kap04-dom-intro.qmd
+        - kap05-villkor.qmd
+        - kap06-stil.qmd
+        - kap07-loopar.qmd
+        - kap08-arrayer.qmd
+        - kap09-funktioner.qmd
+        - kap10-handelser.qmd
+        - kap11-objekt.qmd
+        - del1-sammanfattning.qmd
+    - part: "Del II - Webben som plattform"
+      chapters: []
+
+    - part: "Del III - Javascript på djupet"
+      chapters:
+        - kap-moduler.qmd
+        - kap-oop.qmd
+        - kap-arv.qmd
     - summary.qmd
     - references.qmd
 
