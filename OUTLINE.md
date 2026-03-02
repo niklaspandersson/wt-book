@@ -8,9 +8,9 @@ Kap. 4 – Din kod möter webbsidan *(grundläggande DOM: querySelector, textCon
 Kap. 5 – Villkorssatser och logik
 Kap. 6 – Stil och utseende *(.style, classList, hidden, visa/dölja element)*
 Kap. 7 – Loopar
-Kap. 8 – Att skriva egna funktioner *(funktionsdeklarationer, parametrar, scope, pilfunktioner)*
-Kap. 9 – Händelser och interaktivitet *(addEventListener, click, event-objektet, andra händelsetyper)*
-Kap. 10 – Listor och arrayer *(querySelectorAll, NodeList-iteration)*
+Kap. 8 – Arrayer *(skapa, indexera, ändra, söka, iterera, querySelectorAll, NodeList)*
+Kap. 9 – Att skriva egna funktioner *(funktionsdeklarationer, parametrar, scope, pilfunktioner)*
+Kap. 10 – Händelser och interaktivitet *(addEventListener, click, event-objektet, andra händelsetyper)*
 Kap. 11 – Objekt
 
 **Del II – Fördjupning: webben som plattform**

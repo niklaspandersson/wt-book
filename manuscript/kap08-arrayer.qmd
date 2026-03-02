@@ -1,0 +1,493 @@
+# Arrayer
+
+## En lista att hålla ordning på
+
+Föreställ dig att du bygger en enkel webbsida för en klass. Du vill visa en lista med studenternas namn, lägga till nya studenter och kunna söka efter en viss person. Du börjar med att skapa variabler:
+
+```javascript
+const student1 = "Anna";
+const student2 = "Björn";
+const student3 = "Clara";
+const student4 = "David";
+const student5 = "Elsa";
+```
+
+Fem variabler. Fem separata namn. Och om du vill gå igenom alla studenter med en loop – hur gör du det? Du kan inte skriva `student + i` och hoppas att JavaScript förstår att du menar `student1`, `student2` och så vidare. Variablerna har inget samband sinsemellan.
+
+Eller tänk på loopkapitlet, där vi hade en lista med poäng: `[82, 91, 73, 44, 68, 55]`. Vi använde den för att söka efter underkända resultat. Utan en sådan lista hade vi behövt sex separata variabler och sex separata `if`-satser. Med en lista och en loop räckte det med några rader.
+
+Det vi behöver är ett sätt att samla flera värden under ett gemensamt namn – en **lista** som man kan gå igenom element för element, söka i och ändra. I JavaScript heter den strukturen **array**.
+
+---
+
+## Skapa en array
+
+En **array** är en ordnad samling av värden. Man skapar den med hakparenteser `[]` och separerar värdena med kommatecken:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
+```
+
+En enda variabel innehåller nu alla fem namnen. Värdena i arrayen kallas **element**, och varje element har en bestämd plats – ett **index**.
+
+Man kan också skapa en tom array och fylla den senare:
+
+```javascript
+const resultat = [];
+```
+
+En array kan innehålla vilken typ av värden som helst – tal, strängar, booleska värden, eller en blandning:
+
+```javascript
+const blandad = [42, "hej", true, null];
+```
+
+I praktiken innehåller en array oftast värden av samma typ – en lista med namn, en lista med poäng, en lista med priser. Det gör koden lättare att förstå och arbeta med.
+
+---
+
+## Index – elementens position
+
+Varje element i en array har ett **index** – ett heltal som anger dess position. Indexeringen börjar på **0**, inte 1:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
+//                   0        1        2        3        4
+```
+
+Man hämtar ett enskilt element med **hakparentesnotation**:
+
+```javascript
+console.log(studenter[0]);   // "Anna"
+console.log(studenter[2]);   // "Clara"
+console.log(studenter[4]);   // "Elsa"
+```
+
+Indexet behöver inte vara ett literalt tal – det kan vara en variabel eller ett uttryck:
+
+```javascript
+const i = 3;
+console.log(studenter[i]);       // "David"
+console.log(studenter[i - 1]);   // "Clara"
+```
+
+::: {.callout-important}
+## Indexering börjar på 0
+
+Det kan kännas ovanligt att den första positionen är 0, inte 1. Det är en konvention som JavaScript delar med de flesta programmeringsspråk. Det sista elementet har alltså index `length - 1`, inte `length`. Att råka använda `length` som index – och hamna *utanför* arrayen – är ett av de vanligaste felen bland nybörjare.
+:::
+
+Om du försöker komma åt ett index som inte finns returneras `undefined`:
+
+```javascript
+console.log(studenter[10]);  // undefined – inget element på position 10
+console.log(studenter[-1]);  // undefined – negativa index finns inte
+```
+
+---
+
+## Arrayens längd: `length`
+
+Varje array har egenskapen `length` som anger hur många element den innehåller:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
+console.log(studenter.length);   // 5
+```
+
+Eftersom indexeringen börjar på 0 har det sista elementet index `length - 1`:
+
+```javascript
+const sista = studenter[studenter.length - 1];
+console.log(sista);   // "Elsa"
+```
+
+`length` uppdateras automatiskt när arrayen ändras – du behöver inte hålla reda på det manuellt. Det var den egenskapen vi redan använde i loopkapitlets `break`-exempel: `poäng.length` gav oss antalet element att iterera över.
+
+::: {.callout-note}
+## MDN: Array
+
+Mozilla Developer Network har en omfattande referens för arrayer och alla deras metoder: [developer.mozilla.org/sv-SE/docs/Web/JavaScript/Reference/Global_Objects/Array](https://developer.mozilla.org/sv-SE/docs/Web/JavaScript/Reference/Global_Objects/Array). Du behöver inte memorera alla metoder – det viktiga är att veta att de finns och var du kan slå upp dem.
+:::
+
+---
+
+## Ändra element
+
+Man kan ändra ett befintligt element genom att tilldela ett nytt värde till ett specifikt index:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
+studenter[1] = "Bella";
+console.log(studenter);   // ["Anna", "Bella", "Clara", "David", "Elsa"]
+```
+
+::: {.callout-note}
+## `const` och arrayer
+
+"Vänta – vi deklarerade `studenter` med `const`, och ändå kan vi ändra innehållet?" Ja. `const` förhindrar att *variabeln* tilldelas om till ett annat värde, men den förhindrar inte att man ändrar *insidan* av en array (eller ett objekt). Följande ger ett felmeddelande:
+
+```javascript
+const studenter = ["Anna", "Björn"];
+studenter = ["Clara", "David"];   // TypeError: Assignment to constant variable.
+```
+
+Men att ändra ett element, lägga till eller ta bort – det är tillåtet. Variabeln pekar fortfarande på *samma* array; det är arrayens *innehåll* som förändras.
+:::
+
+---
+
+## Lägga till och ta bort element
+
+### `push` – lägg till sist
+
+`push()` lägger till ett eller flera element i slutet av arrayen:
+
+```javascript
+const studenter = ["Anna", "Björn"];
+studenter.push("Clara");
+console.log(studenter);   // ["Anna", "Björn", "Clara"]
+
+studenter.push("David", "Elsa");
+console.log(studenter);   // ["Anna", "Björn", "Clara", "David", "Elsa"]
+```
+
+### `pop` – ta bort sist
+
+`pop()` tar bort det sista elementet och returnerar det:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara"];
+const borttagen = studenter.pop();
+console.log(borttagen);     // "Clara"
+console.log(studenter);     // ["Anna", "Björn"]
+```
+
+### `unshift` och `shift` – i början
+
+`unshift()` lägger till i *början* av arrayen, `shift()` tar bort från *början*:
+
+```javascript
+const kö = ["Björn", "Clara"];
+
+kö.unshift("Anna");
+console.log(kö);   // ["Anna", "Björn", "Clara"]
+
+const första = kö.shift();
+console.log(första);   // "Anna"
+console.log(kö);       // ["Björn", "Clara"]
+```
+
+### `splice` – ändra var som helst
+
+`splice()` är det mest flexibla verktyget. Den kan ta bort element, lägga till element, eller båda – på valfri position:
+
+```javascript
+// splice(startindex, antalAttTaBort, ...nyaElement)
+const studenter = ["Anna", "Björn", "Clara", "David"];
+
+// Ta bort 1 element från index 1
+studenter.splice(1, 1);
+console.log(studenter);   // ["Anna", "Clara", "David"]
+
+// Infoga "Bella" på index 1 (ta bort 0 element)
+studenter.splice(1, 0, "Bella");
+console.log(studenter);   // ["Anna", "Bella", "Clara", "David"]
+```
+
+Det första argumentet är startindexet, det andra är hur många element som ska tas bort, och eventuella ytterligare argument är nya element som infogas på den platsen.
+
+::: {.callout-note}
+## Vilken metod ska jag använda?
+
+Med så många sätt att lägga till och ta bort kan det vara svårt att hålla isär dem. Här är en snabb översikt:
+
+| Vill du...                    | Metod        |
+|-------------------------------|--------------|
+| Lägga till sist               | `push()`     |
+| Ta bort sist                  | `pop()`      |
+| Lägga till först              | `unshift()`  |
+| Ta bort först                 | `shift()`    |
+| Lägga till/ta bort var som helst | `splice()` |
+:::
+
+---
+
+## Söka i en array
+
+### `includes` – finns värdet?
+
+`includes()` returnerar `true` om arrayen innehåller det angivna värdet, annars `false`:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara"];
+console.log(studenter.includes("Björn"));   // true
+console.log(studenter.includes("David"));   // false
+```
+
+### `indexOf` – var ligger det?
+
+`indexOf()` returnerar indexet för det första elementet som matchar. Om värdet inte finns returneras `-1`:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara"];
+
+console.log(studenter.indexOf("Clara"));   // 2
+console.log(studenter.indexOf("David"));   // -1
+```
+
+Returvärdet `-1` är ett klassiskt mönster i JavaScript: det signalerar "hittades inte" utan att använda `null` eller `undefined`. Man ser ofta mönstret:
+
+```javascript
+if (studenter.indexOf("David") !== -1) {
+    console.log("David finns i listan");
+}
+```
+
+Med `includes()` blir samma kontroll mer läsbar:
+
+```javascript
+if (studenter.includes("David")) {
+    console.log("David finns i listan");
+}
+```
+
+Använd `includes()` när du bara vill veta *om* ett värde finns, och `indexOf()` när du behöver veta *var*.
+
+---
+
+## Iterera över en array
+
+Här knyts loopar och arrayer ihop. En av de vanligaste användningarna av loopar är att gå igenom alla element i en array, ett i taget.
+
+### Med `for`-loopen
+
+Det klassiska mönstret: en `for`-loop som räknar från 0 till `length - 1`:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
+
+for (let i = 0; i < studenter.length; i++) {
+    console.log(`${i + 1}. ${studenter[i]}`);
+}
+```
+
+Resultat:
+
+```
+1. Anna
+2. Björn
+3. Clara
+4. David
+5. Elsa
+```
+
+Mönstret `for (let i = 0; i < array.length; i++)` är så vanligt att du kommer att skriva det på ren muskelminne. Notera att villkoret är `i < studenter.length`, inte `i <= studenter.length` – det sista elementet har index `length - 1`, så `<=` hade tagit oss ett steg för långt.
+
+### Med `for...of`
+
+JavaScript har en enklare syntax för att iterera över alla element i en array: `for...of`:
+
+```javascript
+const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
+
+for (const student of studenter) {
+    console.log(student);
+}
+```
+
+`for...of` ger dig elementens *värden* direkt – du behöver inte hantera index. Variabeln `student` tilldelas automatiskt nästa element i varje iteration.
+
+::: {.callout-note}
+## `const` i `for...of`
+
+Notera att vi använder `const` i `for...of`-loopen: `for (const student of studenter)`. Det kan verka konstigt – ändras inte `student` i varje iteration? Tekniskt sett skapas en *ny* variabel i varje iteration, snarare än att den gamla ändras. Därför är `const` korrekt – det förhindrar att du av misstag tilldelar om variabeln inuti loopens kropp.
+:::
+
+### Vad ska man välja?
+
+- Använd **`for`** om du behöver indexet – till exempel för numrering, eller för att ändra element på specifika positioner.
+- Använd **`for...of`** om du bara behöver värdena – det är kortare och tydligare.
+
+---
+
+## Arrayer och DOM: `querySelectorAll`
+
+I kapitel 4 lärde du dig att hämta *ett* element med `document.querySelector()`. Men vad gör man när man vill hämta *alla* element som matchar en selektor? Det är precis vad `document.querySelectorAll()` gör.
+
+Tänk dig en att-göra-lista i HTML:
+
+```html
+<ul>
+    <li>Handla mjölk</li>
+    <li>Lämna tillbaka bok</li>
+    <li>Plugga JavaScript</li>
+</ul>
+```
+
+```javascript
+const uppgifter = document.querySelectorAll("li");
+console.log(uppgifter.length);   // 3
+```
+
+`querySelectorAll` returnerar en **NodeList** – en samling av alla element som matchar selektorn. En NodeList liknar en array: den har `length`, man kan komma åt element med index (`uppgifter[0]`), och man kan iterera med `for...of`.
+
+```javascript
+for (const uppgift of uppgifter) {
+    console.log(uppgift.textContent);
+}
+```
+
+Resultat:
+
+```
+Handla mjölk
+Lämna tillbaka bok
+Plugga JavaScript
+```
+
+### Kombinera med villkor och stiländringar
+
+Kraften i `querySelectorAll` visar sig när man kombinerar iteration med villkor och DOM-manipulation. Här är ett exempel som markerar alla listobjekt som innehåller ordet "JavaScript":
+
+```javascript
+const uppgifter = document.querySelectorAll("li");
+
+for (const uppgift of uppgifter) {
+    if (uppgift.textContent.includes("JavaScript")) {
+        uppgift.classList.add("markerad");
+    }
+}
+```
+
+Det här mönstret – hämta alla element, gå igenom dem, gör något med de som uppfyller ett villkor – är grundläggande i DOM-programmering. Det knyter ihop allt vi lärt oss hittills: selektorer, loopar, villkor och stiländringar.
+
+::: {.callout-note}
+## NodeList är inte en array
+
+En NodeList liknar en array men är inte en. De viktigaste skillnaderna:
+
+- En NodeList som returneras av `querySelectorAll` har `length` och stödjer `for...of` och hakparentesnotation, men saknar arraymetoder som `push()`, `pop()` och `splice()`.
+- Om du behöver arraymetoder kan du konvertera en NodeList till en riktig array med `Array.from()`:
+
+```javascript
+const uppgifter = document.querySelectorAll("li");
+const uppgiftsArray = Array.from(uppgifter);
+uppgiftsArray.push(/* ... */);   // Nu fungerar arraymetoder
+```
+
+I de flesta fall räcker det att iterera med `for...of`, och då spelar skillnaden ingen roll.
+:::
+
+---
+
+## Sammanfattning
+
+Arrayer är JavaScripts sätt att hantera listor – ordnade samlingar av värden som man kan gå igenom, söka i och ändra.
+
+- En **array** skapas med hakparenteser: `["Anna", "Björn", "Clara"]`.
+- Element nås med **index** som börjar på **0**: `arr[0]` ger det första elementet.
+- `length` ger arrayens storlek; det sista elementet har index `length - 1`.
+- **`push`/`pop`** lägger till och tar bort i slutet; **`unshift`/`shift`** i början; **`splice`** var som helst.
+- **`includes`** kontrollerar om ett värde finns; **`indexOf`** ger positionen.
+- En **`for`**-loop med index (`for (let i = 0; i < arr.length; i++)`) ger full kontroll.
+- **`for...of`** itererar direkt över värdena – enklare när du inte behöver indexet.
+- **`querySelectorAll`** returnerar en **NodeList** av DOM-element som kan itereras med `for...of`.
+
+Arrayer och loopar är oskiljaktiga: en loop utan en lista att bearbeta, eller en lista utan ett sätt att gå igenom den, är båda halvfärdiga verktyg. Tillsammans ger de dig möjligheten att hantera data av godtycklig storlek med en fast mängd kod.
+
+I nästa kapitel tar vi steget till att *skriva egna funktioner* — namngivna, återanvändbara kodblock som ger oss verktyget att strukturera och organisera riktiga program.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Arrayer har många metoder, och det kan vara svårt att hålla dem isär. AI-verktyg kan hjälpa dig att befästa din förståelse – men som alltid beror kvaliteten på hur du frågar.
+
+**Be AI:n förklara skillnader:**
+
+> *"Vad är skillnaden mellan `push` och `unshift` i JavaScript? Och mellan `pop` och `shift`? Ge exempel som visar vad som händer med arrayen efter varje anrop."*
+
+**Testa din förståelse av index:**
+
+> *"Jag har arrayen `['a', 'b', 'c', 'd', 'e']`. Vad returnerar `arr[2]`? Vad returnerar `arr[arr.length]`? Förklara varför."*
+
+> *"Ge mig fem korta kodexempel med arrayer där jag ska förutsäga resultatet – blanda enkel indexering, `push`/`pop`, och `splice`."*
+
+**Använd AI:n som problemgenerator:**
+
+> *"Ge mig tre övningsuppgifter på arrayer i JavaScript som kräver att jag kombinerar loopar och villkor. Nivå: nybörjare. Visa inte lösningen direkt."*
+
+Att be om uppgifter *utan* att få lösningen direkt tvingar dig att tänka själv. Du kan sedan visa din lösning för AI:n och be om feedback.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning 8.1 – Skapa och utforska
+
+Skapa en array med namnen på fem städer du har besökt (eller vill besöka). Skriv kod som:
+
+1. Skriver ut det första och sista namnet.
+2. Skriver ut arrayens längd.
+3. Ändrar det tredje elementet till en annan stad.
+4. Lägger till en sjätte stad med `push`.
+5. Skriver ut hela arrayen med en `for...of`-loop.
+:::
+
+::: {.callout-note}
+## Övning 8.2 – Hitta det största talet
+
+Skapa en array med minst åtta slumpmässiga heltal, till exempel `[34, 7, 91, 12, 45, 68, 3, 56]`. Skriv kod som hittar och skriver ut det *största* talet i arrayen med en `for`-loop – du får inte använda `Math.max()`.
+
+*Tips:* Börja med att anta att det första elementet är störst och spara det i en variabel. Jämför sedan med resten av elementen i varje iteration.
+:::
+
+::: {.callout-note}
+## Övning 8.3 – Filtrera en lista
+
+Skapa en array med tio poängvärden (0–100). Skriv kod som bygger upp en *ny* array som bara innehåller de godkända resultaten (50 poäng eller mer). Skriv ut den nya arrayen.
+
+*Tips:* Skapa en tom array före loopen och använd `push` i varje iteration där villkoret uppfylls.
+:::
+
+::: {.callout-note}
+## Övning 8.4 – Sök i listan
+
+Skapa en array med minst sex namn. Deklarera en variabel `söknamn` med ett namn att söka efter. Skriv kod som:
+
+1. Kontrollerar om `söknamn` finns i arrayen med `includes`.
+2. Om det finns, skriv ut dess position (index) med `indexOf`.
+3. Om det inte finns, skriv ut "Namnet hittades inte".
+
+Testa med ett namn som finns och ett som inte finns.
+:::
+
+::: {.callout-note}
+## Övning 8.5 – Numrerad lista på sidan
+
+Skapa en HTML-sida med ett `<ol>`-element med id `"namnlista"`. Skapa en array med minst fem namn i JavaScript. Skriv en loop som bygger upp en HTML-sträng med `<li>`-element för varje namn och visar den i `<ol>`-elementet med `innerHTML`.
+
+Förväntat resultat: en numrerad lista på sidan med alla namn.
+:::
+
+::: {.callout-note}
+## Övning 8.6 – Markera element med `querySelectorAll`
+
+Skapa en HTML-sida med en `<ul>`-lista med minst sex `<li>`-element – till exempel fruktnamn. Skriv JavaScript som:
+
+1. Hämtar alla `<li>`-element med `querySelectorAll`.
+2. Itererar över dem med `for...of`.
+3. Om elementets text innehåller ett visst nyckelord (t.ex. "äpple"), ändrar elementets bakgrundsfärg till gul med `.style.backgroundColor`.
+
+Testa att ändra nyckelordet och se att rätt element markeras.
+:::
+
+::: {.callout-note}
+## Övning 8.7 – Vänd på arrayen
+
+Skriv kod som skapar en *ny* array med elementen i omvänd ordning – utan att använda den inbyggda metoden `reverse()`. Givet `["A", "B", "C", "D", "E"]` ska resultatet bli `["E", "D", "C", "B", "A"]`.
+
+*Tips:* Du kan iterera baklänges med en `for`-loop och använda `push` för att bygga upp den nya arrayen. Alternativt kan du iterera framåt och använda `unshift`.
+:::

@@ -279,7 +279,7 @@ Loopar ger programmet förmågan att upprepa instruktioner – det som gör det 
 
 Loopar kan göra ofantligt mycket på kort tid – och de kan göra det med fel på ofantligt effektivt sätt. En oändlig loop hänger webbläsaren; en räknare som startar på fel värde ger systematiskt fel resultat. Träna på att spåra loopars exekvering manuellt, rad för rad, tills du kan förutsäga resultatet utan att köra koden.
 
-I nästa kapitel tar vi steget till att *skriva egna funktioner* — namngivna, återanvändbara kodblock. I kombination med loopar och villkorssatser ger det oss verktygen att strukturera riktiga program.
+I nästa kapitel tar vi steget till **arrayer** — JavaScripts sätt att hantera listor av värden. Loopar och arrayer hänger tätt ihop: en loop är det naturliga sättet att gå igenom en lista element för element.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

@@ -413,7 +413,7 @@ En konkret och begränsad fråga ger ett mer användbart svar. Att klistra in fa
 ## Övningar
 
 ::: {.callout-note}
-## Övning 8.1 – Spåra exekveringen
+## Övning 9.1 – Spåra exekveringen
 
 Gå igenom följande kod för hand, rad för rad. Vad skrivs ut, och i vilken ordning?
 
@@ -438,7 +438,7 @@ Förklara steg för steg: i vilken ordning anropas funktionerna? Vilket värde r
 :::
 
 ::: {.callout-note}
-## Övning 8.2 – Skriv en funktion
+## Övning 9.2 – Skriv en funktion
 
 Skriv en funktion `cirkelArea(radie)` som tar radien som parameter och returnerar cirkelns area. Formeln är $A = \pi r^2$. I JavaScript kan du använda `Math.PI` för $\pi$ och `r * r` för kvadrering.
 
@@ -446,7 +446,7 @@ Testa funktionen med radier 1, 5 och 10 och kontrollera att resultaten verkar ri
 :::
 
 ::: {.callout-note}
-## Övning 8.3 – Funktioner med villkorssatser
+## Övning 9.3 – Funktioner med villkorssatser
 
 Skriv en funktion `klassificera(temperatur)` som tar en temperatur i Celsius och returnerar en sträng:
 
@@ -458,7 +458,7 @@ Skriv sedan kod som anropar funktionen med temperaturerna −10, 5, 15, 20 och 3
 :::
 
 ::: {.callout-note}
-## Övning 8.4 – Hitta scope-felet
+## Övning 9.4 – Hitta scope-felet
 
 Följande kod ger ett fel. Vad är felet, och varför uppstår det? Förklara med egna ord vad som händer, och skriv sedan en korrekt version som fungerar.
 
@@ -474,7 +474,7 @@ console.log(dubbelt + tredubbelt);
 :::
 
 ::: {.callout-note}
-## Övning 8.5 – Refaktorera med funktioner
+## Övning 9.5 – Refaktorera med funktioner
 
 Följande kod fungerar men innehåller upprepning:
 
@@ -514,7 +514,7 @@ Refaktorera koden: skriv en funktion `bedöm(namn, poäng)` som innehåller logi
 :::
 
 ::: {.callout-note}
-## Övning 8.6 – Funktioner som uppdaterar sidan
+## Övning 9.6 – Funktioner som uppdaterar sidan
 
 Skapa en HTML-sida med följande struktur:
 
