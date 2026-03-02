@@ -16,8 +16,8 @@ Kap. 11 – Objekt *(objektliteraler, egenskaper, punktnotation, hakparentesnota
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
 
-Kap. ?? – DOM-traversering och data *(parentElement, children, siblings, closest, dataset)*
-Kap. ?? – Skapa och ändra element *(createElement, appendChild, remove, insertAdjacentHTML)*
+Kap. 12 – DOM-traversering *(parentElement, children, siblings, closest, dataset)*
+Kap. 13 – Skapa och ändra element *(createElement, append, remove, insertAdjacentHTML, flytta element, cloneNode)*
 Kap. ?? – Händelser på djupet *(propagering, delegation, preventDefault, removeEventListener)*
 Kap. ?? – Formulär och användarinmatning *(form-element, .value, submit/input/change, validering)*
 Kap. ?? – Tid och animationer

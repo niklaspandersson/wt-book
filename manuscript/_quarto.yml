@@ -22,7 +22,9 @@ book:
         - kap11-objekt.qmd
         - del1-sammanfattning.qmd
     - part: "Del II - Webben som plattform"
-      chapters: []
+      chapters:
+        - kap-dom-traversering.qmd
+        - kap-skapa-element.qmd
 
     - part: "Del III - Javascript på djupet"
       chapters:

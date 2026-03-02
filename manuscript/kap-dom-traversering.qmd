@@ -1,0 +1,606 @@
+# DOM-traversering
+
+## En kommentar som inte vet var den hör hemma
+
+Föreställ dig att du bygger en kommentarsektion. Varje kommentar visas i en `<div>` med användarnamn, text och en "Gilla"-knapp:
+
+```html
+<div class="kommentar">
+    <p class="författare">Anna</p>
+    <p class="text">Bra inlägg!</p>
+    <button class="gilla-knapp">Gilla (0)</button>
+</div>
+
+<div class="kommentar">
+    <p class="författare">Björn</p>
+    <p class="text">Håller med Anna.</p>
+    <button class="gilla-knapp">Gilla (0)</button>
+</div>
+```
+
+Du registrerar en klicklyssnare på varje knapp. Användaren klickar — och nu vill du uppdatera just *den* kommentarens gillatal. Men `e.target` ger dig knappen. Hur kommer du från knappen till den omgivande `<div>`? Och hur hittar du `<p class="författare">` som ligger *bredvid* knappen, inte inuti den?
+
+Med `querySelector` skulle du behöva ett unikt id på varje kommentar — och med dynamiskt innehåll är det opraktiskt. Det du behöver är att *navigera* i DOM-trädet: gå uppåt till föräldern, sidledes till syskonen, eller nedåt till barnen.
+
+Det kallas **DOM-traversering** — att röra sig genom trädstrukturen, från ett element till dess grannar. Det är ett grundläggande verktyg i interaktiv webbutveckling.
+
+---
+
+## DOM:en som ett träd
+
+I kapitel 4 beskrev vi DOM:en som en trädstruktur: `<body>` är roten, och inuti den finns grenar av element. Nu behöver vi förstå den strukturen mer i detalj.
+
+Betrakta följande HTML:
+
+```html
+<body>
+    <header>
+        <h1>Min blogg</h1>
+        <nav>
+            <a href="/">Hem</a>
+            <a href="/om">Om</a>
+        </nav>
+    </header>
+    <main>
+        <article>
+            <h2>Första inlägget</h2>
+            <p>Här är texten.</p>
+        </article>
+    </main>
+</body>
+```
+
+Webbläsaren bygger ett träd av detta. Varje element blir en **nod** i trädet, och relationerna mellan noderna beskrivs med familjetermer:
+
+- `<body>` är **förälder** (*parent*) till `<header>` och `<main>`.
+- `<header>` och `<main>` är **barn** (*children*) till `<body>`.
+- `<header>` och `<main>` är **syskon** (*siblings*) — de delar samma förälder.
+- `<h1>` och `<nav>` är barn till `<header>`, och syskon till varandra.
+- `<a href="/">` och `<a href="/om">` är barn till `<nav>`.
+
+Varje element i DOM:en har egenskaper som pekar på dess familjemedlemmar. Det är dessa egenskaper som gör traversering möjlig.
+
+::: {.callout-note}
+## Noder och element
+
+DOM-trädet innehåller inte bara element — det innehåller också textnoder, kommentarer och andra nodtyper. Det finns två uppsättningar traverseringsegenskaper: en som inkluderar *alla* noder (`parentNode`, `childNodes`, `nextSibling`) och en som bara inkluderar *element* (`parentElement`, `children`, `nextElementSibling`). I praktiken vill man nästan alltid navigera mellan element, inte textnoder. Därför använder vi genomgående de elementbaserade egenskaperna i det här kapitlet.
+:::
+
+---
+
+## Uppåt: `parentElement`
+
+Den enklaste rörelsen i DOM-trädet är uppåt — från ett barn till dess förälder. Egenskapen `parentElement` ger det element som det aktuella elementet ligger inuti:
+
+```javascript
+const rubrik = document.querySelector("h2");
+console.log(rubrik.parentElement);          // <article>
+console.log(rubrik.parentElement.parentElement);  // <main>
+```
+
+Varje element har exakt en förälder (utom `<html>`, som är roten). Du kan kedja `parentElement` för att klättra flera nivåer uppåt, men det blir snabbt opraktiskt — vi ska strax se ett bättre alternativ med `closest`.
+
+### Tillbaka till kommentarssektionen
+
+Nu kan vi lösa problemet från kapitlets inledning. Knappen ligger inuti en `<div class="kommentar">`, så vi klättrar ett steg uppåt:
+
+```javascript
+const knappar = document.querySelectorAll(".gilla-knapp");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        const kommentar = e.target.parentElement;
+        const författare = kommentar.querySelector(".författare");
+        console.log(`Gillade ${författare.textContent}s kommentar`);
+    });
+}
+```
+
+`e.target.parentElement` ger oss den `<div>` som knappen tillhör. Därifrån kan vi använda `querySelector` *på det elementet* — inte på `document` — för att hitta författarnamnet inom just den kommentaren. Det är en viktig teknik: `querySelector` kan anropas på *vilket element som helst*, inte bara på `document`, och söker då bara bland det elementets ättlingar.
+
+::: {.callout-note}
+## `querySelector` på element
+
+Du har hittills alltid skrivit `document.querySelector(...)`. Men `querySelector` finns på alla element, och söker då bara inom det elementets underträd:
+
+```javascript
+const artikel = document.querySelector("article");
+const rubrik = artikel.querySelector("h2");  // söker bara inuti <article>
+```
+
+Det är ovärderligt när sidan har upprepade strukturer — som en lista med kommentarer eller produktkort. Istället för unika id:n på varje del kan du navigera till rätt container och söka därifrån.
+:::
+
+---
+
+## Uppåt med `closest`
+
+`parentElement` tar dig ett steg uppåt. Men ibland vet du inte exakt hur många steg det är till det element du letar efter — kanske ligger knappen inuti en `<span>` inuti en `<div>` inuti kommentaren. Då är `closest` det rätta verktyget.
+
+`closest` söker *uppåt* i DOM-trädet och returnerar det första element som matchar en CSS-selektor — inklusive elementet självt:
+
+```javascript
+const knapp = document.querySelector(".gilla-knapp");
+const kommentar = knapp.closest(".kommentar");
+```
+
+`closest(".kommentar")` startar vid knappen och klättrar uppåt, nod för nod, tills den hittar ett element med klassen `kommentar`. Det spelar ingen roll hur många nivåer det är emellan.
+
+Om ingen matchning hittas returnerar `closest` värdet `null` — precis som `querySelector`.
+
+### Ett robust mönster
+
+Med `closest` blir kommentarsexemplet robust oavsett hur HTML:en är strukturerad:
+
+```javascript
+const knappar = document.querySelectorAll(".gilla-knapp");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        const kommentar = e.target.closest(".kommentar");
+        const författare = kommentar.querySelector(".författare");
+        console.log(`Gillade ${författare.textContent}s kommentar`);
+    });
+}
+```
+
+Mönstret `e.target.closest(selektor)` är ett av de vanligaste i modern JavaScript. Det är stabilt, läsbart och fungerar oavsett om HTML-strukturen ändras i framtiden.
+
+::: {.callout-note}
+## MDN: Element.closest()
+
+En fullständig referens finns på [developer.mozilla.org/en-US/docs/Web/API/Element/closest](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest).
+:::
+
+---
+
+## Nedåt: `children`
+
+Egenskapen `children` ger en samling av alla direkta barn-element:
+
+```javascript
+const nav = document.querySelector("nav");
+console.log(nav.children);          // HTMLCollection med <a>-elementen
+console.log(nav.children.length);   // 2
+console.log(nav.children[0]);       // <a href="/">Hem</a>
+console.log(nav.children[1]);       // <a href="/om">Om</a>
+```
+
+`children` returnerar en **HTMLCollection** — en samling som liknar en array. Du kan komma åt element med index och läsa `length`, men den saknar arraymetoder som `push` och `pop`. Du kan iterera med `for...of`:
+
+```javascript
+for (const länk of nav.children) {
+    console.log(länk.textContent);
+}
+```
+
+::: {.callout-note}
+## HTMLCollection vs. NodeList
+
+`children` returnerar en HTMLCollection, medan `querySelectorAll` returnerar en NodeList. Båda liknar arrayer men är det inte. De viktigaste skillnaderna:
+
+- En **HTMLCollection** är *levande* — den uppdateras automatiskt om DOM:en ändras.
+- En **NodeList** från `querySelectorAll` är *statisk* — den speglar DOM:en vid det ögonblick den skapades.
+
+I de flesta fall märker du ingen skillnad. Men om du lägger till eller tar bort element medan du itererar kan det levande beteendet ge oväntade resultat. Vi återkommer till detta i nästa kapitel.
+:::
+
+### `firstElementChild` och `lastElementChild`
+
+Två snabbvägar som sparar skrivande:
+
+```javascript
+const lista = document.querySelector("ul");
+
+console.log(lista.firstElementChild);  // första <li>
+console.log(lista.lastElementChild);   // sista <li>
+```
+
+De är ekvivalenta med `children[0]` respektive `children[children.length - 1]`, men tydligare i sin avsikt.
+
+---
+
+## Sidledes: syskonegenskaper
+
+Ibland behöver du inte gå uppåt eller nedåt utan *sidledes* — till nästa eller föregående element på samma nivå.
+
+### `nextElementSibling` och `previousElementSibling`
+
+```html
+<ul>
+    <li>Steg 1: Planera</li>
+    <li>Steg 2: Koda</li>
+    <li>Steg 3: Testa</li>
+</ul>
+```
+
+```javascript
+const steg2 = document.querySelectorAll("li")[1];
+
+console.log(steg2.previousElementSibling.textContent);  // "Steg 1: Planera"
+console.log(steg2.nextElementSibling.textContent);       // "Steg 3: Testa"
+```
+
+`nextElementSibling` ger nästa syskon, `previousElementSibling` ger det föregående. Om det inte finns något syskon i den riktningen returneras `null`:
+
+```javascript
+const steg1 = document.querySelector("li");
+console.log(steg1.previousElementSibling);  // null — det finns inget före
+```
+
+### Navigera en hel syskonlista
+
+Du kan använda syskonegenskaperna i en loop för att gå igenom alla syskon:
+
+```javascript
+let aktuellt = lista.firstElementChild;
+
+while (aktuellt !== null) {
+    console.log(aktuellt.textContent);
+    aktuellt = aktuellt.nextElementSibling;
+}
+```
+
+I praktiken är `children` eller `querySelectorAll` oftast smidigare för att gå igenom alla element på samma nivå. Syskonegenskaperna är mest användbara när du redan har ett element och vill nå dess *närmaste* granne.
+
+---
+
+## Data i HTML: `dataset`
+
+I kapitel 10 introducerade vi `data-`-attribut och `dataset` kortfattat. Nu är det dags att utforska dem ordentligt — de är en central del av att arbeta med DOM-traversering i praktiken.
+
+HTML låter dig lägga till egna attribut på element, så länge de börjar med `data-`:
+
+```html
+<ul id="produktlista">
+    <li data-id="101" data-pris="299" data-kategori="elektronik">Trådlös mus</li>
+    <li data-id="102" data-pris="1299" data-kategori="elektronik">Tangentbord</li>
+    <li data-id="103" data-pris="49" data-kategori="tillbehör">Musmatta</li>
+</ul>
+```
+
+I JavaScript når du dessa via `element.dataset`, som är ett objekt med en egenskap för varje `data-`-attribut:
+
+```javascript
+const produkt = document.querySelector("li");
+
+console.log(produkt.dataset.id);        // "101"
+console.log(produkt.dataset.pris);      // "299"
+console.log(produkt.dataset.kategori);  // "elektronik"
+```
+
+Notera att värdena alltid är **strängar**. Om du behöver ett tal måste du konvertera:
+
+```javascript
+const pris = Number(produkt.dataset.pris);
+console.log(pris + 100);   // 399
+```
+
+### Namnkonventioner
+
+Attributnamn med bindestreck konverteras till camelCase i `dataset`:
+
+```html
+<div data-produkt-namn="Mus" data-i-lager="true"></div>
+```
+
+```javascript
+const div = document.querySelector("div");
+console.log(div.dataset.produktNamn);  // "Mus"
+console.log(div.dataset.iLager);       // "true"
+```
+
+Mönstret är detsamma som för CSS-egenskaper i `.style`: bindestreck blir camelCase.
+
+### Kombinera `dataset` med traversering
+
+Den verkliga kraften visar sig när du kombinerar `dataset` med traversering. Här är ett exempel med en produktlista där varje produkt har en "Lägg i kundvagn"-knapp:
+
+```html
+<div class="produkt" data-id="101" data-pris="299">
+    <h3>Trådlös mus</h3>
+    <p>299 kr</p>
+    <button class="köp-knapp">Lägg i kundvagn</button>
+</div>
+
+<div class="produkt" data-id="102" data-pris="1299">
+    <h3>Tangentbord</h3>
+    <p>1 299 kr</p>
+    <button class="köp-knapp">Lägg i kundvagn</button>
+</div>
+```
+
+```javascript
+const knappar = document.querySelectorAll(".köp-knapp");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        const produkt = e.target.closest(".produkt");
+        const id = produkt.dataset.id;
+        const pris = Number(produkt.dataset.pris);
+        const namn = produkt.querySelector("h3").textContent;
+
+        console.log(`Lade till ${namn} (id: ${id}) för ${pris} kr`);
+    });
+}
+```
+
+Mönstret är: klickhändelse → `closest` uppåt till containern → `dataset` för metadata → `querySelector` nedåt för visuell data. Det är ett kraftfullt och återanvändbart mönster som du kommer att använda ofta.
+
+::: {.callout-note}
+## MDN: Using data attributes
+
+En fullständig referens finns på [developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes).
+:::
+
+---
+
+## Praktiskt exempel: aktiv meny
+
+Låt oss bygga en vanlig interaktion: en navigationsmeny där det klickade alternativet markeras som aktivt. Det här exemplet knyter ihop traversering, `classList` och händelser.
+
+```html
+<nav>
+    <ul id="meny">
+        <li><a href="#hem" class="aktiv">Hem</a></li>
+        <li><a href="#nyheter">Nyheter</a></li>
+        <li><a href="#om">Om oss</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+</nav>
+<main id="innehåll">
+    <p>Välkommen till startsidan.</p>
+</main>
+```
+
+```javascript
+const meny = document.querySelector("#meny");
+const länkar = meny.querySelectorAll("a");
+
+for (const länk of länkar) {
+    länk.addEventListener("click", (e) => {
+        // Ta bort "aktiv" från alla länkar
+        for (const l of länkar) {
+            l.classList.remove("aktiv");
+        }
+
+        // Lägg till "aktiv" på den klickade länken
+        e.target.classList.add("aktiv");
+    });
+}
+```
+
+Mönstret — "ta bort klassen från alla, lägg till på den klickade" — är ett standardmönster för exklusiva val. Du såg det i övning 10.6 i händelsekapitlet, och nu ser du hur traversering gör det möjligt att hitta rätt element utan unika id:n.
+
+---
+
+## Praktiskt exempel: expanderbara sektioner
+
+Här är ett lite mer komplett exempel som visar traversering i aktion — expanderbara FAQ-sektioner:
+
+```html
+<div class="faq">
+    <div class="faq-item">
+        <h3 class="faq-fråga">Hur återställer jag mitt lösenord?</h3>
+        <div class="faq-svar" hidden>
+            <p>Klicka på "Glömt lösenord" på inloggningssidan.</p>
+        </div>
+    </div>
+    <div class="faq-item">
+        <h3 class="faq-fråga">Kan jag ändra min e-postadress?</h3>
+        <div class="faq-svar" hidden>
+            <p>Ja, under Inställningar > Konto.</p>
+        </div>
+    </div>
+    <div class="faq-item">
+        <h3 class="faq-fråga">Hur avbryter jag min prenumeration?</h3>
+        <div class="faq-svar" hidden>
+            <p>Kontakta kundtjänst via formuläret.</p>
+        </div>
+    </div>
+</div>
+```
+
+```javascript
+const frågor = document.querySelectorAll(".faq-fråga");
+
+for (const fråga of frågor) {
+    fråga.addEventListener("click", (e) => {
+        const item = e.target.closest(".faq-item");
+        const svar = item.querySelector(".faq-svar");
+        svar.hidden = !svar.hidden;
+    });
+}
+```
+
+Tre rader i callbacken gör allt: `closest` hittar den omgivande FAQ-posten, `querySelector` hittar svaret inom den posten, och `hidden` togglas. Det spelar ingen roll hur många FAQ-poster sidan har — samma kod fungerar för alla.
+
+---
+
+## Välja rätt verktyg
+
+Med alla sätt att hitta element — `querySelector`, `closest`, `parentElement`, `children`, syskonegenskaper — kan det vara svårt att veta vad man ska välja. Här är en vägledning:
+
+| Du vill...                                      | Använd                        |
+|-------------------------------------------------|-------------------------------|
+| Hitta ett element var som helst på sidan        | `document.querySelector()`    |
+| Hitta ett element inuti en känd container       | `container.querySelector()`   |
+| Gå uppåt till närmaste matchande förfader       | `element.closest(selektor)`   |
+| Gå ett steg uppåt                               | `element.parentElement`       |
+| Komma åt alla direkta barn                      | `element.children`            |
+| Komma åt första/sista barnet                    | `firstElementChild` / `lastElementChild` |
+| Gå till nästa/föregående syskon                 | `nextElementSibling` / `previousElementSibling` |
+| Läsa egen data lagrad i HTML                    | `element.dataset`             |
+
+I de flesta fall räcker `querySelector` och `closest`. Använd de andra egenskaperna när du behöver navigera relativt från ett element du redan har — till exempel i en händelsehanterare.
+
+---
+
+## Sammanfattning
+
+DOM-traversering handlar om att navigera mellan element i trädstrukturen — uppåt, nedåt och sidledes — utan att vara beroende av unika id:n eller globala sökningar.
+
+- **`parentElement`** ger det direkta förälderelementet.
+- **`closest(selektor)`** söker uppåt och returnerar det första elementet som matchar selektorn. Returnerar `null` om ingen matchning hittas.
+- **`children`** ger en HTMLCollection av alla direkta barn-element.
+- **`firstElementChild`** och **`lastElementChild`** ger det första respektive sista barnet.
+- **`nextElementSibling`** och **`previousElementSibling`** ger nästa respektive föregående syskon.
+- **`dataset`** ger tillgång till `data-`-attribut som ett objekt med camelCase-nycklar.
+- **`querySelector`** kan anropas på *vilket element som helst*, inte bara `document`, och söker då inom det elementets underträd.
+- Mönstret **`e.target.closest(selektor)`** i händelsehanterare är ett av de mest använda i modern JavaScript.
+
+I nästa kapitel tar vi steget från att *hitta och ändra* befintliga element till att *skapa nya* — och ta bort dem. Med traversering och elementgenerering har du verktygen att bygga helt dynamiska gränssnitt som förändras i takt med data och användarens handlingar.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+DOM-traversering handlar om att tänka i *relationer* — förälder, barn, syskon. Det kan vara svårt att hålla i huvudet utan att se strukturen framför sig. AI-verktyg kan hjälpa dig att visualisera och experimentera.
+
+**Be AI:n rita ett DOM-träd:**
+
+> *"Givet den här HTML-koden, rita DOM-trädet och visa vilka element som är föräldrar, barn och syskon."*
+
+Att se trädstrukturen visuellt gör det lättare att resonera om vilken egenskap som tar dig dit du vill.
+
+**Fråga om traverseringsvägar:**
+
+> *"Jag har en referens till en `<button>` inuti en `<td>` i en tabell. Hur når jag den `<tr>` som knappen tillhör? Och hur når jag innehållet i den första `<td>` i samma rad?"*
+
+> *"Vad är skillnaden mellan `parentNode` och `parentElement`? När spelar det roll?"*
+
+**Generera traverseringsövningar:**
+
+> *"Ge mig en HTML-struktur med nästlade element. Ställ sedan fem frågor om vad olika traverseringsuttryck ger — till exempel `element.parentElement.children[2].textContent`. Visa inte svaren direkt."*
+
+Att öva på att förutsäga resultatet av traverseringsuttryck tränar samma typ av tänkande som att förutsäga arrayindex — men i två dimensioner.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Navigera DOM-trädet
+
+Givet följande HTML:
+
+```html
+<main>
+    <section id="intro">
+        <h2>Välkommen</h2>
+        <p>Första stycket.</p>
+        <p>Andra stycket.</p>
+    </section>
+    <section id="innehåll">
+        <h2>Artiklar</h2>
+        <ul>
+            <li>Artikel A</li>
+            <li>Artikel B</li>
+            <li>Artikel C</li>
+        </ul>
+    </section>
+</main>
+```
+
+Utan att köra koden — förutsäg vad följande uttryck ger:
+
+1. `document.querySelector("#intro").children.length`
+2. `document.querySelector("#intro").firstElementChild.textContent`
+3. `document.querySelector("#intro").lastElementChild.textContent`
+4. `document.querySelector("li").parentElement.parentElement.id`
+5. `document.querySelectorAll("li")[1].previousElementSibling.textContent`
+6. `document.querySelector("#innehåll").previousElementSibling.id`
+
+Kontrollera sedan dina svar genom att skriva uttrycken i webbläsarens konsol.
+:::
+
+::: {.callout-note}
+## Övning – Markera förälder vid klick
+
+Skapa en HTML-sida med en lista (`<ul>`) med minst sex `<li>`-element. Varje `<li>` ska innehålla en `<span>` med en text och en `<button>` med texten "Markera".
+
+Skriv JavaScript som:
+
+1. Registrerar en klicklyssnare på varje knapp.
+2. Vid klick: navigerar från knappen till dess förälder-`<li>` med `parentElement`.
+3. Togglar en CSS-klass `markerad` på det `<li>`-elementet.
+
+Definiera klassen `.markerad` med en valfri bakgrundsfärg i CSS.
+:::
+
+::: {.callout-note}
+## Övning – FAQ med `closest`
+
+Bygg en FAQ-sektion med minst fem frågor. Strukturera varje fråga som i exemplet med expanderbara sektioner (en `<div>` med en rubrik och ett dolt svar). Skriv JavaScript som:
+
+1. Lyssnar på klick på rubrikerna.
+2. Använder `closest` för att hitta den omgivande FAQ-posten.
+3. Togglar synligheten på svaret.
+
+Utöka sedan: se till att bara *en* fråga kan vara öppen åt gången. När en ny fråga öppnas ska den föregående stängas.
+
+*Tips:* Gå igenom alla svar och dölj dem innan du visar det nya.
+:::
+
+::: {.callout-note}
+## Övning – Produktkort med `dataset`
+
+Skapa en HTML-sida med minst fyra produktkort. Varje kort är en `<div>` med klassen `produkt`, `data-`-attribut för `id`, `pris` och `kategori`, samt en "Lägg i kundvagn"-knapp.
+
+Skriv JavaScript som:
+
+1. Lyssnar på klick på alla knappar.
+2. Använder `closest` för att hitta produktkortet.
+3. Läser produktens `dataset`-värden.
+4. Lägger till produkten i en array `kundvagn` (som objekt med id, namn och pris).
+5. Visar kundvagnens innehåll och totalpris i ett `<div>`-element på sidan.
+
+Tänk på att `dataset`-värden är strängar — konvertera priser till tal innan du räknar.
+:::
+
+::: {.callout-note}
+## Övning – Syskonnavigation
+
+Skapa en sida med ett bildgalleri: en `<div>` som innehåller flera `<img>`-element (eller `<div>`-element med bakgrundsfärger om du inte har bilder). Lägg till två knappar: "Föregående" och "Nästa".
+
+Skriv JavaScript som håller reda på vilken bild som är markerad (med en CSS-klass `aktiv`). När användaren klickar "Nästa" ska klassen flyttas till `nextElementSibling`. När användaren klickar "Föregående" ska den flyttas till `previousElementSibling`.
+
+Se till att navigeringen stannar vid första respektive sista bilden (kontrollera om syskonet är `null`).
+:::
+
+::: {.callout-note}
+## Övning – Traverseringskedja
+
+Utan att köra koden — gå igenom följande HTML och JavaScript och ange vad som skrivs ut:
+
+```html
+<div id="wrapper">
+    <section>
+        <h2>Rubrik</h2>
+        <p>Text <strong>med fetstil</strong> i sig.</p>
+        <ul>
+            <li data-poäng="10">Fråga 1</li>
+            <li data-poäng="20">Fråga 2</li>
+            <li data-poäng="30">Fråga 3</li>
+        </ul>
+    </section>
+</div>
+```
+
+```javascript
+const stark = document.querySelector("strong");
+console.log(stark.parentElement.tagName);
+
+const lista = stark.parentElement.nextElementSibling;
+console.log(lista.children.length);
+
+const andraPunkten = lista.children[1];
+console.log(andraPunkten.dataset.poäng);
+console.log(andraPunkten.previousElementSibling.textContent);
+
+const section = lista.closest("section");
+console.log(section.firstElementChild.textContent);
+```
+
+Kontrollera dina svar i webbläsarens konsol.
+:::

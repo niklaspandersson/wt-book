@@ -1,0 +1,717 @@
+# Skapa och ändra element
+
+## En lista som inte finns ännu
+
+Hittills har all din DOM-manipulation handlat om att *ändra* element som redan finns i HTML:en. Du har ändrat text, bytt klasser, dolt och visat element. Men elementen har alltid funnits där från början — skrivna i HTML-filen, redo att hittas med `querySelector`.
+
+Tänk dig nu att du hämtar data från en server: en lista med tio nyhetsartiklar. HTML-sidan har en tom `<div>`. Det finns inga `<article>`-element, inga rubriker, inga stycken — allt ska skapas av JavaScript utifrån datan. Eller tänk dig en att-göra-lista: användaren skriver in en uppgift, trycker Enter, och ett nytt `<li>`-element dyker upp i listan. Det elementet fanns inte i HTML:en. Det skapades av din kod.
+
+Att *skapa nya element* och lägga till dem i DOM:en är det som gör JavaScript till ett verktyg för dynamiska webbsidor. Det är steget från att dekorera en befintlig sida till att *bygga* sidan.
+
+---
+
+## Skapa element med `createElement`
+
+Metoden `document.createElement` skapar ett nytt HTML-element:
+
+```javascript
+const stycke = document.createElement("p");
+```
+
+Argumentet är en sträng med elementets taggnamn — `"p"`, `"div"`, `"li"`, `"button"` och så vidare. Resultatet är ett fullvärdigt DOM-element med alla egenskaper du redan känner: `textContent`, `classList`, `style`, `dataset`.
+
+Men — och det här är viktigt — elementet *syns inte på sidan*. Det existerar i minnet, som ett objekt i JavaScript, men det är inte kopplat till DOM-trädet ännu. Det är som att köpa en tavla utan att hänga upp den.
+
+Innan du lägger till elementet på sidan kan du förbereda det:
+
+```javascript
+const stycke = document.createElement("p");
+stycke.textContent = "Hej, jag är ny!";
+stycke.classList.add("meddelande");
+stycke.dataset.typ = "hälsning";
+```
+
+Nu har vi ett `<p>`-element med text, en CSS-klass och ett data-attribut. Det återstår att placera det på sidan.
+
+---
+
+## Lägga till element med `append`
+
+Metoden `append` lägger till ett eller flera element *sist* inuti ett annat element:
+
+```javascript
+const container = document.querySelector("#meddelanden");
+const stycke = document.createElement("p");
+stycke.textContent = "Hej, jag är ny!";
+
+container.append(stycke);
+```
+
+Nu syns stycket på sidan, som sista barn inuti `#meddelanden`. Grundflödet är alltid detsamma:
+
+1. **Skapa** elementet med `createElement`.
+2. **Konfigurera** det — text, klasser, attribut, stilar.
+3. **Placera** det i DOM:en med `append` (eller en annan metod).
+
+### `append` kan ta flera argument
+
+Du kan lägga till flera element på en gång:
+
+```javascript
+const lista = document.querySelector("ul");
+
+const punkt1 = document.createElement("li");
+punkt1.textContent = "Första";
+
+const punkt2 = document.createElement("li");
+punkt2.textContent = "Andra";
+
+lista.append(punkt1, punkt2);
+```
+
+Båda läggs till sist i listan, i den ordning de anges.
+
+`append` kan också ta rena textsträngar:
+
+```javascript
+const stycke = document.createElement("p");
+stycke.append("Pris: ", "299 kr");
+// Resulterar i: <p>Pris: 299 kr</p>
+```
+
+### `prepend` — lägg till först
+
+Om du vill lägga till ett element *först* istället för sist, använd `prepend`:
+
+```javascript
+const lista = document.querySelector("ul");
+const nyPunkt = document.createElement("li");
+nyPunkt.textContent = "Jag hamnar först!";
+
+lista.prepend(nyPunkt);
+```
+
+::: {.callout-note}
+## `append` vs. `appendChild`
+
+I äldre kod ser du ofta `appendChild` istället för `append`. Skillnaden:
+
+- **`append`** kan ta flera argument och kan ta textsträngar. Det är den moderna metoden.
+- **`appendChild`** tar bara *ett* element och returnerar det tillagda elementet.
+
+```javascript
+container.append(el1, el2, "text");        // fungerar
+container.appendChild(el1);                 // fungerar
+container.appendChild(el1, el2);            // fungerar inte — bara ett argument
+container.appendChild("text");              // fungerar inte — bara element
+```
+
+Använd `append` i ny kod. Du kommer att stöta på `appendChild` i dokumentation och äldre exempel, men `append` är flexiblare.
+:::
+
+---
+
+## Infoga på specifik plats
+
+`append` och `prepend` lägger till sist respektive först *inuti* ett element. Men vad om du vill placera ett element *före* eller *efter* ett specifikt befintligt element?
+
+### `before` och `after`
+
+Metoderna `before` och `after` anropas på det element du vill placera *relativt till*:
+
+```javascript
+const steg2 = document.querySelectorAll("li")[1];
+const nyttSteg = document.createElement("li");
+nyttSteg.textContent = "Steg 1.5: Skissa";
+
+steg2.before(nyttSteg);   // infogas direkt före steg 2
+```
+
+Om du istället vill infoga *efter*:
+
+```javascript
+steg2.after(nyttSteg);    // infogas direkt efter steg 2
+```
+
+Dessa metoder gör det enkelt att placera element exakt där du vill i listan, utan att behöva tänka på index eller förälderelement.
+
+### En sammanfattning av placeringsmetoder
+
+| Metod             | Placering                              |
+|-------------------|----------------------------------------|
+| `parent.append`   | Sist inuti föräldern                   |
+| `parent.prepend`  | Först inuti föräldern                  |
+| `element.before`  | Direkt före elementet (som syskon)     |
+| `element.after`   | Direkt efter elementet (som syskon)    |
+
+Alla fyra kan ta flera argument och blanda element med textsträngar.
+
+---
+
+## Infoga HTML-strängar med `insertAdjacentHTML`
+
+Ibland är det mer praktiskt att skapa element från en HTML-sträng istället för att bygga dem steg för steg med `createElement`. Metoden `insertAdjacentHTML` gör det möjligt:
+
+```javascript
+const lista = document.querySelector("ul");
+lista.insertAdjacentHTML("beforeend", "<li>Ny punkt</li>");
+```
+
+Det första argumentet anger *var* HTML:en ska infogas. Det finns fyra positioner:
+
+```
+<!-- beforebegin -->
+<ul>
+    <!-- afterbegin -->
+    <li>Befintlig punkt</li>
+    <!-- beforeend -->
+</ul>
+<!-- afterend -->
+```
+
+| Position          | Beskrivning                           |
+|-------------------|---------------------------------------|
+| `"beforebegin"`   | Före elementet (som syskon)           |
+| `"afterbegin"`    | Först inuti elementet                 |
+| `"beforeend"`     | Sist inuti elementet                  |
+| `"afterend"`      | Efter elementet (som syskon)          |
+
+### `insertAdjacentHTML` vs. `innerHTML`
+
+Du kanske tänker: "Jag kan redan infoga HTML med `innerHTML`." Det stämmer, men det finns en avgörande skillnad:
+
+```javascript
+// innerHTML — ersätter ALLT innehåll
+container.innerHTML += "<p>Ny rad</p>";
+```
+
+Att använda `innerHTML +=` ser oskyldigt ut, men det är problematiskt. Webbläsaren konverterar hela innehållet till en sträng, lägger till den nya HTML:en, och *bygger om hela trädet från grunden*. Det betyder att alla befintliga element förstörs och återskapas. Eventuella händelselyssnare som var registrerade på de gamla elementen försvinner. Formulärfält tappar sitt innehåll. Det är dyrt och destruktivt.
+
+`insertAdjacentHTML` däremot lägger bara till det nya innehållet — befintliga element och lyssnare lämnas orörda:
+
+```javascript
+// insertAdjacentHTML — lägger till utan att röra befintligt innehåll
+container.insertAdjacentHTML("beforeend", "<p>Ny rad</p>");
+```
+
+::: {.callout-warning}
+## `innerHTML +=` förstör händelselyssnare
+
+Det här är en av de vanligaste fallgroparna i DOM-programmering. Betrakta:
+
+```javascript
+const knapp = document.querySelector("button");
+knapp.addEventListener("click", () => console.log("Klick!"));
+
+// Senare i koden:
+document.querySelector("#wrapper").innerHTML += "<p>Nytt stycke</p>";
+```
+
+Efter `innerHTML +=` fungerar inte längre klicklyssnaren på knappen — den finns fortfarande på sidan, men det är en *ny* knapp (en återuppbyggd kopia), inte den ursprungliga som lyssnaren registrerades på.
+
+Använd `insertAdjacentHTML`, `append` eller `createElement` istället.
+:::
+
+### Säkerhet
+
+Precis som med `innerHTML` gäller samma säkerhetsvarning: infoga aldrig ofiltrerad användardata med `insertAdjacentHTML`. Det kan leda till XSS-attacker (cross-site scripting), som vi berörde i kapitel 4. Använd `createElement` och `textContent` om datan kommer från användaren.
+
+---
+
+## `createElement` eller HTML-strängar?
+
+Du har nu två sätt att skapa element: `createElement` med manuell konfiguration, och HTML-strängar med `insertAdjacentHTML`. Båda har sin plats:
+
+**Använd `createElement` när:**
+
+- Elementet behöver händelselyssnare direkt.
+- Innehållet baseras på användardata (säkrare — `textContent` escaped automatiskt).
+- Du behöver en referens till elementet för att arbeta med det vidare.
+
+```javascript
+const knapp = document.createElement("button");
+knapp.textContent = användarensText;  // säkert — text escaped
+knapp.addEventListener("click", hanteraKlick);
+container.append(knapp);
+```
+
+**Använd `insertAdjacentHTML` när:**
+
+- Du skapar flera element med komplex HTML-struktur.
+- Datan kommer från din egen kod (inte användaren).
+- Du inte behöver referera till de nya elementen direkt.
+
+```javascript
+container.insertAdjacentHTML("beforeend", `
+    <div class="kort">
+        <h3>${produkt.namn}</h3>
+        <p>${produkt.pris} kr</p>
+    </div>
+`);
+```
+
+I praktiken blandas ofta båda teknikerna i samma projekt.
+
+---
+
+## Ta bort element med `remove`
+
+Metoden `remove` tar bort ett element från DOM:en:
+
+```javascript
+const meddelande = document.querySelector("#meddelande");
+meddelande.remove();
+```
+
+Elementet försvinner från sidan omedelbart. Det tas bort ur DOM-trädet, och eventuella barn försvinner med det.
+
+### Ta bort vid klick
+
+Ett vanligt mönster är att ta bort ett element när användaren klickar på en knapp. Här kombinerar vi `remove` med traversering:
+
+```html
+<ul id="uppgifter">
+    <li>
+        <span>Handla mjölk</span>
+        <button class="ta-bort">✕</button>
+    </li>
+    <li>
+        <span>Plugga JavaScript</span>
+        <button class="ta-bort">✕</button>
+    </li>
+</ul>
+```
+
+```javascript
+const knappar = document.querySelectorAll(".ta-bort");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        const uppgift = e.target.closest("li");
+        uppgift.remove();
+    });
+}
+```
+
+`closest("li")` hittar den omgivande listpunkten, och `remove` tar bort den. Hela punkten — text och knapp — försvinner.
+
+::: {.callout-note}
+## `remove` vs. `removeChild`
+
+I äldre kod ser du ofta `parent.removeChild(element)` istället för `element.remove()`. `removeChild` kräver att du har en referens till föräldern:
+
+```javascript
+// Modernt
+element.remove();
+
+// Äldre mönster
+element.parentElement.removeChild(element);
+```
+
+`remove` är enklare och tydligare. Använd det i ny kod.
+:::
+
+---
+
+## Flytta element
+
+En intressant egenskap hos DOM:en är att ett element bara kan finnas på *en* plats i trädet. Om du lägger till ett element som redan finns i DOM:en *flyttas* det automatiskt — det kopieras inte:
+
+```html
+<ul id="lista">
+    <li>Alfa</li>
+    <li>Beta</li>
+    <li>Gamma</li>
+</ul>
+```
+
+```javascript
+const lista = document.querySelector("#lista");
+const gamma = lista.children[2];
+
+// Flytta Gamma till första positionen
+lista.prepend(gamma);
+// Resultat: Gamma, Alfa, Beta
+```
+
+`gamma` togs automatiskt bort från sin gamla position (sist) och placerades först. Det här gäller alla infogningsmetoder: `append`, `prepend`, `before`, `after`.
+
+### Sortera en lista
+
+Flytta-beteendet gör det möjligt att sortera om en lista i DOM:en:
+
+```javascript
+const lista = document.querySelector("#lista");
+const objekt = Array.from(lista.children);
+
+objekt.sort((a, b) => a.textContent.localeCompare(b.textContent));
+
+for (const li of objekt) {
+    lista.append(li);
+}
+```
+
+Steg för steg:
+
+1. `Array.from(lista.children)` konverterar HTMLCollection till en riktig array (annars kan vi inte använda `sort`).
+2. `sort` med `localeCompare` sorterar elementen alfabetiskt efter textinnehåll.
+3. `append` i loopen placerar varje element sist — eftersom de redan finns i DOM:en *flyttas* de till sin nya position.
+
+::: {.callout-note}
+## `Array.from` och samlingar
+
+`Array.from()` konverterar arrayliknande strukturer — som HTMLCollection och NodeList — till riktiga arrayer. Det ger dig tillgång till alla arraymetoder: `sort`, `filter`, `map` och andra. Du stötte på det kort i kapitel 8 med NodeList, och det är lika användbart här:
+
+```javascript
+const allaBarn = Array.from(element.children);
+```
+:::
+
+---
+
+## Praktiskt exempel: att-göra-lista
+
+Låt oss bygga en komplett att-göra-lista som knyter ihop allt vi lärt oss: `createElement`, `append`, `remove`, traversering, händelser och `dataset`.
+
+```html
+<h1>Att göra</h1>
+<form id="ny-uppgift-form">
+    <input type="text" id="ny-uppgift" placeholder="Skriv en uppgift...">
+    <button type="submit">Lägg till</button>
+</form>
+<ul id="uppgiftslista"></ul>
+<p id="status"></p>
+```
+
+```javascript
+const form = document.querySelector("#ny-uppgift-form");
+const input = document.querySelector("#ny-uppgift");
+const lista = document.querySelector("#uppgiftslista");
+const status = document.querySelector("#status");
+
+let uppgiftsNummer = 0;
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const text = input.value.trim();
+    if (text === "") return;
+
+    uppgiftsNummer++;
+
+    // Skapa elementet
+    const li = document.createElement("li");
+    li.dataset.nummer = uppgiftsNummer;
+
+    const span = document.createElement("span");
+    span.textContent = text;
+
+    const knapp = document.createElement("button");
+    knapp.textContent = "✕";
+    knapp.classList.add("ta-bort");
+
+    // Registrera lyssnare direkt på det nya elementet
+    knapp.addEventListener("click", () => {
+        li.remove();
+        uppdateraStatus();
+    });
+
+    // Sätt ihop och lägg till
+    li.append(span, knapp);
+    lista.append(li);
+
+    input.value = "";
+    input.focus();
+    uppdateraStatus();
+});
+
+function uppdateraStatus() {
+    const antal = lista.children.length;
+    status.textContent = antal === 0
+        ? "Inga uppgifter."
+        : `${antal} uppgift${antal > 1 ? "er" : ""} kvar.`;
+}
+
+uppdateraStatus();
+```
+
+Det händer mycket i det här exemplet. Låt oss gå igenom de viktigaste delarna:
+
+- **`e.preventDefault()`** förhindrar att formuläret skickas och sidan laddas om. Vi har inte behandlat formulär i detalj ännu (det kommer i ett eget kapitel), men den här raden är nödvändig för att sidan inte ska laddas om.
+- **`input.value.trim()`** hämtar textfältets innehåll och tar bort eventuella mellanslag i början och slutet. `trim` är en strängmetod som returnerar en ny sträng utan omgivande blanksteg.
+- **Tidigt avbrott med `return`**: om texten är tom avbryter vi funktionen direkt. Inga element skapas, inget läggs till.
+- **Tre `createElement`-anrop** bygger upp ett `<li>` med en `<span>` och en `<button>`.
+- **Händelselyssnaren registreras direkt** på den nyskapade knappen — innan den ens lagts till i DOM:en. Det fungerar eftersom elementet redan existerar som objekt.
+- **`li.append(span, knapp)`** sätter ihop strukturen, och **`lista.append(li)`** placerar den på sidan.
+- **`input.value = ""`** rensar fältet och **`input.focus()`** sätter tillbaka markören i fältet, redo för nästa inmatning.
+- **`uppdateraStatus`** räknar barn i listan med `children.length` och visar ett meddelande.
+
+Det här är ett mönster som du kommer att använda i många variationer: formulär → skapa element → registrera lyssnare → lägg till i DOM:en.
+
+::: {.callout-note}
+## `submit`-händelsen och `preventDefault`
+
+Formulär har en inbyggd funktion: de skickar data till en server och laddar om sidan. Med `e.preventDefault()` stoppar du det beteendet och tar kontroll i JavaScript istället. Vi återkommer till formulärhantering i detalj i ett senare kapitel.
+:::
+
+---
+
+## Ersätta element med `replaceWith`
+
+Ibland vill du inte bara lägga till eller ta bort, utan byta ut ett element mot ett annat. Metoden `replaceWith` gör det i ett steg:
+
+```javascript
+const gammalRubrik = document.querySelector("h2");
+const nyRubrik = document.createElement("h2");
+nyRubrik.textContent = "Uppdaterad rubrik";
+nyRubrik.classList.add("ny");
+
+gammalRubrik.replaceWith(nyRubrik);
+```
+
+Det gamla elementet försvinner ur DOM:en och det nya tar dess plats. Alla barn, klasser och attribut på det gamla elementet försvinner — det nya elementet är helt fristående.
+
+`replaceWith` kan också ta en sträng:
+
+```javascript
+element.replaceWith("Bara text, inget element.");
+```
+
+---
+
+## Klona element med `cloneNode`
+
+Om du vill skapa en kopia av ett befintligt element använder du `cloneNode`:
+
+```javascript
+const original = document.querySelector(".kort");
+const kopia = original.cloneNode(true);
+```
+
+Argumentet `true` betyder **djup kopia** — alla barn kopieras med. Med `false` (eller utan argument) kopieras bara elementet självt, utan dess innehåll:
+
+```javascript
+const ytligKopia = original.cloneNode(false);   // bara elementet, inga barn
+const djupKopia = original.cloneNode(true);      // elementet och allt inuti
+```
+
+En viktig detalj: `cloneNode` kopierar *inte* händelselyssnare som registrerats med `addEventListener`. Om originalet har en klicklyssnare har kopian det inte. Du behöver registrera nya lyssnare på kopian.
+
+```javascript
+const kopia = original.cloneNode(true);
+const knapp = kopia.querySelector("button");
+knapp.addEventListener("click", hanteraKlick);  // ny lyssnare behövs
+container.append(kopia);
+```
+
+---
+
+## Praktiskt exempel: dynamiska produktkort
+
+Här är ett mer realistiskt exempel som kombinerar allt: vi har produktdata i en array och bygger hela gränssnittet med JavaScript.
+
+```html
+<h1>Produkter</h1>
+<div id="filter">
+    <button class="filter-knapp aktiv" data-kategori="alla">Alla</button>
+    <button class="filter-knapp" data-kategori="elektronik">Elektronik</button>
+    <button class="filter-knapp" data-kategori="tillbehör">Tillbehör</button>
+</div>
+<div id="produkter"></div>
+```
+
+```javascript
+const produkter = [
+    { id: 1, namn: "Trådlös mus", pris: 299, kategori: "elektronik" },
+    { id: 2, namn: "Mekaniskt tangentbord", pris: 1299, kategori: "elektronik" },
+    { id: 3, namn: "Musmatta", pris: 49, kategori: "tillbehör" },
+    { id: 4, namn: "USB-hubb", pris: 349, kategori: "elektronik" },
+    { id: 5, namn: "Skärmrengöring", pris: 79, kategori: "tillbehör" }
+];
+
+const container = document.querySelector("#produkter");
+
+function skapaProduktkort(produkt) {
+    const kort = document.createElement("div");
+    kort.classList.add("produktkort");
+    kort.dataset.kategori = produkt.kategori;
+
+    const namn = document.createElement("h3");
+    namn.textContent = produkt.namn;
+
+    const pris = document.createElement("p");
+    pris.textContent = `${produkt.pris} kr`;
+    pris.classList.add("pris");
+
+    const knapp = document.createElement("button");
+    knapp.textContent = "Köp";
+    knapp.addEventListener("click", () => {
+        knapp.textContent = "Tillagd!";
+        knapp.disabled = true;
+    });
+
+    kort.append(namn, pris, knapp);
+    return kort;
+}
+
+function visaProdukter(kategori) {
+    container.textContent = "";  // rensa containern
+
+    for (const produkt of produkter) {
+        if (kategori === "alla" || produkt.kategori === kategori) {
+            container.append(skapaProduktkort(produkt));
+        }
+    }
+}
+
+// Filterknappar
+const filterKnappar = document.querySelectorAll(".filter-knapp");
+
+for (const knapp of filterKnappar) {
+    knapp.addEventListener("click", (e) => {
+        for (const k of filterKnappar) {
+            k.classList.remove("aktiv");
+        }
+        e.target.classList.add("aktiv");
+        visaProdukter(e.target.dataset.kategori);
+    });
+}
+
+// Visa alla produkter vid start
+visaProdukter("alla");
+```
+
+Notera några mönster:
+
+- **En funktion som skapar element**: `skapaProduktkort` returnerar ett komplett DOM-element. Att kapsla in elementskapandet i en funktion gör koden återanvändbar och tydlig.
+- **`container.textContent = ""`** rensar containern innan nya kort visas. Det är ett säkert sätt att tömma ett element — alternativet `innerHTML = ""` fungerar också, men `textContent` är snabbare och tydligare i sin avsikt.
+- **Filtrering med `dataset`**: filterknapparna lagrar sin kategori i `data-kategori`, och vi jämför det med produktens kategori.
+
+---
+
+## Sammanfattning
+
+Att kunna skapa, infoga, flytta och ta bort element ger dig full kontroll över sidans innehåll. Gränssnittet behöver inte längre vara statiskt — det kan byggas helt av JavaScript utifrån data.
+
+- **`document.createElement(tagg)`** skapar ett nytt element som inte syns förrän det läggs till i DOM:en.
+- **`parent.append(element)`** lägger till sist inuti föräldern. **`prepend`** lägger till först.
+- **`element.before(nytt)`** och **`element.after(nytt)`** placerar relativt till ett befintligt element.
+- **`insertAdjacentHTML(position, html)`** infogar en HTML-sträng på en specifik plats.
+- **Undvik `innerHTML +=`** — det förstör befintliga element och händelselyssnare. Använd `append`, `insertAdjacentHTML` eller `createElement` istället.
+- **`element.remove()`** tar bort elementet från DOM:en.
+- **`element.replaceWith(nytt)`** byter ut ett element mot ett annat.
+- **`element.cloneNode(true)`** skapar en djup kopia (utan händelselyssnare).
+- Att **lägga till ett element som redan finns** i DOM:en *flyttar* det — det kopieras inte.
+- **`container.textContent = ""`** är ett säkert sätt att tömma ett elements innehåll.
+- Mönstret **skapa → konfigurera → registrera lyssnare → placera** är grundläggande för dynamiska gränssnitt.
+
+Med traversering (förra kapitlet) och elementgenerering har du nu de verktyg som behövs för att bygga helt dynamiska webbapplikationer. Sidan behöver inte längre vara en passiv mottagare av stiländringar — den kan byggas om från grunden efter data, användarinteraktion och serverrespons.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Att skapa element med JavaScript involverar många steg: skapa, konfigurera, registrera lyssnare, placera. Det är lätt att glömma ett steg eller blanda ihop metoderna. AI-verktyg kan hjälpa dig att befästa mönstret.
+
+**Be AI:n jämföra tekniker:**
+
+> *"Vad är skillnaden mellan `innerHTML +=` och `insertAdjacentHTML('beforeend', ...)` i JavaScript? Vad händer med befintliga händelselyssnare i respektive fall?"*
+
+Det är en subtil men viktig skillnad som är värd att verkligen förstå.
+
+**Be om steg-för-steg-genomgång:**
+
+> *"Förklara steg för steg vad som händer i webbläsaren när jag kör `const div = document.createElement('div'); div.textContent = 'Hej'; document.body.append(div);`. Vad finns i minnet efter varje rad?"*
+
+**Generera byggövningar:**
+
+> *"Ge mig en uppgift där jag ska bygga en komplett HTML-struktur enbart med JavaScript — till exempel ett kontaktkort med namn, bild, e-post och en klickbar knapp. Beskriv slutresultatet som HTML, men jag ska skapa det med `createElement` och `append`."*
+
+Att öva på att översätta en HTML-struktur till `createElement`-anrop bygger förståelsen för hur DOM:en och HTML hänger ihop.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Skapa element
+
+Skapa en HTML-sida med en tom `<div id="output">`. Skriv JavaScript som skapar följande struktur med enbart `createElement`, `textContent`, `classList.add` och `append` — utan att skriva någon HTML i filen:
+
+```html
+<div id="output">
+    <h2>Kontakt</h2>
+    <p class="namn">Anna Andersson</p>
+    <p class="epost">anna@example.com</p>
+</div>
+```
+
+Kontrollera resultatet i webbläsarens Elements-panel.
+:::
+
+::: {.callout-note}
+## Övning – Dynamisk lista
+
+Skapa en HTML-sida med ett textfält, en knapp "Lägg till" och en tom `<ul>`. Skriv JavaScript som:
+
+1. Lyssnar på klick på knappen.
+2. Läser textfältets värde.
+3. Skapar ett `<li>`-element med texten.
+4. Lägger till det i listan med `append`.
+5. Rensar textfältet.
+
+Utöka sedan: lägg till en "✕"-knapp i varje `<li>` som tar bort punkten vid klick.
+:::
+
+::: {.callout-note}
+## Övning – `insertAdjacentHTML`
+
+Skapa en HTML-sida med en `<table>` med en rubrikrad (`<thead>`) och en tom `<tbody>`. Skapa i JavaScript en array med minst fem objekt som representerar studenter (med `namn` och `poäng`).
+
+Använd `insertAdjacentHTML` i en loop för att fylla tabellkroppen med en `<tr>` för varje student. Ge rader med poäng under 50 klassen `underkänd`.
+
+Jämför med att göra samma sak med `createElement` och `append` — vilken variant föredrar du för den här uppgiften?
+:::
+
+::: {.callout-note}
+## Övning – Flytta element
+
+Skapa en HTML-sida med två listor: `<ul id="tillgängliga">` och `<ul id="valda">`. Den första listan innehåller minst sex `<li>`-element med namn.
+
+Skriv JavaScript som:
+
+1. Registrerar klicklyssnare på alla `<li>` i den första listan.
+2. Vid klick: flyttar det klickade `<li>`-elementet till den andra listan.
+
+Utöka sedan: gör så att klick i den andra listan flyttar tillbaka elementet till den första. Utnyttja att `append` automatiskt flyttar element.
+:::
+
+::: {.callout-note}
+## Övning – Att-göra-lista
+
+Bygg en komplett att-göra-lista med följande funktioner:
+
+1. Ett textfält och en knapp för att lägga till uppgifter.
+2. Varje uppgift visas som ett `<li>`-element med texten och en ta-bort-knapp.
+3. Klick på ta-bort-knappen tar bort uppgiften.
+4. En statustext visar hur många uppgifter som finns kvar.
+
+Utöka med valfria funktioner:
+
+- En checkbox bredvid varje uppgift som togglar klassen `klar` (genomstruken text).
+- En "Rensa klara"-knapp som tar bort alla uppgifter med klassen `klar`.
+- Möjlighet att redigera en uppgift genom att dubbelklicka på texten (händelsen `dblclick`).
+:::
+
+::: {.callout-note}
+## Övning – Produktfilter
+
+Skapa en sida med produktdata i en JavaScript-array (minst sex produkter med `namn`, `pris` och `kategori`). Bygg hela gränssnittet dynamiskt:
+
+1. Skapa filterknappar baserat på de unika kategorierna i datan (plus "Alla").
+2. Skapa produktkort med `createElement` för varje produkt.
+3. Klick på en filterknapp visar bara produkter i den kategorin.
+4. Markera den aktiva filterknappen med en CSS-klass.
+
+*Tips:* Använd en funktion som tar en kategori som argument, rensar containern och bygger nya kort för matchande produkter.
+:::
