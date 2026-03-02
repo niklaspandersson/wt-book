@@ -16,6 +16,7 @@ book:
     - kap07-loopar.qmd
     - kap08-arrayer.qmd
     - kap09-funktioner.qmd
+    - kap10-handelser.qmd
     - kap-moduler.qmd
     - kap-oop.qmd
     - kap-arv.qmd

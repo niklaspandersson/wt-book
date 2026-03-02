@@ -380,7 +380,7 @@ Funktioner är ett av de viktigaste verktygen i en programmerares verktygslåda.
 - Variabler inuti en funktion har **lokalt scope** och existerar bara där.
 - **Funktionsuttryck** och **pilfunktioner** är alternativa syntaxer för att definiera funktioner.
 
-I nästa kapitel gör vi webben interaktiv — vi lär oss att *reagera* när användaren klickar, skriver eller rör musen. Det är händelser (*events*) som knyter ihop allt vi lärt oss hittills: funktioner, villkor, DOM-manipulation och stiländringar.
+I nästa kapitel gör vi webben interaktiv — vi lär oss att *reagera* när användaren klickar, skriver eller rör musen. Det är **händelser** (*events*) som knyter ihop allt vi lärt oss hittills: funktioner, villkor, DOM-manipulation och stiländringar.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
