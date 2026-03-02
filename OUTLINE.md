@@ -11,7 +11,7 @@ Kap. 7 – Loopar
 Kap. 8 – Arrayer *(skapa, indexera, ändra, söka, iterera, querySelectorAll, NodeList)*
 Kap. 9 – Att skriva egna funktioner *(funktionsdeklarationer, parametrar, scope, pilfunktioner)*
 Kap. 10 – Händelser och interaktivitet *(addEventListener, click, callback-funktioner, event-objektet, mushändelser, tangentbordshändelser, input-händelser)*
-Kap. 11 – Objekt
+Kap. 11 – Objekt *(objektliteraler, egenskaper, punktnotation, hakparentesnotation, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*

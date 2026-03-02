@@ -1,0 +1,665 @@
+# Objekt
+
+## En student är mer än ett namn
+
+Objekt har följt oss genom hela boken. Redan i kapitel 2 fick du en första bekantskap: objekt grupperar namngivna egenskaper, man når dem med punktnotation, och de finns överallt i JavaScript. Sedan dess har du arbetat med objekt i varje kapitel – DOM-element med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, inbyggda objekt som `document`, `Math` och `console`.
+
+Men du har bara *använt* objekt som andra har skapat åt dig. Nu är det dags att lära dig att *skapa egna*.
+
+Tänk dig att du ska visa information om studenter på en webbsida. Du har namn, program och årskurs för varje person – men hur samlar du ihop den informationen? Med separata variabler blir det ungefär så här:
+
+```javascript
+const namn1 = "Anna";
+const program1 = "Webbutveckling";
+const årskurs1 = 2;
+
+const namn2 = "Björn";
+const program2 = "Datavetenskap";
+const årskurs2 = 1;
+
+const namn3 = "Clara";
+const program3 = "Webbutveckling";
+const årskurs3 = 3;
+```
+
+Nio variabler för tre studenter. Och de hänger bara ihop genom namnkonvention – inget i koden säger att `namn1` och `program1` tillhör samma person. Om du vill skicka "en student" till en funktion måste du skicka tre separata argument. Om du vill lägga studenter i en array – vilken array? En för namn, en för program, en för årskurs?
+
+Du vet redan att objekt samlar relaterad data under ett namn. Nu ska du lära dig hur man skapar dem själv.
+
+---
+
+## Skapa ett objekt
+
+Du vet att ett objekt är en samling av **egenskaper** (*properties*), där varje egenskap har ett **namn** (kallas också *nyckel*) och ett **värde**. Man skapar ett eget objekt med **klammerparenteser** `{}`:
+
+```javascript
+const student = {
+    namn: "Anna",
+    program: "Webbutveckling",
+    årskurs: 2
+};
+```
+
+Det här kallas ett **objektliteral** – man skriver objektet direkt i koden, precis som `"Anna"` är en strängliteral och `42` är en nummerliteral. Innanför klammerparenteserna listas egenskaperna som `nyckel: värde`-par, separerade med kommatecken. Det är samma slags struktur som DOM-element och event-objekt har – skillnaden är att du nu definierar den själv.
+
+Variabeln `student` innehåller nu ett objekt med tre egenskaper. All information om Anna – namn, program och årskurs – hänger ihop i en enda variabel.
+
+Man kan också skapa ett tomt objekt och fylla det efteråt:
+
+```javascript
+const student = {};
+```
+
+Och precis som arrayer kan objektets egenskaper ha vilken typ av värde som helst – strängar, tal, booleska värden, arrayer, eller till och med andra objekt:
+
+```javascript
+const kurs = {
+    namn: "Webbteknik 2",
+    poäng: 7.5,
+    distans: false,
+    nyckelord: ["JavaScript", "DOM", "HTML"]
+};
+```
+
+---
+
+## Läsa egenskaper
+
+Punktnotation har du använt sedan kapitel 2 – `console.log()`, `element.textContent`, `e.target`. Den fungerar likadant på egna objekt:
+
+```javascript
+const student = {
+    namn: "Anna",
+    program: "Webbutveckling",
+    årskurs: 2
+};
+
+console.log(student.namn);      // "Anna"
+console.log(student.program);   // "Webbutveckling"
+console.log(student.årskurs);   // 2
+```
+
+Precis som du skriver `element.textContent` eller `e.target` skriver du `student.namn`. Mönstret är detsamma – punkten når en egenskap på ett objekt.
+
+Om du försöker komma åt en egenskap som inte finns returneras `undefined`:
+
+```javascript
+console.log(student.epost);   // undefined – egenskapen finns inte
+```
+
+Det ger inget felmeddelande – bara det tysta värdet `undefined`. Det kan vara förrädiskt: ett stavfel som `student.nman` ger inte en varning, bara `undefined` som sedan smyger vidare i koden.
+
+### Hakparentesnotation
+
+Det finns ett andra sätt att komma åt egenskaper: **hakparentesnotation**. Då skriver man nyckeln som en sträng inom hakparenteser:
+
+```javascript
+console.log(student["namn"]);      // "Anna"
+console.log(student["program"]);   // "Webbutveckling"
+```
+
+Resultatet är detsamma. Varför finns det då två sätt? Hakparentesnotation har en fördel: nyckeln kan vara en *variabel*:
+
+```javascript
+const fält = "namn";
+console.log(student[fält]);   // "Anna"
+```
+
+Det fungerar inte med punktnotation – `student.fält` hade letat efter en egenskap som heter just `fält`, inte efter egenskapen vars namn finns i variabeln.
+
+Hakparentesnotation är också nödvändig om nyckeln innehåller mellanslag eller andra specialtecken:
+
+```javascript
+const person = {
+    "fullständigt namn": "Anna Andersson",
+    "födelseår": 1999
+};
+
+console.log(person["fullständigt namn"]);   // "Anna Andersson"
+```
+
+I praktiken undviker man nycklar med mellanslag och använder punktnotation som standard. Men hakparentesnotation är ovärderlig när nyckeln bestäms dynamiskt – till exempel av en variabel eller ett funktionsargument.
+
+---
+
+## Ändra och lägga till egenskaper
+
+Man kan ändra värdet på en befintlig egenskap med enkel tilldelning:
+
+```javascript
+const student = {
+    namn: "Anna",
+    program: "Webbutveckling",
+    årskurs: 2
+};
+
+student.årskurs = 3;
+console.log(student.årskurs);   // 3
+```
+
+Och man kan lägga till *nya* egenskaper på samma sätt – bara tilldela ett värde till ett namn som inte finns:
+
+```javascript
+student.epost = "anna@example.com";
+console.log(student.epost);   // "anna@example.com"
+```
+
+Objektet har nu fyra egenskaper. I JavaScript är objekt *dynamiska* – deras struktur kan ändras efter att de skapats. Det ger stor flexibilitet, men kräver också disciplin: om du glömmer att lägga till en egenskap i ett objekt men inte i ett annat kan det skapa svårfunna buggar.
+
+::: {.callout-note}
+## `const` och objekt
+
+Precis som med arrayer förhindrar `const` att variabeln tilldelas om, men den förhindrar inte att objektets *innehåll* ändras:
+
+```javascript
+const student = { namn: "Anna" };
+student.namn = "Bella";     // Tillåtet – ändrar innehållet
+student = { namn: "Clara" }; // TypeError – försöker tilldela om variabeln
+```
+
+Variabeln `student` pekar fortfarande på *samma* objekt; det är objektets egenskaper som förändras.
+:::
+
+### Ta bort egenskaper
+
+Man kan ta bort en egenskap med operatorn `delete`:
+
+```javascript
+const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
+delete student.årskurs;
+console.log(student.årskurs);   // undefined
+console.log(student);           // { namn: "Anna", program: "Webbutveckling" }
+```
+
+`delete` används sällan i vardaglig kod, men det är bra att veta att det finns.
+
+---
+
+## Metoder – funktioner i objekt
+
+Du har anropat metoder sedan kapitel 2: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. En metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Nu kan du definiera egna:
+
+```javascript
+const student = {
+    namn: "Anna",
+    program: "Webbutveckling",
+    årskurs: 2,
+
+    presentation: function() {
+        return `${this.namn}, ${this.program} år ${this.årskurs}`;
+    }
+};
+
+console.log(student.presentation());
+// "Anna, Webbutveckling år 2"
+```
+
+Några saker att notera:
+
+- Metoden `presentation` definieras som en vanlig egenskap, men dess värde är en funktion.
+- Inuti metoden refererar `this` till det objekt som metoden tillhör – alltså `student`. `this.namn` ger `"Anna"`, `this.program` ger `"Webbutveckling"`.
+- Metoden *anropas* med parenteser: `student.presentation()` – precis som alla andra funktionsanrop.
+
+Det här mönstret – att `this` refererar till "det här objektet" – har du redan mött: du använder det implicit varje gång du skriver `element.textContent` eller `arr.push()`. Nu förstår du mekanismen bakom det.
+
+### Kortare syntax
+
+Det finns en kortare form för att definiera metoder i objektliteraler. Istället för `nyckel: function() { ... }` kan man skriva `nyckel() { ... }`:
+
+```javascript
+const student = {
+    namn: "Anna",
+    program: "Webbutveckling",
+    årskurs: 2,
+
+    presentation() {
+        return `${this.namn}, ${this.program} år ${this.årskurs}`;
+    }
+};
+```
+
+Resultatet är exakt detsamma. Den korta formen är vanligare i modern JavaScript och den du bör använda.
+
+::: {.callout-important}
+## Pilfunktioner och `this`
+
+Pilfunktioner fungerar inte som metoder om du behöver använda `this`:
+
+```javascript
+const student = {
+    namn: "Anna",
+    hälsa: () => {
+        console.log(`Hej, jag heter ${this.namn}`);  // this.namn är undefined!
+    }
+};
+```
+
+Pilfunktioner har inte sitt eget `this` – de ärver det från den omgivande koden, vilket i det här fallet inte är objektet. Använd den vanliga syntaxen (`function` eller den korta `metod() { ... }`) när du definierar metoder som behöver `this`.
+:::
+
+---
+
+## Objekt som funktionsargument
+
+En av de stora fördelarna med objekt är att man kan skicka all relaterad data som *ett* argument till en funktion, istället för flera separata:
+
+```javascript
+function visaStudent(student) {
+    const text = `${student.namn} (${student.program}, år ${student.årskurs})`;
+    console.log(text);
+}
+
+const anna = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
+const björn = { namn: "Björn", program: "Datavetenskap", årskurs: 1 };
+
+visaStudent(anna);    // "Anna (Webbutveckling, år 2)"
+visaStudent(björn);   // "Björn (Datavetenskap, år 1)"
+```
+
+Jämför med att skicka tre separata argument:
+
+```javascript
+function visaStudent(namn, program, årskurs) {
+    console.log(`${namn} (${program}, år ${årskurs})`);
+}
+```
+
+Med ett objekt är funktionen tydligare – man ser direkt att den tar "en student", inte tre lösa värden. Ordningen på egenskaperna spelar ingen roll (till skillnad från ordningen på argument). Och om studenten får fler egenskaper behöver funktionssignaturen inte ändras.
+
+---
+
+## Kontrollera om en egenskap finns
+
+Operatorn `in` testar om en egenskap finns i ett objekt och returnerar ett booleskt värde:
+
+```javascript
+const student = { namn: "Anna", program: "Webbutveckling" };
+
+console.log("namn" in student);      // true
+console.log("epost" in student);     // false
+```
+
+`in`-operatorn returnerar `true` om egenskapen finns, oavsett dess värde. Den är särskilt användbar för att kontrollera valfria egenskaper:
+
+```javascript
+if ("epost" in student) {
+    console.log(`E-post: ${student.epost}`);
+} else {
+    console.log("Ingen e-post angiven.");
+}
+```
+
+Det är ett tydligare alternativ till att jämföra med `undefined`, och det fungerar korrekt även när egenskapens värde råkar *vara* `undefined`.
+
+---
+
+## Nästlade objekt
+
+Egenskapernas värden kan vara vilken typ som helst – inklusive andra objekt. Det kallas **nästlade objekt**:
+
+```javascript
+const kurs = {
+    namn: "Webbteknik 2",
+    poäng: 7.5,
+    lärare: {
+        namn: "Maria Svensson",
+        epost: "maria@example.com"
+    },
+    schema: {
+        dag: "Tisdag",
+        tid: "10:00"
+    }
+};
+```
+
+Man når nästlade egenskaper genom att kedja punktnotation:
+
+```javascript
+console.log(kurs.lärare.namn);     // "Maria Svensson"
+console.log(kurs.schema.dag);      // "Tisdag"
+```
+
+Man kan också kombinera med arrayer – en array inuti ett objekt, eller objekt inuti en array inuti ett objekt:
+
+```javascript
+const kurs = {
+    namn: "Webbteknik 2",
+    studenter: [
+        { namn: "Anna", betyg: "B" },
+        { namn: "Björn", betyg: "C" },
+        { namn: "Clara", betyg: "A" }
+    ]
+};
+
+console.log(kurs.studenter[0].namn);    // "Anna"
+console.log(kurs.studenter[2].betyg);   // "A"
+
+for (const s of kurs.studenter) {
+    console.log(`${s.namn}: ${s.betyg}`);
+}
+```
+
+Nästlade strukturer är vanliga i data från webb-API:er. Att kunna navigera dem – `objekt.egenskap.egenskap` och `objekt.array[index].egenskap` – är en färdighet du kommer att använda ofta.
+
+
+Du kan nästla hur djupt du vill, men djup nästling gör koden svårare att läsa och navigera. En tumregel: om du befinner dig tre eller fyra nivåer ned är det ett tecken på att strukturen kanske bör organiseras om.
+
+::: {.callout-warning}
+## Cannot read properties of undefined
+
+Den kedjade punktnotationen döljer en fallgrop. Om ett mellanobjekt saknas i kedjan kraschar hela uttrycket:
+
+```javascript
+const produkt = { namn: "Trådlöst tangentbord", pris: 649 };
+
+console.log(produkt.tillverkare);          // undefined – egenskapen finns inte
+console.log(produkt.tillverkare.namn);     // TypeError!
+```
+
+Den första raden är ok – `produkt.tillverkare` returnerar `undefined` eftersom egenskapen inte finns. Men den andra raden försöker sedan läsa egenskapen `namn` från `undefined`, och det är inte möjligt. JavaScript kastar ett `TypeError` med meddelandet, och hela programmet kraschar:
+
+```
+Cannot read properties of undefined (reading 'namn')
+```
+
+Det är ett av de allra vanligaste felmeddelandena i JavaScript. När du stöter på det, läs vad som ska läsas (`'namn'` i exemplet ovan) och spåra bakåt: vad borde ha stått till vänster om den sista punkten – och varför var det `undefined`?
+:::
+
+---
+
+## Iterera över ett objekts egenskaper
+
+Ibland vill man gå igenom *alla* egenskaper i ett objekt utan att veta deras namn i förväg. JavaScript erbjuder flera sätt att göra det.
+
+### `for...in` – loopa över nycklar
+
+`for...in`-loopen itererar över ett objekts egenskapsnamn (nycklar):
+
+```javascript
+const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
+
+for (const nyckel in student) {
+    console.log(`${nyckel}: ${student[nyckel]}`);
+}
+// namn: Anna
+// program: Webbutveckling
+// årskurs: 2
+```
+
+Variabeln `nyckel` tilldelas ett egenskapsnamn i varje iteration – en *sträng*, inte ett värde. För att komma åt värdet använder man hakparentesnotation: `student[nyckel]`.
+
+::: {.callout-important}
+## `for...in` vs. `for...of`
+
+Det är lätt att blanda ihop dem:
+
+- **`for...in`** itererar över ett objekts *nycklar* (egenskapsnamn). Den är gjord för objekt.
+- **`for...of`** itererar över en samlings *värden*. Den är gjord för arrayer (och andra itererbara strukturer).
+
+```javascript
+const arr = ["a", "b", "c"];
+for (const i in arr)  console.log(i);   // "0", "1", "2" (index som strängar)
+for (const v of arr)  console.log(v);   // "a", "b", "c" (värdena)
+```
+
+Använd `for...of` för arrayer, `for...in` för objekt. Att använda `for...in` på en array fungerar men ger index som strängar, inte tal, och kan ge oväntade resultat.
+:::
+
+### `Object.keys`, `Object.values` och `Object.entries`
+
+Ett alternativ till `for...in` är att använda metoderna på `Object` som returnerar arrayer. Det ger dig tillgång till alla arrayverktyg du redan kan.
+
+`Object.keys()` returnerar en array med objektets nyckelnamn:
+
+```javascript
+const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
+
+const nycklar = Object.keys(student);
+console.log(nycklar);   // ["namn", "program", "årskurs"]
+```
+
+Eftersom resultatet är en vanlig array kan man iterera med `for...of`:
+
+```javascript
+for (const nyckel of Object.keys(student)) {
+    console.log(`${nyckel}: ${student[nyckel]}`);
+}
+```
+
+`Object.values()` returnerar en array med bara värdena:
+
+```javascript
+console.log(Object.values(student));   // ["Anna", "Webbutveckling", 2]
+```
+
+`Object.entries()` returnerar en array av par, där varje par är en liten array med `[nyckel, värde]`:
+
+```javascript
+for (const [nyckel, värde] of Object.entries(student)) {
+    console.log(`${nyckel}: ${värde}`);
+}
+```
+
+Syntaxen `[nyckel, värde]` i loopen kallas **destrukturering** – den packar upp varje tvåelements-array i två separata variabler. Det är ett smidigt mönster som du kommer att se ofta.
+
+Alla tre metoderna – `keys`, `values` och `entries` – ger en ögonblicksbild av objektets egenskaper. Tillsammans med `for...in` har du flera sätt att iterera; välj det som passar situationen bäst.
+
+::: {.callout-note}
+## MDN: Object
+
+Mozilla Developer Network har en omfattande referens för objekt: [developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object). Där hittar du alla metoder på `Object`, inklusive `keys`, `values`, `entries` och många fler.
+:::
+
+---
+
+## Jämföra objekt
+
+En vanlig fallgrop: två objekt med samma innehåll är *inte* lika enligt `===`:
+
+```javascript
+const a = { namn: "Anna" };
+const b = { namn: "Anna" };
+
+console.log(a === b);   // false
+```
+
+Varför? Eftersom `===` jämför *identitet*, inte innehåll. `a` och `b` är två *separata* objekt i minnet – de har samma egenskaper, men de är inte *samma* objekt. Det är som två identiska kopior av en bok: de ser likadana ut, men det är fortfarande två böcker.
+
+Tilldelning av ett objekt kopierar inte det – den skapar en ny *referens* till samma objekt:
+
+```javascript
+const a = { namn: "Anna" };
+const c = a;
+
+console.log(a === c);   // true – samma objekt
+c.namn = "Bella";
+console.log(a.namn);    // "Bella" – ändringen syns via båda
+```
+
+`a` och `c` pekar på *samma* objekt. Ändrar man objektet via `c` syns ändringen via `a`. Det kallas att objekt har **referenssemantik** – variabeln innehåller en *referens* (en pekare) till objektet, inte objektet självt.
+
+::: {.callout-important}
+## Referenssemantik
+
+Att objekt är referenser, inte kopior, är en av de vanligaste källorna till förvirring i JavaScript. Tänk på det så här: en variabel som innehåller ett tal *innehåller* talet. En variabel som innehåller ett objekt *pekar på* objektet. Tilldelning av ett tal kopierar det; tilldelning av ett objekt kopierar bara pekaren.
+
+Samma sak gäller arrayer – de är också objekt i JavaScript.
+:::
+
+---
+
+## Arrayer av objekt: produktkort
+
+Nu kan du skapa egna objekt. Nästa steg är att samla dem i en **array** — och det är den kanske viktigaste kombinationen i vardaglig JavaScript. Du har redan mött mönstret: `querySelectorAll` i kapitel 8 gav dig en lista av DOM-element, det vill säga en lista av objekt. Skillnaden nu är att du bygger listan själv, med egna objekt anpassade efter ditt programs behov.
+
+Studentlistor, produktkataloger, att-göra-listor, sökresultat — allt representeras som arrayer av objekt. Låt oss se hur det ser ut i praktiken. Vi har en lista med produkter och vill visa dem som kort på en webbsida:
+
+```html
+<div id="produkter"></div>
+```
+
+```javascript
+const produkter = [
+    { namn: "Trådlös mus", pris: 299, lager: 45 },
+    { namn: "Mekaniskt tangentbord", pris: 1299, lager: 12 },
+    { namn: "USB-C-hubb", pris: 549, lager: 0 },
+    { namn: "Webbkamera", pris: 899, lager: 7 }
+];
+
+const container = document.querySelector("#produkter");
+let html = "";
+
+for (const produkt of produkter) {
+    const tillgänglig = produkt.lager > 0;
+    const statusText = tillgänglig ? `${produkt.lager} i lager` : "Slut i lager";
+    const statusKlass = tillgänglig ? "i-lager" : "slut";
+
+    html += `
+        <div class="produktkort">
+            <h3>${produkt.namn}</h3>
+            <p class="pris">${produkt.pris} kr</p>
+            <p class="${statusKlass}">${statusText}</p>
+        </div>
+    `;
+}
+
+container.innerHTML = html;
+```
+
+Allt hänger ihop: ett objekt samlar en produkts data, en array samlar alla produkter, en loop går igenom dem och bygger HTML med villkor för lagerstatus. Det här mönstret – *data som objekt → loop → HTML* – är grunden för hur dynamiska webbsidor byggs.
+
+---
+
+## Sammanfattning
+
+Du har använt objekt genom hela boken – nu kan du också skapa egna. Med objektliteraler har du full kontroll över hur du grupperar data och beteende i dina program.
+
+- Ett **objekt** skapas med klammerparenteser: `{ nyckel: värde, ... }`.
+- **Egenskaper** nås med **punktnotation** (`obj.namn`) eller **hakparentesnotation** (`obj["namn"]`).
+- Man **ändrar** och **lägger till** egenskaper med tilldelning: `obj.ny = "värde"`.
+- En **metod** är en egenskap vars värde är en funktion. Inuti metoden refererar `this` till objektet.
+- **Arrayer av objekt** är det vanligaste sättet att representera listor av strukturerad data.
+- **Nästlade objekt** gör det möjligt att modellera komplex data med objekt inuti objekt.
+- `Object.keys()`, `Object.values()` och `Object.entries()` ger arrayer av ett objekts nycklar, värden respektive par.
+- Objekt jämförs med **referens**, inte innehåll: `{} === {}` är `false`.
+- Operatorn `in` kontrollerar om en egenskap finns: `"namn" in obj`.
+
+I nästa del av boken bygger vi vidare på objekt när vi fördjupar oss i JavaScript och webben som plattform. Längre fram, i Del III, introduceras **klasser** – ett sätt att definiera återanvändbara mallar för objekt som garanterar att varje objekt skapas med rätt struktur och beteende.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Objekt är grunden för hur data organiseras i JavaScript, och det är värt att befästa förståelsen ordentligt. AI-verktyg kan hjälpa dig att utforska och experimentera.
+
+**Förstå skillnaden mellan primitiva värden och objekt:**
+
+> *"Vad är skillnaden mellan ett tal och ett objekt i JavaScript? Vad händer om jag gör `const a = 5; const b = a; b = 10;` jämfört med `const a = {x: 5}; const b = a; b.x = 10;`? Visa vad `a` innehåller i båda fallen."*
+
+**Utforska punktnotation och hakparentesnotation:**
+
+> *"När måste jag använda hakparentesnotation istället för punktnotation i JavaScript-objekt? Ge tre olika situationer med exempel."*
+
+**Testa din förståelse av nästlade objekt:**
+
+> *"Ge mig ett JavaScript-objekt med tre nivåer av nästling. Ställ sedan fem frågor om vilka värden man får med olika uttryck som `obj.a.b[0].c`. Visa inte svaren direkt."*
+
+**Be om övningar med arrayer av objekt:**
+
+> *"Ge mig en array med fem objekt som representerar böcker (titel, författare, år, läst). Ge mig sedan tre uppgifter: hitta en bok, filtrera böcker, och visa alla i en tabell. Visa inte lösningarna."*
+
+Att arbeta med objekt handlar om att tänka i *struktur* – vilka egenskaper behövs och hur hänger de ihop. Det är en färdighet som bäst tränas genom att experimentera.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning 11.1 – Skapa och utforska
+
+Skapa ett objekt som representerar en bok med egenskaperna `titel`, `författare`, `år` och `läst` (booleskt värde). Skriv kod som:
+
+1. Skriver ut bokens titel och författare.
+2. Ändrar `läst` till `true`.
+3. Lägger till en ny egenskap `betyg` med ett värde mellan 1 och 5.
+4. Skriver ut alla egenskaper och deras värden med en loop och `Object.entries`.
+:::
+
+::: {.callout-note}
+## Övning 11.2 – Studentregister
+
+Skapa en array med minst fem studentobjekt, där varje student har `namn`, `program` och `poäng` (ett tal 0–100). Skriv kod som:
+
+1. Skriver ut alla studenters namn och poäng med en `for...of`-loop.
+2. Hittar och skriver ut studenten med högst poäng.
+3. Bygger en ny array med bara de studenter som har 50 poäng eller mer.
+4. Räknar ut medelpoängen för alla studenter.
+:::
+
+::: {.callout-note}
+## Övning 11.3 – Produktkort på sidan
+
+Skapa en HTML-sida med en tom `<div>` med ett id. Skapa i JavaScript en array med minst fyra produktobjekt (med `namn`, `pris` och `kategori`). Skriv en loop som bygger upp HTML-kort för varje produkt och visar dem på sidan.
+
+Utöka sedan: lägg till ett textfält för sökning. Lyssna på `input`-händelsen och filtrera produkterna – visa bara de vars namn innehåller söktexten.
+:::
+
+::: {.callout-note}
+## Övning 11.4 – Nästlade objekt
+
+Skapa ett objekt som representerar en skola. Skolan har ett `namn`, en `stad`, och en array `klasser`. Varje klass är ett objekt med `namn` (t.ex. "3A") och `elever` (en array med elevnamn).
+
+Skriv kod som:
+
+1. Skriver ut skolans namn och stad.
+2. Skriver ut antalet klasser.
+3. Skriver ut alla elever i en viss klass.
+4. Räknar det totala antalet elever på hela skolan.
+:::
+
+::: {.callout-note}
+## Övning 11.5 – Referenssemantik
+
+Utan att köra koden — gå igenom följande och förutsäg vad som skrivs ut. Förklara varför.
+
+```javascript
+const a = { namn: "Anna", ålder: 22 };
+const b = a;
+b.ålder = 25;
+
+console.log(a.ålder);
+console.log(b.ålder);
+console.log(a === b);
+
+const c = { namn: "Anna", ålder: 25 };
+console.log(a === c);
+```
+
+Varför ger `a === c` det resultat det ger, trots att objekten har samma innehåll?
+:::
+
+::: {.callout-note}
+## Övning 11.6 – Metoder
+
+Skapa ett objekt `räknare` med:
+
+- En egenskap `värde` som börjar på 0.
+- En metod `öka()` som ökar `värde` med 1.
+- En metod `minska()` som minskar `värde` med 1, men inte under 0.
+- En metod `nollställ()` som sätter `värde` till 0.
+- En metod `visa()` som returnerar en sträng i formatet `"Räknare: 5"`.
+
+Testa alla metoder och kontrollera att `minska()` inte går under 0.
+:::
+
+::: {.callout-note}
+## Övning 11.7 – Kontaktbok
+
+Bygg en kontaktbok. Skapa en array med minst sex kontaktobjekt (med `namn`, `telefon` och `stad`). Skapa en HTML-sida med:
+
+1. En `<ul>` som visar alla kontakter.
+2. Ett textfält för sökning som filtrerar listan i realtid (matcha mot namn *eller* stad).
+3. En knapp "Visa alla" som återställer filtret.
+
+Det här är en mer ambitiös övning som kombinerar objekt, arrayer, DOM-manipulation och händelser.
+:::

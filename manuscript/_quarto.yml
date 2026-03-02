@@ -17,6 +17,7 @@ book:
     - kap08-arrayer.qmd
     - kap09-funktioner.qmd
     - kap10-handelser.qmd
+    - kap11-objekt.qmd
     - kap-moduler.qmd
     - kap-oop.qmd
     - kap-arv.qmd
