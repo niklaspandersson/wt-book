@@ -6,7 +6,7 @@ Kap. 2 – Värden, variabler och datatyper
 Kap. 3 – Att använda funktioner *(funktionsanrop, argument, returvärden, inbyggda funktioner, metoder)*
 Kap. 4 – Din kod möter webbsidan *(grundläggande DOM: querySelector, textContent, innerHTML)*
 Kap. 5 – Villkorssatser och logik
-Kap. 6 – Stil och utseende *(.style, classList, när man väljer vad)*
+Kap. 6 – Stil och utseende *(.style, classList, hidden, visa/dölja element)*
 Kap. 7 – Loopar
 Kap. 8 – Att skriva egna funktioner *(funktionsdeklarationer, parametrar, scope, pilfunktioner)*
 Kap. 9 – Händelser och interaktivitet *(addEventListener, click, event-objektet, andra händelsetyper)*

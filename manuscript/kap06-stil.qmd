@@ -1,0 +1,429 @@
+# Stil och utseende
+
+## En sida som ser likadan ut oavsett vad som händer
+
+I förra kapitlet lärde du dig att fatta beslut med `if` och `else`. Du kan nu bestämma betyg, välja meddelanden, kontrollera om en student är godkänd. Men allt du visar på sidan ser likadant ut — samma svarta text på samma vita bakgrund, oavsett om studenten fick A eller F.
+
+Tänk dig quizprogrammet igen. Laget svarar rätt och får poäng, men sidan ger ingen visuell respons. Inget skiftar färg, inget markeras, inget händer visuellt. Det är som att få en tentaresultat i ren svart text — det fungerar, men det *kommunicerar* inte.
+
+Nu ska vi ändra på det. I det här kapitlet lär du dig att ändra elements utseende med JavaScript: färger, storlekar, ramar och andra CSS-egenskaper. Du lär dig också att använda ett ännu kraftfullare verktyg, CSS-klasser, för att förbereda stilar i förväg och sedan slå på eller av dem från JavaScript. Och du lär dig att visa och dölja element, så att delar av sidan kan dyka upp eller försvinna beroende på dina villkor.
+
+---
+
+## Ändra stil med `.style`
+
+Varje element i DOM:en har en egenskap som heter `style`. Via den kan du läsa och ändra enskilda CSS-egenskaper direkt:
+
+```javascript
+const rubrik = document.querySelector("h1");
+rubrik.style.color = "darkblue";
+rubrik.style.fontSize = "2.5rem";
+rubrik.style.textAlign = "center";
+```
+
+Varje CSS-egenskap finns som en egenskap på `.style`-objektet, men med en viktig skillnad: **bindestreck ersätts med camelCase**. I CSS skriver du `font-size`, men i JavaScript skriver du `fontSize`. Mönstret är konsekvent:
+
+| CSS-egenskap         | JavaScript (.style)       |
+|----------------------|---------------------------|
+| `color`              | `style.color`             |
+| `font-size`          | `style.fontSize`          |
+| `background-color`   | `style.backgroundColor`   |
+| `border-radius`      | `style.borderRadius`      |
+| `text-align`         | `style.textAlign`         |
+| `padding`            | `style.padding`           |
+
+Anledningen är enkel: i JavaScript tolkas bindestreck som minusoperatorn. `rubrik.style.font-size` skulle betyda "ta `font`, subtrahera `size`" — inte alls vad vi menar.
+
+Låt oss kombinera `.style` med villkorssatser från förra kapitlet. Anta att vi har en sida med ett resultat:
+
+```html
+<p id="resultat">Betyg visas här.</p>
+```
+
+```javascript
+const poäng = 73;
+const resultatElement = document.querySelector("#resultat");
+
+if (poäng >= 50) {
+    resultatElement.textContent = "Godkänd!";
+    resultatElement.style.color = "green";
+} else {
+    resultatElement.textContent = "Underkänd";
+    resultatElement.style.color = "red";
+}
+```
+
+Nu *syns* beslutet — inte bara som text, utan som färg. Sidan reagerar visuellt på data.
+
+### Flera stilar samtidigt
+
+Du kan ändra hur många stilegenskaper du vill, en i taget:
+
+```javascript
+const poängElement = document.querySelector("#poäng");
+poängElement.style.backgroundColor = "lightyellow";
+poängElement.style.padding = "1rem";
+poängElement.style.borderRadius = "8px";
+poängElement.style.border = "2px solid gold";
+```
+
+Det fungerar, men börjar snabbt bli omständligt. Fyra rader JavaScript bara för att ge ett element ett visst utseende. Och om du vill ge samma utseende till ett annat element måste du upprepa alla fyra raderna. Det finns ett bättre sätt.
+
+---
+
+## CSS-klasser med `classList`
+
+I CSS grupperar du ofta stilar i **klasser**:
+
+```css
+.godkänd {
+    color: green;
+    font-weight: bold;
+    background-color: #e8f5e9;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.underkänd {
+    color: red;
+    font-weight: bold;
+    background-color: #ffebee;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+```
+
+Med JavaScript kan du lägga till och ta bort sådana klasser via elementets **`classList`**-egenskap. Det är mycket kraftfullare och renare än att ändra stilar en och en.
+
+### `classList.add()` – lägga till en klass
+
+```javascript
+const resultatElement = document.querySelector("#resultat");
+
+if (poäng >= 50) {
+    resultatElement.textContent = "Godkänd!";
+    resultatElement.classList.add("godkänd");
+} else {
+    resultatElement.textContent = "Underkänd";
+    resultatElement.classList.add("underkänd");
+}
+```
+
+En enda rad — `classList.add("godkänd")` — aktiverar alla stilregler som hör till klassen `.godkänd` i din CSS. Fem CSS-egenskaper appliceras med ett enda metodanrop.
+
+### `classList.remove()` – ta bort en klass
+
+Om du vill ta bort en klass använder du `remove`:
+
+```javascript
+resultatElement.classList.remove("underkänd");
+```
+
+Det är viktigt att ta bort gamla klasser om du tilldelar nya. Tänk dig att programmet först visar "Underkänd" och sedan uppdateras med nya poäng. Utan att ta bort den gamla klassen finns båda kvar, och stilarna blandas ihop:
+
+```javascript
+if (poäng >= 50) {
+    resultatElement.textContent = "Godkänd!";
+    resultatElement.classList.remove("underkänd");
+    resultatElement.classList.add("godkänd");
+} else {
+    resultatElement.textContent = "Underkänd";
+    resultatElement.classList.remove("godkänd");
+    resultatElement.classList.add("underkänd");
+}
+```
+
+### `classList.toggle()` – slå av och på
+
+`toggle` lägger till klassen om den saknas, och tar bort den om den redan finns:
+
+```javascript
+const kort = document.querySelector(".kort");
+
+// Om "kort" har klassen "markerad" tas den bort; annars läggs den till
+kort.classList.toggle("markerad");
+```
+
+Det är som en strömbrytare för en klass. `toggle` är särskilt användbart när vi senare lär oss om händelser — till exempel att klicka på ett element för att markera eller avmarkera det. Men redan nu kan det vara praktiskt i kombination med villkor:
+
+```javascript
+const darkMode = true;
+document.querySelector("body").classList.toggle("dark", darkMode);
+```
+
+Den andra parametern till `toggle` bestämmer riktningen: om den är `true` läggs klassen till, om den är `false` tas den bort. Det är ett renare alternativ till `if`/`else` med `add`/`remove`.
+
+### `classList.contains()` – kontrollera om en klass finns
+
+Ibland behöver du veta om ett element har en viss klass:
+
+```javascript
+if (resultatElement.classList.contains("godkänd")) {
+    console.log("Studenten har klarat provet.");
+}
+```
+
+`contains` returnerar `true` eller `false` — precis vad du behöver i ett villkor.
+
+---
+
+## `.style` eller `classList` — när väljer du vad?
+
+Båda verktygen ändrar utseendet på ett element, men de passar i olika situationer:
+
+**Använd `.style`** när du:
+
+- Ändrar *en enskild* egenskap
+- Arbetar med ett värde som beror på en beräkning eller variabel (till exempel en bredd i procent)
+
+```javascript
+// Bredd som beror på data — svårt att förbereda i CSS
+const framsteg = 65;
+stapel.style.width = `${framsteg}%`;
+```
+
+**Använd `classList`** när du:
+
+- Ändrar *flera* egenskaper på en gång
+- Växlar mellan fördefinierade visuella tillstånd (godkänd/underkänd, aktiv/inaktiv, ljust/mörkt)
+- Vill hålla stilar i CSS och beteende i JavaScript
+
+```javascript
+// Byt visuellt tillstånd — alla stilar definierade i CSS
+element.classList.add("markerad");
+```
+
+Som tumregel: **föredra `classList`**. Det ger en tydligare uppdelning — CSS ansvarar för *hur* saker ser ut, JavaScript ansvarar för *när* de ska se ut så. Utseende i CSS-filer är också lättare att underhålla, ändra och återanvända.
+
+`.style` är mest användbart för dynamiska värden som beräknas i JavaScript, till exempel att sätta en stapels bredd utifrån en procentsats eller flytta ett element till en beräknad position.
+
+---
+
+## Visa och dölja element
+
+En av de vanligaste visuella förändringarna på en webbsida är att visa eller dölja innehåll. En ledtråd som bara syns om man behöver hjälp. Ett felmeddelande som bara dyker upp vid fel. Ett svar som är dolt tills man vill se det.
+
+### Egenskapen `hidden`
+
+Det enklaste sättet att dölja ett element är med den inbyggda egenskapen `hidden`:
+
+```javascript
+const ledtråd = document.querySelector("#ledtråd");
+ledtråd.hidden = true;    // elementet försvinner från sidan
+ledtråd.hidden = false;   // elementet syns igen
+```
+
+`hidden` är en boolesk egenskap — `true` döljer elementet, `false` visar det. Det motsvarar HTML-attributet `hidden`:
+
+```html
+<!-- Dessa två gör samma sak -->
+<p id="ledtråd" hidden>Tips: tänk på huvudstäder i Norden.</p>
+```
+
+```javascript
+document.querySelector("#ledtråd").hidden = true;
+```
+
+Elementet tas bort ur flödet helt — det tar ingen plats och syns inte. Övriga element runt omkring det justeras som om det inte fanns.
+
+### Visa och dölja med villkor
+
+I kombination med villkorssatser kan du visa saker villkorligt:
+
+```javascript
+const poäng = 35;
+const resultatElement = document.querySelector("#resultat");
+const hjälpElement = document.querySelector("#hjälp");
+
+if (poäng >= 50) {
+    resultatElement.textContent = "Godkänd!";
+    resultatElement.classList.add("godkänd");
+    hjälpElement.hidden = true;
+} else {
+    resultatElement.textContent = "Underkänd";
+    resultatElement.classList.add("underkänd");
+    hjälpElement.hidden = false;
+}
+```
+
+Här visas hjälptexten bara om studenten är underkänd. Godkända studenter ser den inte alls.
+
+Du kan också använda ett kompaktare uttryck med hjälp av det du lärde dig om booleska värden i förra kapitlet:
+
+```javascript
+hjälpElement.hidden = poäng >= 50;
+```
+
+Uttrycket `poäng >= 50` utvärderas till `true` (dölj) eller `false` (visa). En rad istället för en hel `if`/`else`-sats.
+
+### Dölja med CSS-klass
+
+Ett alternativ till `hidden` är att använda en CSS-klass:
+
+```css
+.dold {
+    display: none;
+}
+```
+
+```javascript
+// Dölj
+element.classList.add("dold");
+
+// Visa
+element.classList.remove("dold");
+```
+
+Fördelen med en CSS-klass är flexibilitet. Du kan definiera `.dold` med `display: none` (tar ingen plats) men du kan också använda `visibility: hidden` (elementet tar plats men syns inte) eller `opacity: 0` (elementet är osynligt men fortfarande klickbart). Beteendet styrs från CSS, inte från JavaScript.
+
+::: {.callout-note}
+## `hidden` eller CSS-klass?
+
+Tumregel: använd `hidden` för enkel logik (visa/dölj baserat på ett villkor). Använd en CSS-klass om du behöver mer kontroll — till exempel om du vill animera övergången, eller om du vill dölja elementet på olika sätt i olika sammanhang (t.ex. `display: none` på mobil men `visibility: hidden` på desktop).
+:::
+
+---
+
+## Sammanfattning
+
+- **`.style`** ändrar enskilda CSS-egenskaper direkt. Egenskapsnamn skrivs i **camelCase** (`backgroundColor`, `fontSize`).
+- **`classList`** lägger till, tar bort och växlar CSS-klasser: `add()`, `remove()`, `toggle()`, `contains()`.
+- **Föredra `classList`** för visuella tillstånd — det håller stilar i CSS och logik i JavaScript. Använd `.style` för dynamiska värden som beräknas i koden.
+- **`hidden`** är en boolesk egenskap som visar (`false`) eller döljer (`true`) ett element helt.
+- En **CSS-klass med `display: none`** är ett flexibelt alternativ till `hidden` som ger mer kontroll.
+- Villkorssatser i kombination med stiländringar gör att sidan reagerar *visuellt* på data.
+
+Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent` / `innerHTML`), ändra utseende (`.style` / `classList`), och visa eller dölja element (`hidden`). I nästa kapitel lär vi oss loopar — att upprepa kod — och sedan att skriva egna funktioner. Med de verktygen på plats kan vi sedan göra webben *interaktiv*: reagera på klick, knapptryckningar och andra händelser.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+CSS har hundratals egenskaper, och det kan vara svårt att veta vilka som är relevanta. AI-verktyg är bra för att utforska möjligheter och för att snabbt ta reda på hur en CSS-egenskap heter i JavaScript.
+
+**Fråga om namnkonventioner:**
+
+> *"Vad heter CSS-egenskapen `border-bottom-left-radius` i JavaScript när jag använder `.style`?"*
+
+CamelCase-konverteringen är regelbunden, men med långa egenskapsnamn är det lätt att tveka.
+
+**Be om CSS-klassförslag:**
+
+> *"Jag bygger en quizapp. Kan du föreslå CSS-klasser för olika resultat — rätt svar, fel svar och obehandlad fråga — med passande färger och ikoner?"*
+
+Det ger dig en startpunkt som du sedan anpassar, istället för att börja från noll.
+
+**Utforska animeringsmöjligheter:**
+
+> *"Hur kan jag göra så att ett element tonar in när jag tar bort klassen `dold`, istället för att bara dyka upp direkt?"*
+
+CSS-övergångar (`transition`) i kombination med klasser ger visuella effekter. Vi behandlar animationer i ett senare kapitel, men det skadar inte att experimentera redan nu.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning 6.1 – Betyg med färgkodning
+
+Skapa en HTML-sida med följande struktur:
+
+```html
+<h1>Betygsräknare</h1>
+<p id="resultat">Betyg visas här.</p>
+```
+
+Skriv CSS-klasser för olika betygsgrupper:
+
+- `.betyg-högt` (A–C): grön text, ljusgrön bakgrund
+- `.betyg-medel` (D–E): orange text, ljusgul bakgrund
+- `.betyg-underkänt` (F): röd text, ljusröd bakgrund
+
+Deklarera en variabel `poäng` med ett valfritt värde (0–100). Skriv JavaScript som bestämmer betyget och lägger till rätt CSS-klass med `classList.add()`. Visa betyget och poängen i elementet.
+
+Testa med flera poängvärden och kontrollera att rätt färg visas.
+:::
+
+::: {.callout-note}
+## Övning 6.2 – Temperatur med visuell respons
+
+Skapa en sida med ett `<p>`-element med id `"temperatur"`. Lägg till tre CSS-klasser: `.kallt` (ljusblå bakgrund), `.lagom` (ljusgrön bakgrund) och `.varmt` (ljusröd bakgrund).
+
+Deklarera en variabel med en temperatur i Celsius. Skriv villkorssatser som:
+
+1. Bestämmer kategori: "Kallt" (under 5°C), "Lagom" (5–20°C) eller "Varmt" (över 20°C).
+2. Visar texten i elementet.
+3. Lägger till rätt CSS-klass med `classList.add()`.
+
+Testa med temperaturerna −10, 15 och 30.
+:::
+
+::: {.callout-note}
+## Övning 6.3 – Villkorligt hjälpmeddelande
+
+Skapa en HTML-sida med:
+
+```html
+<p id="resultat">Resultat visas här.</p>
+<p id="hjälp" hidden>Tips: repetera kapitel 3 om funktioner.</p>
+```
+
+Deklarera en variabel `poäng`. Om poängen är under 50, visa hjälpmeddelandet genom att sätta `hidden` till `false`. Om poängen är 50 eller mer, se till att det förblir dolt.
+
+Utöka sedan: visa *olika* hjälptexter beroende på poängen (under 30: "Kontakta läraren", 30–49: "Repetera materialet").
+:::
+
+::: {.callout-note}
+## Övning 6.4 – `.style` vs `classList`
+
+Betrakta följande JavaScript:
+
+```javascript
+const element = document.querySelector("#info");
+element.style.color = "white";
+element.style.backgroundColor = "#333";
+element.style.padding = "1rem";
+element.style.borderRadius = "8px";
+element.style.fontWeight = "bold";
+```
+
+1. Skriv om koden så att den använder en CSS-klass istället för `.style`. Definiera klassen i en `<style>`-tagg eller en CSS-fil.
+2. Vilka fördelar ser du med klassbaserade lösningen? Skriv ner minst två.
+3. Ge ett exempel på en situation där `.style` ändå vore det bättre valet.
+:::
+
+::: {.callout-note}
+## Övning 6.5 – Quiz med visuell feedback
+
+Bygg en enkel quizsida med följande HTML-struktur:
+
+```html
+<h1>Geografiquiz</h1>
+<p id="fråga">Vad heter Sveriges huvudstad?</p>
+<p id="svar">Stockholm</p>
+<p id="feedback" hidden>Rätt svar!</p>
+```
+
+Definiera CSS-klasserna `.rätt` (grön ram och bakgrund) och `.fel` (röd ram och bakgrund).
+
+Skriv JavaScript som:
+
+1. Deklarerar det korrekta svaret i en variabel.
+2. Jämför det med en variabel `användarSvar`.
+3. Om svaret är rätt: visa feedback-elementet, lägg till klassen `.rätt`, och uppdatera texten till "Rätt svar!".
+4. Om svaret är fel: visa feedback-elementet, lägg till klassen `.fel`, och uppdatera texten till "Fel! Rätt svar är ..." med det korrekta svaret.
+
+Testa genom att ändra variabeln `användarSvar` till olika värden.
+:::
+
+::: {.callout-note}
+## Övning 6.6 – Mörkt läge
+
+Skapa en sida med lite innehåll (rubrik, ett par stycken text). Definiera en CSS-klass `.dark` på `<body>` som ger mörk bakgrund, ljus textfärg, och anpassade länkfärger.
+
+Skriv JavaScript som använder `classList.toggle("dark", villkor)` för att aktivera mörkt läge baserat på en boolesk variabel `mörktLäge`.
+
+Testa genom att ändra variabeln mellan `true` och `false` och ladda om sidan.
+
+*Fundera:* Hur skulle det vara att kunna slå på och av mörkt läge med en knapptryckning? Det är precis vad vi lär oss i kapitlet om händelser.
+:::

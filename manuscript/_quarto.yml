@@ -12,8 +12,9 @@ book:
     - kap03-anropa-funktioner.qmd
     - kap04-dom-intro.qmd
     - kap05-villkor.qmd
-    - kap06-loopar.qmd
-    - kap07-funktioner.qmd
+    - kap06-stil.qmd
+    - kap07-loopar.qmd
+    - kap08-funktioner.qmd
     - kap-moduler.qmd
     - kap-oop.qmd
     - kap-arv.qmd

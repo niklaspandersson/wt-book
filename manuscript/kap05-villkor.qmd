@@ -469,7 +469,7 @@ De två sista raderna är lite annorlunda – `&&` och `||` returnerar inte allt
 :::
 
 ::: {.callout-note}
-## Övning 5.6 – Betyg med färgkodning på sidan
+## Övning 5.6 – Betyg på sidan
 
 Skapa en HTML-sida med följande struktur:
 
@@ -481,10 +481,9 @@ Skapa en HTML-sida med följande struktur:
 Deklarera en variabel `poäng` med ett valfritt värde (0–100). Skriv villkorssatser som:
 
 1. Bestämmer betyget (A–F) enligt samma skala som i kapitlets betygsprogram.
-2. Visar betyget i `<p>`-elementet med `textContent`.
-3. Ändrar elementets `style.color` beroende på betyg: grönt för A–C, orange för D–E, rött för F.
+2. Visar betyget och poängen i `<p>`-elementet med `innerHTML`. Använd `<strong>` för att göra betyget fetstilt: till exempel "Betyg: **A** (92 poäng)".
 
-Testa med flera olika poängvärden och kontrollera att rätt betyg och rätt färg visas.
+Testa med flera olika poängvärden och kontrollera att rätt betyg visas.
 :::
 
 ::: {.callout-note}
@@ -492,8 +491,9 @@ Testa med flera olika poängvärden och kontrollera att rätt betyg och rätt f�
 
 Skapa en sida med ett `<p>`-element med id `"temperatur"`. Deklarera en variabel med en temperatur i Celsius. Skriv villkorssatser som:
 
-1. Visar texten "Kallt", "Lagom" eller "Varmt" i elementet (under 5°C, 5–20°C, över 20°C).
-2. Ändrar elementets `style.backgroundColor` till ljusblått, ljusgrönt respektive ljusrött beroende på temperatur.
+1. Bestämmer en kategori: "Kallt" (under 5°C), "Lagom" (5–20°C) eller "Varmt" (över 20°C).
+2. Visar kategorin och temperaturen i elementet med `textContent`, t.ex. "Lagom (15°C)".
+3. Väljer en passande emoji med ternäroperatorn eller villkorssatser och lägg till den i texten: ❄️ för kallt, 🌤️ för lagom, ☀️ för varmt.
 
 Testa med temperaturerna −10, 5, 15, 20 och 30.
 :::
