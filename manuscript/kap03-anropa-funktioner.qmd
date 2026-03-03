@@ -241,7 +241,7 @@ Distinktionen mellan att *göra* något och att *returnera* ett värde är centr
 ## Övningar
 
 ::: {.callout-note}
-## Övning 3.1 – Vad returneras?
+## Övning – Vad returneras?
 
 Ange utan att köra koden vad varje uttryck utvärderas till. Kontrollera sedan i konsolen.
 
@@ -260,7 +260,7 @@ Vilka av uttrycken returnerar `NaN`? Varför?
 :::
 
 ::: {.callout-note}
-## Övning 3.2 – Tärningskast
+## Övning – Tärningskast
 
 Uttrycket `Math.floor(Math.random() * 6) + 1` simulerar ett tärningskast. Bryt ned det steg för steg:
 
@@ -273,7 +273,7 @@ Skriv sedan ett uttryck som simulerar ett kast med en **tiosidig** tärning (1�
 :::
 
 ::: {.callout-note}
-## Övning 3.3 – Metoder i kedja
+## Övning – Metoder i kedja
 
 Givet strängen `"  JavaScript ÄR Kul  "`, skriv ett uttryck som:
 
@@ -285,7 +285,7 @@ Vad returnerar varje steg? I vilken ordning utvärderas kedjans metoder?
 :::
 
 ::: {.callout-note}
-## Övning 3.4 – Egenskaper eller metoder?
+## Övning – Egenskaper eller metoder?
 
 Vilka av följande använder en egenskap och vilka anropar en metod? Hur vet du skillnaden?
 
@@ -301,7 +301,7 @@ Vad händer om du av misstag skriver `"hej".toUpperCase` utan parenteser? Testa 
 :::
 
 ::: {.callout-note}
-## Övning 3.5 – Hitta rätt funktion
+## Övning – Hitta rätt funktion
 
 Du har en variabel `const pris = "249.50";` som innehåller ett pris som sträng (till exempel inläst från en webbsida). Du vill:
 

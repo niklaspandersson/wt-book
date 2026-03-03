@@ -575,7 +575,7 @@ Att arbeta med objekt handlar om att tänka i *struktur* – vilka egenskaper be
 ## Övningar
 
 ::: {.callout-note}
-## Övning 11.1 – Skapa och utforska
+## Övning – Skapa och utforska
 
 Skapa ett objekt som representerar en bok med egenskaperna `titel`, `författare`, `år` och `läst` (booleskt värde). Skriv kod som:
 
@@ -586,7 +586,7 @@ Skapa ett objekt som representerar en bok med egenskaperna `titel`, `författare
 :::
 
 ::: {.callout-note}
-## Övning 11.2 – Studentregister
+## Övning – Studentregister
 
 Skapa en array med minst fem studentobjekt, där varje student har `namn`, `program` och `poäng` (ett tal 0–100). Skriv kod som:
 
@@ -597,7 +597,7 @@ Skapa en array med minst fem studentobjekt, där varje student har `namn`, `prog
 :::
 
 ::: {.callout-note}
-## Övning 11.3 – Produktkort på sidan
+## Övning – Produktkort på sidan
 
 Skapa en HTML-sida med en tom `<div>` med ett id. Skapa i JavaScript en array med minst fyra produktobjekt (med `namn`, `pris` och `kategori`). Skriv en loop som bygger upp HTML-kort för varje produkt och visar dem på sidan.
 
@@ -605,7 +605,7 @@ Utöka sedan: lägg till ett textfält för sökning. Lyssna på `input`-händel
 :::
 
 ::: {.callout-note}
-## Övning 11.4 – Nästlade objekt
+## Övning – Nästlade objekt
 
 Skapa ett objekt som representerar en skola. Skolan har ett `namn`, en `stad`, och en array `klasser`. Varje klass är ett objekt med `namn` (t.ex. "3A") och `elever` (en array med elevnamn).
 
@@ -618,7 +618,7 @@ Skriv kod som:
 :::
 
 ::: {.callout-note}
-## Övning 11.5 – Referenssemantik
+## Övning – Referenssemantik
 
 Utan att köra koden — gå igenom följande och förutsäg vad som skrivs ut. Förklara varför.
 
@@ -639,7 +639,7 @@ Varför ger `a === c` det resultat det ger, trots att objekten har samma innehå
 :::
 
 ::: {.callout-note}
-## Övning 11.6 – Metoder
+## Övning – Metoder
 
 Skapa ett objekt `räknare` med:
 
@@ -653,7 +653,7 @@ Testa alla metoder och kontrollera att `minska()` inte går under 0.
 :::
 
 ::: {.callout-note}
-## Övning 11.7 – Kontaktbok
+## Övning – Kontaktbok
 
 Bygg en kontaktbok. Skapa en array med minst sex kontaktobjekt (med `namn`, `telefon` och `stad`). Skapa en HTML-sida med:
 

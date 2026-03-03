@@ -518,7 +518,7 @@ Att formulera en förklaring med egna ord – och sedan be AI:n granska den – 
 ## Övningar
 
 ::: {.callout-note}
-## Övning 2.1 – Typa värdena
+## Övning – Typa värdena
 
 Ange datatypen för vart och ett av följande värden utan att skriva in dem i ett program. Motivera sedan svaret och bekräfta med `typeof` i webbläsarens konsol.
 
@@ -536,7 +536,7 @@ Vad är det som gör att `"false"` och `false` är fundamentalt olika, trots att
 :::
 
 ::: {.callout-note}
-## Övning 2.2 – Förutsäg resultaten
+## Övning – Förutsäg resultaten
 
 Vad skriver följande kodrader ut? Försök resonera dig fram till svaret *innan* du testar i konsolen.
 
@@ -553,7 +553,7 @@ För varje rad: förklara *varför* du fick det resultatet. Vilka rader är du m
 :::
 
 ::: {.callout-note}
-## Övning 2.3 – Quizprogrammets variabler
+## Övning – Quizprogrammets variabler
 
 Återgå till scenariot från kapitlets början: en digital poängtavla för quizkväll. Du ska representera följande information som variabler:
 
@@ -567,7 +567,7 @@ För varje variabel: välj ett lämpligt namn, rätt nyckelord (`let` eller `con
 :::
 
 ::: {.callout-note}
-## Övning 2.4 – Namnge rätt
+## Övning – Namnge rätt
 
 Nedanstående variabelnamn är antingen ogiltiga (JavaScript accepterar dem inte) eller dålig praxis (de fungerar men är svårlästa). Identifiera vad som är fel med vart och ett, och föreslå ett bättre namn.
 
@@ -581,7 +581,7 @@ let let = "hej";
 :::
 
 ::: {.callout-note}
-## Övning 2.5 – Templatesträngar
+## Övning – Templatesträngar
 
 Du har tre variabler:
 

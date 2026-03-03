@@ -324,7 +324,7 @@ CSS-övergångar (`transition`) i kombination med klasser ger visuella effekter.
 ## Övningar
 
 ::: {.callout-note}
-## Övning 6.1 – Betyg med färgkodning
+## Övning – Betyg med färgkodning
 
 Skapa en HTML-sida med följande struktur:
 
@@ -345,7 +345,7 @@ Testa med flera poängvärden och kontrollera att rätt färg visas.
 :::
 
 ::: {.callout-note}
-## Övning 6.2 – Temperatur med visuell respons
+## Övning – Temperatur med visuell respons
 
 Skapa en sida med ett `<p>`-element med id `"temperatur"`. Lägg till tre CSS-klasser: `.kallt` (ljusblå bakgrund), `.lagom` (ljusgrön bakgrund) och `.varmt` (ljusröd bakgrund).
 
@@ -359,7 +359,7 @@ Testa med temperaturerna −10, 15 och 30.
 :::
 
 ::: {.callout-note}
-## Övning 6.3 – Villkorligt hjälpmeddelande
+## Övning – Villkorligt hjälpmeddelande
 
 Skapa en HTML-sida med:
 
@@ -374,7 +374,7 @@ Utöka sedan: visa *olika* hjälptexter beroende på poängen (under 30: "Kontak
 :::
 
 ::: {.callout-note}
-## Övning 6.4 – `.style` vs `classList`
+## Övning – `.style` vs `classList`
 
 Betrakta följande JavaScript:
 
@@ -393,7 +393,7 @@ element.style.fontWeight = "bold";
 :::
 
 ::: {.callout-note}
-## Övning 6.5 – Quiz med visuell feedback
+## Övning – Quiz med visuell feedback
 
 Bygg en enkel quizsida med följande HTML-struktur:
 
@@ -417,7 +417,7 @@ Testa genom att ändra variabeln `användarSvar` till olika värden.
 :::
 
 ::: {.callout-note}
-## Övning 6.6 – Mörkt läge
+## Övning – Mörkt läge
 
 Skapa en sida med lite innehåll (rubrik, ett par stycken text). Definiera en CSS-klass `.dark` på `<body>` som ger mörk bakgrund, ljus textfärg, och anpassade länkfärger.
 

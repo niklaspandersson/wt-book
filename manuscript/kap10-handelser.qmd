@@ -570,7 +570,7 @@ Att experimentera med händelser är ett bra sätt att lära sig — varje för�
 ## Övningar
 
 ::: {.callout-note}
-## Övning 10.1 – Knappräknare
+## Övning – Knappräknare
 
 Skapa en HTML-sida med en knapp och ett `<p>`-element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
 
@@ -578,7 +578,7 @@ Utöka sedan: lägg till en andra knapp som *minskar* talet med 1. Se till att t
 :::
 
 ::: {.callout-note}
-## Övning 10.2 – Mörkt läge
+## Övning – Mörkt läge
 
 Skapa en sida med lite innehåll (rubrik och ett par stycken). Lägg till en knapp med texten "Mörkt läge". Skriv JavaScript som:
 
@@ -590,7 +590,7 @@ Skapa en sida med lite innehåll (rubrik och ett par stycken). Lägg till en kna
 :::
 
 ::: {.callout-note}
-## Övning 10.3 – Tangentbordsrörelser
+## Övning – Tangentbordsrörelser
 
 Skapa en sida med en färgad `<div>` som har `position: absolute`. Skriv JavaScript som lyssnar på `keydown` och flyttar rutan med piltangenterna.
 
@@ -598,7 +598,7 @@ Utöka sedan: lägg till en kontroll så att rutan inte kan lämna fönstret. An
 :::
 
 ::: {.callout-note}
-## Övning 10.4 – Live-sökning
+## Övning – Live-sökning
 
 Skapa en HTML-sida med ett textfält och en `<ul>`-lista med minst åtta namn (som `<li>`-element). Skriv JavaScript som:
 
@@ -612,7 +612,7 @@ Resultatet ska vara en lista som filtreras i realtid.
 :::
 
 ::: {.callout-note}
-## Övning 10.5 – Interaktivt quiz
+## Övning – Interaktivt quiz
 
 Bygg en quizsida med en fråga och tre svarsknappar. Skriv JavaScript som:
 
@@ -627,7 +627,7 @@ Definiera CSS-klasser för rätt och fel svar. Använd `querySelectorAll`, `for.
 :::
 
 ::: {.callout-note}
-## Övning 10.6 – Färgväljare med knappar
+## Övning – Färgväljare med knappar
 
 Skapa en sida med fem knappar, var och en med ett `data-färg`-attribut (t.ex. `data-färg="tomato"`). Skriv JavaScript som:
 
@@ -640,7 +640,7 @@ Skapa en sida med fem knappar, var och en med ett `data-färg`-attribut (t.ex. `
 :::
 
 ::: {.callout-note}
-## Övning 10.7 – Spåra exekveringen
+## Övning – Spåra exekveringen
 
 Utan att köra koden — gå igenom följande och ange vad som skrivs ut och i vilken ordning:
 

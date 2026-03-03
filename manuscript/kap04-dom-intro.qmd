@@ -245,7 +245,7 @@ Det finns många — `classList`, `dataset`, `hidden`, `style` — och vi återk
 ## Övningar
 
 ::: {.callout-note}
-## Övning 4.1 – Ändra sidan
+## Övning – Ändra sidan
 
 Utgå från HTML-mallen ovan (med `<h1>` och `<p id="resultat">`). Skriv JavaScript som:
 
@@ -256,7 +256,7 @@ Utgå från HTML-mallen ovan (med `<h1>` och `<p id="resultat">`). Skriv JavaScr
 :::
 
 ::: {.callout-note}
-## Övning 4.2 – Quizpoäng på sidan
+## Övning – Quizpoäng på sidan
 
 Skapa en HTML-sida med följande struktur:
 
@@ -271,19 +271,19 @@ Skriv JavaScript som deklarerar tre variabler (`lagnamn`, `poäng` och `runda`) 
 :::
 
 ::: {.callout-note}
-## Övning 4.3 – Från konsol till sida
+## Övning – Från konsol till sida
 
 I kapitel 2, övning 2.5, skapade du templatesträngar för quizprogrammet. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska resultaten visas i tre separata `<p>`-element på sidan. Du behöver uppdatera HTML-filen med tre element med unika id:n.
 :::
 
 ::: {.callout-note}
-## Övning 4.4 – innerHTML i praktiken
+## Övning – innerHTML i praktiken
 
 Utgå från quizpoäng-sidan i övning 4.2. Ändra JavaScript-koden så att lagets namn visas i fetstil och poängen i kursiv, med hjälp av `innerHTML` och HTML-taggarna `<strong>` respektive `<em>`.
 :::
 
 ::: {.callout-note}
-## Övning 4.5 – Felsök selektorn
+## Övning – Felsök selektorn
 
 Följande HTML och JavaScript fungerar inte — inget händer på sidan. Undersök koden och hitta felet. (Kör inte koden direkt — resonera först.)
 

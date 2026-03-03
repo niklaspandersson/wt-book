@@ -430,7 +430,7 @@ Att be om uppgifter *utan* att få lösningen direkt tvingar dig att tänka sjä
 ## Övningar
 
 ::: {.callout-note}
-## Övning 8.1 – Skapa och utforska
+## Övning – Skapa och utforska
 
 Skapa en array med namnen på fem städer du har besökt (eller vill besöka). Skriv kod som:
 
@@ -442,7 +442,7 @@ Skapa en array med namnen på fem städer du har besökt (eller vill besöka). S
 :::
 
 ::: {.callout-note}
-## Övning 8.2 – Hitta det största talet
+## Övning – Hitta det största talet
 
 Skapa en array med minst åtta slumpmässiga heltal, till exempel `[34, 7, 91, 12, 45, 68, 3, 56]`. Skriv kod som hittar och skriver ut det *största* talet i arrayen med en `for`-loop – du får inte använda `Math.max()`.
 
@@ -450,7 +450,7 @@ Skapa en array med minst åtta slumpmässiga heltal, till exempel `[34, 7, 91, 1
 :::
 
 ::: {.callout-note}
-## Övning 8.3 – Filtrera en lista
+## Övning – Filtrera en lista
 
 Skapa en array med tio poängvärden (0–100). Skriv kod som bygger upp en *ny* array som bara innehåller de godkända resultaten (50 poäng eller mer). Skriv ut den nya arrayen.
 
@@ -458,7 +458,7 @@ Skapa en array med tio poängvärden (0–100). Skriv kod som bygger upp en *ny*
 :::
 
 ::: {.callout-note}
-## Övning 8.4 – Sök i listan
+## Övning – Sök i listan
 
 Skapa en array med minst sex namn. Deklarera en variabel `söknamn` med ett namn att söka efter. Skriv kod som:
 
@@ -470,7 +470,7 @@ Testa med ett namn som finns och ett som inte finns.
 :::
 
 ::: {.callout-note}
-## Övning 8.5 – Numrerad lista på sidan
+## Övning – Numrerad lista på sidan
 
 Skapa en HTML-sida med ett `<ol>`-element med id `"namnlista"`. Skapa en array med minst fem namn i JavaScript. Skriv en loop som bygger upp en HTML-sträng med `<li>`-element för varje namn och visar den i `<ol>`-elementet med `innerHTML`.
 
@@ -478,7 +478,7 @@ Förväntat resultat: en numrerad lista på sidan med alla namn.
 :::
 
 ::: {.callout-note}
-## Övning 8.6 – Markera element med `querySelectorAll`
+## Övning – Markera element med `querySelectorAll`
 
 Skapa en HTML-sida med en `<ul>`-lista med minst sex `<li>`-element – till exempel fruktnamn. Skriv JavaScript som:
 
@@ -490,7 +490,7 @@ Testa att ändra nyckelordet och se att rätt element markeras.
 :::
 
 ::: {.callout-note}
-## Övning 8.7 – Vänd på arrayen
+## Övning – Vänd på arrayen
 
 Skriv kod som skapar en *ny* array med elementen i omvänd ordning – utan att använda den inbyggda metoden `reverse()`. Givet `["A", "B", "C", "D", "E"]` ska resultatet bli `["E", "D", "C", "B", "A"]`.
 

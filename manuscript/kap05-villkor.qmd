@@ -382,7 +382,7 @@ Att formulera en förklaring av kortslutning eller truthy/falsy med egna ord avs
 ## Övningar
 
 ::: {.callout-note}
-## Övning 5.1 – Spåra exekveringen
+## Övning – Spåra exekveringen
 
 Gå igenom följande kod för hand, rad för rad. Vad skrivs ut? Ange svaret innan du kör koden i konsolen.
 
@@ -404,7 +404,7 @@ Vad hade hänt om villkoren stod i omvänd ordning (`x > 5` överst, `x > 20` un
 :::
 
 ::: {.callout-note}
-## Övning 5.2 – Hitta felet
+## Övning – Hitta felet
 
 Följande funktion ska kontrollera om ett år är ett skottår. Ett år är ett skottår om det är delbart med 4, *utom* om det är delbart med 100, *såvida* det inte också är delbart med 400. (2000 är ett skottår, 1900 är det inte, 2024 är det.)
 
@@ -426,7 +426,7 @@ Koden ger fel svar för år 400. Vad är felet, och varför uppstår det? Skriv 
 :::
 
 ::: {.callout-note}
-## Övning 5.3 – Formulera villkoren
+## Övning – Formulera villkoren
 
 Skriv villkorssatser för följande situationer. Du bestämmer själv variabelnamn och värden för att testa.
 
@@ -438,7 +438,7 @@ Skriv villkorssatser för följande situationer. Du bestämmer själv variabelna
 :::
 
 ::: {.callout-note}
-## Övning 5.4 – `if/else` eller ternär?
+## Övning – `if/else` eller ternär?
 
 Nedan finns tre situationer. För varje situation: ska du använda `if/else` eller ternäroperatorn? Motivera valet och skriv sedan koden.
 
@@ -448,7 +448,7 @@ Nedan finns tre situationer. För varje situation: ska du använda `if/else` ell
 :::
 
 ::: {.callout-note}
-## Övning 5.5 – Logiktabellen
+## Övning – Logiktabellen
 
 Ange utan att köra koden vilka av följande uttryck som är `true` och vilka som är `false`. Motivera varje svar.
 
@@ -469,7 +469,7 @@ De två sista raderna är lite annorlunda – `&&` och `||` returnerar inte allt
 :::
 
 ::: {.callout-note}
-## Övning 5.6 – Betyg på sidan
+## Övning – Betyg på sidan
 
 Skapa en HTML-sida med följande struktur:
 
@@ -487,7 +487,7 @@ Testa med flera olika poängvärden och kontrollera att rätt betyg visas.
 :::
 
 ::: {.callout-note}
-## Övning 5.7 – Temperaturklassificering på sidan
+## Övning – Temperaturklassificering på sidan
 
 Skapa en sida med ett `<p>`-element med id `"temperatur"`. Deklarera en variabel med en temperatur i Celsius. Skriv villkorssatser som:
 

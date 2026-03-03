@@ -308,7 +308,7 @@ AI:n är bra på att förklara varför något *inte* fungerar – om du skriver 
 ## Övningar
 
 ::: {.callout-note}
-## Övning 7.1 – Spåra loopen för hand
+## Övning – Spåra loopen för hand
 
 Gå igenom följande kod rad för rad utan att köra den. Ange exakt vad som skrivs ut.
 
@@ -325,7 +325,7 @@ Vad är slutsumman? Varför? Kan du förklara mönstret utan att referera till k
 :::
 
 ::: {.callout-note}
-## Övning 7.2 – Hitta felet
+## Övning – Hitta felet
 
 Följande kod ska skriva ut alla udda tal mellan 1 och 9, men den gör inte det. Hitta felet och förklara varför det uppstår.
 
@@ -339,7 +339,7 @@ Skriv sedan en korrekt version.
 :::
 
 ::: {.callout-note}
-## Övning 7.3 – FizzBuzz
+## Övning – FizzBuzz
 
 Skriv ett program som skriver ut talen 1 till 30 med följande regler:
 
@@ -352,13 +352,13 @@ Skriv ett program som skriver ut talen 1 till 30 med följande regler:
 :::
 
 ::: {.callout-note}
-## Övning 7.4 – Summera en sekvens
+## Övning – Summera en sekvens
 
 Skriv kod som beräknar och skriver ut summan av alla heltal från 1 till ett godtyckligt tal `n`. Testa med `n = 100`. Vad bör summan vara? (Summan av de första *n* heltalen är en *aritmetisk summa* och kan beräknas med formeln $\frac{n(n+1)}{2}$ [@wiki-aritmetisk-summa] – stämmer ditt programs svar med formeln?)
 :::
 
 ::: {.callout-note}
-## Övning 7.5 – Mönster med nästlade loopar
+## Övning – Mönster med nästlade loopar
 
 Skriv ett program som skriver ut följande mönster i konsolen (med `console.log`):
 
@@ -376,7 +376,7 @@ Varje rad består av ett antal asterisker lika med radnumret. Använd nästlade 
 :::
 
 ::: {.callout-note}
-## Övning 7.6 – Nedräkning på sidan
+## Övning – Nedräkning på sidan
 
 Skapa en HTML-sida med ett `<p>`-element med id `"nedräkning"`. Skriv en loop som bygger upp en sträng med talen 10 ner till 1, separerade med mellanslag, och visa den i elementet med `textContent`.
 
@@ -386,7 +386,7 @@ Tips: Skapa en tom sträng före loopen och bygg på den i varje iteration. Till
 :::
 
 ::: {.callout-note}
-## Övning 7.7 – FizzBuzz på sidan
+## Övning – FizzBuzz på sidan
 
 Gå tillbaka till FizzBuzz-övningen (7.3) och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan.
 

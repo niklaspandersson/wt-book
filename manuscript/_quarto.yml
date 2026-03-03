@@ -36,6 +36,9 @@ book:
 
 bibliography: references.bib
 
+filters:
+  - filters/number-exercises.lua
+
 format:
   html:
     theme:
