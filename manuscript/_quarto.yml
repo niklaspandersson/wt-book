@@ -45,7 +45,14 @@ format:
       - cosmo
       - brand
   pdf:
-    documentclass: scrreprt
+    documentclass: scrbook
+    geometry:
+      - paperwidth=156mm
+      - paperheight=234mm
+      - inner=22mm
+      - outer=18mm
+      - top=22mm
+      - bottom=22mm
 
 
 
