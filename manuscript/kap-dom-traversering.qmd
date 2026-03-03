@@ -144,7 +144,7 @@ for (const knapp of knappar) {
 }
 ```
 
-Mönstret `e.target.closest(selektor)` är ett av de vanligaste i modern JavaScript. Det är stabilt, läsbart och fungerar oavsett om HTML-strukturen ändras i framtiden.
+Mönstret `e.target.closest(selektor)` är ovärdeligt för att skriva robusta händelsehanterare. Det är stabilt, läsbart och fungerar oavsett om HTML-strukturen ändras i framtiden.
 
 ::: {.callout-note}
 ## MDN: Element.closest()

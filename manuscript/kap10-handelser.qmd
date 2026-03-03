@@ -228,9 +228,9 @@ knapp.addEventListener("click", (e) => {
 `event.target` är det element som *utlöste* händelsen. Det är särskilt användbart när samma lyssnare hanterar händelser från flera element:
 
 ```html
-<button class="färg-knapp" data-färg="red">Röd</button>
-<button class="färg-knapp" data-färg="blue">Blå</button>
-<button class="färg-knapp" data-färg="green">Grön</button>
+<button class="färg-knapp" value="red">Röd</button>
+<button class="färg-knapp" value="blue">Blå</button>
+<button class="färg-knapp" value="green">Grön</button>
 ```
 
 ```javascript
@@ -238,31 +238,14 @@ const knappar = document.querySelectorAll(".färg-knapp");
 
 for (const knapp of knappar) {
     knapp.addEventListener("click", (e) => {
-        const färg = e.target.dataset.färg;
-        document.body.style.backgroundColor = färg;
+        const färg = e.target.value;
+        document.body.style.backgroundColor = value;
     });
 }
 ```
 
-Här registrerar vi samma typ av lyssnare på tre knappar. Inuti callbacken använder vi `e.target` för att ta reda på *vilken* knapp som klickades och hämtar dess `data-färg`-attribut.
+Här registrerar vi samma typ av lyssnare på tre knappar. Inuti callbacken använder vi `e.target` för att ta reda på *vilken* knapp som klickades och hämtar dess `value`-attribut. `value` är ett attribut som alla formulärelement har, inklusive knappar. Formulärelement kan du lära dig mer om i @sec-forms. 
 
-::: {.callout-note}
-## `dataset` – egna data på element
-
-HTML-attribut som börjar med `data-` kallas **data-attribut**. De nås i JavaScript via `element.dataset`:
-
-```html
-<div data-id="42" data-kategori="frukt">Äpple</div>
-```
-
-```javascript
-const div = document.querySelector("div");
-console.log(div.dataset.id);        // "42"
-console.log(div.dataset.kategori);  // "frukt"
-```
-
-Det är ett sätt att lagra extra information på HTML-element som JavaScript kan läsa. Notera att värdena alltid är strängar.
-:::
 
 ### `event.type`
 
