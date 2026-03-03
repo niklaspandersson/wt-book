@@ -1,0 +1,8 @@
+% Enforce consistent vertical spacing around callout boxes
+% Deferred because Quarto loads tcolorbox after the preamble header
+\AtBeginDocument{%
+  \tcbset{
+    before skip=1em plus 0.5em minus 0.2em,
+    after skip=1em plus 0.5em minus 0.2em
+  }%
+}
