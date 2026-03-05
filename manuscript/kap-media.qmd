@@ -1,0 +1,781 @@
+# JavaScript och media
+
+## En tyst webbsida
+
+Du har byggt en sida för ett litet musikquiz. Frågorna visas på skärmen och användaren ska gissa vilken låt som spelas — men ingenting hörs. Du har en `<audio>`-tagg i HTML:en, du har en MP3-fil, men hur får du JavaScript att starta uppspelningen när användaren klickar på "Spela"? Och hur pausar du, byter låt eller visar hur långt uppspelningen har kommit?
+
+Webben är inte bara text och bilder. Ljud, video och dynamiska bildmanipulationer är en naturlig del av moderna webbapplikationer. Musikspelare, bildgallerier, videoplattformar, spel — alla bygger på att JavaScript kan styra mediaelement.
+
+I det här kapitlet utforskar vi hur JavaScript interagerar med bilder, ljud och video. Vi börjar med det enklaste — att dynamiskt byta bilder — och bygger sedan upp till att skapa egna kontroller för ljud- och videospelare.
+
+---
+
+## Bilder och JavaScript
+
+Bilder är det vanligaste medieelementet på webben. Med JavaScript kan du byta bilder dynamiskt, reagera på laddningshändelser och skapa interaktiva bildgallerier.
+
+### Byta bildkälla med `src`
+
+Varje `<img>`-element har en `src`-egenskap som du kan läsa och ändra med JavaScript:
+
+```html
+<img id="profilbild" src="standard.jpg" alt="Profilbild">
+<button id="byt-knapp">Byt bild</button>
+```
+
+```javascript
+const bild = document.querySelector("#profilbild");
+const knapp = document.querySelector("#byt-knapp");
+
+knapp.addEventListener("click", () => {
+    bild.src = "annan-bild.jpg";
+    bild.alt = "En annan profilbild";
+});
+```
+
+När du ändrar `src` börjar webbläsaren omedelbart ladda den nya bilden. Den gamla bilden ersätts så snart den nya är klar. Glöm inte att uppdatera `alt`-texten — den är viktig för tillgänglighet och beskriver bildens innehåll för skärmläsare.
+
+### Bildladdning och `load`-händelsen
+
+Bilder laddas *asynkront* — webbläsaren hämtar dem i bakgrunden medan resten av sidan fortsätter att köras. Det betyder att en bild inte nödvändigtvis är klar att visa direkt efter att du satt `src`. Om du behöver reagera på att en bild har laddats klart använder du `load`-händelsen:
+
+```javascript
+const bild = document.querySelector("#profilbild");
+
+bild.addEventListener("load", () => {
+    console.log("Bilden är laddad!");
+    console.log(`Storlek: ${bild.naturalWidth} × ${bild.naturalHeight}`);
+});
+
+bild.src = "stor-bild.jpg";
+```
+
+`naturalWidth` och `naturalHeight` ger bildens *verkliga* storlek i pixlar, oavsett hur den visas på sidan. Dessa värden är bara tillgängliga efter att bilden har laddats.
+
+### Hantera laddningsfel med `error`
+
+Om bilden inte kan laddas — kanske filen saknas eller URL:en är felaktig — utlöses en `error`-händelse:
+
+```javascript
+bild.addEventListener("error", () => {
+    console.log("Bilden kunde inte laddas");
+    bild.src = "placeholder.jpg";
+    bild.alt = "Bilden kunde inte visas";
+});
+```
+
+Det här mönstret — att visa en reservbild vid fel — är vanligt på webbplatser med användargenererat innehåll, där bilder kan försvinna eller ha trasiga URL:er.
+
+---
+
+## Ett bildgalleri
+
+Låt oss bygga ett enkelt bildgalleri — en stor bild som ändras när användaren klickar på miniatyrbilder:
+
+```html
+<div class="galleri">
+    <img id="huvudbild" src="bild1.jpg" alt="Bild 1">
+
+    <div class="miniatyrer">
+        <img class="mini" src="bild1.jpg" alt="Bild 1" data-stor="bild1.jpg">
+        <img class="mini" src="bild2.jpg" alt="Bild 2" data-stor="bild2.jpg">
+        <img class="mini" src="bild3.jpg" alt="Bild 3" data-stor="bild3.jpg">
+        <img class="mini" src="bild4.jpg" alt="Bild 4" data-stor="bild4.jpg">
+    </div>
+</div>
+```
+
+```css
+.galleri {
+    max-width: 600px;
+}
+
+#huvudbild {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.miniatyrer {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.mini {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+}
+
+.mini.aktiv {
+    border-color: steelblue;
+}
+```
+
+```javascript
+const huvudbild = document.querySelector("#huvudbild");
+const miniatyrer = document.querySelector(".miniatyrer");
+
+miniatyrer.addEventListener("click", (e) => {
+    const mini = e.target.closest(".mini");
+    if (!mini) return;
+
+    // Uppdatera huvudbilden
+    huvudbild.src = mini.dataset.stor;
+    huvudbild.alt = mini.alt;
+
+    // Markera aktiv miniatyr
+    for (const m of miniatyrer.querySelectorAll(".mini")) {
+        m.classList.remove("aktiv");
+    }
+    mini.classList.add("aktiv");
+});
+```
+
+Exemplet använder händelsedelegering — en enda lyssnare på `.miniatyrer`-containern fångar klick på alla miniatyrbilder. Mönstret `e.target.closest(".mini")` säkerställer att vi alltid hittar rätt element, även om klicket träffar något inuti miniatyren. Data-attributet `data-stor` lagrar sökvägen till den stora bilden, som vi läser via `dataset.stor`.
+
+---
+
+::: {.vg}
+
+## Ljud med `<audio>` och JavaScript {#sec-audio}
+
+HTML:s `<audio>`-element spelar upp ljudfiler direkt i webbläsaren:
+
+```html
+<audio id="spelare" src="musik.mp3"></audio>
+```
+
+Utan attributet `controls` syns inget på sidan — elementet är osynligt. Lägger du till `controls` visar webbläsaren en inbyggd spelare med play/paus, volym och tidslinje:
+
+```html
+<audio id="spelare" src="musik.mp3" controls></audio>
+```
+
+Men de inbyggda kontrollerna ser olika ut i olika webbläsare och kan inte stylas med CSS. Det är här JavaScript kommer in — du kan bygga helt egna kontroller.
+
+### `play()` och `pause()`
+
+De två viktigaste metoderna på ett `<audio>`-element är `play()` och `pause()`:
+
+```javascript
+const spelare = document.querySelector("#spelare");
+
+spelare.play();   // starta uppspelning
+spelare.pause();  // pausa uppspelning
+```
+
+Det finns ingen `stop()`-metod. För att "stoppa" återställer du positionen manuellt:
+
+```javascript
+spelare.pause();
+spelare.currentTime = 0;
+```
+
+::: {.callout-important}
+## Autoplay blockeras av webbläsaren
+
+Webbläsare blockerar automatisk uppspelning av ljud och video om användaren inte har interagerat med sidan först. Det är ett medvetet designbeslut för att skydda användare från oönskade ljud. Det betyder att `spelare.play()` som körs direkt vid sidladdning ofta inte fungerar — uppspelningen måste triggas av en användaråtgärd som ett knapptryck. Metoden `play()` returnerar ett *promise* som avvisas om uppspelningen blockeras.
+:::
+
+### Egenskaper för uppspelning
+
+`<audio>`-elementet har flera användbara egenskaper:
+
+| Egenskap        | Beskrivning                                       |
+|-----------------|---------------------------------------------------|
+| `currentTime`   | Aktuell position i sekunder (läs och skriv)       |
+| `duration`      | Ljudfilens totala längd i sekunder (skrivskyddad) |
+| `volume`        | Volym, ett tal mellan 0.0 och 1.0 (läs och skriv) |
+| `muted`         | `true` om ljudet är tystat (läs och skriv)         |
+| `paused`        | `true` om spelaren är pausad (skrivskyddad)        |
+| `ended`         | `true` om uppspelningen nått slutet (skrivskyddad) |
+| `loop`          | `true` om ljudet ska loopa (läs och skriv)         |
+| `playbackRate`  | Uppspelningshastighet, 1.0 är normal (läs och skriv) |
+
+```javascript
+console.log(spelare.currentTime);  // t.ex. 42.5 (sekunder)
+console.log(spelare.duration);     // t.ex. 180.0 (3 minuter)
+
+spelare.volume = 0.5;              // halv volym
+spelare.currentTime = 60;          // hoppa till 1 minut
+```
+
+### En enkel ljudspelare
+
+Här bygger vi en minimal spelare med play/paus-knapp och volymkontroll:
+
+```html
+<audio id="spelare" src="musik.mp3"></audio>
+
+<div class="ljudspelare">
+    <button id="spela-paus">Spela</button>
+    <input id="volym" type="range" min="0" max="1" step="0.1" value="1">
+    <span id="tid">0:00 / 0:00</span>
+</div>
+```
+
+```javascript
+const spelare = document.querySelector("#spelare");
+const spelaKnapp = document.querySelector("#spela-paus");
+const volymReglage = document.querySelector("#volym");
+const tidVisning = document.querySelector("#tid");
+
+spelaKnapp.addEventListener("click", () => {
+    if (spelare.paused) {
+        spelare.play();
+        spelaKnapp.textContent = "Paus";
+    } else {
+        spelare.pause();
+        spelaKnapp.textContent = "Spela";
+    }
+});
+
+volymReglage.addEventListener("input", () => {
+    spelare.volume = volymReglage.value;
+});
+```
+
+Knappen kontrollerar `spelare.paused` för att avgöra om den ska starta eller pausa uppspelningen, och uppdaterar sin text därefter. Volymreglaget är ett `<input type="range">` som binder sitt värde direkt till `spelare.volume`.
+
+:::
+
+---
+
+::: {.vg}
+
+## Mediahändelser {#sec-media-events}
+
+Ljud- och videoelement utlöser en rad händelser som du kan lyssna på för att bygga responsiva gränssnitt:
+
+| Händelse        | Utlöses när...                                     |
+|-----------------|-----------------------------------------------------|
+| `play`          | Uppspelningen startar                               |
+| `pause`         | Uppspelningen pausas                                |
+| `ended`         | Uppspelningen når slutet                            |
+| `timeupdate`    | Aktuell tid ändras (utlöses upprepat under uppspelning) |
+| `loadedmetadata`| Metadata (längd, dimensioner) har laddats           |
+| `canplay`       | Tillräckligt med data har laddats för att börja spela |
+| `volumechange`  | Volymen eller `muted`-tillståndet ändras            |
+| `error`         | Ett fel uppstod vid laddning av mediet              |
+
+`timeupdate` är särskilt användbar — den utlöses ungefär 4–5 gånger per sekund under uppspelning och ger dig möjlighet att uppdatera tidsindikatorer, progressbarer och annan visuell feedback i realtid.
+
+### Visa tid löpande
+
+Låt oss utöka vår ljudspelare med en löpande tidsvisning:
+
+```javascript
+function formateraTid(sekunder) {
+    const min = Math.floor(sekunder / 60);
+    const sek = Math.floor(sekunder % 60);
+    return `${min}:${sek.toString().padStart(2, "0")}`;
+}
+
+spelare.addEventListener("timeupdate", () => {
+    const aktuell = formateraTid(spelare.currentTime);
+    const total = formateraTid(spelare.duration);
+    tidVisning.textContent = `${aktuell} / ${total}`;
+});
+
+spelare.addEventListener("ended", () => {
+    spelaKnapp.textContent = "Spela";
+});
+```
+
+Funktionen `formateraTid` konverterar sekunder till formatet `m:ss`. Metoden `padStart(2, "0")` fyller ut strängen med en inledande nolla om den är kortare än två tecken — så att "5" blir "05". `ended`-händelsen återställer knappens text när låten är slut.
+
+::: {.callout-note}
+## `padStart` och `padEnd`
+
+Strängmetoderna `padStart(längd, tecken)` och `padEnd(längd, tecken)` fyller ut en sträng till önskad längd med det angivna tecknet. De är praktiska för att formatera siffror:
+
+```javascript
+"5".padStart(2, "0");    // "05"
+"12".padStart(2, "0");   // "12" (redan tillräckligt lång)
+"3".padStart(3, "0");    // "003"
+```
+
+En fullständig referens finns på [MDN: String.prototype.padStart()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart).
+:::
+
+:::
+
+---
+
+::: {.vg}
+
+## Skapa ljud dynamiskt med `Audio`
+
+Du behöver inte alltid ha ett `<audio>`-element i HTML:en. Konstruktorn `Audio` skapar ett ljudobjekt direkt i JavaScript:
+
+```javascript
+const ljud = new Audio("pling.mp3");
+ljud.play();
+```
+
+Det här är praktiskt för *ljudeffekter* — korta ljud som ska spelas vid specifika händelser, som ett klick, en notifikation eller ett fel:
+
+```javascript
+const klickLjud = new Audio("klick.mp3");
+const felLjud = new Audio("fel.mp3");
+
+document.querySelector("#spara").addEventListener("click", () => {
+    klickLjud.currentTime = 0;
+    klickLjud.play();
+});
+
+document.querySelector("#formulär").addEventListener("submit", (e) => {
+    if (!valideraFormulär()) {
+        e.preventDefault();
+        felLjud.currentTime = 0;
+        felLjud.play();
+    }
+});
+```
+
+Vi sätter `currentTime = 0` innan vi spelar. Det beror på att om ljudet redan spelas (eller just spelats klart) startar `play()` inte om från början — den fortsätter från nuvarande position. Genom att återställa positionen säkerställer vi att effekten alltid hörs från start.
+
+`new Audio(url)` är funktionellt ekvivalent med att skapa ett `<audio>`-element med `document.createElement("audio")` och sätta dess `src`. Skillnaden är att `Audio`-konstruktorn är kortare att skriva och elementet läggs aldrig till i DOM:en — det existerar bara i minnet.
+
+:::
+
+---
+
+::: {.vg}
+
+## Video med `<video>` och JavaScript {#sec-video}
+
+Videoelementet fungerar på samma sätt som `<audio>`, men med visuellt innehåll:
+
+```html
+<video id="videospelare" src="film.mp4" width="640"></video>
+```
+
+Precis som med ljud kan du lägga till `controls` för att visa webbläsarens inbyggda kontroller, eller bygga helt egna med JavaScript.
+
+`<video>` har samma metoder (`play()`, `pause()`) och samma egenskaper (`currentTime`, `duration`, `volume`, `paused`, `ended`) som `<audio>`. De delar samma underliggande gränssnitt — **`HTMLMediaElement`** — och lyssnar på samma händelser.
+
+### Egenskaper specifika för video
+
+Video har några extra egenskaper som ljud saknar:
+
+| Egenskap      | Beskrivning                                         |
+|---------------|-----------------------------------------------------|
+| `videoWidth`  | Videons ursprungliga bredd i pixlar (skrivskyddad) |
+| `videoHeight` | Videons ursprungliga höjd i pixlar (skrivskyddad)  |
+| `poster`      | URL till en bild som visas innan videon spelas       |
+
+```html
+<video id="videospelare" src="film.mp4" poster="förhandsvisning.jpg" width="640">
+</video>
+```
+
+`poster`-attributet visar en stillbild innan användaren startar videon. Det ger ett professionellt intryck och hjälper användaren förstå vad videon handlar om.
+
+### Flera källformat med `<source>`
+
+Olika webbläsare stöder olika videoformat. Du kan ange flera alternativ med `<source>`-element:
+
+```html
+<video id="videospelare" width="640">
+    <source src="film.mp4" type="video/mp4">
+    <source src="film.webm" type="video/webm">
+    <p>Din webbläsare stöder inte video.</p>
+</video>
+```
+
+Webbläsaren väljer det första format den stöder. Texten i `<p>`-elementet visas bara om webbläsaren inte stöder `<video>` alls — vilket i praktiken är ovanligt i moderna webbläsare. Samma teknik fungerar för `<audio>`.
+
+::: {.callout-note}
+## Vanliga mediaformat
+
+De vanligaste formaten för webb:
+
+- **Video**: MP4 (H.264) stöds av alla moderna webbläsare. WebM (VP9) är ett öppet alternativ med bra stöd.
+- **Ljud**: MP3 stöds överallt. OGG Vorbis och AAC är alternativ.
+
+I de flesta fall räcker det med MP4 för video och MP3 för ljud.
+:::
+
+---
+
+## Bygga en egen videospelare {#sec-custom-player}
+
+Låt oss bygga en komplett videospelare med egna kontroller. Det här exemplet knyter ihop allt vi har lärt oss: mediametoder, egenskaper, händelser och DOM-manipulation.
+
+```html
+<div class="videospelare">
+    <video id="video" src="film.mp4" width="640"></video>
+
+    <div class="kontroller">
+        <button id="spela-paus-video">▶</button>
+        <input id="tidslinje" type="range" min="0" value="0" step="0.1">
+        <span id="video-tid">0:00 / 0:00</span>
+        <input id="video-volym" type="range" min="0" max="1" step="0.1" value="1">
+        <button id="ljud-av">🔊</button>
+        <button id="helskärm">⛶</button>
+    </div>
+</div>
+```
+
+```css
+.videospelare {
+    max-width: 640px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.videospelare video {
+    width: 100%;
+    display: block;
+}
+
+.kontroller {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: #222;
+    color: white;
+}
+
+.kontroller button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#tidslinje {
+    flex: 1;
+}
+```
+
+```javascript
+const video = document.querySelector("#video");
+const spelaKnapp = document.querySelector("#spela-paus-video");
+const tidslinje = document.querySelector("#tidslinje");
+const tidVisning = document.querySelector("#video-tid");
+const volymReglage = document.querySelector("#video-volym");
+const ljudAvKnapp = document.querySelector("#ljud-av");
+const helskärmKnapp = document.querySelector("#helskärm");
+
+// Spela / pausa
+spelaKnapp.addEventListener("click", () => {
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
+});
+
+video.addEventListener("play", () => {
+    spelaKnapp.textContent = "⏸";
+});
+
+video.addEventListener("pause", () => {
+    spelaKnapp.textContent = "▶";
+});
+
+// Tidslinje
+video.addEventListener("loadedmetadata", () => {
+    tidslinje.max = video.duration;
+});
+
+video.addEventListener("timeupdate", () => {
+    tidslinje.value = video.currentTime;
+    tidVisning.textContent =
+        `${formateraTid(video.currentTime)} / ${formateraTid(video.duration)}`;
+});
+
+tidslinje.addEventListener("input", () => {
+    video.currentTime = tidslinje.value;
+});
+
+// Volym
+volymReglage.addEventListener("input", () => {
+    video.volume = volymReglage.value;
+    video.muted = false;
+    ljudAvKnapp.textContent = video.volume > 0 ? "🔊" : "🔇";
+});
+
+ljudAvKnapp.addEventListener("click", () => {
+    video.muted = !video.muted;
+    ljudAvKnapp.textContent = video.muted ? "🔇" : "🔊";
+});
+
+// Helskärm
+helskärmKnapp.addEventListener("click", () => {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    } else {
+        video.requestFullscreen();
+    }
+});
+
+// Klick på videon togglar uppspelning
+video.addEventListener("click", () => {
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
+});
+
+function formateraTid(sekunder) {
+    const min = Math.floor(sekunder / 60);
+    const sek = Math.floor(sekunder % 60);
+    return `${min}:${sek.toString().padStart(2, "0")}`;
+}
+```
+
+Det händer mycket i den här koden, men varje del bygger på saker vi redan gått igenom. Låt oss bryta ner de viktigaste delarna:
+
+**Spela/pausa** hanteras både via knappen och genom att klicka direkt på videon. Istället för att uppdatera knappens text i klickhanteraren lyssnar vi på `play`- och `pause`-händelserna — det gör att knappen alltid visar rätt symbol, oavsett *hur* uppspelningen startades eller pausades.
+
+**Tidslinjen** är ett `<input type="range">` vars `max`-värde sätts till videons längd när metadata har laddats (`loadedmetadata`). Under uppspelning uppdateras reglagets position via `timeupdate`. När användaren drar i reglaget sätts `video.currentTime` via `input`-händelsen, vilket låter användaren hoppa till valfri position.
+
+**Volymen** fungerar på samma sätt — ett range-reglage som direkt styr `video.volume`.
+
+**Helskärm** använder Fullscreen API: `video.requestFullscreen()` öppnar helskärmsläge och `document.exitFullscreen()` stänger det. Egenskapen `document.fullscreenElement` är `null` om inget element visas i helskärm.
+
+::: {.callout-note}
+## Fullscreen API
+
+Fullscreen API låter dig visa *vilket element som helst* i helskärm — inte bara video. Det kan vara användbart för bildgallerier, presentationer eller spelgränssnitt. En fullständig referens finns på [MDN: Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
+:::
+
+:::
+
+---
+
+::: {.vg}
+
+## Praktiskt exempel: ett musikquiz {#sec-music-quiz}
+
+Låt oss bygga det musikquiz vi nämnde i kapitlets inledning. Spelaren hör ett kort klipp och ska gissa vilken låt det är bland flera alternativ.
+
+```html
+<h2>Musikquiz</h2>
+<p id="fråga">Tryck på "Spela" för att börja!</p>
+
+<audio id="quiz-ljud"></audio>
+<button id="quiz-spela">Spela</button>
+
+<div id="alternativ"></div>
+<p id="resultat"></p>
+```
+
+```javascript
+const frågor = [
+    {
+        ljud: "klipp1.mp3",
+        rätt: "Bohemian Rhapsody",
+        alternativ: ["Bohemian Rhapsody", "Stairway to Heaven", "Hotel California"]
+    },
+    {
+        ljud: "klipp2.mp3",
+        rätt: "Billie Jean",
+        alternativ: ["Beat It", "Billie Jean", "Thriller"]
+    },
+    {
+        ljud: "klipp3.mp3",
+        rätt: "Smells Like Teen Spirit",
+        alternativ: ["Smells Like Teen Spirit", "Come as You Are", "Lithium"]
+    }
+];
+
+const ljudElement = document.querySelector("#quiz-ljud");
+const spelaKnapp = document.querySelector("#quiz-spela");
+const alternativContainer = document.querySelector("#alternativ");
+const resultatText = document.querySelector("#resultat");
+const frågeText = document.querySelector("#fråga");
+
+let aktuellFråga = 0;
+let poäng = 0;
+
+function visaFråga() {
+    const fråga = frågor[aktuellFråga];
+    frågeText.textContent = `Fråga ${aktuellFråga + 1} av ${frågor.length}`;
+    ljudElement.src = fråga.ljud;
+    resultatText.textContent = "";
+
+    // Skapa alternativknappar
+    alternativContainer.innerHTML = "";
+    for (const alt of fråga.alternativ) {
+        const knapp = document.createElement("button");
+        knapp.textContent = alt;
+        knapp.classList.add("quiz-alternativ");
+        alternativContainer.append(knapp);
+    }
+}
+
+spelaKnapp.addEventListener("click", () => {
+    ljudElement.currentTime = 0;
+    ljudElement.play();
+});
+
+alternativContainer.addEventListener("click", (e) => {
+    const knapp = e.target.closest(".quiz-alternativ");
+    if (!knapp) return;
+
+    ljudElement.pause();
+
+    const fråga = frågor[aktuellFråga];
+    if (knapp.textContent === fråga.rätt) {
+        poäng++;
+        resultatText.textContent = "Rätt!";
+    } else {
+        resultatText.textContent = `Fel! Rätt svar: ${fråga.rätt}`;
+    }
+
+    // Inaktivera alla knappar
+    for (const k of alternativContainer.querySelectorAll(".quiz-alternativ")) {
+        k.disabled = true;
+    }
+
+    // Visa nästa fråga efter en kort paus
+    aktuellFråga++;
+    if (aktuellFråga < frågor.length) {
+        setTimeout(visaFråga, 2000);
+    } else {
+        setTimeout(() => {
+            frågeText.textContent = `Quiz klart! Du fick ${poäng} av ${frågor.length} rätt.`;
+            alternativContainer.innerHTML = "";
+            spelaKnapp.hidden = true;
+        }, 2000);
+    }
+});
+
+visaFråga();
+```
+
+Exemplet kombinerar flera tekniker: vi skapar element dynamiskt med `createElement` och `append`, använder händelsedelegering på alternativcontainern, styr ljuduppspelning med `play()` och `pause()`, och använder `setTimeout` för att fördröja övergången till nästa fråga. Notera att vi använder `disabled = true` på knapparna efter ett svar — det förhindrar att användaren svarar flera gånger.
+
+:::
+
+---
+
+## Sammanfattning
+
+JavaScript ger dig full kontroll över media i webbläsaren — bilder, ljud och video. Med en handfull metoder, egenskaper och händelser kan du bygga allt från enkla bildgallerier till kompletta mediaspelare.
+
+- **Bilder**: Ändra `src` för att byta bild dynamiskt. Lyssna på `load` och `error` för att reagera på laddningsresultat.
+- **`<audio>` och `<video>`** delar samma gränssnitt (`HTMLMediaElement`) med metoderna `play()` och `pause()`.
+- **Egenskaper** som `currentTime`, `duration`, `volume`, `paused` och `muted` ger full kontroll över uppspelningen.
+- **Mediahändelser** som `timeupdate`, `play`, `pause`, `ended` och `loadedmetadata` låter dig bygga responsiva gränssnitt.
+- **`new Audio(url)`** skapar ljudobjekt direkt i JavaScript — praktiskt för ljudeffekter.
+- **Flera `<source>`-element** ger webbläsaren alternativa format att välja mellan.
+- **Fullscreen API** med `requestFullscreen()` och `exitFullscreen()` ger helskärmsvisning.
+- **Autoplay blockeras** av webbläsaren om användaren inte har interagerat med sidan.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Media-API:erna har många egenskaper och händelser som kan vara svåra att hålla reda på. AI-verktyg kan hjälpa dig att utforska dem systematiskt.
+
+**Utforska media-API:et:**
+
+> *"Lista alla händelser som ett `<video>`-element kan utlösa, med en kort beskrivning av varje. Vilka är de viktigaste för att bygga en egen videospelare?"*
+
+**Felsöka uppspelningsproblem:**
+
+> *"Min video spelas inte upp när jag anropar `play()`. Vad kan orsaka det? Beskriv de vanligaste felen och hur jag felsöker dem."*
+
+**Generera byggutmaningar:**
+
+> *"Ge mig en uppgift där jag ska bygga en enkel poddspelare med JavaScript. Den ska ha play/paus, volymkontroll och visa aktuell tid. Beskriv kraven men visa inte lösningen."*
+
+> *"Föreslå tre korta projekt som använder `<audio>` eller `<video>` med JavaScript — ett enkelt, ett medel och ett avancerat."*
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Bildgalleri med piltangenter
+
+Skapa ett bildgalleri med en stor bild och minst sex miniatyrbilder. Klick på en miniatyr ska byta huvudbilden. Utöka sedan galleriet:
+
+1. Lägg till tangentbordsstöd: vänsterpil visar föregående bild, högerpil visar nästa.
+2. Lägg till en bildräknare som visar "Bild 3 av 6".
+3. Se till att navigeringen loopar — efter sista bilden kommer den första igen.
+
+*Tips:* Håll reda på vilken bild som visas med en variabel (ett index i en array).
+:::
+
+::: {.callout-note}
+## Övning – Ljudeffekter
+
+Skapa en sida med sex knappar, var och en kopplad till en ljudeffekt (du kan använda valfria korta ljud). Skriv JavaScript som:
+
+1. Skapar `Audio`-objekt med `new Audio()` för varje ljudfil.
+2. Spelar rätt ljud när motsvarande knapp klickas.
+3. Gör så att ett ljud kan spelas snabbt efter sig självt (återställ `currentTime` innan `play()`).
+
+Utöka sedan: gör det möjligt att spela ljud med tangentbordet — knapparna 1–6 spelar respektive ljud.
+:::
+
+::: {.callout-note}
+## Övning – Ljudspelare med progressbar
+
+Bygg en ljudspelare med egna kontroller:
+
+1. En play/paus-knapp som togglar uppspelningen.
+2. Ett `<input type="range">`-element som visar och styr positionen i låten.
+3. En tidsvisning i formatet `m:ss / m:ss`.
+4. En volymkontroll.
+
+Se till att tidslinjen uppdateras löpande under uppspelning, och att användaren kan dra i den för att hoppa till en annan position.
+:::
+
+::: {.callout-note}
+## Övning – Videospelare med kapitelmarkeringar
+
+Bygg en videospelare med egna kontroller (play/paus, tidslinje, volym). Lägg sedan till kapitelmarkeringar:
+
+1. Definiera en array med objekt som har `tid` (i sekunder) och `titel`.
+2. Visa kapitelnamnen som klickbara element under videon.
+3. Klick på ett kapitel hoppar till rätt position (`currentTime`).
+4. Markera det aktiva kapitlet baserat på var i videon uppspelningen befinner sig.
+
+*Tips:* I `timeupdate`-händelsen, jämför `currentTime` med kapiteltiderna för att avgöra vilket kapitel som är aktivt.
+:::
+
+::: {.callout-note}
+## Övning – Reaktionsspel med ljud
+
+Bygg ett reaktionsspel:
+
+1. När sidan laddas visas texten "Vänta...".
+2. Efter en slumpmässig fördröjning (2–5 sekunder) spelas ett ljud och bakgrundsfärgen ändras.
+3. Användaren ska klicka så snabbt som möjligt.
+4. Mät och visa reaktionstiden i millisekunder.
+5. Spela ett kort ljud vid klick som bekräftelse.
+
+Lägg till en "Försök igen"-knapp som startar om sekvensen. Visa de tre bästa tiderna i en lista.
+
+*Tips:* Använd `Date.now()` för att mäta tid, och `setTimeout` med `Math.random()` för den slumpmässiga fördröjningen.
+:::
+
+::: {.callout-note}
+## Övning – Automatiskt bildspel
+
+Skapa ett bildspel som automatiskt byter bild var tredje sekund:
+
+1. Visa en stor bild och en "Starta"/"Stoppa"-knapp.
+2. När bildspelet är igång byts bilden automatiskt.
+3. Knappen togglar mellan att starta och stoppa bildspelet.
+4. Visa vilken bild som visas (t.ex. "3 / 8").
+
+Utöka sedan: lägg till en mjuk övergång med CSS (`opacity` och `transition`). Byt bild genom att tona ut den gamla och tona in den nya.
+
+*Tips:* Använd `setInterval` för att byta bild automatiskt och `clearInterval` för att stoppa.
+:::

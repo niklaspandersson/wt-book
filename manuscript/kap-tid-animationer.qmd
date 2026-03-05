@@ -1,0 +1,868 @@
+# Tid och animationer
+
+## En nedräkning som aldrig räknar
+
+Du ska bygga en nedräkning till nyårsafton. Du har ett `<span>`-element på sidan som ska visa hur många sekunder det är kvar. Du skriver:
+
+```javascript
+const nedräkning = document.querySelector("#nedräkning");
+let sekunder = 10;
+
+sekunder = sekunder - 1;
+nedräkning.textContent = sekunder;
+
+sekunder = sekunder - 1;
+nedräkning.textContent = sekunder;
+
+// ... och så vidare?
+```
+
+Det fungerar inte. Alla rader körs i ett enda ögonblick — användaren ser bara siffran 8, inte en löpande nedräkning. JavaScript körs uppifrån och ned, rad för rad, utan pauser. Det finns inget sätt att säga "vänta en sekund" mellan två rader kod.
+
+Eller? Det är precis vad *timers* är till för. Med `setTimeout` och `setInterval` kan du schemalägga kod att köras *senare* — efter en viss tid, eller upprepat med ett fast intervall. Det är så du skapar nedräkningar, bildspel, fördröjningar och periodiska uppdateringar.
+
+Men timers ger dig inte mjuka rörelser. Om du vill att ett element ska glida in från sidan, att en färg ska tona över eller att en progressbar ska växa smidigt, behöver du **animationer**. Där kommer `requestAnimationFrame` in — ett verktyg som synkroniserar dina uppdateringar med skärmens uppdateringsfrekvens.
+
+I det här kapitlet utforskar vi båda: först timers för att styra *när* saker händer, sedan animationer för att styra *hur* saker rör sig.
+
+---
+
+## `setTimeout` — kör kod efter en fördröjning
+
+`setTimeout` schemalägger en funktion att köras *en gång*, efter ett angivet antal millisekunder:
+
+```javascript
+setTimeout(funktion, millisekunder);
+```
+
+1 000 millisekunder = 1 sekund. Här är ett enkelt exempel:
+
+```javascript
+console.log("Före");
+
+setTimeout(() => {
+    console.log("Efter 2 sekunder");
+}, 2000);
+
+console.log("Direkt efter setTimeout");
+```
+
+Utskriften blir:
+
+```
+Före
+Direkt efter setTimeout
+Efter 2 sekunder
+```
+
+Det sista meddelandet skrivs ut *sist*, trots att det står i mitten av koden. `setTimeout` blockerar inte — den registrerar en fördröjd uppgift och fortsätter omedelbart till nästa rad. Funktionen du skickade in körs först när fördröjningen har passerat.
+
+Det här är ett viktigt koncept: **JavaScript är asynkront**. Timers körs inte "mitt i" din kod — de schemaläggs att köras *senare*, efter att den aktuella koden har körts klart.
+
+::: {.callout-note}
+## Millisekunder, inte sekunder
+
+Alla tidsfunktioner i JavaScript arbetar med millisekunder. Det är en vanlig felkälla:
+
+- 1 sekund = `1000`
+- 2.5 sekunder = `2500`
+- 0.5 sekunder = `500`
+
+Om ditt timeout aldrig verkar utlösas kan det bero på att du skrev `3` istället för `3000`.
+:::
+
+### Ett praktiskt exempel: fördröjt meddelande
+
+```html
+<button id="spara">Spara</button>
+<p id="meddelande" hidden>Sparat!</p>
+```
+
+```javascript
+const knapp = document.querySelector("#spara");
+const meddelande = document.querySelector("#meddelande");
+
+knapp.addEventListener("click", () => {
+    meddelande.hidden = false;
+
+    setTimeout(() => {
+        meddelande.hidden = true;
+    }, 3000);
+});
+```
+
+Meddelandet visas direkt vid klick och döljs automatiskt efter tre sekunder. Det är ett mönster du ser på många webbplatser — en kort bekräftelse som försvinner av sig själv.
+
+---
+
+## `clearTimeout` — avbryt en timer
+
+`setTimeout` returnerar ett **timer-id** — ett nummer som identifierar den schemalagda uppgiften. Med det id:t kan du avbryta timern innan den hinner köras:
+
+```javascript
+const id = setTimeout(() => {
+    console.log("Det här körs aldrig");
+}, 5000);
+
+clearTimeout(id);
+```
+
+Det är användbart när användaren ändrar sig. Här är ett utökat sparexempel där en ny klick återställer nedräkningen:
+
+```javascript
+const knapp = document.querySelector("#spara");
+const meddelande = document.querySelector("#meddelande");
+let timerId = null;
+
+knapp.addEventListener("click", () => {
+    meddelande.hidden = false;
+
+    // Avbryt eventuell pågående timer
+    clearTimeout(timerId);
+
+    timerId = setTimeout(() => {
+        meddelande.hidden = true;
+    }, 3000);
+});
+```
+
+Om användaren klickar flera gånger i rad avbryts den gamla timern och en ny startas. Utan `clearTimeout` skulle meddelandet kunna försvinna "för tidigt" om den första timern löper ut medan den andra fortfarande räknar.
+
+---
+
+## `setInterval` — upprepa med jämna mellanrum
+
+`setInterval` fungerar som `setTimeout`, men körs *upprepat* med ett fast intervall:
+
+```javascript
+setInterval(funktion, millisekunder);
+```
+
+Funktionen anropas om och om igen, varje gång intervallet har passerat, tills du uttryckligen stoppar den.
+
+### En enkel klocka
+
+```html
+<p id="klocka"></p>
+```
+
+```javascript
+const klockElement = document.querySelector("#klocka");
+
+function uppdateraKlocka() {
+    const nu = new Date();
+    const timmar = nu.getHours().toString().padStart(2, "0");
+    const minuter = nu.getMinutes().toString().padStart(2, "0");
+    const sekunder = nu.getSeconds().toString().padStart(2, "0");
+    klockElement.textContent = `${timmar}:${minuter}:${sekunder}`;
+}
+
+uppdateraKlocka();
+setInterval(uppdateraKlocka, 1000);
+```
+
+Vi anropar `uppdateraKlocka()` en gång direkt — annars skulle det dröja en sekund innan klockan visas för första gången. Sedan uppdateras den varje sekund av `setInterval`.
+
+::: {.callout-note}
+## `Date`-objektet
+
+`new Date()` skapar ett objekt som representerar aktuellt datum och tid. Det har metoder för att hämta de olika delarna:
+
+```javascript
+const nu = new Date();
+nu.getFullYear();   // t.ex. 2026
+nu.getMonth();      // 0–11 (0 = januari)
+nu.getDate();       // 1–31
+nu.getHours();      // 0–23
+nu.getMinutes();    // 0–59
+nu.getSeconds();    // 0–59
+```
+
+Notera att `getMonth()` returnerar 0 för januari — en vanlig felkälla. En fullständig referens finns på [MDN: Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date).
+:::
+
+---
+
+## `clearInterval` — stoppa upprepningen
+
+Precis som `setTimeout` returnerar `setInterval` ett timer-id som du kan använda med `clearInterval`:
+
+```javascript
+const id = setInterval(() => {
+    console.log("Tickar...");
+}, 1000);
+
+// Stoppa efter 10 sekunder
+setTimeout(() => {
+    clearInterval(id);
+    console.log("Stoppad!");
+}, 10000);
+```
+
+Utan `clearInterval` fortsätter funktionen att köras i all evighet — eller tills sidan stängs. Det kan leda till prestandaproblem och minnesläckor om du skapar intervall som aldrig stoppas.
+
+::: {.callout-important}
+## Glöm inte `clearInterval`
+
+Varje gång du skapar ett `setInterval`, tänk på *när* det ska stoppas. Behåll alltid timer-id:t i en variabel. Om du tappar bort referensen kan du aldrig stoppa intervallet. Det är en av de vanligaste orsakerna till att en webbsida långsamt blir trögare.
+:::
+
+---
+
+## En nedräkningstimer
+
+Nu kan vi lösa problemet från kapitlets inledning — en nedräkning som verkligen räknar:
+
+```html
+<p id="nedräkning">10</p>
+<button id="starta">Starta nedräkning</button>
+```
+
+```javascript
+const nedräkning = document.querySelector("#nedräkning");
+const startKnapp = document.querySelector("#starta");
+let intervalId = null;
+
+startKnapp.addEventListener("click", () => {
+    let sekunder = 10;
+    nedräkning.textContent = sekunder;
+
+    // Stoppa eventuellt pågående intervall
+    clearInterval(intervalId);
+
+    intervalId = setInterval(() => {
+        sekunder--;
+        nedräkning.textContent = sekunder;
+
+        if (sekunder <= 0) {
+            clearInterval(intervalId);
+            nedräkning.textContent = "Gott nytt år!";
+        }
+    }, 1000);
+});
+```
+
+Varje sekund minskar räknaren med ett. När den når noll stoppas intervallet med `clearInterval` och ett meddelande visas. Vi rensar också ett eventuellt tidigare intervall innan vi startar ett nytt — annars kan upprepade klick skapa flera parallella intervall som alla ändrar samma element.
+
+---
+
+## `setTimeout` vs. `setInterval`
+
+Det är viktigt att förstå skillnaden:
+
+| Funktion       | Beteende                                     |
+|----------------|----------------------------------------------|
+| `setTimeout`   | Kör funktionen **en gång** efter fördröjningen |
+| `setInterval`  | Kör funktionen **upprepat** med fast intervall |
+
+Du kan faktiskt simulera `setInterval` med rekursiv `setTimeout`:
+
+```javascript
+function ticka() {
+    console.log("Tick");
+    setTimeout(ticka, 1000);
+}
+
+ticka();
+```
+
+Skillnaden är subtil men viktig: `setInterval` kör funktionen exakt varje *n* millisekunder, oavsett hur lång tid funktionen tar att köra. Rekursiv `setTimeout` väntar *n* millisekunder *efter* att funktionen har körts klart. Om din funktion tar 200 ms att köra:
+
+- `setInterval(fn, 1000)` → 1000 ms mellan *starten* av varje körning (funktionen körs var 1000:e ms)
+- Rekursiv `setTimeout(fn, 1000)` → 1000 ms mellan *slutet* av en körning och *starten* av nästa (funktionen körs var 1200:e ms)
+
+I de flesta fall spelar skillnaden ingen roll. Men om din funktion gör något tungt (som att hämta data från en server) är rekursiv `setTimeout` ofta säkrare — den garanterar att det alltid finns en paus mellan körningarna.
+
+---
+
+## Animationer med CSS
+
+Innan vi dyker in i JavaScript-animationer: mycket av det du vill animera kan göras *helt med CSS*. Övergångar och animationer i CSS är effektivare och enklare när de fungerar.
+
+### CSS-transitions
+
+En **transition** animerar övergången mellan två tillstånd av en CSS-egenskap:
+
+```css
+.knapp {
+    background: steelblue;
+    transition: background 0.3s ease;
+}
+
+.knapp:hover {
+    background: darkblue;
+}
+```
+
+När användaren hovrar över knappen glider bakgrundsfärgen mjukt från `steelblue` till `darkblue` på 0.3 sekunder. JavaScript behövs inte alls.
+
+Du kan trigga transitions med JavaScript genom att lägga till eller ta bort CSS-klasser:
+
+```css
+.ruta {
+    width: 100px;
+    height: 100px;
+    background: tomato;
+    transform: translateX(0);
+    transition: transform 0.5s ease;
+}
+
+.ruta.flyttad {
+    transform: translateX(300px);
+}
+```
+
+```javascript
+const ruta = document.querySelector(".ruta");
+const knapp = document.querySelector("#flytta");
+
+knapp.addEventListener("click", () => {
+    ruta.classList.toggle("flyttad");
+});
+```
+
+Klicket lägger till klassen `flyttad`, och CSS-transitionen gör att rutan glider 300 pixlar åt höger under en halv sekund. Det här mönstret — **JavaScript styr tillståndet, CSS styr animationen** — är bästa praxis i de allra flesta fall.
+
+### CSS `@keyframes`
+
+För mer komplexa animationer — med flera steg, loopar eller specifika tidpunkter — finns `@keyframes`:
+
+```css
+@keyframes pulsera {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulsera {
+    animation: pulsera 1s ease infinite;
+}
+```
+
+```javascript
+const element = document.querySelector(".ikon");
+element.classList.add("pulsera");
+```
+
+Elementet växer och krymper i en oändlig loop. Igen — JavaScript lägger till klassen, CSS gör jobbet.
+
+::: {.callout-note}
+## Vad ska CSS animera?
+
+CSS-animationer fungerar bäst med egenskaper som webbläsaren kan animera effektivt: `transform` (flytta, rotera, skala) och `opacity` (genomskinlighet). Dessa hanteras av webbläsarens GPU och är mycket snabbare än att animera `width`, `height`, `top` eller `left`, som kräver att webbläsaren räknar om layouten varje bildruta. En fullständig referens finns på [MDN: CSS Transitions](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_transitions/Using_CSS_transitions).
+:::
+
+---
+
+::: {.vg}
+
+## Lyssna på transitions och animationer
+
+JavaScript kan lyssna på *när* CSS-animationer och transitions börjar och slutar:
+
+| Händelse           | Utlöses när...                        |
+|--------------------|----------------------------------------|
+| `transitionend`    | En CSS-transition är klar              |
+| `transitionstart`  | En CSS-transition startar              |
+| `animationstart`   | En CSS-animation startar               |
+| `animationend`     | En CSS-animation tar slut              |
+| `animationiteration` | En loopande animation börjar en ny cykel |
+
+`transitionend` är den mest användbara. Med den kan du köra kod *efter* att en animation har spelats klart:
+
+```javascript
+const ruta = document.querySelector(".ruta");
+
+ruta.addEventListener("transitionend", () => {
+    console.log("Animationen är klar!");
+    ruta.classList.remove("flyttad");
+});
+```
+
+Det är användbart för att kedja animationer — starta nästa animation först när den förra är klar — eller för att städa upp efter en animation (ta bort element, återställa klasser).
+
+### Ta bort element efter animering
+
+Ett vanligt mönster: tona ut ett element och ta bort det från DOM:en *efter* att animeringen spelat klart:
+
+```css
+.notis {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.notis.dölj {
+    opacity: 0;
+}
+```
+
+```javascript
+function taBortNotis(notis) {
+    notis.classList.add("dölj");
+    notis.addEventListener("transitionend", () => {
+        notis.remove();
+    }, { once: true });
+}
+```
+
+`{ once: true }` gör att lyssnaren tas bort automatiskt efter att den körts en gång — vi vill inte att den ligger kvar i onödan.
+
+:::
+
+---
+
+::: {.vg}
+
+## `requestAnimationFrame` — flytande JavaScript-animationer {#sec-raf}
+
+Ibland behöver du animera saker som CSS inte kan hantera — till exempel komplexa beräkningar, canvas-grafik, eller animationer som beror på användarinput i realtid. Då behöver du animera med JavaScript.
+
+Du *kan* animera med `setInterval`:
+
+```javascript
+let position = 0;
+setInterval(() => {
+    position += 2;
+    ruta.style.transform = `translateX(${position}px)`;
+}, 16); // ~60 fps
+```
+
+Men det här är problematiskt. `setInterval` vet inte när skärmen uppdateras. Om din funktion körs mitt mellan två skärmuppdateringar "missar" den en bildruta och animationen ser ojämn ut. Dessutom fortsätter `setInterval` att köras även om fliken är i bakgrunden, vilket slösar batteri och resurser.
+
+**`requestAnimationFrame`** löser båda problemen. Den ber webbläsaren att anropa din funktion *precis innan nästa skärmuppdatering*:
+
+```javascript
+function animera() {
+    // uppdatera något
+    requestAnimationFrame(animera);
+}
+
+requestAnimationFrame(animera);
+```
+
+Webbläsarens skärm uppdateras typiskt 60 gånger per sekund (60 fps), så din funktion anropas ungefär var 16:e millisekund. Men till skillnad från `setInterval`:
+
+- **Synkroniseras** med skärmens uppdateringsfrekvens — inga missade bildrutor.
+- **Pausas** automatiskt när fliken är i bakgrunden — sparar resurser.
+- **Anpassas** till skärmens hastighet — 60 Hz, 120 Hz eller annan frekvens.
+
+### Flytta en ruta
+
+```html
+<div id="ruta" style="width:50px; height:50px; background:tomato;"></div>
+```
+
+```javascript
+const ruta = document.querySelector("#ruta");
+let position = 0;
+
+function animera() {
+    position += 2;
+    ruta.style.transform = `translateX(${position}px)`;
+
+    if (position < 400) {
+        requestAnimationFrame(animera);
+    }
+}
+
+requestAnimationFrame(animera);
+```
+
+Varje bildruta flyttar rutan 2 pixlar åt höger. När positionen når 400 slutar vi anropa `requestAnimationFrame`, och animationen stannar.
+
+### Animera med tid istället för pixlar
+
+Exemplet ovan har ett problem: hastigheten beror på skärmens uppdateringsfrekvens. På en 120 Hz-skärm rör sig rutan dubbelt så snabbt som på en 60 Hz-skärm, eftersom funktionen anropas dubbelt så ofta.
+
+Lösningen är att basera animationen på *förfluten tid* istället för antal bildrutor. `requestAnimationFrame` skickar automatiskt en tidsstämpel till din funktion:
+
+```javascript
+const ruta = document.querySelector("#ruta");
+const hastighet = 200; // pixlar per sekund
+let startTid = null;
+
+function animera(tidsstämpel) {
+    if (startTid === null) {
+        startTid = tidsstämpel;
+    }
+
+    const förfluten = tidsstämpel - startTid;
+    const position = (förfluten / 1000) * hastighet;
+
+    ruta.style.transform = `translateX(${position}px)`;
+
+    if (position < 400) {
+        requestAnimationFrame(animera);
+    }
+}
+
+requestAnimationFrame(animera);
+```
+
+Nu rör sig rutan 200 pixlar per sekund, oavsett skärmens uppdateringsfrekvens. Tidsstämpeln (`tidsstämpel`) är i millisekunder, så vi dividerar med 1000 för att få sekunder.
+
+::: {.callout-note}
+## Tidsstämpeln i `requestAnimationFrame`
+
+Funktionen du skickar till `requestAnimationFrame` får automatiskt ett argument: en tidsstämpel i millisekunder med hög precision (en `DOMHighResTimeStamp`). Den mäter tiden sedan sidan laddades, inte klocktiden. Genom att beräkna differensen mellan bildrutor kan du skapa animationer som är oberoende av bildfrekvens.
+:::
+
+---
+
+## `cancelAnimationFrame` — stoppa animationer
+
+Precis som `clearTimeout` och `clearInterval` kan du avbryta en schemalagd `requestAnimationFrame`:
+
+```javascript
+let animationsId = null;
+
+function animera() {
+    // ... uppdatera
+    animationsId = requestAnimationFrame(animera);
+}
+
+// Starta
+animationsId = requestAnimationFrame(animera);
+
+// Stoppa
+cancelAnimationFrame(animationsId);
+```
+
+Det är viktigt att spara id:t i en variabel, precis som med timers. Utan det kan du inte stoppa animationen.
+
+:::
+
+---
+
+::: {.vg}
+
+## Praktiskt exempel: progressbar {#sec-progressbar}
+
+Låt oss bygga en animerad progressbar som fylls under en viss tid:
+
+```html
+<div class="progress-container">
+    <div id="progress-bar" class="progress-bar"></div>
+</div>
+<p id="procent">0%</p>
+<button id="starta-progress">Starta</button>
+```
+
+```css
+.progress-container {
+    width: 100%;
+    height: 24px;
+    background: #eee;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: steelblue;
+    border-radius: 12px;
+    transition: none;
+}
+```
+
+```javascript
+const bar = document.querySelector("#progress-bar");
+const procentText = document.querySelector("#procent");
+const startaKnapp = document.querySelector("#starta-progress");
+
+startaKnapp.addEventListener("click", () => {
+    const varaktighet = 3000; // 3 sekunder
+    let startTid = null;
+
+    function animera(tidsstämpel) {
+        if (startTid === null) {
+            startTid = tidsstämpel;
+        }
+
+        const förfluten = tidsstämpel - startTid;
+        const andel = Math.min(förfluten / varaktighet, 1);
+        const procent = Math.round(andel * 100);
+
+        bar.style.width = `${procent}%`;
+        procentText.textContent = `${procent}%`;
+
+        if (andel < 1) {
+            requestAnimationFrame(animera);
+        }
+    }
+
+    requestAnimationFrame(animera);
+});
+```
+
+`Math.min(förfluten / varaktighet, 1)` säkerställer att andelen aldrig överstiger 1 (100%). Utan den kunde ett litet tidsöverslag göra att baren växer förbi kanten. `Math.round` avrundar procentsatsen till ett heltal.
+
+:::
+
+---
+
+::: {.vg}
+
+## Praktiskt exempel: nedräkning med visuell feedback {#sec-visual-countdown}
+
+Här kombinerar vi en timer med en animerad cirkel. Exemplet visar hur du kan använda `setInterval` för logiken och CSS-transitions för det visuella:
+
+```html
+<div class="timer-container">
+    <svg class="timer-ring" viewBox="0 0 100 100" width="200" height="200">
+        <circle class="timer-bg" cx="50" cy="50" r="45"
+                fill="none" stroke="#eee" stroke-width="8"/>
+        <circle id="timer-cirkel" cx="50" cy="50" r="45"
+                fill="none" stroke="steelblue" stroke-width="8"
+                stroke-dasharray="283" stroke-dashoffset="0"
+                transform="rotate(-90 50 50)"/>
+    </svg>
+    <p id="timer-text">10</p>
+</div>
+<button id="starta-timer">Starta</button>
+```
+
+```javascript
+const cirkel = document.querySelector("#timer-cirkel");
+const timerText = document.querySelector("#timer-text");
+const startaKnapp = document.querySelector("#starta-timer");
+const omkrets = 283; // 2 × π × 45 ≈ 283
+
+startaKnapp.addEventListener("click", () => {
+    let sekunder = 10;
+    timerText.textContent = sekunder;
+    cirkel.style.strokeDashoffset = 0;
+
+    const intervalId = setInterval(() => {
+        sekunder--;
+        timerText.textContent = sekunder;
+
+        // Beräkna hur stor del av cirkeln som ska vara "tom"
+        const andel = (10 - sekunder) / 10;
+        cirkel.style.strokeDashoffset = omkrets * andel;
+
+        if (sekunder <= 0) {
+            clearInterval(intervalId);
+            timerText.textContent = "Klar!";
+        }
+    }, 1000);
+});
+```
+
+Cirkeln ritas med SVG. Egenskapen `stroke-dasharray` definierar streckmönstret, och `stroke-dashoffset` förskjuter det — genom att öka offset:et "försvinner" cirkeln gradvis. Det visuella resultatet är en ring som krymper som en nedräkningsklocka. Vi lägger till en CSS-transition på cirkeln för att göra rörelsen mjuk:
+
+```css
+#timer-cirkel {
+    transition: stroke-dashoffset 1s linear;
+}
+```
+
+:::
+
+---
+
+::: {.vg}
+
+## Easing-funktioner — naturliga rörelser
+
+Rörelser i den fysiska världen är sällan linjära. En boll som kastas accelererar och bromsar in. En dörr som öppnas börjar snabbt och saktar ner. Samma princip gäller för animationer — de *känns* bättre med acceleration och inbromsning.
+
+CSS-transitions stöder detta med nyckelord:
+
+```css
+.element {
+    transition: transform 0.5s ease;     /* accelererar och bromsar */
+    transition: transform 0.5s ease-in;  /* accelererar */
+    transition: transform 0.5s ease-out; /* bromsar in */
+    transition: transform 0.5s linear;   /* konstant hastighet */
+}
+```
+
+I JavaScript-animationer med `requestAnimationFrame` får du samma effekt genom att tillämpa en **easing-funktion** på andelen:
+
+```javascript
+// Linjär (ingen easing)
+function linjär(t) {
+    return t;
+}
+
+// Ease-out: bromsar in mot slutet
+function easeOut(t) {
+    return 1 - Math.pow(1 - t, 3);
+}
+
+// Ease-in-out: accelererar och bromsar
+function easeInOut(t) {
+    return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+```
+
+Du applicerar funktionen på andelen (`t` går från 0 till 1):
+
+```javascript
+function animera(tidsstämpel) {
+    if (startTid === null) startTid = tidsstämpel;
+
+    const förfluten = tidsstämpel - startTid;
+    const t = Math.min(förfluten / varaktighet, 1);
+    const easedT = easeOut(t);
+
+    ruta.style.transform = `translateX(${easedT * 400}px)`;
+
+    if (t < 1) {
+        requestAnimationFrame(animera);
+    }
+}
+```
+
+Rutan rör sig snabbt i början och saktar ner mot slutet — en mycket mer naturlig rörelse. Principen är densamma oavsett vad du animerar: beräkna en linjär andel (0 till 1), applicera en easing-funktion, och använd resultatet för att beräkna positionen.
+
+:::
+
+---
+
+## När JavaScript, när CSS?
+
+Det finns tre sätt att animera på webben: CSS-transitions, CSS `@keyframes` och JavaScript med `requestAnimationFrame`. Valet beror på vad du behöver:
+
+| Behov                                         | Verktyg                    |
+|-----------------------------------------------|----------------------------|
+| Enkel övergång mellan två tillstånd           | CSS-transition             |
+| Animering med flera steg eller loopar         | CSS `@keyframes`           |
+| Animering styrd av användarinput i realtid    | `requestAnimationFrame`    |
+| Canvas-grafik eller spellogik                 | `requestAnimationFrame`    |
+| Animering som beror på beräkningar            | `requestAnimationFrame`    |
+| Visa/dölj med mjuk övergång                   | CSS-transition + klasstoggel |
+
+**Tumregel**: Använd CSS-animationer om du kan, JavaScript-animationer om du måste. CSS-animationer är enklare att skriva, effektivare att köra och hanteras av webbläsarens rendering-motor.
+
+---
+
+## Sammanfattning
+
+Tid och animationer ger dina webbsidor liv. Timers schemalägger kod att köras senare, och animationer ger visuell rörelse.
+
+- **`setTimeout(fn, ms)`** kör en funktion en gång efter en fördröjning.
+- **`clearTimeout(id)`** avbryter en schemalagd `setTimeout`.
+- **`setInterval(fn, ms)`** kör en funktion upprepat med ett fast intervall.
+- **`clearInterval(id)`** stoppar ett `setInterval`.
+- **`Date`-objektet** ger aktuellt datum och tid med metoder som `getHours()`, `getMinutes()`, `getSeconds()`.
+- **CSS-transitions** animerar övergången mellan två CSS-tillstånd och triggas med klasstoggel i JavaScript.
+- **CSS `@keyframes`** skapar mer komplexa animationer med flera steg och loopar.
+- **`transitionend`** och **`animationend`** låter JavaScript reagera på avslutade CSS-animationer.
+- **`requestAnimationFrame(fn)`** synkroniserar JavaScript-animationer med skärmens uppdateringsfrekvens.
+- **`cancelAnimationFrame(id)`** stoppar en pågående `requestAnimationFrame`-loop.
+- **Tidsbaserad animering** — beräkna position utifrån förfluten tid, inte antal bildrutor — ger jämna animationer oavsett skärmens uppdateringsfrekvens.
+- **Easing-funktioner** ger naturligare rörelser genom att variera hastigheten under animationen.
+- **Tumregel**: CSS-animationer när det räcker, `requestAnimationFrame` när du behöver kontroll.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Tid och animationer kan vara svåra att resonera om eftersom koden inte körs uppifrån och ned — den schemaläggs, upprepas och synkroniseras med skärmen. AI-verktyg kan hjälpa dig att förstå det asynkrona flödet.
+
+**Visualisera körningsordningen:**
+
+> *"Vad skrivs ut, och i vilken ordning, om jag kör den här koden? Förklara varför."*
+> ```javascript
+> console.log("A");
+> setTimeout(() => console.log("B"), 0);
+> console.log("C");
+> ```
+
+> *"Vad händer om jag skapar ett setInterval med 1000 ms men funktionen tar 1500 ms att köra? Byggs anropen upp?"*
+
+**Felsöka animationer:**
+
+> *"Min animation med requestAnimationFrame rör sig ojämnt. Vad kan orsaka det? Hur gör jag den tidsbaserad istället för bildrutebaserad?"*
+
+**Generera övningar:**
+
+> *"Ge mig tre uppgifter som använder setTimeout och setInterval — en enkel, en medel och en avancerad. Beskriv kraven utan att visa lösningen."*
+
+> *"Beskriv en uppgift där jag ska animera ett element med requestAnimationFrame och en easing-funktion. Elementet ska röra sig från vänster till höger under 2 sekunder med en ease-out-effekt."*
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Fördröjd hälsning
+
+Skapa en sida med ett textfält och en knapp. När användaren klickar på knappen ska en hälsning visas — men *inte direkt*. Texten ska dyka upp efter 2 sekunder. Under väntetiden ska knappen visa texten "Väntar..." och vara inaktiverad (`disabled`).
+
+Utöka sedan: om användaren klickar igen medan den första fördröjningen pågår, avbryt den gamla och starta en ny. *Tips:* Använd `clearTimeout`.
+:::
+
+::: {.callout-note}
+## Övning – Digital klocka
+
+Bygg en digital klocka som visar timmar, minuter och sekunder i formatet `HH:MM:SS`. Klockan ska uppdateras varje sekund.
+
+Utöka sedan:
+
+1. Lägg till en "Visa datum"-knapp som togglar visning av aktuellt datum under klockan.
+2. Lägg till en stoppur-funktion med "Starta", "Stoppa" och "Nollställ"-knappar, som visar tiden i formatet `MM:SS.hh` (minuter, sekunder, hundradels sekunder). *Tips:* Använd `setInterval` med ett kort intervall (t.ex. 10 ms) för stoppuret.
+:::
+
+::: {.callout-note}
+## Övning – Nedräkning med input
+
+Bygg en nedräkningstimer där användaren anger antal sekunder i ett textfält och klickar "Starta". Timern ska:
+
+1. Räkna ner varje sekund och visa återstående tid.
+2. Visa "Tiden är ute!" när den når noll.
+3. Ha en "Avbryt"-knapp som stoppar nedräkningen.
+
+Se till att det inte går att starta flera nedräkningar samtidigt — klickar användaren "Starta" igen ska den gamla stoppas först.
+:::
+
+::: {.callout-note}
+## Övning – Animerad ruta
+
+Skapa en `<div>` (50×50 px, valfri färg) som animeras med `requestAnimationFrame`. Rutan ska:
+
+1. Röra sig horisontellt från vänster kant till 500 pixlar.
+2. Använda tidsbaserad animering (inte bildrutebaserad).
+3. Använda en ease-out-funktion så att rutan bromsar in mot slutet.
+
+Lägg till en "Starta"-knapp som startar animeringen och en "Återställ"-knapp som direkt placerar rutan på startpositionen.
+:::
+
+::: {.callout-note}
+## Övning – Trafikljus
+
+Skapa ett trafikljus med tre cirklar (röd, gul, grön) i en vertikal stapel. Använd `setTimeout` för att cykla genom ljusen:
+
+1. **Rött** lyser i 4 sekunder.
+2. **Rött och gult** lyser samtidigt i 1 sekund.
+3. **Grönt** lyser i 4 sekunder.
+4. **Gult** lyser i 2 sekunder.
+5. Börja om från steg 1.
+
+Använd CSS-klasser för att "tända" och "släcka" ljusen (till exempel full opacitet för tänt, låg opacitet för släckt). Lägg till en "Starta/Stoppa"-knapp som togglar trafikljuset.
+
+*Tips:* Bygg en funktion som tar emot nästa steg som argument och använder rekursiv `setTimeout`.
+:::
+
+::: {.callout-note}
+## Övning – Studsa boll
+
+Skapa en cirkulär `<div>` (en "boll") som studsar fram och tillbaka horisontellt i en container. Animera med `requestAnimationFrame`:
+
+1. Bollen ska röra sig åt höger tills den når containerns kant, sedan studsa tillbaka åt vänster.
+2. Hastigheten ska vara konstant (tidsbaserad).
+3. Lägg till en "Pausa/Fortsätt"-knapp.
+
+Utöka sedan: lägg till gravitationseffekt — bollen studsar vertikalt, accelererar neråt och förlorar lite energi vid varje studs.
+:::

@@ -25,12 +25,17 @@ book:
       chapters:
         - kap-dom-traversering.qmd
         - kap-skapa-element.qmd
+        - kap-handelser-djupet.qmd
+        - kap-drag-and-drop.qmd
+        - kap-media.qmd
+        - kap-tid-animationer.qmd
 
     - part: "Del III - Javascript på djupet"
       chapters:
         - kap-moduler.qmd
         - kap-oop.qmd
         - kap-arv.qmd
+        - kap-destructuring.qmd
     - summary.qmd
     - references.qmd
 

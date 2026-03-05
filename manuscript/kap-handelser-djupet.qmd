@@ -1,0 +1,834 @@
+# Händelser på djupet {#sec-events-deep}
+
+## Hundra knappar och hundra lyssnare
+
+Föreställ dig en att-göra-lista med hundra uppgifter. Varje uppgift har en ta-bort-knapp. Det vanliga tillvägagångssättet är att registrera en lyssnare på varje knapp med en loop:
+
+```javascript
+const knappar = document.querySelectorAll(".ta-bort");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        e.target.closest("li").remove();
+    });
+}
+```
+
+Det fungerar — men det finns problem. Du har hundra lyssnare i minnet, en för varje knapp. Och om användaren lägger till en ny uppgift? Den nya knappen har ingen lyssnare, för loopen kördes innan knappen existerade. Du måste registrera en ny lyssnare varje gång du skapar ett element.
+
+Det finns ett bättre sätt. Istället för att lyssna på varje knapp kan du lyssna på *listan* — och låta händelsen komma till dig. Men för att förstå hur det fungerar behöver du först förstå hur händelser rör sig genom DOM-trädet.
+
+Det kallas **händelsepropagering**, och det är ett av de viktigaste koncepten i JavaScript-programmering för webben.
+
+---
+
+## Händelsepropagering {#sec-event-propagation}
+
+När du klickar på en knapp på en webbsida — vilka element klickar du egentligen på? Knappen, ja. Men knappen ligger inuti en `<li>`, som ligger inuti en `<ul>`, som ligger inuti en `<div>`, som ligger inuti `<body>`, som ligger inuti `<html>`, som ligger inuti `document`. Du klickade på *alla* dessa element.
+
+Webbläsaren hanterar detta med ett system som kallas **händelsepropagering** (*event propagation*). När en händelse inträffar på ett element reser den genom DOM-trädet i tre faser:
+
+1. **Fångstfasen** (*capture phase*) — händelsen reser *nedåt* genom trädet, från `document` mot det element som utlöste händelsen.
+2. **Målfasen** (*target phase*) — händelsen når det element som faktiskt klickades (målet).
+3. **Bubblingsfasen** (*bubble phase*) — händelsen reser *uppåt* genom trädet, tillbaka mot `document`.
+
+### Ett konkret exempel
+
+Betrakta denna HTML:
+
+```html
+<body>
+    <div id="wrapper">
+        <ul id="lista">
+            <li>
+                <button class="ta-bort">✕</button>
+                Handla mjölk
+            </li>
+        </ul>
+    </div>
+</body>
+```
+
+Om användaren klickar på knappen reser klickhändelsen genom trädet i följande ordning:
+
+**Fångstfas** (nedåt):
+`document` → `<html>` → `<body>` → `<div#wrapper>` → `<ul#lista>` → `<li>` → `<button>`
+
+**Målfas**:
+`<button>` (här är vi framme — det element som klickades)
+
+**Bubblingsfas** (uppåt):
+`<button>` → `<li>` → `<ul#lista>` → `<div#wrapper>` → `<body>` → `<html>` → `document`
+
+Händelsen passerar alltså *varje* förfaderelement, både på vägen ner och på vägen upp.
+
+### Bubbling i praktiken
+
+Det absolut viktigaste att förstå är **bubblingsfasen**. De allra flesta händelselyssnare som du registrerar med `addEventListener` körs under bubblingsfasen. Det innebär att en händelse som utlöses på en knapp också *bubblar upp* till knappens förälder, förälders förälder, och så vidare.
+
+Vi kan bevisa det med ett experiment:
+
+```html
+<div id="yttre">
+    <div id="inre">
+        <button id="knapp">Klicka mig</button>
+    </div>
+</div>
+```
+
+```javascript
+document.querySelector("#yttre").addEventListener("click", () => {
+    console.log("Yttre div");
+});
+
+document.querySelector("#inre").addEventListener("click", () => {
+    console.log("Inre div");
+});
+
+document.querySelector("#knapp").addEventListener("click", () => {
+    console.log("Knapp");
+});
+```
+
+Klicka på knappen. I konsolen ser du:
+
+```
+Knapp
+Inre div
+Yttre div
+```
+
+Alla tre lyssnare körs — i ordningen från målet och uppåt. Händelsen *bubblar* från knappen, genom den inre div:en, till den yttre. Det är därför det kallas bubbling — precis som en luftbubbla som stiger uppåt genom vatten.
+
+### `event.target` vs. `event.currentTarget`
+
+Du vet sedan tidigare att `event.target` är det element som utlöste händelsen. Men det finns en viktig kompanjon: `event.currentTarget` — det element som *lyssnaren är registrerad på*.
+
+Skillnaden blir tydlig med bubbling:
+
+```javascript
+document.querySelector("#yttre").addEventListener("click", (e) => {
+    console.log("target:", e.target.id);          // "knapp"
+    console.log("currentTarget:", e.currentTarget.id);  // "yttre"
+});
+```
+
+När du klickar på knappen bubblar händelsen upp till `#yttre`. Inuti den lyssnaren är `e.target` fortfarande knappen (det som *utlöste* händelsen), medan `e.currentTarget` är den yttre div:en (det som *lyssnar* på händelsen).
+
+Den här skillnaden är central för tekniken vi ska lära oss härnäst: händelsedelegering.
+
+::: {.callout-note}
+## Inte alla händelser bubblar
+
+De flesta händelser bubblar — `click`, `keydown`, `input`, `submit` och många fler. Men några gör det inte: `focus`, `blur`, `mouseenter` och `mouseleave` bubblar inte. Det finns bubblar-varianter av dem (`focusin`/`focusout`, `mouseover`/`mouseout`) för de tillfällen då du behöver bubbling. Du kan kontrollera om en händelse bubblar med `event.bubbles`.
+:::
+
+---
+
+## Händelsedelegering {#sec-event-delegation}
+
+Nu förstår du att händelser bubblar uppåt i DOM-trädet. Det öppnar för en kraftfull teknik: istället för att registrera lyssnare på *varje* element registrerar du *en enda* lyssnare på en gemensam förfader. Händelsen bubblar upp till förfadern, och där kontrollerar du vad som klickades.
+
+Det kallas **händelsedelegering** (*event delegation*).
+
+### Från loop till delegation
+
+Jämför de två tillvägagångssätten. Först det traditionella — en lyssnare per element:
+
+```javascript
+const knappar = document.querySelectorAll(".ta-bort");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        e.target.closest("li").remove();
+    });
+}
+```
+
+Och nu med delegation — en lyssnare på listan:
+
+```javascript
+const lista = document.querySelector("#uppgiftslista");
+
+lista.addEventListener("click", (e) => {
+    if (e.target.classList.contains("ta-bort")) {
+        e.target.closest("li").remove();
+    }
+});
+```
+
+Skillnaden är subtil men viktig:
+
+1. Vi registrerar lyssnaren på `#uppgiftslista`, inte på varje knapp.
+2. Inuti callbacken kontrollerar vi `e.target` — det element som faktiskt klickades.
+3. Om det klickade elementet har klassen `ta-bort` utför vi handlingen.
+4. Om något annat i listan klickas (till exempel texten) händer ingenting.
+
+::: {.callout-warning}
+## Du måste alltid kontrollera `e.target`
+
+När du delegerar händelser lyssnar du på en *container*, inte på ett specifikt element. Det innebär att *varje* klick inuti containern utlöser din callback — inte bara klick på de element du är intresserad av. Klickar användaren på texten i en `<li>`, på en `<span>`, eller på tom yta i listan? Alla dessa klick hamnar i din callback.
+
+Utan en kontroll av `e.target` riskerar du att köra kod som inte var avsedd. I exemplet ovan skulle `e.target.closest("li").remove()` köras vid *varje* klick — även om användaren klickade på själva texten, inte på ta-bort-knappen. Det vore katastrofalt.
+
+Gör det till en vana: en delegerad lyssnare ska **alltid** börja med att kontrollera *vad* som klickades, och avbryta om det inte är relevant. Antingen med en `if`-sats (som ovan) eller med `e.target.closest(selektor)` och en `null`-kontroll (som vi ska se strax).
+:::
+
+### Varför delegation?
+
+Delegation löser problemen vi identifierade i kapitlets inledning:
+
+**Dynamiska element.** Om du lägger till en ny uppgift i listan behöver du inte registrera en ny lyssnare. Händelsen bubblar från den nya knappen upp till listan, som redan lyssnar. Det fungerar automatiskt för alla element som läggs till i framtiden.
+
+**Prestanda.** Istället för hundra lyssnare har du en. För tio knappar spelar det ingen roll, men i en stor applikation med tusentals element kan det göra skillnad.
+
+**Enkelhet.** All händelselogik för listan samlas på ett ställe istället för att spridas ut i varje elements skapandekod.
+
+### Delegation med `closest`
+
+`e.target` ger det element som *direkt* klickades. Men tänk om knappen har ett ikon-element inuti sig?
+
+```html
+<button class="ta-bort">
+    <span class="ikon">✕</span>
+</button>
+```
+
+Om användaren klickar på `<span>`-elementet är `e.target` *span:en*, inte knappen. Kontrollen `e.target.classList.contains("ta-bort")` misslyckas.
+
+Lösningen är `closest` — en metod som söker uppåt i DOM-trädet efter det första elementet som matchar en CSS-selektor (om du har läst om DOM-traversering känner du igen den):
+
+```javascript
+lista.addEventListener("click", (e) => {
+    const knapp = e.target.closest(".ta-bort");
+    if (knapp) {
+        knapp.closest("li").remove();
+    }
+});
+```
+
+`e.target.closest(".ta-bort")` söker uppåt från det klickade elementet. Oavsett om klicket träffade knappen direkt eller span:en inuti den hittas knappen. Om klicket inte var på eller inuti en ta-bort-knapp returnerar `closest` värdet `null`, och `if`-satsen förhindrar att något händer.
+
+Mönstret **`e.target.closest(selektor)`** i delegerad händelsehantering är robust och flexibelt — använd det som standard.
+
+### En komplett att-göra-lista med delegation
+
+Här är en typisk att-göra-lista, omskriven med delegation:
+
+```html
+<form id="ny-uppgift-form">
+    <input type="text" id="ny-uppgift" placeholder="Skriv en uppgift...">
+    <button type="submit">Lägg till</button>
+</form>
+<ul id="uppgiftslista"></ul>
+```
+
+```javascript
+const form = document.querySelector("#ny-uppgift-form");
+const input = document.querySelector("#ny-uppgift");
+const lista = document.querySelector("#uppgiftslista");
+
+// Delegerad lyssnare — hanterar ALLA klick i listan
+lista.addEventListener("click", (e) => {
+    const taBortKnapp = e.target.closest(".ta-bort");
+    if (taBortKnapp) {
+        taBortKnapp.closest("li").remove();
+    }
+});
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const text = input.value.trim();
+    if (text === "") return;
+
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.textContent = text;
+
+    const knapp = document.createElement("button");
+    knapp.textContent = "✕";
+    knapp.classList.add("ta-bort");
+
+    li.append(span, knapp);
+    lista.append(li);
+
+    input.value = "";
+    input.focus();
+});
+```
+
+Notera att vi *inte* registrerar en lyssnare på varje ny knapp. Den delegerade lyssnaren på `#uppgiftslista` fångar klick på alla knappar — även de som skapas i framtiden. Koden som skapar nya element behöver inte längre veta något om händelsehantering.
+
+---
+
+::: {.vg}
+
+## Stoppa propagering {#sec-stop-propagation}
+
+Ibland vill du att en händelse *inte* ska bubbla vidare. Kanske har du en klicklyssnare på ett kort, men inuti kortet finns en knapp som ska göra något annat — och du vill inte att kortets lyssnare ska köras också.
+
+Metoden `event.stopPropagation()` stoppar händelsen från att resa vidare i trädet:
+
+```html
+<div id="kort" class="kort">
+    <h3>Produktnamn</h3>
+    <p>299 kr</p>
+    <button id="köp-knapp">Köp</button>
+</div>
+```
+
+```javascript
+const kort = document.querySelector("#kort");
+const köpKnapp = document.querySelector("#köp-knapp");
+
+kort.addEventListener("click", () => {
+    console.log("Kortet klickades — visa detaljer");
+});
+
+köpKnapp.addEventListener("click", (e) => {
+    e.stopPropagation();
+    console.log("Köp-knappen klickades — lägg i kundvagn");
+});
+```
+
+Utan `stopPropagation` skulle ett klick på knappen utlösa *båda* lyssnarna — först knappens, sedan kortets (på grund av bubbling). Med `stopPropagation` stannar händelsen vid knappen och bubblar inte vidare.
+
+::: {.callout-warning}
+## Använd `stopPropagation` sparsamt
+
+`stopPropagation` löser det omedelbara problemet, men kan skapa nya. Om en annan del av programmet förlitar sig på att klickhändelser bubblar upp till `document` (till exempel för att stänga en meny som klickas utanför), slutar det fungera. Händelsen "försvinner" mitt i trädet.
+
+Använd `stopPropagation` bara när du verkligen behöver det, och var medveten om att det kan ha sidoeffekter. Ofta finns det alternativ — till exempel att kontrollera `e.target` i den yttre lyssnaren:
+
+```javascript
+kort.addEventListener("click", (e) => {
+    if (e.target.closest("button")) return;  // ignorera klick på knappar
+    console.log("Kortet klickades — visa detaljer");
+});
+```
+
+Det här mönstret undviker `stopPropagation` helt och behåller bubblingens naturliga flöde.
+:::
+
+:::
+
+---
+
+## `preventDefault` — förhindra standardbeteende {#sec-prevent-default}
+
+Vissa HTML-element har ett inbyggt standardbeteende i webbläsaren:
+
+- Klick på en `<a>`-länk navigerar till en ny sida.
+- Att skicka ett `<form>` laddar om sidan.
+- Att trycka Enter i ett sökfält skickar formuläret.
+- Högerklick visar en kontextmeny.
+
+Ibland vill du ha elementets semantik och tillgänglighet, men *inte* dess standardbeteende. Metoden `event.preventDefault()` förhindrar standardbeteendet utan att påverka händelsens propagering.
+
+### Formulär utan omladdning
+
+Det vanligaste användningsfallet: du vill hantera formulärdata i JavaScript istället för att låta webbläsaren skicka den och ladda om sidan.
+
+```html
+<form id="sök-form">
+    <input type="text" id="sökfält" placeholder="Sök...">
+    <button type="submit">Sök</button>
+</form>
+<div id="resultat"></div>
+```
+
+```javascript
+const form = document.querySelector("#sök-form");
+const sökfält = document.querySelector("#sökfält");
+const resultat = document.querySelector("#resultat");
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();  // förhindra omladdning
+
+    const söktext = sökfält.value.trim();
+    resultat.textContent = `Du sökte efter: ${söktext}`;
+});
+```
+
+Utan `e.preventDefault()` skulle sidan laddas om när formuläret skickas, och ditt JavaScript-resultat skulle försvinna. Med `preventDefault` tar du full kontroll.
+
+Du har kanske redan sett det här mönstret — nu förstår du *varför* det behövs.
+
+### Länkar utan navigering
+
+Ibland vill du använda en `<a>`-länk som en klickbar yta utan att navigera:
+
+```html
+<a href="#" class="tab-länk" data-tab="profil">Profil</a>
+<a href="#" class="tab-länk" data-tab="inställningar">Inställningar</a>
+```
+
+```javascript
+const tabbar = document.querySelectorAll(".tab-länk");
+
+for (const tab of tabbar) {
+    tab.addEventListener("click", (e) => {
+        e.preventDefault();
+        const tabNamn = tab.dataset.tab;
+        visaTab(tabNamn);
+    });
+}
+```
+
+Utan `preventDefault` skulle webbläsaren försöka navigera till `#`, vilket scrollar sidan till toppen. Med `preventDefault` stannar vi kvar och hanterar klicket själva.
+
+::: {.callout-note}
+## Semantik och tillgänglighet
+
+Om ett element inte leder någonstans bör du överväga om en `<button>` är ett bättre val än en `<a href="#">`. Länkar ska leda till en destination. Knappar utför en handling. Att välja rätt element gör sidan mer tillgänglig för skärmläsare och tangentbordsnavigering.
+:::
+
+### Tangenter med specialbeteende
+
+Vissa tangenter har standardbeteenden som du kanske vill åsidosätta. Till exempel scrollar mellanslagstangenten sidan nedåt och Tab flyttar fokus till nästa element.
+
+```javascript
+document.addEventListener("keydown", (e) => {
+    if (e.key === " ") {
+        e.preventDefault();   // förhindra scroll
+        togglePaus();         // använd mellanslag för att pausa ett spel
+    }
+});
+```
+
+Var försiktig med att åsidosätta tangentbeteenden — det kan göra sidan svår att använda med tangentbord. Gör det bara i specifika sammanhang (som ett spel) och aldrig globalt utan goda skäl.
+
+### `preventDefault` vs. `stopPropagation`
+
+De två metoderna gör olika saker och blandas ibland ihop:
+
+| Metod                   | Vad den gör                                        |
+|-------------------------|----------------------------------------------------|
+| `preventDefault()`      | Förhindrar elementets *standardbeteende* (navigering, formulärskickning, scroll) |
+| `stopPropagation()`     | Förhindrar händelsen från att *bubbla vidare* till förfaderelement |
+
+De är oberoende av varandra. Du kan använda den ena, den andra, båda, eller ingen:
+
+```javascript
+form.addEventListener("submit", (e) => {
+    e.preventDefault();      // förhindra omladdning
+    // Händelsen bubblar fortfarande uppåt
+});
+
+knapp.addEventListener("click", (e) => {
+    e.stopPropagation();     // förhindra bubbling
+    // Knappens standardbeteende kvarstår (om den har något)
+});
+```
+
+---
+
+::: {.vg}
+
+## `removeEventListener` — ta bort lyssnare {#sec-remove-listener}
+
+Ibland vill du att en lyssnare ska sluta lyssna. Kanske ska en knapp bara gå att klicka en gång. Kanske stänger du en dialogruta och vill städa upp lyssnarna. Metoden `removeEventListener` tar bort en tidigare registrerad lyssnare.
+
+### Grundläggande syntax
+
+```javascript
+function hanteraKlick() {
+    console.log("Klick!");
+}
+
+knapp.addEventListener("click", hanteraKlick);
+
+// Senare:
+knapp.removeEventListener("click", hanteraKlick);
+```
+
+Du måste skicka *exakt samma funktion* som du registrerade. Det innebär att funktionen måste vara namngiven och sparad i en variabel — en anonym funktion fungerar inte:
+
+```javascript
+// Det här fungerar INTE:
+knapp.addEventListener("click", () => {
+    console.log("Klick!");
+});
+
+knapp.removeEventListener("click", () => {
+    console.log("Klick!");
+});
+```
+
+Även om de två pilfunktionerna ser identiska ut är de *olika objekt* i JavaScript. `removeEventListener` hittar ingen matchning och lyssnaren finns kvar. Det är samma princip som du lärde dig med objekt: `{} !== {}`, och på samma sätt `(() => {}) !== (() => {})`.
+
+### En engångsknapp
+
+Här är ett vanligt mönster: en knapp som bara fungerar en gång.
+
+```javascript
+function hanteraKlick() {
+    console.log("Du klickade — första och sista gången!");
+    knapp.removeEventListener("click", hanteraKlick);
+}
+
+knapp.addEventListener("click", hanteraKlick);
+```
+
+Första klicket kör funktionen och tar bort lyssnaren. Efterföljande klick gör ingenting.
+
+### `{ once: true }` — det enklare alternativet
+
+Om du bara vill att en lyssnare ska köras en enda gång finns det ett smidigare sätt. `addEventListener` accepterar ett tredje argument — ett optionsobjekt:
+
+```javascript
+knapp.addEventListener("click", () => {
+    console.log("Bara en gång!");
+}, { once: true });
+```
+
+Med `{ once: true }` tar webbläsaren automatiskt bort lyssnaren efter att den körts en gång. Du behöver inte spara en referens till funktionen eller anropa `removeEventListener` manuellt. Det fungerar även med anonyma funktioner och pilfunktioner.
+
+Det är det rekommenderade sättet för engångslyssnare — enklare, tydligare och mindre felbenäget.
+
+### Städa upp lyssnare
+
+I mer avancerade sammanhang kan det vara viktigt att ta bort lyssnare för att undvika minnesläckor eller oönskade sidoeffekter. Till exempel om du bygger en modal (ett dialogfönster):
+
+```javascript
+function öppnaModal() {
+    const modal = document.querySelector("#modal");
+    modal.hidden = false;
+
+    function stängVidEscape(e) {
+        if (e.key === "Escape") {
+            modal.hidden = true;
+            document.removeEventListener("keydown", stängVidEscape);
+        }
+    }
+
+    document.addEventListener("keydown", stängVidEscape);
+}
+```
+
+Lyssnaren på `document` registreras när modalen öppnas och tas bort när den stängs. Utan borttagningen skulle en ny lyssnare läggas till varje gång modalen öppnas — och de gamla skulle fortfarande köras i bakgrunden.
+
+:::
+
+---
+
+::: {.vg}
+
+## Fångstfasen {#sec-capture-phase}
+
+Vi nämnde tidigare att händelsepropagering har tre faser: fångst, mål och bubbling. Normalt registreras lyssnare i bubblingsfasen, men du kan välja att lyssna i fångstfasen istället.
+
+Fångstfasen är spegelbilden av bubblingsfasen — händelsen reser *nedåt* från `document` mot målet. En lyssnare i fångstfasen körs alltså *före* lyssnare på målelementet och före bubblingslyssnare.
+
+```javascript
+document.querySelector("#yttre").addEventListener("click", () => {
+    console.log("Yttre — fångstfas");
+}, { capture: true });
+
+document.querySelector("#yttre").addEventListener("click", () => {
+    console.log("Yttre — bubblingsfas");
+});
+
+document.querySelector("#knapp").addEventListener("click", () => {
+    console.log("Knapp");
+});
+```
+
+Vid klick på knappen:
+
+```
+Yttre — fångstfas
+Knapp
+Yttre — bubblingsfas
+```
+
+Fångstfasen körs först (nedåt), sedan målet, sedan bubblingsfasen (uppåt).
+
+I praktiken behöver du sällan fångstfasen. Den finns mest för fullständighetens skull och för ovanliga specialfall, som att fånga händelser *innan* de når ett element som stoppar dem med `stopPropagation`. Men det är bra att känna till den — om du stöter på `{ capture: true }` i kod vet du vad det innebär.
+
+:::
+
+---
+
+::: {.vg}
+
+## Praktiskt exempel: tabbar med delegation {#sec-tabs-delegation}
+
+Låt oss bygga ett flikgränssnitt (tabbar) med delegation. Det är en vanlig webbkomponent: en rad knappar högst upp och ett innehållsområde som visar relevant sektion beroende på vilken flik som är aktiv.
+
+```html
+<div class="tabbar">
+    <div class="tab-lista" role="tablist">
+        <button class="tab aktiv" data-tab="översikt">Översikt</button>
+        <button class="tab" data-tab="detaljer">Detaljer</button>
+        <button class="tab" data-tab="recensioner">Recensioner</button>
+    </div>
+
+    <div class="tab-innehåll">
+        <div class="tab-panel aktiv" id="översikt">
+            <h3>Översikt</h3>
+            <p>Här visas en översikt av produkten.</p>
+        </div>
+        <div class="tab-panel" id="detaljer">
+            <h3>Detaljer</h3>
+            <p>Tekniska specifikationer och mått.</p>
+        </div>
+        <div class="tab-panel" id="recensioner">
+            <h3>Recensioner</h3>
+            <p>Vad andra kunder tycker.</p>
+        </div>
+    </div>
+</div>
+```
+
+```css
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.aktiv {
+    display: block;
+}
+
+.tab.aktiv {
+    font-weight: bold;
+    border-bottom: 2px solid currentColor;
+}
+```
+
+```javascript
+const tabLista = document.querySelector(".tab-lista");
+const tabbar = tabLista.querySelectorAll(".tab");
+const paneler = document.querySelectorAll(".tab-panel");
+
+tabLista.addEventListener("click", (e) => {
+    const klickadTab = e.target.closest(".tab");
+    if (!klickadTab) return;
+
+    const tabNamn = klickadTab.dataset.tab;
+
+    // Avaktivera alla tabbar och paneler
+    for (const tab of tabbar) {
+        tab.classList.remove("aktiv");
+    }
+    for (const panel of paneler) {
+        panel.classList.remove("aktiv");
+    }
+
+    // Aktivera den klickade tabben och dess panel
+    klickadTab.classList.add("aktiv");
+    document.querySelector(`#${tabNamn}`).classList.add("aktiv");
+});
+```
+
+Lyssnaren sitter på `.tab-lista` — inte på de enskilda knapparna. `e.target.closest(".tab")` hittar den klickade fliken oavsett om klicket träffade knappen direkt eller ett element inuti den. Mönstret "ta bort aktiv från alla, lägg till på den klickade" är ett standardmönster för exklusiva val.
+
+Om du i framtiden lägger till en ny flik i HTML:en behöver du inte ändra JavaScript-koden — delegationen fångar den nya knappen automatiskt.
+
+:::
+
+---
+
+::: {.vg}
+
+## Praktiskt exempel: stäng vid klick utanför {#sec-click-outside}
+
+Ett vanligt interaktionsmönster: en meny eller dialogruta som stängs om användaren klickar *utanför* den. Det bygger direkt på bubbling — klick överallt på sidan bubblar upp till `document`.
+
+```html
+<button id="meny-knapp">Meny</button>
+<nav id="meny" class="dropdown" hidden>
+    <a href="#hem">Hem</a>
+    <a href="#om">Om</a>
+    <a href="#kontakt">Kontakt</a>
+</nav>
+```
+
+```javascript
+const menyKnapp = document.querySelector("#meny-knapp");
+const meny = document.querySelector("#meny");
+
+menyKnapp.addEventListener("click", (e) => {
+    e.stopPropagation();      // förhindra att klicket bubblar till document
+    meny.hidden = !meny.hidden;
+});
+
+document.addEventListener("click", (e) => {
+    if (!meny.hidden && !meny.contains(e.target)) {
+        meny.hidden = true;
+    }
+});
+```
+
+Här samverkar flera koncept:
+
+- **`stopPropagation`** på menyknappen förhindrar att klicket bubblar till `document`, vilket annars skulle stänga menyn omedelbart.
+- **`document`-lyssnaren** fångar alla klick på sidan tack vare bubbling.
+- **`meny.contains(e.target)`** kontrollerar om klicket var *inuti* menyn — `contains` returnerar `true` om elementet är en ättling. Om klicket var utanför stängs menyn.
+
+Det här är ett av de tydligaste exemplen på hur bubbling gör praktisk interaktionsdesign möjlig.
+
+::: {.callout-note}
+## `Node.contains()`
+
+Metoden `contains` kontrollerar om ett element är en ättling till ett annat. `a.contains(b)` returnerar `true` om `b` är ett barn, barnbarn, eller annan ättling till `a` — eller om `a` och `b` är samma element. En fullständig referens finns på [MDN: Node.contains()](https://developer.mozilla.org/en-US/docs/Web/API/Node/contains).
+:::
+
+:::
+
+---
+
+## Sammanfattning
+
+Händelser är mer än `addEventListener` och en callback. Bakom kulisserna reser händelser genom hela DOM-trädet, och genom att förstå den resan kan du skriva elegantare, effektivare och mer robusta program.
+
+- **Händelsepropagering** innebär att en händelse reser genom DOM-trädet i tre faser: fångst (nedåt), mål, och bubbling (uppåt).
+- **Bubbling** är den viktigaste fasen — händelsen reser uppåt från målet till `document`, och alla lyssnare på vägen körs.
+- **`event.target`** är elementet som utlöste händelsen. **`event.currentTarget`** är elementet som lyssnaren är registrerad på.
+- **Händelsedelegering** innebär att du registrerar en lyssnare på en förfader istället för på varje enskilt element. Mönstret `e.target.closest(selektor)` är nyckeln.
+- Delegation löser problemet med **dynamiska element** — nya element behöver inte egna lyssnare.
+- **`stopPropagation()`** stoppar händelsen från att bubbla vidare. Använd det sparsamt.
+- **`preventDefault()`** förhindrar elementets standardbeteende (navigering, formulärskickning, scroll). Det påverkar inte propagering.
+- **`removeEventListener`** tar bort en lyssnare, men kräver en referens till *exakt samma funktion*.
+- **`{ once: true }`** är det enklaste sättet att skapa en engångslyssnare.
+- **Fångstfasen** körs före bubblingsfasen och aktiveras med `{ capture: true }`. Den behövs sällan i praktiken.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Händelsepropagering är ett koncept som blir mycket tydligare med visuella förklaringar och experiment. AI-verktyg kan hjälpa dig att bygga den mentala modellen.
+
+**Be AI:n visualisera propagering:**
+
+> *"Givet den här HTML-strukturen, beskriv steg för steg hur en klickhändelse på en knapp propagerar genom DOM-trädet. Visa fångstfasen och bubblingsfasen separat."*
+
+**Fråga om delegation:**
+
+> *"Jag har en `<ul>` med `<li>`-element som skapas dynamiskt. Visa mig hur jag använder händelsedelegering istället för att registrera lyssnare på varje `<li>`. Förklara varför delegering fungerar."*
+
+> *"Vad händer om jag har en knapp med en `<span>` inuti och jag delegerar klickhändelser? Hur ser jag till att klick på span:en också fångas?"*
+
+**Generera felsökningsövningar:**
+
+> *"Ge mig tre kodexempel med händelselyssnare som inte fungerar som förväntat. Problemen ska handla om bubbling, `preventDefault`, eller `removeEventListener`. Låt mig hitta felen innan du visar lösningen."*
+
+Att felsöka händelserelaterade problem är en av de vanligaste utmaningarna i webbutveckling — övning på att identifiera misstag stärker din förståelse.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Observera bubbling
+
+Skapa en HTML-sida med följande struktur:
+
+```html
+<div id="nivå-1">
+    <div id="nivå-2">
+        <div id="nivå-3">
+            <button id="knapp">Klicka</button>
+        </div>
+    </div>
+</div>
+<pre id="logg"></pre>
+```
+
+Skriv JavaScript som registrerar en klicklyssnare på *alla fyra* elementen (de tre div:arna och knappen). Varje lyssnare ska lägga till en rad i `<pre>`-elementet med texten "Klick på: [elementets id]".
+
+1. Klicka på knappen. I vilken ordning visas meddelandena?
+2. Klicka på `nivå-2` (utanför knappen men inuti div:en). Vilka meddelanden visas nu?
+3. Lägg till `e.stopPropagation()` i lyssnaren på `nivå-3`. Vad händer nu när du klickar på knappen?
+:::
+
+::: {.callout-note}
+## Övning – Delegerad färgväljare
+
+Skapa en sida med en `<div id="palett">` som innehåller tolv `<span>`-element, var och en med en `data-färg`-attribut och en bakgrundsfärg som matchar (till exempel `data-färg="tomato"` med `style="background-color: tomato"`).
+
+Skriv JavaScript som använder **en enda klicklyssnare** på `#palett` (inte på varje span). Vid klick på en span ska sidans bakgrundsfärg ändras till den spanens `data-färg`-värde.
+
+Utöka sedan: lägg till en knapp "Lägg till färg" som skapar en ny `<span>` med en slumpmässig färg och lägger till den i paletten. Verifiera att den nya färgen fungerar *utan* att du registrerar en ny lyssnare.
+:::
+
+::: {.callout-note}
+## Övning – `preventDefault` på ett formulär
+
+Skapa en HTML-sida med ett registreringsformulär som har fälten *Namn*, *E-post* och *Lösenord* samt en skicka-knapp. Skriv JavaScript som:
+
+1. Lyssnar på `submit`-händelsen på formuläret.
+2. Förhindrar standardbeteendet med `preventDefault`.
+3. Läser värdena från fälten.
+4. Validerar att alla fält är ifyllda och att e-postadressen innehåller ett `@`-tecken.
+5. Visar ett felmeddelande om valideringen misslyckas, eller ett bekräftelsemeddelande om den lyckas.
+
+Testa: ta bort `preventDefault()` och observera vad som händer när du klickar på skicka-knappen.
+:::
+
+::: {.callout-note}
+## Övning – Delegerad att-göra-lista
+
+Bygg en att-göra-lista med delegation. Du ska ha:
+
+- Ett formulär med ett textfält och en lägg-till-knapp.
+- En `<ul>` som visar uppgifterna.
+- Varje uppgift har en text och två knappar: "Klar" och "Ta bort".
+
+Skriv JavaScript med **en enda delegerad klicklyssnare** på `<ul>`:en. Lyssnaren ska:
+
+1. Om "Ta bort" klickas: ta bort den `<li>` som knappen tillhör.
+2. Om "Klar" klickas: toggla en CSS-klass `klar` på den `<li>` som knappen tillhör (genomstruken text).
+
+Använd `e.target.closest` för att identifiera vilken knapp som klickades och vilken `<li>` den tillhör. Testa att lägga till nya uppgifter och verifiera att de fungerar utan extra lyssnare.
+:::
+
+::: {.callout-note}
+## Övning – Engångsknapp
+
+Skapa en sida med tre knappar: "Gratis", "Standard" och "Premium". Varje knapp representerar ett prenumerationsval. Skriv JavaScript som:
+
+1. Registrerar klicklyssnare med `{ once: true }` på alla tre knappar.
+2. Vid klick: visar ett bekräftelsemeddelande med valet.
+3. Inaktiverar den klickade knappen visuellt med `e.target.disabled = true`.
+4. Verifierar att ingen knapp går att klicka en andra gång.
+
+Utöka sedan: lägg till en "Ångra"-knapp som registrerar nya lyssnare (återigen med `{ once: true }`) på alla tre knappar, så att användaren kan göra ett nytt val.
+:::
+
+::: {.callout-note}
+## Övning – Spåra propageringen
+
+Utan att köra koden — gå igenom följande och ange vilka meddelanden som skrivs ut, i vilken ordning, och varför:
+
+```html
+<div id="a">
+    <div id="b">
+        <button id="c">Klicka</button>
+    </div>
+</div>
+```
+
+```javascript
+document.querySelector("#a").addEventListener("click", () => {
+    console.log("A – bubbling");
+});
+
+document.querySelector("#a").addEventListener("click", () => {
+    console.log("A – fångst");
+}, { capture: true });
+
+document.querySelector("#b").addEventListener("click", (e) => {
+    console.log("B – bubbling");
+    e.stopPropagation();
+});
+
+document.querySelector("#c").addEventListener("click", () => {
+    console.log("C – bubbling");
+});
+```
+
+Kontrollera ditt svar i webbläsarens konsol.
+:::

@@ -1,0 +1,673 @@
+# Drag and drop
+
+::: {.vg}
+
+## Att flytta saker med musen
+
+Du har säkert dragit filer mellan mappar på din dator, sorterat om bokmärken i webbläsaren eller flyttat kort i en Kanban-tavla som Trello. Att ta tag i något, dra det och släppa det på rätt plats — *drag and drop* — är en av de mest intuitiva interaktionerna i digitala gränssnitt. Det känns naturligt, nästan som att flytta fysiska föremål.
+
+Webben har ett inbyggt API för just detta: **HTML Drag and Drop API**. Med det kan du göra element dragbara, definiera var de får släppas och bestämma vad som händer när de landar. Det bygger på samma händelsesystem som du redan känner — `addEventListener`, event-objekt, propagering — men med en uppsättning specialiserade händelser.
+
+I det här kapitlet bygger vi upp förståelsen steg för steg: först gör vi ett element dragbart, sedan definierar vi ett släppområde, och till slut bygger vi praktiska gränssnitt där användaren kan sortera och flytta saker med musen.
+
+---
+
+## Gör ett element dragbart
+
+Det första steget är att tala om för webbläsaren att ett element *får* dras. Det gör du med HTML-attributet `draggable`:
+
+```html
+<div class="kort" draggable="true">Dra mig!</div>
+```
+
+Utan `draggable="true"` går det inte att dra elementet (med undantag för bilder och länkar, som webbläsaren gör dragbara som standard).
+
+Prova att lägga till attributet på en `<div>` och dra den med musen. Du ser att webbläsaren visar en halvtransparent "spökbild" som följer muspekaren. Men — ingenting händer när du släpper. Elementet hamnar tillbaka där det var. Det beror på att vi inte har berättat för webbläsaren *vad* som dras eller *var* det får släppas.
+
+---
+
+## Drag-and-drop-händelserna
+
+Drag and drop i webbläsaren styrs av sju händelser. De bildar en sekvens — ett livscykel — som börjar när användaren tar tag i elementet och slutar när det släpps:
+
+| Händelse      | Utlöses på...         | När...                                                |
+|---------------|-----------------------|-------------------------------------------------------|
+| `dragstart`   | Det dragna elementet  | Användaren börjar dra                                 |
+| `drag`        | Det dragna elementet  | Upprepat under hela dragningen                        |
+| `dragenter`   | Släppområdet          | Det dragna elementet förs in i ett möjligt släppområde |
+| `dragover`    | Släppområdet          | Det dragna elementet hålls över ett släppområde        |
+| `dragleave`   | Släppområdet          | Det dragna elementet lämnar ett släppområde            |
+| `drop`        | Släppområdet          | Användaren släpper elementet                           |
+| `dragend`     | Det dragna elementet  | Dragningen är slut (oavsett om det blev en släppning) |
+
+Du behöver inte använda alla sju. I de flesta fall arbetar du med `dragstart`, `dragover`, `drop` och ibland `dragenter`/`dragleave` för visuell feedback.
+
+---
+
+## `DataTransfer` — data under dragningen
+
+Nyckeln till hela systemet är **`DataTransfer`**-objektet, som du kommer åt via `event.dataTransfer` i drag-händelser. Det fungerar som en osynlig ryggsäck som det dragna elementet bär med sig — du packar data i den vid `dragstart` och plockar ut den vid `drop`.
+
+### Packa data med `setData`
+
+I `dragstart`-hanteraren anger du vad som dras:
+
+```javascript
+kort.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", kort.id);
+});
+```
+
+Det första argumentet är en **MIME-typ** som beskriver formatet — `"text/plain"` för vanlig text är det vanligaste. Det andra argumentet är själva datan som en sträng.
+
+### Hämta data med `getData`
+
+I `drop`-hanteraren plockar du ut datan:
+
+```javascript
+släppzon.addEventListener("drop", (e) => {
+    const id = e.dataTransfer.getData("text/plain");
+    console.log(`Släppte element med id: ${id}`);
+});
+```
+
+Du använder samma MIME-typ för att hämta datan som du använde för att lagra den.
+
+::: {.callout-note}
+## `getData` fungerar bara i `drop`
+
+Av säkerhetsskäl kan du bara läsa `dataTransfer.getData()` i `drop`-händelsen (och `dragstart`/`dragend`). I `dragover` och `dragenter` returneras en tom sträng. Det är ett medvetet designbeslut — det förhindrar att en sida "snokar" på data som dras över den utan att användaren faktiskt släpper.
+:::
+
+---
+
+## Definiera ett släppområde
+
+Här kommer den detalj som förvirrar flest nybörjare: **ett element är inte automatiskt ett giltigt släppområde**. Du måste aktivt tala om för webbläsaren att elementet accepterar släppningar — och det gör du genom att anropa `preventDefault()` i `dragover`-händelsen.
+
+```javascript
+släppzon.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+```
+
+Utan den raden avfyras aldrig `drop`-händelsen. Det beror på att webbläsarens standardbeteende för `dragover` är att *inte tillåta* släppning. Genom att förhindra standardbeteendet säger du: "det här är ett giltigt ställe att släppa."
+
+::: {.callout-important}
+## Glöm inte `preventDefault()` i `dragover`
+
+Det här är den vanligaste orsaken till att drag and drop "inte fungerar". Om `drop`-händelsen aldrig utlöses, kontrollera att du har `e.preventDefault()` i `dragover`-hanteraren. Det krävs *alltid*.
+:::
+
+---
+
+## Ditt första drag-and-drop-exempel
+
+Låt oss sätta ihop alla delar i ett komplett exempel. Vi har ett kort som kan dras till en zon:
+
+```html
+<div id="kort" class="kort" draggable="true">
+    Jag kan dras!
+</div>
+
+<div id="släppzon" class="släppzon">
+    Släpp här
+</div>
+```
+
+```css
+.kort {
+    padding: 1rem;
+    background: lightblue;
+    border: 2px solid steelblue;
+    cursor: grab;
+    display: inline-block;
+}
+
+.kort.dras {
+    opacity: 0.4;
+}
+
+.släppzon {
+    margin-top: 1rem;
+    padding: 2rem;
+    border: 2px dashed #ccc;
+    text-align: center;
+    min-height: 100px;
+}
+
+.släppzon.över {
+    border-color: steelblue;
+    background: #f0f8ff;
+}
+```
+
+```javascript
+const kort = document.querySelector("#kort");
+const släppzon = document.querySelector("#släppzon");
+
+// 1. Starta dragningen — packa data
+kort.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", kort.id);
+    kort.classList.add("dras");
+});
+
+// 2. Städa upp när dragningen slutar
+kort.addEventListener("dragend", () => {
+    kort.classList.remove("dras");
+});
+
+// 3. Tillåt släppning genom att förhindra standardbeteendet
+släppzon.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+
+// 4. Visuell feedback när elementet dras in i/ut ur zonen
+släppzon.addEventListener("dragenter", () => {
+    släppzon.classList.add("över");
+});
+
+släppzon.addEventListener("dragleave", () => {
+    släppzon.classList.remove("över");
+});
+
+// 5. Hantera släppningen
+släppzon.addEventListener("drop", (e) => {
+    e.preventDefault();
+    släppzon.classList.remove("över");
+
+    const id = e.dataTransfer.getData("text/plain");
+    const draget = document.querySelector(`#${id}`);
+    släppzon.append(draget);
+});
+```
+
+Steg för steg:
+
+1. **`dragstart`**: Vi lagrar kortets id i `dataTransfer` och tonar ned kortet visuellt med en CSS-klass.
+2. **`dragend`**: Vi tar bort den visuella nedtoningen, oavsett om kortet släpptes framgångsrikt eller inte.
+3. **`dragover`**: Vi anropar `preventDefault()` för att tillåta släppning.
+4. **`dragenter`/`dragleave`**: Vi markerar släppzonen visuellt när kortet dras in, och avmarkerar när det lämnar.
+5. **`drop`**: Vi hämtar id:t från `dataTransfer`, hittar elementet i DOM:en, och flyttar det till släppzonen med `append`.
+
+Notera att vi också anropar `preventDefault()` i `drop`-hanteraren. Det förhindrar webbläsarens standardbeteende för släppningar (som kan vara att öppna data som en länk).
+
+---
+
+## Flytta mellan containrar
+
+Ett vanligt mönster är att ha flera containrar som element kan flyttas mellan. Tänk en Kanban-tavla med kolumner: "Att göra", "Pågår" och "Klart".
+
+```html
+<div class="tavla">
+    <div class="kolumn" id="att-göra">
+        <h3>Att göra</h3>
+        <div class="kort" draggable="true" data-id="1">Designa startsidan</div>
+        <div class="kort" draggable="true" data-id="2">Skriva tester</div>
+        <div class="kort" draggable="true" data-id="3">Fixa login-bugg</div>
+    </div>
+    <div class="kolumn" id="pågår">
+        <h3>Pågår</h3>
+    </div>
+    <div class="kolumn" id="klart">
+        <h3>Klart</h3>
+    </div>
+</div>
+```
+
+```css
+.tavla {
+    display: flex;
+    gap: 1rem;
+}
+
+.kolumn {
+    flex: 1;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 8px;
+    min-height: 200px;
+}
+
+.kort {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: grab;
+}
+
+.kort.dras {
+    opacity: 0.4;
+}
+
+.kolumn.över {
+    background: #e8f4fd;
+}
+```
+
+Eftersom vi har flera kort och flera kolumner använder vi **händelsedelegering** — en lyssnare på en gemensam förfader som fångar händelser från alla barn tack vare bubbling (om du har läst kapitlet om händelser på djupet känner du igen tekniken):
+
+```javascript
+const tavla = document.querySelector(".tavla");
+
+// Delegerad dragstart — fångar alla kort
+tavla.addEventListener("dragstart", (e) => {
+    const kort = e.target.closest(".kort");
+    if (!kort) return;
+
+    e.dataTransfer.setData("text/plain", kort.dataset.id);
+    kort.classList.add("dras");
+});
+
+tavla.addEventListener("dragend", (e) => {
+    const kort = e.target.closest(".kort");
+    if (kort) kort.classList.remove("dras");
+});
+
+// Händelser på kolumnerna (släppzonerna)
+const kolumner = document.querySelectorAll(".kolumn");
+
+for (const kolumn of kolumner) {
+    kolumn.addEventListener("dragover", (e) => {
+        e.preventDefault();
+    });
+
+    kolumn.addEventListener("dragenter", (e) => {
+        const kolumn = e.currentTarget;
+        kolumn.classList.add("över");
+    });
+
+    kolumn.addEventListener("dragleave", (e) => {
+        const kolumn = e.currentTarget;
+        kolumn.classList.remove("över");
+    });
+
+    kolumn.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const kolumn = e.currentTarget;
+        kolumn.classList.remove("över");
+
+        const id = e.dataTransfer.getData("text/plain");
+        const kort = document.querySelector(`[data-id="${id}"]`);
+        if (kort) {
+            kolumn.append(kort);
+        }
+    });
+}
+```
+
+Några saker att notera:
+
+- Vi använder `data-id` istället för `id` på korten. Det ger oss ett rent sätt att identifiera element utan att riskera id-konflikter.
+- I `drop`-hanteraren hittar vi kortet med en attributselektor: `[data-id="${id}"]`.
+- Vi använder `e.currentTarget` istället för `e.target` i kolumnernas lyssnare. `e.currentTarget` är alltid kolumnen (det element som lyssnaren sitter på), medan `e.target` kan vara ett barnelement inuti kolumnen.
+- `append` *flyttar* elementet automatiskt — det kopieras inte. Det är samma beteende du lärde dig i kapitlet om att skapa element.
+
+---
+
+## Sortera med drag and drop
+
+Att flytta kort mellan kolumner är en sak. Att ändra *ordningen* inom en kolumn är lite mer utmanande — du behöver räkna ut *var* i listan det dragna elementet ska hamna.
+
+Nyckeln är att jämföra muspekarens position med de befintliga elementens positioner:
+
+```javascript
+function hittaNärmasteElement(kolumn, y) {
+    const kort = kolumn.querySelectorAll(".kort:not(.dras)");
+
+    let närmaste = null;
+    let minstaAvstånd = Number.POSITIVE_INFINITY;
+
+    for (const k of kort) {
+        const box = k.getBoundingClientRect();
+        const mitt = box.top + box.height / 2;
+        const avstånd = y - mitt;
+
+        // Vi vill ha det element vars mittpunkt ligger närmast UNDER muspekaren
+        if (avstånd < 0 && Math.abs(avstånd) < minstaAvstånd) {
+            minstaAvstånd = Math.abs(avstånd);
+            närmaste = k;
+        }
+    }
+
+    return närmaste;
+}
+```
+
+Funktionen går igenom alla kort (utom det som dras) och hittar det vars mittpunkt ligger närmast *under* muspekaren. Vi använder `getBoundingClientRect()` som returnerar ett objekt med elementets position och storlek på skärmen.
+
+Sedan använder vi den i `dragover`:
+
+```javascript
+kolumn.addEventListener("dragover", (e) => {
+    e.preventDefault();
+
+    const närmaste = hittaNärmasteElement(kolumn, e.clientY);
+    const kort = document.querySelector(".kort.dras");
+
+    if (närmaste) {
+        kolumn.insertBefore(kort, närmaste);
+    } else {
+        kolumn.append(kort);
+    }
+});
+```
+
+`e.clientY` är muspekarens vertikala position i fönstret. `insertBefore` placerar kortet direkt före det närmaste elementet, och om inget element hittas (muspekaren är under alla kort) läggs det sist med `append`.
+
+::: {.callout-note}
+## `getBoundingClientRect()`
+
+Metoden `getBoundingClientRect()` returnerar ett objekt med egenskaperna `top`, `right`, `bottom`, `left`, `width` och `height` — elementets position och storlek relativt till fönstret (viewport). Det är användbart varje gång du behöver veta *var* ett element befinner sig visuellt. En fullständig referens finns på [MDN: Element.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect).
+:::
+
+---
+
+## Visuell feedback under dragningen
+
+Bra visuell feedback gör drag and drop intuitivt. Utan den vet inte användaren var det är möjligt att släppa. Vi har redan använt CSS-klasser för att markera släppzoner, men det finns fler verktyg.
+
+### `effectAllowed` och `dropEffect`
+
+`DataTransfer`-objektet har två egenskaper som styr *vilken typ* av operation som utförs:
+
+- **`effectAllowed`** — sätts i `dragstart` och anger vilka operationer källan tillåter: `"move"`, `"copy"`, `"link"` eller kombinationer som `"copyMove"`.
+- **`dropEffect`** — sätts i `dragover` och anger vilken operation släppområdet vill utföra.
+
+```javascript
+kort.addEventListener("dragstart", (e) => {
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", kort.id);
+});
+
+släppzon.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+});
+```
+
+Webbläsaren anpassar muspekaren utifrån dessa värden — till exempel visas en kopierings-ikon om `dropEffect` är `"copy"`. Det ger användaren visuell feedback om vad som kommer att hända.
+
+### Problem med `dragleave` och barnelement
+
+Det finns en vanlig fallgrop med `dragenter` och `dragleave`: om släppzonen har barnelement utlöses `dragleave` varje gång muspekaren rör sig *från ett barnelement till ett annat* — även om du aldrig lämnade släppzonen. Det gör att den visuella markeringen flimrar.
+
+En enkel lösning är att använda en räknare:
+
+```javascript
+let dragRäknare = 0;
+
+kolumn.addEventListener("dragenter", () => {
+    dragRäknare++;
+    kolumn.classList.add("över");
+});
+
+kolumn.addEventListener("dragleave", () => {
+    dragRäknare--;
+    if (dragRäknare === 0) {
+        kolumn.classList.remove("över");
+    }
+});
+
+kolumn.addEventListener("drop", () => {
+    dragRäknare = 0;
+    kolumn.classList.remove("över");
+});
+```
+
+Räknaren ökar vid varje `dragenter` och minskar vid varje `dragleave`. Klassen tas bara bort när räknaren når noll — det vill säga när muspekaren verkligen har lämnat kolumnen.
+
+---
+
+## Praktiskt exempel: sorterbara uppgifter {#sec-sortable-tasks}
+
+Låt oss bygga ett komplett exempel — en att-göra-lista där uppgifter kan dras och sorteras om:
+
+```html
+<h2>Mina uppgifter</h2>
+<ul id="uppgiftslista">
+    <li class="uppgift" draggable="true">Planera sprinten</li>
+    <li class="uppgift" draggable="true">Granska pull requests</li>
+    <li class="uppgift" draggable="true">Skriva dokumentation</li>
+    <li class="uppgift" draggable="true">Fixa bugg #42</li>
+    <li class="uppgift" draggable="true">Uppdatera beroenden</li>
+</ul>
+```
+
+```css
+.uppgift {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.25rem;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: grab;
+    list-style: none;
+}
+
+.uppgift.dras {
+    opacity: 0.3;
+}
+
+#uppgiftslista {
+    padding: 0;
+    max-width: 400px;
+}
+```
+
+```javascript
+const lista = document.querySelector("#uppgiftslista");
+
+lista.addEventListener("dragstart", (e) => {
+    const uppgift = e.target.closest(".uppgift");
+    if (!uppgift) return;
+
+    uppgift.classList.add("dras");
+    e.dataTransfer.effectAllowed = "move";
+});
+
+lista.addEventListener("dragend", (e) => {
+    const uppgift = e.target.closest(".uppgift");
+    if (uppgift) uppgift.classList.remove("dras");
+});
+
+lista.addEventListener("dragover", (e) => {
+    e.preventDefault();
+
+    const aktuell = document.querySelector(".uppgift.dras");
+    if (!aktuell) return;
+
+    const närmaste = hittaNärmasteElement(lista, e.clientY);
+
+    if (närmaste) {
+        lista.insertBefore(aktuell, närmaste);
+    } else {
+        lista.append(aktuell);
+    }
+});
+
+function hittaNärmasteElement(container, y) {
+    const element = container.querySelectorAll(".uppgift:not(.dras)");
+
+    let närmaste = null;
+    let minstaAvstånd = Number.POSITIVE_INFINITY;
+
+    for (const el of element) {
+        const box = el.getBoundingClientRect();
+        const mitt = box.top + box.height / 2;
+        const avstånd = y - mitt;
+
+        if (avstånd < 0 && Math.abs(avstånd) < minstaAvstånd) {
+            minstaAvstånd = Math.abs(avstånd);
+            närmaste = el;
+        }
+    }
+
+    return närmaste;
+}
+```
+
+Det här exemplet använder bara `dragstart`, `dragend` och `dragover` — vi behöver varken `dragenter`, `dragleave` eller `drop`, eftersom omsorteringen sker löpande under dragningen. Elementet *flyttas* i DOM:en varje gång `dragover` utlöses, vilket ger omedelbar visuell feedback.
+
+Notera att vi inte behöver `dataTransfer` här. Eftersom vi arbetar med element som redan finns i DOM:en kan vi hitta det dragna elementet med `document.querySelector(".uppgift.dras")` istället.
+
+---
+
+## Tillgänglighet
+
+Drag and drop är en visuell, musbaserad interaktion. Det fungerar utmärkt med muspekare och pekskärmar, men det utesluter användare som navigerar med tangentbord eller skärmläsare.
+
+**Erbjud alltid ett alternativ.** Om användaren kan sortera uppgifter genom att dra dem, bör det också gå att flytta dem med tangentbordet — till exempel med knappar som "Flytta upp" och "Flytta ned":
+
+```html
+<li class="uppgift" draggable="true">
+    <span>Planera sprinten</span>
+    <button class="flytta-upp" aria-label="Flytta upp">↑</button>
+    <button class="flytta-ned" aria-label="Flytta ned">↓</button>
+</li>
+```
+
+```javascript
+lista.addEventListener("click", (e) => {
+    const uppKnapp = e.target.closest(".flytta-upp");
+    const nedKnapp = e.target.closest(".flytta-ned");
+
+    if (uppKnapp) {
+        const li = uppKnapp.closest(".uppgift");
+        const föregående = li.previousElementSibling;
+        if (föregående) li.before(föregående);
+    }
+
+    if (nedKnapp) {
+        const li = nedKnapp.closest(".uppgift");
+        const nästa = li.nextElementSibling;
+        if (nästa) li.after(nästa);
+    }
+});
+```
+
+Det här tangentbordsalternativet använder DOM-traversering (`previousElementSibling`, `nextElementSibling`) och placeringsmetoder (`before`, `after`). Om du har läst om DOM-traversering och att skapa element känner du igen dem — annars räcker det att veta att `before` placerar ett element framför ett annat, och att syskonegenskaperna navigerar till grannar i DOM-trädet.
+
+::: {.callout-important}
+## Drag and drop ska vara en förbättring, inte ett krav
+
+Bygg alltid en fungerande grundversion först, och lägg till drag and drop *ovanpå*. Tänk på det som en förbättring (*progressive enhancement*): grundfunktionaliteten ska vara tillgänglig för alla, och drag and drop gör upplevelsen smidigare för de som kan använda det.
+:::
+
+---
+
+## Sammanfattning
+
+HTML:s Drag and Drop API ger dig verktyg att bygga interaktioner där användaren kan ta tag i element och flytta dem — mellan containrar, inom listor, eller till helt nya positioner.
+
+- **`draggable="true"`** gör ett HTML-element dragbart.
+- **Sju händelser** styr livscykeln: `dragstart`, `drag`, `dragenter`, `dragover`, `dragleave`, `drop`, `dragend`.
+- **`dataTransfer.setData()`** lagrar data vid `dragstart`; **`dataTransfer.getData()`** hämtar den vid `drop`.
+- **`preventDefault()` i `dragover`** är obligatoriskt — utan det går det inte att släppa.
+- **`preventDefault()` i `drop`** förhindrar webbläsarens standardbeteende för släppningar.
+- **`effectAllowed`** och **`dropEffect`** styr vilken typ av operation (flytta, kopiera, länka) som visas i muspekaren.
+- **`getBoundingClientRect()`** ger ett elements position och storlek — användbart för att räkna ut var i en lista ett element ska hamna.
+- **`dragenter`/`dragleave`** kan flimra med barnelement — en räknare löser problemet.
+- **Händelsedelegering** fungerar utmärkt med drag-händelser och gör koden enklare.
+- **Tillgänglighet**: erbjud alltid tangentbordsalternativ. Drag and drop ska vara en förbättring, inte ett krav.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Drag and drop kombinerar händelser, DOM-manipulation och visuell feedback på ett sätt som kan vara svårt att hålla i huvudet. AI-verktyg kan hjälpa dig att bryta ner komplexiteten.
+
+**Be AI:n förklara händelsesekvensen:**
+
+> *"Beskriv steg för steg vilka drag-and-drop-händelser som utlöses när jag drar ett element från en lista till en annan. Visa vilka händelser som utlöses på det dragna elementet respektive på släppområdet."*
+
+**Fråga om vanliga problem:**
+
+> *"Min drop-händelse utlöses aldrig. Vad kan vara fel? Visa de vanligaste misstagen med drag and drop i JavaScript."*
+
+> *"Varför flimrar min visuella feedback (dragenter/dragleave) när jag drar över en container med barnelement? Hur löser jag det?"*
+
+**Generera byggövningar:**
+
+> *"Ge mig en uppgift där jag ska bygga ett enkelt Kanban-board med tre kolumner och dragbara kort. Beskriv vad som ska hända steg för steg, men visa inte lösningen."*
+
+Experimentera i webbläsaren och logga varje händelse med `console.log` — att *se* händelseflödet gör det mycket lättare att förstå.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Grundläggande drag and drop
+
+Skapa en HTML-sida med tre färgade `<div>`-element (till exempel röd, grön och blå) och ett grått släppområde. Gör elementen dragbara och skriv JavaScript som:
+
+1. Vid `dragstart`: lagrar elementets id i `dataTransfer`.
+2. Vid `dragover`: tillåter släppning med `preventDefault`.
+3. Vid `drop`: flyttar det dragna elementet till släppområdet.
+
+Lägg till visuell feedback: det dragna elementet ska bli halvtransparent, och släppområdet ska få en markerad ram när något dras över det.
+:::
+
+::: {.callout-note}
+## Övning – Kanban-tavla
+
+Bygg en Kanban-tavla med tre kolumner: "Att göra", "Pågår" och "Klart". Skapa minst fem kort i den första kolumnen.
+
+1. Gör korten dragbara.
+2. Gör kolumnerna till giltiga släppområden.
+3. Vid drop: flytta kortet till den kolumn det släpptes i.
+4. Visa visuell feedback på kolumnen när ett kort dras över den.
+
+Utöka sedan: lägg till ett formulär som skapar nya kort i "Att göra"-kolumnen. Verifiera att de nya korten är dragbara utan att du behöver registrera nya lyssnare (använd delegation).
+:::
+
+::: {.callout-note}
+## Övning – Sorterbar lista
+
+Skapa en lista med minst åtta `<li>`-element som kan sorteras om med drag and drop. Implementera sorteringen med `getBoundingClientRect()` och `insertBefore`, som i exemplet med sorterbara uppgifter.
+
+Testa noggrant: dra ett element från toppen till botten, från botten till toppen, och in i mitten av listan. Fungerar alla riktningar?
+
+Utöka sedan: lägg till en "Återställ"-knapp som återställer listan till sin ursprungliga ordning. *Tips:* Spara den ursprungliga ordningen i en array vid sidladdning.
+:::
+
+::: {.callout-note}
+## Övning – Drag and drop med tillgänglighet
+
+Bygg en inköpslista med dragbara `<li>`-element. Lägg till:
+
+1. Drag-and-drop-funktionalitet för att sortera om listan.
+2. Knappar "↑" och "↓" på varje rad som alternativ till drag and drop.
+3. En knapp "Ta bort" som tar bort raden.
+
+Testa att du kan använda listan *helt utan musen* — navigera med Tab, klicka med Enter, och sortera med knapparna.
+:::
+
+::: {.callout-note}
+## Övning – Bildpussel
+
+Skapa ett enkelt pussel med nio numrerade rutor (1–9) i ett 3×3-rutnät, plus en tom ruta. Gör rutorna dragbara och låt användaren byta plats på en ruta och den tomma rutan genom att dra.
+
+1. Skapa rutnätet med `display: grid` i CSS.
+2. Gör varje ruta till en dragbar `<div>` med ett nummer.
+3. Vid drop: byt plats på den dragna rutan och den tomma rutan.
+
+Utöka sedan: blanda rutorna slumpmässigt vid sidladdning, och visa ett meddelande när alla rutor är i rätt ordning.
+:::
+
+::: {.callout-note}
+## Övning – Spåra händelseflödet
+
+Skapa en sida med ett dragbart element och ett släppområde. Registrera lyssnare på *alla sju* drag-and-drop-händelser. Varje lyssnare ska logga händelsens namn och `e.target.id` i ett `<pre>`-element på sidan.
+
+Dra elementet till släppområdet och studera loggen.
+
+1. I vilken ordning utlöses händelserna?
+2. Vilka händelser utlöses på det dragna elementet, och vilka på släppområdet?
+3. Hur ofta utlöses `drag` och `dragover`? Beror det på hur snabbt du rör musen?
+:::
+
+:::

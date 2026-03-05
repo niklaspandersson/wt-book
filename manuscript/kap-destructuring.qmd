@@ -1,0 +1,731 @@
+# Destructuring och spread
+
+::: {.vg}
+
+## Samma namn, om och om igen
+
+Du hämtar data från ett API. Svaret är ett objekt med en rad egenskaper — namn, e-post, adress, telefonnummer. Nu vill du använda de värdena i din kod, så du skriver:
+
+```javascript
+const namn = användare.namn;
+const epost = användare.epost;
+const stad = användare.adress.stad;
+const telefon = användare.telefon;
+```
+
+Fyra rader som alla följer samma mönster: skapa en variabel, ge den samma namn som egenskapen, tilldela värdet. Det fungerar, men det är repetitivt — och repetition i kod är ofta ett tecken på att det finns ett bättre sätt.
+
+Eller tänk dig att du har en funktion som tar ett objekt som argument. Inuti funktionen skriver du `produkt.namn`, `produkt.pris`, `produkt.kategori` — gång på gång. Koden blir pratig och svårare att läsa ju fler egenskaper du behöver.
+
+JavaScript har en syntax som löser precis det här problemet. Den heter **destructuring** — och den låter dig packa upp värden från objekt och arrayer direkt i variabeldeklarationer, funktionsparametrar och tilldelningar. Tillsammans med den nära besläktade **spread-syntaxen** ger den dig verktyg för att skriva kortare, tydligare kod när du arbetar med strukturerad data.
+
+---
+
+## Destructuring av objekt
+
+### Grundläggande syntax
+
+Istället för att plocka ut egenskaper en i taget kan du göra det i en enda sats:
+
+```javascript
+const användare = {
+    namn: "Anna",
+    epost: "anna@example.com",
+    ålder: 25
+};
+
+const { namn, epost, ålder } = användare;
+
+console.log(namn);    // "Anna"
+console.log(epost);   // "anna@example.com"
+console.log(ålder);   // 25
+```
+
+Klammerparenteserna på vänster sida om `=` är **destructuring-syntax**. Det ser ut som ett objekt, men det är ingen objektliteral — det är ett mönster som beskriver vilka egenskaper du vill plocka ut. JavaScript matchar namnen inuti klammerparenteserna mot objektets egenskaper och skapar variabler med motsvarande värden.
+
+Jämför med den manuella versionen:
+
+```javascript
+// Utan destructuring
+const namn = användare.namn;
+const epost = användare.epost;
+const ålder = användare.ålder;
+
+// Med destructuring
+const { namn, epost, ålder } = användare;
+```
+
+Resultatet är exakt detsamma — tre variabler med samma namn och värden. Men destructuring-versionen uttrycker det på en rad istället för tre.
+
+### Plocka ut bara det du behöver
+
+Du behöver inte plocka ut alla egenskaper. Ta bara de du faktiskt vill använda:
+
+```javascript
+const användare = {
+    namn: "Anna",
+    epost: "anna@example.com",
+    ålder: 25,
+    stad: "Växjö",
+    program: "Webbutveckling"
+};
+
+const { namn, stad } = användare;
+
+console.log(namn);    // "Anna"
+console.log(stad);    // "Växjö"
+// epost, ålder och program ignoreras
+```
+
+De egenskaper som inte nämns i mönstret hoppas helt enkelt över. Objektet påverkas inte — det har fortfarande alla sina egenskaper.
+
+### Byta namn på variabler
+
+Ibland vill du ge variabeln ett annat namn än egenskapen. Kanske egenskapsnamnet är otydligt, eller krockar med ett annat namn i din kod. Då använder du kolon:
+
+```javascript
+const produkt = {
+    name: "Wireless Mouse",
+    price: 299,
+    inStock: true
+};
+
+const { name: produktnamn, price: pris, inStock: iLager } = produkt;
+
+console.log(produktnamn);   // "Wireless Mouse"
+console.log(pris);          // 299
+console.log(iLager);        // true
+```
+
+Syntaxen `name: produktnamn` betyder: "ta egenskapen `name` och spara den i en variabel som heter `produktnamn`". 
+
+### Standardvärden
+
+Om en egenskap saknas i objektet får variabeln värdet `undefined` — precis som vid vanlig egenskapsåtkomst. Men med destructuring kan du ange ett **standardvärde** som används istället:
+
+```javascript
+const användare = {
+    namn: "Anna",
+    epost: "anna@example.com"
+};
+
+const { namn, epost, telefon = "Ej angivet" } = användare;
+
+console.log(namn);      // "Anna"
+console.log(epost);     // "anna@example.com"
+console.log(telefon);   // "Ej angivet"
+```
+
+`telefon` finns inte i objektet, så standardvärdet `"Ej angivet"` används. Om egenskapen hade funnits hade det faktiska värdet tagit över. Standardvärden är praktiska för valfria egenskaper — de skyddar dig från oväntade `undefined`-värden.
+
+### Nästlad destructuring
+
+Objekt innehåller ofta andra objekt. Du kan destructurera nästlade strukturer i ett enda steg:
+
+```javascript
+const användare = {
+    namn: "Anna",
+    adress: {
+        gata: "Storgatan 12",
+        stad: "Växjö",
+        postnummer: "352 30"
+    }
+};
+
+const { namn, adress: { stad, postnummer } } = användare;
+
+console.log(namn);         // "Anna"
+console.log(stad);         // "Växjö"
+console.log(postnummer);   // "352 30"
+```
+
+`adress: { stad, postnummer }` betyder: "gå in i egenskapen `adress` och plocka ut `stad` och `postnummer` därifrån". Observera att `adress` själv *inte* blir en variabel — det är bara vägen in i det nästlade objektet.
+
+Nästlad destructuring kan bli svårläst om man går många nivåer ner. En tumregel: om mönstret blir svårt att förstå vid en snabb blick, dela upp det i flera steg istället.
+
+---
+
+## Destructuring av arrayer
+
+Destructuring fungerar även med arrayer, men istället för att matcha på egenskapsnamn matchas det på **position**:
+
+```javascript
+const färger = ["röd", "grön", "blå"];
+
+const [första, andra, tredje] = färger;
+
+console.log(första);   // "röd"
+console.log(andra);    // "grön"
+console.log(tredje);   // "blå"
+```
+
+Hakparenteser på vänster sida om `=` signalerar array-destructuring. Det första namnet får det första elementet, det andra namnet det andra elementet, och så vidare.
+
+### Hoppa över element
+
+Du kan hoppa över element genom att lämna tomma platser med kommatecken:
+
+```javascript
+const färger = ["röd", "grön", "blå", "gul"];
+
+const [, , tredje] = färger;
+
+console.log(tredje);   // "blå"
+```
+
+De två inledande kommatecknen hoppar över `"röd"` och `"grön"`.
+
+### Standardvärden
+
+Precis som med objekt kan du ange standardvärden:
+
+```javascript
+const tal = [10, 20];
+
+const [a, b, c = 0] = tal;
+
+console.log(a);   // 10
+console.log(b);   // 20
+console.log(c);   // 0 — arrayen har inget tredje element
+```
+
+### Byta värden mellan variabler
+
+Destructuring ger ett elegant sätt att byta värden mellan variabler — utan en tillfällig variabel:
+
+```javascript
+let x = 1;
+let y = 2;
+
+[x, y] = [y, x];
+
+console.log(x);   // 2
+console.log(y);   // 1
+```
+
+Höger sida skapar en tillfällig array `[2, 1]`, och vänster sida destructurerar den tillbaka till `x` och `y`. Det är en kortform som du kommer att stöta på i andras kod.
+
+### Destructuring med `Object.entries`
+
+I objektkapitlet använde du `Object.entries()` med en `for...of`-loop:
+
+```javascript
+const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
+
+for (const [nyckel, värde] of Object.entries(student)) {
+    console.log(`${nyckel}: ${värde}`);
+}
+```
+
+Nu förstår du mekanismen: `Object.entries()` returnerar en array av `[nyckel, värde]`-par, och `[nyckel, värde]` i loopen är array-destructuring som packar upp varje par i två separata variabler.
+
+---
+
+## Destructuring i funktionsparametrar
+
+En av de mest praktiska användningarna av destructuring är direkt i funktioners parameterlista. Istället för att ta emot ett objekt och sedan plocka ut egenskaper inuti funktionen kan du destructurera redan i parametern:
+
+```javascript
+// Utan destructuring
+function visaStudent(student) {
+    console.log(`${student.namn} (${student.program}, år ${student.årskurs})`);
+}
+
+// Med destructuring
+function visaStudent({ namn, program, årskurs }) {
+    console.log(`${namn} (${program}, år ${årskurs})`);
+}
+```
+
+Funktionen anropas på exakt samma sätt:
+
+```javascript
+const anna = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
+visaStudent(anna);   // "Anna (Webbutveckling, år 2)"
+```
+
+Men inuti funktionen slipper du skriva `student.` framför varje egenskap. Koden blir kortare och lättare att läsa — särskilt när funktionen använder många egenskaper.
+
+### Standardvärden i parametrar
+
+Du kan kombinera destructuring med standardvärden för att hantera valfria egenskaper direkt:
+
+```javascript
+function skapaKort({ namn, pris, valuta = "kr" }) {
+    return `${namn}: ${pris} ${valuta}`;
+}
+
+console.log(skapaKort({ namn: "Mus", pris: 299 }));
+// "Mus: 299 kr"
+
+console.log(skapaKort({ namn: "Keyboard", pris: 49, valuta: "€" }));
+// "Keyboard: 49 €"
+```
+
+Det här mönstret är vanligt i funktioner som tar konfigurationsobjekt med många valfria inställningar.
+
+---
+
+## Spread-operatorn: `...`
+
+Destructuring packar *upp* strukturer i variabler. **Spread-operatorn** (`...`) gör det motsatta: den *sprider ut* elementen i en array eller egenskaperna i ett objekt, på platser där flera värden förväntas.
+
+### Spread i arrayer
+
+Du kan kopiera en array genom att sprida ut den i en ny:
+
+```javascript
+const original = [1, 2, 3];
+const kopia = [...original];
+
+console.log(kopia);           // [1, 2, 3]
+console.log(kopia === original);   // false — det är en ny array
+```
+
+`...original` sprider ut alla element (1, 2, 3), och hakparenteserna samlar dem i en ny array. Resultatet är en **ytlig kopia** — en separat array med samma element.
+
+::: {.callout-note}
+## Ytlig kopia
+
+En ytlig kopia (*shallow copy*) skapar en ny array (eller objekt), men elementen kopieras inte rekursivt. Om arrayen innehåller objekt pekar den nya arrayen på *samma* objekt som originalet:
+
+```javascript
+const studenter = [{ namn: "Anna" }, { namn: "Björn" }];
+const kopia = [...studenter];
+
+kopia[0].namn = "Bella";
+console.log(studenter[0].namn);   // "Bella" — samma objekt!
+```
+
+Spread skapar en ny yttre struktur, men de inre objekten delas. Var medveten om det när du arbetar med arrayer av objekt.
+:::
+
+Spread är särskilt användbart för att **slå ihop** arrayer:
+
+```javascript
+const frontend = ["HTML", "CSS", "JavaScript"];
+const backend = ["Node.js", "Python", "Java"];
+
+const alla = [...frontend, ...backend];
+console.log(alla);
+// ["HTML", "CSS", "JavaScript", "Node.js", "Python", "Java"]
+```
+
+Du kan även lägga till nya element i samma uttryck:
+
+```javascript
+const ursprunglig = [2, 3, 4];
+const utökad = [1, ...ursprunglig, 5];
+console.log(utökad);   // [1, 2, 3, 4, 5]
+```
+
+Det här ersätter mönster som annars hade krävt `concat()` eller manuell iteration.
+
+### Spread i objekt
+
+Samma princip fungerar med objekt:
+
+```javascript
+const grund = { namn: "Anna", program: "Webbutveckling" };
+const kopia = { ...grund };
+
+console.log(kopia);   // { namn: "Anna", program: "Webbutveckling" }
+console.log(kopia === grund);   // false — nytt objekt
+```
+
+Spread sprider ut alla egenskaper i ett nytt objekt. Det är det idiomatiska sättet att kopiera objekt i modern JavaScript.
+
+#### Slå ihop objekt
+
+Du kan kombinera egenskaper från flera objekt:
+
+```javascript
+const standard = { tema: "ljust", språk: "sv", fontSize: 16 };
+const användarval = { tema: "mörkt", fontSize: 20 };
+
+const inställningar = { ...standard, ...användarval };
+console.log(inställningar);
+// { tema: "mörkt", språk: "sv", fontSize: 20 }
+```
+
+Egenskaper som förekommer i båda objekten skrivs över — det *sista* objektet i ordningen vinner. Här har `användarval` egna värden för `tema` och `fontSize`, som skriver över `standard`. Men `språk` finns bara i `standard` och bevaras.
+
+Det här mönstret är mycket vanligt för att hantera inställningar och konfiguration: börja med standardvärden och låt användarens val skriva över dem.
+
+#### Lägga till eller ändra egenskaper
+
+Du kan lägga till nya egenskaper, eller skriva över befintliga, i samma uttryck:
+
+```javascript
+const produkt = { namn: "Mus", pris: 299 };
+const uppdaterad = { ...produkt, pris: 249, iLager: true };
+
+console.log(uppdaterad);
+// { namn: "Mus", pris: 249, iLager: true }
+```
+
+Det ursprungliga objektet `produkt` är oförändrat. Spread skapar ett nytt objekt med alla egenskaper från `produkt`, skriver över `pris` med 249 och lägger till `iLager`. Det här sättet att "uppdatera" objekt — genom att skapa nya istället för att ändra de befintliga — kallas **immutabel uppdatering** och är ett mönster du kommer att stöta på ofta, särskilt i sammanhang som React.
+
+### Spread i funktionsanrop
+
+Spread kan även användas för att sprida ut en array som enskilda argument till en funktion:
+
+```javascript
+const tal = [5, 12, 3, 8, 1];
+const störst = Math.max(...tal);
+console.log(störst);   // 12
+```
+
+`Math.max()` tar enskilda tal som argument, inte en array. `...tal` sprider ut arrayens element så att anropet blir `Math.max(5, 12, 3, 8, 1)`.
+
+Utan spread hade du behövt skriva:
+
+```javascript
+const störst = Math.max(tal[0], tal[1], tal[2], tal[3], tal[4]);
+```
+
+Eller använda den äldre `apply`-metoden. Spread är den moderna, läsbara lösningen.
+
+---
+
+## Rest-syntax: `...` i andra änden
+
+Spread *sprider ut* element. **Rest-syntax** använder samma tre punkter (`...`) men i den motsatta rollen: den *samlar ihop* återstående element i en ny array eller återstående egenskaper i ett nytt objekt.
+
+### Rest i array-destructuring
+
+```javascript
+const färger = ["röd", "grön", "blå", "gul", "lila"];
+
+const [första, andra, ...resten] = färger;
+
+console.log(första);   // "röd"
+console.log(andra);    // "grön"
+console.log(resten);   // ["blå", "gul", "lila"]
+```
+
+`...resten` samlar alla element som inte tilldelats en egen variabel. Resultatet är alltid en array — även om det bara är ett element kvar, eller noll:
+
+```javascript
+const [a, ...resten] = [42];
+console.log(a);        // 42
+console.log(resten);   // [] — tom array
+```
+
+Rest-elementet måste alltid stå *sist* i mönstret. Det kan inte följas av fler variabler.
+
+### Rest i objekt-destructuring
+
+Samma mekanism fungerar med objekt:
+
+```javascript
+const användare = {
+    namn: "Anna",
+    epost: "anna@example.com",
+    ålder: 25,
+    stad: "Växjö"
+};
+
+const { namn, epost, ...övrigt } = användare;
+
+console.log(namn);      // "Anna"
+console.log(epost);     // "anna@example.com"
+console.log(övrigt);    // { ålder: 25, stad: "Växjö" }
+```
+
+`...övrigt` samlar ihop alla egenskaper som inte plockats ut explicit. Det är användbart när du vill separera en del av ett objekt från resten — till exempel för att skicka vidare de egenskaper du inte själv behöver.
+
+### Rest i funktionsparametrar
+
+Rest-syntax kan också användas i funktionsparametrar för att samla ihop ett godtyckligt antal argument:
+
+```javascript
+function summa(...tal) {
+    let resultat = 0;
+    for (const t of tal) {
+        resultat += t;
+    }
+    return resultat;
+}
+
+console.log(summa(1, 2, 3));       // 6
+console.log(summa(10, 20, 30, 40)); // 100
+```
+
+`...tal` samlar alla argument i en array. Funktionen kan anropas med hur många argument som helst. Det ersätter det äldre mönstret med det magiska `arguments`-objektet, som var en array-liknande struktur utan riktiga arraymetoder.
+
+Du kan även kombinera namngivna parametrar med rest:
+
+```javascript
+function loggaMeddelande(nivå, ...delar) {
+    const text = delar.join(" ");
+    console.log(`[${nivå}] ${text}`);
+}
+
+loggaMeddelande("INFO", "Servern", "startade", "på", "port", "3000");
+// [INFO] Servern startade på port 3000
+```
+
+Här fångas det första argumentet av `nivå`, och resten samlas i arrayen `delar`.
+
+---
+
+## Spread och rest — samma syntax, olika roller
+
+Det är viktigt att förstå att `...` har *två* betydelser beroende på var det används:
+
+| Plats | Namn | Effekt |
+|-------|------|--------|
+| I en array-literal eller funktionsanrop | **Spread** | Sprider ut element |
+| I ett destructuring-mönster eller parameterlista | **Rest** | Samlar ihop element |
+
+```javascript
+// Spread — sprider ut arrayen till enskilda element
+const kopia = [...original];
+
+// Rest — samlar ihop återstående element i en array
+const [första, ...resten] = original;
+```
+
+Kontexten avgör vilken roll `...` spelar. I praktiken blir det snabbt intuitivt: om tre punkter står på *höger* sida (eller i ett argument) sprider de ut; om de står på *vänster* sida (eller i ett mönster) samlar de ihop.
+
+---
+
+## Praktiskt exempel: hantera API-data
+
+Här är ett realistiskt exempel som visar hur destructuring och spread samverkar. Tänk dig att du hämtar en lista med böcker från ett API:
+
+```javascript
+const böcker = [
+    { id: 1, titel: "Pippi Långstrump", författare: "Astrid Lindgren", år: 1945, genre: "Barn" },
+    { id: 2, titel: "Röda rummet", författare: "August Strindberg", år: 1879, genre: "Roman" },
+    { id: 3, titel: "Kallocain", författare: "Karin Boye", år: 1940, genre: "Sci-fi" }
+];
+```
+
+Du vill visa korten på en webbsida. Med destructuring blir koden tydligare:
+
+```javascript
+function skapaBokKort({ titel, författare, år }) {
+    const kort = document.createElement("article");
+    kort.innerHTML = `
+        <h3>${titel}</h3>
+        <p>${författare} (${år})</p>
+    `;
+    return kort;
+}
+
+const container = document.querySelector("#böcker");
+
+const cards = böcker.map(skapaBokKort);
+container.append(...cards);
+```
+
+Funktionen `skapaBokKort` destructurerar sitt argument direkt — den plockar ut bara de egenskaper den behöver (`titel`, `författare`, `år`) och ignorerar resten (`id`, `genre`). Det gör funktionens beroenden tydliga: du ser direkt vilken data den använder.
+
+Sedan används `skapaBokKort` för att mappa listan av `böcker` till en lista av kort (element). För att lägga till dem i DOM:en används spread för att sprida ut korten som enskilda argument till `append()`, som kan ta emot flera element.
+
+Att använda `Array.map()` för att konvertera data till DOM-element och sedan lägga in dem i DOMen med `Element.append()` och spread, är ett vanligt och kraftfullt mönster när du arbetar med webbsidor med dynamisk data.
+
+---
+
+## Vanliga misstag
+
+### Glömma klammerparenteserna
+
+```javascript
+// Fel — skapar en variabel med hela objektet
+const namn = användare;
+
+// Rätt — destructurerar egenskapen "namn"
+const { namn } = användare;
+```
+
+Utan klammerparenteser tilldelas hela objektet, inte en enskild egenskap. Det är ett vanligt misstag när man först lär sig syntaxen.
+
+### Destructurera `undefined` eller `null`
+
+```javascript
+const { namn } = undefined;   // TypeError!
+const { namn } = null;        // TypeError!
+```
+
+Du kan inte destructurera `undefined` eller `null` — det ger ett `TypeError`. Det kan hända om en funktion returnerar `undefined` oväntat, eller om en API-respons saknar förväntad data. Kontrollera att värdet finns innan du destructurerar, eller använd standardvärden i det anropande lagret.
+
+### Förväxla spread och rest
+
+```javascript
+// Spread — kopierar en array
+const ny = [...gammal];
+
+// Rest — samlar ihop resten i en array
+const [första, ...resten] = gammal;
+```
+
+Båda använder `...`, men de gör motsatta saker. Om du blandar ihop dem, läs tabellen ovan igen: höger sida = spread, vänster sida = rest.
+
+---
+
+## Sammanfattning
+
+Destructuring och spread är syntaktiska verktyg som gör det enklare att arbeta med objekt och arrayer. De ändrar inte vad JavaScript *kan* göra — allt som destructuring gör går att åstadkomma med vanlig egenskapsåtkomst och tilldelning — men de gör koden kortare, tydligare och mer uttrycksfull.
+
+- **Objekt-destructuring** plockar ut namngivna egenskaper: `const { namn, ålder } = objekt`.
+- **Array-destructuring** plockar ut element efter position: `const [a, b] = array`.
+- **Standardvärden** skyddar mot saknade egenskaper: `const { telefon = "Ej angivet" } = objekt`.
+- Du kan **byta namn** med kolon: `const { name: namn } = objekt`.
+- **Destructuring i parametrar** gör funktioner tydligare: `function f({ x, y }) { ... }`.
+- **Spread** (`...`) sprider ut element i arrayer (`[...a, ...b]`) och egenskaper i objekt (`{ ...a, ...b }`).
+- **Rest** (`...`) samlar ihop återstående element: `const [första, ...resten] = array`.
+- Spread skapar **ytliga kopior** — inre objekt delas fortfarande.
+- I objekt-spread **vinner den sista** egenskapen vid namnkonflikter.
+
+Destructuring och spread är inte avancerade tekniker — de är vardagsverktyg som du kommer att använda i nästan varje JavaScript-projekt. Ju mer du övar på dem, desto mer naturligt kommer mönstren att kännas.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Destructuring och spread bygger på mönster som kräver visuellt tänkande — du måste kunna "se" hur värden packas upp och sprids. AI-verktyg kan vara ett bra komplement till att experimentera i konsolen.
+
+**Förstå vad som händer steg för steg:**
+
+> *"Vad gör den här koden rad för rad? `const { namn, adress: { stad } } = person;` — vad är `namn`? Vad är `stad`? Finns `adress` som variabel?"*
+
+**Träna på att läsa destructuring:**
+
+> *"Ge mig fem JavaScript-kodsnuttar med destructuring — en blandning av objekt, arrayer, rest och spread. Ställ en fråga om varje: 'Vad blir värdet av variabel X?' Visa inte svaren direkt."*
+
+**Omvandla kod:**
+
+> *"Jag har den här koden som plockar ut egenskaper manuellt. Skriv om den med destructuring och förklara skillnaden: `const namn = person.namn; const ålder = person.ålder; const stad = person.adress.stad;`"*
+
+**Utforska edge-cases:**
+
+> *"Vad händer om jag destructurerar en egenskap som inte finns? Och om jag sprider ett tomt objekt? Ge mig fem 'vad händer om'-frågor om destructuring och spread med svar."*
+
+Destructuring kan se förvirrande ut i början — tre punkter, klammerparenteser, kolon i oväntade positioner. Det bästa sättet att vänja sig är att skriva koden själv och kontrollera resultaten i konsolen.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Plocka ut och skriv ut
+
+Givet följande objekt:
+
+```javascript
+const film = {
+    titel: "Spirited Away",
+    regissör: "Hayao Miyazaki",
+    år: 2001,
+    genre: "Animerad",
+    betyg: 8.6
+};
+```
+
+Använd objekt-destructuring för att plocka ut `titel`, `regissör` och `betyg` i variabler. Skriv ut dem i formatet: `"Spirited Away av Hayao Miyazaki — betyg 8.6"`.
+
+Utöka sedan: plocka ut `land` med standardvärdet `"Japan"` (egenskapen finns inte i objektet).
+:::
+
+::: {.callout-note}
+## Övning – Destructurera i en funktion
+
+Skriv en funktion `formateraAdress` som tar ett adressobjekt med egenskaperna `gata`, `postnummer` och `stad`, och returnerar en formaterad sträng: `"Storgatan 12, 352 30 Växjö"`.
+
+Använd destructuring i funktionens parameterlista. Testa med minst två olika adresser.
+:::
+
+::: {.callout-note}
+## Övning – Array-destructuring
+
+Givet följande array:
+
+```javascript
+const topplista = ["guld", "silver", "brons", "fyra", "fem"];
+```
+
+a) Använd array-destructuring för att plocka ut de tre första elementen i variablerna `guld`, `silver` och `brons`.
+
+b) Använd destructuring med rest-syntax för att plocka ut det första elementet i `vinnare` och samla resten i `övriga`.
+
+c) Använd destructuring för att *bara* plocka ut det tredje elementet (hoppa över de två första).
+:::
+
+::: {.callout-note}
+## Övning – Slå ihop med spread
+
+Du har två arrayer med ingredienser:
+
+```javascript
+const bas = ["mjöl", "socker", "ägg"];
+const extra = ["vaniljsocker", "bakpulver"];
+```
+
+a) Skapa en ny array `alla` som innehåller alla ingredienser från båda arrayerna, med spread.
+
+b) Skapa en ny array `medSmör` som innehåller allt från `bas`, plus `"smör"` först och `"salt"` sist.
+
+c) Skapa en kopia av `bas` och lägg till `"kakao"` — utan att ändra `bas`. Kontrollera att `bas` fortfarande har tre element.
+:::
+
+::: {.callout-note}
+## Övning – Uppdatera utan att ändra
+
+Givet följande objekt:
+
+```javascript
+const användare = {
+    namn: "Anna",
+    epost: "anna@example.com",
+    tema: "ljust",
+    språk: "sv"
+};
+```
+
+Använd spread för att skapa ett *nytt* objekt `uppdaterad` som har alla samma egenskaper som `användare`, men med `tema` ändrat till `"mörkt"` och en ny egenskap `senastInloggad` satt till `"2025-01-15"`.
+
+Kontrollera att `användare` är oförändrat.
+:::
+
+::: {.callout-note}
+## Övning – Läsa och förstå
+
+Studera följande kod och besvara frågorna *utan att köra koden*:
+
+```javascript
+const data = {
+    id: 42,
+    namn: "Produkt X",
+    pris: 199,
+    kategori: "Elektronik",
+    lager: 15
+};
+
+const { namn, pris, ...rest } = data;
+
+const uppdaterad = { ...data, pris: 149, rea: true };
+
+function visa({ namn, pris }) {
+    return `${namn}: ${pris} kr`;
+}
+```
+
+a) Vilka variabler skapas av destructuring-raden? Vad innehåller `rest`?
+
+b) Vad innehåller `uppdaterad`? Har `data` ändrats?
+
+c) Vad returnerar `visa(data)`? Vad returnerar `visa(uppdaterad)`?
+:::
+
+::: {.callout-note}
+## Övning – Produktkatalog med destructuring
+
+Skapa en array med minst fem produktobjekt (med `namn`, `pris`, `kategori` och `iLager`). Skriv en funktion `visaProdukter` som tar arrayen som argument och bygger upp HTML-kort för varje produkt. Använd destructuring i `for...of`-loopen för att plocka ut egenskaperna.
+
+Utöka sedan funktionen: produkter som inte är i lager ska visas med klassen `"slut"` och texten "Tillfälligt slut" istället för priset.
+:::
+
+:::
