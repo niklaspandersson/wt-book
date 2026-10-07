@@ -57,7 +57,7 @@ Selektorn `.resultat` matchar klasser, och `#poäng` matchar id:n — precis som
 ::: {.callout-important}
 ## Vad händer om elementet inte finns?
 
-Om `querySelector` inte hittar något element returneras `null`. Försöker du sedan använda resultatet — till exempel läsa `.textContent` — får du ett felmeddelande:
+Om `querySelector` inte hittar något element returneras `null`. Försöker du sedan använda resultatet — till exempel läsa eller ändra `.textContent` — får du ett felmeddelande:
 
 ```javascript
 const element = document.querySelector(".finns-inte");
@@ -65,7 +65,7 @@ console.log(element);            // null
 element.textContent = "Hej!";   // TypeError: Cannot set properties of null
 ```
 
-Det är ett av de vanligaste felen i webbutveckling. Om du ser *"Cannot read properties of null"* i konsolen, kontrollera att selektorn stämmer och att elementet verkligen finns i HTML:en.
+Det är ett av de vanligaste felen i webbutveckling. Om du ser *"Cannot read properties of null"* eller *"Cannot set properties of null"* i konsolen, kontrollera att selektorn stämmer och att elementet verkligen finns i HTML:en.
 :::
 
 ---
