@@ -20,7 +20,7 @@ Du kanske inte tänkte på det, men redan i det allra första programmet vi skre
 console.log("Hej, världen!");
 ```
 
-`console.log()` är en **funktion** — ett stycke kod som någon redan skrivit åt oss, som vi kan *anropa* (köra) när vi behöver det. Funktioner som hänger ihop med ett objekt (eller värde) såhär och anropas via punktnotation kallar också **metod**.
+`console.log()` är en **funktion** — ett stycke kod som någon redan skrivit åt oss, som vi kan *anropa* (köra) när vi behöver det. Funktioner som hänger ihop med ett objekt (eller värde) så här och anropas via punktnotation kallas också **metoder**.
 
 Vi har också använt funktioner för att konvertera typer:
 
@@ -100,7 +100,7 @@ Att vara medveten om skillnaden mellan funktioner som *returnerar* och funktione
 
 ## Metoder — funktioner på objekt
 
-En **metod** är en funktion som tillhör ett specifikt objekt eller värder och anropas via punktnotation. Du har redan sett strängmetoder i kapitel [-@sec-variabler]:
+En **metod** är en funktion som tillhör ett specifikt objekt eller värde och anropas via punktnotation. Du har redan sett strängmetoder i kapitel [-@sec-variabler]:
 
 ```javascript
 "anna".toUpperCase()              // "ANNA"
@@ -154,7 +154,7 @@ Number("12abc")    // NaN — hela strängen måste vara ett tal
 
 ### Math-objektet
 
-`Math` är ett inbyggt objekt som  grupperar användbara matematiska funktioner och värden. `Math`s metoder nås med punktnotation:
+`Math` är ett inbyggt objekt som grupperar användbara matematiska funktioner och värden. `Math`s metoder nås med punktnotation:
 
 ```javascript
 Math.round(3.7)       // 4 — avrundning till närmaste heltal
