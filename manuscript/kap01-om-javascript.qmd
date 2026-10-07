@@ -149,7 +149,7 @@ Inline-skript passar för snabba tester men inte för riktiga projekt — koden 
 
 ### Externt skript med `type="module"`
 
-Det rekommenderade sättet att inkludera JavaScript i moderna projekt är ett **externt modulfil**:
+Det rekommenderade sättet att inkludera JavaScript i moderna projekt är en **extern modulfil**:
 
 ```html
 <!DOCTYPE html>
@@ -175,7 +175,7 @@ Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul*
 
 **Automatisk uppskjutning.** En modulfil laddas och körs automatiskt *efter* att HTML-dokumentet är färdiginläst, oavsett var `<script>`-taggen placeras. Därför kan man lägga den i `<head>` utan problem – webbläsaren väntar på att DOM:en är redo.
 
-**Eget scope.** Variabler och funktioner som deklareras i en modulfil är *lokala* till den filen. De läcker inte ut i det globala scopet och kan inte krocka med variabler från andra skript. Det är en viktig skillnad mot vanliga skript, där allt hamnar i samma globala sk. namnrymd.
+**Eget scope.** Variabler och funktioner som deklareras i en modulfil är *lokala* till den filen. De läcker inte ut i det globala scopet och kan inte krocka med variabler från andra skript. Det är en viktig skillnad mot vanliga skript, där allt hamnar i samma globala s.k. namnrymd.
 
 **Strikt läge som standard.** Moduler körs alltid i *strict mode*, vilket bland annat innebär att vanliga programmeringsmisstag ger felmeddelanden istället för att tyst ignoreras.
 
@@ -339,7 +339,7 @@ Lägg till en `<h2>`-rubrik i `index.html`, och skriv en rad i `script.js` som �
 
 I vilket av fallen misslyckas `querySelector`? Varför? Vad är skillnaden i hur webbläsaren hanterar de tre fallen?
 
-**Del B – Scope och det globala namnrymden**
+**Del B – Scope och den globala namnrymden**
 
 Deklarera en variabel i `script.js`:
 
