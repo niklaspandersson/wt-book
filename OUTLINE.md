@@ -8,10 +8,11 @@
 * [X] Kap. 5 – Händelser *(addEventListener, callbacks, click, input, .value, change, mushändelser)*
 * [X] Kap. 6 – Tal *(aritmetik, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
 * [X] Kap. 7 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
-* [X] Kap. 8 – Villkor *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, if/else, ternär, switch, tangentbordshändelser)*
-* [X] Kap. 9 – Loopar
-* [X] Kap. 10 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target)*
-* [X] Kap. 11 – Objekt *(objektliteraler, egenskaper, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
+* [X] Kap. 8 – Sant och falskt *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, standardvärden med ||, hidden/disabled/checked)*
+* [X] Kap. 9 – Villkorssatser *(if/else, else if, ternär, switch, villkor i funktioner, early return, kontrollera inmatning, tangentbordshändelser)*
+* [X] Kap. 10 – Loopar
+* [X] Kap. 11 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target)*
+* [X] Kap. 12 – Objekt *(objektliteraler, egenskaper, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
@@ -60,12 +61,12 @@
 
 Omstruktureringen är genomförd enligt mappningen nedan, med följande avvikelser:
 
-- **Kap. 8 – Villkor** följer den gamla ordningen i stället för del 1–3: en kort introduktion till booleska värden, sedan `if`/`else`, och därefter jämförelser, logiska operatorer och truthy/falsy. Exemplen för de logiska operatorerna bygger på `if`-satser, så den ordningen kräver minst omskrivning.
+- **Villkor delas i två kapitel** (beslut 3): kap. 8 *Sant och falskt* (booleska värden, jämförelser, logiska operatorer, truthy/falsy och booleska egenskaper på webbsidan – helt utan `if`) och kap. 9 *Villkorssatser* (`if`/`else`, ternär, `switch`, early return, kontrollera inmatning, tangentbord). Ternäroperatorn ligger i kap. 9 eftersom den förklaras som ett alternativ till `if`/`else`. Loopar, arrayer och objekt blir kap. 10–12.
 - **Kap. 5:** exemplet med `input`-händelsen använder inte längre en `if`-sats; fallet med tomt fält tas upp i kap. 8.
 - **Kap. 9:** `do...while`-exemplet med `prompt` är ersatt av ett tärningsexempel (kasta tills det blir en sexa).
 - **Kap. 10:** `split`/`join` visas med `textContent` i stället för att bygga en lista med `innerHTML`, eftersom texten kommer från användaren.
 
-Beslut 1, 3 och 4 är genomförda enligt förslagen (stil i kap. 3, *Villkor* som ett kapitel, `event.target` i kap. 10) men kan fortfarande ändras. Beslut 5 och 6 är öppna. Avsnitten nedan beskriver planen som den såg ut innan arbetet började.
+Beslut 1 och 4 är genomförda enligt förslagen (stil i kap. 3, `event.target` i arraykapitlet) men kan fortfarande ändras. Beslut 3 är avgjort: villkor delas i två kapitel. Beslut 5 och 6 är öppna. Avsnitten nedan beskriver planen som den såg ut innan arbetet började.
 
 ## Varför
 
@@ -390,7 +391,7 @@ Minimala ändringar.
 
 1. **Stil i DOM-kapitlet eller eget kapitel?** Förslaget slår ihop g4 och g6 till kap. 3 (≈ 3 800 ord). Alternativet är ett eget stilkapitel som kap. 4, men då kommer händelser först i kap. 6.
 2. ~~**Var introduceras pilfunktioner?**~~ **Beslutat:** i kap. 4, enligt principen att språkets egenskaper hör till språkkapitlen.
-3. **Är *Villkor* för stort?** Med tre delar blir det ≈ 5 000 ord. Det kan delas i *Sant och falskt* (del 1) och *Villkor* (del 2–3), men då blir Del I tolv kapitel.
+3. ~~**Är *Villkor* för stort?**~~ **Beslutat:** delat i kap. 8 *Sant och falskt* och kap. 9 *Villkorssatser*. Del I har tolv kapitel.
 4. **`event.target` i kap. 5 eller kap. 10?** Förslaget: kap. 10, där det behövs (en lyssnare per element i en loop). I kap. 5 räcker `event.type` och idén om ett händelseobjekt.
 5. **`dataset`:** introducera `data-`-attribut kort i kap. 10 (så att Ö 10.6 och påståendet i `kap-dom-traversering` stämmer), eller ändra övningen så att den använder `value` som exemplet i kapitlet?
 6. **En röd tråd?** Quizet finns redan i flera kapitel och kan växa genom hela Del I:

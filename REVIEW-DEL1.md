@@ -28,7 +28,7 @@ What works well: the order alternates between the language (2, 3, 5, 7, 8, 9, 11
 - [x] **Ch 2 and 3 overlap; ch 2 is overloaded.** Ch 2 (≈4 100 words) already teaches methods, dot notation and objects; ch 3 (≈1 700 words) teaches methods again and repeats the type-conversion examples (`kap03:137-147` vs `kap02:427-442`). Suggestion: move "Objekt – en första bekantskap" and the string-method examples from ch 2 to ch 3. *Resolved by the restructure: ch 2 is a general chapter; calling functions and methods moved to ch 4.*
 - [x] **First look at objects uses `lag.namn` before `lag` exists** (`kap02:236`). Show a tiny object literal or use only built-in objects. *Resolved: ch 2 now creates the object with a literal before using it.*
 - [x] **Interactivity arrives late.** Chapters 4–9 work with "change the variable and reload". The order is sensible (callbacks need functions); consider hinting earlier that interactivity is coming. *Resolved by the restructure: events in ch 5; later chapters use interactive examples.*
-- [x] **Exercises repeat without saying so:** temperature classification (5.7, 6.2, 9.3), dark mode (6.6, worked example in ch 10, 10.2), live search (10.4, 11.3, 11.7). Make repetition explicit ("Gå tillbaka till övning 5.7 och …") and add something new each time. *Resolved: temperature exercises merged into one progressive exercise (8.7) building on 6.6; dark mode grows 3.8 → 5.2 → 8.10; ch 11 search exercises refer to 10.9.*
+- [x] **Exercises repeat without saying so:** temperature classification (5.7, 6.2, 9.3), dark mode (6.6, worked example in ch 10, 10.2), live search (10.4, 11.3, 11.7). Make repetition explicit ("Gå tillbaka till övning 5.7 och …") and add something new each time. *Resolved: temperature exercises merged into one progressive exercise (9.6) building on 6.6; dark mode grows 3.8 → 5.2 → 9.9; ch 12 search exercises refer to 11.9.*
 - [ ] **The running example changes between chapters:** quiz (2–4), grading (5–6), loops (7), students (8), VAT (9), quiz (10), products (11). Optional: let the quiz app grow chapter by chapter.
 - [x] **Hardcoded "kapitel N" references** (≈30 places). Use chapter ids and cross-references.
 - [ ] **Style inconsistencies** (braces and semicolons fixed; dashes remain): en dash (–) in ch 1, 2, 5, 7, 8, 11 vs em dash (—) in ch 3, 4, 6, 9, 10; brace-less `if`/`for` (`kap09:219-220`, `kap10:353-356`, `kap11:401-402`) despite ch 5's advice; missing semicolons (`kap03:110-115`, `kap09:74-75`).
@@ -87,7 +87,7 @@ What works well: the order alternates between the language (2, 3, 5, 7, 8, 9, 11
 - [x] `:296` – "nästa kapitel … loopar — och sedan … egna funktioner" (arrays come in between).
 - [x] `:227` – consider a note that CSS `display` rules override the `hidden` attribute.
 - [x] `:154` – "Den andra parametern" → "argumentet" (parameters come in ch 9).
-- [x] Exercise 6.2 is almost identical to 5.7. *Resolved: merged into exercise 8.7.*
+- [x] Exercise 6.2 is almost identical to 5.7. *Resolved: merged into exercise 9.6.*
 
 ### Ch 7 – Loopar
 
