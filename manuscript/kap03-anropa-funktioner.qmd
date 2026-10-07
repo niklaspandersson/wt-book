@@ -29,9 +29,7 @@ Number("42")         // 42
 String(true)         // "true"
 ```
 
-
-
-Allt det här är funktion*sanrop*. Det här kapitlet handlar om att förstå *vad* som händer när man anropar en funktion — hur man läser och använder dem med tillförsikt. Att *skriva* egna funktioner återkommer vi till i kapitel [-@sec-funktioner].
+Allt det här är funktion*sanrop*. Det här kapitlet handlar om att förstå *vad* som händer när man anropar en funktion — hur man läser och använder dem med tillförsikt.
 
 ---
 
