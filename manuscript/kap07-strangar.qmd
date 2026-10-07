@@ -1,0 +1,408 @@
+# Strängar {#sec-strangar}
+
+## Ett lagnamn att städa
+
+Inför quizkvällen får lagen själva skriva in sina namn i ett textfält på poängtavlan. Det låter enkelt – tills du ser vad som faktiskt kommer in.
+
+Ett lag skriver `"  räknenissarna  "`, med mellanslag före och efter. Ett annat skriver `"DE VISA UGGLORNA"` med caps lock på. Ett tredje lag skriver ett namn som är så långt att det inte får plats på skärmen. Och domaren vill visa lagens initialer i en liten ruta bredvid poängen.
+
+Inget av det handlar om att räkna. Det handlar om att *bearbeta text*: ta bort onödiga mellanslag, ändra versaler och gemener, plocka ut delar av en text och kontrollera vad den innehåller. Text är, tillsammans med tal, den vanligaste sortens data i webbprogram – allt användaren skriver in är text, och nästan allt som visas på sidan är det också.
+
+I kapitel [-@sec-variabler] mötte du strängar och templatesträngar. I det här kapitlet går vi på djupet: hur strängar är uppbyggda, hur man når enskilda tecken och delar, och vilka verktyg JavaScript har för att bearbeta dem.
+
+---
+
+## Strängar i JavaScript
+
+En **sträng** (*string*) är en sekvens av tecken – bokstäver, siffror, mellanslag, symboler. I JavaScript skrivs strängar mellan citattecken. Du kan använda enkla eller dubbla citattecken – de fungerar identiskt – eller backticks för templatesträngar:
+
+```javascript
+"Anna"
+'Björn'
+`Laget ${lagnamn} leder`
+```
+
+Som vi konstaterade i kapitel [-@sec-variabler] kan strängar innehålla siffror, men de är fortfarande *text*. `"42"` är en sträng med två tecken, `4` och `2` – inte talet fyrtiotvå. I kapitel [-@sec-tal] såg du vilka problem som uppstår när man glömmer det.
+
+### Att bygga strängar
+
+Strängar kan slås ihop med `+`-operatorn, vilket kallas **konkatenering**:
+
+```javascript
+"Hej, " + "världen!"    // "Hej, världen!"
+"Lag: " + "Röda stjärnor"   // "Lag: Röda stjärnor"
+```
+
+Oftast är **templatesträngar** smidigare. Inom `${ }` kan du skriva vilket uttryck som helst – en variabel, en beräkning eller ett funktionsanrop:
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 23 };
+const max = 30;
+
+`${lag.namn} har ${lag.poäng} av ${max} poäng`          // variabler och egenskaper
+`Andel rätt: ${(lag.poäng / max * 100).toFixed(1)} %`   // en beräkning och ett metodanrop
+```
+
+Templatesträngar kan också sträcka sig över flera rader. Radbrytningarna blir då en del av strängen:
+
+```javascript
+const meddelande = `Grattis!
+Ni vann kvällens quiz.`;
+```
+
+### Escape-sekvenser
+
+Ibland behöver man inkludera tecken i en sträng som annars hade fått en speciell betydelse. Om strängen är omgiven av dubbla citattecken och du vill ha ett dubbelt citattecken *inuti* strängen, används ett **escape-tecken** – ett bakåtsnedstreck `\` som ändrar tolkningen av nästa tecken:
+
+```javascript
+"Han sa: \"Hej!\""      // Han sa: "Hej!"
+'It\'s a trap!'         // It's a trap!
+"Rad ett\nRad två"      // \n = nyrad
+"Tab\tmellanrum"        // \t = tabulatortecken
+```
+
+Med templatesträngar är behovet av escaping ovanligare, eftersom både `"` och `'` kan stå fritt inuti backticks.
+
+---
+
+## Längd och enskilda tecken
+
+Varje sträng har en **egenskap** `length` som anger hur många tecken den innehåller:
+
+```javascript
+"Röda stjärnor".length   // 13 – mellanslaget räknas också
+"".length                // 0 – tom sträng
+```
+
+Tecknen i en sträng är numrerade, med början på **0**. Numret kallas tecknets **index**, och man når ett enskilt tecken med hakparenteser:
+
+```javascript
+const ord = "JavaScript";
+ord[0]                  // "J" – första tecknet
+ord[4]                  // "S"
+ord[ord.length - 1]     // "t" – sista tecknet
+ord[20]                 // undefined – det finns inget tecken där
+```
+
+Att numreringen börjar på 0 kan kännas ovant, men det är samma sak i nästan alla programmeringsspråk, och du kommer att möta den igen i kapitel [-@sec-arrayer]. Det sista tecknet har därför index `length - 1`, inte `length`.
+
+Ett bekvämare sätt att nå tecken från slutet är metoden `at`, som tillåter negativa index:
+
+```javascript
+ord.at(0)     // "J"
+ord.at(-1)    // "t" – sista tecknet
+ord.at(-2)    // "p" – näst sista
+```
+
+::: {.callout-note}
+## Emojier och längd
+
+`length` räknar egentligen inte tecken som vi människor ser dem, utan de *kodenheter* som strängen lagras med. För vanliga bokstäver – även å, ä och ö – är det samma sak. Men en emoji som 😀 består av två kodenheter, så `"😀".length` ger `2`. Det är sällan ett problem, men bra att känna till om en teckenräknare plötsligt räknar dubbelt.
+:::
+
+### Strängar går inte att ändra
+
+Du kan *läsa* ett tecken med `ord[0]`, men inte ändra det. Strängar i JavaScript är **oföränderliga** (*immutable*):
+
+```javascript
+const ord = "JavaScript";
+ord[0] = "X";   // TypeError: Cannot assign to read only property '0' of string 'JavaScript'
+```
+
+(I ett skript som inte är en modul ignoreras raden i stället tyst, vilket är ännu mer förvirrande.)
+
+Det låter som en stor begränsning, men i praktiken märks den sällan. Alla verktyg för att bearbeta strängar fungerar nämligen på samma sätt: de lämnar originalet orört och *returnerar en ny sträng*. Vill du behålla resultatet sparar du det i en variabel.
+
+---
+
+## Strängmetoder
+
+Strängar har en lång rad inbyggda **metoder**. I kapitel [-@sec-funktioner] såg du att en metod är en funktion som hör till ett värde och anropas med punktnotation. Strängar är visserligen inte objekt, men JavaScript låter dig ändå anropa metoder på dem: `sträng.metod(argument)`.
+
+### Versaler och gemener
+
+```javascript
+"anna".toUpperCase()          // "ANNA"
+"DE VISA UGGLORNA".toLowerCase()   // "de visa ugglorna"
+```
+
+Metoderna hanterar å, ä och ö korrekt. De är användbara både för att visa text på ett enhetligt sätt och för att jämföra text utan att versaler spelar roll – något vi återkommer till i kapitel [-@sec-villkor].
+
+### Ta bort mellanslag
+
+```javascript
+"  räknenissarna  ".trim()        // "räknenissarna"
+"  räknenissarna  ".trimStart()   // "räknenissarna  "
+"  räknenissarna  ".trimEnd()     // "  räknenissarna"
+```
+
+`trim` är kanske den mest använda strängmetoden av alla när man läser text från användaren. Mellanslag före och efter syns inte, men de räknas i `length` och de gör att två till synes lika texter inte är lika.
+
+### Söka i en sträng
+
+```javascript
+const fråga = "Vad heter Sveriges huvudstad?";
+
+fråga.includes("Sverige")     // true – finns texten någonstans?
+fråga.startsWith("Vad")       // true – börjar strängen så?
+fråga.endsWith("?")           // true – slutar strängen så?
+fråga.indexOf("heter")        // 4 – var börjar texten?
+fråga.indexOf("Norge")        // -1 – finns inte
+```
+
+`includes`, `startsWith` och `endsWith` svarar med ett booleskt värde. `indexOf` svarar med ett index – positionen där texten börjar – eller `-1` om texten inte finns. Alla är **skiftlägeskänsliga**: `"JavaScript".includes("java")` ger `false`, eftersom `j` och `J` är olika tecken.
+
+### Plocka ut en del av en sträng
+
+Metoden `slice` returnerar en del av en sträng. Den tar ett startindex och, valfritt, ett slutindex. Tecknet *på* slutindexet kommer inte med:
+
+```javascript
+const ord = "JavaScript";
+ord.slice(0, 4)     // "Java" – index 0 till och med 3
+ord.slice(4)        // "Script" – från index 4 till slutet
+ord.slice(-3)       // "ipt" – de tre sista tecknen
+```
+
+Tillsammans med `indexOf` blir `slice` kraftfull: först tar man reda på *var* något finns, sedan plockar man ut det.
+
+```javascript
+const epost = "anna.andersson@example.com";
+const snabel = epost.indexOf("@");      // 14
+epost.slice(0, snabel)                  // "anna.andersson"
+epost.slice(snabel + 1)                 // "example.com"
+```
+
+### Ersätta text
+
+```javascript
+"a-b-c".replace("-", "+")      // "a+b-c" – bara första förekomsten
+"a-b-c".replaceAll("-", "+")   // "a+b+c" – alla förekomster
+```
+
+### Översikt
+
+| Metod | Returnerar | Exempel |
+|---|---|---|
+| `toUpperCase()` / `toLowerCase()` | ny sträng | `"Hej".toUpperCase()` → `"HEJ"` |
+| `trim()` | ny sträng | `" hej ".trim()` → `"hej"` |
+| `includes(text)` | `true`/`false` | `"hej".includes("ej")` → `true` |
+| `startsWith(text)` / `endsWith(text)` | `true`/`false` | `"hej".startsWith("h")` → `true` |
+| `indexOf(text)` | index eller `-1` | `"hej".indexOf("j")` → `2` |
+| `slice(start, slut)` | ny sträng | `"hejsan".slice(0, 3)` → `"hej"` |
+| `replace(a, b)` / `replaceAll(a, b)` | ny sträng | `"hej".replace("h", "n")` → `"nej"` |
+| `at(index)` | ett tecken | `"hej".at(-1)` → `"j"` |
+
+Det finns många fler. En fullständig lista finns på [MDN: String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
+
+---
+
+## Kedja metoder
+
+Eftersom de flesta strängmetoder returnerar en ny sträng kan du anropa en ny metod *på det returnerade värdet*:
+
+```javascript
+let inmatning = "  anna  ";
+inmatning.trim().toUpperCase()   // "ANNA"
+```
+
+Först anropas `trim()` på `"  anna  "`, som returnerar `"anna"`. Sedan anropas `toUpperCase()` på `"anna"`, som returnerar `"ANNA"`. Läs det från vänster till höger, steg för steg.
+
+Kedjning gör det möjligt att lösa lagnamnsproblemet från kapitlets början. Ett lagnamn ska visas med stor första bokstav och resten med små:
+
+```javascript
+function snyggtNamn(text) {
+    const rent = text.trim();
+    return rent.slice(0, 1).toUpperCase() + rent.slice(1).toLowerCase();
+}
+
+snyggtNamn("  räknenissarna  ")   // "Räknenissarna"
+snyggtNamn("DE VISA UGGLORNA")    // "De visa ugglorna"
+```
+
+Varför `rent.slice(0, 1)` och inte `rent[0]`? Prova att anropa funktionen med en tom sträng. `""[0]` är `undefined`, och `undefined.toUpperCase()` ger felet *Cannot read properties of undefined*. `"".slice(0, 1)` ger däremot en tom sträng, och då fungerar resten av uttrycket utan problem. Små val som det här avgör om ett program kraschar eller inte när användaren gör något oväntat.
+
+---
+
+## Konvertera till sträng
+
+Ibland behöver man gå åt andra hållet: från ett annat värde till en sträng. Funktionen `String()` gör det:
+
+```javascript
+String(42)        // "42"
+String(3.14)      // "3.14"
+String(true)      // "true"
+String(null)      // "null"
+```
+
+Oftast sker konverteringen automatiskt – i en templatesträng, eller när ett tal konkateneras med en sträng. Men `String()` gör avsikten tydlig, och den behövs när man vill använda strängmetoder på något som inte är en sträng från början:
+
+```javascript
+const postnummer = 35195;
+String(postnummer).slice(0, 3)   // "351"
+```
+
+---
+
+## Strängar på webbsidan
+
+Strängmetoder kommer verkligen till nytta när de kombineras med händelser. Här är en teckenräknare för ett meddelande som får vara högst 140 tecken:
+
+```html
+<textarea id="meddelande"></textarea>
+<p id="räknare">0 / 140</p>
+```
+
+```javascript
+const meddelande = document.querySelector("#meddelande");
+const räknare = document.querySelector("#räknare");
+
+meddelande.addEventListener("input", () => {
+    const antal = meddelande.value.length;
+    räknare.textContent = `${antal} / 140`;
+});
+```
+
+Och här är lagnamnet från kapitlets början, städat och visat medan laget skriver:
+
+```html
+<input type="text" id="lagfält" placeholder="Lagets namn">
+<h2 id="förhandsvisning"></h2>
+```
+
+```javascript
+const lagfält = document.querySelector("#lagfält");
+const förhandsvisning = document.querySelector("#förhandsvisning");
+
+lagfält.addEventListener("input", () => {
+    förhandsvisning.textContent = snyggtNamn(lagfält.value);
+});
+```
+
+Funktionen `snyggtNamn` från förra avsnittet gör jobbet, och händelsen ser till att det sker vid varje tangenttryckning. Att *begränsa* längden – eller visa en varning när namnet är för långt – kräver att programmet fattar ett beslut, och det är ämnet för nästa kapitel.
+
+::: {.callout-note}
+## Dela upp en sträng
+
+En vanlig uppgift är att dela upp en text i delar – till exempel ett fullständigt namn i för- och efternamn, eller en kommaseparerad lista i enskilda ord. Det gör metoden `split`. Resultatet är en *lista* av strängar, och listor är ämnet för kapitel [-@sec-arrayer]. Där går vi igenom `split` och dess motsats, `join`.
+:::
+
+---
+
+## Sammanfattning
+
+- En **sträng** är en sekvens av tecken, skriven inom citattecken eller backticks. `"42"` är text, inte ett tal.
+- Strängar byggs med **konkatenering** (`+`) eller **templatesträngar** (`` `${uttryck}` ``), som kan sträcka sig över flera rader.
+- **Escape-sekvenser** som `\"`, `\n` och `\t` ger tecken med speciell betydelse.
+- **`length`** ger antalet tecken. Tecknen har **index** från 0; `text[0]` ger det första och `text.at(-1)` det sista.
+- Strängar är **oföränderliga**. Metoderna lämnar originalet orört och returnerar en ny sträng.
+- Viktiga metoder: `toUpperCase`/`toLowerCase`, `trim`, `includes`, `startsWith`/`endsWith`, `indexOf`, `slice`, `replace`/`replaceAll`. Sökmetoderna är skiftlägeskänsliga.
+- Metoder kan **kedjas**: `text.trim().toUpperCase()`.
+- **`String()`** konverterar andra värden till strängar.
+
+Nu kan du bearbeta både tal och text. Men dina program gör fortfarande samma sak varje gång – oavsett om användaren skrev ett giltigt tal eller inte, oavsett om lagnamnet var för långt. I nästa kapitel lär du dig att låta programmet fatta beslut.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Strängmetoder är ett område där det är lätt att gissa fel – på index, på om slutindexet kommer med, på skiftläge. Det gör det till ett bra område för korta, täta övningar med AI.
+
+**Generera förutsägelseövningar:**
+
+> *"Ge mig tio JavaScript-uttryck med strängmetoderna `slice`, `indexOf`, `at`, `trim` och `replace`. Jag ska förutsäga resultatet av varje uttryck. Visa inte svaren förrän jag har svarat, och förklara sedan de jag fick fel."*
+
+**Fråga om skillnader:**
+
+> *"Vad är skillnaden mellan `text[0]`, `text.at(0)` och `text.slice(0, 1)` i JavaScript? I vilka situationer ger de olika resultat?"*
+
+> *"Varför är strängar oföränderliga i JavaScript, och vad betyder det i praktiken när jag använder metoder som `toUpperCase`?"*
+
+**Be om problem, inte lösningar:**
+
+> *"Ge mig tre små uppgifter där jag ska bearbeta text som en användare har skrivit in, till exempel namn eller e-postadresser. Uppgifterna ska gå att lösa med `trim`, `slice`, `indexOf` och `toUpperCase`, utan villkorssatser. Visa inga lösningar."*
+
+När du har löst en uppgift kan du klistra in din lösning och be om feedback – fråga särskilt vad som händer med tomma eller ovanliga indata.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Metoder i kedja
+
+Givet strängen `"  JavaScript ÄR Kul  "`, skriv ett uttryck som:
+
+1. Tar bort extra mellanslag i början och slutet.
+2. Gör hela strängen till versaler.
+3. Gör båda stegen i samma uttryck med kedjade metoder.
+
+Vad returnerar varje steg? I vilken ordning utvärderas kedjans metoder? Spelar ordningen någon roll i just det här fallet – och finns det kedjor där den gör det?
+:::
+
+::: {.callout-note}
+## Övning – Egenskaper eller metoder?
+
+Vilka av följande använder en egenskap och vilka anropar en metod? Hur vet du skillnaden?
+
+```javascript
+"hej".length
+"hej".toUpperCase()
+Math.PI
+Math.round(2.5)
+"abcdef".includes("cd")
+```
+
+Vad händer om du av misstag skriver `"hej".toUpperCase` utan parenteser? Testa i konsolen och förklara resultatet.
+:::
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Ange utan att köra koden vad varje uttryck utvärderas till. Kontrollera sedan i konsolen.
+
+```javascript
+const ord = "Programmering";
+
+ord.length
+ord[0]
+ord.at(-1)
+ord.slice(0, 7)
+ord.slice(7)
+ord.indexOf("m")
+ord.indexOf("M")
+ord.replace("m", "M")
+ord.toLowerCase().includes("pro")
+```
+
+Vilka svar var svårast att förutsäga? Varför ger `indexOf("m")` och `indexOf("M")` olika resultat?
+:::
+
+::: {.callout-note}
+## Övning – Initialer
+
+Skapa en sida med två textfält – förnamn och efternamn – och en knapp. När man klickar ska sidan visa personens initialer med punkter, till exempel `A. A.` för Anna Andersson.
+
+1. Vilka metoder behöver du?
+2. Se till att det fungerar även om användaren skriver med små bokstäver eller med mellanslag före namnet.
+3. Vad händer om ett av fälten är tomt? Fungerar din lösning ändå, eller kraschar den? Förklara.
+:::
+
+::: {.callout-note}
+## Övning – Teckenräknare
+
+Utgå från teckenräknaren i kapitlet.
+
+1. Visa i stället hur många tecken som är *kvar*, till exempel "Du har 98 tecken kvar".
+2. Ska mellanslag i början och slutet räknas? Ändra räknaren så att de inte gör det.
+3. Prova att skriva några emojier. Stämmer räkningen? Förklara varför eller varför inte.
+:::
+
+::: {.callout-note}
+## Övning – Dölj e-postadressen
+
+En webbplats vill visa vilken e-postadress en återställningslänk skickades till, utan att visa hela adressen. `anna.andersson@example.com` ska visas som `a***@example.com`.
+
+1. Skriv en funktion `döljEpost(epost)` som returnerar den dolda versionen. Använd `indexOf` och `slice`.
+2. Koppla funktionen till ett textfält så att den dolda versionen visas medan användaren skriver.
+3. Vad visas medan användaren har skrivit en adress *utan* `@`? Förklara varför, med hjälp av vad `indexOf` returnerar.
+:::

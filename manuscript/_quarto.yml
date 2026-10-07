@@ -15,6 +15,7 @@ book:
         - kap04-funktioner.qmd
         - kap05-handelser.qmd
         - kap06-tal.qmd
+        - kap07-strangar.qmd
         - kap08-villkor.qmd
         - kap09-loopar.qmd
         - kap10-arrayer.qmd
