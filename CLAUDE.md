@@ -35,7 +35,7 @@ Chapters must be listed explicitly under `book.chapters` in `_quarto.yml`. The o
 
 See [OUTLINE.md](OUTLINE.md) for the full chapter plan. The book is organized into four parts:
 
-- **Del I** (Ch. 1–10): Foundational JavaScript — values, variables, conditions, loops, functions, arrays, strings, objects, DOM, events
+- **Del I** (Ch. 1–11): Foundational JavaScript — values and variables, the DOM, functions, events, numbers, strings, conditions, loops, arrays, objects. Web chapters (3 and 5) come early so later language chapters can use interactive examples; language features are introduced only in language chapters (see the restructure section in OUTLINE.md)
 - **Del II**: The web as a platform — DOM deep-dive, timers, forms, storage, Fetch/JSON, HTTP/REST, audio, drag-and-drop, security, performance
 - **Del III**: The language in depth — closures, async/await, modules, OOP, functional array transforms, error handling
 - **Del IV**: Craft and methodology — Git/GitHub, debugging
