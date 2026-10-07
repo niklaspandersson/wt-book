@@ -287,7 +287,7 @@ Resultat:
 5. Elsa
 ```
 
-Mönstret `for (let i = 0; i < array.length; i++)` är så vanligt att du kommer att skriva det på ren muskelminne. Notera att villkoret är `i < studenter.length`, inte `i <= studenter.length` – det sista elementet har index `length - 1`, så `<=` hade tagit oss ett steg för långt.
+Mönstret `for (let i = 0; i < array.length; i++)` är så vanligt att du kommer att skriva det av ren rutin. Notera att villkoret är `i < studenter.length`, inte `i <= studenter.length` – det sista elementet har index `length - 1`, så `<=` hade tagit oss ett steg för långt.
 
 ### Med `for...of`
 
