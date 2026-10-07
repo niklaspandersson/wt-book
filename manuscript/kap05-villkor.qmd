@@ -319,7 +319,7 @@ Villkorssatser kan placeras inuti varandra – **nästlade villkor**:
 
 ```javascript
 if (poäng >= 50) {
-    if (inlämnadIPtid) {
+    if (inlämnadITid) {
         console.log("Godkänd med bonus");
     } else {
         console.log("Godkänd men inlämnad försent");
