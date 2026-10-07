@@ -121,7 +121,7 @@ Booleska värden kan kombineras med **logiska operatorer**:
 | Operator | Betyder | Exempel                   | Resultat |
 |----------|---------|---------------------------|----------|
 | `&&`     | och     | `true && false`           | `false`  |
-| `\|\|`   | eller   | `false \|\| true`         | `true`   |
+| `||`     | eller   | `false || true`           | `true`   |
 | `!`      | inte    | `!true`                   | `false`  |
 
 Dessa används framför allt i villkorssatser, som vi tittar på i kapitel [-@sec-villkor].
