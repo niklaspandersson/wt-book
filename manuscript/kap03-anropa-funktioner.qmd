@@ -105,10 +105,10 @@ En **metod** är en funktion som tillhör ett specifikt objekt eller värde och 
 ```javascript
 "anna".toUpperCase()              // "ANNA"
 
-const lagnamn = "  räknenissarna  "
+const lagnamn = "  räknenissarna  ";
 lagnamn.trim()                  // "räknenissarna"
 
-const fråga = "Vad heter Sveriges huvudstad?"
+const fråga = "Vad heter Sveriges huvudstad?";
 fråga.includes("Sverige")      // true
 fråga.startsWith("Vad")        // true
 ```
