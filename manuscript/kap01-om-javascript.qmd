@@ -362,7 +362,7 @@ Vad säger detta om skillnaden i scope mellan moduler och vanliga skript? Varfö
 Öppna valfri webbsida du besöker regelbundet (t.ex. Linnéuniversitetets webbplats). Öppna utvecklarverktygen och:
 
 1. Hitta en `<h1>`-rubrik i *Elements*-panelen och ändra texten direkt i panelen. Vad händer på sidan? Vad händer om du laddar om sidan?
-2. Hitta ett CSS-attribut för rubriken (t.ex. `font-size`) och ändra värdet. Vad händer?
+2. Hitta en CSS-egenskap för rubriken (t.ex. `font-size`) och ändra värdet. Vad händer?
 3. Gå till *Console* och skriv `document.title`. Vad returneras?
 
 Det du gör i DevTools är temporärt – sidan återgår till original vid omladdning. Varför är det så? Vad hade behövts förändras för att ändringen skulle bestå?
