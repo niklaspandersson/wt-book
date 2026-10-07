@@ -293,7 +293,7 @@ Tumregel: använd `hidden` för enkel logik (visa/dölj baserat på ett villkor)
 - En **CSS-klass med `display: none`** är ett flexibelt alternativ till `hidden` som ger mer kontroll.
 - Villkorssatser i kombination med stiländringar gör att sidan reagerar *visuellt* på data.
 
-Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent` / `innerHTML`), ändra utseende (`.style` / `classList`), och visa eller dölja element (`hidden`). I nästa kapitel lär vi oss loopar — att upprepa kod — och sedan att skriva egna funktioner. Med de verktygen på plats kan vi sedan göra webben *interaktiv*: reagera på klick, knapptryckningar och andra händelser.
+Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent` / `innerHTML`), ändra utseende (`.style` / `classList`), och visa eller dölja element (`hidden`). I de följande kapitlen lär vi oss att upprepa kod med loopar, att hantera listor med arrayer och att skriva egna funktioner. Med de verktygen på plats kan vi sedan göra webben *interaktiv*: reagera på klick, knapptryckningar och andra händelser.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
