@@ -280,6 +280,8 @@ Fördelen med en CSS-klass är flexibilitet. Du kan definiera `.dold` med `displ
 ## `hidden` eller CSS-klass?
 
 Tumregel: använd `hidden` för enkel logik (visa/dölj baserat på ett villkor). Använd en CSS-klass om du behöver mer kontroll — till exempel om du vill animera övergången, eller om du vill dölja elementet på olika sätt i olika sammanhang (t.ex. `display: none` på mobil men `visibility: hidden` på desktop).
+
+Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `display: none`. Om din egen CSS sätter `display` på elementet – till exempel `display: flex` – vinner din regel, och elementet syns trots `hidden`. Om `hidden` inte tycks fungera, kontrollera elementets `display` i utvecklarverktygen.
 :::
 
 ---
