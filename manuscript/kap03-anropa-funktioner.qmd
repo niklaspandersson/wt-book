@@ -55,11 +55,11 @@ Syntaxen för att anropa en funktion är:
 funktionsnamn(argument1, argument2)
 ```
 
-Parenteserna är obligatoriska — det är de som säger åt JavaScript att *köra* funktionen. Utan parenteser händer ingenting:
+Parenteserna är obligatoriska — det är de som säger åt JavaScript att *köra* funktionen. Utan parenteser körs ingenting:
 
 ```javascript
 console.log("Hej!")    // anropar funktionen, skriver ut "Hej!"
-console.log            // gör ingenting — refererar bara till funktionen
+console.log            // kör inte funktionen — refererar bara till den
 ```
 
 Inom parenteserna skickar du **argument** — de värden funktionen behöver för att göra sitt jobb. En funktion kan ta noll, ett eller flera argument:
