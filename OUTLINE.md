@@ -1,17 +1,17 @@
 **Del I – Grunden: det du behöver för att komma igång**
-*(kronologisk progression – omstruktureras, se [Omstrukturering av Del I](#omstrukturering-av-del-i) nedan)*
+*(kronologisk progression – omstrukturerad, se [Omstrukturering av Del I](#omstrukturering-av-del-i) nedan)*
 
-* Kap. 1 – JavaScript och webbläsaren
-* Kap. 2 – Värden och variabler *(värden, datatyper i översikt, let/const, tilldelning, templatesträngar, objekt som samlar värden, punktnotation, typeof, uttryck och satser)*
-* Kap. 3 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
-* Kap. 4 – Funktioner *(anropa, argument, returvärden, metoder, definiera, parametrar, scope, funktioner som värden, pilfunktioner)*
-* Kap. 5 – Händelser *(addEventListener, callbacks, click, input, .value, change, mushändelser)*
-* Kap. 6 – Tal *(aritmetik, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
-* Kap. 7 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
-* Kap. 8 – Villkor *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, if/else, ternär, switch, tangentbordshändelser)*
-* Kap. 9 – Loopar
-* Kap. 10 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target)*
-* Kap. 11 – Objekt *(objektliteraler, egenskaper, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
+* [X] Kap. 1 – JavaScript och webbläsaren
+* [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, let/const, tilldelning, templatesträngar, objekt som samlar värden, punktnotation, typeof, uttryck och satser)*
+* [X] Kap. 3 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
+* [X] Kap. 4 – Funktioner *(anropa, argument, returvärden, metoder, definiera, parametrar, scope, funktioner som värden, pilfunktioner)*
+* [X] Kap. 5 – Händelser *(addEventListener, callbacks, click, input, .value, change, mushändelser)*
+* [X] Kap. 6 – Tal *(aritmetik, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
+* [X] Kap. 7 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
+* [X] Kap. 8 – Villkor *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, if/else, ternär, switch, tangentbordshändelser)*
+* [X] Kap. 9 – Loopar
+* [X] Kap. 10 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target)*
+* [X] Kap. 11 – Objekt *(objektliteraler, egenskaper, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
@@ -55,6 +55,17 @@
 ---
 
 # Omstrukturering av Del I
+
+## Status
+
+Omstruktureringen är genomförd enligt mappningen nedan, med följande avvikelser:
+
+- **Kap. 8 – Villkor** följer den gamla ordningen i stället för del 1–3: en kort introduktion till booleska värden, sedan `if`/`else`, och därefter jämförelser, logiska operatorer och truthy/falsy. Exemplen för de logiska operatorerna bygger på `if`-satser, så den ordningen kräver minst omskrivning.
+- **Kap. 5:** exemplet med `input`-händelsen använder inte längre en `if`-sats; fallet med tomt fält tas upp i kap. 8.
+- **Kap. 9:** `do...while`-exemplet med `prompt` är ersatt av ett tärningsexempel (kasta tills det blir en sexa).
+- **Kap. 10:** `split`/`join` visas med `textContent` i stället för att bygga en lista med `innerHTML`, eftersom texten kommer från användaren.
+
+Beslut 1, 3 och 4 är genomförda enligt förslagen (stil i kap. 3, *Villkor* som ett kapitel, `event.target` i kap. 10) men kan fortfarande ändras. Beslut 5 och 6 är öppna. Avsnitten nedan beskriver planen som den såg ut innan arbetet började.
 
 ## Varför
 
