@@ -28,7 +28,7 @@ Det kallas **DOM-traversering** — att röra sig genom trädstrukturen, från e
 
 ## DOM:en som ett träd
 
-I kapitel [-@sec-dom-intro] beskrev vi DOM:en som en trädstruktur: `<body>` är roten, och inuti den finns grenar av element. Nu behöver vi förstå den strukturen mer i detalj.
+I kapitel [-@sec-dom-intro] beskrev vi DOM:en som en trädstruktur: `<html>` är roten, och inuti den finns grenar av element. Nu behöver vi förstå den strukturen mer i detalj.
 
 Betrakta följande HTML:
 

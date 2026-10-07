@@ -23,7 +23,7 @@ Betrakta följande HTML:
 </body>
 ```
 
-Webbläsaren bygger en trädstruktur av detta: `body` är roten, och inuti den finns `h1` och `p` som grenar. Varje gren är ett **element** med egenskaper — text, CSS-stilar, attribut — som JavaScript kan läsa och ändra.
+Webbläsaren bygger en trädstruktur av detta: `body` är en gren, och inuti den finns `h1` och `p` som mindre grenar. (Själva roten i trädet är `html`-elementet, som omsluter både `head` och `body`.) Varje gren är ett **element** med egenskaper — text, CSS-stilar, attribut — som JavaScript kan läsa och ändra.
 
 Vi behöver inte förstå hela trädstrukturen i detalj ännu. Det viktiga just nu är att varje HTML-element på sidan finns som ett **objekt** i DOM:en, och att JavaScript kan hämta det objektet och förändra det.
 
