@@ -1,14 +1,14 @@
-# Att använda inbyggda funktioner
+# Att använda inbyggda funktioner {#sec-anropa-funktioner}
 
 ## Poängtavlan behöver hjälp
 
-Quizkvällen från kapitel 2 är i full gång. Du har variabler för lagnamn, poäng och rundtid — men ganska snart stöter du på problem som variablerna ensamma inte kan lösa.
+Quizkvällen från kapitel [-@sec-variabler] är i full gång. Du har variabler för lagnamn, poäng och rundtid — men ganska snart stöter du på problem som variablerna ensamma inte kan lösa.
 
 Användaren skriver in sitt lagnamn som `"  räknenissarna  "` — med oönskade mellanslag före och efter. Poängen per runda beräknas till `7.666666666667` och du vill visa ett avrundat heltal. Du vill dessutom slumpa vilken fråga som ställs härnäst, och du behöver omvandla texten `"10"` från ett inmatningsfält till talet `10` så att du kan räkna med det.
 
 Inget av det löser du med operatorer och variabler. Det du behöver är **funktioner** — färdiga verktyg som någon redan byggt åt dig. JavaScript har mängder av dem: funktioner som avrundar tal, trimmar strängar, slumpar värden och konverterar typer. De är programmets verktygslåda, och att kunna använda dem är en av de viktigaste färdigheterna i hela språket.
 
-Det här kapitlet handlar om just det: hur man *anropar* funktioner, skickar in värden och tar hand om resultatet. Att *skriva* egna funktioner återkommer vi till i ett senare kapitel.
+Det här kapitlet handlar om just det: hur man *anropar* funktioner, skickar in värden och tar hand om resultatet. Att *skriva* egna funktioner återkommer vi till i kapitel [-@sec-funktioner].
 
 ---
 
@@ -31,7 +31,7 @@ String(true)         // "true"
 
 
 
-Allt det här är funktion*sanrop*. Det här kapitlet handlar om att förstå *vad* som händer när man anropar en funktion — hur man läser och använder dem med tillförsikt. Att *skriva* egna funktioner återkommer vi till i ett senare kapitel.
+Allt det här är funktion*sanrop*. Det här kapitlet handlar om att förstå *vad* som händer när man anropar en funktion — hur man läser och använder dem med tillförsikt. Att *skriva* egna funktioner återkommer vi till i kapitel [-@sec-funktioner].
 
 ---
 
@@ -102,7 +102,7 @@ Att vara medveten om skillnaden mellan funktioner som *returnerar* och funktione
 
 ## Metoder — funktioner på objekt
 
-En **metod** är en funktion som tillhör ett specifikt objekt eller värder och anropas via punktnotation. Du har redan sett strängmetoder i kapitel 2:
+En **metod** är en funktion som tillhör ett specifikt objekt eller värder och anropas via punktnotation. Du har redan sett strängmetoder i kapitel [-@sec-variabler]:
 
 ```javascript
 "anna".toUpperCase()              // "ANNA"
@@ -181,7 +181,7 @@ Notera att `Math.PI` inte har parenteser — det är en **egenskap** (ett lagrat
 
 ## Funktionsanropet som uttryck
 
-I kapitel 2 lärde du dig skillnaden mellan **uttryck** (som utvärderas till ett värde) och **satser** (som gör något). Funktionsanrop som returnerar ett värde *är* uttryck — de kan användas var som helst ett värde kan stå:
+I kapitel [-@sec-variabler] lärde du dig skillnaden mellan **uttryck** (som utvärderas till ett värde) och **satser** (som gör något). Funktionsanrop som returnerar ett värde *är* uttryck — de kan användas var som helst ett värde kan stå:
 
 ```javascript
 // I en variabeldeklaration

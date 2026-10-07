@@ -1,4 +1,4 @@
-# DOM-traversering
+# DOM-traversering {#sec-dom-traversering}
 
 ## En kommentar som inte vet var den hör hemma
 
@@ -28,7 +28,7 @@ Det kallas **DOM-traversering** — att röra sig genom trädstrukturen, från e
 
 ## DOM:en som ett träd
 
-I kapitel 4 beskrev vi DOM:en som en trädstruktur: `<body>` är roten, och inuti den finns grenar av element. Nu behöver vi förstå den strukturen mer i detalj.
+I kapitel [-@sec-dom-intro] beskrev vi DOM:en som en trädstruktur: `<body>` är roten, och inuti den finns grenar av element. Nu behöver vi förstå den strukturen mer i detalj.
 
 Betrakta följande HTML:
 
@@ -247,7 +247,7 @@ I praktiken är `children` eller `querySelectorAll` oftast smidigare för att g�
 
 ## Data i HTML: `dataset`
 
-I kapitel 10 introducerade vi `data-`-attribut och `dataset` kortfattat. Nu är det dags att utforska dem ordentligt — de är en central del av att arbeta med DOM-traversering i praktiken.
+I kapitel [-@sec-handelser] introducerade vi `data-`-attribut och `dataset` kortfattat. Nu är det dags att utforska dem ordentligt — de är en central del av att arbeta med DOM-traversering i praktiken.
 
 HTML låter dig lägga till egna attribut på element, så länge de börjar med `data-`:
 

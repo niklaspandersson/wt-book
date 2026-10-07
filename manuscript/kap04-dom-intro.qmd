@@ -1,8 +1,8 @@
-# Din kod möter webbsidan
+# Din kod möter webbsidan {#sec-dom-intro}
 
 ## Från konsolen till sidan
 
-Hittills har allt vi gjort synts i webbläsarens konsol — ett verktyg som bara programmeraren ser. Användaren av webbsidan ser ingenting av det. Men i kapitel 1 började vi med att beskriva vad JavaScript kan: sökförslag som dyker upp, bilder som laddas, spel som reagerar. Allt det *syns* på webbsidan, inte i konsolen.
+Hittills har allt vi gjort synts i webbläsarens konsol — ett verktyg som bara programmeraren ser. Användaren av webbsidan ser ingenting av det. Men i kapitel [-@sec-om-javascript] började vi med att beskriva vad JavaScript kan: sökförslag som dyker upp, bilder som laddas, spel som reagerar. Allt det *syns* på webbsidan, inte i konsolen.
 
 Nu har vi verktygen att ta det steget. Du vet vad värden, variabler, objekt och funktionsanrop är. Det som återstår är att lära dig *vilken* funktion du anropar för att nå webbsidans element — och det är enklare än du kanske tror.
 
@@ -273,7 +273,7 @@ Skriv JavaScript som deklarerar tre variabler (`lagnamn`, `poäng` och `runda`) 
 ::: {.callout-note}
 ## Övning – Från konsol till sida
 
-I kapitel 2, övning 2.5, skapade du templatesträngar för quizprogrammet. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska resultaten visas i tre separata `<p>`-element på sidan. Du behöver uppdatera HTML-filen med tre element med unika id:n.
+I kapitel [-@sec-variabler], övning 2.5, skapade du templatesträngar för quizprogrammet. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska resultaten visas i tre separata `<p>`-element på sidan. Du behöver uppdatera HTML-filen med tre element med unika id:n.
 :::
 
 ::: {.callout-note}

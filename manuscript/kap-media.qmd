@@ -1,4 +1,4 @@
-# JavaScript och media
+# JavaScript och media {#sec-media}
 
 ## En tyst webbsida
 

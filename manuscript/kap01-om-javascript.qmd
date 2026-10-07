@@ -1,4 +1,4 @@
-# JavaScript och webbläsaren
+# JavaScript och webbläsaren {#sec-om-javascript}
 
 ## Det händer något på sidan
 
@@ -61,7 +61,7 @@ console.log("Hej, världen!");
 
 Den raden instruerar webbläsaren att skriva ut texten `Hej, världen!` i konsolen. Det är ett komplett program – litet, men komplett. Det tar ingen indata, fattar inga beslut och hanterar inga händelser. Men det är en giltig instruktion som datorn kan följa.
 
-Verkliga program är längre och mer komplexa – de tar emot indata, fattar beslut baserade på data (som vi ska se i kapitel 5), upprepar instruktioner (kapitel 6), och är organiserade i återanvändbara delar (kapitel 3). Men principen är densamma: en sekvens av precisa instruktioner.
+Verkliga program är längre och mer komplexa – de tar emot indata, fattar beslut baserade på data (som vi ska se i kapitel [-@sec-villkor]), upprepar instruktioner (kapitel [-@sec-loopar]), och är organiserade i återanvändbara delar (kapitel [-@sec-funktioner]). Men principen är densamma: en sekvens av precisa instruktioner.
 
 ---
 
@@ -92,7 +92,7 @@ Det JavaScript *kan* göra är att manipulera webbsidans innehåll, kommunicera 
 ::: {.callout-note}
 ## En förhandsvarning om okänd syntax
 
-Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras — allt annat förklaras när vi kommer dit. Redan i kapitel 3 formaliserar vi vad funktionsanrop som `console.log()` egentligen är, och i kapitel 4 lär vi oss att förändra webbsidan direkt.
+Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras — allt annat förklaras när vi kommer dit. Redan i kapitel [-@sec-anropa-funktioner] formaliserar vi vad funktionsanrop som `console.log()` egentligen är, och i kapitel [-@sec-dom-intro] lär vi oss att förändra webbsidan direkt.
 :::
 
 Det enklaste sättet att köra JavaScript är via webbläsarens inbyggda **konsol**. Öppna den med `F12` (eller `Cmd+Option+J` på Mac), välj fliken *Console*, och du har ett interaktivt JavaScript-skal framför dig.
@@ -171,7 +171,7 @@ console.log("Skriptet körs!");
 document.querySelector("h1").textContent = "Hej, JavaScript!";
 ```
 
-Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul** (*ECMAScript module*). Moduler  återkommer vi till i @sec-moduler, men de medför flera fördelar som är viktiga att känna till från start:
+Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul** (*ECMAScript module*). Moduler återkommer vi till i kapitel [-@sec-moduler], men de medför flera fördelar som är viktiga att känna till från start:
 
 **Automatisk uppskjutning.** En modulfil laddas och körs automatiskt *efter* att HTML-dokumentet är färdiginläst, oavsett var `<script>`-taggen placeras. Därför kan man lägga den i `<head>` utan problem – webbläsaren väntar på att DOM:en är redo.
 
@@ -209,7 +209,7 @@ De delar du kommer att använda mest:
 
 - **Console** – kör JavaScript interaktivt, se utskrifter från `console.log()`, och läs felmeddelanden. Felmeddelanden är informativa, inte skrämmande: de berättar precis vad som gick fel och på vilken rad.
 - **Elements** (eller *Inspector* i Firefox) – utforska sidans HTML och CSS i realtid. Du kan se hur sidan är strukturerad och till och med ändra CSS direkt i verktyget.
-- **Sources** (eller *Debugger*) – inspektera dina JavaScript-filer och sätt **brytpunkter** (*breakpoints*) för att pausa exekvering och undersöka programmets tillstånd. Det återkommer vi till i kapitlet om @sec-debugging.
+- **Sources** (eller *Debugger*) – inspektera dina JavaScript-filer och sätt **brytpunkter** (*breakpoints*) för att pausa exekvering och undersöka programmets tillstånd. Det återkommer vi till i ett senare kapitel om felsökning.
 
 Lär dig konsolen tidigt. När koden inte gör vad du förväntar dig är konsolen det första stället du tittar.
 

@@ -1,4 +1,4 @@
-# Objektorienterad programmering
+# Objektorienterad programmering {#sec-oop}
 
 ## Samma form, om och om igen
 

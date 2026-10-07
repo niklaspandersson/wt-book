@@ -1,4 +1,4 @@
-# Drag and drop
+# Drag and drop {#sec-drag-and-drop}
 
 ::: {.vg}
 
@@ -247,7 +247,7 @@ Ett vanligt mönster är att ha flera containrar som element kan flyttas mellan.
 }
 ```
 
-Eftersom vi har flera kort och flera kolumner använder vi **händelsedelegering** — en lyssnare på en gemensam förfader som fångar händelser från alla barn tack vare bubbling (om du har läst kapitlet om händelser på djupet känner du igen tekniken):
+Eftersom vi har flera kort och flera kolumner använder vi **händelsedelegering** — en lyssnare på en gemensam förfader som fångar händelser från alla barn tack vare bubbling (om du har läst kapitel [-@sec-events-deep] känner du igen tekniken):
 
 ```javascript
 const tavla = document.querySelector(".tavla");
@@ -303,7 +303,7 @@ Några saker att notera:
 - Vi använder `data-id` istället för `id` på korten. Det ger oss ett rent sätt att identifiera element utan att riskera id-konflikter.
 - I `drop`-hanteraren hittar vi kortet med en attributselektor: `[data-id="${id}"]`.
 - Vi använder `e.currentTarget` istället för `e.target` i kolumnernas lyssnare. `e.currentTarget` är alltid kolumnen (det element som lyssnaren sitter på), medan `e.target` kan vara ett barnelement inuti kolumnen.
-- `append` *flyttar* elementet automatiskt — det kopieras inte. Det är samma beteende du lärde dig i kapitlet om att skapa element.
+- `append` *flyttar* elementet automatiskt — det kopieras inte. Det är samma beteende du lärde dig i kapitel [-@sec-skapa-element].
 
 ---
 

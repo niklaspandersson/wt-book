@@ -1,4 +1,4 @@
-# Arv och polymorfism
+# Arv och polymorfism {#sec-arv}
 
 ## Lika men ändå olika
 

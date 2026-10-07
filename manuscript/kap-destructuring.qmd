@@ -1,4 +1,4 @@
-# Destructuring och spread
+# Destructuring och spread {#sec-destructuring}
 
 ::: {.vg}
 

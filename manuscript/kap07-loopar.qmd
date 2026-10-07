@@ -1,4 +1,4 @@
-# Loopar
+# Loopar {#sec-loopar}
 
 ## Tusen gånger samma sak
 
@@ -190,7 +190,7 @@ När `break` nås hoppar programmet direkt ut ur loopen och fortsätter med kode
 ::: {.callout-note}
 ## Vad är `[82, 91, 73, 44, 68, 55]`?
 
-`poäng` innehåller en **lista** av värden – i JavaScript kallas det en *array*. Med `poäng[i]` hämtar man värdet på position `i` (räknat från noll), och `poäng.length` ger listans längd. Loopar och listor hänger tätt ihop: en loop är ofta det naturliga sättet att gå igenom alla värden i en lista ett i taget. Vi tittar närmare på listor i ett senare kapitel.
+`poäng` innehåller en **lista** av värden – i JavaScript kallas det en *array*. Med `poäng[i]` hämtar man värdet på position `i` (räknat från noll), och `poäng.length` ger listans längd. Loopar och listor hänger tätt ihop: en loop är ofta det naturliga sättet att gå igenom alla värden i en lista ett i taget. Vi tittar närmare på listor i kapitel [-@sec-arrayer].
 :::
 
 

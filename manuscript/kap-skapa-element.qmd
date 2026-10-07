@@ -1,4 +1,4 @@
-# Skapa och ändra element
+# Skapa och ändra element {#sec-skapa-element}
 
 ## En lista som inte finns ännu
 
@@ -214,7 +214,7 @@ Använd `insertAdjacentHTML`, `append` eller `createElement` istället.
 
 ### Säkerhet
 
-Precis som med `innerHTML` gäller samma säkerhetsvarning: infoga aldrig ofiltrerad användardata med `insertAdjacentHTML`. Det kan leda till XSS-attacker (cross-site scripting), som vi berörde i kapitel 4. Använd `createElement` och `textContent` om datan kommer från användaren.
+Precis som med `innerHTML` gäller samma säkerhetsvarning: infoga aldrig ofiltrerad användardata med `insertAdjacentHTML`. Det kan leda till XSS-attacker (cross-site scripting), som vi berörde i kapitel [-@sec-dom-intro]. Använd `createElement` och `textContent` om datan kommer från användaren.
 
 ---
 
@@ -360,7 +360,7 @@ Steg för steg:
 ::: {.callout-note}
 ## `Array.from` och samlingar
 
-`Array.from()` konverterar arrayliknande strukturer — som HTMLCollection och NodeList — till riktiga arrayer. Det ger dig tillgång till alla arraymetoder: `sort`, `filter`, `map` och andra. Du stötte på det kort i kapitel 8 med NodeList, och det är lika användbart här:
+`Array.from()` konverterar arrayliknande strukturer — som HTMLCollection och NodeList — till riktiga arrayer. Det ger dig tillgång till alla arraymetoder: `sort`, `filter`, `map` och andra. Du stötte på det kort i kapitel [-@sec-arrayer] med NodeList, och det är lika användbart här:
 
 ```javascript
 const allaBarn = Array.from(element.children);

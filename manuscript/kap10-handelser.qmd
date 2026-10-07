@@ -1,4 +1,4 @@
-# Händelser och interaktivitet
+# Händelser och interaktivitet {#sec-handelser}
 
 ## En knapp som inte reagerar
 
@@ -78,7 +78,7 @@ Nu händer det något: varje gång användaren klickar på knappen skrivs "Hej!"
 
 Funktionen vi skickar till `addEventListener` kallas en **callback**. Det är en funktion som vi *inte anropar själva* — vi överlämnar den till webbläsaren och säger "ring den här när det händer."
 
-I kapitel 9 lärde du dig att funktioner i JavaScript är *värden* som kan lagras i variabler. Det är samma princip här: vi skickar en funktion som argument till en annan funktion.
+I kapitel [-@sec-funktioner] lärde du dig att funktioner i JavaScript är *värden* som kan lagras i variabler. Det är samma princip här: vi skickar en funktion som argument till en annan funktion.
 
 Det finns tre sätt att skriva callbacken, och alla gör samma sak:
 
@@ -131,7 +131,7 @@ knapp.addEventListener("click", () => {
 });
 ```
 
-Pilfunktioner, som du lärde dig i kapitel 9, är ett vanligt val för callbacks. De är kompakta och tydliga.
+Pilfunktioner, som du lärde dig i kapitel [-@sec-funktioner], är ett vanligt val för callbacks. De är kompakta och tydliga.
 
 ---
 
@@ -175,11 +175,11 @@ knapp.addEventListener("click", () => {
 });
 ```
 
-Variabeln `antal` lever utanför callbacken men nås inifrån den — det är möjligt tack vare scope-reglerna du lärde dig i kapitel 9. Varje klick ökar `antal` med 1 och uppdaterar sidan.
+Variabeln `antal` lever utanför callbacken men nås inifrån den — det är möjligt tack vare scope-reglerna du lärde dig i kapitel [-@sec-funktioner]. Varje klick ökar `antal` med 1 och uppdaterar sidan.
 
 ### Mörkt läge — äntligen
 
-I kapitel 6 funderade du på hur det vore att slå på mörkt läge med en knapptryckning. Nu kan vi bygga det:
+I kapitel [-@sec-stil] funderade du på hur det vore att slå på mörkt läge med en knapptryckning. Nu kan vi bygga det:
 
 ```html
 <button id="tema-knapp">Byt tema</button>
@@ -200,7 +200,7 @@ temaKnapp.addEventListener("click", () => {
 });
 ```
 
-En enda rad i callbacken — `classList.toggle("dark")` — slår på och av mörkt läge vid varje klick. Det är kombinationen av händelser (kapitel 10), CSS-klasser (kapitel 6) och DOM (kapitel 4) i samverkan.
+En enda rad i callbacken — `classList.toggle("dark")` — slår på och av mörkt läge vid varje klick. Det är kombinationen av händelser (det här kapitlet), CSS-klasser (kapitel [-@sec-stil]) och DOM (kapitel [-@sec-dom-intro]) i samverkan.
 
 ---
 
@@ -244,7 +244,7 @@ for (const knapp of knappar) {
 }
 ```
 
-Här registrerar vi samma typ av lyssnare på tre knappar. Inuti callbacken använder vi `e.target` för att ta reda på *vilken* knapp som klickades och hämtar dess `value`-attribut. `value` är ett attribut som alla formulärelement har, inklusive knappar. Formulärelement kan du lära dig mer om i @sec-forms. 
+Här registrerar vi samma typ av lyssnare på tre knappar. Inuti callbacken använder vi `e.target` för att ta reda på *vilken* knapp som klickades och hämtar dess `value`-attribut. `value` är ett attribut som alla formulärelement har, inklusive knappar. Formulärelement återkommer vi till i ett senare kapitel.
 
 
 ### `event.type`
@@ -462,7 +462,7 @@ Båda funktionerna körs vid varje klick, i den ordning de registrerades. Det ä
 
 ## Händelser och arrayer
 
-I kapitel 8 lärde du dig att hämta flera element med `querySelectorAll` och iterera med `for...of`. Nu kan vi kombinera det med händelselyssnare:
+I kapitel [-@sec-arrayer] lärde du dig att hämta flera element med `querySelectorAll` och iterera med `for...of`. Nu kan vi kombinera det med händelselyssnare:
 
 ```html
 <ul>
@@ -523,7 +523,7 @@ for (const knapp of knappar) {
 }
 ```
 
-Allt du har lärt dig sedan kapitel 1 samverkar: DOM-selektion, textändring, stiländringar med `classList` och `.style`, villkor, loopar över element, funktioner som callbacks, och event-objektet. Det är en fullt interaktiv quizfråga.
+Allt du har lärt dig sedan kapitel [-@sec-om-javascript] samverkar: DOM-selektion, textändring, stiländringar med `classList` och `.style`, villkor, loopar över element, funktioner som callbacks, och event-objektet. Det är en fullt interaktiv quizfråga.
 
 ---
 

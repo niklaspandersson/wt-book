@@ -1,8 +1,8 @@
-# Att skriva egna funktioner
+# Att skriva egna funktioner {#sec-funktioner}
 
 ## Att sätta namn på en beräkning
 
-I kapitel 3 lärde du dig att *använda* funktioner — anropa `Number()`, `Math.round()`, `"hej".toUpperCase()` och `document.querySelector()`. Alla dessa är funktioner som någon annan redan skrivit åt dig. Nu är det dags att lära dig *skriva egna*.
+I kapitel [-@sec-anropa-funktioner] lärde du dig att *använda* funktioner — anropa `Number()`, `Math.round()`, `"hej".toUpperCase()` och `document.querySelector()`. Alla dessa är funktioner som någon annan redan skrivit åt dig. Nu är det dags att lära dig *skriva egna*.
 
 Föreställ dig att du ska sätta upp en enkel prislista på webben. Du har ett antal produkter med priser exklusive moms och behöver räkna ut vad de kostar inklusive moms – 25 procent för de flesta varor.
 
@@ -68,7 +68,7 @@ function prisMedMoms(pris) {
 
 Funktionen tar ett argument (`pris`), beräknar priset inklusive moms, och *returnerar* det med `return`. Notera att vi gett funktionen ett substantiv som namn – `prisMedMoms` beskriver vad den returnerar.
 
-Men att *definiera* en funktion gör ingenting i sig – koden i kroppen körs inte förrän funktionen *anropas*. Ett **funktionsanrop** skrivs, som vi såg i kapitel 3, som funktionens namn följt av parenteser med eventuella argument:
+Men att *definiera* en funktion gör ingenting i sig – koden i kroppen körs inte förrän funktionen *anropas*. Ett **funktionsanrop** skrivs, som vi såg i kapitel [-@sec-anropa-funktioner], som funktionens namn följt av parenteser med eventuella argument:
 
 ```javascript
 let medMoms1 = prisMedMoms(320)  // anropar funktionen med 320 som argument
@@ -188,13 +188,13 @@ console.log(betyg(73));   // C
 console.log(betyg(41));   // F
 ```
 
-Det betygsprogram vi byggde i kapitel 5 är nu inkapslat i en funktion. Skillnaden: nu kan du använda `betyg(poäng)` i resten av programmet utan att upprepa logiken.
+Det betygsprogram vi byggde i kapitel [-@sec-villkor] är nu inkapslat i en funktion. Skillnaden: nu kan du använda `betyg(poäng)` i resten av programmet utan att upprepa logiken.
 
 ---
 
 ## Early return – tidig avslutning
 
-I kapitel 5 tog vi upp problemet med djupt nästlade villkorssatser. Nu när vi kan skapa funktioner har vi verktyg för att undvika det. En teknik är **early return** – att kontrollera felvillkor tidigt och avsluta, så att resten av koden inte behöver nästlas.
+I kapitel [-@sec-villkor] tog vi upp problemet med djupt nästlade villkorssatser. Nu när vi kan skapa funktioner har vi verktyg för att undvika det. En teknik är **early return** – att kontrollera felvillkor tidigt och avsluta, så att resten av koden inte behöver nästlas.
 
 Istället för djup nästling:
 

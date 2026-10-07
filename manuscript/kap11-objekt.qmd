@@ -1,8 +1,8 @@
-# Objekt
+# Objekt {#sec-objekt}
 
 ## En student är mer än ett namn
 
-Objekt har följt oss genom hela boken. Redan i kapitel 2 fick du en första bekantskap: objekt grupperar namngivna egenskaper, man når dem med punktnotation, och de finns överallt i JavaScript. Sedan dess har du arbetat med objekt i varje kapitel – DOM-element med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, inbyggda objekt som `document`, `Math` och `console`.
+Objekt har följt oss genom hela boken. Redan i kapitel [-@sec-variabler] fick du en första bekantskap: objekt grupperar namngivna egenskaper, man når dem med punktnotation, och de finns överallt i JavaScript. Sedan dess har du arbetat med objekt i varje kapitel – DOM-element med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, inbyggda objekt som `document`, `Math` och `console`.
 
 Men du har bara *använt* objekt som andra har skapat åt dig. Nu är det dags att lära dig att *skapa egna*.
 
@@ -65,7 +65,7 @@ const kurs = {
 
 ## Läsa egenskaper
 
-Punktnotation har du använt sedan kapitel 2 – `console.log()`, `element.textContent`, `e.target`. Den fungerar likadant på egna objekt:
+Punktnotation har du använt sedan kapitel [-@sec-variabler] – `console.log()`, `element.textContent`, `e.target`. Den fungerar likadant på egna objekt:
 
 ```javascript
 const student = {
@@ -177,7 +177,7 @@ console.log(student);           // { namn: "Anna", program: "Webbutveckling" }
 
 ## Metoder – funktioner i objekt
 
-Du har anropat metoder sedan kapitel 2: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. En metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Nu kan du definiera egna:
+Du har anropat metoder sedan kapitel [-@sec-variabler]: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. En metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Nu kan du definiera egna:
 
 ```javascript
 const student = {
@@ -490,7 +490,7 @@ Samma sak gäller arrayer – de är också objekt i JavaScript.
 
 ## Arrayer av objekt: produktkort
 
-Nu kan du skapa egna objekt. Nästa steg är att samla dem i en **array** — och det är den kanske viktigaste kombinationen i vardaglig JavaScript. Du har redan mött mönstret: `querySelectorAll` i kapitel 8 gav dig en lista av DOM-element, det vill säga en lista av objekt. Skillnaden nu är att du bygger listan själv, med egna objekt anpassade efter ditt programs behov.
+Nu kan du skapa egna objekt. Nästa steg är att samla dem i en **array** — och det är den kanske viktigaste kombinationen i vardaglig JavaScript. Du har redan mött mönstret: `querySelectorAll` i kapitel [-@sec-arrayer] gav dig en lista av DOM-element, det vill säga en lista av objekt. Skillnaden nu är att du bygger listan själv, med egna objekt anpassade efter ditt programs behov.
 
 Studentlistor, produktkataloger, att-göra-listor, sökresultat — allt representeras som arrayer av objekt. Låt oss se hur det ser ut i praktiken. Vi har en lista med produkter och vill visa dem som kort på en webbsida:
 
@@ -544,7 +544,7 @@ Du har använt objekt genom hela boken – nu kan du också skapa egna. Med obje
 - Objekt jämförs med **referens**, inte innehåll: `{} === {}` är `false`.
 - Operatorn `in` kontrollerar om en egenskap finns: `"namn" in obj`.
 
-I nästa del av boken bygger vi vidare på objekt när vi fördjupar oss i JavaScript och webben som plattform. Längre fram, i Del III, introduceras **klasser** – ett sätt att definiera återanvändbara mallar för objekt som garanterar att varje objekt skapas med rätt struktur och beteende.
+I nästa del av boken bygger vi vidare på objekt när vi fördjupar oss i JavaScript och webben som plattform. Längre fram, i kapitel [-@sec-oop], introduceras **klasser** – ett sätt att definiera återanvändbara mallar för objekt som garanterar att varje objekt skapas med rätt struktur och beteende.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

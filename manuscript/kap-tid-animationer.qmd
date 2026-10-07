@@ -1,4 +1,4 @@
-# Tid och animationer
+# Tid och animationer {#sec-tid-animationer}
 
 ## En nedräkning som aldrig räknar
 

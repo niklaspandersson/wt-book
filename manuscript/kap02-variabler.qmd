@@ -1,4 +1,4 @@
-# Värden, variabler och datatyper
+# Värden, variabler och datatyper {#sec-variabler}
 
 ## En quizkväll att programmera
 
@@ -6,7 +6,7 @@ Föreställ dig att du och tre studiekamrater ska ha quizkväll. Någon föresl�
 
 Direkt märker du att du behöver hålla reda på en hel del information: det aktuella lagets namn, hur många poäng de har, hur många sekunder det är kvar på rundan, och om de senaste svaret var rätt eller fel. Det är fyra helt olika *sorters* information – ett namn är inte samma sak som ett poängtal, och ett poängtal är inte samma sak som ett ja eller nej.
 
-Det är just den insikten kapitel 2 handlar om. All information i ett JavaScript-program representeras som **värden**, och varje värde har en **datatyp** som bestämmer vad man kan göra med det. Du lär dig också att lagra värden i **variabler** – namngivna behållare som du kan referera till och uppdatera under programmets körning.
+Det är just den insikten det här kapitlet handlar om. All information i ett JavaScript-program representeras som **värden**, och varje värde har en **datatyp** som bestämmer vad man kan göra med det. Du lär dig också att lagra värden i **variabler** – namngivna behållare som du kan referera till och uppdatera under programmets körning.
 
 ---
 
@@ -114,7 +114,7 @@ Booleska värden uppstår typiskt när man **jämför** två värden. Jämförel
 "hej" === "Hej"  // false – strängjämförelse är skiftlägeskänslig
 ```
 
-Notera operatorn `===` (*strikt likhet*). I JavaScript finns det två likhetsjämförelser: `==` och `===`. Använd alltid `===` – den kontrollerar att *både värdet och typen* är identiska, och undviker en klass av subtila buggar som uppstår med `==`. Vi återkommer till detta i kapitlet om villkorssatser.
+Notera operatorn `===` (*strikt likhet*). I JavaScript finns det två likhetsjämförelser: `==` och `===`. Använd alltid `===` – den kontrollerar att *både värdet och typen* är identiska, och undviker en klass av subtila buggar som uppstår med `==`. Vi återkommer till detta i kapitel [-@sec-villkor].
 
 Booleska värden kan kombineras med **logiska operatorer**:
 
@@ -124,7 +124,7 @@ Booleska värden kan kombineras med **logiska operatorer**:
 | `\|\|`   | eller   | `false \|\| true`         | `true`   |
 | `!`      | inte    | `!true`                   | `false`  |
 
-Dessa används framför allt i villkorssatser, som vi tittar på i kapitel 5.
+Dessa används framför allt i villkorssatser, som vi tittar på i kapitel [-@sec-villkor].
 
 ---
 
@@ -318,7 +318,7 @@ maxPoäng = 200;   // TypeError: Assignment to constant variable.
 ::: {.callout-note}
 ## Vad hände med `var`?
 
-Äldre JavaScript-kod använder nyckelordet `var` för att deklarera variabler. `var` beter sig annorlunda än `let` på några viktiga sätt (framför allt gällande *scope*, vilket vi återkommer till i kapitlet om funktioner). Moderna JavaScript-program bör använda `let` och `const`. Om du stöter på `var` i kod du hittar på nätet är det troligen skriven före 2015, då `let` och `const` introducerades i standarden.
+Äldre JavaScript-kod använder nyckelordet `var` för att deklarera variabler. `var` beter sig annorlunda än `let` på några viktiga sätt (framför allt gällande *scope*, vilket vi återkommer till i kapitel [-@sec-funktioner]). Moderna JavaScript-program bör använda `let` och `const`. Om du stöter på `var` i kod du hittar på nätet är det troligen skriven före 2015, då `let` och `const` introducerades i standarden.
 :::
 
 ---
@@ -441,7 +441,7 @@ Boolean(1)        // true
 Boolean("hej")    // true
 ```
 
-Begreppet *falsy* och *truthy* är viktigt i JavaScript: vissa värden betraktas som falska i ett booleskt sammanhang, även om de inte är `false`. De falsy-värden du behöver känna till är: `false`, `0`, `""` (tom sträng), `null`, `undefined` och `NaN`. Allt annat är truthy. Vi återkommer till detta i villkorssats-kapitlet.
+Begreppet *falsy* och *truthy* är viktigt i JavaScript: vissa värden betraktas som falska i ett booleskt sammanhang, även om de inte är `false`. De falsy-värden du behöver känna till är: `false`, `0`, `""` (tom sträng), `null`, `undefined` och `NaN`. Allt annat är truthy. Vi återkommer till detta i kapitel [-@sec-villkor].
 
 ---
 

@@ -1,4 +1,4 @@
-# Villkorssatser och logik
+# Villkorssatser och logik {#sec-villkor}
 
 ## Programmet som fattar beslut
 
@@ -221,7 +221,7 @@ Det betyder att om vänstra sidan av `&&` är falsy, körs aldrig höger sida. D
 
 ## Truthy och falsy
 
-I kapitel 2 nämnde vi att JavaScript har ett begrepp för värden som *beter sig* som `true` eller `false` i ett booleskt sammanhang, utan att vara just de värdena. Nu är vi i positionen att använda det på riktigt.
+I kapitel [-@sec-variabler] nämnde vi att JavaScript har ett begrepp för värden som *beter sig* som `true` eller `false` i ett booleskt sammanhang, utan att vara just de värdena. Nu är vi i positionen att använda det på riktigt.
 
 Följande värden är **falsy** – de betraktas som falska i sammanhang där ett booleskt värde förväntas, exempelvis i villkoret i en `if`-sats:
 
@@ -329,7 +329,7 @@ if (poäng >= 50) {
 }
 ```
 
-Nästling är ibland oundviklig, men var försiktig: djup nästling gör koden svår att läsa och förstå. Redan vid tre nivåers nästling börjar det bli svårt att hålla reda på vilka villkor som gäller var. I sådana fall kan det vara en signal om att koden bör struktureras om – kanske med hjälp av egna funktioner, vilket vi tar upp i ett kommande kapitel.
+Nästling är ibland oundviklig, men var försiktig: djup nästling gör koden svår att läsa och förstå. Redan vid tre nivåers nästling börjar det bli svårt att hålla reda på vilka villkor som gäller var. I sådana fall kan det vara en signal om att koden bör struktureras om – kanske med hjälp av egna funktioner, vilket vi tar upp i kapitel [-@sec-funktioner].
 
 ---
 

@@ -1,4 +1,4 @@
-# Stil och utseende
+# Stil och utseende {#sec-stil}
 
 ## En sida som ser likadan ut oavsett vad som händer
 
@@ -316,7 +316,7 @@ Det ger dig en startpunkt som du sedan anpassar, istället för att börja från
 
 > *"Hur kan jag göra så att ett element tonar in när jag tar bort klassen `dold`, istället för att bara dyka upp direkt?"*
 
-CSS-övergångar (`transition`) i kombination med klasser ger visuella effekter. Vi behandlar animationer i ett senare kapitel, men det skadar inte att experimentera redan nu.
+CSS-övergångar (`transition`) i kombination med klasser ger visuella effekter. Vi behandlar animationer i kapitel [-@sec-tid-animationer], men det skadar inte att experimentera redan nu.
 :::
 
 ---
@@ -425,5 +425,5 @@ Skriv JavaScript som använder `classList.toggle("dark", villkor)` för att akti
 
 Testa genom att ändra variabeln mellan `true` och `false` och ladda om sidan.
 
-*Fundera:* Hur skulle det vara att kunna slå på och av mörkt läge med en knapptryckning? Det är precis vad vi lär oss i kapitlet om händelser.
+*Fundera:* Hur skulle det vara att kunna slå på och av mörkt läge med en knapptryckning? Det är precis vad vi lär oss i kapitel [-@sec-handelser].
 :::

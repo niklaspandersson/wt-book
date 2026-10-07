@@ -1,4 +1,4 @@
-# Arrayer
+# Arrayer {#sec-arrayer}
 
 ## En lista att hålla ordning på
 
@@ -20,7 +20,7 @@ Det vi behöver är ett sätt att samla flera värden under ett gemensamt namn �
 
 ::: {.callout-note}
 ## Arrayer är objekt
-Tekniskt sett är en array en speciell typ av **objekt** – den datastruktur som JavaScript använder för att samla data och funktionalitet under ett gemensamt namn. Det är därför arrayer kan ha egenskaper och inbyggda metoder, precis som andra objekt. Men eftersom ordnade listor är en så vanlig datastruktur i programmering har arrayer fått en egen syntax med hakparenteser `[]` och ett antal specialanpassade metoder som gör dem smidiga att arbeta med. Vi kommer att titta närmare på vanliga objekt i ett senare kapitel – just nu räcker det att veta att arrayer är en praktisk specialvariant av dem.
+Tekniskt sett är en array en speciell typ av **objekt** – den datastruktur som JavaScript använder för att samla data och funktionalitet under ett gemensamt namn. Det är därför arrayer kan ha egenskaper och inbyggda metoder, precis som andra objekt. Men eftersom ordnade listor är en så vanlig datastruktur i programmering har arrayer fått en egen syntax med hakparenteser `[]` och ett antal specialanpassade metoder som gör dem smidiga att arbeta med. Vi kommer att titta närmare på vanliga objekt i kapitel [-@sec-objekt] – just nu räcker det att veta att arrayer är en praktisk specialvariant av dem.
 :::
 
 ---
@@ -318,7 +318,7 @@ Notera att vi använder `const` i `for...of`-loopen: `for (const student of stud
 
 ## Arrayer och DOM: `querySelectorAll`
 
-I kapitel 4 lärde du dig att hämta *ett* element med `document.querySelector()`. Men vad gör man när man vill hämta *alla* element som matchar en selektor? Det är precis vad `document.querySelectorAll()` gör.
+I kapitel [-@sec-dom-intro] lärde du dig att hämta *ett* element med `document.querySelector()`. Men vad gör man när man vill hämta *alla* element som matchar en selektor? Det är precis vad `document.querySelectorAll()` gör.
 
 Tänk dig en att-göra-lista i HTML:
 

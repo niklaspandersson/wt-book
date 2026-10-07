@@ -1,4 +1,4 @@
-# Moduler
+# Moduler {#sec-moduler}
 
 ## En fil som växer
 
@@ -42,7 +42,7 @@ Med separata skriptfiler utan modulsystem finns inget formellt sätt att uttryck
 
 ### Svårt att återanvända
 
-Om du skriver en bra hjälpfunktion i ett projekt och vill använda den i ett annat behöver du kopiera och klistra in koden — med alla de problem som upprepning medför (som vi diskuterade redan i kapitlet om funktioner). Det finns inget sätt att säga "hämta den här specifika funktionen från den filen".
+Om du skriver en bra hjälpfunktion i ett projekt och vill använda den i ett annat behöver du kopiera och klistra in koden — med alla de problem som upprepning medför (som vi diskuterade redan i kapitel [-@sec-funktioner]). Det finns inget sätt att säga "hämta den här specifika funktionen från den filen".
 
 ---
 
