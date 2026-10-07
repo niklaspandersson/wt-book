@@ -313,7 +313,7 @@ const maxPoäng = 100;
 maxPoäng = 200;   // TypeError: Assignment to constant variable.
 ```
 
-**Rekommendation:** Använd `const` som standard, och byt till `let` bara när du vet att värdet behöver kunna ändras. Det gör koden lättare att förstå – en `const` berättar för läsaren "det här värdet förändras inte". Dessutom hjälper kompilatorn dig att hitta buggar om du av misstag försöker ändra något som inte borde ändras.
+**Rekommendation:** Använd `const` som standard, och byt till `let` bara när du vet att värdet behöver kunna ändras. Det gör koden lättare att förstå – en `const` berättar för läsaren "det här värdet förändras inte". Dessutom får du ett tydligt felmeddelande om du av misstag försöker ändra något som inte borde ändras.
 
 ::: {.callout-note}
 ## Vad hände med `var`?
