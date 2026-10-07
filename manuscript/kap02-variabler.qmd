@@ -30,7 +30,7 @@ Först behöver vi dock förstå vilka *sorters* värden som finns.
 
 ## Primitiva datatyper
 
-JavaScript är ett **dynamiskt typat** språk, vilket innebär att varje värde har en typ, men du behöver inte deklarera typen explicit – JavaScript räknar ut det själv. Det finns sju primitiva datatyper i JavaScript, men tre av dem är de absolut viktigaste att känna till från start: `number`, `string`, `boolean`, samt de tomma typerna `null` och `undefined`.
+JavaScript är ett **dynamiskt typat** språk, vilket innebär att varje värde har en typ, men du behöver inte deklarera typen explicit – JavaScript räknar ut det själv. Det finns sju primitiva datatyper i JavaScript, men fem av dem räcker långt: `number`, `string` och `boolean`, samt de två tomma typerna `null` och `undefined`. (De övriga två, `bigint` och `symbol`, används sällan och tas inte upp här.)
 
 ### Tal – `number`
 
