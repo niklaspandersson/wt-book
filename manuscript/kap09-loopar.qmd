@@ -60,15 +60,7 @@ Variabelnamnet `i` är en konvention – det är en förkortning av *index* elle
 ::: {.callout-note}
 ## `i++` och `i += 1`
 
-`i = i + 1` är ett långt och lite svårttolkat sätt att uttrycka att `i` ska öka med 1. JavaScript erbjuder kortformer för detta vanliga mönster:
-
-- `i++` – ökar `i` med 1 (postfix-inkrement)
-- `i--` – minskar `i` med 1 (postfix-dekrement)
-- `i += 2` – ökar `i` med 2 (kortform för `i = i + 2`)
-- `i -= 1` – minskar `i` med 1 (kortform för `i = i - 1`)
-- `i *= 2` – multiplicerar `i` med 2
-
-`i++` är den mest förekommande kortformen i loopar. Den gör precis samma sak som `i = i + 1`.
+`i = i + 1` kan som du vet skrivas kortare. Kortformerna från kapitel [-@sec-variabler] – `i++`, `i--`, `i += 2` och så vidare – är vanliga i loopar, och `i++` är den allra vanligaste. Från och med nu använder vi dem.
 :::
 
 ---
@@ -224,16 +216,21 @@ do {
 } while (villkor);
 ```
 
-Skillnaden mot vanlig `while`: villkoret kontrolleras *efter* varje körning, inte *innan*. Det är användbart i situationer där man behöver köra loopen en gång och sedan bestämma om man ska fortsätta – ett klassiskt exempel är att be om inmatning tills den är giltig:
+Skillnaden mot vanlig `while`: villkoret kontrolleras *efter* varje körning, inte *innan*. Det är användbart i situationer där man måste göra något minst en gång för att kunna avgöra om man ska fortsätta. Ett exempel är att kasta en tärning tills man får en sexa:
 
 ```javascript
-let tal;
+let kast;
+let antalKast = 0;
+
 do {
-    tal = Number(prompt("Ange ett tal mellan 1 och 10:"));
-} while (!(tal >= 1 && tal <= 10));
+    kast = Math.floor(Math.random() * 6) + 1;
+    antalKast++;
+} while (kast !== 6);
+
+console.log(`Det tog ${antalKast} kast att få en sexa.`);
 ```
 
-Funktionen `prompt()` visar en enkel dialogruta där användaren kan skriva in text, och returnerar texten som en sträng – därför konverterar vi den med `Number()`. Villkoret upprepar loopen så länge talet *inte* ligger mellan 1 och 10. Skriver användaren något som inte är ett tal blir `tal` `NaN`, och eftersom alla jämförelser med `NaN` ger `false` upprepas loopen även då.
+Innan första kastet finns det inget kast att kontrollera – det är därför `do...while` passar här. Med en vanlig `while`-loop hade vi behövt ge `kast` ett låtsasvärde före loopen för att komma in i den. Tärningsuttrycket känner du igen från kapitel [-@sec-tal].
 
 `do...while` är betydligt ovanligare än `while` och `for`. Stöter du på det i ett kodexempel är det viktigaste att komma ihåg att blocket garanterat körs åtminstone en gång.
 
@@ -348,7 +345,7 @@ Skriv ett program som skriver ut talen 1 till 30 med följande regler:
 - Om talet är delbart med *både* 3 och 5 skrivs "FizzBuzz" ut.
 - Annars skrivs talet ut som vanligt.
 
-*Tips:* operatorn `%` (modulo) ger resten vid heltalsdivision: `10 % 3` är `1`, `9 % 3` är `0`. Tänk på i vilken ordning villkoren behöver kontrolleras.
+*Tips:* operatorn `%` från kapitel [-@sec-tal] ger resten vid heltalsdivision: `10 % 3` är `1`, `9 % 3` är `0`. Ett tal är delbart med 3 om resten är 0. Tänk på i vilken ordning villkoren behöver kontrolleras.
 :::
 
 ::: {.callout-note}
@@ -378,17 +375,29 @@ Varje rad består av ett antal asterisker lika med radnumret. Använd nästlade 
 ::: {.callout-note}
 ## Övning – Nedräkning på sidan
 
-Skapa en HTML-sida med ett `<p>`-element med id `"nedräkning"`. Skriv en loop som bygger upp en sträng med talen 10 ner till 1, separerade med mellanslag, och visa den i elementet med `textContent`.
+Skapa en HTML-sida med ett fält för ett starttal, en knapp och ett `<p>`-element med id `"nedräkning"`. När man klickar ska en loop bygga upp en sträng med talen från starttalet ner till 1, separerade med mellanslag, och visa den i elementet med `textContent`.
 
-Förväntat resultat på sidan: `10 9 8 7 6 5 4 3 2 1`
+Förväntat resultat på sidan för starttalet 10: `10 9 8 7 6 5 4 3 2 1`
 
 Tips: Skapa en tom sträng före loopen och bygg på den i varje iteration. Tilldela den sedan till elementets `textContent` *efter* att loopen är klar.
+
+Vad händer om starttalet är 0, negativt eller inte ett tal? Lägg till de kontroller du tycker behövs, med det du lärde dig i kapitel [-@sec-villkor].
 :::
 
 ::: {.callout-note}
 ## Övning – FizzBuzz på sidan
 
-Gå tillbaka till FizzBuzz-övningen (7.3) och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan.
+Gå tillbaka till FizzBuzz-övningen (9.3) och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan. Låt användaren välja hur långt programmet ska räkna, med ett fält och en knapp.
 
 Tips: `<pre>`-elementet bevarar radbrytningar, vilket gör att `\n` syns som faktiska radbrytningar på sidan.
+:::
+
+::: {.callout-note}
+## Övning – Multiplikationstabell
+
+Skapa en sida där användaren skriver ett tal och klickar på en knapp. Sidan ska då visa talets multiplikationstabell från 1 till 10, en rad per multiplikation, till exempel `7 × 3 = 21`.
+
+1. Bygg tabellen som en sträng och visa den i ett `<pre>`-element.
+2. Bygg den i stället som HTML – en `<li>` per rad i en `<ul>` – och visa den med `innerHTML`. Vilka fördelar har det?
+3. Låt användaren också välja hur långt tabellen ska gå. Vad bör hända om användaren skriver 1000? Är det ett problem, och i så fall vilket?
 :::
