@@ -229,12 +229,12 @@ Pilfunktioner fungerar inte som metoder om du behöver använda `this`:
 const student = {
     namn: "Anna",
     hälsa: () => {
-        console.log(`Hej, jag heter ${this.namn}`);  // this.namn är undefined!
+        console.log(`Hej, jag heter ${this.namn}`);  // fungerar inte!
     }
 };
 ```
 
-Pilfunktioner har inte sitt eget `this` – de ärver det från den omgivande koden, vilket i det här fallet inte är objektet. Använd den vanliga syntaxen (`function` eller den korta `metod() { ... }`) när du definierar metoder som behöver `this`.
+Pilfunktioner har inte sitt eget `this` – de ärver det från den omgivande koden, vilket i det här fallet inte är objektet. I en modul är `this` på översta nivån `undefined`, så anropet `student.hälsa()` ger felet *Cannot read properties of undefined (reading 'namn')*. Använd den vanliga syntaxen (`function` eller den korta `metod() { ... }`) när du definierar metoder som behöver `this`.
 :::
 
 ---
