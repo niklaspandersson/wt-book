@@ -4,11 +4,11 @@
 
 Du skriver de första bokstäverna i sökrutan. Redan efter det andra tecknet dyker förslag upp nedanför – anpassade efter just vad du skrivit. Inga av dem fanns på sidan när den laddades. Ingen ny sida har hämtats från servern. Ändå förändras gränssnittet framför dig, i realtid, som svar på vad du gör.
 
-Eller: du drar ett foto från skrivbordet och släpper det i ett uppladdningsformulär. Filen börjar laddas upp, en progressbar rör sig, en förhandsvisning av bilden materialiseras. Sidan reagerar på din rörelse.
+Eller: du klickar på ett hjärta under ett inlägg. Hjärtat blir rött och siffran bredvid ökar från 41 till 42. Klickar du igen blir det grått och siffran går tillbaka. Sidan minns vad du gjorde.
 
-Eller: du spelar ett enkelt spel i webbläsaren. Figuren rör sig, poängen räknas, musik spelas, och när du förlorar pulserar skärmen röd.
+Eller: du väljer ett nytt lösenord. Medan du skriver står det med röd text under rutan att lösenordet är för kort. När du har skrivit tillräckligt många tecken blir texten grön. Sidan kontrollerar det du skriver – innan du ens har tryckt på knappen.
 
-Alla dessa – sökförslag, drag-and-drop, spel, kartor som zoomar, chattar som uppdateras utan att sidan laddas om – är möjliga tack vare **JavaScript**. Det är språket som ger webbsidor förmågan att tänka, minnas och reagera.
+Alla dessa – sökförslag, gilla-knappar, formulär som ger direkt återkoppling, menyer som fälls ut, chattar som uppdateras utan att sidan laddas om – är möjliga tack vare **JavaScript**. Det är språket som ger webbsidor förmågan att tänka, minnas och reagera.
 
 Det är det du ska lära dig.
 
@@ -24,16 +24,18 @@ En modern webbsida byggs av tre kompletterande tekniker, var och en med ett tydl
 
 **JavaScript** styr sidans *beteende*. Det är JavaScript som reagerar när du klickar, skriver, scrollar eller drar. Det är JavaScript som hämtar ny data från servern, uppdaterar sidan, validerar formulär och animerar element. Om HTML är *vad* och CSS är *hur det ser ut*, är JavaScript vad som *händer*.
 
+Ta gilla-knappen från början av kapitlet. Hjärtat och siffran är HTML, färgerna är CSS – men det som händer när du klickar är JavaScript:
+
 ```{mermaid}
-%%| fig-alt: "Flödesschema som visar hur ett klick på en knapp leder till att JavaScript fångar händelsen, hämtar data från en server, uppdaterar HTML och CSS, och slutligen visar nytt innehåll för besökaren utan att sidan laddas om."
+%%| fig-alt: "Flödesschema som visar vad som händer när besökaren klickar på ett hjärta: JavaScript märker klicket, räknar upp siffran från 41 till 42 och byter hjärtats färg till rött, och besökaren ser ändringen utan att sidan laddas om."
 flowchart TD
-    A[Besökaren klickar på en knapp] --> B[JavaScript fångar klicket]
-    B --> C[JavaScript hämtar data från en server]
-    C --> D[JavaScript uppdaterar HTML och CSS på sidan]
-    D --> E[Besökaren ser nytt innehåll\n— utan att sidan laddats om]
+    A[Besökaren klickar på hjärtat] --> B[JavaScript märker klicket]
+    B --> C[JavaScript ändrar siffran från 41 till 42]
+    C --> D[JavaScript byter hjärtats färg till rött]
+    D --> E[Besökaren ser ändringen – utan att sidan laddats om]
 ```
 
-De tre teknikerna är inte oberoende – de samverkar. JavaScript kan läsa och förändra sidans HTML och CSS under körning. Det är den förmågan som gör dynamiska webbsidor möjliga.
+De tre teknikerna är inte oberoende – de samverkar. JavaScript kan läsa och förändra sidans HTML och CSS medan sidan visas. Det är den förmågan som gör dynamiska webbsidor möjliga.
 
 ::: {.callout-note}
 ## En anteckning om HTML och CSS
@@ -51,39 +53,17 @@ En dator är en extremt snabb men fullständigt "dum" maskin. Den gör ingenting
 
 Tänk på ett recept. Ett matrecept är en sekvens av instruktioner riktade till en kock: *ta 300 gram mjöl*, *tillsätt ett ägg*, *blanda tills smeten är slät*, *grädda i 175 grader i 25 minuter*. En kock kan tolka instruktionerna, improvisera om ingrediensen saknas och avgöra när smeten "ser slät ut". En dator kan inte det. En dator följer instruktionerna bokstavligt, utan omdöme, utan att kunna fylla i luckor. Om en instruktion saknas eller är fel, blir resultatet därefter.
 
-Det ställer krav på oss som programmerare: vi måste lära oss att tänka precist och fullständigt. Det är en kompetens som tränas, och det är den kompetensen den här boken handlar om att bygga.
+Som programmerare behöver vi därför vänja oss vid att tänka lite mer precist och fullständigt än vi brukar i vardagen. Det låter kanske krävande, men det är ingenting man måste kunna från början. Det är ett sätt att tänka som växer fram med övning, och den här boken ska hjälpa dig att träna upp det, steg för steg.
 
 Konkret ser en programmeringsinstruktion i JavaScript ut ungefär så här:
 
 ```javascript
-console.log("Hej, världen!");
+alert("Hej, världen!");
 ```
 
-Den raden instruerar webbläsaren att skriva ut texten `Hej, världen!` i konsolen. Det är ett komplett program – litet, men komplett. Det tar ingen indata, fattar inga beslut och hanterar inga händelser. Men det är en giltig instruktion som datorn kan följa.
+Den raden instruerar webbläsaren att visa en liten ruta mitt på skärmen med texten `Hej, världen!` och en knapp för att stänga den. Du har säkert sett sådana rutor på webbsidor förut. Det är ett komplett program – litet, men komplett. Det tar inte emot något från användaren, fattar inga beslut och reagerar inte på några klick. Men det är en giltig instruktion som datorn kan följa.
 
-Verkliga program är längre och mer komplexa – de tar emot indata, fattar beslut baserade på data (som vi ska se i kapitel [-@sec-villkor]), upprepar instruktioner (kapitel [-@sec-loopar]), och är organiserade i återanvändbara delar (kapitel [-@sec-funktioner]). Men principen är densamma: en sekvens av precisa instruktioner.
-
----
-
-## JavaScript i webbläsaren
-
-JavaScript skapades 1995 av Brendan Eich på Netscape Communications, ursprungligen under namnet *Mocha*, senare *LiveScript*, slutligen *JavaScript*. Det utformades specifikt för att köras i webbläsaren och ge webbsidor interaktivitet. Trots att det tekniskt sett inte har något med programmeringsspråket Java att göra lånades namnet för att rida på Javas popularitet vid den tiden [@wirfsbrock2020javascript].
-
-I dag är JavaScript standardiserat under namnet **ECMAScript** av organisationen [Ecma International](https://www.ecma-international.org/). Den version som är relevant för modern webbutveckling är ES2015 (ibland kallad ES6) och senare, som introducerade ett antal viktiga förbättringar av språket. I den här boken skrivs alltid modern JavaScript.
-
-### Klientsidan vs serversidan
-
-Webben är ett klient-server-system. **Servern** är en dator någonstans på internet som lagrar webbplatsens filer och svarar på förfrågningar. **Klienten** är den dator och webbläsare du sitter vid.
-
-JavaScript körs ursprungligen på *klientsidan* – i din webbläsare, på din dator. Det är vad "klientsidan" i den här bokens titel syftar på. Koden laddas ner från servern tillsammans med HTML och CSS, och exekveras sedan lokalt i webbläsaren.
-
-Det finns också JavaScript på *serversidan* – framför allt via plattformen **Node.js** – men det är utanför den här bokens scope. Vi fokuserar uteslutande på JavaScript i webbläsaren.
-
-### En säker sandlåda
-
-Webbläsaren kör JavaScript i en strikt **sandlåda** (*sandbox*): en isolerad miljö med begränsad åtkomst till resten av datorn. JavaScript kan inte läsa filer på din hårddisk, öppna program eller nå operativsystemet direkt. Det är en medveten säkerhetsdesign – du ska kunna besöka vilken webbsida som helst utan att riskera att den skadliga koden på sidan kan skada din dator.
-
-Det JavaScript *kan* göra är att manipulera webbsidans innehåll, kommunicera med servern, lagra data i webbläsarens egna lagringsmekanismer, och interagera med webbläsarens API:er för saker som ljud, kamera och geolokalisering – men alltid med användarens samtycke.
+Verkliga program är längre och mer komplexa – de tar emot information från användaren, fattar beslut utifrån den (som vi ska se i kapitel [-@sec-villkor]), upprepar instruktioner (kapitel [-@sec-loopar]), och är organiserade i återanvändbara delar (kapitel [-@sec-funktioner]). Men principen är densamma: en sekvens av precisa instruktioner.
 
 ---
 
@@ -92,20 +72,34 @@ Det JavaScript *kan* göra är att manipulera webbsidans innehåll, kommunicera 
 ::: {.callout-note}
 ## En förhandsvarning om okänd syntax
 
-Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras — allt annat förklaras när vi kommer dit. Redan i kapitel [-@sec-dom-intro] lär vi oss att förändra webbsidan direkt, och i kapitel [-@sec-funktioner] formaliserar vi vad funktionsanrop som `console.log()` egentligen är.
+Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras – allt annat förklaras när vi kommer dit. Redan i kapitel [-@sec-dom-intro] lär vi oss att förändra webbsidan direkt, och i kapitel [-@sec-funktioner] formaliserar vi vad funktionsanrop som `console.log()` egentligen är.
 :::
 
-Det enklaste sättet att köra JavaScript är via webbläsarens inbyggda **konsol**. Öppna den med `F12` (på Mac `Cmd+Option+I`; i Safari måste du först slå på menyn *Utveckla* i inställningarna), välj fliken *Console*, och du har ett interaktivt JavaScript-skal framför dig.
+Raden med `alert` ovan kan du köra redan nu, utan att skapa en enda fil. Alla moderna webbläsare (Chrome, Firefox, Edge, Safari) har inbyggda **utvecklarverktyg** (*DevTools*) – programmerarens bästa vän. Du öppnar dem med `F12` (på Mac `Cmd+Option+I`; i Safari måste du först slå på menyn *Utveckla* i inställningarna).
 
-Skriv in följande och tryck Enter:
+Utvecklarverktygen består av flera flikar. De du kommer att använda mest är:
+
+- **Console** – kör JavaScript direkt, se utskrifter från din kod och läs felmeddelanden.
+- **Elements** (eller *Inspector* i Firefox) – utforska sidans HTML och CSS medan sidan visas. Du kan se hur sidan är strukturerad och till och med ändra CSS direkt i verktyget.
+- **Sources** (eller *Debugger*) – inspektera dina JavaScript-filer och sätt **brytpunkter** (*breakpoints*) för att pausa programmet och undersöka vad som händer. Det återkommer vi till i ett senare kapitel om felsökning.
+
+### Konsolen
+
+Välj fliken *Console*. Där kan du skriva JavaScript och få det kört direkt. Skriv in raden från förra avsnittet och tryck Enter:
+
+```javascript
+alert("Hej, världen!");
+```
+
+Rutan dyker upp på sidan du har öppen. Stäng den, och prova sedan nästa rad:
 
 ```javascript
 console.log("Hej, världen!");
 ```
 
-Du borde se texten `Hej, världen!` skrivas ut i konsolen. `console.log()` är en funktion som skriver ut ett värde – den kommer att vara ditt främsta verktyg för att inspektera vad din kod gör under hela kursens gång.
+Den här gången visas ingen ruta. Texten `Hej, världen!` skrivs i stället ut i konsolen. Skillnaden är viktig: `alert` visar något för *besökaren*, medan `console.log()` visar något för *dig som programmerare*. Besökare tittar sällan i konsolen, och därför är `console.log()` ditt främsta verktyg för att inspektera vad din kod gör genom hela boken.
 
-Konsolen är också en miniräknare. Prova:
+Konsolen är också en miniräknare. Skriv in en rad i taget och tryck Enter efter varje:
 
 ```javascript
 2 + 2
@@ -113,13 +107,53 @@ Konsolen är också en miniräknare. Prova:
 Math.PI
 ```
 
-JavaScript utvärderar uttrycket och visar resultatet direkt. Det är ett utmärkt sätt att snabbt testa hur ett uttryck beter sig innan du integrerar det i ett program.
+JavaScript räknar ut varje rad och visar resultatet direkt. En bit kod som ger ett värde på det här sättet kallas ett **uttryck** – mer om det i kapitel [-@sec-variabler]. Konsolen är ett utmärkt ställe att snabbt testa hur ett uttryck beter sig innan du använder det i ett program.
+
+### När något går fel
+
+Förr eller senare skriver du fel. Prova att medvetet stava fel på `log`:
+
+```javascript
+console.lg("Hej, världen!");
+```
+
+Konsolen svarar med röd text, ungefär så här:
+
+```
+Uncaught TypeError: console.lg is not a function
+```
+
+Det är lätt att uppfatta röd text som ett misslyckande, men ett felmeddelande är i själva verket hjälp. Läs det bit för bit: `TypeError` säger vilken *sorts* fel det är, och `console.lg is not a function` pekar ut exakt vad i din kod som inte fungerade. När koden ligger i en fil står det dessutom på vilken rad felet uppstod. Felmeddelandena är på engelska, men du behöver inte förstå varje ord – ofta räcker det att hitta namnet från din egen kod i meddelandet.
+
+Gör det till en vana: när koden inte gör vad du förväntar dig är konsolen det första stället du tittar.
+
+---
+
+## JavaScript i webbläsaren
+
+JavaScript skapades 1995 av Brendan Eich på Netscape Communications, ursprungligen under namnet *Mocha*, senare *LiveScript*, slutligen *JavaScript*. Det utformades specifikt för att köras i webbläsaren och ge webbsidor interaktivitet. Trots att det tekniskt sett inte har något med programmeringsspråket Java att göra lånades namnet för att rida på Javas popularitet vid den tiden [@wirfsbrock2020javascript].
+
+I dag är JavaScript standardiserat under namnet **ECMAScript** av organisationen [Ecma International](https://www.ecma-international.org/), och språket får nya funktioner varje år. Den här boken använder genomgående modern JavaScript. Du kommer därför ibland att hitta äldre kod på nätet som ser lite annorlunda ut än bokens exempel.
+
+### Klientsidan vs serversidan
+
+Webben är ett klient-server-system. **Servern** är en dator någonstans på internet som lagrar webbplatsens filer och svarar på förfrågningar. **Klienten** är den dator och webbläsare du sitter vid.
+
+JavaScript skapades för att köras på *klientsidan* – i din webbläsare, på din dator. Det är vad "klientsidan" i den här bokens titel syftar på. Koden laddas ner från servern tillsammans med HTML och CSS, och körs sedan i webbläsaren.
+
+Det finns också JavaScript på *serversidan* – framför allt via plattformen **Node.js** – men det ligger utanför den här bokens ramar. Vi fokuserar uteslutande på JavaScript i webbläsaren.
+
+### En säker sandlåda
+
+Webbläsaren kör JavaScript i en strikt **sandlåda** (*sandbox*): en isolerad miljö med begränsad åtkomst till resten av datorn. JavaScript kan inte läsa filer på din hårddisk, öppna program eller nå operativsystemet direkt. Det är en medveten säkerhetsdesign – du ska kunna besöka vilken webbsida som helst utan att riskera att skadlig kod på sidan förstör något på din dator.
+
+Det JavaScript *kan* göra är att ändra webbsidans innehåll, kommunicera med servern och lagra data i webbläsarens egna lagringsutrymmen. Det kan också använda känsligare funktioner som kamera, mikrofon och din geografiska position – men då frågar webbläsaren dig först om lov.
 
 ---
 
 ## Att koppla JavaScript till en HTML-sida
 
-I ett verkligt projekt skriver man inte JavaScript direkt i konsolen – man kopplar ihop det med en HTML-sida via `<script>`-taggen. Det finns flera sätt att göra det, med viktiga skillnader i hur koden laddas och fungerar.
+I ett verkligt projekt skriver man inte JavaScript direkt i konsolen – man kopplar ihop det med en HTML-sida via `<script>`-elementet. Det finns flera sätt att göra det, med viktiga skillnader i hur koden laddas och fungerar.
 
 ### Inline-skript
 
@@ -143,9 +177,9 @@ Det enklaste sättet är att skriva koden direkt i HTML-filen:
 </html>
 ```
 
-Skriptet placeras här *i slutet av `<body>`*, precis före `</body>`. Det är nödvändigt eftersom webbläsaren läser och tolkar HTML uppifrån och ned: när den når ett `<script>`-block avbryter den HTML-inläsningen och kör koden direkt. Om skriptet ligger i `<head>` och försöker hämta `<h1>`-elementet med `querySelector` — som ännu inte har lästs in — returnerar funktionen `null` och koden misslyckas. Genom att placera skriptet sist i `<body>` garanterar vi att alla HTML-element finns när JavaScript körs.
+Skriptet placeras här *i slutet av `<body>`*, precis före `</body>`. Det är nödvändigt eftersom webbläsaren läser HTML uppifrån och ned: när den når ett `<script>`-element stannar den och kör koden direkt, innan den läser vidare. Om skriptet i stället låg i `<head>` skulle `querySelector` leta efter ett `<h1>`-element som webbläsaren ännu inte har läst in. Den hittar då ingenting, och koden misslyckas med ett felmeddelande i konsolen. Genom att placera skriptet sist i `<body>` garanterar vi att alla HTML-element finns när JavaScript körs.
 
-Inline-skript passar för snabba tester men inte för riktiga projekt — koden blandas med HTML-strukturen, och placeringsproblemet försvinner inte av sig självt. Det rekommenderade alternativet nedan löser båda problemen på en gång.
+Inline-skript fungerar bra för snabba tester, men i riktiga projekt blir det rörigt när JavaScript-koden blandas med HTML-strukturen. Dessutom måste du hela tiden hålla koll på var i dokumentet skriptet står. Det rekommenderade alternativet nedan löser båda problemen.
 
 ### Externt skript med `type="module"`
 
@@ -171,47 +205,27 @@ console.log("Skriptet körs!");
 document.querySelector("h1").textContent = "Hej, JavaScript!";
 ```
 
-Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul** (*ECMAScript module*). Moduler återkommer vi till i kapitel [-@sec-moduler], men de medför flera fördelar som är viktiga att känna till från start:
+JavaScript-koden ligger nu i en egen fil, `script.js`, och HTML-filen pekar ut den med attributet `src` – på samma sätt som du pekar ut en bild med `<img src="...">` eller en stilmall med `<link href="...">`.
 
-**Automatisk uppskjutning.** En modulfil laddas och körs automatiskt *efter* att HTML-dokumentet är färdiginläst, oavsett var `<script>`-taggen placeras. Därför kan man lägga den i `<head>` utan problem – webbläsaren väntar på att DOM:en är redo.
+Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul**. Det viktigaste för dig just nu är att en modul alltid körs *efter* att webbläsaren har läst in hela HTML-dokumentet, oavsett var `<script>`-elementet står. Därför kan det ligga i `<head>` utan problem: när koden körs finns `<h1>`-elementet redan.
 
-**Eget scope.** Variabler och funktioner som deklareras i en modulfil är *lokala* till den filen. De läcker inte ut i det globala scopet och kan inte krocka med variabler från andra skript. Det är en viktig skillnad mot vanliga skript, där allt hamnar i samma globala s.k. namnrymd.
-
-**Strikt läge som standard.** Moduler körs alltid i *strict mode*, vilket bland annat innebär att vanliga programmeringsmisstag ger felmeddelanden istället för att tyst ignoreras.
-
-**Stöd för `import` och `export`.** Moduler kan dela kod mellan filer med `import`- och `export`-satserna. 
-
-I den här boken används `type="module"` konsekvent. Det är den metod du ska vänja dig vid. 
+Moduler har också andra fördelar, men de blir begripliga först när du har skrivit lite mer kod. Vi återkommer till dem i kapitel [-@sec-funktioner] och kapitel [-@sec-moduler]. I den här boken används `type="module"` konsekvent – det är den form du ska vänja dig vid.
 
 ::: {.callout-important}
 ## Moduler kräver en webbserver
 
-En viktig praktisk begränsning: moduler kan inte läsas direkt från filsystemet via `file://`-protokollet i de flesta webbläsare, av säkerhetsskäl. Om du öppnar en HTML-fil med `type="module"` direkt i webbläsaren (genom att dubbelklicka på filen) får du ett felmeddelande om *CORS* i konsolen.
+En viktig praktisk begränsning: av säkerhetsskäl vägrar de flesta webbläsare att läsa moduler direkt från datorns filsystem. Om du öppnar en HTML-fil med `type="module"` genom att dubbelklicka på den, så att adressen i webbläsaren börjar med `file://`, händer ingenting – och i konsolen står ett felmeddelande som nämner *CORS*. Vad det betyder kommer vi till senare i boken; just nu räcker det att veta hur du undviker det.
 
-Lösningen är att köra en lokal webbserver. Det enklaste sättet är tillägget **Live Server** i Visual Studio Code: högerklicka på `index.html` och välj *Open with Live Server*. Det startar en server på `http://localhost:5500` och öppnar sidan i webbläsaren automatiskt. Sidan laddas också om direkt när du sparar en fil.
+Lösningen är att köra en lokal webbserver. Det enklaste sättet är tillägget **Live Server** till Visual Studio Code. Installera det en gång via fliken *Extensions* i VS Code (sök på "Live Server"). Sedan högerklickar du på `index.html` och väljer *Open with Live Server*. Det startar en server på `http://localhost:5500` och öppnar sidan i webbläsaren automatiskt. Sidan laddas också om direkt när du sparar en fil.
 :::
 
 ::: {.callout-note}
-## Vanliga `<script>`-taggar utan `type="module"`
+## Vanliga `<script>`-element utan `type="module"`
 
-Äldre och befintlig kod använder ofta `<script src="script.js"></script>` utan `type="module"`. Sådana skript körs synkront i den ordning de påträffas i HTML-dokumentet, och alla variabler hamnar i det globala scopet. Attributet `defer` kan läggas till för att skjuta upp körningen tills dokumentet är inläst – men det är alltså standard för moduler.
+Äldre kod använder ofta `<script src="script.js"></script>` utan `type="module"`. Ett sådant skript körs i samma ögonblick som webbläsaren når det i HTML-dokumentet – precis som inline-skriptet ovan. Står det i `<head>` finns alltså inga element att arbeta med ännu. Attributet `defer` (`<script defer src="script.js">`) gör att webbläsaren väntar med att köra skriptet tills dokumentet är inläst, ungefär som en modul gör automatiskt.
 
-Du kommer att stöta på den äldre formen i tutorials och äldre kodbaser. Känn igen den, men skriv ny kod som moduler.
+Du kommer att stöta på den äldre formen i guider och äldre kodbaser. Känn igen den, men skriv ny kod som moduler.
 :::
-
----
-
-## Utvecklarverktygen
-
-Webbläsarens **utvecklarverktyg** (*DevTools*) är programmerarens bästa vän. De flesta webbläsare (Chrome, Firefox, Edge, Safari) har likartade verktyg, öppnade med `F12`.
-
-De delar du kommer att använda mest:
-
-- **Console** – kör JavaScript interaktivt, se utskrifter från `console.log()`, och läs felmeddelanden. Felmeddelanden är informativa, inte skrämmande: de berättar precis vad som gick fel och på vilken rad.
-- **Elements** (eller *Inspector* i Firefox) – utforska sidans HTML och CSS i realtid. Du kan se hur sidan är strukturerad och till och med ändra CSS direkt i verktyget.
-- **Sources** (eller *Debugger*) – inspektera dina JavaScript-filer och sätt **brytpunkter** (*breakpoints*) för att pausa exekvering och undersöka programmets tillstånd. Det återkommer vi till i ett senare kapitel om felsökning.
-
-Lär dig konsolen tidigt. När koden inte gör vad du förväntar dig är konsolen det första stället du tittar.
 
 ---
 
@@ -219,11 +233,12 @@ Lär dig konsolen tidigt. När koden inte gör vad du förväntar dig är konsol
 
 - Webben byggs av tre kompletterande tekniker: **HTML** (innehåll och struktur), **CSS** (utseende) och **JavaScript** (beteende och interaktivitet).
 - **Programmering** innebär att skriva precisa instruktioner som en dator kan följa. Datorn gör exakt vad den instrueras – varken mer eller mindre.
+- Webbläsarens **utvecklarverktyg** öppnas med `F12`. I **konsolen** kan du köra kod direkt, se utskrifter från `console.log()` och läsa felmeddelanden.
+- **Felmeddelanden** är hjälp, inte misslyckanden: de berättar vilken sorts fel det är och var i koden det uppstod.
 - JavaScript skapades för webbläsaren och körs på **klientsidan** – i besökarens webbläsare, inte på servern.
 - Webbläsarens **sandlåda** isolerar JavaScript från operativsystemet och skyddar användaren.
-- JavaScript kopplas till en HTML-sida med `<script type="module" src="script.js"></script>`. Moduler är automatiskt uppskjutna, körs i strikt läge och har eget scope – använd dem konsekvent.
-- Moduler kräver en lokal webbserver; verktyg som **Live Server** i VS Code löser det enkelt.
-- **Konsolen** i webbläsarens utvecklarverktyg är ditt primära verktyg för att köra och inspektera kod.
+- JavaScript kopplas till en HTML-sida med `<script type="module" src="script.js"></script>`. En modul körs först när hela HTML-dokumentet är inläst, och kan därför ligga i `<head>`.
+- Moduler kräver en lokal webbserver; tillägget **Live Server** i VS Code löser det enkelt.
 
 Nästa kapitel går in på hur JavaScript representerar information – de värden, typer och variabler som allt annat byggs på.
 
@@ -238,7 +253,7 @@ AI-verktyg som ChatGPT, Claude eller Copilot kan vara en utmärkt studiekamrat �
 - **Granska** – låt AI:n leta svagheter i din lösning, utan att skriva om den.
 - **Få material att öva på** – övningssidor, testdata och uppgifter, men inte lösningarna.
 
-Två saker gäller genomgående. AI:n kan ha fel – och den har sällan mindre självsäker röst när den har det. Kontrollera därför påståenden i konsolen eller på MDN. Och be hellre om en *ledtråd* än om ett svar när du har kört fast.
+Två saker gäller genomgående. AI:n kan ha fel – och den låter lika säker när den har fel som när den har rätt. Kontrollera därför påståenden i konsolen eller på MDN. Och be hellre om en *ledtråd* än om ett svar när du har kört fast.
 
 **Låt AI:n förhöra dig:**
 
@@ -256,23 +271,6 @@ Lägg märke till formuleringen: du ber inte om en lösning, utan om att först�
 ## Övningar
 
 ::: {.callout-note}
-## Övning – Konsolen som miniräknare
-
-Öppna webbläsarens konsol (`F12` → *Console*). Skriv först ner vad du tror att varje uttryck ger, och testa sedan:
-
-```javascript
-10 + 3
-10 - 3
-10 * 3
-10 / 3
-10 % 3
-2 ** 10
-```
-
-Operatorerna `%` och `**` har du kanske inte sett förut. Vad verkar de göra, att döma av resultaten? Testa med fler tal tills du är säker. (De förklaras i kapitel [-@sec-tal].)
-:::
-
-::: {.callout-note}
 ## Övning – HTML, CSS eller JavaScript?
 
 Fundera på följande webbfunktioner. Vilken teknik – HTML, CSS eller JavaScript – är primärt ansvarig för var och en? Motivera ditt svar. (Ibland kan mer än ett svar vara rimligt – resonera i så fall.)
@@ -288,6 +286,54 @@ Fundera på följande webbfunktioner. Vilken teknik – HTML, CSS eller JavaScri
 :::
 
 ::: {.callout-note}
+## Övning – Utforska DevTools
+
+Öppna valfri webbsida du besöker regelbundet (t.ex. Linnéuniversitetets webbplats). Öppna utvecklarverktygen och:
+
+1. Hitta en `<h1>`-rubrik i *Elements*-panelen och ändra texten direkt i panelen. Vad händer på sidan? Vad händer om du laddar om sidan?
+2. Hitta en CSS-egenskap för rubriken (t.ex. `font-size`) och ändra värdet. Vad händer?
+3. Gå till *Console* och skriv `document.title`. Vad returneras?
+
+Det du gör i DevTools är temporärt – sidan återgår till original vid omladdning. Varför är det så? Vad hade behövts förändras för att ändringen skulle bestå?
+:::
+
+::: {.callout-note}
+## Övning – Konsolen som miniräknare
+
+Öppna webbläsarens konsol (`F12` → *Console*). Skriv först ner vad du tror att varje uttryck ger, och testa sedan – en rad i taget:
+
+```javascript
+10 + 3
+10 - 3
+10 * 3
+10 / 3
+10 % 3
+2 ** 10
+```
+
+Operatorerna `%` och `**` har du kanske inte sett förut. Vad verkar de göra, att döma av resultaten? Testa med fler tal tills du är säker. (De förklaras i kapitel [-@sec-tal].)
+:::
+
+::: {.callout-note}
+## Övning – Gör fel med flit
+
+Skriv in var och en av raderna nedan i konsolen. Alla tre innehåller ett litet fel. Försök först själv hitta felet i varje rad, och läs sedan felmeddelandet du får.
+
+```javascript
+console.lg("Hej!");
+Console.log("Hej!");
+console.log("Hej!);
+```
+
+För varje rad:
+
+1. Vilken sorts fel säger konsolen att det är (ordet som slutar på `Error`)?
+2. Vilken del av meddelandet pekar ut vad som är fel? Stämmer det med det fel du själv hittade?
+
+Vilket av de tre felmeddelandena var lättast att förstå, och vilket var svårast? Varför tror du att det är så?
+:::
+
+::: {.callout-note}
 ## Övning – Läs koden innan du kör den
 
 I exemplen ovan förekommer raden:
@@ -296,10 +342,10 @@ I exemplen ovan förekommer raden:
 document.querySelector("h1").textContent = "Hej, JavaScript!";
 ```
 
-Du har inte lärt dig vad den gör än – men titta på den och resonera: vad *tror* du att den gör? Bryt ner den del för del: 
+Du har inte lärt dig vad den gör än – men titta på den och resonera: vad *tror* du att den gör? Bryt ner den del för del:
 
-* vad kan `document.querySelector("h1")` syfta på? 
-* Vad kan `textContent` betyda? 
+* Vad kan `document.querySelector("h1")` syfta på?
+* Vad kan `textContent` betyda?
 * Vad är `= "Hej, JavaScript!"` för slags operation?
 
 Formulera din gissning i ord, och testa den sedan.
@@ -325,45 +371,15 @@ Stämde din gissning? Vad hände med sidan? Vad händer om du laddar om sidan ef
 :::
 
 ::: {.callout-note}
-## Övning – Skriptvarianternas skillnader
+## Övning – Var ska skriptet stå?
 
-Den här övningen utforskar de praktiska skillnaderna mellan hur JavaScript kan inkluderas i en HTML-sida. Skapa en projektmapp med filen `index.html` från övning 1.3 och en ny fil `script.js`, och öppna sidan med Live Server (se rutan *Moduler kräver en webbserver* ovan).
+Den här övningen utforskar varför det spelar roll hur och var `<script>`-elementet placeras. Skapa en projektmapp med filen `index.html` från övning 1.5 och en ny fil `script.js`, och öppna sidan med Live Server (se rutan *Moduler kräver en webbserver* ovan).
 
-**Del A – Laddningsordning**
+Lägg till en `<h2>`-rubrik i `index.html`, och skriv en rad i `script.js` som ändrar rubrikens text med `document.querySelector("h2").textContent`. Prova att placera `<script>`-elementet på tre olika sätt i `<head>` och notera vad som händer på sidan och i konsolen:
 
-Lägg till en `<h2>`-rubrik i `index.html`, och skriv en rad i `script.js` som ändrar rubrikens text med `document.querySelector("h2").textContent`. Prova att placera `<script>`-taggen på tre olika ställen och notera vad som händer:
+1. *Utan* `type="module"` och utan `defer`
+2. Med `defer`
+3. Med `type="module"`
 
-1. I `<head>`, *utan* `type="module"` och utan `defer`
-2. I `<head>`, med `defer`
-3. I `<head>`, med `type="module"`
-
-I vilket av fallen misslyckas `querySelector`? Varför? Vad är skillnaden i hur webbläsaren hanterar de tre fallen?
-
-**Del B – Scope och den globala namnrymden**
-
-Deklarera en variabel i `script.js`:
-
-```javascript
-const hälsning = "Hej från skriptfilen!";
-console.log(hälsning);
-```
-
-Prova nu att skriva `hälsning` direkt i webbläsarens konsol.
-
-1. Med `type="module"`: vad händer, och varför?
-2. Ta bort `type="module"` (vanlig `<script src="...">`): vad händer nu?
-
-Vad säger detta om skillnaden i scope mellan moduler och vanliga skript? Varför är modulbeteendet att föredra i större projekt?
-:::
-
-::: {.callout-note}
-## Övning – Utforska DevTools
-
-Öppna valfri webbsida du besöker regelbundet (t.ex. Linnéuniversitetets webbplats). Öppna utvecklarverktygen och:
-
-1. Hitta en `<h1>`-rubrik i *Elements*-panelen och ändra texten direkt i panelen. Vad händer på sidan? Vad händer om du laddar om sidan?
-2. Hitta en CSS-egenskap för rubriken (t.ex. `font-size`) och ändra värdet. Vad händer?
-3. Gå till *Console* och skriv `document.title`. Vad returneras?
-
-Det du gör i DevTools är temporärt – sidan återgår till original vid omladdning. Varför är det så? Vad hade behövts förändras för att ändringen skulle bestå?
+I vilket av fallen misslyckas koden? Vad står det i felmeddelandet, och hur hänger det ihop med hur webbläsaren läser HTML-dokumentet? Flytta sedan skriptet från fall 1 till slutet av `<body>`. Vad händer nu – och varför?
 :::
