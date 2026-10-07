@@ -387,7 +387,7 @@ Vad händer om starttalet är 0, negativt eller inte ett tal? Lägg till de kont
 ::: {.callout-note}
 ## Övning – FizzBuzz på sidan
 
-Gå tillbaka till FizzBuzz-övningen (9.3) och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan. Låt användaren välja hur långt programmet ska räkna, med ett fält och en knapp.
+Gå tillbaka till FizzBuzz-övningen (10.3) och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan. Låt användaren välja hur långt programmet ska räkna, med ett fält och en knapp.
 
 Tips: `<pre>`-elementet bevarar radbrytningar, vilket gör att `\n` syns som faktiska radbrytningar på sidan.
 :::

@@ -1,0 +1,428 @@
+# Sant och falskt {#sec-booleska}
+
+## Frågor med två svar
+
+Tänk dig ett anmälningsformulär till quizkvällen. Laget skriver sitt namn och hur många deltagare det har, och klickar sedan på "Anmäl". Ett genomtänkt formulär hjälper användaren på vägen:
+
+- Knappen "Anmäl" är grå och går inte att klicka på förrän laget har skrivit ett namn.
+- Ett varningsmeddelande dyker upp om antalet deltagare är fler än sex.
+- Hälsningen överst visar "Hej, främling!" så länge namnfältet är tomt – inte "Hej, !", som i kapitel [-@sec-handelser].
+
+Allt det bygger på frågor som har exakt två möjliga svar. *Är namnfältet tomt?* *Är antalet större än sex?* *Har användaren fyllt i allt som behövs?* Ja eller nej. Sant eller falskt.
+
+Den sortens frågor är grunden för allt beslutsfattande i program. I det här kapitlet lär du dig att *formulera* frågorna i kod: att jämföra värden, att kombinera flera frågor till en, och att använda svaren direkt på webbsidan. I nästa kapitel lär du dig att låta programmet välja olika vägar beroende på svaret.
+
+---
+
+## Booleska värden
+
+I kapitel [-@sec-variabler] mötte du **booleska värden** (*boolean values*), som bara kan vara ett av två: `true` eller `false`. Typen är uppkallad efter logikern George Boole, som på 1800-talet formaliserade algebran med sanning och lögn som enda värden.
+
+Booleska värden kan skrivas direkt i koden, som när vi satte `hidden = true` i kapitel [-@sec-dom-intro]. Men oftast uppstår de när man **jämför** två värden. En jämförelse är ett uttryck som utvärderas till `true` eller `false`:
+
+```javascript
+10 > 5           // true  – tio är större än fem
+3 === 3          // true  – tre är lika med tre
+7 < 2            // false – sju är inte mindre än två
+"hej" === "Hej"  // false – strängjämförelse är skiftlägeskänslig
+```
+
+Ett jämförelseuttryck *frågar* något, och svaret är ett booleskt värde. Det värdet kan sparas i en variabel som vilket värde som helst:
+
+```javascript
+const poäng = 73;
+const ärGodkänd = poäng >= 50;   // true
+const förMångaDeltagare = 8 > 6; // true
+```
+
+Det är god praxis att ge booleska variabler namn som läses som frågor eller påståenden: `ärGodkänd`, `harSvarat`, `förMångaDeltagare`. Då blir koden lätt att läsa högt.
+
+---
+
+## Jämförelseoperatorer
+
+Vi har redan använt `>`, `>=` och `===`. Nu är det dags att gå igenom **jämförelseoperatorerna** systematiskt. Alla returnerar ett booleskt värde – `true` eller `false`.
+
+| Operator | Betydelse             | Exempel           | Resultat |
+|----------|-----------------------|-------------------|----------|
+| `===`    | Strikt lika med       | `5 === 5`         | `true`   |
+| `!==`    | Strikt inte lika med  | `5 !== 3`         | `true`   |
+| `<`      | Mindre än             | `3 < 5`           | `true`   |
+| `>`      | Större än             | `3 > 5`           | `false`  |
+| `<=`     | Mindre än eller lika  | `5 <= 5`          | `true`   |
+| `>=`     | Större än eller lika  | `5 >= 6`          | `false`  |
+
+### Strikt jämförelse: `===` och `!==`
+
+JavaScript har två sorters likhetsoperatorer. Den **strikta** (`===`) kräver att både värde *och typ* stämmer överens. Den **lösa** (`==`) gör automatiska typkonverteringar innan jämförelsen – och ger ibland resultat som kan verka magiska:
+
+```javascript
+5 === 5       // true
+5 === "5"     // false – olika typer
+5 == "5"      // true  – "5" konverteras till 5 innan jämförelsen
+0 == false    // true  – false konverteras till 0
+"" == false   // true  – båda konverteras till 0
+null == undefined  // true
+```
+
+**Använd alltid `===` och `!==`.** Den lösa jämförelsen kan ge logiska buggar som är svåra att spåra – du tror att du jämför tal, men jämför i verkligheten tal med strängar och får `true` ändå. Strikt jämförelse är förutsägbar och explicit.
+
+::: {.callout-important}
+## `null` vs. `undefined`
+
+En vanlig källa till förvirring är att `null == undefined` är `true` med lös jämförelse, men `null === undefined` är `false` med strikt jämförelse. Ännu ett skäl att alltid använda `===`.
+:::
+
+### Jämförelse av strängar
+
+Jämförelseoperatorerna `<`, `>`, `<=`, `>=` fungerar också på strängar och jämför dem lexikografiskt – ungefär som i ett lexikon, tecken för tecken enligt deras Unicode-värde:
+
+```javascript
+"Anna" < "Björn"    // true  – 'A' kommer före 'B'
+"anna" < "Anna"     // false – gemener har högre Unicode-värde än versaler
+"10" < "9"          // true  – "1" < "9" som tecken, inte 10 < 9 som tal
+```
+
+Den sista raden är en klassisk källa till buggar: om du jämför tal som råkar vara strängar (t.ex. från ett formulär) fungerar inte `<` och `>` numeriskt. Konvertera alltid till `number` med `Number()` om du ska jämföra numeriskt, precis som du lärde dig i kapitel [-@sec-tal].
+
+Att jämförelser av strängar är skiftlägeskänsliga ställer ofta till det när användaren skriver in text. Svarar någon `"stockholm"` på en quizfråga vill du troligen räkna det som rätt. Lösningen är att städa och normalisera texten med metoderna från kapitel [-@sec-strangar] innan du jämför:
+
+```javascript
+const svar = "  stockholm ";
+svar.trim().toLowerCase() === "stockholm"   // true
+```
+
+---
+
+## Logiska operatorer
+
+Ibland beror svaret på en fråga på *flera* saker samtidigt. Är studenten godkänd? Det kräver kanske både att poängen räcker *och* att uppgiften lämnades in i tid. **Logiska operatorer** kombinerar booleska värden till ett nytt booleskt värde.
+
+### `&&` – och
+
+`&&` är `true` bara om *båda* operanderna är `true`:
+
+```javascript
+const poäng = 73;
+const inlämnadITid = true;
+
+const ärGodkänd = poäng >= 50 && inlämnadITid;   // true
+```
+
+Studenten är godkänd bara om *både* poängen räcker *och* uppgiften lämnades in i tid. Hade `inlämnadITid` varit `false` hade hela uttrycket blivit `false`, oavsett poäng.
+
+| `a`     | `b`     | `a && b` |
+|---------|---------|----------|
+| `true`  | `true`  | `true`   |
+| `true`  | `false` | `false`  |
+| `false` | `true`  | `false`  |
+| `false` | `false` | `false`  |
+
+Ett vanligt användningsområde är att kontrollera att ett tal ligger inom ett intervall. Matematikens `0 ≤ poäng ≤ 100` skrivs i JavaScript som två jämförelser sammanbundna med `&&`:
+
+```javascript
+const giltigPoäng = poäng >= 0 && poäng <= 100;
+```
+
+### `||` – eller
+
+`||` är `true` om *minst en* operand är `true`:
+
+```javascript
+const harKomplettering = false;
+const kanGåVidare = poäng >= 50 || harKomplettering;   // true
+```
+
+Studenten kan gå vidare om poängen räcker, *eller* om hen har rätt till komplettering – eller båda.
+
+| `a`     | `b`     | `a || b` |
+|---------|---------|------------|
+| `true`  | `true`  | `true`     |
+| `true`  | `false` | `true`     |
+| `false` | `true`  | `true`     |
+| `false` | `false` | `false`    |
+
+### `!` – inte
+
+`!` inverterar ett booleskt värde:
+
+```javascript
+const registrerad = false;
+const måsteRegistrera = !registrerad;   // true
+```
+
+`!false` är `true`, och `!true` är `false`. Operatorn är praktisk när man har ett värde som säger motsatsen till det man behöver – som i formuläret från kapitlets början, där knappen ska vara *avstängd* när formuläret *inte* är ifyllt.
+
+### Kombinera operatorer
+
+Operatorerna kan kombineras till längre uttryck. `!` binds hårdast, sedan `&&` och sist `||` – ungefär som att multiplikation går före addition. Använd parenteser för att göra avsikten tydlig, även när de inte behövs:
+
+```javascript
+const harÅtkomst = inloggad && (ärAdmin || ärLärare);
+```
+
+Läs uttrycket högt: "inloggad, *och* antingen admin eller lärare". Utan parenteserna hade det betytt något annat.
+
+### Kortslutningsutvärdering
+
+JavaScript utvärderar logiska operatorer med **kortslutning** (*short-circuit evaluation*): om resultatet kan avgöras efter att den första operanden utvärderats, utvärderas inte den andra.
+
+- `false && vad_som_helst` → alltid `false`, andra operanden utvärderas inte
+- `true || vad_som_helst` → alltid `true`, andra operanden utvärderas inte
+
+Det betyder att om vänstra sidan av `&&` är `false`, körs aldrig höger sida. Det är användbart, men kan också leda till svårtolkad kod om man inte är försiktig.
+
+---
+
+## Truthy och falsy
+
+Logiska operatorer fungerar inte bara på `true` och `false`. JavaScript har ett begrepp för värden som *beter sig* som `true` eller `false` i ett booleskt sammanhang, utan att vara just de värdena.
+
+Följande värden är **falsy** – de betraktas som falska i sammanhang där ett booleskt värde förväntas:
+
+```javascript
+false
+0
+""          // tom sträng
+null
+undefined
+NaN
+```
+
+Alla andra värden är **truthy** – de betraktas som sanna. Det inkluderar `"0"` (en sträng med ett nollstecken), `[]` (en tom array) och `{}` (ett tomt objekt) – saker som intuitivt kan kännas som "tomma" men som alltså inte är falsy.
+
+Funktionen `Boolean()` visar hur ett värde tolkas:
+
+```javascript
+Boolean(0)        // false – noll är falsy
+Boolean("")       // false – tom sträng är falsy
+Boolean(1)        // true
+Boolean("hej")    // true
+Boolean("0")      // true – en sträng med ett tecken i
+```
+
+### `&&` och `||` returnerar operander
+
+Truthy och falsy förklarar en egenhet hos `&&` och `||`: de returnerar egentligen inte alltid `true` eller `false`, utan *värdet av den operand som avgjorde resultatet*. `||` returnerar den första truthy operanden (eller den sista, om ingen är truthy), och `&&` returnerar den första falsy operanden (eller den sista, om alla är truthy):
+
+```javascript
+"Anna" || "främling"   // "Anna" – första operanden är truthy
+"" || "främling"       // "främling" – första operanden är falsy
+0 || 10                // 10
+```
+
+Det gör `||` till ett smidigt sätt att ange ett **standardvärde**: "använd det här värdet, och om det är tomt, använd det andra". Det löser problemet med hälsningen från kapitel [-@sec-handelser]:
+
+```javascript
+namnfält.addEventListener("input", () => {
+    const namn = namnfält.value.trim() || "främling";
+    hälsning.textContent = `Hej, ${namn}!`;
+});
+```
+
+Är fältet tomt (eller innehåller bara mellanslag) blir `namnfält.value.trim()` den tomma strängen, som är falsy – och då används `"främling"`.
+
+Mönstret är vanligt, men har en fallgrop: *alla* falsy värden ersätts, även `0`. Om noll är ett giltigt värde – till exempel noll poäng – fungerar `||` inte som standardvärde, eftersom `0 || 10` ger `10`.
+
+---
+
+## Sant och falskt på webbsidan
+
+Många egenskaper hos DOM-element är booleska. Du har redan mött `hidden`. Nu när du kan formulera frågor kan du tilldela dem *svaret på en fråga* i stället för ett fast värde – och sidan anpassar sig själv.
+
+### Egenskaper som tar booleska värden
+
+```javascript
+hjälpElement.hidden = poäng >= 50;               // dölj hjälpen för den som är godkänd
+minusKnapp.disabled = antal === 0;               // knappen går inte att klicka på vid 0
+resultat.classList.toggle("godkänd", poäng >= 50);   // klassen bara när villkoret är sant
+```
+
+- **`hidden`** döljer elementet när värdet är `true`, som du såg i kapitel [-@sec-dom-intro].
+- **`disabled`** finns på knappar och formulärfält. När den är `true` blir elementet grått och går inte att använda.
+- **`classList.toggle(klass, värde)`** lägger till klassen när värdet är `true` och tar bort den när det är `false`. I kapitel [-@sec-dom-intro] använde du en variabel som andra argument; nu kan det vara en jämförelse.
+
+Åt andra hållet *ger* vissa egenskaper och metoder booleska svar som du kan använda vidare:
+
+```javascript
+element.classList.contains("dark")   // true om klassen finns
+kryssruta.checked                    // true om en kryssruta är ikryssad
+Number.isNaN(Number(fält.value))     // true om fältet inte innehåller ett tal
+```
+
+`checked` är egenskapen för `<input type="checkbox">`, och den kan både läsas och sättas. `Number.isNaN` är det pålitliga sättet att fråga om ett värde är `NaN` – du kan inte skriva `värde === NaN`, eftersom `NaN` är det enda värdet i JavaScript som inte är lika med sig självt.
+
+### Ett formulär som svarar direkt
+
+Nu kan vi bygga anmälningsformuläret från kapitlets början:
+
+```html
+<p id="hälsning">Hej, främling!</p>
+
+<label for="lagnamn">Lagets namn:</label>
+<input type="text" id="lagnamn">
+
+<label for="antal">Antal deltagare:</label>
+<input type="number" id="antal">
+<p id="varning" hidden>Högst sex deltagare per lag.</p>
+
+<button id="anmäl" disabled>Anmäl</button>
+```
+
+```javascript
+const namnfält = document.querySelector("#lagnamn");
+const antalfält = document.querySelector("#antal");
+const hälsning = document.querySelector("#hälsning");
+const varning = document.querySelector("#varning");
+const anmälKnapp = document.querySelector("#anmäl");
+
+function uppdatera() {
+    const namn = namnfält.value.trim();
+    const antal = Number(antalfält.value);
+
+    const harNamn = namn !== "";
+    const giltigtAntal = antal >= 1 && antal <= 6;
+
+    hälsning.textContent = `Hej, ${namn || "främling"}!`;
+    varning.hidden = antal <= 6;
+    anmälKnapp.disabled = !(harNamn && giltigtAntal);
+}
+
+namnfält.addEventListener("input", uppdatera);
+antalfält.addEventListener("input", uppdatera);
+```
+
+Läs funktionen `uppdatera` uppifrån och ned. Först läses värdena in och städas. Sedan formuleras två frågor, var och en i en egen variabel med ett namn som beskriver frågan. Till sist används svaren: hälsningen får ett standardvärde med `||`, varningen visas när antalet är för stort, och knappen är avstängd så länge det *inte* är sant att båda frågorna har svaret ja.
+
+Lägg märke till att funktionen körs vid *varje* ändring, i båda fälten. Den räknar inte ut vad som har ändrats, utan beskriver hur sidan ska se ut givet de nuvarande värdena. Det är ett robust sätt att bygga gränssnitt: det finns inget gammalt tillstånd som kan bli fel.
+
+Här har det räckt att *svara* på frågor och använda svaren som värden. Ibland behöver programmet göra helt *olika saker* beroende på svaret – visa olika texter, köra olika kod. Det är ämnet för nästa kapitel.
+
+---
+
+## Sammanfattning
+
+- **Booleska värden** (`true`/`false`) uppstår oftast genom **jämförelser** och kan sparas i variabler. Ge sådana variabler namn som läses som frågor: `ärGodkänd`, `harNamn`.
+- **Jämförelseoperatorerna** är `===`, `!==`, `<`, `>`, `<=` och `>=`. Använd alltid `===` och `!==` – de lösa `==` och `!=` gör oväntade typkonverteringar.
+- Strängjämförelser är skiftlägeskänsliga och tecken för tecken – `"10" < "9"` är `true`. Normalisera text med `trim()` och `toLowerCase()`, och konvertera tal med `Number()`, innan du jämför.
+- **Logiska operatorer** kombinerar booleska värden: `&&` (och), `||` (eller), `!` (inte). Använd parenteser för tydlighet. De utvärderas med **kortslutning**.
+- Värdena `false`, `0`, `""`, `null`, `undefined` och `NaN` är **falsy**; allt annat är **truthy**.
+- `&&` och `||` returnerar en av operanderna. `värde || standard` ger ett standardvärde – men ersätter även `0`.
+- Booleska egenskaper som **`hidden`**, **`disabled`** och **`checked`** kan tilldelas svaret på en fråga, och `classList.toggle(klass, villkor)` slår av och på en klass.
+- **`Number.isNaN`** är det pålitliga sättet att upptäcka `NaN`.
+
+I nästa kapitel använder vi de booleska värdena för att låta programmet välja väg: att köra en kod om något är sant och en annan om det är falskt.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Booleska uttryck är ett område där det är lätt att tro sig förstå mer än man gör – tills man ska skriva ett uttryck själv och det inte beter sig som förväntat. AI är ett bra verktyg för att förstå *varför* specifika uttryck utvärderas som de gör, och för att träna på att förutsäga resultat.
+
+**Fråga om specifika uttryck du är osäker på:**
+
+> *"Varför är `"0" == false` sant i JavaScript men `"0" === false` falskt?"*
+
+> *"Varför är en tom array `[]` truthy i JavaScript när en tom sträng `""` är falsy?"*
+
+**Träna på att förutsäga:**
+
+> *"Ge mig tio JavaScript-uttryck med `&&`, `||`, `!` och jämförelser – blanda in några strängar och falsy värden. Låt mig förutsäga resultatet av varje uttryck innan du visar svaret, och förklara sedan de jag fick fel."*
+
+**Översätt mellan språk och kod:**
+
+> *"Ge mig fem påståenden på svenska, som 'användaren är inloggad och har antingen betalat eller har ett provkonto', och låt mig skriva dem som booleska uttryck i JavaScript. Granska sedan mina uttryck."*
+
+Att översätta vardagsspråk till logiska uttryck är svårare än det låter – "eller" i vardagsspråk betyder ibland "antingen eller", men `||` är sant även när båda delarna är sanna.
+
+**Testa din förklaring:**
+
+> *"Förklara vad kortslutningsutvärdering innebär och varför `namn || 'främling'` fungerar som ett standardvärde – stämmer den här förklaringen: [din förklaring]?"*
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Förutsäg jämförelserna
+
+Ange utan att köra koden vilka av följande uttryck som är `true` och vilka som är `false`. Kontrollera sedan i konsolen.
+
+```javascript
+5 === "5"
+5 == "5"
+"Anna" === "anna"
+"Anna".toLowerCase() === "anna"
+"10" < "9"
+Number("10") < Number("9")
+" ja ".trim() === "ja"
+null === undefined
+```
+
+Vilka två rader visar varför man ska använda `===` i stället för `==`? Vilken rad visar en bugg som lätt uppstår med värden från formulärfält?
+:::
+
+::: {.callout-note}
+## Övning – Logiktabellen
+
+Ange utan att köra koden vilka av följande uttryck som är `true` och vilka som är `false`. Motivera varje svar.
+
+```javascript
+true && false
+false || true
+!false
+true && true && false
+false || false || true
+!(3 > 5)
+3 > 2 && 10 < 5
+3 > 2 || 10 < 5
+0 || "hej"
+null && "hej"
+```
+
+De två sista raderna är lite annorlunda – `&&` och `||` returnerar inte alltid `true` eller `false` exakt. Vad returnerar de, och varför?
+:::
+
+::: {.callout-note}
+## Övning – Från ord till uttryck
+
+Skriv ett booleskt uttryck för vart och ett av följande påståenden. Spara uttrycket i en variabel med ett beskrivande namn, och testa med flera olika värden.
+
+1. Personen är barn (under 12 år) eller pensionär (65 år eller äldre).
+2. Ordervärdet är minst 500 kr, eller kunden är premiummedlem.
+3. Användaren är inloggad, har bekräftat sin e-postadress och är inte avstängd.
+4. Lösenordet är minst 8 tecken långt och är inte samma som användarnamnet.
+5. Talet är jämnt men inte delbart med 10.
+
+Vilket av påståendena var svårast att översätta? Fanns det något "eller" som egentligen betydde "antingen eller"?
+:::
+
+::: {.callout-note}
+## Övning – Hej, främling
+
+Gå tillbaka till exemplet med hälsningen i kapitel [-@sec-handelser], där tomt fält gav "Hej, !".
+
+1. Använd `||` så att hälsningen blir "Hej, främling!" när fältet är tomt.
+2. Vad händer om användaren bara skriver mellanslag? Rätta det.
+3. Gör en variant med ett fält för ålder, där standardvärdet är 18. Vad händer om användaren skriver 0? Förklara varför `||` inte fungerar här.
+:::
+
+::: {.callout-note}
+## Övning – Knappar som vet sitt tillstånd
+
+Gå tillbaka till knappräknaren från kapitel [-@sec-handelser], med knappar för att öka, minska och nollställa.
+
+1. Gör minusknappen avstängd (`disabled`) när talet är 0, så att räknaren aldrig kan bli negativ. Var i koden måste uppdateringen ske för att knappen alltid ska ha rätt tillstånd?
+2. Gör plusknappen avstängd när talet når 10.
+3. Ge talet klassen `max` (till exempel med röd färg) när det är 10, med `classList.toggle`.
+:::
+
+::: {.callout-note}
+## Övning – Villkor för att godkänna
+
+Skapa ett formulär med ett fält för e-postadress, en kryssruta med texten "Jag godkänner villkoren" och en knapp "Skicka".
+
+1. Knappen ska vara avstängd tills e-postadressen innehåller ett `@` *och* kryssrutan är ikryssad. Lyssna på `input` för fältet och `change` för kryssrutan.
+2. Visa en liten varning under fältet när det innehåller text men saknar `@`. När fältet är tomt ska ingen varning visas.
+3. Skriv varje fråga som en egen variabel med ett beskrivande namn. Hur påverkar det läsbarheten jämfört med att skriva allt i ett långt uttryck?
+:::

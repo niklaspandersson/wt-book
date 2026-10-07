@@ -89,7 +89,7 @@ true
 false
 ```
 
-Booleska värden är grunden för att låta ett program fatta beslut – göra en sak om något är sant och en annan om det är falskt. Det, och hur man räknar med sanningsvärden, är ämnet för kapitel [-@sec-villkor].
+Booleska värden är grunden för att låta ett program fatta beslut – göra en sak om något är sant och en annan om det är falskt. Hur man räknar med sanningsvärden är ämnet för kapitel [-@sec-booleska], och hur programmet fattar beslut med dem tar vi upp i kapitel [-@sec-villkor].
 
 ### Tomma värden: `null` och `undefined`
 

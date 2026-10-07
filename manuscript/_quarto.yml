@@ -16,6 +16,7 @@ book:
         - kap05-handelser.qmd
         - kap06-tal.qmd
         - kap07-strangar.qmd
+        - kap08-sant-och-falskt.qmd
         - kap09-villkor.qmd
         - kap10-loopar.qmd
         - kap11-arrayer.qmd

@@ -126,7 +126,7 @@ Strängar har en lång rad inbyggda **metoder**. I kapitel [-@sec-funktioner] s�
 "DE VISA UGGLORNA".toLowerCase()   // "de visa ugglorna"
 ```
 
-Metoderna hanterar å, ä och ö korrekt. De är användbara både för att visa text på ett enhetligt sätt och för att jämföra text utan att versaler spelar roll – något vi återkommer till i kapitel [-@sec-villkor].
+Metoderna hanterar å, ä och ö korrekt. De är användbara både för att visa text på ett enhetligt sätt och för att jämföra text utan att versaler spelar roll – något vi återkommer till i kapitel [-@sec-booleska].
 
 ### Ta bort mellanslag
 
@@ -278,7 +278,7 @@ lagfält.addEventListener("input", () => {
 });
 ```
 
-Funktionen `snyggtNamn` från förra avsnittet gör jobbet, och händelsen ser till att det sker vid varje tangenttryckning. Att *begränsa* längden – eller visa en varning när namnet är för långt – kräver att programmet fattar ett beslut, och det är ämnet för nästa kapitel.
+Funktionen `snyggtNamn` från förra avsnittet gör jobbet, och händelsen ser till att det sker vid varje tangenttryckning. Att visa en varning när namnet är för långt kräver att programmet kan ställa en fråga – *är namnet längre än 20 tecken?* – och det är ämnet för nästa kapitel.
 
 ::: {.callout-note}
 ## Dela upp en sträng
@@ -299,7 +299,7 @@ En vanlig uppgift är att dela upp en text i delar – till exempel ett fullstä
 - Metoder kan **kedjas**: `text.trim().toUpperCase()`.
 - **`String()`** konverterar andra värden till strängar.
 
-Nu kan du bearbeta både tal och text. Men dina program gör fortfarande samma sak varje gång – oavsett om användaren skrev ett giltigt tal eller inte, oavsett om lagnamnet var för långt. I nästa kapitel lär du dig att låta programmet fatta beslut.
+Nu kan du bearbeta både tal och text. Men dina program gör fortfarande samma sak varje gång – oavsett om användaren skrev ett giltigt tal eller inte, oavsett om lagnamnet var för långt. I nästa kapitel lär du dig att ställa frågor om värden – är texten tom, är talet för stort? – och i kapitlet därefter att låta programmet fatta beslut utifrån svaren.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

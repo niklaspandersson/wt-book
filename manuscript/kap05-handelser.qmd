@@ -316,7 +316,7 @@ namnfält.addEventListener("input", () => {
 
 Texten uppdateras i realtid medan användaren skriver. Egenskapen `.value` innehåller textfältets aktuella innehåll — det är den DOM-egenskap man använder för att läsa formulärdata.
 
-Prova att sudda ut allt i fältet. Då visas "Hej, !" — inte så snyggt. Att visa "Hej, främling!" när fältet är tomt kräver att programmet kan välja mellan två alternativ. Det lär du dig i kapitel [-@sec-villkor].
+Prova att sudda ut allt i fältet. Då visas "Hej, !" — inte så snyggt. Att visa "Hej, främling!" när fältet är tomt kräver att programmet kan ställa en fråga: är fältet tomt? Det lär du dig i kapitel [-@sec-booleska].
 
 ::: {.callout-note}
 ## `.value`, inte `.textContent`

@@ -1,8 +1,8 @@
-# Villkor {#sec-villkor}
+# Villkorssatser {#sec-villkor}
 
 ## Programmet som fattar beslut
 
-Flera gånger i de senaste kapitlen har vi stött på samma gräns. Hälsningen i kapitel [-@sec-handelser] visade "Hej, !" när namnfältet var tomt. Momsräknaren i kapitel [-@sec-tal] visade `NaN` när användaren skrev något som inte var ett tal. Lagnamnet i kapitel [-@sec-strangar] kunde bli hur långt som helst. I alla tre fallen visste vi vad som *borde* hända – men programmet kunde inte välja. Det körde samma kod varje gång, rad för rad.
+I förra kapitlet lärde du dig att ställa frågor i kod – och att använda svaren direkt, som när en knapp blir avstängd eller ett meddelande döljs. Men ofta räcker det inte. Momsräknaren i kapitel [-@sec-tal] visade `NaN` när användaren skrev något som inte var ett tal; den borde i stället ha visat ett vänligt felmeddelande, och inte räknat alls. Lagnamnet i kapitel [-@sec-strangar] borde ha kortats eller fått en varning när det blev för långt. I båda fallen ska programmet göra *helt olika saker* beroende på svaret på en fråga.
 
 Det intressanta uppstår när programmet kan *reagera* olika beroende på situationen: göra en sak om ett villkor är uppfyllt, och något annat annars.
 
@@ -13,31 +13,7 @@ Föreställ dig att du ska skriva ett hjälpprogram för en kurs. Studenterna g�
 - visa resultatet på sidan med rätt färg,
 - säga till om det som skrevs in inte är ett giltigt antal poäng.
 
-Det är fyra separata beslut, vart och ett beroende av vad som skrevs in. Inget av dem kan skrivas som en enkel beräkning – de kräver att programmet *väljer* vilket kodsegment som ska köras. Det är precis vad **villkorssatser** är till för. Och villkorssatser bygger på en sorts värden som vi hittills bara nämnt i förbigående: sant och falskt.
-
----
-
-## Sant och falskt
-
-I kapitel [-@sec-variabler] mötte du **booleska värden** (*boolean values*), som bara kan vara ett av två: `true` eller `false`. Typen är uppkallad efter logikern George Boole, som på 1800-talet formaliserade algebran med sanning och lögn som enda värden.
-
-Booleska värden kan skrivas direkt i koden, som när vi satte `hidden = true` i kapitel [-@sec-dom-intro]. Men oftast uppstår de när man **jämför** två värden. En jämförelse är ett uttryck som utvärderas till `true` eller `false`:
-
-```javascript
-10 > 5           // true  – tio är större än fem
-3 === 3          // true  – tre är lika med tre
-7 < 2            // false – sju är inte mindre än två
-"hej" === "Hej"  // false – strängjämförelse är skiftlägeskänslig
-```
-
-Ett jämförelseuttryck *frågar* något, och svaret är ett booleskt värde. Det värdet kan sparas i en variabel som vilket värde som helst:
-
-```javascript
-const poäng = 73;
-const ärGodkänd = poäng >= 50;   // true
-```
-
-Ett program som fattar beslut gör just det här: ställer en fråga, får ett svar som är `true` eller `false`, och väljer väg utifrån svaret. Verktyget för att välja väg är `if`-satsen.
+Det är fyra separata beslut, vart och ett beroende av vad som skrevs in. Inget av dem kan skrivas som en enkel beräkning – de kräver att programmet *väljer* vilket kodsegment som ska köras. Det är precis vad **villkorssatser** är till för. Frågorna formulerar du med jämförelser och logiska operatorer från kapitel [-@sec-booleska]; villkorssatserna avgör vad som händer med svaret.
 
 ---
 
@@ -63,7 +39,7 @@ if (poäng >= 50) {
 }
 ```
 
-Koden `poäng >= 50` är jämförelseuttrycket från förra avsnittet – det utvärderas till `true` om poängen är 50 eller mer, och `false` annars. Vi går igenom alla jämförelseoperatorer om ett ögonblick.
+Koden `poäng >= 50` är ett jämförelseuttryck från kapitel [-@sec-booleska] – det utvärderas till `true` om poängen är 50 eller mer, och `false` annars.
 
 Klammerparenteserna definierar ett **kodblock**. Alla rader inuti blocket körs (eller hoppas över) som en enhet. Det är god praxis att alltid använda klammerparenteser, även om blocket bara innehåller en enda rad – det gör koden tydligare och förebygger misstag när man lägger till rader senare.
 
@@ -134,159 +110,21 @@ Placera alltid de snävaste villkoren (de högsta trösklarna) överst.
 
 ---
 
-## Jämförelseoperatorer
+## Sammansatta villkor och truthy-värden
 
-Vi har redan använt `>=` och `===`. Nu är det dags att gå igenom **jämförelseoperatorerna** systematiskt. Alla returnerar ett booleskt värde – `true` eller `false`.
-
-| Operator | Betydelse             | Exempel           | Resultat |
-|----------|-----------------------|-------------------|----------|
-| `===`    | Strikt lika med       | `5 === 5`         | `true`   |
-| `!==`    | Strikt inte lika med  | `5 !== 3`         | `true`   |
-| `<`      | Mindre än             | `3 < 5`           | `true`   |
-| `>`      | Större än             | `3 > 5`           | `false`  |
-| `<=`     | Mindre än eller lika  | `5 <= 5`          | `true`   |
-| `>=`     | Större än eller lika  | `5 >= 6`          | `false`  |
-
-### Strikt jämförelse: `===` och `!==`
-
-JavaScript har två sorters likhetsoperatorer. Den **strikta** (`===`) kräver att både värde *och typ* stämmer överens. Den **lösa** (`==`) gör automatiska typkonverteringar innan jämförelsen – och ger ibland resultat som kan verka magiska:
+Villkoret i en `if`-sats kan vara vilket booleskt uttryck som helst – också ett som kombinerar flera frågor med de logiska operatorerna från kapitel [-@sec-booleska]:
 
 ```javascript
-5 === 5       // true
-5 === "5"     // false – olika typer
-5 == "5"      // true  – "5" konverteras till 5 innan jämförelsen
-0 == false    // true  – false konverteras till 0
-"" == false   // true  – båda konverteras till 0
-null == undefined  // true
-```
-
-**Använd alltid `===` och `!==`.** Den lösa jämförelsen kan ge logiska buggar som är svåra att spåra – du tror att du jämför tal, men jämför i verkligheten tal med strängar och får `true` ändå. Strikt jämförelse är förutsägbar och explicit.
-
-::: {.callout-important}
-## `null` vs. `undefined`
-
-En vanlig källa till förvirring är att `null == undefined` är `true` med lös jämförelse, men `null === undefined` är `false` med strikt jämförelse. Ännu ett skäl att alltid använda `===`.
-:::
-
-### Jämförelse av strängar
-
-Jämförelseoperatorerna `<`, `>`, `<=`, `>=` fungerar också på strängar och jämför dem lexikografiskt – ungefär som i ett lexikon, tecken för tecken enligt deras Unicode-värde:
-
-```javascript
-"Anna" < "Björn"    // true  – 'A' kommer före 'B'
-"anna" < "Anna"     // false – gemener har högre Unicode-värde än versaler
-"10" < "9"          // true  – "1" < "9" som tecken, inte 10 < 9 som tal
-```
-
-Den sista raden är en klassisk källa till buggar: om du jämför tal som råkar vara strängar (t.ex. från ett formulär) fungerar inte `<` och `>` numeriskt. Konvertera alltid till `number` med `Number()` om du ska jämföra numeriskt, precis som du lärde dig i kapitel [-@sec-tal].
-
-Att jämförelser av strängar är skiftlägeskänsliga ställer ofta till det när användaren skriver in text. Svarar någon `"stockholm"` på en quizfråga vill du troligen räkna det som rätt. Lösningen är att städa och normalisera texten med metoderna från kapitel [-@sec-strangar] innan du jämför:
-
-```javascript
-const svar = "  stockholm ";
-svar.trim().toLowerCase() === "stockholm"   // true
-```
-
----
-
-## Logiska operatorer
-
-Ibland behöver ett villkor bero på *flera* saker samtidigt. **Logiska operatorer** kombinerar booleska värden.
-
-### `&&` – och
-
-`&&` är `true` bara om *båda* operanderna är `true`:
-
-```javascript
-const poäng = 73;
-const inlämnadITid = true;
-
 if (poäng >= 50 && inlämnadITid) {
     console.log("Godkänd");
 }
-```
-
-Studenten är godkänd bara om *både* poängen räcker *och* uppgiften lämnades in i tid.
-
-| `a`     | `b`     | `a && b` |
-|---------|---------|----------|
-| `true`  | `true`  | `true`   |
-| `true`  | `false` | `false`  |
-| `false` | `true`  | `false`  |
-| `false` | `false` | `false`  |
-
-### `||` – eller
-
-`||` är `true` om *minst en* operand är `true`:
-
-```javascript
-if (poäng >= 50 || harKomplettering) {
-    console.log("Kan gå vidare till nästa kurs");
-}
-```
-
-Studenten kan gå vidare om poängen räcker, *eller* om hen har rätt till komplettering.
-
-| `a`     | `b`     | `a || b` |
-|---------|---------|------------|
-| `true`  | `true`  | `true`     |
-| `true`  | `false` | `true`     |
-| `false` | `true`  | `true`     |
-| `false` | `false` | `false`    |
-
-### `!` – inte
-
-`!` inverterar ett booleskt värde:
-
-```javascript
-const registrerad = false;
 
 if (!registrerad) {
     console.log("Du måste registrera dig först.");
 }
 ```
 
-`!false` är `true`, och `!true` är `false`.
-
-### Kortslutningsutvärdering
-
-JavaScript utvärderar logiska operatorer med **kortslutning** (*short-circuit evaluation*): om resultatet kan avgöras efter att den första operanden utvärderats, utvärderas inte den andra.
-
-- `false && vad_som_helst` → alltid `false`, andra operanden utvärderas inte
-- `true || vad_som_helst` → alltid `true`, andra operanden utvärderas inte
-
-Det betyder att om vänstra sidan av `&&` är `false`, körs aldrig höger sida. Det är användbart, men kan också leda till svårtolkad kod om man inte är försiktig.
-
----
-
-## Truthy och falsy
-
-Villkoret i en `if`-sats behöver inte vara ett booleskt värde. JavaScript har ett begrepp för värden som *beter sig* som `true` eller `false` i ett booleskt sammanhang, utan att vara just de värdena.
-
-Följande värden är **falsy** – de betraktas som falska i sammanhang där ett booleskt värde förväntas, exempelvis i villkoret i en `if`-sats:
-
-```javascript
-false
-0
-""          // tom sträng
-null
-undefined
-NaN
-```
-
-Alla andra värden är **truthy** – de betraktas som sanna. Det inkluderar `"0"` (en sträng med ett nollstecken), `[]` (en tom array) och `{}` (ett tomt objekt) – saker som intuitivt kan kännas som "tomma" men som alltså inte är falsy.
-
-Funktionen `Boolean()` visar hur ett värde tolkas:
-
-```javascript
-Boolean(0)        // false – noll är falsy
-Boolean("")       // false – tom sträng är falsy
-Boolean(1)        // true
-Boolean("hej")    // true
-Boolean("0")      // true – en sträng med ett tecken i
-```
-
-Det innebär att man kan skriva villkor utan explicit jämförelse:
+Villkoret behöver inte ens vara ett booleskt värde. Som du såg i kapitel [-@sec-booleska] tolkas alla värden som antingen truthy eller falsy, och det gäller även i en `if`-sats. Det innebär att man kan skriva villkor utan explicit jämförelse:
 
 ```javascript
 const lagnamn = "Röda stjärnor";
@@ -298,9 +136,7 @@ if (lagnamn) {
 }
 ```
 
-Om `lagnamn` är en icke-tom sträng är den truthy och blocket körs. Om den är `""`, `null` eller `undefined` är den falsy och `else`-blocket körs. Det är ett vanligt och idiomatiskt mönster i JavaScript – men använd det bara när intentionen är tydlig. Om du faktiskt vill kontrollera att något inte är `null`, skriv hellre `=== null` explicit.
-
-Truthy och falsy förklarar också en egenhet hos `&&` och `||`: de returnerar egentligen inte alltid `true` eller `false`, utan *värdet av den operand som avgjorde resultatet*. `||` returnerar den första truthy operanden (eller den sista, om ingen är truthy), och `&&` returnerar den första falsy operanden (eller den sista, om alla är truthy). I en `if`-sats spelar det ingen roll – värdet tolkas ändå som sant eller falskt – men du kommer att stöta på mönster som `const namn = inmatning || "Anonym";`.
+Om `lagnamn` är en icke-tom sträng är den truthy och blocket körs. Om den är `""`, `null` eller `undefined` är den falsy och `else`-blocket körs. Det är ett vanligt och idiomatiskt mönster i JavaScript – men använd det bara när intentionen är tydlig. Om du faktiskt vill kontrollera att något inte är `null`, skriv hellre `=== null` explicit, och kom ihåg att även `0` är falsy.
 
 ---
 
@@ -526,14 +362,7 @@ if (poäng >= 50) {
 }
 ```
 
-Ett kortare sätt är `toggle` med ett andra argument, som du mötte i kapitel [-@sec-dom-intro]. Nu när du kan skriva jämförelser kan det andra argumentet vara ett villkor:
-
-```javascript
-resultatElement.classList.toggle("godkänd", poäng >= 50);
-resultatElement.classList.toggle("underkänd", poäng < 50);
-```
-
-Varje rad lägger till klassen om villkoret är sant och tar bort den annars. Två rader ersätter hela `if`/`else`-satsen.
+I just det här fallet, där samma villkor bara slår av och på två klasser, är `toggle` med ett villkor som andra argument ett kortare alternativ – det såg du i kapitel [-@sec-booleska]. Men så fort grenarna gör olika *saker*, som att sätta olika texter, behövs `if`/`else`.
 
 Åt andra hållet kan man använda en klass *som* villkor. `classList.contains` returnerar ett booleskt värde, och passar därför direkt i en `if`-sats:
 
@@ -567,13 +396,7 @@ if (poäng >= 50) {
 
 Här visas hjälptexten bara om studenten är underkänd. Godkända studenter ser den inte alls.
 
-Du kan också använda ett kompaktare uttryck. Eftersom `hidden` vill ha ett booleskt värde, och en jämförelse *är* ett booleskt värde, kan jämförelsen tilldelas direkt:
-
-```javascript
-hjälpElement.hidden = poäng >= 50;
-```
-
-Uttrycket `poäng >= 50` utvärderas till `true` (dölj) eller `false` (visa). En rad istället för en hel `if`/`else`-sats.
+Om det enda som ska hända är att hjälptexten visas eller döljs räcker det, som i kapitel [-@sec-booleska], att skriva `hjälpElement.hidden = poäng >= 50;`. `if`-satsen behövs här eftersom flera saker ska hända i varje gren.
 
 ### Kontrollera inmatning
 
@@ -620,7 +443,7 @@ Några detaljer att notera:
 
 - `trim()` gör att ett fält med bara mellanslag räknas som tomt.
 - Den tomma strängen kontrolleras *före* konverteringen, eftersom `Number("")` ger `0` och inte `NaN`, som du såg i kapitel [-@sec-tal].
-- `Number.isNaN(värde)` är det pålitliga sättet att fråga om något är `NaN`. Du kan inte skriva `poäng === NaN` – `NaN` är det enda värdet i JavaScript som inte är lika med sig självt, så den jämförelsen ger alltid `false`.
+- `Number.isNaN(värde)` är det pålitliga sättet att fråga om något är `NaN`, som du såg i kapitel [-@sec-booleska].
 - Funktionen `betyg` från förra avsnittet gör beräkningen. Inmatningskontrollen och betygslogiken hålls isär.
 
 ### Tangentbordshändelser
@@ -704,16 +527,13 @@ En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/
 
 ## Sammanfattning
 
-Villkor ger programmet förmågan att välja väg:
+Villkorssatser ger programmet förmågan att välja väg:
 
-- **Booleska värden** (`true`/`false`) uppstår oftast genom **jämförelser**. Jämförelseoperatorerna är `===`, `!==`, `<`, `>`, `<=` och `>=`. Använd alltid `===` och `!==` för likhetstest.
-- Strängjämförelser är skiftlägeskänsliga – normalisera med `trim()` och `toLowerCase()` vid behov. Tal som är strängar jämförs inte numeriskt; konvertera med `Number()`.
 - **`if`** kör ett block om villkoret är sant, **`else`** om det är falskt, och **`else if`**-kedjor täcker flera utfall – det första matchande blocket körs.
-- **Logiska operatorer** kombinerar villkor: `&&` (och), `||` (eller), `!` (inte). De utvärderas med **kortslutning**.
-- Värdena `false`, `0`, `""`, `null`, `undefined` och `NaN` är **falsy**; allt annat är **truthy**.
+- Villkoret kan kombinera frågor med **logiska operatorer**, och vilket värde som helst kan användas: truthy-värden räknas som sanna.
 - **Ternäroperatorn** (`? :`) är en kompakt form för enkla tvåvägsbeslut; **`switch`** passar för många exakta matchningar mot samma värde.
 - Villkor i **funktioner** kan returnera olika värden; **early return** minskar nästling.
-- På webbsidan styr villkor text, klasser (`toggle(klass, villkor)`, `contains`) och synlighet (`hidden = villkor`).
+- På webbsidan låter villkorssatser olika saker hända beroende på data: olika texter, klasser och synlighet.
 - **Kontrollera inmatning** innan du räknar med den: tomt fält, `Number.isNaN` och rimliga gränser.
 - **Tangentbordshändelser** (`keydown`, `keyup`) och `e.key` låter programmet reagera på enskilda tangenter.
 
@@ -722,29 +542,22 @@ Med villkor kan programmet reagera olika beroende på data och på vad användar
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Villkorssatser och logik är ett område där det är lätt att tro sig förstå mer än man gör – tills man ska skriva ett villkor själv och det inte beter sig som förväntat. AI är ett bra verktyg för att förstå *varför* specifika uttryck utvärderas som de gör.
-
-**Fråga om specifika uttryck du är osäker på:**
-
-> *"Varför är `"0" == false` sant i JavaScript men `"0" === false` falskt?"*
-
-> *"Varför är en tom array `[]` truthy i JavaScript när en tom sträng `""` är falsy?"*
-
-Den här typen av frågor är effektiva för att förstå JavaScripts typmodell på djupet, inte bara memorera regler.
+Villkorssatser är lätta att läsa men svårare att skriva rätt – det är ofta ett fall man inte tänkt på som ställer till det. AI är ett bra verktyg för att hitta de fallen och för att träna på att följa kodens väg.
 
 **Be om ett motexempel:**
 
-> *"Kan du visa ett exempel där `&&` och `||` ger ett oväntat resultat på grund av kortslutning?"*
-
 > *"Ge ett exempel där ordningen i en `else if`-kedja spelar roll och felaktig ordning ger fel svar utan att det uppstår ett felmeddelande."*
 
-Motexempel är effektiva för att testa gränserna för din förståelse. Om du kan förutsäga resultatet av ett svårare exempel förstår du konceptet – inte bara det enkla normalfallet.
+> *"Visa ett exempel där en `switch`-sats ger fel resultat för att jag glömt `break`. Låt mig först gissa vad som skrivs ut."*
 
-**Testa din förklaring:**
+**Träna på att följa kodens väg:**
 
-> *"Förklara vad kortslutningsutvärdering innebär och varför det kan vara användbart – stämmer den här förklaringen: [din förklaring]?"*
+> *"Ge mig en funktion med en `if`/`else if`-kedja och fem olika anrop till den. Låt mig ange vilken gren som körs för varje anrop innan du visar svaret."*
 
-Att formulera en förklaring av kortslutning eller truthy/falsy med egna ord avslöjar snabbt om du har en intuitiv förståelse eller om du bara sett syntaxen.
+**Jämför formerna:**
+
+> *"När är en ternäroperator tydligare än `if`/`else`, och när gör den koden svårare att läsa? Ge två exempel av varje."*
+
 **Granska din egen kod:**
 
 > *"Här är min funktion som kontrollerar vad användaren har skrivit in: [klistra in koden]. Vilka indata har jag glömt att hantera? Ge mig exempel på indata som får den att bete sig fel, men visa inte hur jag ska rätta det."*
@@ -823,27 +636,6 @@ Nedan finns tre situationer. För varje situation: ska du använda `if/else` ell
 :::
 
 ::: {.callout-note}
-## Övning – Logiktabellen
-
-Ange utan att köra koden vilka av följande uttryck som är `true` och vilka som är `false`. Motivera varje svar.
-
-```javascript
-true && false
-false || true
-!false
-true && true && false
-false || false || true
-!(3 > 5)
-3 > 2 && 10 < 5
-3 > 2 || 10 < 5
-0 || "hej"
-null && "hej"
-```
-
-De två sista raderna är lite annorlunda – `&&` och `||` returnerar inte alltid `true` eller `false` exakt. Vad returnerar de, och varför?
-:::
-
-::: {.callout-note}
 ## Övning – Betyg på sidan
 
 Skapa en HTML-sida med ett fält för poäng, en knapp och ett stycke för resultatet. Skriv CSS-klasser för olika betygsgrupper:
@@ -912,12 +704,13 @@ Låt också Enter-tangenten i textfältet fungera som ett klick på knappen. Tip
 :::
 
 ::: {.callout-note}
-## Övning – Räknare och tema med villkor
+## Övning – Temaknappen
 
-Gå tillbaka till två övningar från kapitel [-@sec-handelser] och lägg till det som krävde villkor:
+Gå tillbaka till övningen *Mörkt läge* i kapitel [-@sec-handelser] och låt knappens text växla mellan "Mörkt läge" och "Ljust läge" beroende på vilket läge sidan är i.
 
-1. **Knappräknaren:** se till att talet aldrig går under 0. Gör dessutom minusknappen inaktiv (`knapp.disabled = true`) när talet är 0, och aktiv igen när det är större.
-2. **Mörkt läge:** låt knappens text växla mellan "Mörkt läge" och "Ljust läge" beroende på vilket läge sidan är i. Lös det på två sätt: med `classList.contains` och med returvärdet från `classList.toggle`, som är `true` om klassen lades till. Vilket sätt tycker du är tydligast?
+1. Lös det med `classList.contains` och en `if`/`else`-sats.
+2. Lös det med returvärdet från `classList.toggle`, som är `true` om klassen lades till.
+3. Lös det med ternäroperatorn. Vilket av de tre sätten tycker du är tydligast? Varför går det inte att lösa enbart med en tilldelning av ett booleskt värde, som i kapitel [-@sec-booleska]?
 :::
 
 ::: {.callout-note}

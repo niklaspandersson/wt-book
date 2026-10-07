@@ -370,7 +370,7 @@ for (const länk of länkar) {
 }
 ```
 
-Mönstret — "ta bort klassen från alla, lägg till på den klickade" — är ett standardmönster för exklusiva val. Du såg det i övning 10.11 i arraykapitlet, och nu ser du hur traversering gör det möjligt att hitta rätt element utan unika id:n.
+Mönstret — "ta bort klassen från alla, lägg till på den klickade" — är ett standardmönster för exklusiva val. Du såg det i övning 11.11 i arraykapitlet, och nu ser du hur traversering gör det möjligt att hitta rätt element utan unika id:n.
 
 ---
 
