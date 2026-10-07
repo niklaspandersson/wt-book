@@ -112,7 +112,7 @@ console.log(sista);   // "Elsa"
 ::: {.callout-note}
 ## MDN: Array
 
-Mozilla Developer Network har en omfattande referens för arrayer och alla deras metoder: [developer.mozilla.org/sv-SE/docs/Web/JavaScript/Reference/Global_Objects/Array](https://developer.mozilla.org/sv-SE/docs/Web/JavaScript/Reference/Global_Objects/Array). Du behöver inte memorera alla metoder – det viktiga är att veta att de finns och var du kan slå upp dem.
+Mozilla Developer Network har en omfattande referens för arrayer och alla deras metoder: [developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Du behöver inte memorera alla metoder – det viktiga är att veta att de finns och var du kan slå upp dem.
 :::
 
 ---

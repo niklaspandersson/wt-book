@@ -89,7 +89,7 @@ I quizkväll-exemplet är alla poäng och tidsvärden vanliga tal: `12` poäng, 
 ::: {.callout-note}
 ## MDN: Number
 
-Mozilla Developer Network (MDN) är den auktoritativa referensen för webbstandarder och JavaScript. Deras dokumentation av taltypen finns på [developer.mozilla.org/sv-SE/docs/Web/JavaScript/Reference/Global_Objects/Number](https://developer.mozilla.org/sv-SE/docs/Web/JavaScript/Reference/Global_Objects/Number) och är värdefull läsning när du vill fördjupa dig.
+Mozilla Developer Network (MDN) är den auktoritativa referensen för webbstandarder och JavaScript. Deras dokumentation av taltypen finns på [developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) och är värdefull läsning när du vill fördjupa dig.
 :::
 
 ---
