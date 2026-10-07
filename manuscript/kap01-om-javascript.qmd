@@ -38,7 +38,7 @@ De tre teknikerna är inte oberoende – de samverkar. JavaScript kan läsa och 
 ::: {.callout-note}
 ## En anteckning om HTML och CSS
 
-Den här boken fokuserar på JavaScript. Det förutsätts att du har grundläggande kännedom om HTML och CSS – att du vet vad ett element, ett attribut och en CSS-regel är. Om du behöver fräscha upp minnet finns en kortfattad referens i Appendix A och B.
+Den här boken fokuserar på JavaScript. Det förutsätts att du har grundläggande kännedom om HTML och CSS – att du vet vad ett element, ett attribut och en CSS-regel är. Om du behöver fräscha upp minnet är MDN:s referenser för [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) och [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) en bra utgångspunkt.
 :::
 
 ---
