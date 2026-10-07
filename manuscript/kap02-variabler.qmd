@@ -183,7 +183,7 @@ Med templatesträngar är behovet av escaping ovanligare, men det är bra att k�
 Varje sträng har en **egenskap** `length` som anger hur många tecken den innehåller:
 
 ```javascript
-"Röda stjärnor".length   // 14
+"Röda stjärnor".length   // 13
 "".length                // 0 – tom sträng
 ```
 
