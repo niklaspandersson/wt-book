@@ -95,7 +95,7 @@ Det JavaScript *kan* göra är att manipulera webbsidans innehåll, kommunicera 
 Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras — allt annat förklaras när vi kommer dit. Redan i kapitel [-@sec-anropa-funktioner] formaliserar vi vad funktionsanrop som `console.log()` egentligen är, och i kapitel [-@sec-dom-intro] lär vi oss att förändra webbsidan direkt.
 :::
 
-Det enklaste sättet att köra JavaScript är via webbläsarens inbyggda **konsol**. Öppna den med `F12` (eller `Cmd+Option+J` på Mac), välj fliken *Console*, och du har ett interaktivt JavaScript-skal framför dig.
+Det enklaste sättet att köra JavaScript är via webbläsarens inbyggda **konsol**. Öppna den med `F12` (på Mac `Cmd+Option+I`; i Safari måste du först slå på menyn *Utveckla* i inställningarna), välj fliken *Console*, och du har ett interaktivt JavaScript-skal framför dig.
 
 Skriv in följande och tryck Enter:
 
