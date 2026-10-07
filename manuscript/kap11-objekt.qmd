@@ -2,9 +2,9 @@
 
 ## En student är mer än ett namn
 
-Objekt har följt oss genom hela boken. Redan i kapitel [-@sec-variabler] fick du en första bekantskap: objekt grupperar namngivna egenskaper, man når dem med punktnotation, och de finns överallt i JavaScript. Sedan dess har du arbetat med objekt i varje kapitel – DOM-element med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, inbyggda objekt som `document`, `Math` och `console`.
+Objekt har följt oss genom hela boken. Redan i kapitel [-@sec-variabler] skapade du ditt första objekt – ett lag med namn och poäng – och läste och ändrade dess egenskaper med punktnotation. Sedan dess har du arbetat med objekt i varje kapitel: DOM-element med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, inbyggda objekt som `document`, `Math` och `console`.
 
-Men du har bara *använt* objekt som andra har skapat åt dig. Nu är det dags att lära dig att *skapa egna*.
+Men de objekt du själv har skapat har varit enkla – några egenskaper, lästa och ändrade en i taget. Nu är det dags att gå på djupet: att ge egna objekt *beteende* med metoder, att nå egenskaper vars namn bestäms medan programmet körs, att gå igenom alla egenskaper i ett objekt, och att samla många objekt i en array.
 
 Tänk dig att du ska visa information om studenter på en webbsida. Du har namn, program och årskurs för varje person – men hur samlar du ihop den informationen? Med separata variabler blir det ungefär så här:
 
@@ -24,13 +24,13 @@ const årskurs3 = 3;
 
 Nio variabler för tre studenter. Och de hänger bara ihop genom namnkonvention – inget i koden säger att `namn1` och `program1` tillhör samma person. Om du vill skicka "en student" till en funktion måste du skicka tre separata argument. Om du vill lägga studenter i en array – vilken array? En för namn, en för program, en för årskurs?
 
-Du vet redan att objekt samlar relaterad data under ett namn. Nu ska du lära dig hur man skapar dem själv.
+Du vet redan att objekt samlar relaterad data under ett namn. Låt oss börja med en kort repetition, och sedan bygga vidare.
 
 ---
 
-## Skapa ett objekt
+## Skapa och läsa objekt – en repetition
 
-Du vet att ett objekt är en samling av **egenskaper** (*properties*), där varje egenskap har ett **namn** (kallas också *nyckel*) och ett **värde**. Man skapar ett eget objekt med **klammerparenteser** `{}`:
+Som du minns från kapitel [-@sec-variabler] skapas ett objekt med en **objektliteral**: klammerparenteser med egenskaper i form av `nyckel: värde`-par, separerade med kommatecken. Egenskaperna läses med punktnotation:
 
 ```javascript
 const student = {
@@ -38,19 +38,12 @@ const student = {
     program: "Webbutveckling",
     årskurs: 2
 };
+
+console.log(student.namn);      // "Anna"
+console.log(student.epost);     // undefined – egenskapen finns inte
 ```
 
-Det här kallas ett **objektliteral** – man skriver objektet direkt i koden, precis som `"Anna"` är en strängliteral och `42` är en nummerliteral. Innanför klammerparenteserna listas egenskaperna som `nyckel: värde`-par, separerade med kommatecken. Det är samma slags struktur som DOM-element och event-objekt har – skillnaden är att du nu definierar den själv.
-
-Variabeln `student` innehåller nu ett objekt med tre egenskaper. All information om Anna – namn, program och årskurs – hänger ihop i en enda variabel.
-
-Man kan också skapa ett tomt objekt och fylla det efteråt:
-
-```javascript
-const student = {};
-```
-
-Och precis som arrayer kan objektets egenskaper ha vilken typ av värde som helst – strängar, tal, booleska värden, arrayer, eller till och med andra objekt:
+Precis som arrayer kan objektets egenskaper ha vilken typ av värde som helst – strängar, tal, booleska värden, arrayer, eller till och med andra objekt:
 
 ```javascript
 const kurs = {
@@ -61,33 +54,7 @@ const kurs = {
 };
 ```
 
----
-
-## Läsa egenskaper
-
-Punktnotation har du använt sedan kapitel [-@sec-variabler] – `console.log()`, `element.textContent`, `e.target`. Den fungerar likadant på egna objekt:
-
-```javascript
-const student = {
-    namn: "Anna",
-    program: "Webbutveckling",
-    årskurs: 2
-};
-
-console.log(student.namn);      // "Anna"
-console.log(student.program);   // "Webbutveckling"
-console.log(student.årskurs);   // 2
-```
-
-Precis som du skriver `element.textContent` eller `e.target` skriver du `student.namn`. Mönstret är detsamma – punkten når en egenskap på ett objekt.
-
-Om du försöker komma åt en egenskap som inte finns returneras `undefined`:
-
-```javascript
-console.log(student.epost);   // undefined – egenskapen finns inte
-```
-
-Det ger inget felmeddelande – bara det tysta värdet `undefined`. Det kan vara förrädiskt: ett stavfel som `student.nman` ger inte en varning, bara `undefined` som sedan smyger vidare i koden.
+Att en egenskap som inte finns ger `undefined` – utan felmeddelande – är värt att komma ihåg. Det kan vara förrädiskt: ett stavfel som `student.nman` ger inte en varning, bara `undefined` som sedan smyger vidare i koden.
 
 ### Hakparentesnotation
 
@@ -124,41 +91,14 @@ I praktiken undviker man nycklar med mellanslag och använder punktnotation som 
 
 ## Ändra och lägga till egenskaper
 
-Man kan ändra värdet på en befintlig egenskap med enkel tilldelning:
+Även det känner du igen. Man ändrar en befintlig egenskap och lägger till en ny på samma sätt – genom tilldelning:
 
 ```javascript
-const student = {
-    namn: "Anna",
-    program: "Webbutveckling",
-    årskurs: 2
-};
-
-student.årskurs = 3;
-console.log(student.årskurs);   // 3
+student.årskurs = 3;                 // ändrar en befintlig egenskap
+student.epost = "anna@example.com";  // lägger till en ny
 ```
 
-Och man kan lägga till *nya* egenskaper på samma sätt – bara tilldela ett värde till ett namn som inte finns:
-
-```javascript
-student.epost = "anna@example.com";
-console.log(student.epost);   // "anna@example.com"
-```
-
-Objektet har nu fyra egenskaper. I JavaScript är objekt *dynamiska* – deras struktur kan ändras efter att de skapats. Det ger stor flexibilitet, men kräver också disciplin: om du glömmer att lägga till en egenskap i ett objekt men inte i ett annat kan det skapa svårfunna buggar.
-
-::: {.callout-note}
-## `const` och objekt
-
-Precis som med arrayer förhindrar `const` att variabeln tilldelas om, men den förhindrar inte att objektets *innehåll* ändras:
-
-```javascript
-const student = { namn: "Anna" };
-student.namn = "Bella";     // Tillåtet – ändrar innehållet
-student = { namn: "Clara" }; // TypeError – försöker tilldela om variabeln
-```
-
-Variabeln `student` pekar fortfarande på *samma* objekt; det är objektets egenskaper som förändras.
-:::
+I JavaScript är objekt *dynamiska* – deras struktur kan ändras efter att de skapats. Det ger stor flexibilitet, men kräver också disciplin: om du glömmer att lägga till en egenskap i ett objekt men inte i ett annat kan det skapa svårfunna buggar. Och som du såg i kapitel [-@sec-variabler] fungerar allt detta även om objektet är deklarerat med `const` – `const` hindrar bara att variabeln får ett helt nytt objekt.
 
 ### Ta bort egenskaper
 
@@ -177,7 +117,7 @@ console.log(student);           // { namn: "Anna", program: "Webbutveckling" }
 
 ## Metoder – funktioner i objekt
 
-Du har anropat metoder sedan kapitel [-@sec-variabler]: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. En metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Nu kan du definiera egna:
+I kapitel [-@sec-funktioner] såg du att en metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Sedan dess har du anropat många: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. Nu kan du definiera egna:
 
 ```javascript
 const student = {
@@ -605,7 +545,7 @@ Skapa en array med minst fem studentobjekt, där varje student har `namn`, `prog
 
 Skapa en HTML-sida med en tom `<div>` med ett id. Skapa i JavaScript en array med minst fyra produktobjekt (med `namn`, `pris` och `kategori`). Skriv en loop som bygger upp HTML-kort för varje produkt och visar dem på sidan.
 
-Utöka sedan: lägg till ett textfält för sökning. Lyssna på `input`-händelsen och filtrera produkterna – visa bara de vars namn innehåller söktexten.
+Utöka sedan: lägg till ett textfält för sökning. Lyssna på `input`-händelsen och filtrera produkterna – visa bara de vars namn innehåller söktexten. Jämför med Live-sökningen i övning 10.9: vad är annorlunda när datan finns i en array av objekt i stället för i HTML-koden?
 :::
 
 ::: {.callout-note}
@@ -665,5 +605,5 @@ Bygg en kontaktbok. Skapa en array med minst sex kontaktobjekt (med `namn`, `tel
 2. Ett textfält för sökning som filtrerar listan i realtid (matcha mot namn *eller* stad).
 3. En knapp "Visa alla" som återställer filtret.
 
-Det här är en mer ambitiös övning som kombinerar objekt, arrayer, DOM-manipulation och händelser.
+Det här är en mer ambitiös övning som kombinerar objekt, arrayer, DOM-manipulation och händelser. Återanvänd gärna det du byggde i övning 11.3 – sökningen fungerar på samma sätt, men nu ska den matcha mot två egenskaper.
 :::
