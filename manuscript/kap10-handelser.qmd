@@ -585,11 +585,11 @@ Utöka sedan: lägg till en andra knapp som *minskar* talet med 1. Se till att t
 ::: {.callout-note}
 ## Övning – Mörkt läge
 
-Skapa en sida med lite innehåll (rubrik och ett par stycken). Lägg till en knapp med texten "Mörkt läge". Skriv JavaScript som:
+Utgå från exemplet *Mörkt läge — äntligen* i kapitlet, där en knapp slår av och på klassen `dark` på `<body>`. Bygg vidare på det:
 
-1. Lyssnar på klick på knappen.
-2. Togglar en CSS-klass `dark` på `<body>` med `classList.toggle`.
-3. Ändrar knappens text till "Ljust läge" när mörkt läge är aktivt, och tillbaka till "Mörkt läge" när det inte är det.
+1. Ge knappen texten "Mörkt läge" från början.
+2. Ändra knappens text till "Ljust läge" när mörkt läge är aktivt, och tillbaka till "Mörkt läge" när det inte är det.
+3. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
 
 *Tips:* `classList.contains("dark")` returnerar `true` om klassen är aktiv.
 :::
@@ -597,9 +597,11 @@ Skapa en sida med lite innehåll (rubrik och ett par stycken). Lägg till en kna
 ::: {.callout-note}
 ## Övning – Tangentbordsrörelser
 
-Skapa en sida med en färgad `<div>` som har `position: absolute`. Skriv JavaScript som lyssnar på `keydown` och flyttar rutan med piltangenterna.
+Utgå från exemplet med piltangenterna i kapitlet, där en röd ruta flyttas tio pixlar per tryck. Bygg vidare på det:
 
-Utöka sedan: lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att hämta fönstrets storlek.
+1. Lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att hämta fönstrets storlek – och tänk på att rutan själv är 50 pixlar bred och hög.
+2. Låt tangenten `c` växla rutans färg mellan två färger med hjälp av en CSS-klass.
+3. *Fundera:* Håll en piltangent nedtryckt en stund. Vad verkar hända med `keydown`-händelserna när en tangent hålls nere?
 :::
 
 ::: {.callout-note}
