@@ -326,11 +326,11 @@ Stämde din gissning? Vad hände med sidan? Vad händer om du laddar om sidan ef
 ::: {.callout-note}
 ## Övning – Skriptvarianternas skillnader
 
-Den här övningen utforskar de praktiska skillnaderna mellan hur JavaScript kan inkluderas i en HTML-sida. Använd samma projektmapp från övning 1.3 med Live Server igång.
+Den här övningen utforskar de praktiska skillnaderna mellan hur JavaScript kan inkluderas i en HTML-sida. Skapa en projektmapp med filen `index.html` från övning 1.3 och en ny fil `script.js`, och öppna sidan med Live Server (se rutan *Moduler kräver en webbserver* ovan).
 
 **Del A – Laddningsordning**
 
-Lägg till en `<h2>`-rubrik i `index.html`. Prova att placera `<script>`-taggen på tre olika ställen och notera vad som händer:
+Lägg till en `<h2>`-rubrik i `index.html`, och skriv en rad i `script.js` som ändrar rubrikens text med `document.querySelector("h2").textContent`. Prova att placera `<script>`-taggen på tre olika ställen och notera vad som händer:
 
 1. I `<head>`, *utan* `type="module"` och utan `defer`
 2. I `<head>`, med `defer`
