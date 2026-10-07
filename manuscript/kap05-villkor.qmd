@@ -8,7 +8,7 @@ Föreställ dig att du ska skriva ett hjälpprogram för en kurs. Studenterna g�
 
 - avgöra om studenten är godkänd (minst 50 poäng),
 - sätta ett betyg (F, E, D, C, B eller A),
-- visa resultatet på webbsidan med rätt färg.
+- visa resultatet på webbsidan med rätt färg (det sista steget tar vi i nästa kapitel).
 
 Det är tre separata beslut, vart och ett beroende av poängen. Inget av dem kan skrivas som en enkel beräkning – de kräver att programmet *väljer* vilket kodsegment som ska köras. Det är precis vad **villkorssatser** är till för.
 
