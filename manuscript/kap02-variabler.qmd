@@ -165,7 +165,7 @@ let poäng = 12;
 
 Båda raderna ger samma resultat, men templatesträngen är lättare att läsa – formeln du vill visa syns tydligt i texten. Inom `${ }` kan du skriva vilket JavaScript-uttryck som helst: en variabel, en beräkning, ett funktionsanrop.
 
-#### Teckenkod och escape-sekvenser
+#### Escape-sekvenser
 
 Ibland behöver man inkludera tecken i en sträng som annars hade fått en speciell betydelse. Om strängen är omgiven av dubbla citattecken och du vill ha ett dubbelt citattecken *inuti* strängen, används ett **escape-tecken** – ett bakåtsnedstreck `\` som ändrar tolkningen av nästa tecken:
 
