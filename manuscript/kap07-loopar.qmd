@@ -229,11 +229,13 @@ do {
 Skillnaden mot vanlig `while`: villkoret kontrolleras *efter* varje körning, inte *innan*. Det är användbart i situationer där man behöver köra loopen en gång och sedan bestämma om man ska fortsätta – ett klassiskt exempel är att be om inmatning tills den är giltig:
 
 ```javascript
-let svar;
+let tal;
 do {
-    svar = prompt("Ange ett tal mellan 1 och 10:");
-} while (svar < 1 || svar > 10);
+    tal = Number(prompt("Ange ett tal mellan 1 och 10:"));
+} while (!(tal >= 1 && tal <= 10));
 ```
+
+Funktionen `prompt()` visar en enkel dialogruta där användaren kan skriva in text, och returnerar texten som en sträng – därför konverterar vi den med `Number()`. Villkoret upprepar loopen så länge talet *inte* ligger mellan 1 och 10. Skriver användaren något som inte är ett tal blir `tal` `NaN`, och eftersom alla jämförelser med `NaN` ger `false` upprepas loopen även då.
 
 `do...while` är betydligt ovanligare än `while` och `for`. Stöter du på det i ett kodexempel är det viktigaste att komma ihåg att blocket garanterat körs åtminstone en gång.
 
