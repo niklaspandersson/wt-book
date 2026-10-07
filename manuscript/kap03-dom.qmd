@@ -4,7 +4,7 @@
 
 Hittills har allt vi gjort synts i webbläsarens konsol — ett verktyg som bara programmeraren ser. Användaren av webbsidan ser ingenting av det. Men i kapitel [-@sec-om-javascript] började vi med att beskriva vad JavaScript kan: sökförslag som dyker upp, bilder som laddas, spel som reagerar. Allt det *syns* på webbsidan, inte i konsolen.
 
-Nu har vi verktygen att ta det steget. Du vet vad värden, variabler, objekt och funktionsanrop är. Det som återstår är att lära dig *vilken* funktion du anropar för att nå webbsidans element — och det är enklare än du kanske tror.
+Nu har vi verktygen att ta det steget. Du vet vad värden, variabler och objekt är. Det som återstår är att lära dig hur du når webbsidans element — och hur du ändrar dem. Det handlar inte bara om text: i det här kapitlet lär du dig också att ändra elementens utseende och att visa och dölja dem.
 
 ---
 
@@ -37,9 +37,9 @@ Funktionen `document.querySelector()` söker igenom sidan och returnerar det fö
 const rubrik = document.querySelector("h1");
 ```
 
-`document` är ett inbyggt objekt i webbläsaren som representerar det aktuella html-dokumentet. `querySelector` är en metod på `document` — ett funktionsanrop, precis som de vi lärde oss i förra kapitlet. Argumentet `"h1"` är en CSS-selektor som säger "hitta det första `<h1>`-elementet".
+`document` är ett inbyggt objekt i webbläsaren som representerar det aktuella html-dokumentet. `querySelector` är ett *funktionsanrop*, precis som `console.log()`: ett namn följt av parenteser, med ett värde inom parenteserna. Vad ett funktionsanrop egentligen är går vi igenom ordentligt i kapitel [-@sec-funktioner] — för stunden räcker det att veta att du skickar in något och får tillbaka ett resultat. Värdet inom parenteserna, `"h1"`, kallas ett **argument**; här är det en CSS-selektor som säger "hitta det första `<h1>`-elementet".
 
-Resultatet — det som returneras — är ett objekt som *representerar* elementet på sidan. Vi sparar den i variabeln `rubrik`. Nu kan vi använda den variabeln för att läsa och ändra elementet.
+Resultatet — det som returneras — är ett objekt som *representerar* elementet på sidan. Vi sparar det i variabeln `rubrik`. Precis som objekten du skapade i kapitel [-@sec-variabler] har det egenskaper som du når med punktnotation — skillnaden är att webbläsaren har skapat det åt dig, och att egenskaperna är kopplade till det som syns på sidan. Nu kan vi använda variabeln för att läsa och ändra elementet.
 
 ### CSS-selektorer som du redan kan
 
@@ -81,7 +81,7 @@ const rubrik = document.querySelector("h1");
 console.log(rubrik.textContent);   // "Quizkväll"
 
 // Skriva
-rubrik.textContent = "Quizkväll 2025";
+rubrik.textContent = "Quizkväll – final!";
 ```
 
 Den sista raden ändrar texten *direkt på sidan* — ingen omladdning behövs. Det är det här som gör JavaScript kraftfullt: du kan förändra vad användaren ser, i realtid, som svar på data och beräkningar i din kod.
@@ -97,11 +97,10 @@ Låt oss bygga vidare på quizkväll-exemplet. Anta att vi har denna HTML:
 Nu kan vi uppdatera sidan med JavaScript:
 
 ```javascript
-const lagnamn = "Röda stjärnor";
-const poäng = 15;
+const lag = { namn: "Röda stjärnor", poäng: 15 };
 
-document.querySelector("#lagnamn").textContent = `Lag: ${lagnamn}`;
-document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
+document.querySelector("#lagnamn").textContent = `Lag: ${lag.namn}`;
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 ```
 
 Två rader kod — och sidan visar lagets namn och poäng. Ingen konsol behövs; användaren ser resultatet direkt.
@@ -197,7 +196,7 @@ I praktiken använder du ofta båda i samma program: `console.log()` för att ko
 ```javascript
 const poäng = 42;
 const maxPoäng = 50;
-const procent = Math.round((poäng / maxPoäng) * 100);
+const procent = (poäng / maxPoäng) * 100;
 
 console.log("Beräknad procent:", procent);   // för dig — felsökning
 document.querySelector("#resultat").textContent = `Du fick ${procent}% rätt!`;   // för användaren
@@ -205,21 +204,239 @@ document.querySelector("#resultat").textContent = `Du fick ${procent}% rätt!`; 
 
 ---
 
+## Ändra utseendet
+
+Hittills har vi ändrat vad som *står* på sidan. Men en sida kommunicerar också med färg, storlek och form. Tänk dig quizprogrammet igen: när ett lag leder vill du att dess namn lyser upp, och när en fråga är besvarad vill du att den grånar. Allt det handlar om att ändra elementens *utseende* — och det kan JavaScript också göra.
+
+### Ändra stil med `.style`
+
+Varje element i DOM:en har en egenskap som heter `style`. Via den kan du läsa och ändra enskilda CSS-egenskaper direkt:
+
+```javascript
+const rubrik = document.querySelector("h1");
+rubrik.style.color = "darkblue";
+rubrik.style.fontSize = "2.5rem";
+rubrik.style.textAlign = "center";
+```
+
+Varje CSS-egenskap finns som en egenskap på `.style`-objektet, men med en viktig skillnad: **bindestreck ersätts med camelCase**. I CSS skriver du `font-size`, men i JavaScript skriver du `fontSize`. Mönstret är konsekvent:
+
+| CSS-egenskap         | JavaScript (.style)       |
+|----------------------|---------------------------|
+| `color`              | `style.color`             |
+| `font-size`          | `style.fontSize`          |
+| `background-color`   | `style.backgroundColor`   |
+| `border-radius`      | `style.borderRadius`      |
+| `text-align`         | `style.textAlign`         |
+| `padding`            | `style.padding`           |
+
+Anledningen är enkel: i JavaScript tolkas bindestreck som minusoperatorn. `rubrik.style.font-size` skulle betyda "ta `font`, subtrahera `size`" — inte alls vad vi menar.
+
+#### Flera stilar samtidigt
+
+Du kan ändra hur många stilegenskaper du vill, en i taget:
+
+```javascript
+const poängElement = document.querySelector("#poäng");
+poängElement.style.backgroundColor = "lightyellow";
+poängElement.style.padding = "1rem";
+poängElement.style.borderRadius = "8px";
+poängElement.style.border = "2px solid gold";
+```
+
+Det fungerar, men börjar snabbt bli omständligt. Fyra rader JavaScript bara för att ge ett element ett visst utseende. Och om du vill ge samma utseende till ett annat element måste du upprepa alla fyra raderna. Det finns ett bättre sätt.
+
+---
+
+### CSS-klasser med `classList`
+
+I CSS grupperar du ofta stilar i **klasser**:
+
+```css
+.ledare {
+    color: darkgreen;
+    font-weight: bold;
+    background-color: #e8f5e9;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.besvarad {
+    color: gray;
+    background-color: #f2f2f2;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+```
+
+Med JavaScript kan du lägga till och ta bort sådana klasser via elementets **`classList`**-egenskap. `classList` är i sin tur ett objekt, med egna verktyg för att hantera klasser. Det är mycket kraftfullare och renare än att ändra stilar en och en.
+
+#### `classList.add()` — lägga till en klass
+
+```javascript
+const ledandeLag = document.querySelector("#lag-röda");
+ledandeLag.classList.add("ledare");
+```
+
+En enda rad — `classList.add("ledare")` — aktiverar alla stilregler som hör till klassen `.ledare` i din CSS. Fem CSS-egenskaper appliceras på en gång.
+
+#### `classList.remove()` — ta bort en klass
+
+Om du vill ta bort en klass använder du `remove`:
+
+```javascript
+ledandeLag.classList.remove("ledare");
+```
+
+Det är viktigt att ta bort gamla klasser när ett element byter tillstånd. Tänk dig en fråga som först är markerad som aktiv och sedan blir besvarad. Om du bara lägger till den nya klassen finns båda kvar, och stilarna blandas ihop:
+
+```javascript
+const fråga = document.querySelector("#fråga-3");
+fråga.classList.remove("aktiv");
+fråga.classList.add("besvarad");
+```
+
+#### `classList.toggle()` — slå av och på
+
+`toggle` lägger till klassen om den saknas, och tar bort den om den redan finns:
+
+```javascript
+const kort = document.querySelector(".kort");
+
+// Om "kort" har klassen "markerad" tas den bort; annars läggs den till
+kort.classList.toggle("markerad");
+```
+
+Det är som en strömbrytare för en klass. `toggle` blir särskilt användbart när vi lär oss om händelser i kapitel [-@sec-handelser] — till exempel att klicka på ett element för att markera eller avmarkera det.
+
+Man kan också skicka med ett andra argument, ett booleskt värde, som bestämmer riktningen: om det är `true` läggs klassen till, om det är `false` tas den bort.
+
+```javascript
+const mörktLäge = true;
+document.querySelector("body").classList.toggle("dark", mörktLäge);
+```
+
+Här styr variabeln `mörktLäge` om sidan visas mörk eller ljus. Ändra variabeln till `false` och ladda om, så försvinner klassen.
+
+#### `classList.contains()` — kontrollera om en klass finns
+
+Ibland behöver du veta om ett element har en viss klass:
+
+```javascript
+console.log(ledandeLag.classList.contains("ledare"));   // true eller false
+```
+
+`contains` svarar med ett booleskt värde, `true` eller `false`. Det blir användbart när programmet ska fatta beslut utifrån hur sidan ser ut — något vi kommer till i kapitel [-@sec-villkor].
+
+---
+
+### `.style` eller `classList` — när väljer du vad?
+
+Båda verktygen ändrar utseendet på ett element, men de passar i olika situationer:
+
+**Använd `.style`** när du:
+
+- Ändrar *en enskild* egenskap
+- Arbetar med ett värde som beror på en beräkning eller variabel (till exempel en bredd i procent)
+
+```javascript
+// Bredd som beror på data — svårt att förbereda i CSS
+const framsteg = 65;
+stapel.style.width = `${framsteg}%`;
+```
+
+**Använd `classList`** när du:
+
+- Ändrar *flera* egenskaper på en gång
+- Växlar mellan fördefinierade visuella tillstånd (ledare/inte ledare, aktiv/besvarad, ljust/mörkt)
+- Vill hålla stilar i CSS och beteende i JavaScript
+
+```javascript
+// Byt visuellt tillstånd — alla stilar definierade i CSS
+element.classList.add("markerad");
+```
+
+Som tumregel: **föredra `classList`**. Det ger en tydligare uppdelning — CSS ansvarar för *hur* saker ser ut, JavaScript ansvarar för *när* de ska se ut så. Utseende i CSS-filer är också lättare att underhålla, ändra och återanvända.
+
+`.style` är mest användbart för dynamiska värden som beräknas i JavaScript, till exempel att sätta en stapels bredd utifrån en procentsats eller flytta ett element till en beräknad position.
+
+---
+
+## Visa och dölja element
+
+En av de vanligaste visuella förändringarna på en webbsida är att visa eller dölja innehåll. En ledtråd som bara syns om man behöver hjälp. Ett felmeddelande som bara dyker upp vid fel. Ett svar som är dolt tills man vill se det.
+
+### Egenskapen `hidden`
+
+Det enklaste sättet att dölja ett element är med den inbyggda egenskapen `hidden`:
+
+```javascript
+const ledtråd = document.querySelector("#ledtråd");
+ledtråd.hidden = true;    // elementet försvinner från sidan
+ledtråd.hidden = false;   // elementet syns igen
+```
+
+`hidden` är en boolesk egenskap — `true` döljer elementet, `false` visar det. Det motsvarar HTML-attributet `hidden`:
+
+```html
+<!-- Dessa två gör samma sak -->
+<p id="ledtråd" hidden>Tips: tänk på huvudstäder i Norden.</p>
+```
+
+```javascript
+document.querySelector("#ledtråd").hidden = true;
+```
+
+Elementet tas bort ur flödet helt — det tar ingen plats och syns inte. Övriga element runt omkring det justeras som om det inte fanns.
+
+### Dölja med CSS-klass
+
+Ett alternativ till `hidden` är att använda en CSS-klass:
+
+```css
+.dold {
+    display: none;
+}
+```
+
+```javascript
+// Dölj
+element.classList.add("dold");
+
+// Visa
+element.classList.remove("dold");
+```
+
+Fördelen med en CSS-klass är flexibilitet. Du kan definiera `.dold` med `display: none` (tar ingen plats) men du kan också använda `visibility: hidden` (elementet tar plats men syns inte) eller `opacity: 0` (elementet är osynligt men fortfarande klickbart). Beteendet styrs från CSS, inte från JavaScript.
+
+::: {.callout-note}
+## `hidden` eller CSS-klass?
+
+Tumregel: använd `hidden` när du bara vill visa eller dölja. Använd en CSS-klass om du behöver mer kontroll — till exempel om du vill animera övergången, eller om du vill dölja elementet på olika sätt i olika sammanhang (t.ex. `display: none` på mobil men `visibility: hidden` på desktop).
+
+Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `display: none`. Om din egen CSS sätter `display` på elementet – till exempel `display: flex` – vinner din regel, och elementet syns trots `hidden`. Om `hidden` inte tycks fungera, kontrollera elementets `display` i utvecklarverktygen.
+:::
+
+---
+
 ## Sammanfattning
 
 - Webbläsaren bygger en **DOM** (*Document Object Model*) — en levande modell av HTML-sidan som JavaScript kan läsa och ändra.
 - **`document.querySelector(selektor)`** hämtar det första elementet som matchar en CSS-selektor. Returnerar `null` om inget hittas.
+- Elementet du får tillbaka är ett **objekt** med egenskaper, precis som objekten i kapitel [-@sec-variabler].
 - **`.textContent`** läser eller skriver ett elements textinnehåll som ren text.
 - **`.innerHTML`** läser eller skriver ett elements HTML-innehåll. Använd det när du behöver formatering — men aldrig med ofiltrerad användardata.
+- **`.style`** ändrar enskilda CSS-egenskaper direkt. Egenskapsnamn skrivs i **camelCase** (`backgroundColor`, `fontSize`).
+- **`classList`** lägger till, tar bort och växlar CSS-klasser: `add()`, `remove()`, `toggle()`, `contains()`. **Föredra `classList`** för visuella tillstånd, och använd `.style` för värden som beräknas i koden.
+- **`hidden`** visar (`false`) eller döljer (`true`) ett element helt; en **CSS-klass med `display: none`** ger mer kontroll.
 - **`console.log()`** är för programmeraren; **DOM-manipulation** är för användaren.
-- Använd en standard-HTML-mall med `<script type="module">` som grund för övningar.
 
-Nu kan vi visa resultat på webbsidan — inte bara i konsolen. I nästa kapitel lär vi oss att fatta beslut: att *villkora* vad som visas baserat på data. Kombinationen av villkorssatser och DOM-manipulation gör att programmet kan reagera på olika sätt beroende på situationen.
+Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent` / `innerHTML`), ändra utseende (`.style` / `classList`), och visa eller dölja element (`hidden`). Men allt händer fortfarande i samma ögonblick som sidan laddas. I nästa kapitel tittar vi närmare på funktioner — vad som egentligen händer när du skriver `document.querySelector(...)` — och lär dig skriva egna. Det är den sista pusselbiten innan sidan kan reagera på klick i kapitel [-@sec-handelser].
 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-DOM-manipulation innebär att du nu arbetar med *två* saker samtidigt: JavaScript-koden och HTML-strukturen. Om något inte fungerar som förväntat kan felet finnas i antingen koden eller HTML:en. AI-verktyg är bra för att felsöka den typen av problem.
+Att arbeta med DOM:en innebär att du arbetar med *tre* saker samtidigt: JavaScript-koden, HTML-strukturen och CSS:en. Om något inte fungerar som förväntat kan felet finnas i vilken som helst av dem. AI-verktyg är bra för att felsöka den typen av problem och för att utforska vad som är möjligt.
 
 **Felsök med AI:**
 
@@ -227,17 +444,23 @@ DOM-manipulation innebär att du nu arbetar med *två* saker samtidigt: JavaScri
 
 Det här är ett mycket specifikt och vanligt fel. AI:n kan hjälpa dig lista ut att selektorn inte matchar — kanske är id:t felstavat.
 
-**Fråga om selektorer:**
+> *"Jag sätter `hidden = true` på ett element men det syns fortfarande. Här är min CSS: [klistra in]. Varför?"*
+
+**Fråga om selektorer och namn:**
 
 > *"Hur skriver jag en CSS-selektor som väljer det tredje `<li>`-elementet i en lista? Kan jag använda den i `querySelector`?"*
 
-CSS-selektorer kan bli komplexa. Det är helt legitimt att fråga om hjälp med syntaxen.
+> *"Vad heter CSS-egenskapen `border-bottom-left-radius` i JavaScript när jag använder `.style`?"*
 
-**Utforska vad som finns:**
+**Be om förslag att bygga vidare på:**
 
-> *"Vilka egenskaper förutom `textContent` och `innerHTML` kan jag ändra på ett HTML-element med JavaScript?"*
+> *"Jag bygger en quizapp. Kan du föreslå CSS-klasser för olika tillstånd — aktiv fråga, besvarad fråga och ledande lag — med passande färger?"*
 
-Det finns många — `classList`, `dataset`, `hidden`, `style` — och vi återkommer till flera av dem. Men det skadar aldrig att utforska i förväg.
+Det ger dig en startpunkt som du sedan anpassar, istället för att börja från noll. Läs igenom förslaget och se till att du förstår varje regel innan du använder den.
+
+> *"Hur kan jag göra så att ett element tonar in när jag tar bort klassen `dold`, istället för att bara dyka upp direkt?"*
+
+CSS-övergångar (`transition`) i kombination med klasser ger visuella effekter. Vi behandlar animationer i kapitel [-@sec-tid-animationer], men det skadar inte att experimentera redan nu.
 :::
 
 ---
@@ -279,7 +502,7 @@ I kapitel [-@sec-variabler], övning 2.5, skapade du templatesträngar för quiz
 ::: {.callout-note}
 ## Övning – innerHTML i praktiken
 
-Utgå från quizpoäng-sidan i övning 4.2. Ändra JavaScript-koden så att lagets namn visas i fetstil och poängen i kursiv, med hjälp av `innerHTML` och HTML-taggarna `<strong>` respektive `<em>`.
+Utgå från quizpoäng-sidan i övning 3.2. Ändra JavaScript-koden så att lagets namn visas i fetstil och poängen i kursiv, med hjälp av `innerHTML` och HTML-taggarna `<strong>` respektive `<em>`.
 :::
 
 ::: {.callout-note}
@@ -299,4 +522,53 @@ element.textContent = "Ny text!";
 1. Vad är felet?
 2. Vad händer om du kör koden som den är? Vilket felmeddelande får du?
 3. Rätta felet.
+:::
+
+::: {.callout-note}
+## Övning – `.style` vs `classList`
+
+Betrakta följande JavaScript:
+
+```javascript
+const element = document.querySelector("#info");
+element.style.color = "white";
+element.style.backgroundColor = "#333";
+element.style.padding = "1rem";
+element.style.borderRadius = "8px";
+element.style.fontWeight = "bold";
+```
+
+1. Skriv om koden så att den använder en CSS-klass istället för `.style`. Definiera klassen i en `<style>`-tagg eller en CSS-fil.
+2. Vilka fördelar ser du med klassbaserade lösningen? Skriv ner minst två.
+3. Ge ett exempel på en situation där `.style` ändå vore det bättre valet.
+:::
+
+::: {.callout-note}
+## Övning – Facit som döljs
+
+Skapa en sida med en quizfråga, ett facit och en ledtråd:
+
+```html
+<p id="fråga">Vilken planet är störst i vårt solsystem?</p>
+<p id="ledtråd">Ledtråd: den är uppkallad efter en romersk gud.</p>
+<p id="facit">Jupiter</p>
+```
+
+1. Dölj facit med JavaScript, utan att ändra i HTML-koden. Vilka två sätt från kapitlet kan du använda?
+2. Visa ledtråden med en annan bakgrundsfärg genom att lägga till en CSS-klass som du skriver själv.
+3. Vad händer om du både sätter `hidden = true` *och* skriver en CSS-regel `#facit { display: block; }`? Förutsäg först, testa sedan, och förklara resultatet.
+
+Spara sidan — i kapitel [-@sec-handelser] lägger du till en knapp som visar facit.
+:::
+
+::: {.callout-note}
+## Övning – Mörkt läge
+
+Skapa en sida med lite innehåll (rubrik, ett par stycken text). Definiera en CSS-klass `.dark` på `<body>` som ger mörk bakgrund, ljus textfärg, och anpassade länkfärger.
+
+Skriv JavaScript som använder `classList.toggle("dark", mörktLäge)` för att aktivera mörkt läge baserat på en boolesk variabel `mörktLäge`.
+
+Testa genom att ändra variabeln mellan `true` och `false` och ladda om sidan.
+
+*Fundera:* Hur skulle det vara att kunna slå på och av mörkt läge med en knapptryckning? Det är precis vad vi gör i kapitel [-@sec-handelser].
 :::
