@@ -466,7 +466,7 @@ let poäng = 0;       // en variabeldeklaration
 poäng = poäng + 10;  // en tilldelning
 ```
 
-Distinktionen är värd att känna till eftersom JavaScript i vissa sammanhang förväntar sig ett uttryck (t.ex. inuti `${}` eller som villkor i ett `if()` och i andra en sats. Du kommer att se orden *if-sats*, *return-sats* och *deklarationssats* framöver – de är alla satser, instruktioner som *gör* något. Enskilda värden och beräkningar – saker som *är* något – är uttryck.
+Distinktionen är värd att känna till eftersom JavaScript i vissa sammanhang förväntar sig ett uttryck (t.ex. inuti `${}` eller som villkor i en `if`-sats) och i andra en sats. Du kommer att se orden *if-sats*, *return-sats* och *deklarationssats* framöver – de är alla satser, instruktioner som *gör* något. Enskilda värden och beräkningar – saker som *är* något – är uttryck.
 
 ---
 
