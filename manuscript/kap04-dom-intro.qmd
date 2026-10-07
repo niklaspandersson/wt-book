@@ -141,7 +141,7 @@ Som tumregel: börja med `textContent`. Byt till `innerHTML` bara när du verkli
 ::: {.callout-warning}
 ## Säkerhetsvarning: innerHTML och användardata
 
-Sätt **aldrig** in ofiltrerad användardata med `innerHTML`. Om en användare skriver in text som innehåller HTML-taggar — till exempel `<script>` — kommer webbläsaren att tolka det som riktig HTML-kod. Det kan utnyttjas för attacker som kallas *cross-site scripting* (XSS).
+Sätt **aldrig** in ofiltrerad användardata med `innerHTML`. Om en användare skriver in text som innehåller HTML-taggar kommer webbläsaren att tolka det som riktig HTML-kod — och vissa taggar kan bära med sig JavaScript som körs, som i exemplet nedan. Det kan utnyttjas för attacker som kallas *cross-site scripting* (XSS).
 
 ```javascript
 // FARLIGT — gör aldrig detta med data från användaren!
