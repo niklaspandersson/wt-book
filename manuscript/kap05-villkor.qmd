@@ -215,7 +215,7 @@ JavaScript utvärderar logiska operatorer med **kortslutning** (*short-circuit e
 - `false && vad_som_helst` → alltid `false`, andra operanden utvärderas inte
 - `true || vad_som_helst` → alltid `true`, andra operanden utvärderas inte
 
-Det betyder att om vänstra sidan av `&&` är falsy, körs aldrig höger sida. Det är användbart, men kan också leda till svårtolkad kod om man inte är försiktig.
+Det betyder att om vänstra sidan av `&&` är `false`, körs aldrig höger sida. Det är användbart, men kan också leda till svårtolkad kod om man inte är försiktig.
 
 ---
 
