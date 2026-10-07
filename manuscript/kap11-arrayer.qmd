@@ -550,23 +550,19 @@ Arrayerna i det här kapitlet har innehållit enkla värden: namn, poäng, tagga
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Arrayer har många metoder, och det kan vara svårt att hålla dem isär. AI-verktyg kan hjälpa dig att befästa din förståelse – men som alltid beror kvaliteten på hur du frågar.
+En array är lättare att förstå om man kan *se* den. Rita den som en rad lådor med indexen under – och låt AI:n kontrollera bilden.
 
-**Be AI:n förklara skillnader:**
+**Rita arrayens tillstånd:**
 
-> *"Vad är skillnaden mellan `push` och `unshift` i JavaScript? Och mellan `pop` och `shift`? Ge exempel som visar vad som händer med arrayen efter varje anrop."*
+> *"Ge mig en array och en sekvens av sex operationer med `push`, `pop`, `shift`, `unshift` och `splice`. Efter varje operation ritar jag arrayen som lådor, till exempel `[ "a" | "b" | "c" ]`, och anger vad operationen returnerade. Rätta mig efter varje steg innan vi går vidare."*
 
-**Testa din förståelse av index:**
+**Från beskrivning till algoritm:**
 
-> *"Jag har arrayen `['a', 'b', 'c', 'd', 'e']`. Vad returnerar `arr[2]`? Vad returnerar `arr[arr.length]`? Förklara varför."*
+Många arrayproblem bygger på samma få mönster: gå igenom alla, hitta en, räkna, bygg en ny lista.
 
-> *"Ge mig fem korta kodexempel med arrayer där jag ska förutsäga resultatet – blanda enkel indexering, `push`/`pop`, och `splice`."*
+> *"Ge mig fem vardagliga uppgifter med listor, som 'hitta den dyraste varan i kundvagnen' eller 'gör en lista med bara de godkända resultaten'. För varje uppgift beskriver jag först i ord, steg för steg, hur jag skulle lösa den – utan kod. Granska mina steg och säg om något fall glöms bort, innan jag börjar koda."*
 
-**Använd AI:n som problemgenerator:**
-
-> *"Ge mig tre övningsuppgifter på arrayer i JavaScript som kräver att jag kombinerar loopar och villkor. Nivå: nybörjare. Visa inte lösningen direkt."*
-
-Att be om uppgifter *utan* att få lösningen direkt tvingar dig att tänka själv. Du kan sedan visa din lösning för AI:n och be om feedback.
+Att formulera stegen i ord först – en *algoritm* – gör själva kodandet mycket enklare. Du kommer att märka att samma få mönster dyker upp gång på gång.
 :::
 
 ---

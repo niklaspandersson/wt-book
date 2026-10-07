@@ -281,23 +281,19 @@ I nästa kapitel tar vi steget till **arrayer** — JavaScripts sätt att hanter
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Loopar är ett av de första ställen där "spårning" – att följa kodens exekvering steg för steg – verkligen behövs för att bygga förståelse. AI kan vara en tålmodig partner för den typen av genomgångar.
+Att spåra en loop – att följa variablernas värden varv för varv – är en färdighet som bara tränas genom att göra det själv. Låt därför inte AI:n spåra åt dig. Låt den i stället rätta *din* spårning.
 
-**Be AI:n spåra en loop med dig:**
+**Rätta min spårningstabell:**
 
-> *"Gå igenom följande `for`-loop steg för steg och visa värdet på `i` och vad som skrivs ut i varje steg: `for (let i = 1; i <= 5; i++) { console.log(i * i); }`"*
+> *"Här är en loop och min spårningstabell, med värdet på varje variabel efter varje varv: [klistra in loopen och tabellen]. Stämmer tabellen? Om inte, peka ut den första raden där det blir fel, men rätta inte resten."*
 
-**Fråga om skillnader du är osäker på:**
+Gör tabellen på papper eller i ett textdokument: en kolumn per variabel och en rad per varv. Det känns långsamt, men det är så man lär sig se vad en loop gör utan att köra den.
 
-> *"Vad är skillnaden mellan `while` och `do...while`? Ge ett exempel där resultatet skiljer sig beroende på vilket man väljer."*
+**Jakten på fel-med-ett:**
 
-> *"När ska man använda `break` kontra att skriva ett tydligare villkor i `while`-satsen? Finns det situationer där det ena är tydligare?"*
+Det vanligaste loopfelet är att loopen går ett varv för mycket eller för lite – `<` i stället för `<=`, eller start på 1 i stället för 0.
 
-**Testa din förståelse med en felsökning:**
-
-> *"Jag har skrivit en loop som ska summera talen 1 till 10 men resultatet blir 45 istället för 55. Jag förstår verkligen inte, kan du förklara vad som kan ha gått fel?"*
-
-AI:n är bra på att förklara varför något *inte* fungerar – om du skriver en loop som ger fel svar, klistra in den och beskriv vad du förväntade dig.
+> *"Ge mig sex korta loopar som ska göra något enkelt, till exempel skriva ut talen 1 till 10. Några av dem ska innehålla ett fel-med-ett-fel. Jag avgör vilka som är fel och varför."*
 :::
 
 ---

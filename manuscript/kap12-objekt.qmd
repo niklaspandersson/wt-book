@@ -493,25 +493,21 @@ I nästa del av boken bygger vi vidare på objekt när vi fördjupar oss i JavaS
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Objekt är grunden för hur data organiseras i JavaScript, och det är värt att befästa förståelsen ordentligt. AI-verktyg kan hjälpa dig att utforska och experimentera.
+Att arbeta med objekt handlar mindre om syntax och mer om *modellering*: att bestämma vilka egenskaper något ska ha och hur delarna hänger ihop. Det är en designfråga utan ett enda rätt svar – och därför bra att diskutera.
 
-**Förstå skillnaden mellan primitiva värden och objekt:**
+**Modellera en verksamhet:**
 
-> *"Vad är skillnaden mellan ett tal och ett objekt i JavaScript? Vad händer om jag gör `const a = 5; const b = a; b = 10;` jämfört med `const a = {x: 5}; const b = a; b.x = 10;`? Visa vad `a` innehåller i båda fallen."*
+> *"Jag ska modellera ett bibliotek i JavaScript med objekt och arrayer: böcker, låntagare och lån. Här är mitt förslag: [klistra in dina objekt]. Ställ frågor som får mig att upptäcka vad som saknas eller är oklokt – till exempel vad som händer om två böcker har samma titel. Ge inte ditt eget förslag förrän jag ber om det."*
 
-**Utforska punktnotation och hakparentesnotation:**
+**Läs verklig data:**
 
-> *"När måste jag använda hakparentesnotation istället för punktnotation i JavaScript-objekt? Ge tre olika situationer med exempel."*
+Data från webb-API:er är ofta stora, nästlade objekt.
 
-**Testa din förståelse av nästlade objekt:**
+> *"Visa ett realistiskt exempel på data från ett väder-API, skrivet som ett JavaScript-objekt med några nivåers nästling och minst en array. Ställ sedan sex frågor som 'vad blir temperaturen i morgon?', där jag svarar med det JavaScript-uttryck som når värdet, till exempel `data.prognos[1].temperatur`."*
 
-> *"Ge mig ett JavaScript-objekt med tre nivåer av nästling. Ställ sedan fem frågor om vilka värden man får med olika uttryck som `obj.a.b[0].c`. Visa inte svaren direkt."*
+**Referens eller kopia?**
 
-**Be om övningar med arrayer av objekt:**
-
-> *"Ge mig en array med fem objekt som representerar böcker (titel, författare, år, läst). Ge mig sedan tre uppgifter: hitta en bok, filtrera böcker, och visa alla i en tabell. Visa inte lösningarna."*
-
-Att arbeta med objekt handlar om att tänka i *struktur* – vilka egenskaper behövs och hur hänger de ihop. Det är en färdighet som bäst tränas genom att experimentera.
+> *"Ge mig fem korta kodexempel där objekt tilldelas till nya variabler eller skickas till funktioner som ändrar dem. Fråga mig efter varje exempel vad originalobjektet innehåller efteråt."*
 :::
 
 ---

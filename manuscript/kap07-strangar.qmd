@@ -304,23 +304,19 @@ Nu kan du bearbeta både tal och text. Men dina program gör fortfarande samma s
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Strängmetoder är ett område där det är lätt att gissa fel – på index, på om slutindexet kommer med, på skiftläge. Det gör det till ett bra område för korta, täta övningar med AI.
+En strängfunktion som fungerar på dina egna testexempel kan ändå krascha på det första riktiga användaren skriver. Erfarna programmerare testar därför medvetet med konstiga indata – och att hitta på konstiga indata är något AI är bra på.
 
-**Generera förutsägelseövningar:**
+**Beställ elaka testdata:**
 
-> *"Ge mig tio JavaScript-uttryck med strängmetoderna `slice`, `indexOf`, `at`, `trim` och `replace`. Jag ska förutsäga resultatet av varje uttryck. Visa inte svaren förrän jag har svarat, och förklara sedan de jag fick fel."*
+> *"Jag har skrivit en JavaScript-funktion `snyggtNamn(text)` som tar bort mellanslag och ger namnet stor första bokstav. Ge mig femton testvärden som kan få en sådan funktion att bete sig konstigt – tomma strängar, bara mellanslag, namn med bindestreck, å, ä och ö, emojier, väldigt långa namn. Säg inte vad som går fel."*
 
-**Fråga om skillnader:**
+Gå igenom listan och förutsäg för varje värde vad *din* funktion returnerar. Kör den sedan i konsolen. De värden där du gissade fel är de du har mest att lära av. Gör samma sak med initialerna och e-postadressen från övningarna.
 
-> *"Vad är skillnaden mellan `text[0]`, `text.at(0)` och `text.slice(0, 1)` i JavaScript? I vilka situationer ger de olika resultat?"*
+**Snabbträning med `slice`:**
 
-> *"Varför är strängar oföränderliga i JavaScript, och vad betyder det i praktiken när jag använder metoder som `toUpperCase`?"*
+> *"Ge mig tio uttryck med `slice`, `indexOf` och `at` på strängen 'Programmering'. Jag förutsäger resultatet av vart och ett, och sedan visar du svaret."*
 
-**Be om problem, inte lösningar:**
-
-> *"Ge mig tre små uppgifter där jag ska bearbeta text som en användare har skrivit in, till exempel namn eller e-postadresser. Uppgifterna ska gå att lösa med `trim`, `slice`, `indexOf` och `toUpperCase`, utan villkorssatser. Visa inga lösningar."*
-
-När du har löst en uppgift kan du klistra in din lösning och be om feedback – fråga särskilt vad som händer med tomma eller ovanliga indata.
+Att räkna index i huvudet är jobbigt de första gångerna. Skriv gärna ut strängen med indexen under varje tecken.
 :::
 
 ---

@@ -436,31 +436,21 @@ Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent`
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Att arbeta med DOM:en innebär att du arbetar med *tre* saker samtidigt: JavaScript-koden, HTML-strukturen och CSS:en. Om något inte fungerar som förväntat kan felet finnas i vilken som helst av dem. AI-verktyg är bra för att felsöka den typen av problem och för att utforska vad som är möjligt.
+För att öva på DOM-manipulation behöver du sidor att öva *på*, och att skriva HTML för varje övning tar tid från det du egentligen vill träna. Låt AI:n stå för övningsmaterialet, och gör själv JavaScript-delen.
 
-**Felsök med AI:**
+**Beställ en övningssida:**
 
-> *"Jag får felmeddelandet 'Cannot set properties of null' när jag kör `document.querySelector('#pong').textContent = '10'`. Vad kan vara fel?"*
+> *"Skriv en HTML-sida, utan JavaScript, för ett påhittat kafé: rubriker, en meny med priser, några stycken med klasser och några element med id. Ge mig sedan tio uppdrag som ska lösas med `querySelector`, `textContent`, `classList` och `hidden` – till exempel 'dölj dagens erbjudande' eller 'markera alla vegetariska rätter'. Visa inga lösningar."*
 
-Det här är ett mycket specifikt och vanligt fel. AI:n kan hjälpa dig lista ut att selektorn inte matchar — kanske är id:t felstavat.
+Lös uppdragen i din egen `script.js`. Fastnar du, be om en *ledtråd* – inte om lösningen.
 
-> *"Jag sätter `hidden = true` på ett element men det syns fortfarande. Här är min CSS: [klistra in]. Varför?"*
+**Selektorquiz:**
 
-**Fråga om selektorer och namn:**
+> *"Visa en kort HTML-snutt och en CSS-selektor. Jag svarar vilket element `querySelector` returnerar – eller om den returnerar `null`. Gör tio sådana, gradvis svårare."*
 
-> *"Hur skriver jag en CSS-selektor som väljer det tredje `<li>`-elementet i en lista? Kan jag använda den i `querySelector`?"*
+**När något inte syns:**
 
-> *"Vad heter CSS-egenskapen `border-bottom-left-radius` i JavaScript när jag använder `.style`?"*
-
-**Be om förslag att bygga vidare på:**
-
-> *"Jag bygger en quizapp. Kan du föreslå CSS-klasser för olika tillstånd — aktiv fråga, besvarad fråga och ledande lag — med passande färger?"*
-
-Det ger dig en startpunkt som du sedan anpassar, istället för att börja från noll. Läs igenom förslaget och se till att du förstår varje regel innan du använder den.
-
-> *"Hur kan jag göra så att ett element tonar in när jag tar bort klassen `dold`, istället för att bara dyka upp direkt?"*
-
-CSS-övergångar (`transition`) i kombination med klasser ger visuella effekter. Vi behandlar animationer i kapitel [-@sec-tid-animationer], men det skadar inte att experimentera redan nu.
+> *"Jag sätter `hidden = true` på ett element men det syns fortfarande. Här är min CSS: [klistra in]. Ge mig en ledtråd om var jag ska leta, inte svaret."*
 :::
 
 ---

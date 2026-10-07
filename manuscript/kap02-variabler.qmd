@@ -410,27 +410,19 @@ Med de här verktygen kan vi börja representera information i kod. I nästa kap
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Det här kapitlet innehåller många begrepp som är lätta att känna igen men svårare att förklara: värde, typ, variabel, objekt, uttryck. AI-verktyg är bra för att testa om du verkligen kan skilja dem åt.
+Kapitlet har gett dig ett helt ordförråd: värde, literal, datatyp, variabel, deklaration, tilldelning, objekt, egenskap, uttryck, sats. Ett ordförråd sätter sig bäst genom upprepning, och AI:n kan göra upprepningen till **begreppskort**.
 
-**Fråga om orsaker, inte bara fakta:**
+**Begreppskort:**
 
-> *"Varför returnerar `typeof null` strängen `'object'` och inte `'null'` i JavaScript?"*
+> *"Gör tolv begreppskort om grundläggande JavaScript: värde, literal, datatyp, variabel, `let`, `const`, tilldelning, objekt, egenskap, `undefined`, uttryck och sats. Visa ett kort i taget – bara begreppet – och låt mig förklara det med egna ord. Bedöm min förklaring och visa en bättre formulering om min var ofullständig."*
 
-> *"Varför kan jag ändra en egenskap i ett objekt som är deklarerat med `const`, men inte tilldela variabeln ett nytt objekt?"*
+Gör om övningen några dagar senare. De kort du hade svårt med första gången är just de du behöver mest.
 
-**Be om konkreta exempel på skillnader:**
+**Sortera värden:**
 
-> *"Kan du visa ett exempel där det spelar roll om man deklarerar en variabel med `let` eller `const`?"*
+> *"Ge mig femton JavaScript-värden huller om buller – tal, strängar som ser ut som tal, booleska värden, `null`, `undefined` och små objekt. Jag anger typen för vart och ett, och du rättar."*
 
-> *"Ge mig fem rader JavaScript-kod och låt mig avgöra vilka som är uttryck och vilka som är satser. Visa inte svaret förrän jag har svarat."*
-
-**Testa din förståelse:**
-
-> *"Förklara skillnaden mellan `null` och `undefined` i JavaScript som om du undervisar en nybörjare – är den här förklaringen korrekt: [din förklaring]?"*
-
-> *"Jag har gjort ett objekt som beskriver en film: [ditt objekt]. Är egenskaperna väl valda och väl namngivna? Vad skulle du lägga till?"*
-
-Att formulera en förklaring – eller ett eget objekt – och sedan be AI:n granska det är ett av de effektivaste sätten att använda verktyget. Det är i formuleringen som du märker vad du faktiskt förstår och vad som bara kändes bekant.
+Kontrollera de du är osäker på med `typeof` i konsolen. Det går snabbare än att fråga – och konsolen har alltid rätt.
 :::
 
 

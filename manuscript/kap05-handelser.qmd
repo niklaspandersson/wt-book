@@ -392,27 +392,21 @@ Med händelser har du ett program som väntar på användaren och reagerar. Men 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Händelser introducerar ett nytt sätt att tänka: koden körs inte längre bara uppifrån och ned, utan *reagerar* på saker som händer. Det kallas händelsestyrd programmering och kan vara förvirrande i början. AI kan hjälpa dig förstå flödet.
+I händelsestyrda program bestäms ordningen av användaren, inte av koden. Det gör det svårare att förutsäga vad som händer – och därför värt att träna särskilt.
 
-**Be AI:n förklara exekveringsordningen:**
+**Spela upp ett användarscenario:**
 
-> *"Jag har en `addEventListener` med en callback-funktion. I vilken ordning körs koden? Körs callbacken direkt, eller väntar den?"*
+> *"Skriv ett kort JavaScript-program med två knappar, ett textfält och några `addEventListener` som skriver ut saker i konsolen. Beskriv sedan ett scenario – till exempel 'användaren klickar på knapp A två gånger, skriver hej i fältet och klickar på knapp B'. Jag skriver ner exakt vad som skrivs ut, i rätt ordning. Visa svaret först när jag har svarat."*
 
-> *"Varför körs min funktion direkt när sidan laddas istället för vid klick? Här är min kod: `knapp.addEventListener('click', minFunktion())`"*
+Bygg gärna programmet efteråt och kontrollera i webbläsaren – den har alltid sista ordet.
 
-**Fråga om händelsetyper:**
+**Granska planen innan du bygger:**
 
-> *"Vad är skillnaden mellan händelserna `input` och `change` på ett textfält? Ge ett exempel där det spelar roll vilken jag väljer."*
+Innan du skriver kod för en interaktiv sida kan du beskriva den i ord och låta AI:n granska beskrivningen:
 
-> *"Varför räknar min räknare aldrig högre än 1? Här är min kod: [klistra in koden]"*
+> *"Jag vill bygga en sida där ett textfält visar hur många tecken man har skrivit, och en knapp tömmer fältet. Jag tänker använda händelserna `click` och `change`. Säg inte hur koden ska se ut, men säg om jag valt rätt händelser och vad som i så fall kommer att bete sig konstigt."*
 
-Det sista är ett klassiskt misstag – variabeln deklareras inuti callbacken. Försök först själv att förklara varför det blir fel, och be sedan AI:n bekräfta eller rätta din förklaring.
-
-**Generera övningsuppgifter:**
-
-> *"Ge mig en övningsuppgift som kombinerar `addEventListener`, `classList.toggle` och `textContent` i JavaScript. Nivå: nybörjare, utan villkorssatser och loopar. Beskriv uppgiften utan att visa lösningen."*
-
-Att experimentera med händelser är ett bra sätt att lära sig — varje förändring ger omedelbar visuell feedback i webbläsaren.
+Har du redan stött på de klassiska felen – en räknare som aldrig kommer över 1, eller en funktion som körs direkt när sidan laddas – försök först förklara varför med hjälp av kapitlet. Be sedan AI:n bekräfta eller rätta din förklaring.
 :::
 
 ---

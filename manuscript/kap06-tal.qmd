@@ -334,29 +334,23 @@ Tal är den ena stora typen av data i program. I nästa kapitel tittar vi på de
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Tal i JavaScript är fulla av små överraskningar. Det gör dem till ett utmärkt område att öva på med AI – särskilt genom att förutsäga resultat innan du kontrollerar dem.
+Riktiga program som räknar börjar sällan med en formel. De börjar med någon som vill ha något – och som inte har tänkt på allt. Låt AI:n spela den beställaren, så får du träna på det som ofta är det svåraste: att ställa rätt frågor.
 
-**Fråga om orsaker, inte bara fakta:**
+**Rollspel – kunden som vill ha en räknare:**
 
-> *"Varför ger `'5' + 3` resultatet `'53'` i JavaScript, men `'5' - 3` ger `2`?"*
+> *"Spela ägaren till ett litet kafé som vill ha en webbsida som räknar ut pris med moms, rabatt och dricks. Beskriv vad du vill ha, men var lite vag – som en riktig kund. Svara bara på de frågor jag ställer, och avslöja detaljer som avrundning till hela kronor, eller vad som ska hända med tomma fält, först när jag frågar om dem."*
 
-> *"Förklara varför `0.1 + 0.2` inte blir exakt `0.3` i JavaScript. Använd en jämförelse med hur 1/3 skrivs som decimaltal."*
+Fråga om allt som kapitlet tagit upp: vilka tal kommer in, hur ska de avrundas, vad händer med decimalkomma? När du är nöjd med svaren kan du bygga sidan.
 
-**Träna förutsägelser:**
+**Kontrollera AI:n:**
 
-> *"Ge mig tio JavaScript-uttryck som blandar tal, strängar, `Number()`, `parseInt()` och `Math`-metoder. Låt mig förutsäga resultatet av varje uttryck innan du visar svaret, och förklara de jag får fel."*
+> *"Vad blir `Number("")`, `parseFloat("12,5")`, `Math.round(-2.5)` och `(0.1 + 0.2).toFixed(2)` i JavaScript?"*
 
-Att förutsäga *innan* man ser svaret är det som bygger förståelse. Att bara läsa svaren känns produktivt men fastnar sällan.
+Testa sedan alla fyra själv i konsolen. Stämde svaren? Uttryck med kantfall som de här är just där AI-verktyg ibland svarar fel med full övertygelse.
 
-**Fråga om val:**
+**Förklara för en tolvåring:**
 
-> *"När ska jag använda `Math.round`, `Math.floor` och `Math.ceil`? Ge ett vardagligt exempel för var och en där de andra två skulle ge fel svar."*
-
-**Felsök med AI:**
-
-> *"Min sida visar 'NaN' i stället för ett tal. Här är min kod: [klistra in koden]. Hur kan jag ta reda på var `NaN` uppstår?"*
-
-Be gärna om en *metod* för att hitta felet, inte bara svaret – till exempel var du ska placera `console.log` för att följa värdet steg för steg.
+> *"Jag ska förklara för en tolvåring varför `0.1 + 0.2` inte blir exakt `0.3` i en dator. Här är min förklaring: [din förklaring]. Är den korrekt? Är den begriplig för en tolvåring?"*
 :::
 
 ---

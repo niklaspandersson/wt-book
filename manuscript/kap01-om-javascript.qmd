@@ -230,25 +230,25 @@ Nästa kapitel går in på hur JavaScript representerar information – de värd
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-AI-verktyg är användbara redan från start, men på ett specifikt sätt: som ett verktyg för att förstå felmeddelanden och oklara begrepp – inte för att skriva kod åt dig.
+AI-verktyg som ChatGPT, Claude eller Copilot kan vara en utmärkt studiekamrat – eller ett sätt att lura sig själv. Skillnaden ligger i vem som gör tankearbetet. Om AI:n skriver koden är det AI:n som har övat, inte du. Därför handlar rutorna i den här boken nästan aldrig om att få kod skriven, utan om att använda AI för att *träna*. Genom boken möter du flera olika sätt att göra det:
 
-**Klistra in ett felmeddelande och fråga vad det betyder:**
+- **Förutsäga** – låt AI:n hitta på kod, och gissa vad den gör innan du får se svaret.
+- **Förklara** – förklara ett begrepp med egna ord, och låt AI:n granska förklaringen.
+- **Bli utfrågad** – låt AI:n spela lärare, nyfiken nybörjare eller kritisk kollega.
+- **Granska** – låt AI:n leta svagheter i din lösning, utan att skriva om den.
+- **Få material att öva på** – övningssidor, testdata och uppgifter, men inte lösningarna.
 
-> *"Jag fick det här felmeddelandet i webbläsarkonsolen: `Uncaught TypeError: Cannot read properties of null (reading 'textContent')`. Vad betyder det och varför uppstår det?"*
+Två saker gäller genomgående. AI:n kan ha fel – och den har sällan mindre självsäker röst när den har det. Kontrollera därför påståenden i konsolen eller på MDN. Och be hellre om en *ledtråd* än om ett svar när du har kört fast.
 
-Felmeddelanden känns kryptiska i början men är faktiskt informativa – de säger exakt vad som gick fel. Att lära sig läsa dem är en central kompetens. AI kan hjälpa dig avkoda dem medan du bygger upp det ordförrådet.
+**Låt AI:n förhöra dig:**
 
-**Fråga om skillnader du är osäker på:**
+> *"Jag har just läst ett kapitel om hur HTML, CSS och JavaScript samverkar, om skillnaden mellan klientsidan och serversidan, och om hur man kopplar ett skript till en sida. Ställ fem frågor till mig, en i taget, och vänta på mitt svar innan du ställer nästa. Säg till om något i mina svar är fel eller otydligt."*
 
-> *"Vad är skillnaden mellan klientsidan och serversidan i webbutveckling, och varför spelar det roll?"*
+**Avkoda ett felmeddelande:**
 
-Den här typen av frågor ger svar som bygger upp din konceptuella förståelse av hur webben fungerar.
+> *"Jag fick det här felmeddelandet i webbläsarkonsolen: `Uncaught TypeError: Cannot read properties of null (reading 'textContent')`. Förklara vad varje del av meddelandet betyder."*
 
-**Testa din förståelse av webbens tre lager:**
-
-> *"Jag förstår att HTML, CSS och JavaScript har tydliga och separata ansvarsområden – men kan du ge ett exempel där gränsen är otydlig, och förklara vad som brukar vara praxis?"*
-
-Det är en öppen fråga utan ett enkelt svar, och den tvingar dig att tänka djupare på lagindelningen. Det är den typen av nyanser som skiljer ytlig kännedom från verklig förståelse.
+Lägg märke till formuleringen: du ber inte om en lösning, utan om att förstå meddelandet. Nästa gång du ser det känner du igen det själv.
 :::
 
 ---

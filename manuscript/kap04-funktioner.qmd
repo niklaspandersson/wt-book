@@ -474,31 +474,23 @@ I nästa kapitel gör vi webben interaktiv – vi lär oss att *reagera* när an
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Funktioner är ett av de ställen där förvirring lätt uppstår – inte för att syntaxen är komplicerad, utan för att det är lätt att *tro* att man förstår utan att riktigt göra det. AI är ett bra redskap för att testa sin förståelse.
+Ett av de bästa sätten att ta reda på om man förstått något är att förklara det för någon annan. Med AI kan du vända på rollerna: låt den spela en student som inte förstår, och var själv läraren.
 
-**Anrop och returvärden:**
+**Byt roller:**
 
-> *"Jag förstår inte skillnaden mellan `console.log(42)` och en funktion som gör `return 42` – den ena skriver ut 42 och den andra ger tillbaka 42. Kan du förklara skillnaden?"*
+> *"Spela en nybörjare som läser om funktioner i JavaScript för första gången. Du blandar ihop parametrar och argument, och du förstår inte varför `console.log` returnerar `undefined`. Ställ frågor till mig, en i taget, och följ upp när mina förklaringar är otydliga. Avsluta med att sammanfatta vad du lärde dig av mig – och vad som fortfarande var oklart."*
 
-> *"Vad händer om jag anropar en funktion med fler argument än den har parametrar? Och med färre?"*
+Märker du att du börjar svara vagt – "det bara fungerar så" – har du hittat något att läsa om i kapitlet.
 
-**Undersök scope:**
+**Döp om funktionerna:**
 
-> *"Förklara vad 'lokalt scope' och 'modulscope' betyder i JavaScript med ett exempel som visar vad som händer om man försöker komma åt en lokal variabel utanför funktionen."*
+Kapitlet betonade att bra namn gör funktioner begripliga. Det går att träna:
 
-**Jämför syntaxformerna:**
+> *"Ge mig sex korta JavaScript-funktioner med dåliga namn som `f`, `gör` och `hantera`. Jag läser koden och föreslår bättre namn. Bedöm mina förslag, och säg till om ett namn skulle vara missvisande."*
 
-> *"Vad är skillnaden mellan en funktionsdeklaration, ett funktionsuttryck och en pilfunktion? Ge ett exempel på samma funktion skriven på alla tre sätten."*
+**Tre former, samma funktion:**
 
-**Öva på att läsa kod:**
-
-> *"Ge mig fem korta JavaScript-program där funktioner anropar varandra. Låt mig förutsäga vad som skrivs ut, och visa svaret först när jag har svarat."*
-
-**Felsök med AI:**
-
-> *"Jag har skrivit en funktion som ska returnera ett värde men jag får `undefined` istället för ett tal. Vad kan ha gått fel? Här är min kod: [klistra in koden]"*
-
-Att klistra in faktisk kod och beskriva vad du förväntade dig är nästan alltid bättre än att beskriva problemet i allmänna ordalag.
+> *"Visa en funktion skriven som funktionsdeklaration. Jag skriver om den som funktionsuttryck och som pilfunktion, och du rättar."*
 :::
 
 ---

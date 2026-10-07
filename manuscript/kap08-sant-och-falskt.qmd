@@ -316,27 +316,19 @@ I nästa kapitel använder vi de booleska värdena för att låta programmet vä
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Booleska uttryck är ett område där det är lätt att tro sig förstå mer än man gör – tills man ska skriva ett uttryck själv och det inte beter sig som förväntat. AI är ett bra verktyg för att förstå *varför* specifika uttryck utvärderas som de gör, och för att träna på att förutsäga resultat.
+Kapitlet heter *Sant och falskt* – så varför inte öva med en sant-eller-falskt-quiz? Den här gången är det påståenden *om* JavaScript som ska bedömas.
 
-**Fråga om specifika uttryck du är osäker på:**
+**Sant eller falskt?**
 
-> *"Varför är `"0" == false` sant i JavaScript men `"0" === false` falskt?"*
+> *"Ge mig tolv påståenden om jämförelser, logiska operatorer och truthy/falsy i JavaScript, till exempel 'strängen "0" är falsy'. Ungefär hälften ska vara falska. Jag svarar sant eller falskt och motiverar, och du rättar mig."*
 
-> *"Varför är en tom array `[]` truthy i JavaScript när en tom sträng `""` är falsy?"*
+Kontrollera de påståenden du var osäker på genom att skriva uttrycken i konsolen – så vet du att du inte heller har lurats av AI:n.
 
-**Träna på att förutsäga:**
+**Från vardagsspråk till kod:**
 
-> *"Ge mig tio JavaScript-uttryck med `&&`, `||`, `!` och jämförelser – blanda in några strängar och falsy värden. Låt mig förutsäga resultatet av varje uttryck innan du visar svaret, och förklara sedan de jag fick fel."*
+> *"Ge mig fem regler på svenska, som 'man får rabatt om man är student eller pensionär, men inte om varan redan är nedsatt'. Jag skriver varje regel som ett booleskt uttryck i JavaScript, och du granskar uttrycken."*
 
-**Översätt mellan språk och kod:**
-
-> *"Ge mig fem påståenden på svenska, som 'användaren är inloggad och har antingen betalat eller har ett provkonto', och låt mig skriva dem som booleska uttryck i JavaScript. Granska sedan mina uttryck."*
-
-Att översätta vardagsspråk till logiska uttryck är svårare än det låter – "eller" i vardagsspråk betyder ibland "antingen eller", men `||` är sant även när båda delarna är sanna.
-
-**Testa din förklaring:**
-
-> *"Förklara vad kortslutningsutvärdering innebär och varför `namn || 'främling'` fungerar som ett standardvärde – stämmer den här förklaringen: [din förklaring]?"*
+Att översätta vardagsspråk är svårare än det låter. "Eller" betyder ibland "antingen eller", men `||` är sant även när båda delarna är sanna – och "men inte" blir ofta ett `&& !` som är lätt att glömma.
 :::
 
 ---

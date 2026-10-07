@@ -542,27 +542,23 @@ Med villkor kan programmet reagera olika beroende på data och på vad användar
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Villkorssatser är lätta att läsa men svårare att skriva rätt – det är ofta ett fall man inte tänkt på som ställer till det. AI är ett bra verktyg för att hitta de fallen och för att träna på att följa kodens väg.
+En `if`/`else if`-kedja är en karta med vägskäl. Ibland är det lättare att se felen om man ritar kartan.
 
-**Be om ett motexempel:**
+**Rita flödet:**
 
-> *"Ge ett exempel där ordningen i en `else if`-kedja spelar roll och felaktig ordning ger fel svar utan att det uppstår ett felmeddelande."*
+> *"Här är min funktion: [klistra in din kod från temperatur- eller betygsövningen]. Rita den som ett flödesschema i text, med en ruta för varje villkor och pilar märkta ja och nej. Lägg inte till något som inte finns i koden."*
 
-> *"Visa ett exempel där en `switch`-sats ger fel resultat för att jag glömt `break`. Låt mig först gissa vad som skrivs ut."*
+Jämför schemat med vad du *tänkt* att koden ska göra. Finns det en väg som leder fel, eller ett fall som ingen pil tar hand om? Rita gärna ditt eget schema först, och jämför sedan.
 
-**Träna på att följa kodens väg:**
+**Låt AI:n leta testfall:**
 
-> *"Ge mig en funktion med en `if`/`else if`-kedja och fem olika anrop till den. Låt mig ange vilken gren som körs för varje anrop innan du visar svaret."*
+> *"Här är min kod som kontrollerar vad användaren har skrivit in: [klistra in koden]. Vilka indata har jag glömt att hantera? Ge exempel på indata som får den att bete sig fel, men visa inte hur jag ska rätta det."*
 
-**Jämför formerna:**
+Att låta AI:n hitta *testfall* i stället för att skriva koden tränar precis det tänkande som villkor kräver: vad kan gå fel, och vad ska då hända?
 
-> *"När är en ternäroperator tydligare än `if`/`else`, och när gör den koden svårare att läsa? Ge två exempel av varje."*
+**`switch` utan `break`:**
 
-**Granska din egen kod:**
-
-> *"Här är min funktion som kontrollerar vad användaren har skrivit in: [klistra in koden]. Vilka indata har jag glömt att hantera? Ge mig exempel på indata som får den att bete sig fel, men visa inte hur jag ska rätta det."*
-
-Att låta AI:n hitta *testfall* i stället för att skriva koden åt dig tränar precis det tänkande som villkor kräver: vad kan gå fel, och vad ska då hända?
+> *"Visa en `switch`-sats där ett `break` saknas, och låt mig gissa vad som skrivs ut för tre olika värden innan du förklarar."*
 :::
 
 ---
