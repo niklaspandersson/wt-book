@@ -187,7 +187,7 @@ if (poäng >= 50 || harKomplettering) {
 
 Studenten kan gå vidare om poängen räcker, *eller* om hen har rätt till komplettering.
 
-| `a`     | `b`     | `a || b` |
+| `a`     | `b`     | `a \|\| b` |
 |---------|---------|------------|
 | `true`  | `true`  | `true`     |
 | `true`  | `false` | `true`     |
