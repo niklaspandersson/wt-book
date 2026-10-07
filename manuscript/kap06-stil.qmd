@@ -151,7 +151,7 @@ const darkMode = true;
 document.querySelector("body").classList.toggle("dark", darkMode);
 ```
 
-Den andra parametern till `toggle` bestämmer riktningen: om den är `true` läggs klassen till, om den är `false` tas den bort. Det är ett renare alternativ till `if`/`else` med `add`/`remove`.
+Det andra argumentet till `toggle` bestämmer riktningen: om den är `true` läggs klassen till, om den är `false` tas den bort. Det är ett renare alternativ till `if`/`else` med `add`/`remove`.
 
 ### `classList.contains()` – kontrollera om en klass finns
 
