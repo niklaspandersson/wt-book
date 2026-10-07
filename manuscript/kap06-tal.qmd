@@ -1,0 +1,458 @@
+# Tal {#sec-tal}
+
+## Poängtavlan räknar fel
+
+Quizkvällen har blivit interaktiv. Poängtavlan har ett inmatningsfält där domaren skriver hur många poäng laget fick på rundan, och en knapp som lägger till dem:
+
+```html
+<p id="poäng">Poäng: 10</p>
+<input type="number" id="rundpoäng">
+<button id="lägg-till">Lägg till</button>
+```
+
+```javascript
+let poäng = 10;
+const fält = document.querySelector("#rundpoäng");
+const poängElement = document.querySelector("#poäng");
+
+document.querySelector("#lägg-till").addEventListener("click", () => {
+    poäng = poäng + fält.value;
+    poängElement.textContent = `Poäng: ${poäng}`;
+});
+```
+
+Domaren skriver `5` och klickar. Sidan visar: *Poäng: 105*.
+
+Något har gått fel – och det är inte matematiken. Programmet har inte räknat 10 + 5, utan satt ihop texten "10" och texten "5". Och det är bara början. Domaren vill också visa hur många procent rätt laget har, och resultatet blir `76.66666666666667`. Någon föreslår att nästa fråga ska väljas slumpvis. Och när en spelare skriver in poängen `2,5` med kommatecken blir resultatet ännu konstigare.
+
+Det här kapitlet handlar om tal: hur JavaScript representerar dem, hur man räknar med dem, och hur man undviker fällorna när tal kommer från användaren. Med det på plats kan quizet räkna rätt, avrunda snyggt och slumpa frågor.
+
+---
+
+## Taltypen `number`
+
+I många programmeringsspråk finns det en distinktion mellan heltal och decimaltal. I JavaScript finns bara en taltyp: `number`. Den representerar alla tal – både heltal och decimaltal – med 64-bitars precision enligt standarden IEEE 754 [@ieee754].
+
+```javascript
+42          // ett heltal
+3.14        // ett decimaltal
+-7          // ett negativt tal
+1000000     // en miljon
+0.001       // ett litet tal
+```
+
+Notera att decimaltal skrivs med *punkt*, inte med kommatecken som på svenska. Det kommer vi att få anledning att återkomma till när tal skrivs in av användare.
+
+### Aritmetiska operatorer
+
+Med tal kan vi göra matematik med de vanliga **aritmetiska operatorerna**:
+
+| Operator | Betydelse      | Exempel    | Resultat |
+|----------|----------------|------------|----------|
+| `+`      | Addition       | `3 + 4`    | `7`      |
+| `-`      | Subtraktion    | `10 - 3`   | `7`      |
+| `*`      | Multiplikation | `3 * 4`    | `12`     |
+| `/`      | Division       | `15 / 4`   | `3.75`   |
+| `%`      | Rest (modulo)  | `15 % 4`   | `3`      |
+| `**`     | Upphöjt till   | `2 ** 8`   | `256`    |
+
+Operatorn `%` – *modulo* – är kanske den minst bekanta. Den ger resten efter heltalsdivision. `15 % 4` ger `3` eftersom `15 = 3 × 4 + 3`. Modulo är oväntat användbar i programmering: till exempel för att avgöra om ett tal är jämnt (ett jämnt tal har resten `0` vid division med 2) eller för att dela upp ett antal minuter i timmar och minuter:
+
+```javascript
+const minuter = 135;
+const timmar = Math.floor(minuter / 60);   // 2 – hela timmar (Math.floor förklaras strax)
+const rest = minuter % 60;                 // 15 – minuterna som blir över
+console.log(`${timmar} h ${rest} min`);    // "2 h 15 min"
+```
+
+Beräkningsordningen i JavaScript följer vanlig matematisk konvention: multiplikation och division beräknas före addition och subtraktion. Parenteser kan användas för att styra ordningen:
+
+```javascript
+2 + 3 * 4       // 14, inte 20
+(2 + 3) * 4     // 20
+```
+
+Kortformerna från kapitel [-@sec-variabler] – `+=`, `-=`, `*=`, `++` och `--` – fungerar på alla variabler som innehåller tal.
+
+### Specialvärden: `NaN` och `Infinity`
+
+Taltypen rymmer också två speciella värden som du förr eller senare kommer att stöta på.
+
+**`NaN`** (*Not a Number*) uppstår när en matematisk operation inte ger ett meningsfullt tal som svar. Trots sitt namn är `NaN` faktiskt av typen `number` – det representerar ett ogiltigt numeriskt resultat.
+
+```javascript
+0 / 0       // NaN
+"hej" * 2   // NaN – man kan inte multiplicera text med tal
+```
+
+`NaN` har en besvärlig egenskap: det *smittar*. Varje beräkning där `NaN` ingår ger också `NaN`. Har ett ogiltigt värde väl smugit sig in i en uträkning syns det ofta först långt senare, när sidan plötsligt visar "Poäng: NaN".
+
+**`Infinity`** (och `-Infinity`) uppstår när ett tal blir större än JavaScript kan representera, eller vid division med noll:
+
+```javascript
+1 / 0       // Infinity
+-1 / 0      // -Infinity
+```
+
+::: {.callout-note}
+## MDN: Number
+
+Mozilla Developer Network (MDN) är den auktoritativa referensen för webbstandarder och JavaScript. Deras dokumentation av taltypen finns på [developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) och är värdefull läsning när du vill fördjupa dig.
+:::
+
+---
+
+## Tal från användaren
+
+Nu kan vi förklara vad som gick fel med poängtavlan. I kapitel [-@sec-handelser] såg du att `.value` alltid är en *sträng* – även när fältet är av typen `number`, och även när användaren bara har skrivit siffror. När domaren skrev `5` fick programmet strängen `"5"`, inte talet `5`.
+
+### Implicit konvertering – en vanlig felkälla
+
+När man blandar typer försöker JavaScript hjälpa till genom att automatiskt konvertera värden. Det kallas **implicit typkonvertering** eller *type coercion*. Resultaten kan vara förvånande:
+
+```javascript
+"5" + 3     // "53" – talet konverteras till sträng och konkateneras
+"5" - 3     // 2    – strängen konverteras till tal och subtraheras
+"5" * "3"   // 15   – båda konverteras till tal
+true + 1    // 2    – true konverteras till 1
+false + 1   // 1    – false konverteras till 0
+```
+
+`+` är tvetydig: är det addition eller konkatenering? JavaScript väljer konkatenering om *någon* av operanderna är en sträng. De andra aritmetiska operatorerna (`-`, `*`, `/`) försöker alltid tolka operanderna som tal.
+
+Det är precis det som hände på poängtavlan: `10 + "5"` blev `"105"`. Hade domaren i stället *dragit av* poäng med `-` hade det råkat fungera – vilket gör felet ännu svårare att upptäcka. Lärdomen är att aldrig förlita sig på den implicita konverteringen, utan att alltid konvertera själv.
+
+### Explicit konvertering med `Number()`
+
+Funktionen `Number()` tar ett värde och försöker göra om det till ett tal:
+
+```javascript
+Number("42")      // 42
+Number("3.14")    // 3.14
+Number("  42  ")  // 42 – mellanslag runt talet ignoreras
+Number("hej")     // NaN – kan inte konverteras
+Number(true)      // 1
+Number(false)     // 0
+```
+
+Med `Number()` blir poängtavlan rätt:
+
+```javascript
+document.querySelector("#lägg-till").addEventListener("click", () => {
+    poäng = poäng + Number(fält.value);
+    poängElement.textContent = `Poäng: ${poäng}`;
+});
+```
+
+Nu ger `5` i fältet *Poäng: 15*. Gör det till en vana: varje gång du läser ett tal från sidan, konvertera det direkt.
+
+::: {.callout-important}
+## Två fällor med inmatade tal
+
+**Det tomma fältet.** `Number("")` ger `0`, inte `NaN`. Om domaren klickar på knappen utan att skriva något läggs alltså noll poäng till – utan felmeddelande. Ibland är det rimligt, ibland inte.
+
+**Decimalkommat.** JavaScript förstår bara decimal*punkt*. `Number("12,5")` ger `NaN`. Fält av typen `<input type="number">` hjälper ofta till: beroende på webbläsare och språkinställningar kan användaren skriva med komma, och `.value` innehåller då talet med punkt. Men räkna inte med det – och i ett vanligt textfält får du alltid exakt det användaren skrev.
+
+Att *upptäcka* sådana fall – och visa ett vänligt felmeddelande – kräver att programmet kan fatta beslut. Det lär du dig i kapitel [-@sec-villkor].
+:::
+
+### `parseInt` och `parseFloat`
+
+Ibland innehåller texten mer än bara ett tal, till exempel en enhet. Då är `parseInt` (för heltal) och `parseFloat` (för decimaltal) användbara. De läser talet i *början* av strängen och ignorerar resten:
+
+```javascript
+parseInt("42px")      // 42 – läser heltalet i början av strängen
+parseFloat("3.14m")   // 3.14 – läser decimaltalet i början
+parseInt("3.9")       // 3 – parseInt slutar vid decimalpunkten
+```
+
+Den flexibiliteten är både en styrka och en risk:
+
+```javascript
+parseInt("abc")       // NaN – inget tal att hitta
+parseInt("12abc")     // 12  – hittar 12 i början
+Number("12abc")       // NaN – hela strängen måste vara ett tal
+parseFloat("12,5")    // 12  – slutar vid kommatecknet, utan att säga något!
+```
+
+Den sista raden är lömsk: `Number("12,5")` ger åtminstone `NaN`, som syns, medan `parseFloat` tyst ger fel svar. Använd därför `Number()` som standard, och `parseInt`/`parseFloat` bara när du *vet* att texten innehåller en enhet eller annat efter talet.
+
+---
+
+## `Math` – matematiska verktyg
+
+`Math` är ett inbyggt objekt som grupperar användbara matematiska funktioner och värden. Precis som `console` och `document` är det ett objekt, och dess metoder nås med punktnotation.
+
+### Avrundning
+
+```javascript
+Math.round(3.7)       // 4 – avrundning till närmaste heltal
+Math.round(3.2)       // 3
+Math.floor(3.9)       // 3 – avrundning nedåt
+Math.ceil(3.1)        // 4 – avrundning uppåt
+```
+
+De tre fungerar olika och passar i olika situationer. `Math.round` för vanlig avrundning, `Math.floor` när man vill ha "hela" enheter (hela timmar, hela lådor som får plats), `Math.ceil` när man behöver räcka till (antal bussar som behövs för att alla ska få plats).
+
+### Största, minsta och absolutbelopp
+
+```javascript
+Math.max(5, 2, 8, 1)  // 8 – det största av argumenten
+Math.min(5, 2, 8, 1)  // 1 – det minsta av argumenten
+Math.abs(-7)          // 7 – absolutbeloppet (avståndet från noll)
+```
+
+### Konstanter
+
+`Math` innehåller också matematiska konstanter som egenskaper:
+
+```javascript
+Math.PI    // 3.141592653589793
+Math.E     // 2.718281828459045
+```
+
+Notera att `Math.PI` inte har parenteser – det är en **egenskap** (ett lagrat värde), inte ett funktionsanrop. En komplett lista över `Math`-objektets metoder och egenskaper finns på [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math).
+
+---
+
+## Slumptal
+
+`Math.random()` returnerar ett slumpmässigt decimaltal som är minst 0 och mindre än 1 – till exempel `0.7291...`. Det är sällan just ett sådant tal man vill ha. Oftast vill man ha ett heltal i ett visst intervall, som ett tärningskast mellan 1 och 6. Det åstadkommer man genom att kombinera `Math.random()` med lite aritmetik:
+
+```javascript
+const slump = Math.random();          // 0 ≤ slump < 1
+const skalat = slump * 6;             // 0 ≤ skalat < 6
+const heltal = Math.floor(skalat);    // 0, 1, 2, 3, 4 eller 5
+const tärning = heltal + 1;           // 1, 2, 3, 4, 5 eller 6
+```
+
+Samma sak skrivs oftast på en rad, med nästlade funktionsanrop:
+
+```javascript
+const tärning = Math.floor(Math.random() * 6) + 1;
+```
+
+Läs uttrycket inifrån och ut, precis som du lärde dig i kapitel [-@sec-funktioner]. Mönstret går att återanvända: byt `6` mot antalet möjliga utfall. En funktion gör det tydligt:
+
+```javascript
+function slumpaHeltal(max) {
+    return Math.floor(Math.random() * max) + 1;   // 1 till och med max
+}
+
+const frågaNr = slumpaHeltal(20);   // en slumpad fråga av 20
+```
+
+---
+
+## Att visa tal snyggt
+
+Laget har 23 poäng av 30 möjliga. Andelen rätt blir `23 / 30 * 100`, vilket är `76.66666666666667`. Ingen vill se det på en poängtavla.
+
+Ett sätt är att avrunda till heltal med `Math.round`, som ger `77`. Men ibland vill man ha en eller två decimaler. Då kan man använda metoden `toFixed` – för även tal har metoder, som vi nämnde i kapitel [-@sec-funktioner]:
+
+```javascript
+const andel = 23 / 30 * 100;
+andel.toFixed(1)    // "76.7"
+andel.toFixed(0)    // "77"
+(12).toFixed(2)     // "12.00"
+```
+
+Notera två saker. För det första returnerar `toFixed` en *sträng*, inte ett tal. Den är alltså till för *visning*, i slutet av en beräkning – inte för att räkna vidare med. För det andra behövs parenteser runt ett tal som skrivs direkt i koden, eftersom punkten annars tolkas som en decimalpunkt.
+
+Ett bra arbetssätt är att räkna med fulla tal hela vägen, och avrunda först när värdet ska visas:
+
+```javascript
+const procent = poäng / maxPoäng * 100;                          // räkna exakt
+poängElement.textContent = `${procent.toFixed(1)} % rätt`;       // avrunda för visning
+```
+
+---
+
+## Flyttal är inte exakta
+
+Prova följande i konsolen:
+
+```javascript
+0.1 + 0.2    // 0.30000000000000004
+```
+
+Det är inte en bugg i JavaScript, utan en följd av hur datorer lagrar decimaltal. Talen lagras binärt, med ettor och nollor, och precis som 1/3 inte kan skrivas exakt som decimaltal (0,3333...) kan 0,1 inte skrivas exakt binärt. Felet är extremt litet, men det finns. Samma sak händer i nästan alla programmeringsspråk.
+
+I praktiken betyder det två saker:
+
+- **Visa avrundat.** `(0.1 + 0.2).toFixed(2)` ger `"0.30"`. Det räcker för det mesta.
+- **Räkna med heltal när det är viktigt.** Pengar räknas ofta i ören i stället för kronor: 1995 öre i stället för 19,95 kr. Heltal (upp till väldigt stora tal) lagras exakt.
+
+---
+
+## Ett komplett exempel: momsräknaren
+
+Nu kan vi sätta ihop det mesta från kapitlet – och från de tidigare kapitlen – till en liten men komplett räknare. Användaren skriver ett pris exklusive moms, klickar på en knapp och får priset inklusive moms:
+
+```html
+<label for="pris">Pris exkl. moms (kr):</label>
+<input type="number" id="pris">
+<button id="räkna">Räkna ut</button>
+<p id="resultat"></p>
+```
+
+```javascript
+const prisFält = document.querySelector("#pris");
+const resultat = document.querySelector("#resultat");
+
+function prisMedMoms(pris) {
+    return pris * 1.25;
+}
+
+document.querySelector("#räkna").addEventListener("click", () => {
+    const pris = Number(prisFält.value);   // sträng → tal
+    const total = prisMedMoms(pris);       // räkna med fulla tal
+    resultat.textContent = `${pris} kr blir ${total.toFixed(2)} kr inklusive moms.`;
+});
+```
+
+Läs koden och identifiera stegen: läs in, konvertera, beräkna, visa. Det är samma fyra steg som i nästan alla program som räknar med inmatade tal.
+
+Prova också att skriva "hej" i ett textfält i stället, eller att lämna fältet tomt. Vad visas? Att hantera sådana fall elegant är något vi återkommer till i kapitel [-@sec-villkor].
+
+---
+
+## Sammanfattning
+
+- JavaScript har en enda taltyp, **`number`**, för både heltal och decimaltal. Decimaltal skrivs med punkt.
+- De **aritmetiska operatorerna** är `+`, `-`, `*`, `/`, `%` (rest) och `**` (upphöjt till). Multiplikation och division beräknas före addition och subtraktion.
+- **`NaN`** betyder ett ogiltigt numeriskt resultat och "smittar" alla beräkningar det ingår i. **`Infinity`** uppstår bland annat vid division med noll.
+- Värden från formulärfält är **strängar**. `+` med en sträng blir konkatenering – konvertera därför alltid med **`Number()`**.
+- `Number("")` ger `0`, och `Number("12,5")` ger `NaN`. **`parseInt`** och **`parseFloat`** läser talet i början av en sträng, men kan tyst ge fel svar.
+- **`Math`** innehåller avrundning (`round`, `floor`, `ceil`), `max`, `min`, `abs` och konstanter som `Math.PI`.
+- **`Math.random()`** ger ett tal mellan 0 och 1; `Math.floor(Math.random() * n) + 1` ger ett heltal mellan 1 och `n`.
+- **`toFixed(n)`** visar ett tal med `n` decimaler – och returnerar en sträng.
+- **Flyttal är inte exakta**: avrunda för visning, och räkna med heltal när exakthet är viktig.
+
+Tal är den ena stora typen av data i program. I nästa kapitel tittar vi på den andra: text.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Tal i JavaScript är fulla av små överraskningar. Det gör dem till ett utmärkt område att öva på med AI – särskilt genom att förutsäga resultat innan du kontrollerar dem.
+
+**Fråga om orsaker, inte bara fakta:**
+
+> *"Varför ger `'5' + 3` resultatet `'53'` i JavaScript, men `'5' - 3` ger `2`?"*
+
+> *"Förklara varför `0.1 + 0.2` inte blir exakt `0.3` i JavaScript. Använd en jämförelse med hur 1/3 skrivs som decimaltal."*
+
+**Träna förutsägelser:**
+
+> *"Ge mig tio JavaScript-uttryck som blandar tal, strängar, `Number()`, `parseInt()` och `Math`-metoder. Låt mig förutsäga resultatet av varje uttryck innan du visar svaret, och förklara de jag får fel."*
+
+Att förutsäga *innan* man ser svaret är det som bygger förståelse. Att bara läsa svaren känns produktivt men fastnar sällan.
+
+**Fråga om val:**
+
+> *"När ska jag använda `Math.round`, `Math.floor` och `Math.ceil`? Ge ett vardagligt exempel för var och en där de andra två skulle ge fel svar."*
+
+**Felsök med AI:**
+
+> *"Min sida visar 'NaN' i stället för ett tal. Här är min kod: [klistra in koden]. Hur kan jag ta reda på var `NaN` uppstår?"*
+
+Be gärna om en *metod* för att hitta felet, inte bara svaret – till exempel var du ska placera `console.log` för att följa värdet steg för steg.
+:::
+
+---
+
+## Övningar
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vad skriver följande kodrader ut? Försök resonera dig fram till svaret *innan* du testar i konsolen.
+
+```javascript
+console.log("10" + 5);
+console.log("10" - 5);
+console.log("10" * "2");
+console.log(true + true);
+console.log(false + 1);
+console.log("hej" * 2);
+```
+
+För varje rad: förklara *varför* du fick det resultatet. Vilka rader är du mest osäker på? Vad säger det om JavaScripts typregler?
+:::
+
+::: {.callout-note}
+## Övning – Vad returneras?
+
+Ange utan att köra koden vad varje uttryck utvärderas till. Kontrollera sedan i konsolen.
+
+```javascript
+Math.max(3, 7, 2)
+Math.min(3, 7, 2)
+Math.round(4.5)
+Math.floor(4.9)
+Math.ceil(4.1)
+Math.abs(-12)
+parseInt("100px")
+Number("100px")
+17 % 5
+2 ** 5
+```
+
+Vilka av uttrycken returnerar `NaN`? Varför?
+:::
+
+::: {.callout-note}
+## Övning – Tärningskast
+
+Uttrycket `Math.floor(Math.random() * 6) + 1` simulerar ett tärningskast. Bryt ned det steg för steg:
+
+1. Vad returnerar `Math.random()`?
+2. Vad blir intervallet efter `Math.random() * 6`?
+3. Vad gör `Math.floor()` med det värdet?
+4. Varför läggs `+ 1` till?
+
+Skriv sedan ett uttryck som simulerar ett kast med en **tiosidig** tärning (1–10).
+
+Gör till sist en sida med en knapp "Kasta" och ett stycke som visar resultatet. Varje klick ska visa ett nytt kast. Vad hade hänt om du använt `Math.round` i stället för `Math.floor`? Kan alla sidor komma upp lika ofta?
+:::
+
+::: {.callout-note}
+## Övning – Hitta rätt funktion
+
+Du har en variabel `const pris = "249.50";` som innehåller ett pris som sträng (till exempel inläst från en webbsida). Du vill:
+
+1. Konvertera strängen till ett tal.
+2. Avrunda talet uppåt till närmaste heltal.
+3. Skriva ut resultatet i konsolen.
+
+Skriv koden. Vilka funktioner använde du, och varför valde du just dem?
+:::
+
+::: {.callout-note}
+## Övning – Klockan
+
+Skapa en sida med ett fält där användaren skriver ett antal minuter, en knapp och ett stycke för resultatet. När man klickar ska sidan visa antalet minuter omräknat till timmar och minuter, till exempel `135` → `2 h 15 min`.
+
+1. Vilka två operatorer eller funktioner behöver du? Varför räcker inte vanlig division?
+2. Utöka så att resultatet även visar dagar: `3000` minuter → `2 d 2 h 0 min`.
+:::
+
+::: {.callout-note}
+## Övning – Temperaturomvandlare
+
+Skapa en sida där användaren skriver en temperatur i Celsius och får den omräknad till Fahrenheit. Formeln är $F = C \times \frac{9}{5} + 32$.
+
+1. Visa resultatet med en decimal.
+2. Testa med 0, 100, 37 och −40. Vad är speciellt med −40?
+3. Lägg till omvandling åt andra hållet med en egen knapp. Skriv två funktioner, en för varje riktning.
+
+Spara sidan – i kapitel [-@sec-villkor] bygger du vidare på den.
+:::
+
+::: {.callout-note}
+## Övning – Dela notan
+
+Ett sällskap ska dela på restaurangnotan och lägga till dricks. Skapa en sida med tre fält – notans belopp, antal personer och dricks i procent – och en knapp som visar hur mycket var och en ska betala, med två decimaler.
+
+Testa med en nota på 1000 kr, tre personer och ingen dricks. Varje person ska betala 333,33 kr. Hur mycket blir det sammanlagt? Vart tog den sista öresbiten vägen, och hur skulle en verklig kassaapplikation kunna hantera det?
+:::
