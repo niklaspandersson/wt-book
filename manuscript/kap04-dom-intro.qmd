@@ -150,7 +150,7 @@ element.innerHTML = namn;   // Om användaren skriver "<img src=x onerror=alert(
                              // körs skadlig kod
 ```
 
-Så länge du bara använder `innerHTML` med text som *du själv kontrollerar* i din kod — strängar, variabler du satt, templatesträngar med dina egna värden — är det säkert. Problemet uppstår först när du blandar in data som kommer utifrån. Vi återkommer till webbasäkerhet i ett senare kapitel.
+Så länge du bara använder `innerHTML` med text som *du själv kontrollerar* i din kod — strängar, variabler du satt, templatesträngar med dina egna värden — är det säkert. Problemet uppstår först när du blandar in data som kommer utifrån. Vi återkommer till webbsäkerhet i ett senare kapitel.
 :::
 
 ---
