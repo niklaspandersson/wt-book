@@ -200,7 +200,7 @@ Några saker att notera:
 - Inuti metoden refererar `this` till det objekt som metoden tillhör – alltså `student`. `this.namn` ger `"Anna"`, `this.program` ger `"Webbutveckling"`.
 - Metoden *anropas* med parenteser: `student.presentation()` – precis som alla andra funktionsanrop.
 
-Det här mönstret – att `this` refererar till "det här objektet" – har du redan mött: du använder det implicit varje gång du skriver `element.textContent` eller `arr.push()`. Nu förstår du mekanismen bakom det.
+Inbyggda metoder fungerar på samma sätt. När du skriver `studenter.push("Elsa")` vet metoden vilken array den ska lägga till i, eftersom den anropades *på* `studenter` – inuti `push` är `this` just den arrayen. Nu har du sett mekanismen bakom det.
 
 ### Kortare syntax
 
