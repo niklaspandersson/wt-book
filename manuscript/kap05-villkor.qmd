@@ -137,7 +137,7 @@ null == undefined  // true
 
 ### Jämförelse av strängar
 
-Strängoperatorerna `<`, `>`, `<=`, `>=` fungerar också på strängar och jämför dem lexikografiskt – ungefär som i ett lexikon, tecken för tecken enligt deras Unicode-värde:
+Jämförelseoperatorerna `<`, `>`, `<=`, `>=` fungerar också på strängar och jämför dem lexikografiskt – ungefär som i ett lexikon, tecken för tecken enligt deras Unicode-värde:
 
 ```javascript
 "Anna" < "Björn"    // true  – 'A' kommer före 'B'
