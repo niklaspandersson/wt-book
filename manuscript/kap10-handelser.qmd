@@ -239,7 +239,7 @@ const knappar = document.querySelectorAll(".färg-knapp");
 for (const knapp of knappar) {
     knapp.addEventListener("click", (e) => {
         const färg = e.target.value;
-        document.body.style.backgroundColor = value;
+        document.body.style.backgroundColor = färg;
     });
 }
 ```
