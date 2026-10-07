@@ -422,7 +422,7 @@ if (år % 4 === 0) {
 }
 ```
 
-Koden ger fel svar för år 400. Vad är felet, och varför uppstår det? Skriv en korrekt version.
+Koden ger fel svar för år 1900. Vad är felet, och varför uppstår det? Skriv en korrekt version.
 :::
 
 ::: {.callout-note}
