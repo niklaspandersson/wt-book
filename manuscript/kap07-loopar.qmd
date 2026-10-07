@@ -173,13 +173,11 @@ Ibland behöver man avsluta en loop i förtid, utan att vänta på att villkoret
 Föreställ dig att du söker igenom en lista med studentresultat och vill hitta det första underkända:
 
 ```javascript
-const poäng = [82, 91, 73, 44, 68, 55]; 
-let underkändHittad = false;
+const poäng = [82, 91, 73, 44, 68, 55];
 
 for (let i = 0; i < poäng.length; i++) {
     if (poäng[i] < 50) {
         console.log(`Underkänt resultat: ${poäng[i]}`);
-        underkändHittad = true;
         break;  // avbryt – vi har hittat vad vi sökte
     }
 }
