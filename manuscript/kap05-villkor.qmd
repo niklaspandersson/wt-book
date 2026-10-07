@@ -345,7 +345,7 @@ Villkorssatser ger programmet förmågan att välja väg:
 - **Jämförelseoperatorerna** (`===`, `!==`, `<`, `>`, `<=`, `>=`) returnerar `true` eller `false`. Använd alltid `===` och `!==` för likhetstest.
 - **Logiska operatorer** kombinerar villkor: `&&` (och), `||` (eller), `!` (inte).
 - JavaScript utvärderar villkor med **kortslutning** – om resultatet kan avgöras tidigt utvärderas inte resten.
-- Värden som `0`, `""`, `null` och `undefined` är **falsy**; allt annat är **truthy**.
+- Värdena `false`, `0`, `""`, `null`, `undefined` och `NaN` är **falsy**; allt annat är **truthy**.
 - **Ternäroperatorn** (`? :`) är en kompakt form för enkla tvåvägsbeslut.
 - **`switch`** passar för många exakta matchningar mot samma variabel.
 
