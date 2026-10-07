@@ -4,7 +4,7 @@
 
 I förra kapitlet lärde du dig att fatta beslut med `if` och `else`. Du kan nu bestämma betyg, välja meddelanden, kontrollera om en student är godkänd. Men allt du visar på sidan ser likadant ut — samma svarta text på samma vita bakgrund, oavsett om studenten fick A eller F.
 
-Tänk dig quizprogrammet igen. Laget svarar rätt och får poäng, men sidan ger ingen visuell respons. Inget skiftar färg, inget markeras, inget händer visuellt. Det är som att få en tentaresultat i ren svart text — det fungerar, men det *kommunicerar* inte.
+Tänk dig quizprogrammet igen. Laget svarar rätt och får poäng, men sidan ger ingen visuell respons. Inget skiftar färg, inget markeras, inget händer visuellt. Det är som att få ett tentaresultat i ren svart text — det fungerar, men det *kommunicerar* inte.
 
 Nu ska vi ändra på det. I det här kapitlet lär du dig att ändra elements utseende med JavaScript: färger, storlekar, ramar och andra CSS-egenskaper. Du lär dig också att använda ett ännu kraftfullare verktyg, CSS-klasser, för att förbereda stilar i förväg och sedan slå på eller av dem från JavaScript. Och du lär dig att visa och dölja element, så att delar av sidan kan dyka upp eller försvinna beroende på dina villkor.
 
