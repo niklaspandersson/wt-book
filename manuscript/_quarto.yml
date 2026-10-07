@@ -16,10 +16,10 @@ book:
         - kap05-handelser.qmd
         - kap06-tal.qmd
         - kap07-strangar.qmd
-        - kap08-villkor.qmd
-        - kap09-loopar.qmd
-        - kap10-arrayer.qmd
-        - kap11-objekt.qmd
+        - kap09-villkor.qmd
+        - kap10-loopar.qmd
+        - kap11-arrayer.qmd
+        - kap12-objekt.qmd
         - del1-sammanfattning.qmd
     - part: "Del II - Webben som plattform"
       chapters:
