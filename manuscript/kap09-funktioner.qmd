@@ -513,6 +513,8 @@ console.log(`${namn3}: ${status3}`);
 ```
 
 Refaktorera koden: skriv en funktion `bedöm(namn, poäng)` som innehåller logiken och skriver ut resultatet. Ersätt sedan de tre upprepade blocken med tre anrop till funktionen. Hur mycket kortare och tydligare blir koden?
+
+Funktionen `bedöm` gör nu två saker: den avgör om resultatet är godkänt *och* skriver ut det. Dela upp den i två funktioner enligt principen "en funktion bör göra en sak": en som *returnerar* statusen och en som skriver ut. Vilken av dem skulle du kunna återanvända om resultatet i stället skulle visas på en webbsida?
 :::
 
 ::: {.callout-note}
