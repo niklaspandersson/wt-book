@@ -481,6 +481,7 @@ I det här kapitlet har vi lagt grunden för hur JavaScript representerar och la
 - Namn på variabler bör vara **beskrivande** och följa konventionen **camelCase**.
 - Operatorn `typeof` returnerar ett värdes typ som en sträng.
 - JavaScript är **dynamiskt typat** och utför ibland **implicit typkonvertering** – vilket kan ge oväntade resultat. Använd `Number()`, `String()` och `Boolean()` för att konvertera explicit.
+- Ett **uttryck** utvärderas till ett värde (`3 + 4`); en **sats** är en instruktion som gör något (`let poäng = 0;`).
 
 Med de här verktygen kan vi börja representera information i kod. I nästa kapitel tar vi det vidare och formaliserar något du redan har gjort: att *använda funktioner* — vad som egentligen händer när du skriver `console.log()`, `Number()` eller `"anna".toUpperCase()`.
 
