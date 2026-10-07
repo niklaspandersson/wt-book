@@ -84,7 +84,7 @@ if (poäng >= 90) {
 }
 ```
 
-JavaScript utvärderar villkoren uppifrån och ned och kör det första blocket vars villkor är sant – sedan hoppar det över resten. Det är därför det räcker med `poäng >= 90` för A, utan att också behöva skriva `poäng < 100`: om vi nått det blocket vet vi redan att inget av de tidigare villkoren stämde.
+JavaScript utvärderar villkoren uppifrån och ned och kör det första blocket vars villkor är sant – sedan hoppar det över resten. Det är därför det räcker med `poäng >= 80` för B, utan att också behöva skriva `poäng < 90`: om vi nått det blocket vet vi redan att inget av de tidigare villkoren stämde – poängen är alltså under 90.
 
 Det sista `else` är ett "i alla andra fall"-block och kräver inget villkor. Det är valfritt men ofta viktigt – det fångar upp fall som inte täcks av de övriga grenarna.
 
