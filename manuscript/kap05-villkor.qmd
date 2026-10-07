@@ -250,6 +250,8 @@ if (lagnamn) {
 
 Om `lagnamn` är en icke-tom sträng är den truthy och blocket körs. Om den är `""`, `null` eller `undefined` är den falsy och `else`-blocket körs. Det är ett vanligt och idiomatiskt mönster i JavaScript – men använd det bara när intentionen är tydlig. Om du faktiskt vill kontrollera att något inte är `null`, skriv hellre `=== null` explicit.
 
+Truthy och falsy förklarar också en egenhet hos `&&` och `||`: de returnerar egentligen inte alltid `true` eller `false`, utan *värdet av den operand som avgjorde resultatet*. `||` returnerar den första truthy operanden (eller den sista, om ingen är truthy), och `&&` returnerar den första falsy operanden (eller den sista, om alla är truthy). I en `if`-sats spelar det ingen roll – värdet tolkas ändå som sant eller falskt – men du kommer att stöta på mönster som `const namn = inmatning || "Anonym";`.
+
 ---
 
 ## Ternäroperatorn
