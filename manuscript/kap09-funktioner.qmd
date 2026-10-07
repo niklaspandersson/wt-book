@@ -38,7 +38,7 @@ Egna funktioner löser tre problem på en gång:
 2. **Ger namn åt beräkningar** – `prisMedMoms(320)` är tydligare än `320 * 1.25`.
 3. **Gör koden lättare att ändra** – ändra på ett ställe, gäller överallt.
 
-Programmering har ett princip för detta: **DRY** – *Don't Repeat Yourself*. Funktioner är det primära verktyget för att leva upp till den principen.
+Programmering har en princip för detta: **DRY** – *Don't Repeat Yourself*. Funktioner är det primära verktyget för att leva upp till den principen.
 
 ---
 
