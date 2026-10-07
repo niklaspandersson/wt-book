@@ -406,7 +406,7 @@ Vad hade hänt om villkoren stod i omvänd ordning (`x > 5` överst, `x > 20` un
 ::: {.callout-note}
 ## Övning – Hitta felet
 
-Följande funktion ska kontrollera om ett år är ett skottår. Ett år är ett skottår om det är delbart med 4, *utom* om det är delbart med 100, *såvida* det inte också är delbart med 400. (2000 är ett skottår, 1900 är det inte, 2024 är det.)
+Följande kod ska kontrollera om ett år är ett skottår. Ett år är ett skottår om det är delbart med 4, *utom* om det är delbart med 100, *såvida* det inte också är delbart med 400. (2000 är ett skottår, 1900 är det inte, 2024 är det.)
 
 ```javascript
 const år = 2024;
