@@ -610,23 +610,21 @@ Med traversering (förra kapitlet) och elementgenerering har du nu de verktyg so
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Att skapa element med JavaScript involverar många steg: skapa, konfigurera, registrera lyssnare, placera. Det är lätt att glömma ett steg eller blanda ihop metoderna. AI-verktyg kan hjälpa dig att befästa mönstret.
+När du skapar element med kod är två frågor extra viktiga: blir strukturen rätt, och är den säker? AI:n kan hjälpa dig granska båda – men låt den granska, inte skriva.
 
-**Be AI:n jämföra tekniker:**
+**Säkerhetsgranskning:**
 
-> *"Vad är skillnaden mellan `innerHTML +=` och `insertAdjacentHTML('beforeend', ...)` i JavaScript? Vad händer med befintliga händelselyssnare i respektive fall?"*
+> *"Här är min kod som visar kommentarer från användare på en sida: [klistra in koden]. Granska den med fokus på XSS. Peka ut varje ställe där användardata kan tolkas som HTML, men skriv inte om koden – jag rättar själv."*
 
-Det är en subtil men viktig skillnad som är värd att verkligen förstå.
+Låt AI:n granska igen när du har rättat. Efter några rundor börjar du själv se mönstret: `innerHTML` och `insertAdjacentHTML` tillsammans med data utifrån.
 
-**Be om steg-för-steg-genomgång:**
+**Översätt HTML till kod:**
 
-> *"Förklara steg för steg vad som händer i webbläsaren när jag kör `const div = document.createElement('div'); div.textContent = 'Hej'; document.body.append(div);`. Vad finns i minnet efter varje rad?"*
+> *"Ge mig en bit HTML – till exempel ett produktkort med bild, rubrik, pris och knapp. Jag skriver JavaScript som bygger exakt samma struktur med `createElement`, `textContent` och `append`. Jämför sedan min kod med HTML-koden och säg om något skiljer sig."*
 
-**Generera byggövningar:**
+**Förstå vad som händer:**
 
-> *"Ge mig en uppgift där jag ska bygga en komplett HTML-struktur enbart med JavaScript — till exempel ett kontaktkort med namn, bild, e-post och en klickbar knapp. Beskriv slutresultatet som HTML, men jag ska skapa det med `createElement` och `append`."*
-
-Att öva på att översätta en HTML-struktur till `createElement`-anrop bygger förståelsen för hur DOM:en och HTML hänger ihop.
+> *"Vad händer med ett element som jag skapar med `createElement` men aldrig lägger in på sidan? Och vad händer med händelselyssnarna på ett element om jag skriver om förälderns `innerHTML`?"*
 :::
 
 ---

@@ -576,23 +576,19 @@ HTML:s Drag and Drop API ger dig verktyg att bygga interaktioner där användare
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Drag and drop kombinerar händelser, DOM-manipulation och visuell feedback på ett sätt som kan vara svårt att hålla i huvudet. AI-verktyg kan hjälpa dig att bryta ner komplexiteten.
+Drag and drop är svårt att få rätt för *alla* användare. Den som navigerar med tangentbord eller skärmläsare kan inte dra något med musen. Låt AI:n granska din lösning ur deras perspektiv.
 
-**Be AI:n förklara händelsesekvensen:**
+**Tillgänglighetsgranskning:**
 
-> *"Beskriv steg för steg vilka drag-and-drop-händelser som utlöses när jag drar ett element från en lista till en annan. Visa vilka händelser som utlöses på det dragna elementet respektive på släppområdet."*
+> *"Här är min drag-and-drop-lista: [klistra in HTML och JavaScript]. Granska den ur perspektivet av någon som bara använder tangentbord, och av någon som använder skärmläsare. Vad kan de inte göra? Föreslå vad jag bör undersöka, men skriv inte koden."*
 
-**Fråga om vanliga problem:**
+Pröva sedan själv: lägg undan musen och försök använda sidan med bara Tab, Enter och piltangenterna.
 
-> *"Min drop-händelse utlöses aldrig. Vad kan vara fel? Visa de vanligaste misstagen med drag and drop i JavaScript."*
+**Jämför med verkligheten:**
 
-> *"Varför flimrar min visuella feedback (dragenter/dragleave) när jag drar över en container med barnelement? Hur löser jag det?"*
+> *"Vilka drag-and-drop-händelser utlöses när jag drar ett element från en lista till en annan, och på vilka element? Ge mig en lista i den ordning de inträffar."*
 
-**Generera byggövningar:**
-
-> *"Ge mig en uppgift där jag ska bygga ett enkelt Kanban-board med tre kolumner och dragbara kort. Beskriv vad som ska hända steg för steg, men visa inte lösningen."*
-
-Experimentera i webbläsaren och logga varje händelse med `console.log` — att *se* händelseflödet gör det mycket lättare att förstå.
+Lägg sedan ett `console.log` i varje händelselyssnare i din egen kod och dra ett element. Stämmer AI:ns lista med vad webbläsaren faktiskt gör? Om inte – vem tror du på?
 :::
 
 ---

@@ -454,25 +454,19 @@ I nästa kapitel tar vi steget från att *hitta och ändra* befintliga element t
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-DOM-traversering handlar om att tänka i *relationer* — förälder, barn, syskon. Det kan vara svårt att hålla i huvudet utan att se strukturen framför sig. AI-verktyg kan hjälpa dig att visualisera och experimentera.
+DOM-traversering är som att ge vägbeskrivningar: från *här*, gå upp till föräldern, sedan till nästa syskon. Det tränas bäst som en lek.
 
-**Be AI:n rita ett DOM-träd:**
+**Vägbeskrivningsleken:**
 
-> *"Givet den här HTML-koden, rita DOM-trädet och visa vilka element som är föräldrar, barn och syskon."*
+> *"Skriv en HTML-struktur med ett tiotal nästlade element, alla med id. Välj sedan ett startelement och ett mål, och be mig skriva ett traverseringsuttryck som går från start till mål utan `querySelector` – till exempel `start.parentElement.nextElementSibling`. Rätta mitt uttryck och ge mig en ny runda. Gör uppgifterna gradvis svårare."*
 
-Att se trädstrukturen visuellt gör det lättare att resonera om vilken egenskap som tar dig dit du vill.
+Byt sedan roller: du väljer start och mål, och AI:n skriver uttrycket. Kontrollera svaren i webbläsaren – det är inte ovanligt att AI:n blandar ihop syskon och barn.
 
-**Fråga om traverseringsvägar:**
+**Rita trädet:**
 
-> *"Jag har en referens till en `<button>` inuti en `<td>` i en tabell. Hur når jag den `<tr>` som knappen tillhör? Och hur når jag innehållet i den första `<td>` i samma rad?"*
+> *"Givet den här HTML-koden: [klistra in]. Rita DOM-trädet i text, med indrag för varje nivå. Markera vilka noder som är textnoder."*
 
-> *"Vad är skillnaden mellan `parentNode` och `parentElement`? När spelar det roll?"*
-
-**Generera traverseringsövningar:**
-
-> *"Ge mig en HTML-struktur med nästlade element. Ställ sedan fem frågor om vad olika traverseringsuttryck ger — till exempel `element.parentElement.children[2].textContent`. Visa inte svaren direkt."*
-
-Att öva på att förutsäga resultatet av traverseringsuttryck tränar samma typ av tänkande som att förutsäga arrayindex — men i två dimensioner.
+Textnoderna är ofta det som förklarar varför `childNodes` och `children` ger olika resultat.
 :::
 
 ---

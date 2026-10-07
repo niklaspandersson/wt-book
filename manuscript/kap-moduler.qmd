@@ -486,23 +486,19 @@ Moduler förändrar hur man tänker om kod. Istället för att se ett program so
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Moduler handlar till stor del om *organisation* — och det är svårare att öva på i isolerade kodexempel än till exempel loopar eller villkor. AI kan hjälpa dig att tänka kring strukturfrågor.
+Hur ett projekt ska delas upp i moduler har sällan ett enda rätt svar. Det gör ämnet lämpligt för en *diskussion*, där du får försvara dina val.
 
-**Förstå import och export:**
+**Försvara din uppdelning:**
 
-> *"Jag har två JavaScript-filer. Filen `math.js` har en funktion `add` och en funktion `multiply`. Visa hur jag exporterar dem och sedan importerar bara `add` i en annan fil."*
+> *"Här är en lista över funktionerna i mitt projekt, med en mening om vad var och en gör: [lista]. Jag tänker dela upp dem i de här modulerna: [din uppdelning]. Spela en kritisk kollega: ifrågasätt mina val ett i taget, och låt mig försvara dem innan du går vidare."*
 
-**Felsök modulproblem:**
+Det är tillåtet att ändra sig – men bara om argumentet faktiskt övertygar dig.
 
-> *"Jag får felet 'Cannot use import statement outside a module' i webbläsaren. Vad kan ha gått fel? Här är min HTML: [klistra in koden]"*
+**Förstå felmeddelandena:**
 
-**Diskutera struktur:**
+> *"Jag får felet 'Cannot use import statement outside a module'. Ge mig tre saker att kontrollera, i den ordning jag bör kontrollera dem."*
 
-> *"Jag har ett webbprojekt med 300 rader JavaScript i en enda fil. Koden hanterar formulärvalidering, API-anrop och DOM-uppdateringar. Hur borde jag dela upp den i moduler?"*
-
-> *"Vad är skillnaden mellan namngivna exporter och default-exporter? När bör jag använda den ena framför den andra?"*
-
-Att klistra in din *faktiska* filstruktur eller kod ger mer konkreta och användbara svar än att fråga i allmänna termer.
+> *"Vad betyder felet 'The requested module does not provide an export named …', och hur hänger det ihop med skillnaden mellan namngivna exporter och default-exporter?"*
 :::
 
 ---

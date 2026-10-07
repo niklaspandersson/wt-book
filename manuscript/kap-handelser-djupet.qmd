@@ -698,23 +698,21 @@ Händelser är mer än `addEventListener` och en callback. Bakom kulisserna rese
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Händelsepropagering är ett koncept som blir mycket tydligare med visuella förklaringar och experiment. AI-verktyg kan hjälpa dig att bygga den mentala modellen.
+Händelsepropagering förstår man bäst genom att *se* den. Använd AI:n som laboratorieassistent: låt den designa experimentet, men kör det själv.
 
-**Be AI:n visualisera propagering:**
+**Bygg ett experiment:**
 
-> *"Givet den här HTML-strukturen, beskriv steg för steg hur en klickhändelse på en knapp propagerar genom DOM-trädet. Visa fångstfasen och bubblingsfasen separat."*
+> *"Skriv en liten HTML-sida med tre nästlade `<div>`-element och en knapp innerst. Lägg lyssnare på alla fyra elementen, både i fångstfasen och i bubblingsfasen. Varje lyssnare ska skriva ut elementets id och vilken fas lyssnaren är registrerad för. Förklara inte resultatet."*
 
-**Fråga om delegation:**
+Innan du klickar: skriv ner i vilken ordning du tror att utskrifterna kommer. Klicka sedan och jämför. Lägg till `stopPropagation()` i en av lyssnarna och förutsäg igen.
 
-> *"Jag har en `<ul>` med `<li>`-element som skapas dynamiskt. Visa mig hur jag använder händelsedelegering istället för att registrera lyssnare på varje `<li>`. Förklara varför delegering fungerar."*
+**Förklara resultatet:**
 
-> *"Vad händer om jag har en knapp med en `<span>` inuti och jag delegerar klickhändelser? Hur ser jag till att klick på span:en också fångas?"*
+> *"Jag körde experimentet och fick den här ordningen: [klistra in]. Så här förklarar jag den: [din förklaring]. Stämmer min förklaring?"*
 
-**Generera felsökningsövningar:**
+**Delegering:**
 
-> *"Ge mig tre kodexempel med händelselyssnare som inte fungerar som förväntat. Problemen ska handla om bubbling, `preventDefault`, eller `removeEventListener`. Låt mig hitta felen innan du visar lösningen."*
-
-Att felsöka händelserelaterade problem är en av de vanligaste utmaningarna i webbutveckling — övning på att identifiera misstag stärker din förståelse.
+> *"Jag delegerar klick från en `<ul>`, och användaren klickar på en `<span>` inuti ett `<li>`. Ge mig en ledtråd om varför `event.target` inte är det element jag väntat mig, och om hur `closest` kan hjälpa – men ingen kod."*
 :::
 
 ---

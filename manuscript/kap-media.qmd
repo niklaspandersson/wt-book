@@ -678,21 +678,19 @@ JavaScript ger dig full kontroll över media i webbläsaren — bilder, ljud och
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Media-API:erna har många egenskaper och händelser som kan vara svåra att hålla reda på. AI-verktyg kan hjälpa dig att utforska dem systematiskt.
+Webbläsarnas regler för ljud och video ändras över tid – särskilt reglerna för när ljud får spelas upp automatiskt. AI-verktyg har tränats på texter från olika år och kan därför ge föråldrade eller motsägelsefulla svar. Det gör det här kapitlet till ett bra tillfälle att öva på att *kontrollera* vad AI:n säger.
 
-**Utforska media-API:et:**
+**Fråga – och kontrollera:**
 
-> *"Lista alla händelser som ett `<video>`-element kan utlösa, med en kort beskrivning av varje. Vilka är de viktigaste för att bygga en egen videospelare?"*
+> *"När får en webbsida spela upp ljud automatiskt i Chrome, Firefox och Safari? Vad händer i JavaScript när uppspelningen blockeras?"*
 
-**Felsöka uppspelningsproblem:**
+Jämför svaret med MDN:s dokumentation av [`play()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/play), och med vad som faktiskt händer i din egen webbläsare. Stämde allt? Var det något AI:n var säker på som inte stämde?
 
-> *"Min video spelas inte upp när jag anropar `play()`. Vad kan orsaka det? Beskriv de vanligaste felen och hur jag felsöker dem."*
+**Planera en spelare:**
 
-**Generera byggutmaningar:**
+> *"Jag ska bygga en egen ljudspelare med play/paus, en tidslinje och volymkontroll. Lista vilka egenskaper, metoder och händelser hos `HTMLMediaElement` jag behöver för varje del – men ingen kod."*
 
-> *"Ge mig en uppgift där jag ska bygga en enkel poddspelare med JavaScript. Den ska ha play/paus, volymkontroll och visa aktuell tid. Beskriv kraven men visa inte lösningen."*
-
-> *"Föreslå tre korta projekt som använder `<audio>` eller `<video>` med JavaScript — ett enkelt, ett medel och ett avancerat."*
+Slå upp var och en på MDN innan du använder den. Då får du både överblicken från AI:n och precisionen från dokumentationen.
 :::
 
 ---

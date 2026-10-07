@@ -668,27 +668,17 @@ I kommande kapitel bygger vi vidare på dessa grunder med **arv** – en mekanis
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Klasser och OOP introducerar flera nya begrepp på en gång – `class`, `constructor`, `this`, `new`, privata fält. AI kan hjälpa dig att reda ut dem ett i taget.
+Objektorienterad design handlar om att fördela ansvar: vilken klass vet vad, och vilken klass gör vad? En klassisk teknik för att tänka igenom det är **CRC-kort** (*Class, Responsibilities, Collaborators*): ett kort per klass, med klassens namn, vad den ansvarar för och vilka andra klasser den samarbetar med. AI:n kan vara en bra motspelare.
 
-**Förstå begreppen:**
+**Spela CRC-kort:**
 
-> *"Förklara skillnaden mellan en klass och en instans i JavaScript. Ge ett konkret exempel med en klass som representerar en bil."*
+> *"Jag ska bygga en webbshop med varukorg. Här är mina CRC-kort: [för varje klass: namn, ansvar, samarbetspartners]. Gå igenom scenariot 'kunden lägger två varor i korgen, tar bort en och går till kassan'. Fråga för varje steg vilken klass som har ansvaret, och påpeka när ansvaret verkar ligga på fel ställe."*
 
-> *"Vad händer steg för steg när jag skriver `new Produkt("Mus", 299)`? Vad gör `new`?"*
+Skriv korten innan du skriver någon kod. Det går snabbare att ändra ett kort än en klass.
 
-**Testa din förståelse av `this`:**
+**Vad gör `new`?**
 
-> *"Jag har en klass med en metod som använder `this`. Kan du ge mig ett exempel som visar vad `this` refererar till vid olika anrop?"*
-
-**Utforska inkapsling:**
-
-> *"Varför skulle jag använda privata fält med `#` istället för vanliga egenskaper? Ge ett exempel där det spelar roll."*
-
-**Designa egna klasser:**
-
-> *"Jag vill skapa en klass för att representera en spellista med låtar. Vilka egenskaper och metoder borde den ha? Hjälp mig tänka igenom designen innan jag börjar koda."*
-
-Att be AI:n hjälpa dig *designa* en klass – inte bara skriva den – tränar det tänkande som är kärnan i objektorienterad programmering.
+> *"Så här tror jag att det går till steg för steg när jag skriver `new Produkt("Mus", 299)`: [din beskrivning]. Rätta mig där jag har fel."*
 :::
 
 ---

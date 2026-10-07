@@ -585,25 +585,21 @@ Destructuring och spread är inte avancerade tekniker — de är vardagsverktyg 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Destructuring och spread bygger på mönster som kräver visuellt tänkande — du måste kunna "se" hur värden packas upp och sprids. AI-verktyg kan vara ett bra komplement till att experimentera i konsolen.
+Destructuring och spread är en kortare *skrivform* för saker du redan kan göra. Därför tränas de bäst genom att översätta: från lång form till kort, och tillbaka.
 
-**Förstå vad som händer steg för steg:**
+**Översätt åt båda hållen:**
 
-> *"Vad gör den här koden rad för rad? `const { namn, adress: { stad } } = person;` — vad är `namn`? Vad är `stad`? Finns `adress` som variabel?"*
+> *"Ge mig fyra kodsnuttar som plockar ut värden ur objekt och arrayer på det långa sättet, med punktnotation och index. Jag skriver om dem med destructuring. Ge mig sedan fyra snuttar med destructuring och spread som jag ska skriva om utan dem."*
 
-**Träna på att läsa destructuring:**
+Att kunna gå åt båda hållen visar att du förstår vad syntaxen faktiskt gör, och inte bara känner igen den.
 
-> *"Ge mig fem JavaScript-kodsnuttar med destructuring — en blandning av objekt, arrayer, rest och spread. Ställ en fråga om varje: 'Vad blir värdet av variabel X?' Visa inte svaren direkt."*
+**Läs kod som andra skrivit:**
 
-**Omvandla kod:**
+> *"Visa ett realistiskt exempel på JavaScript från ett modernt webbprojekt där destructuring och spread används flitigt, till exempel i funktionsparametrar. Förklara inte koden – jag förklarar rad för rad vad som händer, och du rättar."*
 
-> *"Jag har den här koden som plockar ut egenskaper manuellt. Skriv om den med destructuring och förklara skillnaden: `const namn = person.namn; const ålder = person.ålder; const stad = person.adress.stad;`"*
+**Vad händer om …?**
 
-**Utforska edge-cases:**
-
-> *"Vad händer om jag destructurerar en egenskap som inte finns? Och om jag sprider ett tomt objekt? Ge mig fem 'vad händer om'-frågor om destructuring och spread med svar."*
-
-Destructuring kan se förvirrande ut i början — tre punkter, klammerparenteser, kolon i oväntade positioner. Det bästa sättet att vänja sig är att skriva koden själv och kontrollera resultaten i konsolen.
+> *"Ge mig fem 'vad händer om'-frågor om destructuring och spread – till exempel om egenskapen inte finns, eller om samma egenskap sprids två gånger. Låt mig svara innan du förklarar."*
 :::
 
 ---

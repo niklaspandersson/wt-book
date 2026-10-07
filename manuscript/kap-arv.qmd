@@ -545,25 +545,21 @@ Arv låter en klass bygga vidare på en annan. Subklassen ärver allt från bask
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Arv och polymorfism kan vara svåra att greppa i början. Här är några sätt att använda AI för att fördjupa din förståelse.
+"Arv eller komposition?" är en av de mest diskuterade frågorna i objektorienterad programmering. Bästa sättet att förstå avvägningen är att argumentera för båda sidorna.
 
-**Visualisera arvskedjor:**
+**Debattera:**
 
-> *"Jag har klasserna Fordon, Bil och Elbil som ärver från varandra. Visa steg för steg vad som händer när jag skapar en ny Elbil – vilka konstruktorer körs och i vilken ordning?"*
+> *"Vi ska debattera om ett chattprogram med text-, bild- och röstmeddelanden ska byggas med arv eller komposition. Du argumenterar för arv och jag för komposition. Ge ett argument i taget och bemöt mina. Byt sida efter tre omgångar."*
 
-**Förstå överskuggning:**
+Skriv efteråt ner en mening om när du själv skulle välja arv, och en om när du skulle välja komposition.
 
-> *"Ge mig ett enkelt exempel i JavaScript där en subklass överskuggar en metod, och visa vad som skrivs ut. Förklara varför det blir just det resultatet."*
+**Förutsäg vad som skrivs ut:**
 
-**Utforska designval:**
+> *"Ge mig en kort klasshierarki i JavaScript med tre nivåer, där några metoder överskuggas och en använder `super`. Ställ fyra frågor om vad som skrivs ut när olika metoder anropas. Visa inte svaren direkt."*
 
-> *"Jag bygger ett system med olika typer av meddelanden: textmeddelande, bildmeddelande och röstmeddelande. Bör jag använda arv eller komposition? Vilka är för- och nackdelarna med varje ansats?"*
+**Ordningen i konstruktorn:**
 
-**Felsöka `super`:**
-
-> *"Min subklass kastar felet 'Must call super constructor before accessing this'. Vad betyder det och hur löser jag det?"*
-
-Att ställa "varför"-frågor – *varför arv här?*, *varför inte?* – är ofta mer lärorikt än att fråga om syntaxen.
+> *"Min subklass ger ett fel om att `super` måste anropas innan `this` används. Förklara varför JavaScript kräver den ordningen – vad finns inte än innan `super` har körts?"*
 :::
 
 ---

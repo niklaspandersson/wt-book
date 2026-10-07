@@ -768,28 +768,17 @@ Tid och animationer ger dina webbsidor liv. Timers schemalägger kod att köras 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Tid och animationer kan vara svåra att resonera om eftersom koden inte körs uppifrån och ned — den schemaläggs, upprepas och synkroniseras med skärmen. AI-verktyg kan hjälpa dig att förstå det asynkrona flödet.
+Hur `setTimeout`, `setInterval` och `requestAnimationFrame` schemaläggs förklaras ofta med liknelser – en kö på restaurang, ett väckarur, ett löpande band. Liknelser hjälper, men alla haltar någonstans. Att hitta var en liknelse brister är ett utmärkt sätt att testa sin förståelse.
 
-**Visualisera körningsordningen:**
+**Granska en liknelse:**
 
-> *"Vad skrivs ut, och i vilken ordning, om jag kör den här koden? Förklara varför."*
-> ```javascript
-> console.log("A");
-> setTimeout(() => console.log("B"), 0);
-> console.log("C");
-> ```
+> *"Förklara hur `setTimeout` fungerar i webbläsaren med en liknelse från vardagen. Jag ska sedan försöka hitta var liknelsen inte stämmer med hur JavaScript faktiskt fungerar."*
 
-> *"Vad händer om jag skapar ett setInterval med 1000 ms men funktionen tar 1500 ms att köra? Byggs anropen upp?"*
+Försök hitta minst två ställen där liknelsen brister – till exempel vad som händer med en timer på `0` millisekunder, eller när koden som redan körs tar lång tid.
 
-**Felsöka animationer:**
+**Förutsäg ordningen:**
 
-> *"Min animation med requestAnimationFrame rör sig ojämnt. Vad kan orsaka det? Hur gör jag den tidsbaserad istället för bildrutebaserad?"*
-
-**Generera övningar:**
-
-> *"Ge mig tre uppgifter som använder setTimeout och setInterval — en enkel, en medel och en avancerad. Beskriv kraven utan att visa lösningen."*
-
-> *"Beskriv en uppgift där jag ska animera ett element med requestAnimationFrame och en easing-funktion. Elementet ska röra sig från vänster till höger under 2 sekunder med en ease-out-effekt."*
+> *"Ge mig fem korta kodexempel som blandar `console.log`, `setTimeout` med olika fördröjningar och ett `setInterval` som stoppas med `clearInterval`. Jag skriver vad som skrivs ut och i vilken ordning, och kör sedan exemplen själv."*
 :::
 
 ---
