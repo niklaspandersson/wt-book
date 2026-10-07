@@ -60,7 +60,7 @@ Variabelnamnet `i` är en konvention – det är en förkortning av *index* elle
 ::: {.callout-note}
 ## `i++` och `i += 1`
 
-`i = i + 1` är ett långt och lite svårttolkat sätt att uttrycka att `i` skall öka med 1. JavaScript erbjuder kortformer för detta vanliga mönster:
+`i = i + 1` är ett långt och lite svårttolkat sätt att uttrycka att `i` ska öka med 1. JavaScript erbjuder kortformer för detta vanliga mönster:
 
 - `i++` – ökar `i` med 1 (postfix-inkrement)
 - `i--` – minskar `i` med 1 (postfix-dekrement)
@@ -86,7 +86,7 @@ while (i > 0) {
 }
 ```
 
-Här ökar `i` för varje iteration, och villkoret `i > 0` är alltid sant. Det här är en **oändlig loop** (*infinite loop*) och en av de vanligaste misstagen bland nybörjare.
+Här ökar `i` för varje iteration, och villkoret `i > 0` är alltid sant. Det här är en **oändlig loop** (*infinite loop*) och ett av de vanligaste misstagen bland nybörjare.
 
 ::: {.callout-important}
 ## Kontrollera alltid att loopen kan avslutas
@@ -263,7 +263,7 @@ Yttre loopen itererar över raderna (1–5). För varje rad kör den inre loopen
 I nästlade loopar är det viktigt att använda distinkta namn på räknarvariablerna. Det är konvention att använda `i` för den yttre loopen och `j` för den inre (och `k` för en eventuell tredje). Att råka skriva `i` när man menar `j` – eller tvärtom – är en vanlig källa till svårfunna buggar.
 :::
 
-Nästlade loopar kan snabbt bli kostsamma. Om yttre loopen kör *n* gånger och den inre *m* gånger kör den innersta koden *n × m* gånger. Med tre nivåers nästling är det *n × m × k* körningar. För stora tal kan det bli ett problem – men det är ett ämne för kapitel om optimering.
+Nästlade loopar kan snabbt bli kostsamma. Om yttre loopen kör *n* gånger och den inre *m* gånger kör den innersta koden *n × m* gånger. Med tre nivåers nästling är det *n × m × k* körningar. För stora tal kan det bli ett problem – men det är ett ämne för ett senare kapitel om optimering.
 
 ---
 
