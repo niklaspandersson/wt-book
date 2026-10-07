@@ -66,7 +66,7 @@ function prisMedMoms(pris) {
 }
 ```
 
-Funktionen tar ett argument (`pris`), beräknar priset inklusive moms, och *returnerar* det med `return`. Notera att vi gett funktionen ett substantiv som namn – `prisMedMoms` beskriver vad den returnerar.
+Funktionen har en parameter (`pris`), beräknar priset inklusive moms, och *returnerar* det med `return`. Notera att vi gett funktionen ett substantiv som namn – `prisMedMoms` beskriver vad den returnerar.
 
 Men att *definiera* en funktion gör ingenting i sig – koden i kroppen körs inte förrän funktionen *anropas*. Ett **funktionsanrop** skrivs, som vi såg i kapitel [-@sec-anropa-funktioner], som funktionens namn följt av parenteser med eventuella argument:
 
