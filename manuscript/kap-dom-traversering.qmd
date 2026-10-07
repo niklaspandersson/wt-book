@@ -247,7 +247,7 @@ I praktiken är `children` eller `querySelectorAll` oftast smidigare för att g�
 
 ## Data i HTML: `dataset`
 
-I kapitel [-@sec-handelser] introducerade vi `data-`-attribut och `dataset` kortfattat. Nu är det dags att utforska dem ordentligt — de är en central del av att arbeta med DOM-traversering i praktiken.
+I kapitel [-@sec-arrayer] introducerade vi `data-`-attribut och `dataset` kortfattat. Nu är det dags att utforska dem ordentligt — de är en central del av att arbeta med DOM-traversering i praktiken.
 
 HTML låter dig lägga till egna attribut på element, så länge de börjar med `data-`:
 
@@ -370,7 +370,7 @@ for (const länk of länkar) {
 }
 ```
 
-Mönstret — "ta bort klassen från alla, lägg till på den klickade" — är ett standardmönster för exklusiva val. Du såg det i övning 10.6 i händelsekapitlet, och nu ser du hur traversering gör det möjligt att hitta rätt element utan unika id:n.
+Mönstret — "ta bort klassen från alla, lägg till på den klickade" — är ett standardmönster för exklusiva val. Du såg det i övning 10.11 i arraykapitlet, och nu ser du hur traversering gör det möjligt att hitta rätt element utan unika id:n.
 
 ---
 
