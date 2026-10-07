@@ -259,10 +259,10 @@ console.log(meddelande);   // ReferenceError: meddelande is not defined
 
 `meddelande` existerar bara inuti `if`-blockets `{}` och är osynlig utanför. Det spelar ingen roll att `if`-satsen inte är en funktion – det räcker med klammerparenteserna.
 
-Variabler deklarerade *utanför* alla block har **globalt scope** och kan nås inifrån funktioner och block:
+Variabler som deklareras *utanför* alla block – på filens översta nivå – kan nås inifrån alla funktioner och block i filen:
 
 ```javascript
-const hälsning = "Hej";   // global variabel
+const hälsning = "Hej";   // deklarerad på översta nivån
 
 function skrivUt(namn) {
     console.log(`${hälsning}, ${namn}!`);   // kan komma åt hälsning
@@ -271,10 +271,12 @@ function skrivUt(namn) {
 skrivUt("Ida");   // Hej, Ida!
 ```
 
-::: {.callout-important}
-## Undvik globala variabler
+Hur långt utanför filen en sådan variabel syns beror på hur skriptet laddas. I ett vanligt skript hamnar den i det **globala scopet** och delas med alla skript på sidan. I en modul (`type="module"`, som vi använder i boken) stannar den i stället inom filen – den har **modulscope**, som vi såg i kapitel [-@sec-om-javascript].
 
-Globala variabler kan läsas och ändras från *var som helst* i koden. Det gör dem svåra att resonera om: vem ändrade den variabeln? Var? När? Sträva efter att hålla variabler lokala – deklarera dem i det innersta block där de behövs. Det minskar risken för oavsiktliga bieffekter och gör koden lättare att förstå och felsöka.
+::: {.callout-important}
+## Håll variabler lokala
+
+Variabler på översta nivån kan läsas och ändras från *var som helst* i filen – och globala variabler från var som helst på sidan. Det gör dem svåra att resonera om: vem ändrade den variabeln? Var? När? Sträva efter att hålla variabler lokala – deklarera dem i det innersta block där de behövs. Det minskar risken för oavsiktliga bieffekter och gör koden lättare att förstå och felsöka.
 :::
 
 Scope är ett ämne som vi återkommer till på djupet i Del III, när vi behandlar closures och mer avancerade mönster.
