@@ -316,6 +316,58 @@ Notera att vi använder `const` i `for...of`-loopen: `for (const student of stud
 
 ---
 
+## Från text till lista och tillbaka: `split` och `join`
+
+I kapitel [-@sec-strangar] utlovade vi en metod som delar upp en sträng i delar. Nu när du känner till arrayer kan vi titta på den. Metoden `split` delar en sträng vid ett visst tecken – en *avgränsare* – och returnerar en array med delarna:
+
+```javascript
+"Anna Andersson".split(" ")          // ["Anna", "Andersson"]
+"äpple,banan,citron".split(",")      // ["äpple", "banan", "citron"]
+"hej".split("")                      // ["h", "e", "j"] – varje tecken för sig
+```
+
+Resultatet är en vanlig array, så allt du lärt dig i kapitlet fungerar på den:
+
+```javascript
+const delar = "Anna Andersson".split(" ");
+console.log(delar[0]);        // "Anna"
+console.log(delar.length);    // 2
+```
+
+Metoden `join` gör det omvända: den sätter ihop elementen i en array till en enda sträng, med en valfri avgränsare emellan:
+
+```javascript
+["äpple", "banan", "citron"].join(", ")   // "äpple, banan, citron"
+["2026", "10", "07"].join("-")            // "2026-10-07"
+```
+
+Tillsammans gör `split` och `join` det enkelt att ta emot en lista från användaren. Här skriver användaren taggar separerade med kommatecken, och sidan visar hur många taggar det blev och listar dem städade:
+
+```html
+<input type="text" id="taggfält" placeholder="t.ex. javascript, html, css">
+<p id="taggar"></p>
+```
+
+```javascript
+const taggfält = document.querySelector("#taggfält");
+const taggResultat = document.querySelector("#taggar");
+
+taggfält.addEventListener("input", () => {
+    const delar = taggfält.value.split(",");
+    const taggar = [];
+
+    for (const del of delar) {
+        taggar.push(del.trim());
+    }
+
+    taggResultat.textContent = `${taggar.length} taggar: ${taggar.join(" · ")}`;
+});
+```
+
+Lägg märke till att resultatet visas med `textContent`, inte med `innerHTML`. Texten kommer från användaren, och som du såg i säkerhetsvarningen i kapitel [-@sec-dom-intro] ska sådan text aldrig tolkas som HTML.
+
+---
+
 ## Arrayer och DOM: `querySelectorAll`
 
 I kapitel [-@sec-dom-intro] lärde du dig att hämta *ett* element med `document.querySelector()`. Men vad gör man när man vill hämta *alla* element som matchar en selektor? Det är precis vad `document.querySelectorAll()` gör.
@@ -386,6 +438,96 @@ I de flesta fall räcker det att iterera med `for...of`, och då spelar skillnad
 
 ---
 
+## Händelser i en loop
+
+I kapitel [-@sec-handelser] registrerade du lyssnare på ett element i taget. Hade du tjugo kort som skulle reagera på musen fick du skriva tjugo anrop – eller en hjälpfunktion som du anropade tjugo gånger. Med `querySelectorAll` och en loop blir det några få rader, oavsett hur många element det är.
+
+```html
+<ul>
+    <li>Äpple</li>
+    <li>Banan</li>
+    <li>Citron</li>
+    <li>Dadel</li>
+</ul>
+<p id="vald-frukt">Klicka på en frukt!</p>
+```
+
+```javascript
+const frukter = document.querySelectorAll("li");
+const valdFrukt = document.querySelector("#vald-frukt");
+
+for (const frukt of frukter) {
+    frukt.addEventListener("click", (e) => {
+        valdFrukt.textContent = `Du valde: ${e.target.textContent}`;
+    });
+}
+```
+
+Loopen registrerar en klicklyssnare på *varje* `<li>`-element. Inuti callbacken använder vi `e.target` – en egenskap i event-objektet som du mötte i kapitel [-@sec-handelser] – för att ta reda på vilket element som klickades, och visar dess text. Det här mönstret — iterera med `for...of` och registrera lyssnare — är grundläggande i interaktiv webbutveckling.
+
+### `event.target`
+
+`event.target` är det element som *utlöste* händelsen. Ett annat exempel är en rad knappar som var och en byter sidans bakgrundsfärg. Varje knapp bär sin färg i attributet `value`:
+
+```html
+<button class="färg-knapp" value="red">Röd</button>
+<button class="färg-knapp" value="blue">Blå</button>
+<button class="färg-knapp" value="green">Grön</button>
+```
+
+```javascript
+const knappar = document.querySelectorAll(".färg-knapp");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        const färg = e.target.value;
+        document.body.style.backgroundColor = färg;
+    });
+}
+```
+
+Här registrerar vi samma lyssnare på tre knappar. Inuti callbacken använder vi `e.target` för att ta reda på *vilken* knapp som klickades och hämtar dess `value`-attribut. `value` är ett attribut som alla formulärelement har, inklusive knappar. Formulärelement återkommer vi till i ett senare kapitel.
+
+### Ett interaktivt quiz
+
+Här är ett mer komplett exempel som knyter ihop arrayer, funktioner, händelser, villkor och stiländringar:
+
+```html
+<h2 id="fråga">Vad heter Sveriges huvudstad?</h2>
+<div id="alternativ">
+    <button class="svar">Göteborg</button>
+    <button class="svar">Stockholm</button>
+    <button class="svar">Malmö</button>
+</div>
+<p id="resultat"></p>
+```
+
+```javascript
+const rätt = "Stockholm";
+const knappar = document.querySelectorAll(".svar");
+const resultat = document.querySelector("#resultat");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        const svar = e.target.textContent;
+
+        if (svar === rätt) {
+            resultat.textContent = "Rätt!";
+            resultat.style.color = "green";
+            e.target.classList.add("korrekt");
+        } else {
+            resultat.textContent = `Fel! Rätt svar är ${rätt}.`;
+            resultat.style.color = "red";
+            e.target.classList.add("felaktigt");
+        }
+    });
+}
+```
+
+Allt du har lärt dig sedan kapitel [-@sec-om-javascript] samverkar: DOM-selektion, textändring, stiländringar med `classList` och `.style`, funktioner som callbacks, event-objektet, villkor och loopar över element. Det är en fullt interaktiv quizfråga.
+
+---
+
 ## Sammanfattning
 
 Arrayer är JavaScripts sätt att hantera listor – ordnade samlingar av värden som man kan gå igenom, söka i och ändra.
@@ -397,11 +539,13 @@ Arrayer är JavaScripts sätt att hantera listor – ordnade samlingar av värde
 - **`includes`** kontrollerar om ett värde finns; **`indexOf`** ger positionen.
 - En **`for`**-loop med index (`for (let i = 0; i < arr.length; i++)`) ger full kontroll.
 - **`for...of`** itererar direkt över värdena – enklare när du inte behöver indexet.
+- **`split`** delar en sträng i en array; **`join`** sätter ihop en array till en sträng.
 - **`querySelectorAll`** returnerar en **NodeList** av DOM-element som kan itereras med `for...of`.
+- Med en loop kan samma **lyssnare** registreras på många element. **`e.target`** talar om vilket element som utlöste händelsen.
 
 Arrayer och loopar är oskiljaktiga: en loop utan en lista att bearbeta, eller en lista utan ett sätt att gå igenom den, är båda halvfärdiga verktyg. Tillsammans ger de dig möjligheten att hantera data av godtycklig storlek med en fast mängd kod.
 
-I nästa kapitel tar vi steget till att *skriva egna funktioner* — namngivna, återanvändbara kodblock som ger oss verktyget att strukturera och organisera riktiga program.
+Arrayerna i det här kapitlet har innehållit enkla värden: namn, poäng, taggar. Men i verkliga program är det sällan så enkelt – en student har både namn, program och poäng. I nästa kapitel kombinerar vi arrayer med objekt.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -484,7 +628,7 @@ Skapa en HTML-sida med en `<ul>`-lista med minst sex `<li>`-element – till exe
 
 1. Hämtar alla `<li>`-element med `querySelectorAll`.
 2. Itererar över dem med `for...of`.
-3. Om elementets text innehåller ett visst nyckelord (t.ex. "äpple"), ändrar elementets bakgrundsfärg till gul med `.style.backgroundColor`.
+3. Om elementets text innehåller ett visst nyckelord (t.ex. "äpple"), ger elementet en CSS-klass `markerad` med gul bakgrund.
 
 Testa att ändra nyckelordet och se att rätt element markeras.
 :::
@@ -495,4 +639,57 @@ Testa att ändra nyckelordet och se att rätt element markeras.
 Skriv kod som skapar en *ny* array med elementen i omvänd ordning – utan att använda den inbyggda metoden `reverse()`. Givet `["A", "B", "C", "D", "E"]` ska resultatet bli `["E", "D", "C", "B", "A"]`.
 
 *Tips:* Du kan iterera baklänges med en `for`-loop och använda `push` för att bygga upp den nya arrayen. Alternativt kan du iterera framåt och använda `unshift`.
+:::
+
+::: {.callout-note}
+## Övning – Ord i en mening
+
+Skapa en sida med ett textfält och ett stycke för resultatet. Medan användaren skriver en mening ska sidan visa hur många ord meningen har.
+
+1. Använd `split(" ")` för att dela upp meningen i ord.
+2. Prova med två mellanslag mellan två ord, och med mellanslag i slutet av meningen. Stämmer antalet? Undersök arrayen i konsolen och förklara vad som händer.
+3. Rätta räkningen så att tomma "ord" inte räknas.
+4. Visa även det längsta ordet i meningen.
+:::
+
+::: {.callout-note}
+## Övning – Live-sökning
+
+Skapa en HTML-sida med ett textfält och en `<ul>`-lista med minst åtta namn (som `<li>`-element). Skriv JavaScript som:
+
+1. Lyssnar på `input`-händelsen på textfältet.
+2. Vid varje ändring: gå igenom alla `<li>`-element med `querySelectorAll` och `for...of`.
+3. Dölj (med `hidden` eller en CSS-klass) de element vars text *inte* innehåller det som användaren skrivit i fältet.
+
+Resultatet ska vara en lista som filtreras i realtid.
+
+*Tips:* `textContent.toLowerCase().includes(söktext.toLowerCase())` gör sökningen skiftlägesokänslig.
+:::
+
+::: {.callout-note}
+## Övning – Interaktivt quiz
+
+Bygg en quizsida med en fråga och tre svarsknappar. Skriv JavaScript som:
+
+1. Registrerar en klicklyssnare på varje svarsknapp.
+2. Vid klick: kontrollerar om svaret är rätt.
+3. Om rätt: visar "Rätt!" i grönt och ger knappen en grön ram.
+4. Om fel: visar "Fel!" i rött, ger knappen en röd ram, och markerar den korrekta knappen med grön ram.
+
+Definiera CSS-klasser för rätt och fel svar. Använd `querySelectorAll`, `for...of` och `event.target`.
+
+**Bonusutmaning:** Gör att knapparna inte reagerar på fler klick efter att ett svar valts.
+:::
+
+::: {.callout-note}
+## Övning – Färgväljare med knappar
+
+Skapa en sida med fem knappar, var och en med ett `data-färg`-attribut (t.ex. `data-färg="tomato"`). Skriv JavaScript som:
+
+1. Hämtar alla knappar med `querySelectorAll`.
+2. Registrerar en klicklyssnare på var och en.
+3. Vid klick: ändrar sidans bakgrundsfärg till knappens `data-färg`-värde.
+4. Ger den klickade knappen en CSS-klass `aktiv` och tar bort den från alla andra knappar.
+
+*Tips:* Loopa igenom alla knappar och ta bort `aktiv`-klassen innan du lägger till den på den klickade.
 :::
