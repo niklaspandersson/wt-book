@@ -216,8 +216,12 @@ Kontrollera felvillkoren tidigt och returnera direkt:
 
 ```javascript
 function godkänd(poäng, inlämnadITid) {
-    if (poäng < 50) return false;
-    if (!inlämnadITid) return false;
+    if (poäng < 50) {
+        return false;
+    }
+    if (!inlämnadITid) {
+        return false;
+    }
     return true;
 }
 ```

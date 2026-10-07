@@ -398,8 +398,12 @@ Det är lätt att blanda ihop dem:
 
 ```javascript
 const arr = ["a", "b", "c"];
-for (const i in arr)  console.log(i);   // "0", "1", "2" (index som strängar)
-for (const v of arr)  console.log(v);   // "a", "b", "c" (värdena)
+for (const i in arr) {
+    console.log(i);   // "0", "1", "2" (index som strängar)
+}
+for (const v of arr) {
+    console.log(v);   // "a", "b", "c" (värdena)
+}
 ```
 
 Använd `for...of` för arrayer, `for...in` för objekt. Att använda `for...in` på en array fungerar men ger index som strängar, inte tal, och kan ge oväntade resultat.
