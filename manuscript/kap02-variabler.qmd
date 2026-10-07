@@ -4,7 +4,7 @@
 
 Föreställ dig att du och tre studiekamrater ska ha quizkväll. Någon föreslår att ni gör det lite mer ordentligt – en digital poängtavla på laptopen istället för ett papper med suddiga streck. Du sätter igång att skriva ett litet program.
 
-Direkt märker du att du behöver hålla reda på en hel del information: det aktuella lagets namn, hur många poäng de har, hur många sekunder det är kvar på rundan, och om de senaste svaret var rätt eller fel. Det är fyra helt olika *sorters* information – ett namn är inte samma sak som ett poängtal, och ett poängtal är inte samma sak som ett ja eller nej.
+Direkt märker du att du behöver hålla reda på en hel del information: det aktuella lagets namn, hur många poäng de har, hur många sekunder det är kvar på rundan, och om det senaste svaret var rätt eller fel. Det är fyra helt olika *sorters* information – ett namn är inte samma sak som ett poängtal, och ett poängtal är inte samma sak som ett ja eller nej.
 
 Det är just den insikten det här kapitlet handlar om. All information i ett JavaScript-program representeras som **värden**, och varje värde har en **datatyp** som bestämmer vad man kan göra med det. Du lär dig också att lagra värden i **variabler** – namngivna behållare som du kan referera till och uppdatera under programmets körning.
 
