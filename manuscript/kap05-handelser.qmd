@@ -2,7 +2,7 @@
 
 ## En knapp som inte reagerar
 
-Du har nu alla grundläggande verktyg: du kan hämta element från sidan, ändra deras text och utseende, fatta beslut med villkor, upprepa saker med loopar, hantera listor med arrayer och organisera kod i funktioner. Men det finns ett problem: allt händer i samma ögonblick.
+Du har nu de grundläggande verktygen: du kan lagra värden i variabler och objekt, hämta element från sidan, ändra deras text och utseende, och organisera kod i funktioner. Men det finns ett problem: allt händer i samma ögonblick.
 
 Dina program körs uppifrån och ned när sidan laddas — och sedan är de klara. Användaren ser resultatet, men kan inte påverka det. Det spelar ingen roll att du har en knapp på sidan:
 
@@ -12,9 +12,9 @@ Dina program körs uppifrån och ned när sidan laddas — och sedan är de klar
 
 Du kan klicka på den hundra gånger. Ingenting händer. Knappen *finns*, men inget i din JavaScript-kod säger åt webbläsaren att göra något när knappen klickas.
 
-Det som saknas är **händelser** — mekanismen som gör webben interaktiv. En händelse är något som *inträffar* i webbläsaren: ett klick, en knapptryckning, att musen rör sig, att ett formulär skickas. Med händelser kan du berätta för webbläsaren: "när användaren gör *det här*, kör *den här* funktionen."
+Det som saknas är **händelser** — mekanismen som gör webben interaktiv. En händelse är något som *inträffar* i webbläsaren: ett klick, en knapptryckning, att musen rör sig, att något skrivs i ett textfält. Med händelser kan du berätta för webbläsaren: "när användaren gör *det här*, kör *den här* funktionen."
 
-Det är den sista pusselbiten som knyter samman allt.
+Från och med det här kapitlet är dina program inte längre något som bara körs en gång. De väntar — och reagerar.
 
 ---
 
@@ -35,7 +35,7 @@ Några vanliga händelser:
 | `input`      | Innehållet i ett textfält ändras     |
 | `change`     | Ett formulärelement ändrar värde     |
 
-Vi börjar med den vanligaste: `click`.
+Tangentbordshändelserna `keydown` och `keyup` blir användbara först när programmet kan avgöra *vilken* tangent som trycktes — vi återkommer till dem i kapitel [-@sec-villkor]. Vi börjar med den vanligaste händelsen: `click`.
 
 ---
 
@@ -58,17 +58,18 @@ Här är det enklaste exemplet: en knapp som skriver ut ett meddelande i konsole
 ```javascript
 const knapp = document.querySelector("#hälsa-knapp");
 
-knapp.addEventListener("click", function() {
+function hälsa() {
     console.log("Hej!");
-});
+}
+
+knapp.addEventListener("click", hälsa);
 ```
 
 Steg för steg:
 
 1. Vi hämtar knappen med `querySelector`.
-2. Vi anropar `addEventListener` på knappen.
-3. Vi anger händelsetypen `"click"`.
-4. Vi skickar in en funktion som ska köras vid varje klick.
+2. Vi definierar en funktion, `hälsa`, som gör det vi vill ska hända.
+3. Vi anropar `addEventListener` på knappen, med händelsetypen `"click"` och funktionen `hälsa`.
 
 Nu händer det något: varje gång användaren klickar på knappen skrivs "Hej!" i konsolen. Funktionen körs inte när sidan laddas — den körs *bara* när händelsen inträffar.
 
@@ -78,11 +79,32 @@ Nu händer det något: varje gång användaren klickar på knappen skrivs "Hej!"
 
 Funktionen vi skickar till `addEventListener` kallas en **callback**. Det är en funktion som vi *inte anropar själva* — vi överlämnar den till webbläsaren och säger "ring den här när det händer."
 
-I kapitel [-@sec-funktioner] lärde du dig att funktioner i JavaScript är *värden* som kan lagras i variabler. Det är samma princip här: vi skickar en funktion som argument till en annan funktion.
+I kapitel [-@sec-funktioner] lärde du dig att funktioner i JavaScript är *värden*, precis som tal och strängar. Det är därför det här fungerar: vi skickar en funktion som argument till en annan funktion, på samma sätt som vi kan skicka ett tal.
 
-Det finns tre sätt att skriva callbacken, och alla gör samma sak:
+Notera att vi skriver `hälsa` utan parenteser. Vi skickar *funktionen som värde*, vi anropar den inte.
 
-### Anonym funktion
+::: {.callout-important}
+## Parenteser eller inte?
+
+Det är en viktig distinktion:
+
+- `hälsa` — refererar till funktionen som ett värde. Det är vad vi vill.
+- `hälsa()` — *anropar* funktionen omedelbart och skickar dess returvärde. Det är nästan alltid fel i detta sammanhang.
+
+```javascript
+// Rätt: skicka funktionen
+knapp.addEventListener("click", hälsa);
+
+// Fel: anropar funktionen direkt, skickar returvärdet (undefined)
+knapp.addEventListener("click", hälsa());
+```
+
+Om du märker att din funktion körs en gång när sidan laddas och sedan aldrig mer — kontrollera om du råkat skriva parenteser.
+:::
+
+### Callbacken direkt på plats
+
+Om funktionen bara behövs på ett ställe är det vanligt att skriva den direkt i anropet, utan namn. En sådan funktion kallas **anonym**:
 
 ```javascript
 knapp.addEventListener("click", function() {
@@ -90,40 +112,7 @@ knapp.addEventListener("click", function() {
 });
 ```
 
-Funktionen har inget namn — den definieras direkt på plats. Det är vanligt för korta callbacks.
-
-### Namngiven funktion
-
-```javascript
-function hanteraKlick() {
-    console.log("Klickad!");
-}
-
-knapp.addEventListener("click", hanteraKlick);
-```
-
-Funktionen definieras separat och refereras med sitt namn. Notera: vi skriver `hanteraKlick` utan parenteser — vi skickar *funktionen som värde*, vi anropar den inte.
-
-::: {.callout-important}
-## Parenteser eller inte?
-
-Det är en viktig distinktion:
-
-- `hanteraKlick` — refererar till funktionen som ett värde. Det är vad vi vill.
-- `hanteraKlick()` — *anropar* funktionen omedelbart och skickar dess returvärde. Det är nästan alltid fel i detta sammanhang.
-
-```javascript
-// Rätt: skicka funktionen
-knapp.addEventListener("click", hanteraKlick);
-
-// Fel: anropar funktionen direkt, skickar returvärdet (undefined)
-knapp.addEventListener("click", hanteraKlick());
-```
-
-Om du märker att din funktion körs en gång när sidan laddas och sedan aldrig mer — kontrollera om du råkat skriva parenteser.
-:::
-
-### Pilfunktion
+Oftast skrivs den som en pilfunktion, som du lärde dig i kapitel [-@sec-funktioner]:
 
 ```javascript
 knapp.addEventListener("click", () => {
@@ -131,7 +120,7 @@ knapp.addEventListener("click", () => {
 });
 ```
 
-Pilfunktioner, som du lärde dig i kapitel [-@sec-funktioner], är ett vanligt val för callbacks. De är kompakta och tydliga.
+Alla tre formerna gör samma sak. En namngiven funktion är bra när samma funktion ska användas på flera ställen, eller när den är lång. En pilfunktion direkt på plats är bra för korta callbacks — och är den form du kommer att se mest.
 
 ---
 
@@ -175,11 +164,11 @@ knapp.addEventListener("click", () => {
 });
 ```
 
-Variabeln `antal` lever utanför callbacken men nås inifrån den — det är möjligt tack vare scope-reglerna du lärde dig i kapitel [-@sec-funktioner]. Varje klick ökar `antal` med 1 och uppdaterar sidan.
+Variabeln `antal` lever utanför callbacken men nås inifrån den — det är möjligt tack vare scope-reglerna du lärde dig i kapitel [-@sec-funktioner]. Varje klick ökar `antal` med 1 med `++` från kapitel [-@sec-variabler], och uppdaterar sidan. Variabeln måste vara deklarerad *utanför* callbacken: annars skulle den skapas på nytt, med värdet 0, vid varje klick.
 
 ### Mörkt läge — äntligen
 
-I kapitel [-@sec-stil] funderade du på hur det vore att slå på mörkt läge med en knapptryckning. Nu kan vi bygga det:
+I kapitel [-@sec-dom-intro] slog du på mörkt läge med en variabel, och funderade på hur det vore att göra det med en knapptryckning. Nu kan vi bygga det:
 
 ```html
 <button id="tema-knapp">Byt tema</button>
@@ -200,13 +189,44 @@ temaKnapp.addEventListener("click", () => {
 });
 ```
 
-En enda rad i callbacken — `classList.toggle("dark")` — slår på och av mörkt läge vid varje klick. Det är kombinationen av händelser (det här kapitlet), CSS-klasser (kapitel [-@sec-stil]) och DOM (kapitel [-@sec-dom-intro]) i samverkan.
+En enda rad i callbacken — `classList.toggle("dark")` — slår på och av mörkt läge vid varje klick. Det är händelser, CSS-klasser och DOM i samverkan.
+
+### Funktioner som uppdaterar sidan
+
+I kapitel [-@sec-funktioner] skrev vi funktioner som uppdaterar sidan, som `visaPoäng`. De passar perfekt ihop med händelser. Här har quizet två knappar – en för rätt svar och en för att börja om – som båda använder samma funktion för att visa poängen:
+
+```html
+<p id="poäng">Poäng: 0</p>
+<button id="rätt-knapp">Rätt svar (+10)</button>
+<button id="nollställ-knapp">Börja om</button>
+```
+
+```javascript
+const poängElement = document.querySelector("#poäng");
+let poäng = 0;
+
+function visaPoäng() {
+    poängElement.textContent = `Poäng: ${poäng}`;
+}
+
+document.querySelector("#rätt-knapp").addEventListener("click", () => {
+    poäng += 10;
+    visaPoäng();
+});
+
+document.querySelector("#nollställ-knapp").addEventListener("click", () => {
+    poäng = 0;
+    visaPoäng();
+});
+```
+
+Varje callback gör två saker: ändrar *data* (variabeln `poäng`) och visar den nya datan på sidan. Det mönstret – ändra data, uppdatera sidan – kommer du att se i nästan alla interaktiva program.
 
 ---
 
 ## Event-objektet
 
-När en händelse inträffar skapar webbläsaren ett **event-objekt** som innehåller information om händelsen: vilken typ det var, vilket element som klickades, vilken tangent som trycktes, och mycket mer. Webbläsaren skickar automatiskt detta objekt som argument till callbacken:
+När en händelse inträffar skapar webbläsaren ett **event-objekt** som innehåller information om händelsen: vilken typ det var, vilket element det gällde, var muspekaren befann sig, och mycket mer. Webbläsaren skickar automatiskt detta objekt som argument till callbacken:
 
 ```javascript
 knapp.addEventListener("click", function(event) {
@@ -214,50 +234,15 @@ knapp.addEventListener("click", function(event) {
 });
 ```
 
-Parametern kan heta vad som helst, men konventionen är `event` eller den kortare formen `e`:
+Prova att klicka och titta i konsolen – objektet har dussintals egenskaper. Parametern kan heta vad som helst, men konventionen är `event` eller den kortare formen `e`. Precis som med andra objekt når du egenskaperna med punktnotation:
 
 ```javascript
 knapp.addEventListener("click", (e) => {
-    console.log(e.type);     // "click"
-    console.log(e.target);   // elementet som klickades
-});
-```
-
-### `event.target`
-
-`event.target` är det element som *utlöste* händelsen. Det är särskilt användbart när samma lyssnare hanterar händelser från flera element:
-
-```html
-<button class="färg-knapp" value="red">Röd</button>
-<button class="färg-knapp" value="blue">Blå</button>
-<button class="färg-knapp" value="green">Grön</button>
-```
-
-```javascript
-const knappar = document.querySelectorAll(".färg-knapp");
-
-for (const knapp of knappar) {
-    knapp.addEventListener("click", (e) => {
-        const färg = e.target.value;
-        document.body.style.backgroundColor = färg;
-    });
-}
-```
-
-Här registrerar vi samma typ av lyssnare på tre knappar. Inuti callbacken använder vi `e.target` för att ta reda på *vilken* knapp som klickades och hämtar dess `value`-attribut. `value` är ett attribut som alla formulärelement har, inklusive knappar. Formulärelement återkommer vi till i ett senare kapitel.
-
-
-### `event.type`
-
-`event.type` anger vilken sorts händelse som inträffade:
-
-```javascript
-element.addEventListener("click", (e) => {
     console.log(e.type);   // "click"
 });
 ```
 
-Det är mest användbart om du har en funktion som hanterar flera händelsetyper — men för de flesta situationer vet du redan vilken händelsetyp du lyssnar på.
+`e.type` anger vilken sorts händelse som inträffade. Event-objektet innehåller också vilket element som utlöste händelsen, i egenskapen `e.target`. Den blir verkligt användbar när en och samma funktion lyssnar på många element – något vi återkommer till i kapitel [-@sec-arrayer]. I kapitel [-@sec-villkor] använder vi egenskapen `e.key`, som berättar vilken tangent som trycktes.
 
 ---
 
@@ -307,85 +292,6 @@ Enkla hover-effekter kan göras helt i CSS med `:hover`-pseudoklassen. Använd J
 
 ---
 
-## Tangentbordshändelser
-
-Tangentbordshändelser låter programmet reagera på knapptryckningar. De viktigaste är:
-
-- `keydown` — en tangent trycks ned
-- `keyup` — en tangent släpps
-
-Händelseobjektet har egenskapen `key` som innehåller tangentens namn som en sträng:
-
-```javascript
-document.addEventListener("keydown", (e) => {
-    console.log(`Tangent: ${e.key}`);
-});
-```
-
-Trycker du på "a" skrivs `Tangent: a`. Trycker du på Enter skrivs `Tangent: Enter`. Mellanslag blir `Tangent:  ` (ett mellanslag).
-
-Notera att vi registrerar lyssnaren på `document` — inte på ett specifikt element. Det innebär att tangentbordshändelsen fångas oavsett var på sidan användaren befinner sig.
-
-### Reagera på specifika tangenter
-
-I kombination med en `if`-sats kan du reagera på enskilda tangenter:
-
-```javascript
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        console.log("Enter-tangenten trycktes!");
-    }
-});
-```
-
-Här är ett mer praktiskt exempel — en enkel rörelse på sidan:
-
-```html
-<div id="ruta" style="width:50px; height:50px; background:tomato; position:absolute; top:100px; left:100px;"></div>
-```
-
-```javascript
-const ruta = document.querySelector("#ruta");
-let x = 100;
-let y = 100;
-
-document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp") {
-        y -= 10;
-    } else if (e.key === "ArrowDown") {
-        y += 10;
-    } else if (e.key === "ArrowLeft") {
-        x -= 10;
-    } else if (e.key === "ArrowRight") {
-        x += 10;
-    }
-
-    ruta.style.top = `${y}px`;
-    ruta.style.left = `${x}px`;
-});
-```
-
-Piltangenterna flyttar den röda rutan tio pixlar i respektive riktning. Det är en grundläggande spelmekanik — och den byggdes med bara en händelselyssnare, några variabler och `.style`.
-
-::: {.callout-note}
-## Vanliga tangentnamn
-
-Några tangenter har namn som inte är självklara:
-
-| Tangent       | `e.key`        |
-|---------------|----------------|
-| Enter         | `"Enter"`      |
-| Mellanslag    | `" "`          |
-| Escape        | `"Escape"`     |
-| Piltangenter  | `"ArrowUp"`, `"ArrowDown"`, `"ArrowLeft"`, `"ArrowRight"` |
-| Tab           | `"Tab"`        |
-| Backspace     | `"Backspace"`  |
-
-En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values).
-:::
-
----
-
 ## Input-händelser
 
 Textfält och andra formulärelement genererar egna händelser. De viktigaste är:
@@ -404,15 +310,13 @@ const hälsning = document.querySelector("#hälsning");
 
 namnfält.addEventListener("input", () => {
     const namn = namnfält.value;
-    if (namn.length > 0) {
-        hälsning.textContent = `Hej, ${namn}!`;
-    } else {
-        hälsning.textContent = "Hej, främling!";
-    }
+    hälsning.textContent = `Hej, ${namn}!`;
 });
 ```
 
 Texten uppdateras i realtid medan användaren skriver. Egenskapen `.value` innehåller textfältets aktuella innehåll — det är den DOM-egenskap man använder för att läsa formulärdata.
+
+Prova att sudda ut allt i fältet. Då visas "Hej, !" — inte så snyggt. Att visa "Hej, främling!" när fältet är tomt kräver att programmet kan välja mellan två alternativ. Det lär du dig i kapitel [-@sec-villkor].
 
 ::: {.callout-note}
 ## `.value`, inte `.textContent`
@@ -445,6 +349,12 @@ språkMeny.addEventListener("change", () => {
 
 För `<select>`-element och checkboxar är `change` det naturliga valet. För textfält beror det på om du vill reagera i realtid (`input`) eller först när användaren är klar (`change`).
 
+::: {.callout-note}
+## `.value` är alltid en sträng
+
+Allt du läser med `.value` är text – även om användaren har skrivit en siffra, och även om fältet är av typen `<input type="number">`. Vill du räkna med värdet måste du först omvandla det till ett tal. Hur det går till, och vad som händer om du glömmer det, är en av de första sakerna vi tar upp i kapitel [-@sec-tal].
+:::
+
 ---
 
 ## Flera lyssnare på samma element
@@ -465,91 +375,24 @@ Båda funktionerna körs vid varje klick, i den ordning de registrerades. Det ä
 
 ---
 
-## Händelser och arrayer
-
-I kapitel [-@sec-arrayer] lärde du dig att hämta flera element med `querySelectorAll` och iterera med `for...of`. Nu kan vi kombinera det med händelselyssnare:
-
-```html
-<ul>
-    <li>Äpple</li>
-    <li>Banan</li>
-    <li>Citron</li>
-    <li>Dadel</li>
-</ul>
-<p id="vald-frukt">Klicka på en frukt!</p>
-```
-
-```javascript
-const frukter = document.querySelectorAll("li");
-const valdFrukt = document.querySelector("#vald-frukt");
-
-for (const frukt of frukter) {
-    frukt.addEventListener("click", (e) => {
-        valdFrukt.textContent = `Du valde: ${e.target.textContent}`;
-    });
-}
-```
-
-Loopen registrerar en klicklyssnare på *varje* `<li>`-element. Inuti callbacken använder vi `e.target.textContent` för att visa vilken frukt som klickades. Det här mönstret — iterera med `for...of` och registrera lyssnare — är grundläggande i interaktiv webbutveckling.
-
-### Ett interaktivt quiz
-
-Här är ett mer komplett exempel som knyter ihop arrayer, funktioner, händelser, villkor och stiländringar:
-
-```html
-<h2 id="fråga">Vad heter Sveriges huvudstad?</h2>
-<div id="alternativ">
-    <button class="svar">Göteborg</button>
-    <button class="svar">Stockholm</button>
-    <button class="svar">Malmö</button>
-</div>
-<p id="resultat"></p>
-```
-
-```javascript
-const rätt = "Stockholm";
-const knappar = document.querySelectorAll(".svar");
-const resultat = document.querySelector("#resultat");
-
-for (const knapp of knappar) {
-    knapp.addEventListener("click", (e) => {
-        const svar = e.target.textContent;
-
-        if (svar === rätt) {
-            resultat.textContent = "Rätt!";
-            resultat.style.color = "green";
-            e.target.classList.add("korrekt");
-        } else {
-            resultat.textContent = `Fel! Rätt svar är ${rätt}.`;
-            resultat.style.color = "red";
-            e.target.classList.add("felaktigt");
-        }
-    });
-}
-```
-
-Allt du har lärt dig sedan kapitel [-@sec-om-javascript] samverkar: DOM-selektion, textändring, stiländringar med `classList` och `.style`, villkor, loopar över element, funktioner som callbacks, och event-objektet. Det är en fullt interaktiv quizfråga.
-
----
-
 ## Sammanfattning
 
-Händelser är det som gör webben interaktiv. De knyter ihop allt du lärt dig hittills — DOM-manipulation, villkor, funktioner, arrayer och stiländringar — och ger användaren kontroll.
+Händelser är det som gör webben interaktiv. De knyter ihop allt du lärt dig hittills — värden, DOM-manipulation, stiländringar och funktioner — och ger användaren kontroll.
 
 - **`addEventListener("typ", callback)`** registrerar en funktion som körs när en händelse inträffar.
-- **Callback-funktionen** skickas som argument — den anropas *inte* direkt, utan av webbläsaren vid rätt tillfälle.
-- **Event-objektet** (`e`) innehåller information om händelsen: `e.target` (elementet), `e.type` (typen), `e.key` (tangenten).
-- **`click`** är den vanligaste händelsen. Andra viktiga typer: `mouseenter`/`mouseleave`, `keydown`/`keyup`, `input`/`change`.
-- **`.value`** läser innehållet i formulärelement — inte `.textContent`.
-- Du kan registrera lyssnare på flera element med `querySelectorAll` och en loop.
-- **Parenteser spelar roll**: `hanteraKlick` skickar funktionen, `hanteraKlick()` anropar den.
+- **Callback-funktionen** skickas som ett värde — den anropas *inte* direkt, utan av webbläsaren vid rätt tillfälle. Den kan vara namngiven, anonym eller en pilfunktion.
+- **Parenteser spelar roll**: `hälsa` skickar funktionen, `hälsa()` anropar den.
+- Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken.
+- **Event-objektet** (`e`) innehåller information om händelsen, till exempel `e.type`.
+- **`click`** är den vanligaste händelsen. Andra viktiga typer: `mouseenter`/`mouseleave` och `input`/`change`.
+- **`.value`** läser innehållet i formulärelement — inte `.textContent`. Värdet är alltid en sträng.
 
-Med händelser har du alla grundläggande verktyg för att bygga interaktiva webbsidor. Du kan läsa och ändra sidan, fatta beslut, hantera listor, organisera kod i funktioner och reagera på användarens handlingar. I nästa kapitel tar vi det vidare med **objekt** — ett sätt att gruppera relaterad data och funktionalitet som låter dig modellera mer komplexa saker i kod.
+Med händelser har du ett program som väntar på användaren och reagerar. Men reaktionerna är fortfarande enkla: samma sak händer varje gång. I de kommande kapitlen lär du dig mer om de värden programmen arbetar med — tal och strängar — och sedan hur programmet kan fatta beslut och reagera på *olika* sätt beroende på vad användaren gör.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Händelser introducerar ett nytt sätt att tänka: koden körs inte längre uppifrån och ned utan *reagerar* på saker som händer. Det kallas händelsestyrd programmering och kan vara förvirrande i början. AI kan hjälpa dig förstå flödet.
+Händelser introducerar ett nytt sätt att tänka: koden körs inte längre bara uppifrån och ned, utan *reagerar* på saker som händer. Det kallas händelsestyrd programmering och kan vara förvirrande i början. AI kan hjälpa dig förstå flödet.
 
 **Be AI:n förklara exekveringsordningen:**
 
@@ -559,13 +402,15 @@ Händelser introducerar ett nytt sätt att tänka: koden körs inte längre uppi
 
 **Fråga om händelsetyper:**
 
-> *"Vilken händelse ska jag lyssna på om jag vill reagera varje gång användaren skriver i ett textfält? Vad är skillnaden mellan `input` och `change`?"*
+> *"Vad är skillnaden mellan händelserna `input` och `change` på ett textfält? Ge ett exempel där det spelar roll vilken jag väljer."*
 
-> *"Vilka händelser finns för att upptäcka att musen hovrar över ett element? Visa ett exempel."*
+> *"Varför räknar min räknare aldrig högre än 1? Här är min kod: [klistra in koden]"*
+
+Det sista är ett klassiskt misstag – variabeln deklareras inuti callbacken. Försök först själv att förklara varför det blir fel, och be sedan AI:n bekräfta eller rätta din förklaring.
 
 **Generera övningsuppgifter:**
 
-> *"Ge mig en övningsuppgift som kombinerar `addEventListener`, `querySelectorAll` och `classList` i JavaScript. Nivå: nybörjare. Beskriv uppgiften utan att visa lösningen."*
+> *"Ge mig en övningsuppgift som kombinerar `addEventListener`, `classList.toggle` och `textContent` i JavaScript. Nivå: nybörjare, utan villkorssatser och loopar. Beskriv uppgiften utan att visa lösningen."*
 
 Att experimentera med händelser är ett bra sätt att lära sig — varje förändring ger omedelbar visuell feedback i webbläsaren.
 :::
@@ -579,7 +424,12 @@ Att experimentera med händelser är ett bra sätt att lära sig — varje för�
 
 Skapa en HTML-sida med en knapp och ett `<p>`-element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
 
-Utöka sedan: lägg till en andra knapp som *minskar* talet med 1. Se till att talet aldrig går under 0.
+Utöka sedan i två steg:
+
+1. Lägg till en knapp som *minskar* talet med 1, och en som nollställer det.
+2. Låt alla tre knapparna använda *samma* funktion för att visa talet på sidan. Hur många ställen i koden behöver du ändra om texten i stället ska vara "Antal: 5"?
+
+Vad händer om du flyttar `let antal = 0;` in i callbacken? Förutsäg först, testa sedan.
 :::
 
 ::: {.callout-note}
@@ -587,63 +437,41 @@ Utöka sedan: lägg till en andra knapp som *minskar* talet med 1. Se till att t
 
 Utgå från exemplet *Mörkt läge — äntligen* i kapitlet, där en knapp slår av och på klassen `dark` på `<body>`. Bygg vidare på det:
 
-1. Ge knappen texten "Mörkt läge" från början.
-2. Ändra knappens text till "Ljust läge" när mörkt läge är aktivt, och tillbaka till "Mörkt läge" när det inte är det.
-3. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
+1. Ge knappen texten "Byt tema".
+2. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
 
-*Tips:* `classList.contains("dark")` returnerar `true` om klassen är aktiv.
+Att låta knappens text växla mellan "Mörkt läge" och "Ljust läge" kräver att programmet tar reda på vilket läge sidan är i – det gör vi i kapitel [-@sec-villkor].
 :::
 
 ::: {.callout-note}
-## Övning – Tangentbordsrörelser
+## Övning – Visa svar
 
-Utgå från exemplet med piltangenterna i kapitlet, där en röd ruta flyttas tio pixlar per tryck. Bygg vidare på det:
+Ta fram sidan från övningen *Facit som döljs* i kapitel [-@sec-dom-intro], där facit är dolt. Lägg till två knappar:
 
-1. Lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att hämta fönstrets storlek – och tänk på att rutan själv är 50 pixlar bred och hög.
-2. Låt tangenten `c` växla rutans färg mellan två färger med hjälp av en CSS-klass.
-3. *Fundera:* Håll en piltangent nedtryckt en stund. Vad verkar hända med `keydown`-händelserna när en tangent hålls nere?
+1. "Visa svar" – visar facit.
+2. "Dölj svar" – döljer det igen.
+
+Gör sedan om lösningen så att en *enda* knapp växlar mellan att visa och dölja facit. Vilket av verktygen från kapitel [-@sec-dom-intro] gör det möjligt utan villkor?
 :::
 
 ::: {.callout-note}
-## Övning – Live-sökning
+## Övning – Spegla texten
 
-Skapa en HTML-sida med ett textfält och en `<ul>`-lista med minst åtta namn (som `<li>`-element). Skriv JavaScript som:
+Skapa en sida med ett textfält och en tom rubrik. Medan användaren skriver i fältet ska rubriken visa samma text.
 
-1. Lyssnar på `input`-händelsen på textfältet.
-2. Vid varje ändring: gå igenom alla `<li>`-element med `querySelectorAll` och `for...of`.
-3. Dölj (med `hidden` eller en CSS-klass) de element vars text *inte* innehåller det som användaren skrivit i fältet.
-
-Resultatet ska vara en lista som filtreras i realtid.
-
-*Tips:* `textContent.toLowerCase().includes(söktext.toLowerCase())` gör sökningen skiftlägesokänslig.
+1. Lös uppgiften med `input`-händelsen.
+2. Byt till `change`-händelsen. Vad är skillnaden för användaren? Beskriv en situation där `change` vore det bättre valet.
+3. Lägg till en lyssnare till på samma fält, som skriver ut värdet i konsolen. Körs båda lyssnarna? I vilken ordning?
 :::
 
 ::: {.callout-note}
-## Övning – Interaktivt quiz
+## Övning – Markera kort
 
-Bygg en quizsida med en fråga och tre svarsknappar. Skriv JavaScript som:
+Skapa en sida med tre "kort" (till exempel `<div>`-element med lite text). När muspekaren är över ett kort ska det få klassen `aktiv`; när muspekaren lämnar ska klassen tas bort.
 
-1. Registrerar en klicklyssnare på varje svarsknapp.
-2. Vid klick: kontrollerar om svaret är rätt.
-3. Om rätt: visar "Rätt!" i grönt och ger knappen en grön ram.
-4. Om fel: visar "Fel!" i rött, ger knappen en röd ram, och markerar den korrekta knappen med grön ram.
-
-Definiera CSS-klasser för rätt och fel svar. Använd `querySelectorAll`, `for...of` och `event.target`.
-
-**Bonusutmaning:** Gör att knapparna inte reagerar på fler klick efter att ett svar valts.
-:::
-
-::: {.callout-note}
-## Övning – Färgväljare med knappar
-
-Skapa en sida med fem knappar, var och en med ett `data-färg`-attribut (t.ex. `data-färg="tomato"`). Skriv JavaScript som:
-
-1. Hämtar alla knappar med `querySelectorAll`.
-2. Registrerar en klicklyssnare på var och en.
-3. Vid klick: ändrar sidans bakgrundsfärg till knappens `data-färg`-värde.
-4. Ger den klickade knappen en CSS-klass `aktiv` och tar bort den från alla andra knappar.
-
-*Tips:* Loopa igenom alla knappar och ta bort `aktiv`-klassen innan du lägger till den på den klickade.
+1. Lös uppgiften för ett kort.
+2. Skriv en funktion `gördMarkerbar(kort)` som tar ett element och registrerar båda lyssnarna på det. Använd funktionen för alla tre korten.
+3. Hur mycket kod hade det blivit för tjugo kort? I kapitel [-@sec-arrayer] ser du hur samma sak görs med några få rader.
 :::
 
 ::: {.callout-note}
