@@ -258,7 +258,7 @@ Det är en öppen fråga utan ett enkelt svar, och den tvingar dig att tänka dj
 ::: {.callout-note}
 ## Övning – Konsolen som miniräknare
 
-Öppna webbläsarens konsol (`F12` → *Console*). Testa följande uttryck och observera resultaten:
+Öppna webbläsarens konsol (`F12` → *Console*). Skriv först ner vad du tror att varje uttryck ger, och testa sedan:
 
 ```javascript
 10 + 3
@@ -269,6 +269,7 @@ Det är en öppen fråga utan ett enkelt svar, och den tvingar dig att tänka dj
 2 ** 10
 ```
 
+Operatorerna `%` och `**` har du kanske inte sett förut. Vad verkar de göra, att döma av resultaten? Testa med fler tal tills du är säker. (De förklaras i kapitel [-@sec-variabler].)
 :::
 
 ::: {.callout-note}
