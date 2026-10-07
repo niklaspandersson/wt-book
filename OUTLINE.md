@@ -2,10 +2,10 @@
 *(kronologisk progression – omstruktureras, se [Omstrukturering av Del I](#omstrukturering-av-del-i) nedan)*
 
 * Kap. 1 – JavaScript och webbläsaren
-* Kap. 2 – Värden och variabler *(värden, datatyper i översikt, let/const, tilldelning, templatesträngar, typeof, uttryck och satser)*
-* Kap. 3 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, objekt och punktnotation, .style, classList, hidden)*
-* Kap. 4 – Funktioner *(anropa, argument, returvärden, metoder, definiera, parametrar, scope, funktioner som värden)*
-* Kap. 5 – Händelser *(addEventListener, callbacks, pilfunktioner, click, input, .value, change, mushändelser)*
+* Kap. 2 – Värden och variabler *(värden, datatyper i översikt, let/const, tilldelning, templatesträngar, objekt som samlar värden, punktnotation, typeof, uttryck och satser)*
+* Kap. 3 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
+* Kap. 4 – Funktioner *(anropa, argument, returvärden, metoder, definiera, parametrar, scope, funktioner som värden, pilfunktioner)*
+* Kap. 5 – Händelser *(addEventListener, callbacks, click, input, .value, change, mushändelser)*
 * Kap. 6 – Tal *(aritmetik, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
 * Kap. 7 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
 * Kap. 8 – Villkor *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, if/else, ternär, switch, tangentbordshändelser)*
@@ -60,7 +60,9 @@
 
 Kursen handlar om att göra webbsidor interaktiva *och* om grundläggande programmering. I den tidigare ordningen kom händelser först i kapitel 10, och övningarna i kapitel 4–9 byggde på mönstret "ändra variabeln och ladda om sidan". Den nya ordningen för in webbsidan (kap. 3), funktioner (kap. 4) och händelser (kap. 5) tidigt. Språkets byggstenar – tal, strängar, villkor, loopar, arrayer och objekt – lärs sedan ut genom interaktiva exempel.
 
-Omstruktureringen löser samtidigt flera punkter i [REVIEW-DEL1.md](REVIEW-DEL1.md): strängar får ett eget kapitel, överlappet mellan gamla kap. 2 och 3 försvinner, objekt introduceras där de faktiskt möts (DOM-element), och de upprepade temperaturövningarna kan slås ihop.
+**Princip:** språkets egenskaper introduceras i *språkkapitlen* (2, 4, 6–11). Webbkapitlen (3 och 5) använder bara det som redan tagits upp, och tillför webbens API:er. Språkkapitlen får däremot gärna använda webben i sina exempel och övningar – det är så de blir interaktiva.
+
+Omstruktureringen löser samtidigt flera punkter i [REVIEW-DEL1.md](REVIEW-DEL1.md): strängar får ett eget kapitel, överlappet mellan gamla kap. 2 och 3 försvinner, objekt introduceras ordentligt (med en objektliteral) innan de används, och de upprepade temperaturövningarna kan slås ihop.
 
 Hänvisningar nedan använder den **gamla** numreringen: `g2` = gamla kapitel 2 (`kap02-variabler.qmd`), `g2 §Variabler` = avsnittet *Variabler* i det kapitlet, `Ö 5.3` = gamla övning 5.3.
 
@@ -69,10 +71,10 @@ Hänvisningar nedan använder den **gamla** numreringen: `g2` = gamla kapitel 2 
 | Nytt kapitel | Fil (förslag) | Byggs av | Ny text | Uppskattad längd |
 |---|---|---|---|---|
 | 1 JavaScript och webbläsaren | `kap01-om-javascript.qmd` | g1 | – | ≈ 3 000 ord (oförändrat) |
-| 2 Värden och variabler | `kap02-variabler.qmd` | g2 (bantat) | lite | ≈ 2 500 |
-| 3 Din kod möter webbsidan | `kap03-dom.qmd` | g4 + g6 + g2 §Objekt | lite | ≈ 3 800 |
-| 4 Funktioner | `kap04-funktioner.qmd` | g3 + g9 | en del | ≈ 3 500 |
-| 5 Händelser | `kap05-handelser.qmd` | g10 (första halvan) + g9 §Pilfunktioner | lite | ≈ 2 500 |
+| 2 Värden och variabler | `kap02-variabler.qmd` | g2 (bantat) | lite | ≈ 3 000 |
+| 3 Din kod möter webbsidan | `kap03-dom.qmd` | g4 + g6 | lite | ≈ 3 600 |
+| 4 Funktioner | `kap04-funktioner.qmd` | g3 + g9 | en del | ≈ 3 800 |
+| 5 Händelser | `kap05-handelser.qmd` | g10 (första halvan) | lite | ≈ 2 300 |
 | 6 Tal | `kap06-tal.qmd` | g2 + g3 | **mycket** | ≈ 2 500 |
 | 7 Strängar | `kap07-strangar.qmd` | g2 + g3 | **mycket** | ≈ 2 500 |
 | 8 Villkor | `kap08-villkor.qmd` | g5 + g2 + g6 + g9 + g10 | en del | ≈ 5 000 (se beslut 3) |
@@ -94,7 +96,7 @@ Nästan oförändrat.
 
 ### Kap. 2 – Värden och variabler *(g2, bantat)*
 
-Ett generellt kapitel om *värden* och *variabler*. Detaljerna om varje datatyp flyttar till egna kapitel.
+Ett generellt kapitel om *värden* och *variabler*, och om hur flera värden kan samlas i ett *objekt*. Detaljerna om varje datatyp flyttar till egna kapitel.
 
 **Behålls från g2**
 
@@ -105,6 +107,8 @@ Ett generellt kapitel om *värden* och *variabler*. Detaljerna om varje datatyp 
 - §Templatesträngar – grunderna (behövs redan i kap. 3); fördjupning i kap. 7
 - §Variabler, §Deklarera med `let`, §Konstanter med `const`, §Vad hände med `var`?
 - §Namngivning av variabler, §Namnkonventioner
+- §Objekt – en första bekantskap + §Punktnotation – **omskrivet** och placerat efter §Variabler: objekt som ett sätt att samla värden som hör ihop. Visa objektliteralen (`const lag = { namn: "Röda stjärnor", poäng: 12 };`), läs och ändra egenskaper med punktnotation, och lägg till en egenskap. Löser review-punkten om `lag.namn` (objektet skapas nu innan det används). Metoder nämns inte här – de kommer i kap. 4.
+- En kort ruta om `const` och objekt: variabeln kan inte tilldelas om, men egenskaperna kan ändras (studenterna stöter på det direkt i övningarna). Underlag finns i g11 §`const` och objekt.
 - §Operatorn `typeof`
 - §Dynamisk typning – bara själva idén (en variabel kan byta typ); konverteringsdetaljerna flyttar
 - §Uttryck och satser
@@ -120,7 +124,6 @@ Ett generellt kapitel om *värden* och *variabler*. Detaljerna om varje datatyp 
 | §Tal – `number`, §Aritmetiska operatorer, §Specialvärden: NaN och Infinity, MDN-rutan | kap. 6 |
 | §Sanningsvärden – `boolean` (jämförelser, logiska operatorer), rutan `null` vs `undefined` | kap. 8 |
 | §Text – `string`: §Konkatenering, §Escape-sekvenser, §Stränglängd och grundläggande strängoperationer | kap. 7 |
-| §Objekt – en första bekantskap, §Punktnotation | kap. 3 |
 | §Implicit konvertering | kap. 6 |
 | §Explicit konvertering: `Number()` → kap. 6, `String()` → kap. 7, `Boolean()` och truthy/falsy → kap. 8 | kap. 6–8 |
 
@@ -128,9 +131,9 @@ Ett generellt kapitel om *värden* och *variabler*. Detaljerna om varje datatyp 
 
 - Behålls: Ö 2.1 *Typa värdena*, Ö 2.3 *Quizprogrammets variabler*, Ö 2.4 *Namnge rätt*, Ö 2.5 *Templatesträngar*
 - Flyttas: Ö 2.2 *Förutsäg resultaten* (typkonvertering) → kap. 6
-- Ny: en övning med `+=`/`++` (spåra värdet på en poängvariabel)
+- Nya: en övning med `+=`/`++` (spåra värdet på en poängvariabel); Ö 2.3 *Quizprogrammets variabler* kan få en fortsättning där variablerna samlas i ett objekt `lag`
 
-### Kap. 3 – Din kod möter webbsidan *(g4 + g6 + g2 §Objekt)*
+### Kap. 3 – Din kod möter webbsidan *(g4 + g6)*
 
 Allt som handlar om att ändra *vad användaren ser* – text, HTML, stil, klasser, visa och dölja – samlat i ett kapitel. Här finns ännu inga egna funktioner eller villkor. `querySelector` presenteras som ett anrop vars mekanik förklaras i kap. 4 (som kap. 1 redan gör).
 
@@ -141,9 +144,7 @@ Allt som handlar om att ändra *vad användaren ser* – text, HTML, stil, klass
 - §Ändra text med `textContent`, §Infoga HTML med `innerHTML`, §När ska du använda vilket?, säkerhetsvarningen
 - §En mall att utgå från, §`console.log()` lever kvar
 
-**Från g2**
-
-- §Objekt – en första bekantskap + §Punktnotation, **omskrivet** så att exemplen är `document`, ett DOM-element och `console` i stället för det odefinierade `lag` (löser review-punkten om `lag.namn`). Placeras direkt efter §Hämta ett element: "elementet du fick tillbaka är ett *objekt*".
+**Hänvisning bakåt:** efter §Hämta ett element räcker en mening om att elementet är ett *objekt* med egenskaper, precis som objekten i kap. 2 – därför fungerar `rubrik.textContent`. `document` och `console` är också objekt.
 
 **Från g6**
 
@@ -172,7 +173,7 @@ Ett kapitel om funktioner från början till slut: först att *anropa* (det stud
 - §Poängtavlan behöver hjälp → **skrivs om**; scenariot om avrundning och slumptal passar bättre i kap. 6. Förslag: inled med g9 §Att sätta namn på en beräkning (moms) eller med quizets poängtavla.
 - §Du har redan använt funktioner (nu med `querySelector` och `classList.add` som exempel)
 - §Vad är en funktion?, §Funktionsanropet, §Returvärden
-- §Metoder — funktioner på objekt (exempel: `document.querySelector`, `element.classList.add`)
+- §Metoder — funktioner på objekt: en metod är en funktion som ligger som egenskap i ett objekt (bygger på objekten i kap. 2). Exempel: `console.log`, `document.querySelector`, `element.classList.add`. Att *skriva* egna metoder med `this` väntar till kap. 11.
 - §Funktionsanropet som uttryck
 
 **Från g9**
@@ -180,7 +181,7 @@ Ett kapitel om funktioner från början till slut: först att *anropa* (det stud
 - §Att sätta namn på en beräkning, §Från att använda till att skapa
 - §Att definiera en funktion, §Parametrar och argument, §Standardvärden för parametrar, §Returvärden
 - §Scope – variablers räckvidd, rutan *Håll variabler lokala* (behövs för räknaren i kap. 5)
-- §Funktionsuttryck och pilfunktioner – **bara första stycket** (funktioner är värden) + §Funktionsuttryck; pilfunktioner flyttar till kap. 5 (se beslut 2)
+- §Funktionsuttryck och pilfunktioner – hela avsnittet: funktioner är värden, §Funktionsuttryck, §Pilfunktioner, rutan *Vilken form ska jag använda?*
 - §Att tänka i funktioner
 
 **Nytt**
@@ -194,7 +195,6 @@ Ett kapitel om funktioner från början till slut: först att *anropa* (det stud
 | g3 §Inbyggda funktioner: §Typkonvertering, §Math-objektet | kap. 6 |
 | g3 §Kedja metoder | kap. 7 |
 | g9 §Funktioner med villkorssatser, §Early return | kap. 8 |
-| g9 §Pilfunktioner, rutan *Vilken form ska jag använda?* | kap. 5 |
 
 **Övningar**
 
@@ -209,16 +209,12 @@ Den stora vändpunkten: från här är alla exempel interaktiva.
 **Från g10**
 
 - §En knapp som inte reagerar, §Vad är en händelse?, §`addEventListener`
-- §Callback-funktioner – **ny ordning**: §Namngiven funktion först, sedan rutan *Parenteser eller inte?*, sedan §Anonym funktion och §Pilfunktion
+- §Callback-funktioner – **ny ordning**: §Namngiven funktion först, sedan rutan *Parenteser eller inte?*, sedan §Anonym funktion och §Pilfunktion (pilfunktioner är kända från kap. 4)
 - §Från konsol till sida, §En räknare (använder `++` från kap. 2 och scope från kap. 4), §Mörkt läge — äntligen (bygger på Ö 6.6 i kap. 3)
 - §Event-objektet – bara `event.type` och idén (se beslut 4)
 - §Mushändelser, rutan om hover i CSS eller JavaScript
 - §Input-händelser, rutan *`.value`, inte `.textContent`*, §`change`-händelsen – med en framåthänvisning: "`.value` är alltid en sträng – vill du räkna med den behöver du kap. 6"
 - §Flera lyssnare på samma element
-
-**Från g9**
-
-- §Pilfunktioner + rutan *Vilken form ska jag använda?* – här finns ett naturligt behov av korta funktioner
 
 **Flyttas ut**
 
@@ -356,7 +352,9 @@ I stort sett oförändrat.
 
 Minimala ändringar.
 
-- §En student är mer än ett namn: "Redan i kapitel 2 fick du en första bekantskap" → kap. 3
+- §En student är mer än ett namn: "Redan i kapitel 2 fick du en första bekantskap" stämmer fortfarande – men stycket om vad studenterna redan sett behöver nämna objektliteralen från kap. 2
+- §Skapa ett objekt och §Läsa egenskaper upprepar delvis kap. 2 – korta dem till en påminnelse och gå snabbare vidare till hakparentesnotation
+- Rutan §`const` och objekt kortas till en hänvisning till kap. 2
 - Ö 11.3 och Ö 11.7 upprepar Live-sökningen från kap. 10 – gör den ena till en uttalad vidareutveckling ("Gå tillbaka till övning 10.x …")
 
 ## Följdändringar
@@ -380,7 +378,7 @@ Minimala ändringar.
 ## Beslut att fatta
 
 1. **Stil i DOM-kapitlet eller eget kapitel?** Förslaget slår ihop g4 och g6 till kap. 3 (≈ 3 800 ord). Alternativet är ett eget stilkapitel som kap. 4, men då kommer händelser först i kap. 6.
-2. **Var introduceras pilfunktioner?** Förslaget: i kap. 5, där callbacks ger dem ett syfte. Alternativ: i kap. 4 tillsammans med funktionsuttryck.
+2. ~~**Var introduceras pilfunktioner?**~~ **Beslutat:** i kap. 4, enligt principen att språkets egenskaper hör till språkkapitlen.
 3. **Är *Villkor* för stort?** Med tre delar blir det ≈ 5 000 ord. Det kan delas i *Sant och falskt* (del 1) och *Villkor* (del 2–3), men då blir Del I tolv kapitel.
 4. **`event.target` i kap. 5 eller kap. 10?** Förslaget: kap. 10, där det behövs (en lyssnare per element i en loop). I kap. 5 räcker `event.type` och idén om ett händelseobjekt.
 5. **`dataset`:** introducera `data-`-attribut kort i kap. 10 (så att Ö 10.6 och påståendet i `kap-dom-traversering` stämmer), eller ändra övningen så att den använder `value` som exemplet i kapitlet?
