@@ -47,6 +47,7 @@ Plus two appendices on HTML and CSS reference.
 - Language: Swedish throughout
 - Audience: University students, no prior technical background assumed
 - Style: Traditional textbook — flowing prose with integrated examples that introduce, explain, and deepen concepts
+- Code style: end every JavaScript statement with a semicolon, including lines that consist only of an expression (`42;`, `typeof x;`, `` `Hej ${namn}`; ``). Exceptions: lines that open or continue a block, object literal or array (`{`, `,`), and plain-text blocks listing values for students to classify.
 - Exercises must avoid the "copy-paste trap"; students should reason and apply, not just transcribe
 - Perfer to start each chapter with some concrete scenario or problem that the students caan recognize, then introduce concepts as tools to solve it.
 - Each chapter should include one `{.callout-tip}` box with ideas on how to use AI tools to practice the related topic in a meaningfull way. It can be placed in the end, right adter the **summary section** if it covers the entire chapter. It if only covers a section, the box should be placed in the end of that section. The box must be specific to the chapter's content — generic framing belongs in the introduction chapter only.

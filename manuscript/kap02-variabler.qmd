@@ -19,9 +19,9 @@ Allt ett program arbetar med – siffror, text, sanningsvärden – kallas **vä
 I JavaScript-koden kan vi skriva värden direkt:
 
 ```javascript
-42
-"Anna"
-true
+42;
+"Anna";
+true;
 ```
 
 Varje rad ovan är ett **literalvärde** – ett värde som bokstavligen skrivs ut i källkoden. Skriver du in ett av dem i konsolen svarar den med samma värde: du har gett JavaScript ett värde, och konsolen visar vilket värde det blev. Men i praktiken vill vi sällan skriva samma värde om och om igen; vi vill ge det ett namn och spara det. Det återkommer vi till i avsnittet om variabler.
@@ -41,9 +41,9 @@ Det här avsnittet ger en första överblick. Tal, text och sanningsvärden får
 I JavaScript finns en enda taltyp, `number`, som rymmer både heltal och decimaltal:
 
 ```javascript
-42          // ett heltal
-3.14        // ett decimaltal (med punkt, inte komma)
--7          // ett negativt tal
+42;         // ett heltal
+3.14;       // ett decimaltal (med punkt, inte komma)
+-7;         // ett negativt tal
 ```
 
 ::: {.callout-note}
@@ -52,8 +52,8 @@ I JavaScript finns en enda taltyp, `number`, som rymmer både heltal och decimal
 Texten efter `//` på varje rad är en **kommentar**, precis som i kapitel [-@sec-om-javascript]: den riktar sig till dig som läser, och JavaScript bryr sig inte om den. I bokens exempel används kommentarer på två sätt:
 
 ```javascript
-3.14        // förklarar vad raden är: ett decimaltal
-3 + 4       // visar vilket värde raden ger: 7
+3.14;       // förklarar vad raden är: ett decimaltal
+3 + 4;      // visar vilket värde raden ger: 7
 ```
 
 Kommentarer som visar ett resultat behöver du inte skriva av när du provar koden – konsolen visar resultatet själv.
@@ -68,9 +68,9 @@ En **sträng** (*string*) är en sekvens av tecken – bokstäver, siffror, mell
 I JavaScript skrivs strängar mellan citattecken. Du kan använda enkla eller dubbla citattecken – de fungerar identiskt:
 
 ```javascript
-"Anna"
-'Björn'
-"Det här är en textsträng med 42 tecken och ett tal!"
+"Anna";
+'Björn';
+"Det här är en textsträng med 42 tecken och ett tal!";
 ```
 
 Strängar kan innehålla siffror, men de är *text*, inte tal. `"42"` och `42` är fundamentalt olika: den ena är en sträng och den andra är ett tal. Den skillnaden kommer att bli viktig, eftersom allt användaren skriver in på en webbsida kommer till ditt program som text.
@@ -78,18 +78,18 @@ Strängar kan innehålla siffror, men de är *text*, inte tal. `"42"` och `42` �
 Strängar kan slås ihop med `+`-operatorn, vilket kallas **konkatenering**:
 
 ```javascript
-"Hej, " + "världen!"    // "Hej, världen!"
+"Hej, " + "världen!";   // "Hej, världen!"
 ```
 
-Det finns också ett smidigare sätt att bygga text av flera delar, men det behöver variabler, så vi återkommer till det efter avsnittet om variabler.
+Det finns också ett smidigare sätt att bygga text av flera delar, men det behöver variabler, så vi återkommer till det när vi har gått igenom variabler.
 
 ### Sanningsvärden – `boolean`
 
 **Booleska värden** (*boolean values*) kan bara vara ett av två: `true` eller `false`. I quizet är frågan "var svaret rätt?" ett klassiskt booleskt värde: antingen ja (`true`) eller nej (`false`). Detsamma gäller "är spelet slut?", "är spelaren inloggad?" och mängder av andra ja/nej-frågor som uppstår i program.
 
 ```javascript
-true
-false
+true;
+false;
 ```
 
 Booleska värden är grunden för att låta ett program fatta beslut – göra en sak om något är sant och en annan om det är falskt. Hur man räknar med sanningsvärden är ämnet för kapitel [-@sec-booleska], och hur programmet fattar beslut med dem tar vi upp i kapitel [-@sec-villkor].
@@ -147,7 +147,7 @@ console.log(lagnamn);   // skriver ut: Röda stjärnor
 
 Skriver du `let poäng = 0;` i konsolen svarar den med `undefined`. Det är inget fel. Konsolen visar alltid värdet av det du nyss skrev in, och en deklaration *gör* något – den skapar en variabel – men ger inget värde. Konsolen har därför inget annat att visa än "inget värde". Skriv sedan bara `poäng` och tryck Enter, så ser du att variabeln finns och har värdet `0`. (Varför vissa rader ger ett värde och andra inte tar vi upp i slutet av kapitlet.)
 
-Variabler du skapar i konsolen finns kvar tills du laddar om sidan. Om du provar flera exempel i rad kan det hända att du deklarerar samma `const`-variabel två gånger, och då svarar konsolen med något i stil med `SyntaxError: Identifier 'maxPoäng' has already been declared`. Ladda om sidan, så börjar konsolen om från början.
+Variabler du skapar i konsolen finns kvar tills du laddar om sidan. Vill du börja om från början med en tom konsol laddar du alltså bara om sidan.
 :::
 
 En variabel deklarerad med `let` kan **tilldelas om** – dess värde kan ändras:
@@ -163,7 +163,7 @@ console.log(poäng);   // 15
 
 Raden `poäng = poäng + 10` ser omöjlig ut om man läser den som matematik – ett tal kan inte vara lika med sig självt plus tio. Men kom ihåg att `=` betyder "tilldela". JavaScript gör det i två steg. Först räknas högersidan ut, med variabelns *nuvarande* värde: `poäng + 10` blir `0 + 10`, alltså `10`. Sedan lagras resultatet i variabeln till vänster, och `poäng` har från och med nu värdet `10`. Läs alltså raden som "räkna ut `poäng + 10`, och låt sedan `poäng` vara det".
 
-Notera att vi *inte* skriver `let` igen när vi tilldelar om – `let` används bara vid den första deklarationen.
+Notera att vi *inte* skriver `let` igen när vi tilldelar om – `let` används bara vid den första deklarationen, när vi _skapar_ variabeln.
 
 ### Konstanter med `const`
 
@@ -180,12 +180,20 @@ Om man försöker tilldela om en `const`-variabel ger JavaScript ett felmeddelan
 maxPoäng = 200;   // TypeError: Assignment to constant variable.
 ```
 
+Samma sak gäller om du *deklarerar* en `const`-variabel en gång till. Det kan lätt hända i konsolen när du provar flera exempel i rad: skriver du `const maxPoäng = 100;` en andra gång svarar konsolen med något i stil med `SyntaxError: Identifier 'maxPoäng' has already been declared`. Ladda om sidan så börjar konsolen om från början, eller välj ett annat namn på variabeln.
+
 **Rekommendation:** Använd `const` som standard, och byt till `let` bara när du vet att värdet behöver kunna ändras. Det gör koden lättare att förstå – en `const` berättar för läsaren "det här värdet förändras inte". Dessutom får du ett tydligt felmeddelande om du av misstag försöker ändra något som inte borde ändras.
 
 ::: {.callout-note}
-## Vad hände med `var`?
+## Ett tredje nyckelord: `var`
 
-Äldre JavaScript-kod använder nyckelordet `var` för att deklarera variabler. `var` beter sig annorlunda än `let` på några viktiga sätt (framför allt gällande *scope*, vilket vi återkommer till i kapitel [-@sec-funktioner]). Moderna JavaScript-program bör använda `let` och `const`. Om du stöter på `var` i kod du hittar på nätet är den troligen skriven före 2015, då `let` och `const` introducerades i standarden.
+När du letar efter exempel på nätet kommer du förr eller senare att se variabler som deklareras med ett tredje nyckelord, `var`:
+
+```javascript
+var poäng = 0;
+```
+
+`var` är det ursprungliga sättet att deklarera variabler i JavaScript. `let` och `const` lades till i språket 2015, för att `var` i vissa lägen beter sig på sätt som lätt leder till svårhittade fel. Kod som använder `var` är alltså ofta äldre. Du behöver kunna känna igen `var` när du läser andras kod, men i din egen kod använder du `let` och `const`.
 :::
 
 ### Variabler utan värde – `undefined` och `null`
@@ -206,52 +214,6 @@ let vinnare = null;   // inget lag har vunnit än – det är avsiktligt tomt
 ```
 
 En tumregel: ser du `undefined` någonstans du inte väntade dig betyder det ofta att något har glömts bort – en variabel har aldrig fått ett värde. Ser du `null` har någon troligen valt att lägga det där. Skillnaden kan kännas hårfin i början, men den blir tydligare ju mer kod du läser och skriver.
-
-### Ändra en variabel stegvis
-
-Att öka eller minska en variabel är så vanligt att JavaScript har kortformer för det. Raden `poäng = poäng + 10` är ett långt sätt att säga "öka `poäng` med 10". Samma sak kan skrivas kortare:
-
-```javascript
-let poäng = 0;
-
-poäng += 10;   // samma som poäng = poäng + 10   → 10
-poäng -= 3;    // samma som poäng = poäng - 3    → 7
-poäng *= 2;    // samma som poäng = poäng * 2    → 14
-```
-
-Det allra vanligaste fallet – att öka eller minska med exakt 1 – har en egen, ännu kortare form:
-
-```javascript
-let antalFrågor = 0;
-antalFrågor++;   // ökar med 1 → 1
-antalFrågor++;   // → 2
-antalFrågor--;   // minskar med 1 → 1
-```
-
-`++` och `--` kommer du att se överallt: i räknare som ökar varje gång användaren klickar, och i loopar som räknar sig igenom en lista. Kortformerna fungerar bara på variabler som kan tilldelas om, alltså de som deklarerats med `let`.
-
----
-
-## Templatesträngar
-
-Nu när vi har variabler kan vi återvända till att bygga text. Säg att du vill skriva ut en mening om laget. Med konkatenering blir det ett pussel av citattecken och plustecken:
-
-```javascript
-const lagnamn = "Röda stjärnor";
-const poäng = 12;
-
-"Laget " + lagnamn + " har " + poäng + " poäng"   // med konkatenering
-```
-
-Ett smidigare sätt är **templatesträngar** (*template literals*). De skrivs med backticks (\`) i stället för citattecken, och låter dig bädda in värden direkt i texten med syntaxen `${ }`:
-
-```javascript
-`Laget ${lagnamn} har ${poäng} poäng`               // med templatesträng
-```
-
-Båda raderna ger samma resultat, `"Laget Röda stjärnor har 12 poäng"`, men templatesträngen är lättare att läsa – texten du vill visa syns i ett stycke, och värdena sitter där de ska stå. Inom `${ }` kan du dessutom räkna, till exempel `` `Dubbla poängen: ${poäng * 2}` ``, som ger `"Dubbla poängen: 24"`.
-
-Templatesträngar kommer du att använda i nästan varje kapitel. Resten av vad man kan göra med strängar tar vi upp i kapitel [-@sec-strangar].
 
 ---
 
@@ -326,6 +288,65 @@ let aktivtLag = "Röda stjärnor";
 ```
 
 Tid investerad i att välja bra namn är tid väl spenderad. Kod läses många fler gånger än den skrivs.
+
+---
+
+## Två praktiska verktyg för tal och text
+
+Tal och text får egna kapitel längre fram. Men två verktyg är så användbara att du kommer att behöva dem redan i de närmaste kapitlen: kortformer för att ändra ett tal stegvis, och templatesträngar för att bygga text av flera delar. Båda bygger på variabler, så nu kan vi ta upp dem.
+
+### Ändra ett tal stegvis
+
+Att öka eller minska ett tal i en variabel är så vanligt att JavaScript har kortformer för det. Raden `poäng = poäng + 10` från avsnittet om variabler är ett långt sätt att säga "öka `poäng` med 10". Samma sak kan skrivas kortare:
+
+```javascript
+let poäng = 0;
+
+poäng += 10;   // samma som poäng = poäng + 10   → 10
+poäng -= 3;    // samma som poäng = poäng - 3    → 7
+poäng *= 2;    // samma som poäng = poäng * 2    → 14
+```
+
+Det allra vanligaste fallet – att öka eller minska med exakt 1 – har en egen, ännu kortare form:
+
+```javascript
+let antalFrågor = 0;
+antalFrågor++;   // ökar med 1 → 1
+antalFrågor++;   // → 2
+antalFrågor--;   // minskar med 1 → 1
+```
+
+`++` och `--` kommer du att se överallt: i räknare som ökar varje gång användaren klickar, och i loopar som räknar sig igenom en lista. Kortformerna fungerar bara på variabler som kan tilldelas om, alltså de som deklarerats med `let`.
+
+### Templatesträngar
+
+Det andra verktyget gäller text. Säg att du vill skriva ut en mening om laget. Med konkatenering blir det ett pussel av citattecken och plustecken:
+
+```javascript
+const lagnamn = "Röda stjärnor";
+const poäng = 12;
+
+"Laget " + lagnamn + " har " + poäng + " poäng";  // med konkatenering
+```
+
+Ett smidigare sätt är **templatesträngar** (*template literals*). De skrivs med backticks (\`) i stället för citattecken, och låter dig bädda in värden direkt i texten med syntaxen `${ }`:
+
+```javascript
+`Laget ${lagnamn} har ${poäng} poäng`;              // med templatesträng
+```
+
+Båda raderna ger samma resultat, `"Laget Röda stjärnor har 12 poäng"`, men templatesträngen är lättare att läsa – texten du vill visa syns i ett stycke, och värdena sitter där de ska stå.
+
+Inom `${ }` kan du skriva vilken kod som helst som ger ett värde. Det kan vara en variabel, som ovan, men lika gärna en beräkning eller en sammanslagning av text:
+
+```javascript
+`Dubbla poängen: ${poäng * 2}`;                 // "Dubbla poängen: 24"
+`Vinnare: ${lagnamn + " och Blå blixtarna"}`;   // "Vinnare: Röda stjärnor och Blå blixtarna"
+```
+
+JavaScript räknar först ut värdet av koden inom `${ }` och bäddar sedan in resultatet i texten. Vilken sorts kod som får stå där återkommer vi till i slutet av kapitlet.
+
+Templatesträngar kommer du att använda i nästan varje kapitel. Resten av vad man kan göra med strängar tar vi upp i kapitel [-@sec-strangar].
 
 ---
 
@@ -405,13 +426,13 @@ Mönstret `objekt.egenskap` kommer du att se överallt i JavaScript. Faktiskt ha
 Ibland behöver man kontrollera vilken typ ett värde har. Det kan man göra med operatorn `typeof`, som ger typens namn som en sträng:
 
 ```javascript
-typeof 42           // "number"
-typeof 3.14         // "number"
-typeof "Anna"       // "string"
-typeof true         // "boolean"
-typeof undefined    // "undefined"
-typeof { namn: "Röda stjärnor" }   // "object"
-typeof null         // "object"  ← ett historiskt fel i JavaScript
+typeof 42;          // "number"
+typeof 3.14;        // "number"
+typeof "Anna";      // "string"
+typeof true;        // "boolean"
+typeof undefined;   // "undefined"
+typeof { namn: "Röda stjärnor" };  // "object"
+typeof null;        // "object"  ← ett historiskt fel i JavaScript
 ```
 
 Den sista raden är en berömd bugg i JavaScript: `typeof null` ger `"object"` trots att `null` inte är ett objekt. Felet har funnits sedan språkets första version och rättas aldrig, eftersom en rättning skulle få gamla webbsidor som räknar med det att sluta fungera. Det är bra att känna till så att man inte förvirras när man stöter på det.
@@ -420,7 +441,7 @@ Den sista raden är en berömd bugg i JavaScript: `typeof null` ger `"object"` t
 
 ```javascript
 const indata = "42";   // kanske läst från ett formulär
-typeof indata          // "string" – inte "number"!
+typeof indata;         // "string" – inte "number"!
 ```
 
 ---
@@ -437,7 +458,7 @@ svar = "fyrtiotvå";   // nu innehåller den en sträng – helt tillåtet
 Det ger frihet, men medför också risker. När man blandar typer försöker JavaScript ibland "hjälpa till" genom att automatiskt omvandla värden från en typ till en annan, och resultatet kan överraska:
 
 ```javascript
-"5" + 3     // "53" – inte 8!
+"5" + 3;    // "53" – inte 8!
 ```
 
 Eftersom ett av värdena är en sträng tolkar JavaScript `+` som konkatenering och gör om talet till text. Det här beteendet – och hur man undviker det – går vi igenom ordentligt i kapitel [-@sec-tal]. För stunden räcker det att veta att typen spelar roll, och att `typeof` hjälper dig ta reda på vad du har.
@@ -451,13 +472,13 @@ Du har kanske märkt att konsolen beter sig på två olika sätt. Skriver du `3 
 Ett **uttryck** (*expression*) är ett kodstycke som *utvärderas till ett värde*. Alla följande är uttryck, och konsolen visar värdet när du skriver in dem:
 
 ```javascript
-42              // utvärderas till 42
-3 + 4           // utvärderas till 7
-"Hej"           // utvärderas till "Hej"
-lag.poäng       // utvärderas till lagets poäng
+42;             // utvärderas till 42
+3 + 4;          // utvärderas till 7
+"Hej";          // utvärderas till "Hej"
+lag.poäng;      // utvärderas till lagets poäng
 ```
 
-Uttryck kan kombineras och nästlas: `3 + 4` kombinerar värdena `3` och `4` med operatorn `+` och producerar värdet `7`. Det är också anledningen till att du kan skriva `${poäng * 2}` inuti en templatesträng – det som står innanför `${}` är ett uttryck som utvärderas och bäddas in i strängen.
+Uttryck kan kombineras och nästlas: `3 + 4` kombinerar värdena `3` och `4` med operatorn `+` och producerar värdet `7`. Nu kan vi också sätta namn på det du gjorde i avsnittet om templatesträngar: det som står innanför `${ }`, till exempel `poäng * 2`, är ett uttryck. Det är därför det fungerar – JavaScript utvärderar uttrycket och bäddar in värdet i strängen.
 
 En **sats** (*statement*) är en *instruktion* som *gör* något, snarare än att producera ett värde. En variabeldeklaration är en sats: den skapar en variabel, men ger inget värde tillbaka. Därför har konsolen inget annat att visa än `undefined`.
 
@@ -468,7 +489,7 @@ poäng = poäng + 10;  // en tilldelning, här skriven som en egen sats
 
 Tilldelningen på andra raden är ett gränsfall. Den *gör* något – den ändrar variabeln – och står här som en egen instruktion. Men tekniskt sett ger en tilldelning också ett värde, nämligen det nya värdet. Prova att skriva in den i konsolen så ser du att den svarar med `10`, inte `undefined`. Det har du sällan nytta av, men det förklarar varför konsolen svarar olika.
 
-Program är uppbyggda av satser som körs i tur och ordning, och i den här boken avslutas varje sats med ett semikolon (`;`). JavaScript klarar sig ofta utan, men reglerna för när det fungerar är krångliga – så skriv alltid ut semikolonet.
+Program är uppbyggda av satser som körs i tur och ordning, och i den här boken avslutas varje sats med ett semikolon (`;`). Det gäller även en rad som bara består av ett uttryck, som `3 + 4;` – en sådan rad räknas också som en sats. JavaScript klarar sig ofta utan semikolon, men reglerna för när det fungerar är krångliga – så skriv alltid ut det.
 
 Distinktionen är värd att känna till eftersom JavaScript i vissa sammanhang förväntar sig ett uttryck (t.ex. inuti `${}`) och i andra en sats. Du kommer att se orden *if-sats*, *return-sats* och *deklarationssats* framöver – de är alla satser, instruktioner som *gör* något. Enskilda värden och beräkningar – saker som *är* något – är uttryck.
 
@@ -623,13 +644,13 @@ const maxPoäng = 100;
 let tidKvar;
 const lag = { namn: "Gröna gubbar", poäng: 0 };
 
-tidKvar
+tidKvar;
 lag.poäng = 10;
 maxPoäng = 120;
 lag = { namn: "Gula gänget", poäng: 0 };
-"10" + lag.poäng
-lag.kapten
-typeof tidKvar
+"10" + lag.poäng;
+lag.kapten;
+typeof tidKvar;
 ```
 
 Ladda om sidan och kör sedan raderna en i taget i konsolen för att kontrollera dina svar. Läs felmeddelandena noga: vilket ord i meddelandet pekar ut vad som gick fel? Vilken av dina förutsägelser var fel, och vad i kapitlet hade kunnat hjälpa dig att gissa rätt?
