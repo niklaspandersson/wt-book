@@ -46,7 +46,18 @@ I JavaScript finns en enda taltyp, `number`, som rymmer både heltal och decimal
 -7          // ett negativt tal
 ```
 
-Texten efter `//` på varje rad är en **kommentar**, precis som i kapitel [-@sec-om-javascript]: den riktar sig till dig som läser, och JavaScript bryr sig inte om den. I bokens exempel används kommentarer på två sätt. Ibland förklarar de vad en rad är, som ovan. Ibland visar de vilket värde en rad ger, till exempel `3 + 4   // 7`. Sådana kommentarer behöver du inte skriva av när du provar koden – konsolen visar resultatet själv.
+::: {.callout-note}
+## Kommentarer i bokens exempel
+
+Texten efter `//` på varje rad är en **kommentar**, precis som i kapitel [-@sec-om-javascript]: den riktar sig till dig som läser, och JavaScript bryr sig inte om den. I bokens exempel används kommentarer på två sätt:
+
+```javascript
+3.14        // förklarar vad raden är: ett decimaltal
+3 + 4       // visar vilket värde raden ger: 7
+```
+
+Kommentarer som visar ett resultat behöver du inte skriva av när du provar koden – konsolen visar resultatet själv.
+:::
 
 Med tal kan man räkna som vanligt: `3 + 4` ger `7`, `10 * 2` ger `20` och `15 / 4` ger `3.75`. I quizet är poäng och tid kvar på rundan typiska tal. Allt om tal – räknesätt, avrundning, slumptal och mycket mer – finns i kapitel [-@sec-tal].
 
@@ -91,9 +102,25 @@ Ibland finns det helt enkelt inget värde: inget lag har vunnit än, eller ett l
 
 ## Variabler
 
-Hittills har vi skrivit literalvärden direkt i koden – `42`, `"Anna"`, `true`. Men ett program som bara jobbar med hårdkodade värden är inte särskilt användbart. Vad vi vill är att *lagra* värden och kunna referera till dem, uppdatera dem och använda dem på flera ställen.
+Hittills har vi skrivit literalvärden direkt i koden – `42`, `"Anna"`, `true`. Men ett program som bara jobbar med hårdkodade värden är inte särskilt användbart. Vad vi ofta behöver är att *lagra* värden för att kunna hänvisa till dem, uppdatera dem och använda dem på flera ställen.
 
-Det är vad **variabler** är till för. En variabel är ett namn som du kopplar till ett värde, så att du senare kan hämta värdet med hjälp av namnet. Tänk på det som en etikett: du sätter etiketten `poäng` på värdet `0`. När laget sedan får poäng flyttar du etiketten till ett nytt värde – namnet är detsamma, men det pekar ut något annat.
+Det är vad **variabler** är till för. En variabel är ett namn som *pekar på* ett värde. När du skriver namnet i din kod hämtar JavaScript värdet som namnet pekar på. När laget sedan får poäng ändrar du vart namnet pekar – namnet `poäng` är detsamma, men det pekar nu på ett annat värde:
+
+```{mermaid}
+%%| fig-alt: "Två lägen bredvid varandra, förbundna med en streckad pil märkt laget svarar rätt. Till vänster pekar en pil från namnet poäng till värdet 0. Till höger pekar samma namn poäng i stället på värdet 10."
+flowchart LR
+    subgraph före["Från början"]
+        direction LR
+        A[poäng] --> B((0))
+    end
+    subgraph efter["Efteråt"]
+        direction LR
+        C[poäng] --> D((10))
+    end
+    före -. "laget svarar rätt" .-> efter
+```
+
+Bilden med namn och pilar kommer att följa oss genom boken. Den hjälper dig att förstå vad som händer när värden ändras – och längre fram vad som händer när två namn pekar på samma sak.
 
 ### Deklarera med `let`
 
@@ -366,7 +393,7 @@ lag.poäng = 15;                     // Tillåtet – objektets innehåll ändra
 lag = { namn: "Gröna gubbar" };     // TypeError – variabeln tilldelas om
 ```
 
-Tänk på etiketten från avsnittet om variabler. `const` betyder att etiketten `lag` sitter fast på *samma* objekt och inte kan flyttas till ett annat. Men objektet i sig kan fortfarande förändras – det är fortfarande samma objekt, bara med nytt innehåll. Därför är `const` det vanliga valet även för objekt vars egenskaper ändras.
+Tänk på pilen från avsnittet om variabler. `const` betyder att pilen från namnet `lag` inte kan flyttas till ett annat objekt. Men objektet som pilen pekar på kan fortfarande förändras – det är fortfarande samma objekt, bara med nytt innehåll. Därför är `const` det vanliga valet även för objekt vars egenskaper ändras.
 :::
 
 Mönstret `objekt.egenskap` kommer du att se överallt i JavaScript. Faktiskt har du redan sett det: i `console.log()` är `console` ett objekt som webbläsaren tillhandahåller, och `log` en av dess egenskaper. I nästa kapitel möter du `document` – ett objekt som representerar hela webbsidan – och i kapitel [-@sec-funktioner] ser du att en egenskap även kan innehålla en funktion. Objekt får sedan ett eget kapitel, [-@sec-objekt], där vi går på djupet.

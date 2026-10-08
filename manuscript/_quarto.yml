@@ -50,6 +50,8 @@ format:
     theme:
       - cosmo
       - brand
+    mermaid:
+      theme: neutral
   pdf:
     documentclass: scrbook
     include-in-header: preamble.tex
