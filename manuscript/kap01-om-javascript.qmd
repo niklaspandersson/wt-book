@@ -207,6 +207,8 @@ document.querySelector("h1").textContent = "Hej, JavaScript!";
 
 JavaScript-koden ligger nu i en egen fil, `script.js`, och HTML-filen pekar ut den med attributet `src` – på samma sätt som du pekar ut en bild med `<img src="...">` eller en stilmall med `<link href="...">`.
 
+Den första raden i `script.js`, `// script.js`, är en **kommentar**. Allt som står efter `//` på en rad är skrivet för människor som läser koden, och JavaScript hoppar över det när programmet körs. Du kan använda kommentarer för att förklara vad din kod gör – för andra, eller för dig själv nästa vecka. I den här boken används en kommentar på första raden i ett exempel ofta för att visa vilken fil koden hör hemma i.
+
 Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul**. Det viktigaste för dig just nu är att en modul alltid körs *efter* att webbläsaren har läst in hela HTML-dokumentet, oavsett var `<script>`-elementet står. Därför kan det ligga i `<head>` utan problem: när koden körs finns `<h1>`-elementet redan.
 
 Moduler har också andra fördelar, men de blir begripliga först när du har skrivit lite mer kod. Vi återkommer till dem i kapitel [-@sec-funktioner] och kapitel [-@sec-moduler]. I den här boken används `type="module"` konsekvent – det är den form du ska vänja dig vid.
