@@ -44,6 +44,11 @@ What works well: the order alternates between the language (2, 3, 5, 7, 8, 9, 11
 - [x] `:364` – "CSS-attribut" → "CSS-egenskap".
 - [x] Typos: `:152` "ett externt modulfil", `:178` "sk.", `:174` double space.
 - [x] `:98` – `Cmd+Option+J` only works in Chrome.
+- [ ] **Second revision: background on computers and programming languages.** Inspired by the introduction to *Eloquent JavaScript* (Haverbeke). Covered in the first lecture for now. Two parts are worth adding to *Vad är programmering?* (≈300–400 words, after the recipe analogy):
+  - *From ones and zeros to JavaScript:* the same small program as bits, as named instructions, and as JavaScript. Shows that a programming language is written for people and that the browser translates it for the machine; prepares for naming in ch 2. Use our own quiz example (e.g. adding up three teams' scores) rather than Haverbeke's, which needs a `while` loop.
+  - *Programming is hard, and that is normal:* struggling says nothing about your ability; take breaks, reread, work through the examples. Strengthens the existing paragraph about thinking precisely.
+  - Skip: the BASIC/DOS history and the critique of "best practices" (mixed message for beginners).
+  - Write our own text, add *Eloquent JavaScript* to `references.bib` and cite it as inspiration (CC BY-NC).
 
 ### Ch 2 – Värden, variabler och datatyper
 

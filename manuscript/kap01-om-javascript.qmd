@@ -49,7 +49,7 @@ Den här boken fokuserar på JavaScript. Det förutsätts att du har grundlägga
 
 Innan vi börjar skriva kod är det värt att klargöra vad vi egentligen gör när vi programmerar.
 
-En dator är en extremt snabb men fullständigt "dum" maskin. Den gör ingenting av sig själv; den gör exakt vad den instrueras att göra, varken mer eller mindre. Ett **program** är en sekvens av sådana instruktioner, nedskrivna i ett språk som datorn kan förstå och köra.
+En dator är en extremt snabb men fullständigt "dum" maskin. Den gör ingenting av sig själv; den gör exakt vad den instrueras att göra, varken mer eller mindre. Ett **program** är en sekvens av sådana instruktioner, nedskrivna i ett språk som datorn kan köra.
 
 Tänk på ett recept. Ett matrecept är en sekvens av instruktioner riktade till en kock: *ta 300 gram mjöl*, *tillsätt ett ägg*, *blanda tills smeten är slät*, *grädda i 175 grader i 25 minuter*. En kock kan tolka instruktionerna, improvisera om ingrediensen saknas och avgöra när smeten "ser slät ut". En dator kan inte det. En dator följer instruktionerna bokstavligt, utan omdöme, utan att kunna fylla i luckor. Om en instruktion saknas eller är fel, blir resultatet därefter.
 
@@ -207,7 +207,18 @@ document.querySelector("h1").textContent = "Hej, JavaScript!";
 
 JavaScript-koden ligger nu i en egen fil, `script.js`, och HTML-filen pekar ut den med attributet `src` – på samma sätt som du pekar ut en bild med `<img src="...">` eller en stilmall med `<link href="...">`.
 
-Den första raden i `script.js`, `// script.js`, är en **kommentar**. Allt som står efter `//` på en rad är skrivet för människor som läser koden, och JavaScript hoppar över det när programmet körs. Du kan använda kommentarer för att förklara vad din kod gör – för andra, eller för dig själv nästa vecka. I den här boken används en kommentar på första raden i ett exempel ofta för att visa vilken fil koden hör hemma i.
+::: {.callout-note}
+## Kommentarer
+
+Den första raden i `script.js`, `// script.js`, är en **kommentar**. Allt som står efter `//` på en rad är skrivet för människor som läser koden, och JavaScript hoppar över det när programmet körs. En kommentar kan stå på en egen rad eller sist på en rad med kod:
+
+```javascript
+// Byt rubrik när sidan har laddats
+document.querySelector("h1").textContent = "Hej, JavaScript!";   // ersätter "Hej!"
+```
+
+Du kan använda kommentarer för att förklara vad din kod gör – för andra, eller för dig själv nästa vecka. I den här boken används en kommentar på första raden i ett exempel ofta för att visa vilken fil koden hör hemma i.
+:::
 
 Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul**. Det viktigaste för dig just nu är att en modul alltid körs *efter* att webbläsaren har läst in hela HTML-dokumentet, oavsett var `<script>`-elementet står. Därför kan det ligga i `<head>` utan problem: när koden körs finns `<h1>`-elementet redan.
 
