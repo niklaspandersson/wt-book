@@ -42,6 +42,17 @@ See [OUTLINE.md](OUTLINE.md) for the full chapter plan. The book is organized in
 
 Plus two appendices on HTML and CSS reference.
 
+## Target Audience (always applies)
+
+Every decision about the book's content, structure, order, examples and exercises must start from who the readers are:
+
+- **Complete beginners in programming.** Assume no prior experience of code, the command line, file systems beyond everyday use, or technical vocabulary. Every term is explained the first time it is used.
+- **Many have no science background and limited mathematics.** Do not rely on mathematical notation, formulas or mathematical intuition (e.g. functions in the mathematical sense, algebra, modulo arithmetic, percentages beyond everyday use). When a calculation is needed, choose everyday contexts (prices, scores, time) and explain it in words. Avoid examples whose difficulty lies in the maths rather than in the programming concept.
+- **One new idea at a time.** Prefer fewer concepts explained thoroughly over complete coverage. If a section introduces something that is not needed until later, move it to where it is needed.
+- **Follow the research.** Design explanations and exercises according to the research summary in [PEDAGOGIK.md](PEDAGOGIK.md) (e.g. reading and tracing code before writing it, worked examples, Parsons problems, explicit notional machine, attention to known misconceptions).
+
+When in doubt, ask: *Would a first-year student from a humanities or social science programme follow this without help?*
+
 ## Writing Conventions
 
 - Language: Swedish throughout
