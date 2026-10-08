@@ -1,12 +1,12 @@
 **Del I – Grunden: det du behöver för att komma igång**
 *(kronologisk progression – omstrukturerad, se [Omstrukturering av Del I](#omstrukturering-av-del-i) nedan)*
 
-* [X] Kap. 1 – JavaScript och webbläsaren
-* [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, let/const, tilldelning, templatesträngar, objekt som samlar värden, punktnotation, typeof, uttryck och satser)*
+* [X] Kap. 1 – JavaScript och webbläsaren *(webbens tre språk, vad är programmering, programmeringsspråk och syntax, konsolen, uttryck och satser, felmeddelanden, script-elementet)*
+* [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, konkatenering med `+`, let/const, tilldelning, objekt som samlar värden, punktnotation, typeof, dynamisk typning, namngivning)*
 * [X] Kap. 3 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
 * [X] Kap. 4 – Funktioner *(anropa, argument, returvärden, metoder, definiera, parametrar, scope, funktioner som värden, pilfunktioner)*
 * [X] Kap. 5 – Händelser *(addEventListener, callbacks, click, input, .value, change, mushändelser)*
-* [X] Kap. 6 – Tal *(aritmetik, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
+* [X] Kap. 6 – Tal *(aritmetik, kortformerna `+=`/`++`, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
 * [X] Kap. 7 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
 * [X] Kap. 8 – Sant och falskt *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, standardvärden med ||, hidden/disabled/checked)*
 * [X] Kap. 9 – Villkorssatser *(if/else, else if, ternär, switch, villkor i funktioner, early return, kontrollera inmatning, tangentbordshändelser)*
@@ -67,6 +67,15 @@ Omstruktureringen är genomförd enligt mappningen nedan, med följande avvikels
 - **Kap. 10:** `split`/`join` visas med `textContent` i stället för att bygga en lista med `innerHTML`, eftersom texten kommer från användaren.
 
 Beslut 1 och 4 är genomförda enligt förslagen (stil i kap. 3, `event.target` i arraykapitlet) men kan fortfarande ändras. Beslut 3 är avgjort: villkor delas i två kapitel. Beslut 5 och 6 är öppna. Avsnitten nedan beskriver planen som den såg ut innan arbetet började.
+
+### Bantning av kap. 2 (efter omstruktureringen)
+
+Kap. 2 upplevdes som för långt och spretigt för nybörjare och har bantats:
+
+- **Uttryck och satser** har flyttat till kap. 1 (§Konsolen → *Uttryck och satser*), tillsammans med ett nytt avsnitt *Programmeringsspråk* (maskinkod, olika språk, syntax). Kap. 4 hänvisar dit.
+- **Templatesträngar** introduceras först i kap. 7. Kap. 3–6 bygger text med konkatenering (`"Poäng: " + poäng`), som tas upp i kap. 2 tillsammans med att ett tal görs om till text vid `+` med en sträng. Templatesträngsövningen har flyttat till kap. 7.
+- **Kortformerna** `+=`, `-=`, `*=`, `/=`, `++`, `--` introduceras först i kap. 6 (§Ändra ett tal stegvis). Kap. 3–5 använder `x = x + 1`. Övningen *Spåra poängen* finns kvar i kap. 2 i lång form och har en kortformsvariant i kap. 6.
+- Ny ordning i kap. 2: värden → datatyper → variabler → objekt → `typeof` och dynamisk typning → namngivning.
 
 ## Varför
 

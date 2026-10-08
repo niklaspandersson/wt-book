@@ -60,7 +60,7 @@ Variabelnamnet `i` är en konvention – det är en förkortning av *index* elle
 ::: {.callout-note}
 ## `i++` och `i += 1`
 
-`i = i + 1` kan som du vet skrivas kortare. Kortformerna från kapitel [-@sec-variabler] – `i++`, `i--`, `i += 2` och så vidare – är vanliga i loopar, och `i++` är den allra vanligaste. Från och med nu använder vi dem.
+`i = i + 1` kan som du vet skrivas kortare. Kortformerna från kapitel [-@sec-tal] – `i++`, `i--`, `i += 2` och så vidare – är vanliga i loopar, och `i++` är den allra vanligaste. Från och med nu använder vi dem.
 :::
 
 ---

@@ -99,8 +99,8 @@ Nu kan vi uppdatera sidan med JavaScript:
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 15 };
 
-document.querySelector("#lagnamn").textContent = `Lag: ${lag.namn}`;
-document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+document.querySelector("#lagnamn").textContent = "Lag: " + lag.namn;
+document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
 ```
 
 Två rader kod — och sidan visar lagets namn och poäng. Ingen konsol behövs; användaren ser resultatet direkt.
@@ -127,7 +127,7 @@ Med `innerHTML` kan du alltså bygga rikare innehåll — fetstil, kursiv, listo
 
 ```javascript
 document.querySelector("#laginfo").innerHTML =
-    `<strong>${lagnamn}</strong> har <em>${poäng} poäng</em>`;
+    "<strong>" + lagnamn + "</strong> har <em>" + poäng + " poäng</em>";
 ```
 
 ### När ska du använda vilket?
@@ -149,7 +149,7 @@ element.innerHTML = namn;   // Om användaren skriver "<img src=x onerror=alert(
                              // körs skadlig kod
 ```
 
-Så länge du bara använder `innerHTML` med text som *du själv kontrollerar* i din kod — strängar, variabler du satt, templatesträngar med dina egna värden — är det säkert. Problemet uppstår först när du blandar in data som kommer utifrån. Vi återkommer till webbsäkerhet i ett senare kapitel.
+Så länge du bara använder `innerHTML` med text som *du själv kontrollerar* i din kod — strängar och variabler du själv har satt — är det säkert. Problemet uppstår först när du blandar in data som kommer utifrån. Vi återkommer till webbsäkerhet i ett senare kapitel.
 :::
 
 ---
@@ -199,7 +199,7 @@ const maxPoäng = 50;
 const procent = (poäng / maxPoäng) * 100;
 
 console.log("Beräknad procent:", procent);   // för dig — felsökning
-document.querySelector("#resultat").textContent = `Du fick ${procent}% rätt!`;   // för användaren
+document.querySelector("#resultat").textContent = "Du fick " + procent + "% rätt!";   // för användaren
 ```
 
 ---
@@ -342,7 +342,7 @@ Båda verktygen ändrar utseendet på ett element, men de passar i olika situati
 ```javascript
 // Bredd som beror på data — svårt att förbereda i CSS
 const framsteg = 65;
-stapel.style.width = `${framsteg}%`;
+stapel.style.width = framsteg + "%";
 ```
 
 **Använd `classList`** när du:
@@ -480,13 +480,13 @@ Skapa en HTML-sida med följande struktur:
 <p id="runda">Runda: —</p>
 ```
 
-Skriv JavaScript som deklarerar tre variabler (`lagnamn`, `poäng` och `runda`) och uppdaterar alla tre `<p>`-element med variablernas värden. Använd templatesträngar.
+Skriv JavaScript som deklarerar tre variabler (`lagnamn`, `poäng` och `runda`) och uppdaterar alla tre `<p>`-element med variablernas värden. Slå ihop texten och variablerna med `+`, så att det till exempel står `Poäng: 12`.
 :::
 
 ::: {.callout-note}
 ## Övning – Från konsol till sida
 
-I kapitel [-@sec-variabler], övning 2.5, skapade du templatesträngar för quizprogrammet. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska resultaten visas i tre separata `<p>`-element på sidan. Du behöver uppdatera HTML-filen med tre element med unika id:n.
+I kapitel [-@sec-variabler] skapade du ett objekt `fråga` för quizet och skrev ut det i konsolen. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska frågetexten och poängen – och ledtråden, om du lade till en – visas i separata element på sidan. Du behöver själv bestämma vilka HTML-element som passar och ge dem unika id:n.
 :::
 
 ::: {.callout-note}

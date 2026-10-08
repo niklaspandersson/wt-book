@@ -17,7 +17,7 @@ const poängElement = document.querySelector("#poäng");
 
 document.querySelector("#lägg-till").addEventListener("click", () => {
     poäng = poäng + fält.value;
-    poängElement.textContent = `Poäng: ${poäng}`;
+    poängElement.textContent = "Poäng: " + poäng;
 });
 ```
 
@@ -62,7 +62,7 @@ Operatorn `%` – *modulo* – är kanske den minst bekanta. Den ger resten efte
 const minuter = 135;
 const timmar = Math.floor(minuter / 60);   // 2 – hela timmar (Math.floor förklaras strax)
 const rest = minuter % 60;                 // 15 – minuterna som blir över
-console.log(`${timmar} h ${rest} min`);    // "2 h 15 min"
+console.log(timmar + " h " + rest + " min");   // "2 h 15 min"
 ```
 
 Beräkningsordningen i JavaScript följer vanlig matematisk konvention: multiplikation och division beräknas före addition och subtraktion. Parenteser kan användas för att styra ordningen:
@@ -72,7 +72,29 @@ Beräkningsordningen i JavaScript följer vanlig matematisk konvention: multipli
 (2 + 3) * 4     // 20
 ```
 
-Kortformerna från kapitel [-@sec-variabler] – `+=`, `-=`, `*=`, `++` och `--` – fungerar på alla variabler som innehåller tal.
+### Ändra ett tal stegvis
+
+Att öka eller minska värdet i en variabel är så vanligt att JavaScript har kortformer för det. Raden `poäng = poäng + 10`, som du har skrivit många gånger vid det här laget, är ett långt sätt att säga "öka `poäng` med 10". Samma sak kan skrivas kortare:
+
+```javascript
+let poäng = 0;
+
+poäng += 10;   // samma som poäng = poäng + 10   → 10
+poäng -= 3;    // samma som poäng = poäng - 3    → 7
+poäng *= 2;    // samma som poäng = poäng * 2    → 14
+poäng /= 7;    // samma som poäng = poäng / 7    → 2
+```
+
+Det allra vanligaste fallet – att öka eller minska med exakt 1 – har en egen, ännu kortare form:
+
+```javascript
+let antalKlick = 0;
+antalKlick++;   // ökar med 1 → 1
+antalKlick++;   // → 2
+antalKlick--;   // minskar med 1 → 1
+```
+
+Kortformerna gör inget nytt – de är bara ett kortare sätt att skriva en tilldelning. Därför fungerar de bara på variabler som kan tilldelas om, alltså de som deklarerats med `let`. Från och med nu använder boken dem, och du kommer att se `++` överallt: i räknare som ökar för varje klick, och i loopar som räknar sig igenom en lista.
 
 ### Specialvärden: `NaN` och `Infinity`
 
@@ -140,7 +162,7 @@ Med `Number()` blir poängtavlan rätt:
 ```javascript
 document.querySelector("#lägg-till").addEventListener("click", () => {
     poäng = poäng + Number(fält.value);
-    poängElement.textContent = `Poäng: ${poäng}`;
+    poängElement.textContent = "Poäng: " + poäng;
 });
 ```
 
@@ -263,7 +285,7 @@ Ett bra arbetssätt är att räkna med fulla tal hela vägen, och avrunda först
 
 ```javascript
 const procent = poäng / maxPoäng * 100;                          // räkna exakt
-poängElement.textContent = `${procent.toFixed(1)} % rätt`;       // avrunda för visning
+poängElement.textContent = procent.toFixed(1) + " % rätt";       // avrunda för visning
 ```
 
 ---
@@ -307,7 +329,7 @@ function prisMedMoms(pris) {
 document.querySelector("#räkna").addEventListener("click", () => {
     const pris = Number(prisFält.value);   // sträng → tal
     const total = prisMedMoms(pris);       // räkna med fulla tal
-    resultat.textContent = `${pris} kr blir ${total.toFixed(2)} kr inklusive moms.`;
+    resultat.textContent = pris + " kr blir " + total.toFixed(2) + " kr inklusive moms.";
 });
 ```
 
@@ -321,6 +343,7 @@ Prova också att skriva "hej" i ett textfält i stället, eller att lämna fält
 
 - JavaScript har en enda taltyp, **`number`**, för både heltal och decimaltal. Decimaltal skrivs med punkt.
 - De **aritmetiska operatorerna** är `+`, `-`, `*`, `/`, `%` (rest) och `**` (upphöjt till). Multiplikation och division beräknas före addition och subtraktion.
+- **Kortformerna** `+=`, `-=`, `*=`, `/=`, `++` och `--` ändrar värdet i en variabel stegvis. `poäng += 10` betyder samma sak som `poäng = poäng + 10`.
 - **`NaN`** betyder ett ogiltigt numeriskt resultat och "smittar" alla beräkningar det ingår i. **`Infinity`** uppstår bland annat vid division med noll.
 - Värden från formulärfält är **strängar**. `+` med en sträng blir konkatenering – konvertera därför alltid med **`Number()`**.
 - `Number("")` ger `0`, och `Number("12,5")` ger `NaN`. **`parseInt`** och **`parseFloat`** läser talet i början av en sträng, men kan tyst ge fel svar.
@@ -372,6 +395,24 @@ console.log("hej" * 2);
 ```
 
 För varje rad: förklara *varför* du fick det resultatet. Vilka rader är du mest osäker på? Vad säger det om JavaScripts typregler?
+:::
+
+::: {.callout-note}
+## Övning – Spåra kortformerna
+
+Gå igenom följande kod rad för rad *utan* att köra den. Skriv ner värdet på `poäng` efter varje rad, och skriv om varje rad med den långa formen (`poäng = poäng + ...`). Kontrollera sedan i konsolen.
+
+```javascript
+let poäng = 5;
+poäng += 10;
+poäng--;
+poäng *= 2;
+poäng -= poäng;
+poäng++;
+poäng += poäng + 1;
+```
+
+Den sista raden är lurig. Vad blir den långa formen – och stämmer ditt svar med vad konsolen säger?
 :::
 
 ::: {.callout-note}

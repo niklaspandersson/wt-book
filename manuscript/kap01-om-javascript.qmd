@@ -67,6 +67,16 @@ Verkliga program är längre och mer komplexa – de tar emot information från 
 
 ---
 
+## Programmeringsspråk
+
+Innerst inne förstår en dator bara mycket enkla instruktioner, uttryckta som ettor och nollor: *flytta det här talet dit*, *addera de här två talen*, *hoppa till instruktion nummer 4 711*. Den här **maskinkoden** är nästan omöjlig för människor att läsa och skriva. Ett **programmeringsspråk** är ett mellanting – tillräckligt likt mänskligt språk för att vi ska kunna läsa och skriva det, och tillräckligt exakt för att ett program ska kunna översätta det till maskinens instruktioner. I webbläsaren sköts översättningen av en **JavaScript-motor**, som läser din kod och utför den.
+
+Det finns hundratals programmeringsspråk. Python är populärt för dataanalys, Java och C# för större företagssystem, Swift och Kotlin för appar i mobilen – och JavaScript för webben. Språken ser olika ut och är byggda för olika syften, men grundidéerna är förvånansvärt lika. Nästan alla har värden och variabler, sätt att fatta beslut och upprepa instruktioner, och sätt att dela upp ett program i mindre delar. Det du lär dig i den här boken har du alltså nytta av även om du en dag byter språk.
+
+Varje programmeringsspråk har sina egna regler för hur koden ska skrivas – språkets **syntax**. Syntaxen motsvarar stavning och grammatik i ett vanligt språk, men med en viktig skillnad. En människa förstår vad du menar även om du stavar fel eller glömmer ett ord. En JavaScript-motor gör det inte. Ett enda saknat citattecken räcker för att den ska ge upp och visa ett felmeddelande. Det låter strängt, men det har en fördel: koden betyder alltid exakt samma sak, oavsett vem som läser den.
+
+---
+
 ## Ditt första program
 
 ::: {.callout-note}
@@ -102,12 +112,24 @@ Den här gången visas ingen ruta. Texten `Hej, världen!` skrivs i stället ut 
 Konsolen är också en miniräknare. Skriv in en rad i taget och tryck Enter efter varje:
 
 ```javascript
-2 + 2
-100 / 7
-Math.PI
+2 + 2;
+100 / 7;
+Math.PI;
 ```
 
-JavaScript räknar ut varje rad och visar resultatet direkt. En bit kod som ger ett värde på det här sättet kallas ett **uttryck** – mer om det i kapitel [-@sec-variabler]. Konsolen är ett utmärkt ställe att snabbt testa hur ett uttryck beter sig innan du använder det i ett program.
+JavaScript räknar ut varje rad och visar resultatet direkt. Konsolen är ett utmärkt ställe att snabbt testa hur en beräkning beter sig innan du använder den i ett program.
+
+### Uttryck och satser
+
+Du har kanske märkt att konsolen svarar på två olika sätt. När du skriver `2 + 2` svarar den med `4`. Men när du skrev `console.log("Hej, världen!")` skrevs texten ut, och sedan svarade konsolen dessutom med ett grått `undefined`. Det beror på en skillnad som finns i alla programmeringsspråk: skillnaden mellan *uttryck* och *satser*.
+
+Ett **uttryck** (*expression*) är en bit kod som *ger ett värde*. `2 + 2` ger värdet `4`, och `Math.PI` ger värdet `3.141592653589793`. Uttryck kan byggas ihop av mindre uttryck: i `2 + 3 * 4` är både `3 * 4` och hela raden uttryck.
+
+En **sats** (*statement*) är en *instruktion* som *gör* något. `console.log("Hej, världen!")` gör något – den skriver ut en text – men ger inget värde tillbaka. Konsolen visar alltid värdet av det du nyss skrev in, och när det inte finns något värde visar den `undefined`, som betyder just "inget värde". Det är alltså inget fel.
+
+Ett program är en följd av satser som körs i tur och ordning, uppifrån och ned. I den här boken avslutas varje sats med ett semikolon (`;`). Det gäller även en rad som bara består av ett uttryck, som `2 + 2;` – en sådan rad räknas också som en sats. JavaScript klarar sig ofta utan semikolon, men reglerna för när det fungerar är krångliga, så skriv alltid ut det.
+
+Orden *uttryck* och *sats* kommer att återkomma genom boken. En tumregel räcker långt: ett uttryck *är* något (ett värde), en sats *gör* något.
 
 ### När något går fel
 
@@ -246,7 +268,9 @@ Du kommer att stöta på den äldre formen i guider och äldre kodbaser. Känn i
 
 - Webben byggs av tre kompletterande tekniker: **HTML** (innehåll och struktur), **CSS** (utseende) och **JavaScript** (beteende och interaktivitet).
 - **Programmering** innebär att skriva precisa instruktioner som en dator kan följa. Datorn gör exakt vad den instrueras – varken mer eller mindre.
+- Ett **programmeringsspråk** är ett mellanting mellan mänskligt språk och maskinkod. Varje språk har en **syntax** – regler för hur koden ska skrivas – som måste följas exakt.
 - Webbläsarens **utvecklarverktyg** öppnas med `F12`. I **konsolen** kan du köra kod direkt, se utskrifter från `console.log()` och läsa felmeddelanden.
+- Ett **uttryck** ger ett värde (`2 + 2`); en **sats** är en instruktion som gör något (`console.log("Hej!");`). Ett program är en följd av satser, och i den här boken avslutas varje sats med semikolon.
 - **Felmeddelanden** är hjälp, inte misslyckanden: de berättar vilken sorts fel det är och var i koden det uppstod.
 - JavaScript skapades för webbläsaren och körs på **klientsidan** – i besökarens webbläsare, inte på servern.
 - Webbläsarens **sandlåda** isolerar JavaScript från operativsystemet och skyddar användaren.
@@ -316,15 +340,31 @@ Det du gör i DevTools är temporärt – sidan återgår till original vid omla
 Öppna webbläsarens konsol (`F12` → *Console*). Skriv först ner vad du tror att varje uttryck ger, och testa sedan – en rad i taget:
 
 ```javascript
-10 + 3
-10 - 3
-10 * 3
-10 / 3
-10 % 3
-2 ** 10
+10 + 3;
+10 - 3;
+10 * 3;
+10 / 3;
+10 % 3;
+2 ** 10;
 ```
 
 Operatorerna `%` och `**` har du kanske inte sett förut. Vad verkar de göra, att döma av resultaten? Testa med fler tal tills du är säker. (De förklaras i kapitel [-@sec-tal].)
+:::
+
+::: {.callout-note}
+## Övning – Uttryck eller sats?
+
+Titta på raderna nedan. Avgör för varje rad, *innan* du kör den, om konsolen kommer att svara med ett värde eller med `undefined`. Är raden ett uttryck eller en sats? Kör sedan raderna en i taget och jämför.
+
+```javascript
+7 * 6;
+console.log(7 * 6);
+"Hej" + "!";
+alert("Hej");
+Math.PI * 2;
+```
+
+Två av raderna ger både något som syns *och* `undefined`. Vilka, och vad är skillnaden mellan det som syns och det konsolen svarar?
 :::
 
 ::: {.callout-note}
@@ -386,7 +426,7 @@ Stämde din gissning? Vad hände med sidan? Vad händer om du laddar om sidan ef
 ::: {.callout-note}
 ## Övning – Var ska skriptet stå?
 
-Den här övningen utforskar varför det spelar roll hur och var `<script>`-elementet placeras. Skapa en projektmapp med filen `index.html` från övning 1.5 och en ny fil `script.js`, och öppna sidan med Live Server (se rutan *Moduler kräver en webbserver* ovan).
+Den här övningen utforskar varför det spelar roll hur och var `<script>`-elementet placeras. Skapa en projektmapp med filen `index.html` från övning 1.6 och en ny fil `script.js`, och öppna sidan med Live Server (se rutan *Moduler kräver en webbserver* ovan).
 
 Lägg till en `<h2>`-rubrik i `index.html`, och skriv en rad i `script.js` som ändrar rubrikens text med `document.querySelector("h2").textContent`. Prova att placera `<script>`-elementet på tre olika sätt i `<head>` och notera vad som händer på sidan och i konsolen:
 

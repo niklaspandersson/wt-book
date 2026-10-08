@@ -8,40 +8,50 @@ Ett lag skriver `"  räknenissarna  "`, med mellanslag före och efter. Ett anna
 
 Inget av det handlar om att räkna. Det handlar om att *bearbeta text*: ta bort onödiga mellanslag, ändra versaler och gemener, plocka ut delar av en text och kontrollera vad den innehåller. Text är, tillsammans med tal, den vanligaste sortens data i webbprogram – allt användaren skriver in är text, och nästan allt som visas på sidan är det också.
 
-I kapitel [-@sec-variabler] mötte du strängar och templatesträngar. I det här kapitlet går vi på djupet: hur strängar är uppbyggda, hur man når enskilda tecken och delar, och vilka verktyg JavaScript har för att bearbeta dem.
+I kapitel [-@sec-variabler] mötte du strängar, och sedan dess har du slagit ihop text med `+` i nästan varje kapitel. I det här kapitlet går vi på djupet: ett smidigare sätt att bygga text, hur strängar är uppbyggda, hur man når enskilda tecken och delar, och vilka verktyg JavaScript har för att bearbeta dem.
 
 ---
 
 ## Strängar i JavaScript
 
-En **sträng** (*string*) är en sekvens av tecken – bokstäver, siffror, mellanslag, symboler. I JavaScript skrivs strängar mellan citattecken. Du kan använda enkla eller dubbla citattecken – de fungerar identiskt – eller backticks för templatesträngar:
+En **sträng** (*string*) är en sekvens av tecken – bokstäver, siffror, mellanslag, symboler. I JavaScript skrivs strängar mellan citattecken. Du kan använda enkla eller dubbla citattecken – de fungerar identiskt:
 
 ```javascript
-"Anna"
-'Björn'
-`Laget ${lagnamn} leder`
+"Anna";
+'Björn';
 ```
 
 Som vi konstaterade i kapitel [-@sec-variabler] kan strängar innehålla siffror, men de är fortfarande *text*. `"42"` är en sträng med två tecken, `4` och `2` – inte talet fyrtiotvå. I kapitel [-@sec-tal] såg du vilka problem som uppstår när man glömmer det.
 
-### Att bygga strängar
+### Templatesträngar
 
-Strängar kan slås ihop med `+`-operatorn, vilket kallas **konkatenering**:
-
-```javascript
-"Hej, " + "världen!"    // "Hej, världen!"
-"Lag: " + "Röda stjärnor"   // "Lag: Röda stjärnor"
-```
-
-Oftast är **templatesträngar** smidigare. Inom `${ }` kan du skriva vilket uttryck som helst – en variabel, en beräkning eller ett funktionsanrop:
+Du vet redan att strängar kan slås ihop med `+`, vilket kallas **konkatenering**. Men när texten består av många delar blir det snabbt ett pussel av citattecken, plustecken och mellanslag som lätt hamnar fel:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 23 };
 const max = 30;
 
-`${lag.namn} har ${lag.poäng} av ${max} poäng`          // variabler och egenskaper
-`Andel rätt: ${(lag.poäng / max * 100).toFixed(1)} %`   // en beräkning och ett metodanrop
+lag.namn + " har " + lag.poäng + " av " + max + " poäng";   // med konkatenering
 ```
+
+Ett smidigare sätt är **templatesträngar** (*template literals*). De skrivs med backticks (\`) i stället för citattecken, och låter dig bädda in värden direkt i texten med syntaxen `${ }`:
+
+```javascript
+`${lag.namn} har ${lag.poäng} av ${max} poäng`;             // med templatesträng
+```
+
+Båda raderna ger samma resultat, `"Röda stjärnor har 23 av 30 poäng"`, men templatesträngen är lättare att läsa – texten du vill visa syns i ett stycke, och värdena sitter där de ska stå.
+
+Inom `${ }` kan du skriva vilket **uttryck** som helst – allt som ger ett värde, som du lärde dig i kapitel [-@sec-om-javascript]. Det kan vara en variabel eller en egenskap, men lika gärna en beräkning eller ett funktionsanrop:
+
+```javascript
+`Dubbla poängen: ${lag.poäng * 2}`;                       // "Dubbla poängen: 46"
+`Andel rätt: ${(lag.poäng / max * 100).toFixed(1)} %`;   // "Andel rätt: 76.7 %"
+```
+
+JavaScript räknar först ut värdet av uttrycket inom `${ }` och bäddar sedan in resultatet i texten. En sats, som `let x = 5`, fungerar däremot inte där – den ger inget värde att bädda in.
+
+Från och med nu använder boken templatesträngar i stället för konkatenering när text ska byggas av flera delar.
 
 Templatesträngar kan också sträcka sig över flera rader. Radbrytningarna blir då en del av strängen:
 
@@ -322,6 +332,28 @@ Att räkna index i huvudet är jobbigt de första gångerna. Skriv gärna ut str
 ---
 
 ## Övningar
+
+::: {.callout-note}
+## Övning – Från konkatenering till templatesträngar
+
+Du har tre variabler:
+
+```javascript
+let lag = "Blå blixtarna";
+let poäng = 47;
+let frågaNr = 8;
+```
+
+Använd templatesträngar för att skapa följande utskrifter (en sträng per rad):
+
+1. `Blå blixtarna leder med 47 poäng.`
+2. `Nu är vi på fråga 8 av 10.`
+3. `Blå blixtarna har i snitt 5.875 poäng per fråga.` *(Beräkna snittet i uttrycket inuti templatesträngen.)*
+
+Nästa fråga avgörs: ändra `poäng` till `52` och `frågaNr` till `9`, och skapa strängarna på nytt. Blir alla tre fortfarande rätt? Om någon av dem visar fel siffror har du skrivit in ett värde direkt i texten i stället för att använda variabeln. Skriv om den strängen så att den alltid stämmer, oavsett vilka värden variablerna har.
+
+Leta till sist upp ett ställe i kapitel [-@sec-funktioner] eller [-@sec-handelser] där text byggs med `+`, och skriv om det med en templatesträng. Vilken version är lättast att läsa?
+:::
 
 ::: {.callout-note}
 ## Övning – Metoder i kedja

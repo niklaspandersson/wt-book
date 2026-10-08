@@ -79,9 +79,10 @@ Strängar kan slås ihop med `+`-operatorn, vilket kallas **konkatenering**:
 
 ```javascript
 "Hej, " + "världen!";   // "Hej, världen!"
+"Poäng: " + 12;         // "Poäng: 12"
 ```
 
-Det finns också ett smidigare sätt att bygga text av flera delar, men det behöver variabler, så vi återkommer till det när vi har gått igenom variabler.
+Den andra raden slår ihop en sträng med ett tal. Då gör JavaScript om talet till text innan det sätts ihop med resten. Det är praktiskt när du vill skriva ut ett resultat, och du kommer att använda det redan i nästa kapitel. Allt annat man kan göra med strängar tar vi upp i kapitel [-@sec-strangar].
 
 ### Sanningsvärden – `boolean`
 
@@ -145,7 +146,7 @@ console.log(lagnamn);   // skriver ut: Röda stjärnor
 ::: {.callout-note}
 ## Variabler i konsolen
 
-Skriver du `let poäng = 0;` i konsolen svarar den med `undefined`. Det är inget fel. Konsolen visar alltid värdet av det du nyss skrev in, och en deklaration *gör* något – den skapar en variabel – men ger inget värde. Konsolen har därför inget annat att visa än "inget värde". Skriv sedan bara `poäng` och tryck Enter, så ser du att variabeln finns och har värdet `0`. (Varför vissa rader ger ett värde och andra inte tar vi upp i slutet av kapitlet.)
+Skriver du `let poäng = 0;` i konsolen svarar den med `undefined`. Det är inget fel. En deklaration är en *sats*: den gör något – skapar en variabel – men ger inget värde, precis som `console.log()` i kapitel [-@sec-om-javascript]. Konsolen har därför inget annat att visa än "inget värde". Skriv sedan bara `poäng` och tryck Enter, så ser du att variabeln finns och har värdet `0`.
 
 Variabler du skapar i konsolen finns kvar tills du laddar om sidan. Vill du börja om från början med en tom konsol laddar du alltså bara om sidan.
 :::
@@ -214,6 +215,119 @@ let vinnare = null;   // inget lag har vunnit än – det är avsiktligt tomt
 ```
 
 En tumregel: ser du `undefined` någonstans du inte väntade dig betyder det ofta att något har glömts bort – en variabel har aldrig fått ett värde. Ser du `null` har någon troligen valt att lägga det där. Skillnaden kan kännas hårfin i början, men den blir tydligare ju mer kod du läser och skriver.
+
+---
+
+## Objekt – att samla värden som hör ihop
+
+Variabler låter oss ge varje värde ett namn. Men tänk tillbaka på quizkvällen. Ett lag har ett namn, en poängsumma och kanske ett tillstånd som säger om det är lagets tur. Med bara variabler blir det så här:
+
+```javascript
+let lag1Namn = "Röda stjärnor";
+let lag1Poäng = 12;
+let lag1Aktivt = true;
+
+let lag2Namn = "Blå blixtarna";
+let lag2Poäng = 9;
+let lag2Aktivt = false;
+```
+
+Sex variabler för två lag – och de hänger bara ihop genom att namnen råkar börja likadant. Ingenting i koden säger att `lag1Namn` och `lag1Poäng` beskriver *samma* lag.
+
+JavaScript löser det med **objekt** (*objects*): sammansatta värden som samlar flera namngivna värden under ett gemensamt namn. Ett objekt skrivs med klammerparenteser, och innehåller ett antal **egenskaper** (*properties*), där varje egenskap har ett namn – en **nyckel** – och ett värde:
+
+```javascript
+const lag = {
+    namn: "Röda stjärnor",
+    poäng: 12,
+    ärAktivt: true
+};
+```
+
+Det här kallas en **objektliteral** – precis som `"Anna"` är en strängliteral skriver vi här objektet direkt i koden. Egenskaperna listas som `nyckel: värde`, separerade med kommatecken. All information om laget hänger nu ihop i en enda variabel.
+
+De datatyper vi tittade på tidigare – tal, strängar, booleska värden, `null` och `undefined` – kallas *primitiva* eftersom de representerar ett enda, odelbart värde. Ett objekt är något annat: ett värde som *innehåller* andra värden.
+
+### Punktnotation
+
+För att läsa en egenskap använder man **punktnotation** – objektets namn, en punkt och egenskapens namn:
+
+```javascript
+console.log(lag.namn);       // "Röda stjärnor"
+console.log(lag.poäng);      // 12
+console.log(lag.namn + " har " + lag.poäng + " poäng");   // "Röda stjärnor har 12 poäng"
+```
+
+Med samma notation kan man ändra en egenskap – och till och med lägga till en ny:
+
+```javascript
+lag.poäng = 15;              // ändra en befintlig egenskap
+lag.poäng = lag.poäng + 5;   // räkna med en egenskap → 20
+lag.färg = "röd";            // lägg till en ny egenskap
+```
+
+Försöker man läsa en egenskap som inte finns får man `undefined` – samma tomma värde som en variabel som aldrig har fått något värde. Inget felmeddelande, bara "inget värde":
+
+```javascript
+console.log(lag.kapten);   // undefined
+```
+
+::: {.callout-note}
+## `const` och objekt
+
+"Vänta – `lag` är deklarerad med `const`, och ändå kan vi ändra poängen?" Ja. `const` förhindrar att *variabeln* tilldelas ett helt nytt värde, men den förhindrar inte att man ändrar egenskaperna *inuti* objektet:
+
+```javascript
+lag.poäng = 15;                     // Tillåtet – objektets innehåll ändras
+lag = { namn: "Gröna gubbar" };     // TypeError – variabeln tilldelas om
+```
+
+Tänk på pilen från avsnittet om variabler. `const` betyder att pilen från namnet `lag` inte kan flyttas till ett annat objekt. Men objektet som pilen pekar på kan fortfarande förändras – det är fortfarande samma objekt, bara med nytt innehåll. Därför är `const` det vanliga valet även för objekt vars egenskaper ändras.
+:::
+
+Mönstret `objekt.egenskap` kommer du att se överallt i JavaScript. Faktiskt har du redan sett det: i `console.log()` är `console` ett objekt som webbläsaren tillhandahåller, och `log` en av dess egenskaper. I nästa kapitel möter du `document` – ett objekt som representerar hela webbsidan – och i kapitel [-@sec-funktioner] ser du att en egenskap även kan innehålla en funktion. Objekt får sedan ett eget kapitel, [-@sec-objekt], där vi går på djupet.
+
+---
+
+## Operatorn `typeof`
+
+Ibland behöver man kontrollera vilken typ ett värde har. Det kan man göra med operatorn `typeof`, som ger typens namn som en sträng:
+
+```javascript
+typeof 42;          // "number"
+typeof 3.14;        // "number"
+typeof "Anna";      // "string"
+typeof true;        // "boolean"
+typeof undefined;   // "undefined"
+typeof { namn: "Röda stjärnor" };  // "object"
+typeof null;        // "object"  ← ett historiskt fel i JavaScript
+```
+
+Den sista raden är en berömd bugg i JavaScript: `typeof null` ger `"object"` trots att `null` inte är ett objekt. Felet har funnits sedan språkets första version och rättas aldrig, eftersom en rättning skulle få gamla webbsidor som räknar med det att sluta fungera. Det är bra att känna till så att man inte förvirras när man stöter på det.
+
+`typeof` är användbart för att felsöka: om ett värde beter sig konstigt kan man börja med att kontrollera att det är av den typ man tror.
+
+```javascript
+const indata = "42";   // kanske läst från ett formulär
+typeof indata;         // "string" – inte "number"!
+```
+
+### Dynamisk typning
+
+I JavaScript har variabler ingen fast typ – *värdet* har en typ, men variabeln kan innehålla värden av olika typer vid olika tillfällen. Det kallas **dynamisk typning**:
+
+```javascript
+let svar = 42;        // svar innehåller ett tal
+svar = "fyrtiotvå";   // nu innehåller den en sträng – helt tillåtet
+```
+
+Det ger frihet, men medför också risker. När man blandar typer försöker JavaScript ibland "hjälpa till" genom att automatiskt omvandla värden från en typ till en annan, och resultatet kan överraska:
+
+```javascript
+"5" + 3;    // "53" – inte 8!
+```
+
+Det är samma sak som hände med `"Poäng: " + 12` tidigare i kapitlet: eftersom ett av värdena är en sträng tolkar JavaScript `+` som konkatenering och gör om talet till text. Där var det just vad vi ville – här blir det fel. Det här beteendet – och hur man undviker det – går vi igenom ordentligt i kapitel [-@sec-tal]. För stunden räcker det att veta att typen spelar roll, och att `typeof` hjälper dig ta reda på vad du har.
 
 ---
 
@@ -291,237 +405,31 @@ Tid investerad i att välja bra namn är tid väl spenderad. Kod läses många f
 
 ---
 
-## Två praktiska verktyg för tal och text
-
-Tal och text får egna kapitel längre fram. Men två verktyg är så användbara att du kommer att behöva dem redan i de närmaste kapitlen: kortformer för att ändra ett tal stegvis, och templatesträngar för att bygga text av flera delar. Båda bygger på variabler, så nu kan vi ta upp dem.
-
-### Ändra ett tal stegvis
-
-Att öka eller minska ett tal i en variabel är så vanligt att JavaScript har kortformer för det. Raden `poäng = poäng + 10` från avsnittet om variabler är ett långt sätt att säga "öka `poäng` med 10". Samma sak kan skrivas kortare:
-
-```javascript
-let poäng = 0;
-
-poäng += 10;   // samma som poäng = poäng + 10   → 10
-poäng -= 3;    // samma som poäng = poäng - 3    → 7
-poäng *= 2;    // samma som poäng = poäng * 2    → 14
-```
-
-Det allra vanligaste fallet – att öka eller minska med exakt 1 – har en egen, ännu kortare form:
-
-```javascript
-let antalFrågor = 0;
-antalFrågor++;   // ökar med 1 → 1
-antalFrågor++;   // → 2
-antalFrågor--;   // minskar med 1 → 1
-```
-
-`++` och `--` kommer du att se överallt: i räknare som ökar varje gång användaren klickar, och i loopar som räknar sig igenom en lista. Kortformerna fungerar bara på variabler som kan tilldelas om, alltså de som deklarerats med `let`.
-
-### Templatesträngar
-
-Det andra verktyget gäller text. Säg att du vill skriva ut en mening om laget. Med konkatenering blir det ett pussel av citattecken och plustecken:
-
-```javascript
-const lagnamn = "Röda stjärnor";
-const poäng = 12;
-
-"Laget " + lagnamn + " har " + poäng + " poäng";  // med konkatenering
-```
-
-Ett smidigare sätt är **templatesträngar** (*template literals*). De skrivs med backticks (\`) i stället för citattecken, och låter dig bädda in värden direkt i texten med syntaxen `${ }`:
-
-```javascript
-`Laget ${lagnamn} har ${poäng} poäng`;              // med templatesträng
-```
-
-Båda raderna ger samma resultat, `"Laget Röda stjärnor har 12 poäng"`, men templatesträngen är lättare att läsa – texten du vill visa syns i ett stycke, och värdena sitter där de ska stå.
-
-Inom `${ }` kan du skriva vilken kod som helst som ger ett värde. Det kan vara en variabel, som ovan, men lika gärna en beräkning eller en sammanslagning av text:
-
-```javascript
-`Dubbla poängen: ${poäng * 2}`;                 // "Dubbla poängen: 24"
-`Vinnare: ${lagnamn + " och Blå blixtarna"}`;   // "Vinnare: Röda stjärnor och Blå blixtarna"
-```
-
-JavaScript räknar först ut värdet av koden inom `${ }` och bäddar sedan in resultatet i texten. Vilken sorts kod som får stå där återkommer vi till i slutet av kapitlet.
-
-Templatesträngar kommer du att använda i nästan varje kapitel. Resten av vad man kan göra med strängar tar vi upp i kapitel [-@sec-strangar].
-
----
-
-## Objekt – att samla värden som hör ihop
-
-Variabler låter oss ge varje värde ett namn. Men tänk tillbaka på quizkvällen. Ett lag har ett namn, en poängsumma och kanske ett tillstånd som säger om det är lagets tur. Med bara variabler blir det så här:
-
-```javascript
-let lag1Namn = "Röda stjärnor";
-let lag1Poäng = 12;
-let lag1Aktivt = true;
-
-let lag2Namn = "Blå blixtarna";
-let lag2Poäng = 9;
-let lag2Aktivt = false;
-```
-
-Sex variabler för två lag – och de hänger bara ihop genom att namnen råkar börja likadant. Ingenting i koden säger att `lag1Namn` och `lag1Poäng` beskriver *samma* lag.
-
-JavaScript löser det med **objekt** (*objects*): sammansatta värden som samlar flera namngivna värden under ett gemensamt namn. Ett objekt skrivs med klammerparenteser, och innehåller ett antal **egenskaper** (*properties*), där varje egenskap har ett namn – en **nyckel** – och ett värde:
-
-```javascript
-const lag = {
-    namn: "Röda stjärnor",
-    poäng: 12,
-    ärAktivt: true
-};
-```
-
-Det här kallas en **objektliteral** – precis som `"Anna"` är en strängliteral skriver vi här objektet direkt i koden. Egenskaperna listas som `nyckel: värde`, separerade med kommatecken. All information om laget hänger nu ihop i en enda variabel.
-
-De datatyper vi tittade på tidigare – tal, strängar, booleska värden, `null` och `undefined` – kallas *primitiva* eftersom de representerar ett enda, odelbart värde. Ett objekt är något annat: ett värde som *innehåller* andra värden.
-
-### Punktnotation
-
-För att läsa en egenskap använder man **punktnotation** – objektets namn, en punkt och egenskapens namn:
-
-```javascript
-console.log(lag.namn);       // "Röda stjärnor"
-console.log(lag.poäng);      // 12
-console.log(`${lag.namn} har ${lag.poäng} poäng`);   // "Röda stjärnor har 12 poäng"
-```
-
-Med samma notation kan man ändra en egenskap – och till och med lägga till en ny:
-
-```javascript
-lag.poäng = 15;          // ändra en befintlig egenskap
-lag.poäng += 5;          // kortformerna fungerar också → 20
-lag.färg = "röd";        // lägg till en ny egenskap
-```
-
-Försöker man läsa en egenskap som inte finns får man `undefined` – samma tomma värde som en variabel som aldrig har fått något värde. Inget felmeddelande, bara "inget värde":
-
-```javascript
-console.log(lag.kapten);   // undefined
-```
-
-::: {.callout-note}
-## `const` och objekt
-
-"Vänta – `lag` är deklarerad med `const`, och ändå kan vi ändra poängen?" Ja. `const` förhindrar att *variabeln* tilldelas ett helt nytt värde, men den förhindrar inte att man ändrar egenskaperna *inuti* objektet:
-
-```javascript
-lag.poäng = 15;                     // Tillåtet – objektets innehåll ändras
-lag = { namn: "Gröna gubbar" };     // TypeError – variabeln tilldelas om
-```
-
-Tänk på pilen från avsnittet om variabler. `const` betyder att pilen från namnet `lag` inte kan flyttas till ett annat objekt. Men objektet som pilen pekar på kan fortfarande förändras – det är fortfarande samma objekt, bara med nytt innehåll. Därför är `const` det vanliga valet även för objekt vars egenskaper ändras.
-:::
-
-Mönstret `objekt.egenskap` kommer du att se överallt i JavaScript. Faktiskt har du redan sett det: i `console.log()` är `console` ett objekt som webbläsaren tillhandahåller, och `log` en av dess egenskaper. I nästa kapitel möter du `document` – ett objekt som representerar hela webbsidan – och i kapitel [-@sec-funktioner] ser du att en egenskap även kan innehålla en funktion. Objekt får sedan ett eget kapitel, [-@sec-objekt], där vi går på djupet.
-
----
-
-## Operatorn `typeof`
-
-Ibland behöver man kontrollera vilken typ ett värde har. Det kan man göra med operatorn `typeof`, som ger typens namn som en sträng:
-
-```javascript
-typeof 42;          // "number"
-typeof 3.14;        // "number"
-typeof "Anna";      // "string"
-typeof true;        // "boolean"
-typeof undefined;   // "undefined"
-typeof { namn: "Röda stjärnor" };  // "object"
-typeof null;        // "object"  ← ett historiskt fel i JavaScript
-```
-
-Den sista raden är en berömd bugg i JavaScript: `typeof null` ger `"object"` trots att `null` inte är ett objekt. Felet har funnits sedan språkets första version och rättas aldrig, eftersom en rättning skulle få gamla webbsidor som räknar med det att sluta fungera. Det är bra att känna till så att man inte förvirras när man stöter på det.
-
-`typeof` är användbart för att felsöka: om ett värde beter sig konstigt kan man börja med att kontrollera att det är av den typ man tror.
-
-```javascript
-const indata = "42";   // kanske läst från ett formulär
-typeof indata;         // "string" – inte "number"!
-```
-
----
-
-## Dynamisk typning
-
-I JavaScript har variabler ingen fast typ – *värdet* har en typ, men variabeln kan innehålla värden av olika typer vid olika tillfällen. Det kallas **dynamisk typning**:
-
-```javascript
-let svar = 42;        // svar innehåller ett tal
-svar = "fyrtiotvå";   // nu innehåller den en sträng – helt tillåtet
-```
-
-Det ger frihet, men medför också risker. När man blandar typer försöker JavaScript ibland "hjälpa till" genom att automatiskt omvandla värden från en typ till en annan, och resultatet kan överraska:
-
-```javascript
-"5" + 3;    // "53" – inte 8!
-```
-
-Eftersom ett av värdena är en sträng tolkar JavaScript `+` som konkatenering och gör om talet till text. Det här beteendet – och hur man undviker det – går vi igenom ordentligt i kapitel [-@sec-tal]. För stunden räcker det att veta att typen spelar roll, och att `typeof` hjälper dig ta reda på vad du har.
-
----
-
-## Uttryck och satser
-
-Du har kanske märkt att konsolen beter sig på två olika sätt. Skriver du `3 + 4` svarar den med `7`. Skriver du `let poäng = 0;` svarar den med `undefined`. Det beror på en grundläggande skillnad i JavaScript: skillnaden mellan ett **uttryck** och en **sats**.
-
-Ett **uttryck** (*expression*) är ett kodstycke som *utvärderas till ett värde*. Alla följande är uttryck, och konsolen visar värdet när du skriver in dem:
-
-```javascript
-42;             // utvärderas till 42
-3 + 4;          // utvärderas till 7
-"Hej";          // utvärderas till "Hej"
-lag.poäng;      // utvärderas till lagets poäng
-```
-
-Uttryck kan kombineras och nästlas: `3 + 4` kombinerar värdena `3` och `4` med operatorn `+` och producerar värdet `7`. Nu kan vi också sätta namn på det du gjorde i avsnittet om templatesträngar: det som står innanför `${ }`, till exempel `poäng * 2`, är ett uttryck. Det är därför det fungerar – JavaScript utvärderar uttrycket och bäddar in värdet i strängen.
-
-En **sats** (*statement*) är en *instruktion* som *gör* något, snarare än att producera ett värde. En variabeldeklaration är en sats: den skapar en variabel, men ger inget värde tillbaka. Därför har konsolen inget annat att visa än `undefined`.
-
-```javascript
-let poäng = 0;       // en variabeldeklaration – en sats
-poäng = poäng + 10;  // en tilldelning, här skriven som en egen sats
-```
-
-Tilldelningen på andra raden är ett gränsfall. Den *gör* något – den ändrar variabeln – och står här som en egen instruktion. Men tekniskt sett ger en tilldelning också ett värde, nämligen det nya värdet. Prova att skriva in den i konsolen så ser du att den svarar med `10`, inte `undefined`. Det har du sällan nytta av, men det förklarar varför konsolen svarar olika.
-
-Program är uppbyggda av satser som körs i tur och ordning, och i den här boken avslutas varje sats med ett semikolon (`;`). Det gäller även en rad som bara består av ett uttryck, som `3 + 4;` – en sådan rad räknas också som en sats. JavaScript klarar sig ofta utan semikolon, men reglerna för när det fungerar är krångliga – så skriv alltid ut det.
-
-Distinktionen är värd att känna till eftersom JavaScript i vissa sammanhang förväntar sig ett uttryck (t.ex. inuti `${}`) och i andra en sats. Du kommer att se orden *if-sats*, *return-sats* och *deklarationssats* framöver – de är alla satser, instruktioner som *gör* något. Enskilda värden och beräkningar – saker som *är* något – är uttryck.
-
----
-
 ## Sammanfattning
 
 I det här kapitlet har vi lagt grunden för hur JavaScript representerar och lagrar information:
 
 - Ett **värde** är ett stycke data, och varje värde har en **datatyp**.
 - De viktigaste datatyperna är `number` (tal), `string` (text) och `boolean` (sant/falskt). Tal, strängar och booleska värden får var sitt kapitel längre fram.
+- Strängar slås ihop med `+`. Ett tal som slås ihop med en sträng görs om till text: `"Poäng: " + 12` ger `"Poäng: 12"`.
 - **Variabler** är namn som kopplas till värden. Deklarera dem med `const` som standard, och med `let` om värdet ska kunna ändras.
 - `=` betyder *tilldela*, inte "lika med": högersidan räknas ut först, och resultatet lagras sedan i variabeln till vänster.
-- Kortformerna `+=`, `-=`, `++` och `--` ändrar en variabel stegvis.
 - `undefined` betyder att inget värde har getts; `null` är ett avsiktligt tomt värde.
-- **Templatesträngar** (`` `Hej ${namn}` ``) bäddar in värden i text.
-- Namn på variabler bör vara **beskrivande** och följa konventionen **camelCase**.
 - Ett **objekt** samlar värden som hör ihop i namngivna **egenskaper**. Man läser, ändrar och lägger till egenskaper med **punktnotation** (`lag.poäng`).
 - Operatorn `typeof` ger ett värdes typ som en sträng.
 - JavaScript är **dynamiskt typat**: en variabel kan byta typ, och blandade typer kan ge oväntade resultat.
-- Ett **uttryck** utvärderas till ett värde (`3 + 4`); en **sats** är en instruktion som gör något (`let poäng = 0;`). Därför svarar konsolen med `undefined` när du deklarerar en variabel.
+- Namn på variabler bör vara **beskrivande** och följa konventionen **camelCase**.
 
 Med de här verktygen kan vi börja representera information i kod. I nästa kapitel tar vi steget från konsolen till webbsidan och använder värdena och variablerna för att ändra det användaren ser.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Kapitlet har gett dig ett helt ordförråd: värde, literal, datatyp, variabel, deklaration, tilldelning, objekt, egenskap, uttryck, sats. Ett ordförråd sätter sig bäst genom upprepning, och AI:n kan göra upprepningen till **begreppskort**.
+Kapitlet har gett dig ett helt ordförråd: värde, literal, datatyp, variabel, deklaration, tilldelning, objekt, egenskap. Ett ordförråd sätter sig bäst genom upprepning, och AI:n kan göra upprepningen till **begreppskort**.
 
 **Begreppskort:**
 
-> *"Gör tolv begreppskort om grundläggande JavaScript: värde, literal, datatyp, variabel, `let`, `const`, tilldelning, objekt, egenskap, `undefined`, uttryck och sats. Visa ett kort i taget – bara begreppet – och låt mig förklara det med egna ord. Bedöm min förklaring och visa en bättre formulering om min var ofullständig."*
+> *"Gör tio begreppskort om grundläggande JavaScript: värde, literal, datatyp, variabel, `let`, `const`, tilldelning, objekt, egenskap och `undefined`. Visa ett kort i taget – bara begreppet – och låt mig förklara det med egna ord. Bedöm min förklaring och visa en bättre formulering om min var ofullständig."*
 
 Gör om övningen några dagar senare. De kort du hade svårt med första gången är just de du behöver mest.
 
@@ -563,14 +471,14 @@ Gå igenom följande kod rad för rad *utan* att köra den. Skriv ner värdet p�
 
 ```javascript
 let poäng = 5;
-poäng += 10;
-poäng--;
-poäng *= 2;
-poäng -= poäng;
-poäng++;
+poäng = poäng + 10;
+poäng = poäng - 1;
+poäng = poäng * 2;
+poäng = poäng - poäng;
+poäng = poäng + 1;
 ```
 
-Vilken rad var svårast att förutsäga? Skriv om varje rad med den långa formen (`poäng = poäng + ...`).
+Vilken rad var svårast att förutsäga? Förklara med egna ord vad som händer på den raden, i den ordning JavaScript gör det.
 :::
 
 ::: {.callout-note}
@@ -590,46 +498,12 @@ Samla sedan informationen om spelaren – namn, poäng och om svaret var korrekt
 :::
 
 ::: {.callout-note}
-## Övning – Namnge rätt
-
-Nedanstående variabelnamn är antingen ogiltiga (JavaScript accepterar dem inte) eller dålig praxis (de fungerar men är svårlästa). Identifiera vad som är fel med vart och ett, och föreslå ett bättre namn.
-
-```javascript
-let 1stPlats = "Röda stjärnor";
-let svar-rätt = true;
-let x = 30;
-let TheNumberOfSecondsRemainingInTheCurrentRound = 30;
-let let = "hej";
-```
-:::
-
-::: {.callout-note}
-## Övning – Templatesträngar
-
-Du har tre variabler:
-
-```javascript
-let lag = "Blå blixtarna";
-let poäng = 47;
-let frågaNr = 8;
-```
-
-Använd templatesträngar för att skapa följande utskrifter (en sträng per rad):
-
-1. `Blå blixtarna leder med 47 poäng.`
-2. `Nu är vi på fråga 8 av 10.`
-3. `Blå blixtarna har i snitt 5.875 poäng per fråga.` *(Beräkna snittet i uttrycket inuti templatesträngen.)*
-
-Nästa fråga avgörs: ändra `poäng` till `52` och `frågaNr` till `9`, och skapa strängarna på nytt. Blir alla tre fortfarande rätt? Om någon av dem visar fel siffror har du skrivit in ett värde direkt i texten i stället för att använda variabeln. Skriv om den strängen så att den alltid stämmer, oavsett vilka värden variablerna har.
-:::
-
-::: {.callout-note}
 ## Övning – En quizfråga som objekt
 
 Skapa ett objekt `fråga` som beskriver en fråga i quizet. Bestäm själv vilka egenskaper som behövs – men minst frågetexten, det rätta svaret och hur många poäng frågan ger.
 
-1. Skriv ut frågan i konsolen med en templatesträng, till exempel `Fråga (3 poäng): Vad heter Sveriges huvudstad?`.
-2. Frågan visade sig vara svårare än väntat. Dubbla poängen med en av kortformerna från kapitlet.
+1. Skriv ut frågan i konsolen genom att slå ihop text och egenskaper med `+`, till exempel `Fråga (3 poäng): Vad heter Sveriges huvudstad?`.
+2. Frågan visade sig vara svårare än väntat. Dubbla poängen genom att räkna med egenskapen och tilldela om den.
 3. Lägg till en egenskap som inte fanns från början, till exempel en ledtråd.
 4. Vad skrivs ut om du försöker läsa en egenskap som inte finns, till exempel `fråga.svårighetsgrad`? Varför ger det inget felmeddelande?
 :::
@@ -654,4 +528,18 @@ typeof tidKvar;
 ```
 
 Ladda om sidan och kör sedan raderna en i taget i konsolen för att kontrollera dina svar. Läs felmeddelandena noga: vilket ord i meddelandet pekar ut vad som gick fel? Vilken av dina förutsägelser var fel, och vad i kapitlet hade kunnat hjälpa dig att gissa rätt?
+:::
+
+::: {.callout-note}
+## Övning – Namnge rätt
+
+Nedanstående variabelnamn är antingen ogiltiga (JavaScript accepterar dem inte) eller dålig praxis (de fungerar men är svårlästa). Identifiera vad som är fel med vart och ett, och föreslå ett bättre namn.
+
+```javascript
+let 1stPlats = "Röda stjärnor";
+let svar-rätt = true;
+let x = 30;
+let TheNumberOfSecondsRemainingInTheCurrentRound = 30;
+let let = "hej";
+```
 :::

@@ -9,15 +9,15 @@ Enkelt. Du skriver:
 ```javascript
 const pris1 = 320;
 const prisMedMoms1 = pris1 * 1.25;
-console.log(`${pris1} kr → ${prisMedMoms1} kr inkl. moms`);
+console.log(pris1 + " kr → " + prisMedMoms1 + " kr inkl. moms");
 
 const pris2 = 195;
 const prisMedMoms2 = pris2 * 1.25;
-console.log(`${pris2} kr → ${prisMedMoms2} kr inkl. moms`);
+console.log(pris2 + " kr → " + prisMedMoms2 + " kr inkl. moms");
 
 const pris3 = 450;
 const prisMedMoms3 = pris3 * 1.25;
-console.log(`${pris3} kr → ${prisMedMoms3} kr inkl. moms`);
+console.log(pris3 + " kr → " + prisMedMoms3 + " kr inkl. moms");
 ```
 
 Det fungerar. Men det är upprepning. Faktorn `* 1.25` dyker upp tre gånger – och om momssatsen för just de här varorna ändras (den gör det ibland) måste du rätta *varje* förekomst. En ändring, tre ställen. Med tjugo produkter är det tjugo ställen.
@@ -136,14 +136,14 @@ Notera skillnaden mot en vanlig egenskap: `rubrik.textContent` *läser* ett lagr
 
 ## Funktionsanropet som uttryck
 
-I kapitel [-@sec-variabler] lärde du dig skillnaden mellan **uttryck** (som utvärderas till ett värde) och **satser** (som gör något). Funktionsanrop som returnerar ett värde *är* uttryck – de kan användas var som helst ett värde kan stå:
+I kapitel [-@sec-om-javascript] lärde du dig skillnaden mellan **uttryck** (som utvärderas till ett värde) och **satser** (som gör något). Funktionsanrop som returnerar ett värde *är* uttryck – de kan användas var som helst ett värde kan stå:
 
 ```javascript
 // I en variabeldeklaration
 const störst = Math.max(12, 19, 7);
 
-// I en templatesträng
-console.log(`Högsta poängen är ${Math.max(12, 19, 7)}`);
+// I en sammanslagning av text
+console.log("Högsta poängen är " + Math.max(12, 19, 7));
 
 // Som argument till en annan funktion
 console.log(Math.max(10, 20, 30));
@@ -226,7 +226,7 @@ function hälsa() {
 }
 
 function hälsaMed(namn) {
-    console.log(`Hej, ${namn}!`);
+    console.log("Hej, " + namn + "!");
 }
 
 function addera(a, b) {
@@ -246,7 +246,7 @@ Om man vill att en parameter ska ha ett förinställt värde när inget argument
 
 ```javascript
 function hälsaMed(namn = "okänd") {
-    console.log(`Hej, ${namn}!`);
+    console.log("Hej, " + namn + "!");
 }
 
 hälsaMed("Astrid");   // Hej, Astrid!
@@ -276,7 +276,7 @@ En funktion utan `return` – eller med bara `return;` utan värde – returnera
 
 ```javascript
 function skrivUtHälsning(namn) {
-    console.log(`Hej, ${namn}!`);   // ingen return
+    console.log("Hej, " + namn + "!");   // ingen return
 }
 
 const resultat = skrivUtHälsning("Bo");
@@ -299,7 +299,7 @@ En av de vanligaste sortens funktioner i webbprogrammering *returnerar* ingentin
 const poängElement = document.querySelector("#poäng");
 
 function visaPoäng(poäng) {
-    poängElement.textContent = `Poäng: ${poäng}`;
+    poängElement.textContent = "Poäng: " + poäng;
 }
 
 visaPoäng(10);   // sidan visar "Poäng: 10"
@@ -345,7 +345,7 @@ Variabler som deklareras *utanför* alla block – på filens översta nivå –
 const hälsning = "Hej";   // deklarerad på översta nivån
 
 function skrivUt(namn) {
-    console.log(`${hälsning}, ${namn}!`);   // kan komma åt hälsning
+    console.log(hälsning + ", " + namn + "!");   // kan komma åt hälsning
 }
 
 skrivUt("Ida");   // Hej, Ida!
@@ -437,7 +437,7 @@ function andelRätt(poäng, maxPoäng) {
 
 function visaResultat(namn, poäng, maxPoäng) {
     const procent = andelRätt(poäng, maxPoäng);
-    console.log(`${namn}: ${poäng} av ${maxPoäng} poäng (${procent} %)`);
+    console.log(namn + ": " + poäng + " av " + maxPoäng + " poäng (" + procent + " %)");
 }
 
 visaResultat("Röda stjärnor", 18, 20);   // Röda stjärnor: 18 av 20 poäng (90 %)

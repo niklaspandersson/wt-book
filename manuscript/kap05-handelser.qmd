@@ -159,12 +159,12 @@ const antalElement = document.querySelector("#antal");
 const knapp = document.querySelector("#räkna-knapp");
 
 knapp.addEventListener("click", () => {
-    antal++;
+    antal = antal + 1;
     antalElement.textContent = antal;
 });
 ```
 
-Variabeln `antal` lever utanför callbacken men nås inifrån den — det är möjligt tack vare scope-reglerna du lärde dig i kapitel [-@sec-funktioner]. Varje klick ökar `antal` med 1 med `++` från kapitel [-@sec-variabler], och uppdaterar sidan. Variabeln måste vara deklarerad *utanför* callbacken: annars skulle den skapas på nytt, med värdet 0, vid varje klick.
+Variabeln `antal` lever utanför callbacken men nås inifrån den — det är möjligt tack vare scope-reglerna du lärde dig i kapitel [-@sec-funktioner]. Varje klick ökar `antal` med 1 och uppdaterar sidan. Variabeln måste vara deklarerad *utanför* callbacken: annars skulle den skapas på nytt, med värdet 0, vid varje klick.
 
 ### Mörkt läge — äntligen
 
@@ -206,11 +206,11 @@ const poängElement = document.querySelector("#poäng");
 let poäng = 0;
 
 function visaPoäng() {
-    poängElement.textContent = `Poäng: ${poäng}`;
+    poängElement.textContent = "Poäng: " + poäng;
 }
 
 document.querySelector("#rätt-knapp").addEventListener("click", () => {
-    poäng += 10;
+    poäng = poäng + 10;
     visaPoäng();
 });
 
@@ -310,7 +310,7 @@ const hälsning = document.querySelector("#hälsning");
 
 namnfält.addEventListener("input", () => {
     const namn = namnfält.value;
-    hälsning.textContent = `Hej, ${namn}!`;
+    hälsning.textContent = "Hej, " + namn + "!";
 });
 ```
 
@@ -343,7 +343,7 @@ const valtElement = document.querySelector("#valt");
 
 språkMeny.addEventListener("change", () => {
     const val = språkMeny.value;
-    valtElement.textContent = `Du valde: ${val}`;
+    valtElement.textContent = "Du valde: " + val;
 });
 ```
 
