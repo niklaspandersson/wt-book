@@ -182,6 +182,34 @@ document.querySelector("#resultat").textContent = "Det fungerar!";
 
 Öppna sidan med Live Server, och du ser texten ändras direkt. Från och med nu har du *två* sätt att visa resultat: konsolen (för felsökning och inspektion) och sidan (för användaren).
 
+### Varför fungerar skriptet i `<head>`?
+
+I mallen står `<script>`-elementet i `<head>`, alltså *före* `<h1>` i dokumentet. Ändå hittar `querySelector` rubriken. Det beror på attributet `type="module"`, som du mötte i kapitel [-@sec-om-javascript].
+
+Webbläsaren läser HTML-dokumentet uppifrån och ned och bygger DOM:en efter hand. Ett vanligt `<script>`-element utan `type="module"` körs i samma ögonblick som webbläsaren når det, innan den läser vidare. Står det i `<head>` har webbläsaren ännu inte kommit fram till `<body>`, och då finns inget `<h1>`-element i DOM:en. `querySelector` returnerar `null`, och nästa rad ger samma fel som i rutan *Vad händer om elementet inte finns?* ovan.
+
+En modul körs däremot alltid *efter* att webbläsaren har läst in hela dokumentet, oavsett var `<script>`-elementet står. När koden körs finns alla element på plats.
+
+::: {.callout-note}
+## Äldre sätt att lösa samma problem
+
+I guider och äldre kod stöter du ofta på två andra lösningar. Den ena är att lägga `<script>`-elementet sist i `<body>`, precis före `</body>`. Ibland står koden då direkt i elementet, som ett *inline-skript*:
+
+```html
+<body>
+    <h1>Hej!</h1>
+
+    <script>
+        document.querySelector("h1").textContent = "Hej, JavaScript!";
+    </script>
+</body>
+```
+
+När webbläsaren når skriptet har den redan läst in allt ovanför, och då finns `<h1>`. Den andra lösningen är attributet `defer` (`<script defer src="script.js">`), som gör att webbläsaren väntar med att köra skriptet tills dokumentet är inläst — ungefär som en modul gör automatiskt.
+
+Känn igen formerna när du ser dem, men skriv ny kod som moduler.
+:::
+
 ---
 
 ## `console.log()` lever kvar
@@ -422,6 +450,7 @@ Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `
 ## Sammanfattning
 
 - Webbläsaren bygger en **DOM** (*Document Object Model*) — en levande modell av HTML-sidan som JavaScript kan läsa och ändra.
+- Ett skript med **`type="module"`** körs först när hela dokumentet är inläst. Ett vanligt skript i `<head>` körs innan elementen finns, och `querySelector` returnerar då `null`.
 - **`document.querySelector(selektor)`** hämtar det första elementet som matchar en CSS-selektor. Returnerar `null` om inget hittas.
 - Elementet du får tillbaka är ett **objekt** med egenskaper, precis som objekten i kapitel [-@sec-variabler].
 - **`.textContent`** läser eller skriver ett elements textinnehåll som ren text.
@@ -512,6 +541,20 @@ element.textContent = "Ny text!";
 1. Vad är felet?
 2. Vad händer om du kör koden som den är? Vilket felmeddelande får du?
 3. Rätta felet.
+:::
+
+::: {.callout-note}
+## Övning – Var ska skriptet stå?
+
+Utgå från mallen i avsnittet *En mall att utgå från*, med raden som ändrar rubriken i `script.js`, och öppna sidan med Live Server. Du ska prova att placera `<script>`-elementet i `<head>` på tre olika sätt:
+
+1. *Utan* `type="module"` och utan `defer`
+2. Med `defer`
+3. Med `type="module"`
+
+Förutsäg först, för vart och ett av fallen, om rubriken kommer att ändras. Prova sedan och notera vad som händer på sidan och i konsolen.
+
+I vilket av fallen misslyckas koden? Vad står det i felmeddelandet, och hur hänger det ihop med hur webbläsaren läser dokumentet? Flytta sedan skriptet från fall 1 till slutet av `<body>`. Vad händer nu — och varför?
 :::
 
 ::: {.callout-note}

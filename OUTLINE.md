@@ -1,7 +1,7 @@
 **Del I – Grunden: det du behöver för att komma igång**
 *(kronologisk progression – omstrukturerad, se [Omstrukturering av Del I](#omstrukturering-av-del-i) nedan)*
 
-* [X] Kap. 1 – JavaScript och webbläsaren *(webbens tre språk, vad är programmering, programmeringsspråk och syntax, konsolen, uttryck och satser, felmeddelanden, script-elementet)*
+* [X] Kap. 1 – JavaScript och webbläsaren *(webbens tre språk, vad är programmering, programmeringsspråk och syntax, konsolen, uttryck och satser, felmeddelanden, en första titt på script-elementet; laddningsordning, inline-skript och `defer` har flyttat till kap. 3)*
 * [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, konkatenering med `+`, let/const, tilldelning, objekt som samlar värden, punktnotation, typeof, dynamisk typning, namngivning)*
 * [X] Kap. 3 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
 * [X] Kap. 4 – Funktioner *(anropa, argument, returvärden, metoder, definiera, parametrar, scope, funktioner som värden, pilfunktioner)*
@@ -75,7 +75,7 @@ Kap. 2 upplevdes som för långt och spretigt för nybörjare och har bantats:
 - **Uttryck och satser** har flyttat till kap. 1 (§Konsolen → *Uttryck och satser*), tillsammans med ett nytt avsnitt *Programmeringsspråk* (maskinkod, olika språk, syntax). Kap. 4 hänvisar dit.
 - **Templatesträngar** introduceras först i kap. 7. Kap. 3–6 bygger text med konkatenering (`"Poäng: " + poäng`), som tas upp i kap. 2 tillsammans med att ett tal görs om till text vid `+` med en sträng. Templatesträngsövningen har flyttat till kap. 7.
 - **Kortformerna** `+=`, `-=`, `*=`, `/=`, `++`, `--` introduceras först i kap. 6 (§Ändra ett tal stegvis). Kap. 3–5 använder `x = x + 1`. Övningen *Spåra poängen* finns kvar i kap. 2 i lång form och har en kortformsvariant i kap. 6.
-- Ny ordning i kap. 2: värden → datatyper → variabler → objekt → `typeof` och dynamisk typning → namngivning.
+- Ny ordning i kap. 2: värden → datatyper → variabler → objekt → dynamisk typning (med `typeof`) → namngivning.
 
 ## Varför
 
@@ -130,8 +130,7 @@ Ett generellt kapitel om *värden* och *variabler*, och om hur flera värden kan
 - §Namngivning av variabler, §Namnkonventioner
 - §Objekt – en första bekantskap + §Punktnotation – **omskrivet** och placerat efter §Variabler: objekt som ett sätt att samla värden som hör ihop. Visa objektliteralen (`const lag = { namn: "Röda stjärnor", poäng: 12 };`), läs och ändra egenskaper med punktnotation, och lägg till en egenskap. Löser review-punkten om `lag.namn` (objektet skapas nu innan det används). Metoder nämns inte här – de kommer i kap. 4.
 - En kort ruta om `const` och objekt: variabeln kan inte tilldelas om, men egenskaperna kan ändras (studenterna stöter på det direkt i övningarna). Underlag finns i g11 §`const` och objekt.
-- §Operatorn `typeof`
-- §Dynamisk typning – bara själva idén (en variabel kan byta typ); konverteringsdetaljerna flyttar
+- §Dynamisk typning – bara själva idén (en variabel kan byta typ), med underavsnitten §Operatorn `typeof` och §När typer blandas; konverteringsdetaljerna flyttar
 - §Uttryck och satser
 
 **Flyttas hit**
@@ -150,9 +149,8 @@ Ett generellt kapitel om *värden* och *variabler*, och om hur flera värden kan
 
 **Övningar**
 
-- Behålls: Ö 2.1 *Typa värdena*, Ö 2.3 *Quizprogrammets variabler*, Ö 2.4 *Namnge rätt*, Ö 2.5 *Templatesträngar*
-- Flyttas: Ö 2.2 *Förutsäg resultaten* (typkonvertering) → kap. 6
-- Nya: en övning med `+=`/`++` (spåra värdet på en poängvariabel); Ö 2.3 *Quizprogrammets variabler* kan få en fortsättning där variablerna samlas i ett objekt `lag`
+- Ordnade enligt mallen i BOKOVERSIKT §3.1 (läsa före skriva): *Förutsäg konsolens svar* (ny), *Typa värdena*, *Spåra poängen* (nu med spårtabell och pilbild), *Vilka rader ger fel?*, *Förklara koden* (ny), *Namnge rätt*, *Ordna raderna* (nytt Parsons-problem med distraktorer), *Från variabler till objekt* (ny, modifiera), *Quizprogrammets variabler*, *En quizfråga som objekt* (kap. 3 bygger vidare på den)
+- Flyttade tidigare: Ö 2.2 *Förutsäg resultaten* (typkonvertering) → kap. 6; *Templatesträngar* → kap. 7
 
 ### Kap. 3 – Din kod möter webbsidan *(g4 + g6)*
 

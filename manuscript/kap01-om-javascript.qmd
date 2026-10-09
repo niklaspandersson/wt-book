@@ -55,6 +55,10 @@ Tänk på ett recept. Ett matrecept är en sekvens av instruktioner riktade till
 
 Som programmerare behöver vi därför vänja oss vid att tänka lite mer precist och fullständigt än vi brukar i vardagen. Det låter kanske krävande, men det är ingenting man måste kunna från början. Det är ett sätt att tänka som växer fram med övning, och den här boken ska hjälpa dig att träna upp det, steg för steg.
 
+Du behöver inte heller vara bra på matematik. Många tror att programmering är till för den som har lätt för siffror, men forskningen pekar åt ett annat håll. I en studie av vuxna nybörjare var förmågan att lära sig nya språk den starkaste förklaringen till hur snabbt de lärde sig programmera, medan räknefärdigheten nästan inte spelade någon roll [@prat2020relating]. Att programmera liknar på många sätt att lära sig ett språk: du lär dig nya ord och en ny grammatik, och du övar på att uttrycka dig precist. De beräkningar som förekommer i boken är vardagsräkning – priser, poäng och tider.
+
+Det är också helt normalt att det går trögt ibland. Att du kör fast säger ingenting om huruvida du "är en programmerare" eller inte, bara att du lär dig något nytt. Begreppen i programmering bygger tätt på varandra, så det lönar sig att ta det i lugn takt: läs om det som var oklart, prova exemplen själv och gör övningarna innan du går vidare.
+
 Konkret ser en programmeringsinstruktion i JavaScript ut ungefär så här:
 
 ```javascript
@@ -114,16 +118,16 @@ Konsolen är också en miniräknare. Skriv in en rad i taget och tryck Enter eft
 ```javascript
 2 + 2;
 100 / 7;
-Math.PI;
+3 * 49;
 ```
 
-JavaScript räknar ut varje rad och visar resultatet direkt. Konsolen är ett utmärkt ställe att snabbt testa hur en beräkning beter sig innan du använder den i ett program.
+JavaScript räknar ut varje rad och visar resultatet direkt. Lägg märke till att multiplikation skrivs med en stjärna (`*`) och division med ett snedstreck (`/`), eftersom tangentbordet saknar tecknen × och ÷. Konsolen är ett utmärkt ställe att snabbt testa hur en beräkning beter sig innan du använder den i ett program.
 
 ### Uttryck och satser
 
 Du har kanske märkt att konsolen svarar på två olika sätt. När du skriver `2 + 2` svarar den med `4`. Men när du skrev `console.log("Hej, världen!")` skrevs texten ut, och sedan svarade konsolen dessutom med ett grått `undefined`. Det beror på en skillnad som finns i alla programmeringsspråk: skillnaden mellan *uttryck* och *satser*.
 
-Ett **uttryck** (*expression*) är en bit kod som *ger ett värde*. `2 + 2` ger värdet `4`, och `Math.PI` ger värdet `3.141592653589793`. Uttryck kan byggas ihop av mindre uttryck: i `2 + 3 * 4` är både `3 * 4` och hela raden uttryck.
+Ett **uttryck** (*expression*) är en bit kod som *ger ett värde*. `2 + 2` ger värdet `4`, och `3 * 49` – tre biljetter för 49 kronor styck – ger värdet `147`. Uttryck kan byggas ihop av mindre uttryck: i `2 + 3 * 4` är både `3 * 4` och hela raden uttryck.
 
 En **sats** (*statement*) är en *instruktion* som *gör* något. `console.log("Hej, världen!")` gör något – den skriver ut en text – men ger inget värde tillbaka. Konsolen visar alltid värdet av det du nyss skrev in, och när det inte finns något värde visar den `undefined`, som betyder just "inget värde". Det är alltså inget fel.
 
@@ -175,35 +179,7 @@ Det JavaScript *kan* göra är att ändra webbsidans innehåll, kommunicera med 
 
 ## Att koppla JavaScript till en HTML-sida
 
-I ett verkligt projekt skriver man inte JavaScript direkt i konsolen – man kopplar ihop det med en HTML-sida via `<script>`-elementet. Det finns flera sätt att göra det, med viktiga skillnader i hur koden laddas och fungerar.
-
-### Inline-skript
-
-Det enklaste sättet är att skriva koden direkt i HTML-filen:
-
-```html
-<!DOCTYPE html>
-<html lang="sv">
-<head>
-    <meta charset="UTF-8">
-    <title>Min sida</title>
-</head>
-<body>
-    <h1>Hej!</h1>
-
-    <script>
-        console.log("Skriptet körs!");
-        document.querySelector("h1").textContent = "Hej, JavaScript!";
-    </script>
-</body>
-</html>
-```
-
-Skriptet placeras här *i slutet av `<body>`*, precis före `</body>`. Det är nödvändigt eftersom webbläsaren läser HTML uppifrån och ned: när den når ett `<script>`-element stannar den och kör koden direkt, innan den läser vidare. Om skriptet i stället låg i `<head>` skulle `querySelector` leta efter ett `<h1>`-element som webbläsaren ännu inte har läst in. Den hittar då ingenting, och koden misslyckas med ett felmeddelande i konsolen. Genom att placera skriptet sist i `<body>` garanterar vi att alla HTML-element finns när JavaScript körs.
-
-Inline-skript fungerar bra för snabba tester, men i riktiga projekt blir det rörigt när JavaScript-koden blandas med HTML-strukturen. Dessutom måste du hela tiden hålla koll på var i dokumentet skriptet står. Det rekommenderade alternativet nedan löser båda problemen.
-
-### Externt skript med `type="module"`
+I ett verkligt projekt skriver man inte JavaScript direkt i konsolen. Koden ligger i en egen fil, och HTML-sidan pekar ut den med ett `<script>`-element. Nästa kapitel håller sig i konsolen, men från och med kapitel [-@sec-dom-intro] skriver du kod i filer. Här är en första titt på hur det ser ut.
 
 Det rekommenderade sättet att inkludera JavaScript i moderna projekt är en **extern modulfil**:
 
@@ -242,7 +218,7 @@ document.querySelector("h1").textContent = "Hej, JavaScript!";   // ersätter "H
 Du kan använda kommentarer för att förklara vad din kod gör – för andra, eller för dig själv nästa vecka. I den här boken används en kommentar på första raden i ett exempel ofta för att visa vilken fil koden hör hemma i.
 :::
 
-Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul**. Det viktigaste för dig just nu är att en modul alltid körs *efter* att webbläsaren har läst in hela HTML-dokumentet, oavsett var `<script>`-elementet står. Därför kan det ligga i `<head>` utan problem: när koden körs finns `<h1>`-elementet redan.
+Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul**. Det viktigaste för dig just nu är att en modul alltid körs *efter* att webbläsaren har läst in hela HTML-dokumentet, oavsett var `<script>`-elementet står. Därför kan det ligga i `<head>` utan problem: när koden körs finns `<h1>`-elementet redan. Varför det spelar roll, och hur det ser ut när det går fel, ser vi i kapitel [-@sec-dom-intro].
 
 Moduler har också andra fördelar, men de blir begripliga först när du har skrivit lite mer kod. Vi återkommer till dem i kapitel [-@sec-funktioner] och kapitel [-@sec-moduler]. I den här boken används `type="module"` konsekvent – det är den form du ska vänja dig vid.
 
@@ -252,14 +228,6 @@ Moduler har också andra fördelar, men de blir begripliga först när du har sk
 En viktig praktisk begränsning: av säkerhetsskäl vägrar de flesta webbläsare att läsa moduler direkt från datorns filsystem. Om du öppnar en HTML-fil med `type="module"` genom att dubbelklicka på den, så att adressen i webbläsaren börjar med `file://`, händer ingenting – och i konsolen står ett felmeddelande som nämner *CORS*. Vad det betyder kommer vi till senare i boken; just nu räcker det att veta hur du undviker det.
 
 Lösningen är att köra en lokal webbserver. Det enklaste sättet är tillägget **Live Server** till Visual Studio Code. Installera det en gång via fliken *Extensions* i VS Code (sök på "Live Server"). Sedan högerklickar du på `index.html` och väljer *Open with Live Server*. Det startar en server på `http://localhost:5500` och öppnar sidan i webbläsaren automatiskt. Sidan laddas också om direkt när du sparar en fil.
-:::
-
-::: {.callout-note}
-## Vanliga `<script>`-element utan `type="module"`
-
-Äldre kod använder ofta `<script src="script.js"></script>` utan `type="module"`. Ett sådant skript körs i samma ögonblick som webbläsaren når det i HTML-dokumentet – precis som inline-skriptet ovan. Står det i `<head>` finns alltså inga element att arbeta med ännu. Attributet `defer` (`<script defer src="script.js">`) gör att webbläsaren väntar med att köra skriptet tills dokumentet är inläst, ungefär som en modul gör automatiskt.
-
-Du kommer att stöta på den äldre formen i guider och äldre kodbaser. Känn igen den, men skriv ny kod som moduler.
 :::
 
 ---
@@ -344,11 +312,19 @@ Det du gör i DevTools är temporärt – sidan återgår till original vid omla
 10 - 3;
 10 * 3;
 10 / 3;
-10 % 3;
-2 ** 10;
 ```
 
-Operatorerna `%` och `**` har du kanske inte sett förut. Vad verkar de göra, att döma av resultaten? Testa med fler tal tills du är säker. (De förklaras i kapitel [-@sec-tal].)
+Stämde dina gissningar? Om något svar överraskade dig: vad var det som var annorlunda än du väntade dig?
+
+**En gåta.** JavaScript har också operatorn `%`. Den har ingenting med procent att göra. Prova de här raderna:
+
+```javascript
+10 % 3;
+7 % 2;
+135 % 60;
+```
+
+Vad verkar `%` göra? En ledtråd: tänk på 135 minuter uttryckt i timmar och minuter. Testa med fler tal tills du kan beskriva operatorn med en egen mening. (Svaret kommer i kapitel [-@sec-tal].)
 :::
 
 ::: {.callout-note}
@@ -361,7 +337,7 @@ Titta på raderna nedan. Avgör för varje rad, *innan* du kör den, om konsolen
 console.log(7 * 6);
 "Hej" + "!";
 alert("Hej");
-Math.PI * 2;
+24 * 60;
 ```
 
 Två av raderna ger både något som syns *och* `undefined`. Vilka, och vad är skillnaden mellan det som syns och det konsolen svarar?
@@ -421,18 +397,4 @@ Formulera din gissning i ord, och testa den sedan.
 1. Klistra in raden och tryck Enter.
 
 Stämde din gissning? Vad hände med sidan? Vad händer om du laddar om sidan efteråt – och varför?
-:::
-
-::: {.callout-note}
-## Övning – Var ska skriptet stå?
-
-Den här övningen utforskar varför det spelar roll hur och var `<script>`-elementet placeras. Skapa en projektmapp med filen `index.html` från övning 1.6 och en ny fil `script.js`, och öppna sidan med Live Server (se rutan *Moduler kräver en webbserver* ovan).
-
-Lägg till en `<h2>`-rubrik i `index.html`, och skriv en rad i `script.js` som ändrar rubrikens text med `document.querySelector("h2").textContent`. Prova att placera `<script>`-elementet på tre olika sätt i `<head>` och notera vad som händer på sidan och i konsolen:
-
-1. *Utan* `type="module"` och utan `defer`
-2. Med `defer`
-3. Med `type="module"`
-
-I vilket av fallen misslyckas koden? Vad står det i felmeddelandet, och hur hänger det ihop med hur webbläsaren läser HTML-dokumentet? Flytta sedan skriptet från fall 1 till slutet av `<body>`. Vad händer nu – och varför?
 :::

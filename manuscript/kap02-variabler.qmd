@@ -289,9 +289,18 @@ Mönstret `objekt.egenskap` kommer du att se överallt i JavaScript. Faktiskt ha
 
 ---
 
-## Operatorn `typeof`
+## Dynamisk typning
 
-Ibland behöver man kontrollera vilken typ ett värde har. Det kan man göra med operatorn `typeof`, som ger typens namn som en sträng:
+I JavaScript har variabler ingen fast typ – *värdet* har en typ, men variabeln kan innehålla värden av olika typer vid olika tillfällen. Det kallas **dynamisk typning**:
+
+```javascript
+let svar = 42;        // svar innehåller ett tal
+svar = "fyrtiotvå";   // nu innehåller den en sträng – helt tillåtet
+```
+
+### Operatorn `typeof`
+
+Eftersom en variabel kan innehålla vilken typ av värde som helst behöver man ibland kontrollera vilken typ värdet har just nu. Det kan man göra med operatorn `typeof`, som ger typens namn som en sträng:
 
 ```javascript
 typeof 42;          // "number"
@@ -312,16 +321,9 @@ const indata = "42";   // kanske läst från ett formulär
 typeof indata;         // "string" – inte "number"!
 ```
 
-### Dynamisk typning
+### När typer blandas
 
-I JavaScript har variabler ingen fast typ – *värdet* har en typ, men variabeln kan innehålla värden av olika typer vid olika tillfällen. Det kallas **dynamisk typning**:
-
-```javascript
-let svar = 42;        // svar innehåller ett tal
-svar = "fyrtiotvå";   // nu innehåller den en sträng – helt tillåtet
-```
-
-Det ger frihet, men medför också risker. När man blandar typer försöker JavaScript ibland "hjälpa till" genom att automatiskt omvandla värden från en typ till en annan, och resultatet kan överraska:
+Dynamisk typning ger frihet, men medför också risker. När man blandar typer försöker JavaScript ibland "hjälpa till" genom att automatiskt omvandla värden från en typ till en annan, och resultatet kan överraska:
 
 ```javascript
 "5" + 3;    // "53" – inte 8!
@@ -409,13 +411,13 @@ Tid investerad i att välja bra namn är tid väl spenderad. Kod läses många f
 
 I det här kapitlet har vi lagt grunden för hur JavaScript representerar och lagrar information:
 
-- Ett **värde** är ett stycke data, och varje värde har en **datatyp**.
+- Allt ett program arbetar med – som lagens namn och poäng på quizkvällen – representeras som **värden**. Varje värde har en **datatyp** som avgör vad man kan göra med det.
 - De viktigaste datatyperna är `number` (tal), `string` (text) och `boolean` (sant/falskt). Tal, strängar och booleska värden får var sitt kapitel längre fram.
 - Strängar slås ihop med `+`. Ett tal som slås ihop med en sträng görs om till text: `"Poäng: " + 12` ger `"Poäng: 12"`.
-- **Variabler** är namn som kopplas till värden. Deklarera dem med `const` som standard, och med `let` om värdet ska kunna ändras.
+- **Variabler** gör att programmet kan minnas: de är namn som pekar på värden, så att värdena kan användas på flera ställen och uppdateras medan programmet körs. Deklarera dem med `const` som standard, och med `let` om värdet ska kunna ändras.
 - `=` betyder *tilldela*, inte "lika med": högersidan räknas ut först, och resultatet lagras sedan i variabeln till vänster.
 - `undefined` betyder att inget värde har getts; `null` är ett avsiktligt tomt värde.
-- Ett **objekt** samlar värden som hör ihop i namngivna **egenskaper**. Man läser, ändrar och lägger till egenskaper med **punktnotation** (`lag.poäng`).
+- Ett **objekt** samlar värden som hör ihop, till exempel ett lags namn och poäng, i namngivna **egenskaper**. Man läser, ändrar och lägger till egenskaper med **punktnotation** (`lag.poäng`).
 - Operatorn `typeof` ger ett värdes typ som en sträng.
 - JavaScript är **dynamiskt typat**: en variabel kan byta typ, och blandade typer kan ge oväntade resultat.
 - Namn på variabler bör vara **beskrivande** och följa konventionen **camelCase**.
@@ -445,6 +447,25 @@ Kontrollera de du är osäker på med `typeof` i konsolen. Det går snabbare än
 
 ## Övningar
 
+Övningarna börjar med att du *läser* kod – förutsäger, spårar och förklarar – och slutar med att du skriver egen. Hoppa inte över de första: att kunna följa vad koden gör är det som gör det möjligt att skriva den.
+
+::: {.callout-note}
+## Övning – Förutsäg konsolens svar
+
+Skriv ner vad du tror att konsolen svarar på varje rad. Skriv sedan in raderna en i taget och jämför.
+
+```javascript
+"Poäng: " + 12;
+5 + 3;
+"5" + 3;
+let tid = 30;
+tid;
+typeof tid;
+```
+
+En av raderna ger `undefined`. Vilken, och varför? (Tänk på skillnaden mellan uttryck och satser från kapitel [-@sec-om-javascript].)
+:::
+
 ::: {.callout-note}
 ## Övning – Typa värdena
 
@@ -467,45 +488,34 @@ Vad är det som gör att `"false"` och `false` är fundamentalt olika, trots att
 ::: {.callout-note}
 ## Övning – Spåra poängen
 
-Gå igenom följande kod rad för rad *utan* att köra den. Skriv ner värdet på `poäng` efter varje rad. Kontrollera sedan i konsolen.
+Gå igenom följande kod rad för rad *utan* att köra den.
 
 ```javascript
 let poäng = 5;
-poäng = poäng + 10;
+let bonus = 2;
+poäng = poäng + bonus;
+bonus = bonus * 3;
+poäng = poäng + bonus;
+bonus = poäng;
 poäng = poäng - 1;
-poäng = poäng * 2;
-poäng = poäng - poäng;
-poäng = poäng + 1;
 ```
 
-Vilken rad var svårast att förutsäga? Förklara med egna ord vad som händer på den raden, i den ordning JavaScript gör det.
-:::
+Håll reda på värdena i en **spårtabell**: en kolumn för varje variabel och en rad för varje kodrad. På varje rad skriver du vilket värde variablerna har *efter* att kodraden har körts. De två första raderna är ifyllda:
 
-::: {.callout-note}
-## Övning – Quizprogrammets variabler
+| Rad | `poäng` | `bonus` |
+|---|---|---|
+| 1 | 5 | – |
+| 2 | 5 | 2 |
+| 3 | | |
+| 4 | | |
+| 5 | | |
+| 6 | | |
+| 7 | | |
 
-Återgå till scenariot från kapitlets början: en digital poängtavla för quizkväll. Du ska representera följande information som variabler:
+Kontrollera sedan dina svar i konsolen.
 
-- Spelarens namn
-- Spelarens poäng (börjar på 0)
-- Antal sekunder kvar av rundan (börjar på 30)
-- Om det aktuella svaret var korrekt
-- Det maximala antalet poäng man kan uppnå (ändras aldrig under spelets gång)
-
-För varje variabel: välj ett lämpligt namn, rätt nyckelord (`let` eller `const`) och ett rimligt startvärde. Skriv en kommentar för varje variabel där du motiverar ditt val av `let` respektive `const`.
-
-Samla sedan informationen om spelaren – namn, poäng och om svaret var korrekt – i ett objekt `spelare` i stället. Vilka fördelar ser du? Behöver objektet deklareras med `let` för att poängen ska kunna ändras?
-:::
-
-::: {.callout-note}
-## Övning – En quizfråga som objekt
-
-Skapa ett objekt `fråga` som beskriver en fråga i quizet. Bestäm själv vilka egenskaper som behövs – men minst frågetexten, det rätta svaret och hur många poäng frågan ger.
-
-1. Skriv ut frågan i konsolen genom att slå ihop text och egenskaper med `+`, till exempel `Fråga (3 poäng): Vad heter Sveriges huvudstad?`.
-2. Frågan visade sig vara svårare än väntat. Dubbla poängen genom att räkna med egenskapen och tilldela om den.
-3. Lägg till en egenskap som inte fanns från början, till exempel en ledtråd.
-4. Vad skrivs ut om du försöker läsa en egenskap som inte finns, till exempel `fråga.svårighetsgrad`? Varför ger det inget felmeddelande?
+1. Läs rad 3 högt på samma sätt som i avsnittet om `let`: "räkna ut … och låt … vara det".
+2. Rita en pilbild, som den i avsnittet om variabler, över hur det ser ut efter rad 6 och efter rad 7. Ändras `bonus` när `poäng` ändras på rad 7? Varför, eller varför inte?
 :::
 
 ::: {.callout-note}
@@ -531,6 +541,21 @@ Ladda om sidan och kör sedan raderna en i taget i konsolen för att kontrollera
 :::
 
 ::: {.callout-note}
+## Övning – Förklara koden
+
+Läs koden nedan.
+
+```javascript
+const lag = { namn: "Blå blixtarna", poäng: 9 };
+const poängFörRättSvar = 3;
+lag.poäng = lag.poäng + poängFörRättSvar;
+console.log(lag.namn + " har " + lag.poäng + " poäng");
+```
+
+Beskriv med en eller två meningar vad koden gör *som helhet*, som om du förklarade det för någon i ditt lag på quizkvällen. Gå inte igenom raderna en och en – säg vad som händer i quizet. Vad skrivs ut?
+:::
+
+::: {.callout-note}
 ## Övning – Namnge rätt
 
 Nedanstående variabelnamn är antingen ogiltiga (JavaScript accepterar dem inte) eller dålig praxis (de fungerar men är svårlästa). Identifiera vad som är fel med vart och ett, och föreslå ett bättre namn.
@@ -542,4 +567,58 @@ let x = 30;
 let TheNumberOfSecondsRemainingInTheCurrentRound = 30;
 let let = "hej";
 ```
+:::
+
+::: {.callout-note}
+## Övning – Ordna raderna
+
+Raderna nedan står i fel ordning. Välj ut och ordna dem så att programmet skriver ut `Röda stjärnor: 15 poäng` i konsolen. En av raderna ska inte användas alls.
+
+```javascript
+console.log(lagnamn + ": " + poäng + " poäng");
+const lagnamn = "Röda stjärnor";
+const poäng = 5;
+poäng = poäng + 10;
+let poäng = 5;
+```
+
+1. Vilken rad använde du inte? Vilket felmeddelande tror du att du skulle få om du använde den i stället? Testa i konsolen (ladda om sidan mellan försöken).
+2. Spelar det någon roll i vilken ordning de två första raderna i ditt program står? Varför?
+:::
+
+::: {.callout-note}
+## Övning – Från variabler till objekt
+
+I avsnittet om objekt beskrevs två lag med sex separata variabler: `lag1Namn`, `lag1Poäng`, `lag1Aktivt` och så vidare. Skriv om koden så att varje lag i stället är ett objekt, `lag1` och `lag2`.
+
+Sedan händer följande under quizkvällen: Blå blixtarna svarar rätt och får 10 poäng, och turen går över från Röda stjärnor till Blå blixtarna. Skriv rader som ändrar objekten så att de stämmer, *utan* att skriva om objektliteralerna. Skriv till sist ut en rad för varje lag, till exempel `Blå blixtarna: 19 poäng`.
+
+Deklarerade du objekten med `const` eller `let`? Förklara varför ditt val fungerar, med hjälp av pilbilden.
+:::
+
+::: {.callout-note}
+## Övning – Quizprogrammets variabler
+
+Återgå till scenariot från kapitlets början: en digital poängtavla för quizkväll. Du ska representera följande information som variabler:
+
+- Spelarens namn
+- Spelarens poäng (börjar på 0)
+- Antal sekunder kvar av rundan (börjar på 30)
+- Om det aktuella svaret var korrekt
+- Det maximala antalet poäng man kan uppnå (ändras aldrig under spelets gång)
+
+För varje variabel: välj ett lämpligt namn, rätt nyckelord (`let` eller `const`) och ett rimligt startvärde. Skriv en kommentar för varje variabel där du motiverar ditt val av `let` respektive `const`.
+
+Vilka av variablerna skulle du hellre samla i ett objekt `spelare`, och vilka hör inte till spelaren? Motivera.
+:::
+
+::: {.callout-note}
+## Övning – En quizfråga som objekt
+
+Skapa ett objekt `fråga` som beskriver en fråga i quizet. Bestäm själv vilka egenskaper som behövs – men minst frågetexten, det rätta svaret och hur många poäng frågan ger.
+
+1. Skriv ut frågan i konsolen genom att slå ihop text och egenskaper med `+`, till exempel `Fråga (3 poäng): Vad heter Sveriges huvudstad?`.
+2. Frågan visade sig vara svårare än väntat. Dubbla poängen genom att räkna med egenskapen och tilldela om den.
+3. Lägg till en egenskap som inte fanns från början, till exempel en ledtråd.
+4. Vad skrivs ut om du försöker läsa en egenskap som inte finns, till exempel `fråga.svårighetsgrad`? Varför ger det inget felmeddelande?
 :::
