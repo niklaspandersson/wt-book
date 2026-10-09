@@ -161,7 +161,8 @@ Allt som handlar om att ändra *vad användaren ser* – text, HTML, stil, klass
 - §Från konsolen till sidan, §Webbsidan som en modell
 - §Hämta ett element med `querySelector`, §CSS-selektorer som du redan kan, rutan om `null`
 - §Ändra text med `textContent`, §Infoga HTML med `innerHTML`, §När ska du använda vilket?, säkerhetsvarningen
-- §En mall att utgå från, §`console.log()` lever kvar
+- §En sida att öva på (tidigare §En mall att utgå från, nu direkt efter §Webbsidan som en modell), §`console.log()` lever kvar
+- Nytt efter rutan om `null`: §Varför fungerar skriptet i `<head>`? med rutan om inline-skript och `defer` (flyttat från kap. 1)
 
 **Hänvisning bakåt:** efter §Hämta ett element räcker en mening om att elementet är ett *objekt* med egenskaper, precis som objekten i kap. 2 – därför fungerar `rubrik.textContent`. `document` och `console` är också objekt.
 
@@ -179,9 +180,9 @@ Allt som handlar om att ändra *vad användaren ser* – text, HTML, stil, klass
 
 **Övningar**
 
-- Behålls: Ö 4.1–4.5 (alla g4-övningar; hänvisningen "kapitel 2, övning 2.5" stämmer fortfarande), Ö 6.4 *`.style` vs `classList`*, Ö 6.6 *Mörkt läge* (med boolesk variabel – blir en knapp i kap. 5)
+- Ordnade enligt mallen i BOKOVERSIKT §3.1: *Vad visas på sidan?*, *Vilket element hittas?*, *Spåra klasserna* (spårtabell), *Vad säger felet?* (tidigare *Felsök selektorn*, nu med en del B om `textcontent`), *Förklara koden*, *Ordna raderna* (Parsons), *Var ska skriptet stå?* (från kap. 1), *Bygg vidare på poängtavlan* (modifiera), *`.style` vs `classList`*, *Facit som döljs* (används i kap. 5), *Från konsol till sida*, *Mörkt läge* (blir en knapp i kap. 5)
+- Borttagna: *Ändra sidan* och *Quizpoäng på sidan* (ersatta av *Bygg vidare på poängtavlan*), *innerHTML i praktiken* (byggde HTML med konkatenering)
 - Flyttas till kap. 8: Ö 6.1 *Betyg med färgkodning*, Ö 6.2 *Temperatur med visuell respons*, Ö 6.3 *Villkorligt hjälpmeddelande*, Ö 6.5 *Quiz med visuell feedback*
-- Ny: visa/dölj ett facit-element med `hidden` (förbereder "Visa svar"-knappen i kap. 5)
 
 ### Kap. 4 – Funktioner *(g3 + g9)*
 
