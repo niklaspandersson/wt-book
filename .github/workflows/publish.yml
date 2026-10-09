@@ -26,6 +26,21 @@ jobs:
           version: 1.8.27
           tinytex: true
 
+      # Quarto försöker installera saknade LaTeX-paket automatiskt, men det
+      # misslyckas på GitHub. Installera därför paketen som boken behöver i förväg.
+      - name: Installera LaTeX-paket
+        run: |
+          echo "$HOME/.TinyTeX/bin/x86_64-linux" >> "$GITHUB_PATH"
+          TLMGR="$HOME/.TinyTeX/bin/x86_64-linux/tlmgr"
+          "$TLMGR" update --self
+          "$TLMGR" install \
+            luatexbase lualibs luaotfload luahbtex lualatex-math lua-alt-getopt \
+            lua-uni-algos ctablestack selnolig fontspec unicode-math lm lm-math \
+            koma-script babel hyphen-base hyph-utf8 dehyph tcolorbox tikzfill pgf \
+            environ trimspaces pdfcol fontawesome5 framed fancyvrb float caption \
+            booktabs bookmark geometry xcolor xpatch filehook mdwtools \
+            unicode-data etoolbox iftex inconsolata
+
       - name: Installera Chrome för mermaid-diagram i PDF
         run: quarto install chrome-headless-shell --no-prompt
 
