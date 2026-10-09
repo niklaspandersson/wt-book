@@ -1,0 +1,641 @@
+# Att skriva egna funktioner {#sec-funktioner}
+
+## Poängtavlan som upprepar sig
+
+I förra kapitlet fick poängtavlan äntligen synas på sidan. Under en quizkväll ändras poängen hela tiden, och varje gång måste sidan uppdateras. Koden blir ungefär så här:
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 0 };
+
+lag.poäng = lag.poäng + 3;   // rätt svar på fråga 1
+document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+
+lag.poäng = lag.poäng + 5;   // rätt svar på fråga 2
+document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+
+lag.poäng = lag.poäng + 2;   // rätt svar på fråga 3
+document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+```
+
+Det fungerar. Men samma långa rad står tre gånger. Med tjugo frågor skulle den stå tjugo gånger. Och när den som leder quizet vill att det ska stå `Röda stjärnor: 10 poäng` i stället för `Poäng: 10` måste du hitta och ändra varje förekomst. Missar du en enda visar sidan plötsligt fel format mitt i quizet.
+
+Det du skulle vilja är att ge raden ett namn – `visaPoäng` – skriva den en enda gång och sedan bara säga "visa poängen" varje gång det behövs. I kapitel [-@sec-anropa-funktioner] använde du funktioner som andra hade skrivit åt dig: `alert`, `Math.max`, `document.querySelector`. I det här kapitlet lär du dig att skriva egna. Allt du vet om anrop, argument och returvärden gäller fortfarande. Skillnaden är att du nu ser funktionen inifrån.
+
+---
+
+## Att definiera en funktion
+
+Att skriva en egen funktion kallas att **definiera** den. Så här ser en definition av `visaPoäng` ut:
+
+```javascript
+function visaPoäng() {
+    document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+}
+```
+
+Definitionen består av fyra delar:
+
+- **`function`** är ett nyckelord som talar om att här kommer en funktionsdefinition.
+- **Namnet**, `visaPoäng`, väljer du själv. Samma regler gäller som för variabelnamn i kapitel [-@sec-variabler], och funktionsnamn skrivs också i camelCase. Välj ett namn som säger vad funktionen *gör*.
+- **Parenteserna** efter namnet är tomma här. Snart ska vi se vad som kan stå i dem.
+- **Kroppen** är koden mellan klammerparenteserna `{` och `}`. Det är den som körs när funktionen anropas. Kroppen skrivs indragen, så att det syns vilka rader som hör till funktionen.
+
+En sådan definition kallas en **funktionsdeklaration**. Nu kan poängtavlan skrivas om:
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 0 };
+
+function visaPoäng() {
+    document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+}
+
+lag.poäng = lag.poäng + 3;
+visaPoäng();
+
+lag.poäng = lag.poäng + 5;
+visaPoäng();
+
+lag.poäng = lag.poäng + 2;
+visaPoäng();
+```
+
+Du anropar din egen funktion precis som de inbyggda: namnet följt av parenteser. Ska formatet ändras behöver du bara ändra på ett ställe, inne i funktionen, och alla anrop följer med.
+
+Programmerare har ett namn på principen: **DRY**, *Don't Repeat Yourself* – upprepa dig inte. Funktioner är det viktigaste verktyget för att följa den. Men en funktion gör mer än att spara rader. Den ger också koden ett namn. `visaPoäng()` säger vad som händer, medan raden med `querySelector` och `textContent` måste läsas noga för att man ska förstå den.
+
+### Definitionen körs inte – anropet gör det
+
+En sak överraskar många nybörjare: koden i funktionens kropp körs *inte* där funktionen står i filen. Titta på det här programmet och förutsäg i vilken ordning siffrorna skrivs ut:
+
+```javascript
+console.log("1");
+
+function hälsa() {
+    console.log("2");
+}
+
+console.log("3");
+hälsa();
+console.log("4");
+```
+
+Utskriften blir `1`, `3`, `2`, `4`. När JavaScript kommer till definitionen läser den in funktionen och kommer ihåg den under namnet `hälsa` – men kör den inte. Först när raden `hälsa();` nås hoppar JavaScript in i funktionen, kör kroppen och hoppar sedan *tillbaka* till raden efter anropet.
+
+Det liknar ett recept där det står "gör smeten enligt sidan 12". Du bläddrar till sidan 12, följer instruktionerna där, och fortsätter sedan där du var. Sidan 12 står kvar i boken oavsett om du läser den eller inte, och du kan bläddra dit hur många gånger som helst.
+
+---
+
+## Parametrar – att ta emot argument
+
+`visaPoäng` har en svaghet: den kan bara visa poängen i just objektet `lag`. Det vore bättre om den kunde visa vilken poäng som helst. Då behöver funktionen kunna ta emot ett värde, på samma sätt som `Math.max` tar emot tal. Det gör den med en **parameter**:
+
+```javascript
+function visaPoäng(poäng) {
+    document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+}
+
+visaPoäng(10);   // sidan visar "Poäng: 10"
+visaPoäng(15);   // sidan visar "Poäng: 15"
+```
+
+Parametern `poäng` står inom parenteserna i definitionen. Den är ett namn som funktionen använder för värdet den får in. Värdet i anropet – `10` eller `15` – är **argumentet**, precis som i kapitel [-@sec-anropa-funktioner]. Kort sagt:
+
+- En **parameter** är ett namn i *definitionen*.
+- Ett **argument** är ett värde i *anropet*.
+
+När funktionen anropas får parametern argumentets värde. Med pilbilden från kapitel [-@sec-variabler] ser det ut så här för anropet `visaPoäng(lag.poäng)`, när laget har 12 poäng:
+
+```{mermaid}
+%%| fig-alt: "Till vänster anropet visaPoäng(lag.poäng). En pil märkt argumentet räknas ut leder till värdet 12. Till höger, inne i funktionen visaPoäng, pekar parametern poäng på samma värde 12."
+flowchart LR
+    A["visaPoäng(lag.poäng)"] -->|"argumentet räknas ut"| V((12))
+    subgraph F["Inne i funktionen visaPoäng"]
+        P[poäng]
+    end
+    P --> V
+```
+
+Argumentet räknas först ut till ett värde, `12`. Sedan får parametern `poäng` peka på det värdet medan kroppen körs. Lägg märke till att argumentet och parametern inte behöver heta samma sak. I anropet står `lag.poäng`, i funktionen heter värdet `poäng`. Funktionen vet ingenting om objektet `lag` – den får bara ett tal.
+
+### Flera parametrar
+
+En funktion kan ha flera parametrar, åtskilda med kommatecken:
+
+```javascript
+function visaLag(namn, poäng) {
+    document.querySelector("#lagnamn").textContent = "Lag: " + namn;
+    document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+}
+
+visaLag("Röda stjärnor", 12);
+```
+
+Argumenten kopplas till parametrarna i *ordning*: det första argumentet till den första parametern, det andra till den andra. JavaScript bryr sig inte om vad namnen betyder. Byter du ordning på argumenten får du inget felmeddelande, bara fel resultat:
+
+```javascript
+visaLag(12, "Röda stjärnor");   // sidan visar "Lag: 12" och "Poäng: Röda stjärnor"
+```
+
+Och glömmer du ett argument får parametern värdet `undefined` – "inget värde har getts", precis som en variabel som aldrig fått något värde:
+
+```javascript
+visaLag("Röda stjärnor");   // sidan visar "Poäng: undefined"
+```
+
+Ser du `undefined` på sidan där du väntade dig ett värde är det alltså ett tips om att kontrollera argumenten i anropet.
+
+---
+
+## `return` – att ge tillbaka ett värde
+
+`visaPoäng` *gör* något: den ändrar sidan. Men i kapitel [-@sec-anropa-funktioner] såg du att många funktioner i stället *ger tillbaka* något, som `Math.max`. Egna funktioner kan också göra det, med nyckelordet `return`.
+
+Inträdet till quizkvällen kostar 40 kronor per person. En funktion som räknar ut vad ett lag ska betala:
+
+```javascript
+function biljettpris(antal) {
+    return antal * 40;
+}
+
+const pris = biljettpris(3);
+console.log("Tre biljetter kostar " + pris + " kr");   // Tre biljetter kostar 120 kr
+```
+
+`return` gör två saker:
+
+1. Den avslutar funktionen direkt. Rader efter `return` i kroppen körs inte.
+2. Den skickar tillbaka värdet efter `return` till den som anropade funktionen.
+
+Det som händer sedan känner du igen från kapitel [-@sec-anropa-funktioner]: anropet ersätts av returvärdet. Raden `const pris = biljettpris(3);` blir i praktiken `const pris = 120;`. Din egen funktion fungerar alltså precis som de inbyggda – den kan användas överallt där ett värde behövs, till exempel som argument till en annan funktion:
+
+```javascript
+console.log(Math.max(biljettpris(3), biljettpris(5)));   // 200
+```
+
+En funktion kan returnera vilken sorts värde som helst, till exempel en sträng:
+
+```javascript
+function poängtext(namn, poäng) {
+    return namn + ": " + poäng + " poäng";
+}
+
+const text = poängtext("Röda stjärnor", 12);   // "Röda stjärnor: 12 poäng"
+```
+
+En funktion som saknar `return` returnerar `undefined`, precis som `console.log`. Det är helt i sin ordning för en funktion som `visaPoäng`, vars uppgift är att ändra sidan. Men det blir ett problem om du vill använda resultatet.
+
+::: {.callout-important}
+## Returnera eller skriva ut?
+
+Jämför de här två funktionerna:
+
+```javascript
+function biljettprisA(antal) {
+    return antal * 40;
+}
+
+function biljettprisB(antal) {
+    console.log(antal * 40);
+}
+```
+
+Anropar du dem i konsolen ser de ut att göra samma sak – båda visar `120` för tre biljetter. Men försök använda resultatet:
+
+```javascript
+const prisA = biljettprisA(3);
+const prisB = biljettprisB(3);              // skriver ut 120
+console.log("Att betala: " + prisA + " kr");   // Att betala: 120 kr
+console.log("Att betala: " + prisB + " kr");   // Att betala: undefined kr
+```
+
+`biljettprisB` skriver ut svaret, men ger inte tillbaka något. Det den skriver ut kan ingen annan del av programmet använda. Tumregeln: ska resultatet användas vidare – sparas, visas på sidan eller räknas med – måste funktionen *returnera* det.
+:::
+
+---
+
+## Följ ett anrop steg för steg
+
+Nu har vi alla delar och kan följa exakt vad som händer när ett program med en egen funktion körs. Här har funktionen en egen variabel inne i kroppen:
+
+```javascript
+function biljettpris(antal) {
+    const total = antal * 40;
+    return total;
+}
+
+const röda = biljettpris(4);
+const blå = biljettpris(3);
+const intäkt = röda + blå;
+```
+
+En spårtabell, som i kapitel [-@sec-variabler], visar vad som händer. Kolumnen *Rad* anger vilken rad som körs, och den sista kolumnen vilka namn som finns just då:
+
+| Rad | Vad som händer | Namn och värden |
+|---|---|---|
+| 1–4 | Funktionen läses in, men körs inte | `biljettpris` → funktionen |
+| 6 | `biljettpris(4)` anropas. JavaScript hoppar in i funktionen | `antal` → 4 |
+| 2 | `total` räknas ut | `antal` → 4, `total` → 160 |
+| 3 | `return` skickar tillbaka 160. `antal` och `total` försvinner | – |
+| 6 | Anropet har ersatts av 160 | `röda` → 160 |
+| 7 | `biljettpris(3)` anropas. En *ny* omgång börjar | `röda` → 160, `antal` → 3 |
+| 2–3 | `total` blir 120 och returneras. `antal` och `total` försvinner igen | `röda` → 160 |
+| 7 | Anropet har ersatts av 120 | `röda` → 160, `blå` → 120 |
+| 8 | Summan räknas ut | `röda` → 160, `blå` → 120, `intäkt` → 280 |
+
+Tre saker är värda att lägga märke till:
+
+1. **Varje anrop börjar från början.** Vid det andra anropet minns funktionen ingenting av det första. Parametern `antal` får ett nytt värde, och `total` skapas på nytt.
+2. **Parametern och variablerna i kroppen finns bara under anropet.** När funktionen returnerar försvinner de. Det enda som finns kvar är returvärdet.
+3. **Programmet hoppar.** Raderna körs inte uppifrån och ned i den ordning de står, utan 1–4 (inläsning), 6, 2, 3, 6, 7, 2, 3, 7, 8. Att kunna följa de hoppen är det viktigaste du kan träna på i det här kapitlet.
+
+---
+
+## Funktioner som tar emot element
+
+En parameter kan få vilket värde som helst – också ett element från sidan. Då kan samma funktion användas på flera ställen:
+
+```javascript
+function markera(element) {
+    element.classList.add("markerad");
+}
+
+markera(document.querySelector("#lag-röda"));
+markera(document.querySelector("#fråga-3"));
+```
+
+Läs anropen inifrån och ut, som i kapitel [-@sec-anropa-funktioner]. Först körs `document.querySelector("#lag-röda")` och returnerar ett elementobjekt. Det objektet blir argument till `markera`, där parametern `element` pekar på det. Sedan körs kroppen och elementet får klassen `markerad`.
+
+Den här sortens funktioner – som tar emot ett element eller ett värde och uppdaterar sidan – blir ännu viktigare i nästa kapitel. Där ska vi köra dem *när något händer*: när användaren klickar, skriver eller rör musen.
+
+---
+
+## Scope – var en variabel finns
+
+I spårtabellen såg du att `antal` och `total` försvann när funktionen var klar. Försöker du använda dem utanför funktionen får du ett felmeddelande:
+
+```javascript
+function biljettpris(antal) {
+    const total = antal * 40;
+    return total;
+}
+
+biljettpris(4);
+console.log(total);   // ReferenceError: total is not defined
+```
+
+Det är samma sorts fel som när du stavade fel på ett funktionsnamn i kapitel [-@sec-anropa-funktioner]: JavaScript letar efter namnet `total` och hittar det inte. Det område i koden där ett namn finns kallas namnets **scope** (ungefär *räckvidd*).
+
+Det är egentligen inte funktionen i sig som bestämmer räckvidden, utan **klammerparenteserna**. Variabler som deklareras med `let` eller `const` inuti ett par `{ }` finns bara inuti dem. Du kommer att möta fler sorters block med klammerparenteser – i villkorssatser och loopar – och där gäller samma regel.
+
+Åt andra hållet fungerar det däremot. Variabler som deklareras *utanför* alla klammerparenteser, på filens översta nivå, går att nå inifrån alla funktioner i filen:
+
+```javascript
+const inträde = 40;   // på översta nivån
+
+function biljettpris(antal) {
+    return antal * inträde;   // funktionen kan läsa inträde
+}
+```
+
+Det var därför den första versionen av `visaPoäng` i början av kapitlet kunde använda objektet `lag`, som var deklarerat utanför funktionen.
+
+### Modulens scope
+
+Hur långt utanför filen en variabel på översta nivån syns beror på hur skriptet laddas. I den här boken laddar vi alltid skript som moduler, med `type="module"`. En variabel på översta nivån i en modul syns i hela filen – men inte utanför den. Den har **modulscope**. Den syns inte i andra skript på sidan, och inte heller i konsolen. Skriver du `inträde` i konsolen får du alltså ett `ReferenceError`, trots att variabeln finns i din fil.
+
+I ett vanligt skript, utan `type="module"`, hamnar variabler på översta nivån i stället i det **globala scopet**. Där delas de av alla skript på sidan, och kan krocka med varandra. Det är en av anledningarna till att moduler är att föredra. Du får prova skillnaden själv i en av övningarna.
+
+::: {.callout-important}
+## Håll variabler lokala
+
+Variabler på översta nivån kan läsas och ändras från *var som helst* i filen. Det gör dem svåra att resonera om: vem ändrade variabeln? Var? När? Sträva därför efter att deklarera variabler i det innersta block där de behövs, och låt funktioner få det de behöver som argument i stället för att hämta det utifrån. Det gör koden lättare att förstå och felsöka.
+
+Det finns ett viktigt undantag, som vi kommer till i nästa kapitel: en variabel som ska *minnas* något mellan två anrop – till exempel hur många gånger en knapp har klickats – måste ligga utanför funktionen. Annars skapas den på nytt vid varje anrop.
+:::
+
+---
+
+## Funktioner är värden
+
+I kapitel [-@sec-anropa-funktioner] skrev du `alert` utan parenteser och fick se själva funktionen i konsolen. Det visar något viktigt: i JavaScript är en funktion ett **värde**, precis som ett tal eller en sträng. Funktionsdeklarationen `function biljettpris(antal) { … }` skapar en funktion och låter namnet `biljettpris` peka på den – på samma sätt som en variabel pekar på sitt värde.
+
+Eftersom en funktion är ett värde kan den, som andra värden, skickas som argument till en annan funktion. Det är precis vad du kommer att göra i nästa kapitel, när du ger en funktion till webbläsaren och ber den köra funktionen när användaren klickar.
+
+### Pilfunktioner
+
+Det finns ett kortare sätt att skapa en funktion, som är vanligt när funktionen ska skickas vidare som värde. Det kallas en **pilfunktion** (*arrow function*), efter tecknen `=>`:
+
+```javascript
+const biljettpris = (antal) => {
+    return antal * 40;
+};
+
+console.log(biljettpris(3));   // 120
+```
+
+Läs det som: "`biljettpris` är en funktion som tar emot `antal` och returnerar `antal * 40`". Parametrarna står inom parenteserna före pilen, och kroppen efter. Du anropar en pilfunktion på exakt samma sätt som en funktionsdeklaration.
+
+Om kroppen bara består av ett enda uttryck som ska returneras kan du hoppa över klammerparenteserna och ordet `return`:
+
+```javascript
+const biljettpris = (antal) => antal * 40;
+```
+
+Värdet av uttrycket efter pilen returneras då automatiskt. Men se upp: har du *klammerparenteser* måste du skriva `return`. Utan det returnerar funktionen `undefined`, precis som en vanlig funktion utan `return`.
+
+I andras kod ser du ibland pilfunktioner där parenteserna runt en ensam parameter är borttagna: `antal => antal * 40`. Det betyder samma sak. I den här boken skriver vi alltid ut parenteserna.
+
+En pilfunktion skapas när raden med `const` körs, så den måste stå *före* de rader där den anropas. Gör det till en vana för alla funktioner: definiera dem först, och anropa dem sedan.
+
+::: {.callout-note}
+## Vilken form ska jag använda?
+
+Det finns ingen strikt regel, men en riktlinje räcker långt:
+
+- Använd **funktionsdeklarationer** (`function namn() { … }`) för namngivna funktioner som är viktiga delar av ditt program, som `visaPoäng`.
+- Använd **pilfunktioner** för korta funktioner – särskilt när funktionen skickas som argument till en annan funktion, vilket är precis vad vi gör i nästa kapitel.
+:::
+
+---
+
+## Att tänka i funktioner
+
+En stor del av att bli en bra programmerare är att lära sig dela upp ett problem i lagom stora bitar och ge bitarna bra namn.
+
+En funktion bör göra *en* sak. Om en funktion heter `räknaUtOchVisa` är det ett tecken på att den gör för mycket. Dela upp den i en funktion som *räknar ut* eller *bygger* något och returnerar det, och en som *visar* det:
+
+```javascript
+function poängtext(namn, poäng) {
+    return namn + ": " + poäng + " poäng";
+}
+
+function visaResultat(namn, poäng) {
+    document.querySelector("#resultat").textContent = poängtext(namn, poäng);
+}
+
+visaResultat("Röda stjärnor", 18);   // sidan visar "Röda stjärnor: 18 poäng"
+```
+
+Nu kan `poängtext` användas både när texten ska visas på sidan och när den ska skrivas ut i konsolen. Och om resultatet en dag ska visas på ett annat ställe på sidan behöver bara `visaResultat` ändras.
+
+Att sätta bra namn på funktioner är en konst. Ett bra funktionsnamn
+
+- är ofta ett verb som beskriver vad funktionen *gör*: `visaPoäng`, `markera`, `räknaUt`
+- kan vara ett substantiv om det beskriver vad funktionen *returnerar*: `biljettpris`, `poängtext`
+- är tydligt nog för att man ska förstå vad funktionen gör utan att läsa kroppen
+- är inte för långt – två eller tre ord räcker oftast.
+
+---
+
+## Sammanfattning
+
+- En **funktionsdeklaration** definierar en egen funktion: `function namn(parametrar) { kropp }`. Funktioner ger kod ett namn och gör att den bara behöver skrivas en gång.
+- **Definitionen kör ingenting.** Kroppen körs först när funktionen anropas, och sedan fortsätter programmet efter anropet.
+- **Parametrar** är namn i definitionen; **argument** är värden i anropet. Argumenten kopplas till parametrarna i ordning. Saknas ett argument får parametern värdet `undefined`.
+- **`return`** avslutar funktionen och skickar tillbaka ett värde. Anropet ersätts av returvärdet. En funktion utan `return` returnerar `undefined`.
+- Att **skriva ut** ett resultat är inte att **returnera** det. Ska resultatet användas vidare måste det returneras.
+- Varje anrop börjar från början. Parametrar och variabler i kroppen finns bara under anropet.
+- En parameter kan också ta emot ett **element**, så att samma funktion kan uppdatera olika delar av sidan.
+- En variabels **scope** är den del av koden där den finns. Variabler inuti `{ }` finns bara där. Variabler på översta nivån i en **modul** syns i hela filen men inte utanför den.
+- Funktioner är **värden**. En **pilfunktion**, `(parametrar) => { kropp }`, är ett kortare sätt att skapa en funktion.
+- En funktion bör göra **en sak** och ha ett namn som säger vilken.
+
+I nästa kapitel blir sidan interaktiv. Du lär dig att be webbläsaren köra en funktion *när något händer* – när användaren klickar, skriver eller rör musen. Där kommer allt från det här kapitlet till användning: funktioner som uppdaterar sidan, och funktioner som skickas som värden.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Ett av de bästa sätten att ta reda på om man förstått något är att förklara det för någon annan. Med AI kan du vända på rollerna: låt den spela en student som inte förstår, och var själv läraren.
+
+**Byt roller:**
+
+> *"Spela en nybörjare som läser om egna funktioner i JavaScript för första gången. Du blandar ihop parametrar och argument, du tror att koden i en funktion körs där den står i filen, och du förstår inte skillnaden mellan att returnera ett värde och att skriva ut det. Ställ frågor till mig, en i taget, och följ upp när mina förklaringar är otydliga. Avsluta med att sammanfatta vad du lärde dig av mig – och vad som fortfarande var oklart."*
+
+Märker du att du börjar svara vagt – "det bara fungerar så" – har du hittat något att läsa om i kapitlet.
+
+**Spåra hoppen:**
+
+> *"Skriv ett kort JavaScript-program med två egna funktioner där den ena anropar den andra. Använd bara `console.log`, inga webbsidor. Jag skriver ner i vilken ordning raderna körs och vad som skrivs ut. Rätta mig och visa var jag tappade bort mig – men visa inte svaret förrän jag har svarat."*
+
+**Döp om funktionerna:**
+
+> *"Ge mig sex korta JavaScript-funktioner med dåliga namn som `f`, `gör` och `hantera`. Jag läser koden och föreslår bättre namn. Bedöm mina förslag, och säg till om ett namn skulle vara missvisande."*
+:::
+
+---
+
+## Övningar
+
+Övningarna börjar som vanligt med att du läser och följer kod. Gör de första utan att köra koden – det är att kunna följa hoppen mellan anrop och funktion som gör det möjligt att skriva egna funktioner.
+
+::: {.callout-note}
+## Övning – I vilken ordning?
+
+Förutsäg vad som skrivs ut, och i vilken ordning, *innan* du kör koden.
+
+```javascript
+function förklara() {
+    console.log("B");
+}
+
+console.log("A");
+förklara();
+console.log("C");
+förklara();
+```
+
+1. Hur många gånger skrivs `B` ut? Varför?
+2. Ta bort de två raderna `förklara();`. Vad skrivs ut nu? Vad säger det om skillnaden mellan att definiera och att anropa en funktion?
+:::
+
+::: {.callout-note}
+## Övning – Spåra exekveringen
+
+Gå igenom koden för hand, rad för rad.
+
+```javascript
+function dubbla(antal) {
+    return antal * 2;
+}
+
+function addera(första, andra) {
+    return första + andra;
+}
+
+const poäng = 5;
+const dubbelt = dubbla(poäng);
+const summa = addera(dubbelt, 3);
+
+console.log(summa);
+console.log(dubbla(addera(2, 3)));
+```
+
+1. Gör en spårtabell, som den i avsnittet *Följ ett anrop steg för steg*, för raderna fram till och med `console.log(summa);`. Skriv för varje steg vilka namn som finns och vilka värden de pekar på.
+2. Den sista raden har två nästlade anrop. Vilket anrop körs först, och vilket värde får parametern `antal` i `dubbla`?
+3. Vad skrivs ut? Kontrollera i konsolen.
+:::
+
+::: {.callout-note}
+## Övning – Parameter, argument eller returvärde?
+
+Betrakta följande kod:
+
+```javascript
+function totalpris(antal, styckpris) {
+    const summa = antal * styckpris;
+    return summa;
+}
+
+const a = totalpris(3, 40);
+const b = totalpris(40, 3);
+const c = totalpris(totalpris(1, 5), 10);
+```
+
+1. Vilka är funktionens parametrar? Vilka argument skickas in vid varje anrop?
+2. Vilka värden får `a`, `b` och `c`? Resonera först, kontrollera sedan i konsolen.
+3. `a` och `b` blir lika, trots att argumenten står i olika ordning. Visa med funktionen `visaLag` från kapitlet att ordningen på argumenten ändå spelar roll i andra fall.
+4. Vad händer om du tar bort ordet `return` ur funktionen? Förutsäg innan du testar.
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+**Del A.** Följande kod ger ett felmeddelande. Läs koden och förutsäg vilket fel det blir, och på vilken rad. Kör den sedan och jämför.
+
+```javascript
+function räknaUt(antal) {
+    const vuxna = antal * 40;
+    const barn = antal * 20;
+}
+
+räknaUt(3);
+console.log(vuxna + barn);
+```
+
+Förklara med egna ord varför felet uppstår. Använd ordet *scope*. Skriv sedan om koden så att den fungerar. Det finns mer än ett sätt.
+
+**Del B.** På en sida finns ett element med id `poäng`. Den här koden ger inget felmeddelande alls, men sidan visar `Poäng: undefined`:
+
+```javascript
+function visaLag(namn, poäng) {
+    document.querySelector("#lagnamn").textContent = "Lag: " + namn;
+    document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+}
+
+const lag = { namn: "Gula gänget", poäng: 7 };
+visaLag(lag.namn);
+```
+
+Varför? Rätta anropet.
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+Läs funktionen nedan.
+
+```javascript
+function visaLedare(lag1, lag2) {
+    const högst = Math.max(lag1.poäng, lag2.poäng);
+    document.querySelector("#ledning").textContent = "Ledande poäng: " + högst;
+}
+```
+
+1. Beskriv med en mening vad funktionen gör *som helhet* – som om du förklarade det för den som leder quizet.
+2. Vad måste man skicka in när man anropar funktionen? Skriv ett exempel på ett anrop.
+3. Returnerar funktionen något? Hur ser du det?
+:::
+
+::: {.callout-note}
+## Övning – Ordna raderna
+
+Du vill ha en funktion `poängtext` som returnerar en text som `Röda stjärnor: 12 poäng`, och sedan visa den texten i elementet med id `resultat`. Välj ut och ordna raderna. Två av raderna ska inte användas.
+
+```javascript
+}
+function poängtext(namn, poäng) {
+document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 12);
+    return namn + ": " + poäng + " poäng";
+    console.log(namn + ": " + poäng + " poäng");
+function poängtext("namn", "poäng") {
+```
+
+1. Vilka två rader använde du inte? Vad är fel med dem? Ger de ett felmeddelande, eller händer det bara fel saker?
+2. Förutsäg vad sidan visar om du byter ut raden med `return` mot raden med `console.log`. Vad skrivs i konsolen, och vad hamnar i elementet? Prova sedan.
+:::
+
+::: {.callout-note}
+## Övning – Poängtavlan med funktioner
+
+Ta fram din lösning på övningen *Bygg vidare på poängtavlan* i kapitel [-@sec-dom-intro], där sidan visar lagets namn, poäng och runda.
+
+1. Skriv en funktion `visaLag(lag)` som tar emot hela lagobjektet som argument och uppdaterar alla tre elementen på sidan.
+2. Ersätt alla rader i ditt program som uppdaterar sidan med anrop till `visaLag`.
+3. Ändra formatet så att poängen visas som `12 p` i stället för `Poäng: 12`. Hur många ställen behövde du ändra? Hur många hade det varit utan funktionen?
+:::
+
+::: {.callout-note}
+## Övning – Funktioner som uppdaterar sidan
+
+Skapa en HTML-sida med följande innehåll:
+
+```html
+<h2 id="namn">—</h2>
+<p id="resultat">—</p>
+```
+
+Skriv två funktioner:
+
+1. `resultattext(poäng, maxPoäng)` – *returnerar* en text som `15 av 20 poäng`.
+2. `visaResultat(namn, poäng, maxPoäng)` – anropar `resultattext` och uppdaterar sidan: `<h2>` ska visa namnet och `<p>` texten från `resultattext`.
+
+Testa med tre anrop efter varandra: `visaResultat("Karin", 15, 20)`, `visaResultat("Erik", 9, 20)` och `visaResultat("Lena", 18, 20)`. Bara det sista anropet syns på sidan. Varför? Hur kan du kontrollera att de två första anropen ändå kördes?
+:::
+
+::: {.callout-note}
+## Övning – En funktion för flera element
+
+Skapa en sida med tre stycken, vart och ett med ett eget id. Skriv en funktion `sättText(selektor, text)` som hämtar elementet som matchar selektorn och ger det den nya texten. Använd funktionen för att ändra alla tre stycken.
+
+Jämför sedan med att skriva tre `querySelector`-rader direkt. När lönar sig funktionen? Vad händer om du stavar en selektor fel – vilket felmeddelande får du, och på vilken rad pekar det? Är det raden med anropet eller en rad inne i funktionen?
+:::
+
+::: {.callout-note}
+## Övning – Pilfunktioner med och utan klamrar
+
+Förutsäg vad som skrivs ut på de tre sista raderna. Testa sedan.
+
+```javascript
+const a = (antal) => antal * 40;
+const b = (antal) => { antal * 40; };
+const c = (antal) => { return antal * 40; };
+
+console.log(a(2));
+console.log(b(2));
+console.log(c(2));
+```
+
+Förklara resultatet för `b`. Skriv sedan om funktionen `poängtext` från kapitlet som en pilfunktion – först med klammerparenteser och `return`, sedan i den korta formen.
+:::
+
+::: {.callout-note}
+## Övning – Modulens scope
+
+Den här övningen visar skillnaden mellan modulscope och globalt scope. Skriv följande i `script.js` på din övningssida, som laddas med `type="module"`:
+
+```javascript
+const hälsning = "Hej från skriptfilen!";
+
+function hälsa(namn) {
+    console.log(hälsning + " Och hej, " + namn + "!");
+}
+
+hälsa("Ida");
+```
+
+1. Fungerar anropet `hälsa("Ida")` i filen? Varför kan funktionen använda `hälsning`, som inte är en parameter?
+2. Skriv nu `hälsning` i webbläsarens konsol. Vad händer? Förutsäg först.
+3. Ta bort `type="module"` från `<script>`-elementet och ladda om sidan. Skriv `hälsning` i konsolen igen. Vad händer nu?
+
+Vad säger försöket om skillnaden mellan modulscope och globalt scope? Föreställ dig en sida som laddar tre olika skript, och där två av dem råkar ha en variabel som heter `hälsning`. Varför är modulernas beteende att föredra?
+:::

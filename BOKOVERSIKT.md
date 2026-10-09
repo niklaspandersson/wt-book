@@ -2,6 +2,8 @@
 
 Översikt av manuskriptet som det ser ut i oktober 2026 (efter bantningen av kap. 2), bedömt utifrån forskningssammanfattningen i [PEDAGOGIK.md](PEDAGOGIK.md) och målgruppen i CLAUDE.md: kompletta nybörjare, många utan naturvetenskaplig bakgrund och med begränsade kunskaper i matematik.
 
+> **Numrering.** Översikten skrevs innan funktionskapitlet delades (se OUTLINE.md, *Uppdelning av funktionskapitlet*). Gamla kap. 3 (DOM) är nu kap. 4, gamla kap. 4 (Funktioner) är nu kap. 3 *Att använda funktioner* och kap. 5 *Att skriva egna funktioner*, och gamla kap. 5–12 är nu kap. 6–13. Numren nedan avser den gamla ordningen. Vad som har åtgärdats i de nya kap. 3–6 står i avsnitt 7.
+
 Del I är granskad kapitel för kapitel. Del II och III är granskade på strukturnivå: rubriker, längd och övningstyper. Öppna punkter i [REVIEW-DEL1.md](REVIEW-DEL1.md) upprepas inte här.
 
 ---
@@ -193,3 +195,47 @@ Två saker att bevaka:
 3. Gå igenom övningarna kapitel för kapitel enligt mallen i §3.1, och börja med kap. 11 och 4 där obalansen är störst.
 4. Fatta beslut om flyttarna i §3.3, ett kapitel i taget. Kontrollera för varje flytt vilka senare kapitel som använder begreppet (som vi gjorde med templatesträngar och kortformer).
 5. Inför det namngivna mönstret *hämta → lyssna → läs → bearbeta → visa* från kap. 5.
+
+---
+
+## 7. Status efter uppdelningen av funktionskapitlet (oktober 2026)
+
+Kap. 3–6 är omarbetade och bedömda mot avsnitten ovan och PEDAGOGIK.md. Kapitelnumren i det här avsnittet är de nya.
+
+### Bedömning per kapitel
+
+| | Kap. 3 Att använda funktioner | Kap. 4 Din kod möter webbsidan | Kap. 5 Att skriva egna funktioner | Kap. 6 Händelser |
+|---|---|---|---|---|
+| Brödtext före övningarna | ≈ 2 500 ord | ≈ 2 900 ord | ≈ 2 900 ord | ≈ 2 400 ord |
+| Scenario först | Kalkylarksformler (`=SUMMA`, `=MAX`) | Poängtavlan som ingen ser | Poängtavlan som upprepar sig (kod från kap. 4) | En knapp som inte reagerar |
+| Mental modell (§3.2) | Diagram: anropet ersätts av sitt returvärde; stegtabell för nästlade anrop | Pilbild: `rubrik` pekar på elementet | Pilbild: parametern pekar på argumentets värde; spårtabell för två anrop | Spårövning där variabel och sida skiljer sig åt |
+| Kända missuppfattningar (PEDAGOGIK §5) | Skriva ut ≠ returnera; parenteser saknas; returvärde försvinner i en fil | `null` från `querySelector`; sidan uppdateras inte av sig själv | Funktionen körs där den definieras; argument kopplas efter namn; skriva ut ≠ returnera | `hälsa()` i stället för `hälsa`; `.value` läst utanför callbacken |
+| Löst exempel med delmål (§3.5) | – | – | Spårtabellen fungerar som löst exempel | Nytt: *hämta → lyssna → läs → bearbeta → visa* |
+| Felmeddelanden (§3.6) | `ReferenceError`, `TypeError: … is not a function`, `SyntaxError` | `null`-felet, felstavad egenskap, felstavad metod (ny del C) | `ReferenceError` vid scope, `undefined` vid saknat argument | Felstavad händelse, felstavad metod, anrop i stället för funktion |
+| Matematik (§3.4) | Bara `max`/`min`/avrundning | Oförändrat | `kvadrat(x)`, `cirkelArea`, moms och procent borta; biljettpris `antal * 40` | Ingen |
+| AI-ruta | Returvärdesquiz, förklara bilden, kalkylark → JavaScript | Oförändrad | Byt roller (nu med missuppfattningarna), spåra hoppen, döp om | Kopplad till femstegsmönstret |
+
+### Övningarnas profil (jfr §3.1)
+
+| Kapitel | Förutsäga/spåra | Förklara | Parsons | Felsöka | Modifiera | Skriva/utmaning | Totalt |
+|---|---|---|---|---|---|---|---|
+| 3 | 3 | 1 | 1 | 1 | 1 (översätta) | 2 (MDN, topplista) | 9 |
+| 4 | 3 | 1 | 1 | 1 | 2 | 4 | 12 |
+| 5 | 4 | 1 | 1 | 1 | 1 | 3 | 11 |
+| 6 | 2 | 1 | 1 | 1 | 2 | 4 | 11 |
+
+Alla fyra kapitel följer nu ordningen *förutsäg → spåra → förklara → Parsons → modifiera → skriv*, och ungefär hälften av övningarna är "läsa"-övningar. Varje kapitel har en övning som blandar in tidigare kapitel: *Quizets topplista* (kap. 2), *Vad säger felet?* del C (kap. 3), *Poängtavlan med funktioner* (kap. 4) och *Poängtavlan blir interaktiv* (kap. 2–5).
+
+### Åtgärdat från avsnitt 3–4
+
+- Kap. 4 (gamla kap. 3): webbkapitlet använder bara begrepp som redan är förklarade. Avsnittet om `querySelector` börjar inte längre med en framåthänvisning.
+- Gamla kap. 4: begreppstätheten är delad på två kapitel. Funktionsuttryck med `function` och standardvärden är flyttade (FLYTTLISTA punkt 3–4). `kvadrat(x)` och `cirkelArea` är ersatta, och procenträkningen i *Att tänka i funktioner* är borta. Pilbild och spårtabell för anrop finns.
+- Gamla kap. 5: femstegsmönstret är infört som löst exempel, och Parsons- och felövningar finns.
+
+### Kvar att göra
+
+- **"Minns du?"-frågor** i början av kapitlen (§3.7) är inte införda.
+- **Kap. 4** saknar fortfarande ett löst exempel med namngivna delmål. Mönstret från kap. 6 kunde användas bakåt i en enklare form (*hämta → bearbeta → visa*).
+- **Femstegsmönstret** bör återkomma i de interaktiva exemplen i kap. 7–13, där steg 4 (*bearbeta*) växer.
+- **En ordlista** svenska–engelska (§3.8) saknas. Kap. 3 introducerar många termer som syns på engelska på MDN och i felmeddelanden (*call, argument, return value, method*).
+- **Kap. 7 *Tal*** hänvisar nu tillbaka till kap. 3 när `Number` och `Math` introduceras, men har inte kortats. Övningen *Vad returneras?* i kap. 7 överlappar delvis med kap. 3:s övningar och kan göras svårare.

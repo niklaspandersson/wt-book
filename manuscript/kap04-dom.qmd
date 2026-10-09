@@ -2,9 +2,9 @@
 
 ## Poängtavlan som ingen ser
 
-I förra kapitlet byggde du upp quizkvällens poängtavla i konsolen. Lagens namn och poäng finns i variabler och objekt, och du kan räkna upp poängen när ett lag svarar rätt. Men när kompisarna samlas runt datorn ser de ingenting av det. Konsolen är programmerarens verktyg — besökaren ser bara själva webbsidan.
+I kapitel [-@sec-variabler] byggde du upp quizkvällens poängtavla i konsolen. Lagens namn och poäng finns i variabler och objekt, och du kan räkna upp poängen när ett lag svarar rätt. I förra kapitlet lärde du dig att anropa färdiga funktioner och att ta hand om det de returnerar. Men när kompisarna samlas runt datorn ser de ingenting av det. Konsolen är programmerarens verktyg — besökaren ser bara själva webbsidan.
 
-I det här kapitlet tar vi steget från konsolen till sidan. Du lär dig att hämta ett element på sidan, att ändra dess text och utseende och att visa och dölja det. När kapitlet är slut kan poängtavlan stå där alla ser den.
+I det här kapitlet tar vi steget från konsolen till sidan. Du lär dig att hämta ett element på sidan, att ändra dess text och utseende och att visa och dölja det. Det mesta av det gör du med metoder som webbläsaren har färdiga åt dig, så du kommer att få användning för allt du vet om anrop, argument och returvärden. När kapitlet är slut kan poängtavlan stå där alla ser den.
 
 ---
 
@@ -71,15 +71,15 @@ console.log("Skriptet körs!");
 
 ## Hämta ett element med `querySelector`
 
-Funktionen `document.querySelector()` söker igenom sidan och returnerar det första HTML-element som matchar en **CSS-selektor**:
+Webbläsaren ger dig ett färdigt objekt, `document`, som representerar hela HTML-dokumentet. Det har en metod som heter `querySelector`. Den söker igenom sidan och returnerar det första elementet som matchar en **CSS-selektor**:
 
 ```javascript
 const rubrik = document.querySelector("h1");
 ```
 
-`document` är ett inbyggt objekt i webbläsaren som representerar det aktuella html-dokumentet. `querySelector` är ett *funktionsanrop*, precis som `console.log()`: ett namn följt av parenteser, med ett värde inom parenteserna. Vad ett funktionsanrop egentligen är går vi igenom ordentligt i kapitel [-@sec-funktioner] — för stunden räcker det att veta att du skickar in något och får tillbaka ett resultat. Värdet inom parenteserna, `"h1"`, kallas ett **argument**; här är det en CSS-selektor som säger "hitta det första `<h1>`-elementet".
+Läs raden som du lärde dig i förra kapitlet, från vänster till höger: i objektet `document`, anropa metoden `querySelector` med argumentet `"h1"`. Argumentet är en sträng som innehåller en CSS-selektor, och den här selektorn betyder "det första `<h1>`-elementet".
 
-Resultatet — det som returneras — är ett objekt som *representerar* elementet på sidan. Vi sparar det i variabeln `rubrik`. Precis som objekten du skapade i kapitel [-@sec-variabler] har det egenskaper som du når med punktnotation — skillnaden är att webbläsaren har skapat det åt dig, och att egenskaperna är kopplade till det som syns på sidan. Nu kan vi använda variabeln för att läsa och ändra elementet.
+Returvärdet är ett objekt som *representerar* elementet på sidan. Anropet ersätts av det objektet, och namnet `rubrik` får peka på det. Precis som objekten du skapade i kapitel [-@sec-variabler] har elementobjektet egenskaper som du når med punktnotation. Skillnaden är att webbläsaren har skapat det åt dig, och att egenskaperna är kopplade till det som syns på sidan. Nu kan vi använda variabeln för att läsa och ändra elementet.
 
 Pilbilden från kapitel [-@sec-variabler] fungerar här också. Namnet `rubrik` pekar på elementobjektet i DOM:en — inte på en kopia av det. Det är därför en ändring via `rubrik` syns direkt på sidan:
 
@@ -105,7 +105,7 @@ document.querySelector(".resultat");   // första elementet med class="resultat"
 document.querySelector("#poäng");      // elementet med id="poäng"
 ```
 
-Selektorn `.resultat` matchar klasser, och `#poäng` matchar id:n — precis som i CSS. Om ingen matchning hittas returnerar `querySelector` värdet `null`.
+Selektorn `.resultat` matchar klasser, och `#poäng` matchar id:n — precis som i CSS. (Står raderna i en fil händer ingenting synligt, eftersom ingen tar hand om returvärdena. Prova dem i konsolen, så ser du vilka element som returneras.) Om ingen matchning hittas returnerar `querySelector` värdet `null`, det avsiktligt tomma värdet från kapitel [-@sec-variabler].
 
 ::: {.callout-important}
 ## Vad händer om elementet inte finns?
@@ -325,7 +325,9 @@ I CSS grupperar du ofta stilar i **klasser**:
 }
 ```
 
-Med JavaScript kan du lägga till och ta bort sådana klasser via elementets **`classList`**-egenskap. `classList` är i sin tur ett objekt, med egna verktyg för att hantera klasser. Det är mycket kraftfullare och renare än att ändra stilar en och en.
+Med JavaScript kan du lägga till och ta bort sådana klasser via elementets **`classList`**-egenskap. `classList` är i sin tur ett objekt, med egna metoder för att hantera klasser. Det är mycket kraftfullare och renare än att ändra stilar en och en.
+
+Ett anrop som `rubrik.classList.add("ledare")` läser du från vänster till höger, precis som andra metodanrop: i elementet `rubrik`, ta objektet `classList`, och anropa dess metod `add` med argumentet `"ledare"`. Objekt kan alltså ligga i objekt, och punkterna leder dig steg för steg fram till metoden.
 
 #### `classList.add()` — lägga till en klass
 
@@ -382,7 +384,7 @@ Ibland behöver du veta om ett element har en viss klass:
 console.log(ledandeLag.classList.contains("ledare"));   // true eller false
 ```
 
-`contains` svarar med ett booleskt värde, `true` eller `false`. Det blir användbart när programmet ska fatta beslut utifrån hur sidan ser ut — något vi kommer till i kapitel [-@sec-villkor].
+`contains` returnerar ett booleskt värde, `true` eller `false`. Det blir användbart när programmet ska fatta beslut utifrån hur sidan ser ut — något vi kommer till i kapitel [-@sec-villkor].
 
 ---
 
@@ -480,7 +482,7 @@ Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `
 
 - Webbläsaren bygger en **DOM** (*Document Object Model*) — en levande modell av HTML-sidan som JavaScript kan läsa och ändra.
 - Ett skript med **`type="module"`** körs först när hela dokumentet är inläst. Ett vanligt skript i `<head>` körs innan elementen finns, och `querySelector` returnerar då `null`.
-- **`document.querySelector(selektor)`** hämtar det första elementet som matchar en CSS-selektor. Returnerar `null` om inget hittas.
+- **`document.querySelector(selektor)`** är en metod i objektet `document`. Argumentet är en CSS-selektor, och returvärdet är det första element som matchar — eller `null` om inget hittas.
 - Elementet du får tillbaka är ett **objekt** med egenskaper, precis som objekten i kapitel [-@sec-variabler].
 - **`.textContent`** läser eller skriver ett elements textinnehåll som ren text.
 - **`.innerHTML`** läser eller skriver ett elements HTML-innehåll. Använd det när du behöver formatering — men aldrig med ofiltrerad användardata.
@@ -489,7 +491,7 @@ Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `
 - **`hidden`** visar (`false`) eller döljer (`true`) ett element helt; en **CSS-klass med `display: none`** ger mer kontroll.
 - **`console.log()`** är för programmeraren; **DOM-manipulation** är för användaren.
 
-Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent` / `innerHTML`), ändra utseende (`.style` / `classList`), och visa eller dölja element (`hidden`). Men allt händer fortfarande i samma ögonblick som sidan laddas. I nästa kapitel tittar vi närmare på funktioner — vad som egentligen händer när du skriver `document.querySelector(...)` — och lär dig skriva egna. Det är den sista pusselbiten innan sidan kan reagera på klick i kapitel [-@sec-handelser].
+Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent` / `innerHTML`), ändra utseende (`.style` / `classList`), och visa eller dölja element (`hidden`). Men två saker skaver. Allt händer i samma ögonblick som sidan laddas. Och du har säkert märkt att samma rader kommer tillbaka gång på gång — varje gång poängen ändras skriver du hela raden med `querySelector` och `textContent` igen. I nästa kapitel lär du dig skriva egna funktioner, så att sådana rader kan få ett namn och skrivas en enda gång. Det är den sista pusselbiten innan sidan kan reagera på klick i kapitel [-@sec-handelser].
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -627,6 +629,14 @@ element.textcontent = "Ny text!";   // efter
 ```
 
 Den här gången kommer inget felmeddelande alls, men texten på sidan ändras inte. Varför? Ledtråd: vad hände i kapitel [-@sec-variabler] när du gav ett objekt en egenskap som det inte hade förut?
+
+**Del C.** Någon skriver i stället den första raden så här:
+
+```javascript
+const element = document.querySelektor("#meddelande");
+```
+
+Vilket felmeddelande får du nu? Jämför med felen i avsnittet *När anropet går fel* i kapitel [-@sec-anropa-funktioner]: är det ett `ReferenceError` eller ett `TypeError`, och varför?
 :::
 
 ::: {.callout-note}
