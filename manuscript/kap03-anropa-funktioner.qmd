@@ -49,6 +49,15 @@ Funktioner är likadana. Vissa *gör* något som syns eller märks, som dörrklo
 
 Att köra en funktion kallas att **anropa** den (på engelska *call*), och raden där det sker kallas ett **funktionsanrop**.
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+Det här kapitlet innehåller många nya ord. I rutor som den här får du stanna upp och kontrollera att du har hängt med innan du läser vidare. Svara i huvudet eller skriv ner ett kort svar. Kan du inte svara, läs avsnittet en gång till – det är inget misslyckande, utan precis så man lär sig.
+
+1. Tänk på en maskin du använder i vardagen, till exempel en tvättmaskin eller en biljettautomat. Vad är "knappen", vad skickar du med, och får du något tillbaka – eller gör maskinen bara något?
+2. Är `alert` mer lik kaffebryggaren eller dörrklockan? Varför?
+:::
+
 ---
 
 ## Att anropa en funktion
@@ -88,6 +97,13 @@ console.log(lag.namn + ": " + lag.poäng); // skickar "Röda stjärnor: 12"
 ```
 
 Funktionen får aldrig se uttrycket `lag.poäng + 3`, bara talet `15`.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vad är skillnaden mellan att skriva `alert` och `alert("Hej!")` i konsolen? Varför får du inget felmeddelande i det första fallet?
+2. I anropet `console.log(lag.poäng + 3)` – vad får funktionen: uttrycket `lag.poäng + 3` eller något annat?
+:::
 
 ---
 
@@ -164,6 +180,14 @@ När du skriver `Math.max(12, 19, 7)` i konsolen visas `19`, eftersom konsolen a
 Från och med nästa kapitel skriver du kod i filer. Ett returvärde du vill använda måste du då själv göra något med: spara det i en variabel, skicka det vidare till en annan funktion eller skriva ut det med `console.log`.
 :::
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Förklara med egna ord, utan att använda kod, vad det betyder att "anropet ersätts av sitt returvärde".
+2. Vad tror du att variabeln `svar` pekar på efter raden `const svar = alert("Hej!");`? Förutsäg först och testa sedan i konsolen.
+3. Raden `Math.max(12, 19, 7);` visar `19` i konsolen. Varför visas ingenting när samma rad står i en fil?
+:::
+
 ---
 
 ## Metoder – funktioner i objekt
@@ -201,6 +225,13 @@ lag.namn;              // "Röda stjärnor" – en egenskap
 
 En egenskap *läser* du – värdet finns redan där. En metod *kör* du – värdet räknas fram när du anropar den. Står det parenteser efter namnet körs en funktion.
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Är `console.log` en fri funktion eller en metod? Hur ser du det?
+2. `Math.PI` är en egenskap. Vad tror du händer om du skriver `Math.PI()`, med parenteser? Förutsäg först och testa sedan. (Svaret förklaras i avsnittet *När anropet går fel*.)
+:::
+
 ---
 
 ## Anrop inuti anrop
@@ -224,6 +255,12 @@ console.log("Högsta poängen är " + Math.max(12, 19, 7));
 | 3 | `console.log` skriver ut texten och returnerar `undefined` | – |
 
 Varje steg följer samma regel: räkna ut det innersta, ersätt det med sitt värde, fortsätt utåt. När du läser en rad med flera anrop kan du göra likadant med penna och papper, och stryka över varje anrop när du har ersatt det med sitt värde.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Läs raden `console.log(Math.min(4, Math.max(2, 7)));` inifrån och ut. Vilket anrop körs först, vilket värde ersätter det, och vad skrivs till sist ut?
+:::
 
 ---
 
@@ -256,6 +293,13 @@ console.log(Math.max(4, 9);   // SyntaxError: missing ) after argument list
 Här kör JavaScript inte koden alls, eftersom raden inte följer språkets syntax. Räkna parenteserna: två öppnas, en stängs.
 
 **Parenteserna saknas helt.** Som du såg tidigare ger det inget felmeddelande alls. Funktionen körs bara inte. Om ingenting händer, kontrollera att du verkligen har skrivit parenteserna.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vilket av de fyra felen i det här avsnittet tror du är svårast att upptäcka? Varför?
+2. Du ser meddelandet `TypeError: Math.mxa is not a function`. Var i din kod ska du börja leta?
+:::
 
 ---
 

@@ -235,6 +235,7 @@ Alla fyra kapitel följer nu ordningen *förutsäg → spåra → förklara → 
 ### Kvar att göra
 
 - **"Minns du?"-frågor** i början av kapitlen (§3.7) är inte införda.
+- **Reflektionsrutor** (*Stanna upp*, `{.callout-note appearance="simple"}`) med korta frågor efter de tyngre avsnitten finns i kap. 3. De bör införas även i kap. 4–6 och senare kapitel.
 - **Kap. 4** saknar fortfarande ett löst exempel med namngivna delmål. Mönstret från kap. 6 kunde användas bakåt i en enklare form (*hämta → bearbeta → visa*).
 - **Femstegsmönstret** bör återkomma i de interaktiva exemplen i kap. 7–13, där steg 4 (*bearbeta*) växer.
 - **En ordlista** svenska–engelska (§3.8) saknas. Kap. 3 introducerar många termer som syns på engelska på MDN och i felmeddelanden (*call, argument, return value, method*).
