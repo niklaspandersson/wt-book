@@ -19,7 +19,7 @@ document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
 
 Det fungerar. Men samma långa rad står tre gånger. Med tjugo frågor skulle den stå tjugo gånger. Och när den som leder quizet vill att det ska stå `Röda stjärnor: 10 poäng` i stället för `Poäng: 10` måste du hitta och ändra varje förekomst. Missar du en enda visar sidan plötsligt fel format mitt i quizet.
 
-Det du skulle vilja är att ge raden ett namn – `visaPoäng` – skriva den en enda gång och sedan bara säga "visa poängen" varje gång det behövs. I kapitel [-@sec-anropa-funktioner] använde du funktioner som andra hade skrivit åt dig: `alert`, `Math.max`, `document.querySelector`. I det här kapitlet lär du dig att skriva egna. Allt du vet om anrop, argument och returvärden gäller fortfarande. Skillnaden är att du nu ser funktionen inifrån.
+Det du skulle vilja är att ge raden ett namn – `visaPoäng` – skriva den en enda gång och sedan bara säga "visa poängen" varje gång det behövs. I kapitel [-@sec-anropa-funktioner] var du operatör: du styrde färdiga maskiner som andra hade byggt, som `alert`, `Math.max` och `document.querySelector`. Nu blir du uppfinnare och bygger egna. Allt du vet om anrop, argument och returvärden gäller fortfarande. Skillnaden är att du nu ser funktionen inifrån.
 
 ---
 

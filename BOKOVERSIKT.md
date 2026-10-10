@@ -207,7 +207,7 @@ Kap. 3–6 är omarbetade och bedömda mot avsnitten ovan och PEDAGOGIK.md. Kapi
 | | Kap. 3 Att använda funktioner | Kap. 4 Din kod möter webbsidan | Kap. 5 Att skriva egna funktioner | Kap. 6 Händelser |
 |---|---|---|---|---|
 | Brödtext före övningarna | ≈ 2 500 ord | ≈ 2 900 ord | ≈ 2 900 ord | ≈ 2 400 ord |
-| Scenario först | Kalkylarksformler (`=SUMMA`, `=MAX`) | Poängtavlan som ingen ser | Poängtavlan som upprepar sig (kod från kap. 4) | En knapp som inte reagerar |
+| Scenario först | Färdiga maskiner i köket: studenten som operatör (plus kalkylprogrammens formler) | Poängtavlan som ingen ser | Poängtavlan som upprepar sig (kod från kap. 4) | En knapp som inte reagerar |
 | Mental modell (§3.2) | Diagram: anropet ersätts av sitt returvärde; stegtabell för nästlade anrop | Pilbild: `rubrik` pekar på elementet | Pilbild: parametern pekar på argumentets värde; spårtabell för två anrop | Spårövning där variabel och sida skiljer sig åt |
 | Kända missuppfattningar (PEDAGOGIK §5) | Skriva ut ≠ returnera; parenteser saknas; returvärde försvinner i en fil | `null` från `querySelector`; sidan uppdateras inte av sig själv | Funktionen körs där den definieras; argument kopplas efter namn; skriva ut ≠ returnera | `hälsa()` i stället för `hälsa`; `.value` läst utanför callbacken |
 | Löst exempel med delmål (§3.5) | – | – | Spårtabellen fungerar som löst exempel | Nytt: *hämta → lyssna → läs → bearbeta → visa* |
@@ -235,6 +235,7 @@ Alla fyra kapitel följer nu ordningen *förutsäg → spåra → förklara → 
 ### Kvar att göra
 
 - **"Minns du?"-frågor** i början av kapitlen (§3.7) är inte införda.
+- **Reflektionsrutor** (*Stanna upp*, `{.callout-note appearance="simple"}`) med korta frågor efter de tyngre avsnitten finns i kap. 3. De bör införas även i kap. 4–6 och senare kapitel.
 - **Kap. 4** saknar fortfarande ett löst exempel med namngivna delmål. Mönstret från kap. 6 kunde användas bakåt i en enklare form (*hämta → bearbeta → visa*).
 - **Femstegsmönstret** bör återkomma i de interaktiva exemplen i kap. 7–13, där steg 4 (*bearbeta*) växer.
 - **En ordlista** svenska–engelska (§3.8) saknas. Kap. 3 introducerar många termer som syns på engelska på MDN och i felmeddelanden (*call, argument, return value, method*).
