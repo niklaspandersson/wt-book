@@ -86,7 +86,7 @@ Varje programmeringsspråk har sina egna regler för hur koden ska skrivas – s
 ::: {.callout-note}
 ## En förhandsvarning om okänd syntax
 
-Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras – allt annat förklaras när vi kommer dit. Redan i kapitel [-@sec-dom-intro] lär vi oss att förändra webbsidan direkt, och i kapitel [-@sec-funktioner] formaliserar vi vad funktionsanrop som `console.log()` egentligen är.
+Exemplen i de första kapitlen kommer ibland innehålla kod som bygger på koncept som ännu inte introducerats fullt ut. Det är helt naturligt: meningsfulla exempel kräver ofta mer än ett enda koncept åt gången. Fokus ska ligga på det koncept som just introduceras – allt annat förklaras när vi kommer dit. I kapitel [-@sec-anropa-funktioner] går vi igenom vad funktionsanrop som `console.log()` egentligen är, och i kapitel [-@sec-dom-intro] lär vi oss att förändra webbsidan direkt.
 :::
 
 Raden med `alert` ovan kan du köra redan nu, utan att skapa en enda fil. Alla moderna webbläsare (Chrome, Firefox, Edge, Safari) har inbyggda **utvecklarverktyg** (*DevTools*) – programmerarens bästa vän. Du öppnar dem med `F12` (på Mac `Cmd+Option+I`; i Safari måste du först slå på menyn *Utveckla* i inställningarna).
@@ -179,7 +179,7 @@ Det JavaScript *kan* göra är att ändra webbsidans innehåll, kommunicera med 
 
 ## Att koppla JavaScript till en HTML-sida
 
-I ett verkligt projekt skriver man inte JavaScript direkt i konsolen. Koden ligger i en egen fil, och HTML-sidan pekar ut den med ett `<script>`-element. Nästa kapitel håller sig i konsolen, men från och med kapitel [-@sec-dom-intro] skriver du kod i filer. Här är en första titt på hur det ser ut.
+I ett verkligt projekt skriver man inte JavaScript direkt i konsolen. Koden ligger i en egen fil, och HTML-sidan pekar ut den med ett `<script>`-element. De två närmaste kapitlen håller sig i konsolen, men från och med kapitel [-@sec-dom-intro] skriver du kod i filer. Här är en första titt på hur det ser ut.
 
 Det rekommenderade sättet att inkludera JavaScript i moderna projekt är en **extern modulfil**:
 

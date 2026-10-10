@@ -82,7 +82,7 @@ Strängar kan slås ihop med `+`-operatorn, vilket kallas **konkatenering**:
 "Poäng: " + 12;         // "Poäng: 12"
 ```
 
-Den andra raden slår ihop en sträng med ett tal. Då gör JavaScript om talet till text innan det sätts ihop med resten. Det är praktiskt när du vill skriva ut ett resultat, och du kommer att använda det redan i nästa kapitel. Allt annat man kan göra med strängar tar vi upp i kapitel [-@sec-strangar].
+Den andra raden slår ihop en sträng med ett tal. Då gör JavaScript om talet till text innan det sätts ihop med resten. Det är praktiskt när du vill skriva ut ett resultat, och du kommer att använda det ofta i de närmaste kapitlen. Allt annat man kan göra med strängar tar vi upp i kapitel [-@sec-strangar].
 
 ### Sanningsvärden – `boolean`
 
@@ -285,7 +285,7 @@ lag = { namn: "Gröna gubbar" };     // TypeError – variabeln tilldelas om
 Tänk på pilen från avsnittet om variabler. `const` betyder att pilen från namnet `lag` inte kan flyttas till ett annat objekt. Men objektet som pilen pekar på kan fortfarande förändras – det är fortfarande samma objekt, bara med nytt innehåll. Därför är `const` det vanliga valet även för objekt vars egenskaper ändras.
 :::
 
-Mönstret `objekt.egenskap` kommer du att se överallt i JavaScript. Faktiskt har du redan sett det: i `console.log()` är `console` ett objekt som webbläsaren tillhandahåller, och `log` en av dess egenskaper. I nästa kapitel möter du `document` – ett objekt som representerar hela webbsidan – och i kapitel [-@sec-funktioner] ser du att en egenskap även kan innehålla en funktion. Objekt får sedan ett eget kapitel, [-@sec-objekt], där vi går på djupet.
+Mönstret `objekt.egenskap` kommer du att se överallt i JavaScript. Faktiskt har du redan sett det: i `console.log()` är `console` ett objekt som webbläsaren tillhandahåller, och `log` en av dess egenskaper. I nästa kapitel ser du att en egenskap även kan innehålla en funktion – och att `log` är en sådan. I kapitel [-@sec-dom-intro] möter du `document`, ett objekt som representerar hela webbsidan. Objekt får sedan ett eget kapitel, [-@sec-objekt], där vi går på djupet.
 
 ---
 
@@ -384,7 +384,7 @@ Ett namn som består av flera ord kan inte innehålla mellanslag, så programmer
 | **snake_case** | `antal_frågor` | Variabler i bland annat Python – orden ringlar fram längs marken |
 | **SCREAMING_SNAKE_CASE** | `MAX_POÄNG` | Konstanter i många språk, ibland också i JavaScript – ormen som skriker |
 
-kebab-case har du redan använt i CSS, till exempel i `font-size` och `background-color`. I JavaScript fungerar den inte alls, eftersom bindestrecket är ett minustecken: `antal-frågor` läses som "`antal` minus `frågor`". När du i nästa kapitel ändrar CSS från JavaScript gör du därför om `font-size` till camelCase: `fontSize`.
+kebab-case har du redan använt i CSS, till exempel i `font-size` och `background-color`. I JavaScript fungerar den inte alls, eftersom bindestrecket är ett minustecken: `antal-frågor` läses som "`antal` minus `frågor`". När du i kapitel [-@sec-dom-intro] ändrar CSS från JavaScript gör du därför om `font-size` till camelCase: `fontSize`.
 
 Ingen konvention är mer rätt än någon annan – det viktiga är att följa den som gäller i det språk och det projekt du arbetar i. I JavaScript är det camelCase.
 :::
@@ -422,7 +422,7 @@ I det här kapitlet har vi lagt grunden för hur JavaScript representerar och la
 - JavaScript är **dynamiskt typat**: en variabel kan byta typ, och blandade typer kan ge oväntade resultat.
 - Namn på variabler bör vara **beskrivande** och följa konventionen **camelCase**.
 
-Med de här verktygen kan vi börja representera information i kod. I nästa kapitel tar vi steget från konsolen till webbsidan och använder värdena och variablerna för att ändra det användaren ser.
+Med de här verktygen kan vi börja representera information i kod. I nästa kapitel lär du dig att använda de färdiga funktioner som JavaScript och webbläsaren erbjuder – att skicka värden till dem och ta hand om det de ger tillbaka. Med dem tar vi sedan, i kapitel [-@sec-dom-intro], steget från konsolen till webbsidan och ändrar det användaren ser.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

@@ -127,7 +127,7 @@ Det låter som en stor begränsning, men i praktiken märks den sällan. Alla ve
 
 ## Strängmetoder
 
-Strängar har en lång rad inbyggda **metoder**. I kapitel [-@sec-funktioner] såg du att en metod är en funktion som hör till ett värde och anropas med punktnotation. Strängar är visserligen inte objekt, men JavaScript låter dig ändå anropa metoder på dem: `sträng.metod(argument)`.
+Strängar har en lång rad inbyggda **metoder**. I kapitel [-@sec-anropa-funktioner] såg du att en metod är en funktion som hör till ett värde och anropas med punktnotation. Strängar är visserligen inte objekt, men JavaScript låter dig ändå anropa metoder på dem: `sträng.metod(argument)`.
 
 ### Versaler och gemener
 

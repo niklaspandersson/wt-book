@@ -117,7 +117,7 @@ console.log(student);           // { namn: "Anna", program: "Webbutveckling" }
 
 ## Metoder – funktioner i objekt
 
-I kapitel [-@sec-funktioner] såg du att en metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Sedan dess har du anropat många: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. Nu kan du definiera egna:
+I kapitel [-@sec-anropa-funktioner] såg du att en metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Sedan dess har du anropat många: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. Nu kan du definiera egna:
 
 ```javascript
 const student = {
@@ -541,7 +541,7 @@ Skapa en array med minst fem studentobjekt, där varje student har `namn`, `prog
 
 Skapa en HTML-sida med en tom `<div>` med ett id. Skapa i JavaScript en array med minst fyra produktobjekt (med `namn`, `pris` och `kategori`). Skriv en loop som bygger upp HTML-kort för varje produkt och visar dem på sidan.
 
-Utöka sedan: lägg till ett textfält för sökning. Lyssna på `input`-händelsen och filtrera produkterna – visa bara de vars namn innehåller söktexten. Jämför med Live-sökningen i övning 11.9: vad är annorlunda när datan finns i en array av objekt i stället för i HTML-koden?
+Utöka sedan: lägg till ett textfält för sökning. Lyssna på `input`-händelsen och filtrera produkterna – visa bara de vars namn innehåller söktexten. Jämför med övningen *Live-sökning* i kapitel [-@sec-arrayer]: vad är annorlunda när datan finns i en array av objekt i stället för i HTML-koden?
 :::
 
 ::: {.callout-note}
@@ -601,5 +601,5 @@ Bygg en kontaktbok. Skapa en array med minst sex kontaktobjekt (med `namn`, `tel
 2. Ett textfält för sökning som filtrerar listan i realtid (matcha mot namn *eller* stad).
 3. En knapp "Visa alla" som återställer filtret.
 
-Det här är en mer ambitiös övning som kombinerar objekt, arrayer, DOM-manipulation och händelser. Återanvänd gärna det du byggde i övning 12.3 – sökningen fungerar på samma sätt, men nu ska den matcha mot två egenskaper.
+Det här är en mer ambitiös övning som kombinerar objekt, arrayer, DOM-manipulation och händelser. Återanvänd gärna det du byggde i övningen *Produktkort på sidan* – sökningen fungerar på samma sätt, men nu ska den matcha mot två egenskaper.
 :::

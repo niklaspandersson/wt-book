@@ -81,7 +81,7 @@ Funktionen vi skickar till `addEventListener` kallas en **callback**. Det är en
 
 I kapitel [-@sec-funktioner] lärde du dig att funktioner i JavaScript är *värden*, precis som tal och strängar. Det är därför det här fungerar: vi skickar en funktion som argument till en annan funktion, på samma sätt som vi kan skicka ett tal.
 
-Notera att vi skriver `hälsa` utan parenteser. Vi skickar *funktionen som värde*, vi anropar den inte.
+Notera att vi skriver `hälsa` utan parenteser. I kapitel [-@sec-anropa-funktioner] såg du att ett namn utan parenteser inte kör funktionen – det är bara funktionen själv, som ett värde. Där var det ett misstag att glömma parenteserna. Här är det precis vad vi vill: vi lämnar över *funktionen*, och webbläsaren anropar den senare.
 
 ::: {.callout-important}
 ## Parenteser eller inte?
@@ -104,15 +104,7 @@ Om du märker att din funktion körs en gång när sidan laddas och sedan aldrig
 
 ### Callbacken direkt på plats
 
-Om funktionen bara behövs på ett ställe är det vanligt att skriva den direkt i anropet, utan namn. En sådan funktion kallas **anonym**:
-
-```javascript
-knapp.addEventListener("click", function() {
-    console.log("Klickad!");
-});
-```
-
-Oftast skrivs den som en pilfunktion, som du lärde dig i kapitel [-@sec-funktioner]:
+Om funktionen bara behövs på ett ställe är det vanligt att skriva den direkt i anropet, utan att ge den något namn. En sådan funktion kallas **anonym**. Oftast skrivs den som en pilfunktion, som du lärde dig i kapitel [-@sec-funktioner]:
 
 ```javascript
 knapp.addEventListener("click", () => {
@@ -120,7 +112,17 @@ knapp.addEventListener("click", () => {
 });
 ```
 
-Alla tre formerna gör samma sak. En namngiven funktion är bra när samma funktion ska användas på flera ställen, eller när den är lång. En pilfunktion direkt på plats är bra för korta callbacks — och är den form du kommer att se mest.
+Läs det noga. Det andra argumentet till `addEventListener` är hela pilfunktionen, från `()` till och med den avslutande klammerparentesen. Därför slutar raden med `});` – klammerparentesen avslutar funktionens kropp, och parentesen avslutar anropet av `addEventListener`.
+
+I andras kod, och i äldre guider, ser du ofta samma sak skriven med ordet `function` men utan namn:
+
+```javascript
+knapp.addEventListener("click", function() {
+    console.log("Klickad!");
+});
+```
+
+Det fungerar likadant i de här exemplen. En namngiven funktion är bra när samma funktion ska användas på flera ställen, eller när den är lång. En anonym pilfunktion direkt på plats är bra för korta callbacks – och är den form du kommer att se mest i den här boken.
 
 ---
 
@@ -193,7 +195,7 @@ En enda rad i callbacken — `classList.toggle("dark")` — slår på och av mö
 
 ### Funktioner som uppdaterar sidan
 
-I kapitel [-@sec-funktioner] skrev vi funktioner som uppdaterar sidan, som `visaPoäng`. De passar perfekt ihop med händelser. Här har quizet två knappar – en för rätt svar och en för att börja om – som båda använder samma funktion för att visa poängen:
+I kapitel [-@sec-funktioner] skrev vi funktioner som uppdaterar sidan, som `visaPoäng`. De passar perfekt ihop med händelser. Här har quizet två knappar – en för rätt svar och en för att börja om – som båda anropar samma funktion för att visa poängen:
 
 ```html
 <p id="poäng">Poäng: 0</p>
@@ -205,31 +207,33 @@ I kapitel [-@sec-funktioner] skrev vi funktioner som uppdaterar sidan, som `visa
 const poängElement = document.querySelector("#poäng");
 let poäng = 0;
 
-function visaPoäng() {
+function visaPoäng(poäng) {
     poängElement.textContent = "Poäng: " + poäng;
 }
 
 document.querySelector("#rätt-knapp").addEventListener("click", () => {
     poäng = poäng + 10;
-    visaPoäng();
+    visaPoäng(poäng);
 });
 
 document.querySelector("#nollställ-knapp").addEventListener("click", () => {
     poäng = 0;
-    visaPoäng();
+    visaPoäng(poäng);
 });
 ```
 
-Varje callback gör två saker: ändrar *data* (variabeln `poäng`) och visar den nya datan på sidan. Det mönstret – ändra data, uppdatera sidan – kommer du att se i nästan alla interaktiva program.
+Varje callback gör två saker: ändrar *data* (variabeln `poäng`) och visar den nya datan på sidan genom att anropa `visaPoäng`. Lägg märke till att callbacken är en funktion som i sin tur anropar en annan funktion. När användaren klickar anropar webbläsaren callbacken, och callbacken anropar `visaPoäng` – precis som du följde anrop i spårtabellen i kapitel [-@sec-funktioner].
+
+Variabeln `poäng` ligger utanför callbackarna, av samma skäl som `antal` i räknaren: den ska minnas sitt värde mellan klicken. Funktionen `visaPoäng` får däremot poängen som argument, och behöver inte veta något om var värdet kommer ifrån. Mönstret – ändra data, uppdatera sidan – kommer du att se i nästan alla interaktiva program.
 
 ---
 
 ## Event-objektet
 
-När en händelse inträffar skapar webbläsaren ett **event-objekt** som innehåller information om händelsen: vilken typ det var, vilket element det gällde, var muspekaren befann sig, och mycket mer. Webbläsaren skickar automatiskt detta objekt som argument till callbacken:
+När en händelse inträffar skapar webbläsaren ett **event-objekt** som innehåller information om händelsen: vilken typ det var, vilket element det gällde, var muspekaren befann sig, och mycket mer. Webbläsaren skickar automatiskt detta objekt som argument när den anropar callbacken. Ger du callbacken en parameter kan du ta emot det:
 
 ```javascript
-knapp.addEventListener("click", function(event) {
+knapp.addEventListener("click", (event) => {
     console.log(event);
 });
 ```
@@ -357,6 +361,49 @@ Allt du läser med `.value` är text – även om användaren har skrivit en sif
 
 ---
 
+## Ett mönster för interaktiva sidor
+
+Nu har du sett många exempel, och de liknar varandra mer än man först tror. Nästan varje interaktiv del av en webbsida kan byggas i samma fem steg:
+
+1. **Hämta** de element du behöver, med `querySelector`.
+2. **Lyssna** efter en händelse, med `addEventListener`.
+3. **Läs** det användaren har skrivit eller valt, med `.value`.
+4. **Bearbeta** värdet – räkna, jämför eller bygg ihop en text.
+5. **Visa** resultatet, med `textContent`, `classList` eller `hidden`.
+
+Här är ett löst exempel där stegen är utmärkta med kommentarer. Domaren skriver in lagets namn och klickar på en knapp, och namnet visas på poängtavlan:
+
+```html
+<input type="text" id="lagfält" placeholder="Lagets namn">
+<button id="spara-knapp">Spara</button>
+<p id="lagnamn">Lag: —</p>
+```
+
+```javascript
+// 1. Hämta elementen
+const lagfält = document.querySelector("#lagfält");
+const sparaKnapp = document.querySelector("#spara-knapp");
+const lagnamnElement = document.querySelector("#lagnamn");
+
+// 2. Lyssna efter en händelse
+sparaKnapp.addEventListener("click", () => {
+    // 3. Läs indata
+    const namn = lagfält.value;
+
+    // 4. Bearbeta
+    const text = "Lag: " + namn;
+
+    // 5. Visa resultatet
+    lagnamnElement.textContent = text;
+});
+```
+
+Steg 1 och 2 körs en gång, när sidan laddas. Steg 3–5 står *inuti* callbacken och körs vid varje klick. Det är ingen slump. Hade raden `const namn = lagfält.value;` stått utanför callbacken hade fältet lästs när sidan laddades – när det ännu var tomt – och sedan aldrig mer. Det som ska hända *när* användaren gör något måste stå i callbacken.
+
+I det här exemplet är steg 4 litet. I de kommande kapitlen växer det: du kommer att räkna med tal, städa upp text och låta programmet fatta beslut. Men de fem stegen förblir desamma, och de är ett bra sätt att komma igång när du ska bygga något nytt. Börja med att skriva stegen som kommentarer, och fyll sedan i koden under var och en.
+
+---
+
 ## Flera lyssnare på samma element
 
 Ett element kan ha hur många lyssnare som helst, även för samma händelsetyp:
@@ -380,12 +427,13 @@ Båda funktionerna körs vid varje klick, i den ordning de registrerades. Det ä
 Händelser är det som gör webben interaktiv. De knyter ihop allt du lärt dig hittills — värden, DOM-manipulation, stiländringar och funktioner — och ger användaren kontroll.
 
 - **`addEventListener("typ", callback)`** registrerar en funktion som körs när en händelse inträffar.
-- **Callback-funktionen** skickas som ett värde — den anropas *inte* direkt, utan av webbläsaren vid rätt tillfälle. Den kan vara namngiven, anonym eller en pilfunktion.
+- **Callback-funktionen** skickas som ett värde — den anropas *inte* direkt, utan av webbläsaren vid rätt tillfälle. Den kan vara namngiven eller anonym, och en anonym callback skrivs oftast som en pilfunktion.
 - **Parenteser spelar roll**: `hälsa` skickar funktionen, `hälsa()` anropar den.
 - Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken.
 - **Event-objektet** (`e`) innehåller information om händelsen, till exempel `e.type`.
 - **`click`** är den vanligaste händelsen. Andra viktiga typer: `mouseenter`/`mouseleave` och `input`/`change`.
 - **`.value`** läser innehållet i formulärelement — inte `.textContent`. Värdet är alltid en sträng.
+- Interaktiva sidor kan byggas i fem steg: **hämta, lyssna, läs, bearbeta, visa**. Det som ska hända vid varje händelse står i callbacken.
 
 Med händelser har du ett program som väntar på användaren och reagerar. Men reaktionerna är fortfarande enkla: samma sak händer varje gång. I de kommande kapitlen lär du dig mer om de värden programmen arbetar med — tal och strängar — och sedan hur programmet kan fatta beslut och reagera på *olika* sätt beroende på vad användaren gör.
 
@@ -402,7 +450,7 @@ Bygg gärna programmet efteråt och kontrollera i webbläsaren – den har allti
 
 **Granska planen innan du bygger:**
 
-Innan du skriver kod för en interaktiv sida kan du beskriva den i ord och låta AI:n granska beskrivningen:
+Innan du skriver kod för en interaktiv sida kan du beskriva den i ord – gärna som de fem stegen *hämta, lyssna, läs, bearbeta, visa* – och låta AI:n granska beskrivningen:
 
 > *"Jag vill bygga en sida där ett textfält visar hur många tecken man har skrivit, och en knapp tömmer fältet. Jag tänker använda händelserna `click` och `change`. Säg inte hur koden ska se ut, men säg om jag valt rätt händelser och vad som i så fall kommer att bete sig konstigt."*
 
@@ -413,17 +461,129 @@ Har du redan stött på de klassiska felen – en räknare som aldrig kommer öv
 
 ## Övningar
 
+Övningarna börjar med att du följer och förklarar kod med händelser. Det är svårare än det låter, eftersom det är användaren och inte koden som bestämmer i vilken ordning saker händer.
+
 ::: {.callout-note}
-## Övning – Knappräknare
+## Övning – Spåra exekveringen
 
-Skapa en HTML-sida med en knapp och ett `<p>`-element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
+Utan att köra koden – gå igenom följande och ange vad som skrivs ut och i vilken ordning:
 
-Utöka sedan i två steg:
+```javascript
+console.log("A");
 
-1. Lägg till en knapp som *minskar* talet med 1, och en som nollställer det.
-2. Låt alla tre knapparna använda *samma* funktion för att visa talet på sidan. Hur många ställen i koden behöver du ändra om texten i stället ska vara "Antal: 5"?
+const knapp = document.querySelector("button");
 
-Vad händer om du flyttar `let antal = 0;` in i callbacken? Förutsäg först, testa sedan.
+knapp.addEventListener("click", () => {
+    console.log("B");
+});
+
+console.log("C");
+```
+
+1. Vad skrivs ut direkt när sidan laddas?
+2. Vad händer när användaren klickar på knappen en gång? Två gånger?
+3. Varför skrivs "B" inte ut direkt? Jämför med övningen *I vilken ordning?* i kapitel [-@sec-funktioner]: vad är likt, och vad är annorlunda?
+:::
+
+::: {.callout-note}
+## Övning – Vad händer vid klicket?
+
+Sidan har en knapp och ett stycke med id `antal`, som visar `0`. Läs koden.
+
+```javascript
+let antal = 0;
+const knapp = document.querySelector("button");
+const antalElement = document.querySelector("#antal");
+
+function visaAntal(värde) {
+    antalElement.textContent = värde;
+}
+
+knapp.addEventListener("click", () => {
+    antal = antal + 2;
+    visaAntal(antal);
+});
+
+knapp.addEventListener("click", () => {
+    antal = antal - 1;
+});
+```
+
+Gör en spårtabell med kolumnerna *Klick*, *`antal` efter klicket* och *Sidan visar*, för tre klick.
+
+1. Vad visar sidan efter tre klick? Och vilket värde har `antal` då?
+2. Varför visar sidan inte samma tal som variabeln? Vad behöver ändras för att de ska stämma överens?
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Var och en av kodsnuttarna nedan är tänkt att skriva `Hej!` i konsolen när knappen klickas, men ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, skrivs `Hej!` ut vid fel tillfälle, eller händer ingenting alls? Testa sedan.
+
+```javascript
+// A
+function hälsa() {
+    console.log("Hej!");
+}
+knapp.addEventListener("click", hälsa());
+```
+
+```javascript
+// B
+knapp.addEventListener("klick", () => {
+    console.log("Hej!");
+});
+```
+
+```javascript
+// C
+knapp.addEventlistener("click", () => {
+    console.log("Hej!");
+});
+```
+
+1. Vilken av snuttarna ger ett felmeddelande? Vilken sorts fel är det, och vilket ord i meddelandet pekar ut felet?
+2. Två av snuttarna ger inget felmeddelande alls. Varför är just den sortens fel svårast att hitta?
+3. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+Läs koden. Sidan har ett textfält med id `svar`, en knapp och ett stycke med id `kvitto`.
+
+```javascript
+const svarsfält = document.querySelector("#svar");
+const kvitto = document.querySelector("#kvitto");
+
+document.querySelector("button").addEventListener("click", () => {
+    kvitto.textContent = "Ditt svar: " + svarsfält.value;
+    svarsfält.value = "";
+});
+```
+
+1. Beskriv med en eller två meningar vad besökaren är med om när den använder sidan. Beskriv det som händer, inte vad varje rad gör.
+2. Vilka av de fem stegen – hämta, lyssna, läs, bearbeta, visa – kan du hitta i koden? Vilket steg gör något som inget av exemplen i kapitlet gjorde?
+:::
+
+::: {.callout-note}
+## Övning – Ordna raderna
+
+Sidan har en knapp med id `ledtråd-knapp` och ett dolt stycke med id `ledtråd`. När knappen klickas ska ledtråden visas. Välj ut och ordna raderna. Två av raderna ska inte användas.
+
+```javascript
+});
+const ledtråd = document.querySelector("#ledtråd");
+knapp.addEventListener("click", visaLedtråd());
+    ledtråd.hidden = false;
+knapp.addEventListener("click", () => {
+const knapp = document.querySelector("#ledtråd-knapp");
+knapp.addEventListener("onclick", () => {
+```
+
+1. Vilka två rader använde du inte, och vad är fel med dem?
+2. Vilka av raderna i din lösning körs när sidan laddas, och vilka körs vid klicket?
+3. Skriv om lösningen så att callbacken är en namngiven funktion, `visaLedtråd`, i stället för en pilfunktion. Hur ska raden med `addEventListener` se ut då?
 :::
 
 ::: {.callout-note}
@@ -449,13 +609,27 @@ Gör sedan om lösningen så att en *enda* knapp växlar mellan att visa och dö
 :::
 
 ::: {.callout-note}
+## Övning – Knappräknare
+
+Skapa en HTML-sida med en knapp och ett `<p>`-element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
+
+Utöka sedan i två steg:
+
+1. Lägg till en knapp som *minskar* talet med 1, och en som nollställer det.
+2. Låt alla tre knapparna använda *samma* funktion, `visaAntal(antal)`, för att visa talet på sidan. Hur många ställen i koden behöver du ändra om texten i stället ska vara "Antal: 5"?
+
+Vad händer om du flyttar `let antal = 0;` in i callbacken? Förutsäg först, testa sedan.
+:::
+
+::: {.callout-note}
 ## Övning – Spegla texten
 
 Skapa en sida med ett textfält och en tom rubrik. Medan användaren skriver i fältet ska rubriken visa samma text.
 
-1. Lös uppgiften med `input`-händelsen.
-2. Byt till `change`-händelsen. Vad är skillnaden för användaren? Beskriv en situation där `change` vore det bättre valet.
-3. Lägg till en lyssnare till på samma fält, som skriver ut värdet i konsolen. Körs båda lyssnarna? I vilken ordning?
+1. Skriv först de fem stegen som kommentarer i `script.js`, som i avsnittet *Ett mönster för interaktiva sidor*. Fyll sedan i koden under varje kommentar. Vilket steg blir tomt här?
+2. Lös uppgiften med `input`-händelsen.
+3. Byt till `change`-händelsen. Vad är skillnaden för användaren? Beskriv en situation där `change` vore det bättre valet.
+4. Lägg till en lyssnare till på samma fält, som skriver ut värdet i konsolen. Körs båda lyssnarna? I vilken ordning?
 :::
 
 ::: {.callout-note}
@@ -464,28 +638,21 @@ Skapa en sida med ett textfält och en tom rubrik. Medan användaren skriver i f
 Skapa en sida med tre "kort" (till exempel `<div>`-element med lite text). När muspekaren är över ett kort ska det få klassen `aktiv`; när muspekaren lämnar ska klassen tas bort.
 
 1. Lös uppgiften för ett kort.
-2. Skriv en funktion `gördMarkerbar(kort)` som tar ett element och registrerar båda lyssnarna på det. Använd funktionen för alla tre korten.
+2. Skriv en funktion `görMarkerbar(kort)` som tar ett element och registrerar båda lyssnarna på det. Använd funktionen för alla tre korten.
 3. Hur mycket kod hade det blivit för tjugo kort? I kapitel [-@sec-arrayer] ser du hur samma sak görs med några få rader.
 :::
 
 ::: {.callout-note}
-## Övning – Spåra exekveringen
+## Övning – Poängtavlan blir interaktiv
 
-Utan att köra koden — gå igenom följande och ange vad som skrivs ut och i vilken ordning:
+Den här övningen samlar allt från kapitel [-@sec-variabler] till det här kapitlet. Bygg en poängtavla för *ett* lag:
 
-```javascript
-console.log("A");
+- Ett textfält och en knapp "Spara" för lagets namn.
+- En knapp "Rätt svar" som ger laget 3 poäng.
+- En knapp "Börja om" som nollställer poängen.
+- Ett stycke som visar till exempel `Röda stjärnor: 9 poäng`.
 
-const knapp = document.querySelector("button");
+Låt laget vara ett objekt, `const lag = { namn: "—", poäng: 0 };`, och skriv en funktion `visaLag(lag)` som uppdaterar sidan utifrån objektet. Varje callback ska ändra objektet och sedan anropa `visaLag`.
 
-knapp.addEventListener("click", () => {
-    console.log("B");
-});
-
-console.log("C");
-```
-
-1. Vad skrivs ut direkt när sidan laddas?
-2. Vad händer när användaren klickar på knappen en gång? Två gånger?
-3. Varför skrivs "B" inte ut direkt?
+Planera innan du skriver: skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilken knapp behöver inget *läs*-steg?
 :::

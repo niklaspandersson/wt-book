@@ -225,6 +225,8 @@ mus.fyllPå(10);
 console.log(mus.lager);  // 11
 ```
 
+Lägg märke till parametern i `sälj(antal = 1)`. Det är ett **standardvärde** för parametern: om metoden anropas utan argument, som `mus.sälj()`, får `antal` värdet `1` i stället för `undefined`. Skickar du med ett argument, som i `mus.sälj(2)`, används argumentet. Standardvärden fungerar likadant i alla funktioner, inte bara i metoder.
+
 Metoden `sälj` kontrollerar att det finns tillräckligt i lager innan den minskar antalet. Det här är en form av **skydd** – objektet kontrollerar att operationer på dess data är giltiga. Det är en av kärnidéerna i OOP: objektet *ansvarar* för sin egen data och säkerställer att den alltid befinner sig i ett rimligt tillstånd.
 
 Men det finns en lucka. Ingenting hindrar någon från att kringgå metoden:

@@ -1,18 +1,19 @@
 **Del I – Grunden: det du behöver för att komma igång**
 *(kronologisk progression – omstrukturerad, se [Omstrukturering av Del I](#omstrukturering-av-del-i) nedan)*
 
-* [X] Kap. 1 – JavaScript och webbläsaren *(webbens tre språk, vad är programmering, programmeringsspråk och syntax, konsolen, uttryck och satser, felmeddelanden, en första titt på script-elementet; laddningsordning, inline-skript och `defer` har flyttat till kap. 3)*
+* [X] Kap. 1 – JavaScript och webbläsaren *(webbens tre språk, vad är programmering, programmeringsspråk och syntax, konsolen, uttryck och satser, felmeddelanden, en första titt på script-elementet; laddningsordning, inline-skript och `defer` har flyttat till kap. 4)*
 * [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, konkatenering med `+`, let/const, tilldelning, objekt som samlar värden, punktnotation, typeof, dynamisk typning, namngivning)*
-* [X] Kap. 3 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
-* [X] Kap. 4 – Funktioner *(anropa, argument, returvärden, metoder, definiera, parametrar, scope, funktioner som värden, pilfunktioner)*
-* [X] Kap. 5 – Händelser *(addEventListener, callbacks, click, input, .value, change, mushändelser)*
-* [X] Kap. 6 – Tal *(aritmetik, kortformerna `+=`/`++`, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
-* [X] Kap. 7 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
-* [X] Kap. 8 – Sant och falskt *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, standardvärden med ||, hidden/disabled/checked)*
-* [X] Kap. 9 – Villkorssatser *(if/else, else if, ternär, switch, villkor i funktioner, early return, kontrollera inmatning, tangentbordshändelser)*
-* [X] Kap. 10 – Loopar
-* [X] Kap. 11 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target)*
-* [X] Kap. 12 – Objekt *(objektliteraler, egenskaper, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
+* [X] Kap. 3 – Att använda funktioner *(funktion som begrepp, anrop, argument, returvärden – "anropet ersätts av sitt returvärde", att göra eller ge tillbaka, fria funktioner och metoder, egenskap eller metod, nästlade anrop, vanliga fel, att läsa MDN)*
+* [X] Kap. 4 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
+* [X] Kap. 5 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, funktioner som tar element, scope och modulscope, funktioner som värden, pilfunktioner)*
+* [X] Kap. 6 – Händelser *(addEventListener, callbacks, click, input, .value, change, mushändelser, mönstret hämta → lyssna → läs → bearbeta → visa)*
+* [X] Kap. 7 – Tal *(aritmetik, kortformerna `+=`/`++`, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
+* [X] Kap. 8 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
+* [X] Kap. 9 – Sant och falskt *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, standardvärden med ||, hidden/disabled/checked)*
+* [X] Kap. 10 – Villkorssatser *(if/else, else if, ternär, switch, villkor i funktioner, early return, kontrollera inmatning, tangentbordshändelser)*
+* [X] Kap. 11 – Loopar
+* [X] Kap. 12 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target)*
+* [X] Kap. 13 – Objekt *(objektliteraler, egenskaper, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
@@ -56,6 +57,27 @@
 ---
 
 # Omstrukturering av Del I
+
+## Uppdelning av funktionskapitlet (oktober 2026)
+
+Efter omstruktureringen nedan låg DOM-kapitlet före funktionskapitlet. Det visade sig bryta mot omstruktureringens egen princip: webbkapitlet använde funktionsanrop, argument, returvärden och metoder (`querySelector`, `classList.add`) innan de var förklarade, och avsnittet om `querySelector` fick börja med en framåthänvisning. Funktionskapitlet var dessutom bokens mest begreppstäta (BOKOVERSIKT §4).
+
+Funktionskapitlet är därför delat i två, och Del I har nu tretton kapitel:
+
+| Nytt kapitel | Fil | Innehåll |
+|---|---|---|
+| 3 Att använda funktioner (`sec-anropa-funktioner`) | `kap03-anropa-funktioner.qmd` | Första halvan av gamla kap. 4, utbyggd: kalkylarksformler som scenario, anropet ersätts av sitt returvärde (med diagram), `prompt` som exempel på ett returvärde som kommer utifrån, att göra eller ge tillbaka, returvärden i konsolen kontra i en fil, fria funktioner och metoder, egenskap eller metod, nästlade anrop med stegtabell, vanliga felmeddelanden (`ReferenceError`, `TypeError: … is not a function`, saknad parentes), att läsa en MDN-sida. |
+| 4 Din kod möter webbsidan (`sec-dom-intro`) | `kap04-dom.qmd` | Gamla kap. 3. `querySelector` och `classList` beskrivs nu med kap. 3:s ord (metod, argument, returvärde) utan framåthänvisning. Kapitelslutet pekar på de upprepade raderna som nästa kapitel löser. |
+| 5 Att skriva egna funktioner (`sec-funktioner`) | `kap05-egna-funktioner.qmd` | Andra halvan av gamla kap. 4. Scenariot är poängtavlan från kap. 4 där samma rad upprepas. Nytt: definitionen körs inte – anropet gör det, parametrar med pilbild, argument kopplas i ordning, spårtabell för ett anrop, modulscope förklarat på plats. Borttaget: funktionsuttryck med `function` och standardvärden för parametrar (se FLYTTLISTA). |
+| 6 Händelser (`sec-handelser`) | `kap06-handelser.qmd` | Gamla kap. 5. Nytt: det namngivna mönstret *hämta → lyssna → läs → bearbeta → visa* som löst exempel. Anonyma callbacks skrivs som pilfunktioner; `function() { … }` nämns som en form man ser i andras kod. |
+
+Kap. 7–13 har bara fått nya filnamn (`kap07-tal.qmd` … `kap13-objekt.qmd`) och justerade korsreferenser.
+
+**Varför inte som förut?** Kapitlen slogs ihop eftersom det gamla kap. 3 hade tömts på innehåll (Math, typkonvertering och strängmetoder flyttade till kapitlen om tal och strängar) och eftersom egna funktioner måste komma före händelser. Inget av skälen var pedagogiskt. Det nya kap. 3 får sitt eget djup genom den mentala modellen av ett anrop och de vanligaste missuppfattningarna, och gränsen mot kapitlen om tal och strängar är tydlig: kap. 3 använder `Math.max`, `Number` och `toUpperCase` för att visa hur anrop fungerar, men lär inte ut dem som verktyg.
+
+**Principen gäller nu fullt ut:** språkets egenskaper introduceras i språkkapitlen (2, 3, 5, 7–13). Webbkapitlen (4 och 6) använder bara det som redan har förklarats.
+
+Avsnitten nedan beskriver den tidigare omstruktureringen och använder den numrering som gällde då.
 
 ## Status
 

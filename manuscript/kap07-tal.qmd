@@ -146,7 +146,7 @@ Det är precis det som hände på poängtavlan: `10 + "5"` blev `"105"`. Hade do
 
 ### Explicit konvertering med `Number()`
 
-Funktionen `Number()` tar ett värde och försöker göra om det till ett tal:
+Den fria funktionen `Number()`, som du såg ett exempel på i kapitel [-@sec-anropa-funktioner], tar ett värde och försöker göra om det till ett tal:
 
 ```javascript
 Number("42")      // 42
@@ -203,7 +203,7 @@ Den sista raden är lömsk: `Number("12,5")` ger åtminstone `NaN`, som syns, me
 
 ## `Math` – matematiska verktyg
 
-`Math` är ett inbyggt objekt som grupperar användbara matematiska funktioner och värden. Precis som `console` och `document` är det ett objekt, och dess metoder nås med punktnotation.
+`Math` är ett inbyggt objekt som grupperar användbara matematiska funktioner och värden. Du mötte det redan i kapitel [-@sec-anropa-funktioner], där `Math.max` och `Math.min` fick visa hur funktionsanrop och returvärden fungerar. Precis som `console` och `document` är det ett objekt, och dess metoder nås med punktnotation. Här går vi igenom de metoder du har mest nytta av.
 
 ### Avrundning
 
@@ -254,7 +254,7 @@ Samma sak skrivs oftast på en rad, med nästlade funktionsanrop:
 const tärning = Math.floor(Math.random() * 6) + 1;
 ```
 
-Läs uttrycket inifrån och ut, precis som du lärde dig i kapitel [-@sec-funktioner]. Mönstret går att återanvända: byt `6` mot antalet möjliga utfall. En funktion gör det tydligt:
+Läs uttrycket inifrån och ut, precis som du lärde dig i kapitel [-@sec-anropa-funktioner]. Mönstret går att återanvända: byt `6` mot antalet möjliga utfall. En funktion gör det tydligt:
 
 ```javascript
 function slumpaHeltal(max) {
@@ -270,7 +270,7 @@ const frågaNr = slumpaHeltal(20);   // en slumpad fråga av 20
 
 Laget har 23 poäng av 30 möjliga. Andelen rätt blir `23 / 30 * 100`, vilket är `76.66666666666667`. Ingen vill se det på en poängtavla.
 
-Ett sätt är att avrunda till heltal med `Math.round`, som ger `77`. Men ibland vill man ha en eller två decimaler. Då kan man använda metoden `toFixed` – för även tal har metoder, som vi nämnde i kapitel [-@sec-funktioner]:
+Ett sätt är att avrunda till heltal med `Math.round`, som ger `77`. Men ibland vill man ha en eller två decimaler. Då kan man använda metoden `toFixed` – för även tal har metoder, precis som strängar och objekt:
 
 ```javascript
 const andel = 23 / 30 * 100;

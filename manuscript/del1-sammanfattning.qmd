@@ -1,6 +1,6 @@
 # Sammanfattning av Del I {#sec-del1-sammanfattning .unnumbered}
 
-Du har kommit långt. I tolv kapitel har du gått från att inte ha skrivit en enda rad JavaScript till att kunna bygga interaktiva webbsidor som reagerar på vad användaren gör. Det du lärt dig kan delas in i två spår som löpt parallellt genom hela delen.
+Du har kommit långt. I tretton kapitel har du gått från att inte ha skrivit en enda rad JavaScript till att kunna bygga interaktiva webbsidor som reagerar på vad användaren gör. Det du lärt dig kan delas in i två spår som löpt parallellt genom hela delen.
 
 Det första spåret handlar om **själva språket**. Du kan lagra värden i variabler, skilja på datatyper, fatta beslut med villkorssatser, upprepa saker med loopar, samla data i arrayer och objekt, och organisera din kod i funktioner. Det är JavaScripts grundläggande ordförråd — de byggstenar som all vidare programmering vilar på.
 

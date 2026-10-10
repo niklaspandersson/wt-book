@@ -10,7 +10,7 @@ Flyttas ut i samband med den pedagogiska genomgången av kapitel 1 (oktober 2026
 
 ### 1. Modulernas övriga fördelar (eget scope, strikt läge, `import`/`export`)
 
-- [ ] **Eget scope** → kap. 4 Funktioner, avsnittet *Scope – variablers räckvidd* (`kap04-funktioner.qmd`, ca rad 356)
+- [x] **Eget scope** → kap. 5 Att skriva egna funktioner, avsnittet *Modulens scope* (`kap05-egna-funktioner.qmd`)
 - [ ] **Strikt läge** och **`import`/`export`** → kap. Moduler (`kap-moduler.qmd`, avsnittet *Att använda moduler i webbläsaren*), där de redan finns
 
 **Varför:** Kapitel 1 räknade upp fyra fördelar med moduler i ett svep: uppskjuten körning, eget scope, strikt läge och `import`/`export`. Det förde in ett tiotal okända begrepp (*scope, globalt scope, namnrymd, strict mode, satser, DOM*) innan studenten har sett en enda variabel. "Eget scope" förklarade dessutom ett okänt begrepp med ett annat. Bara uppskjuten körning behövs i kapitel 1, eftersom den förklarar varför skriptet kan ligga i `<head>`. Den finns kvar.
@@ -25,12 +25,12 @@ Flyttas ut i samband med den pedagogiska genomgången av kapitel 1 (oktober 2026
 
 **Följdändringar som måste göras:**
 
-- [ ] `kap04-funktioner.qmd:356` säger att modulscope är något "som vi såg i kapitel [-@sec-om-javascript]". Det stämmer inte längre. Förklara modulscope på plats i stället, eventuellt med övningen nedan (punkt 2).
+- [x] Kapitlet om egna funktioner sa att modulscope är något "som vi såg i kapitel [-@sec-om-javascript]". Nu förklaras modulscope på plats i `kap05-egna-funktioner.qmd`, med övningen nedan (punkt 2).
 - [ ] `kap-moduler.qmd:78` säger att strict mode är något "som vi kort berört i tidigare kapitel". Kontrollera om något annat kapitel tar upp det. Annars stryker vi hänvisningen och förklarar strict mode där.
 
 ### 2. Övning 1.4 Del B – *Scope och den globala namnrymden*
 
-- [ ] → kap. 4 Funktioner, som övning efter avsnittet *Scope – variablers räckvidd*, eller som komplement till övningen *Hitta scope-felet*
+- [x] → kap. 5 Att skriva egna funktioner, som övningen *Modulens scope*
 
 **Varför:** Övningen använder `const` och bygger på begreppet scope. Kapitel 1 har inte infört något av dem: variabler kommer i kapitel 2 och scope i kapitel 4. I kapitel 4 kan studenten däremot förstå *varför* modulens beteende är att föredra, och övningen blir ett konkret experiment som stöder texten om modulscope (se följdändringen under punkt 1). Del A (laddningsordning) ligger kvar i kapitel 1 som egen övning, *Var ska skriptet stå?*.
 
@@ -52,4 +52,25 @@ Flyttas ut i samband med den pedagogiska genomgången av kapitel 1 (oktober 2026
 >
 > Vad säger detta om skillnaden i scope mellan moduler och vanliga skript? Varför är modulbeteendet att föredra i större projekt?
 
-**Att tänka på vid flytten:** Sätt in övningen i kapitel 4:s sammanhang. Variabelnamnet `hälsning` används redan i kapitel 4:s scope-exempel (`kap04-funktioner.qmd:345`), vilket gör kopplingen naturlig. Studenten behöver en sida med Live Server igång. Det kan förutsättas i kapitel 4.
+**Genomfört:** övningen ligger sist i kap. 5 och utgår från en funktion `hälsa` som använder variabeln `hälsning` på modulens översta nivå.
+
+---
+
+## Från kap. 4 Funktioner (delat i kap. 3 och 5, oktober 2026)
+
+Flyttas ut i samband med att funktionskapitlet delades i *Att använda funktioner* (kap. 3) och *Att skriva egna funktioner* (kap. 5), enligt BOKOVERSIKT §3.3: tre sätt att skriva samma funktion och standardvärden för parametrar är mer än en nybörjare behöver i Del I.
+
+### 3. Funktionsuttryck (`const f = function(…) { … }`) och hoisting
+
+- [ ] → Del III, kapitlet *Funktioner på djupet* (inte skrivet ännu)
+
+**Varför:** Pilfunktioner behövs för callbacks i kap. 6, men funktionsuttryck med `function` tränar syntax snarare än förståelse. Kap. 5 säger nu bara att en funktion är ett värde, visar pilfunktioner och ger regeln "definiera först, anropa sedan". Skillnaden i hoisting mellan deklarationer och uttryck förklaras inte i Del I. Kap. 6 visar att anonyma callbacks i andras kod ofta skrivs `function() { … }`, och kap. 13 använder `presentation: function() { … }` i en objektliteral – båda fungerar utan att begreppet funktionsuttryck har införts.
+
+**Borttagen övning:** *Samma funktion, tre former* (deklaration, uttryck, pilfunktion; vilka går att anropa före definitionen?). Ersatt i kap. 5 av *Pilfunktioner med och utan klamrar*.
+
+### 4. Standardvärden för parametrar (`function hälsa(namn = "okänd")`)
+
+- [x] Förklaras där det först används: `kap-oop.qmd`, efter `sälj(antal = 1)`.
+- [ ] Ta upp i Del III, kapitlet *Funktioner på djupet*, när det skrivs.
+
+**Varför:** Används inte i Del I. Övningen *Parameter, argument eller returvärde?* i kap. 5 är omskriven utan standardvärde. Kap. `kap-oop.qmd` och `kap-destructuring.qmd` använder standardvärden; OOP-kapitlet förklarar dem nu i en mening vid första användningen.

@@ -11,16 +11,17 @@ book:
       chapters:
         - kap01-om-javascript.qmd
         - kap02-variabler.qmd
-        - kap03-dom.qmd
-        - kap04-funktioner.qmd
-        - kap05-handelser.qmd
-        - kap06-tal.qmd
-        - kap07-strangar.qmd
-        - kap08-sant-och-falskt.qmd
-        - kap09-villkor.qmd
-        - kap10-loopar.qmd
-        - kap11-arrayer.qmd
-        - kap12-objekt.qmd
+        - kap03-anropa-funktioner.qmd
+        - kap04-dom.qmd
+        - kap05-egna-funktioner.qmd
+        - kap06-handelser.qmd
+        - kap07-tal.qmd
+        - kap08-strangar.qmd
+        - kap09-sant-och-falskt.qmd
+        - kap10-villkor.qmd
+        - kap11-loopar.qmd
+        - kap12-arrayer.qmd
+        - kap13-objekt.qmd
         - del1-sammanfattning.qmd
     - part: "Del II - Webben som plattform"
       chapters:
