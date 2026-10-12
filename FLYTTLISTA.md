@@ -95,3 +95,16 @@ Flyttas ut enligt BOKOVERSIKT §3.3: "En subtil regel som även erfarna programm
 - Övningen *Hej, främling* (tre delar, den sista med ålder och standardvärdet 18) och de två sista raderna i *Logiktabellen* (`0 || "hej"`, `null && "hej"`).
 - Rutan *`null` vs. `undefined`* (`null == undefined`); `==` förklaras nu bara med `5 == "5"` och `0 == ""`.
 
+---
+
+## Från kap. 10 Villkorssatser (granskning oktober 2026)
+
+### 6. `switch` och *fall-through*
+
+- [x] Kortad till rutan *Bra att veta: `switch`* i kap. 10, med ett exempel utan *fall-through* och en länk till MDN.
+- [ ] Om `switch` behövs i ett senare kapitel (till exempel för tangenter i *Händelser på djupet*) kan den förklaras utförligare där.
+
+**Varför:** BOKOVERSIKT §3.3 – `if`/`else if`/`else` räcker för Del I, och `switch` är en bekvämlighet. Ingen senare del av boken använder `switch`.
+
+**Borttaget ur kap. 10:** avsnittet *`switch`-satsen* med veckodagsexemplet där måndag–fredag delar block (*fall-through*), och AI-prompten *`switch` utan `break`*.
+
