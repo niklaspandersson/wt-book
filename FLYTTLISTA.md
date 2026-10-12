@@ -74,3 +74,24 @@ Flyttas ut i samband med att funktionskapitlet delades i *Att använda funktione
 - [ ] Ta upp i Del III, kapitlet *Funktioner på djupet*, när det skrivs.
 
 **Varför:** Används inte i Del I. Övningen *Parameter, argument eller returvärde?* i kap. 5 är omskriven utan standardvärde. Kap. `kap-oop.qmd` och `kap-destructuring.qmd` använder standardvärden; OOP-kapitlet förklarar dem nu i en mening vid första användningen.
+
+---
+
+## Från kap. 9 Sant och falskt (granskning oktober 2026)
+
+Flyttas ut enligt BOKOVERSIKT §3.3: "En subtil regel som även erfarna programmerare snubblar på. Kan vänta till Del III, eller lösas med en `if`-sats i kap. 9 [nu kap. 10]."
+
+### 5. Kortslutning, `&&`/`||` returnerar operander och standardvärden med `||`
+
+- [x] Hälsningen "Hej, främling!" löses i stället med `if`/`else` och ternäroperatorn i kap. 10 (`kap10-villkor.qmd`, avsnittet om sammansatta villkor). Kap. 6 hänvisar nu till både kap. 9 och kap. 10.
+- [ ] Ta upp i Del III, kapitlet *Funktioner på djupet* eller *Felhantering och robusthet*, när de skrivs – tillsammans med `??` och `?.`, som löser samma problem utan fallgropen med `0`.
+
+**Varför:** Regeln att `||` returnerar den första truthy operanden är abstrakt, och mönstret `värde || standard` har en fallgrop (`0 || 10` ger `10`) som kräver att man förstår både truthy/falsy och kortslutning. Ingen senare del av boken använder mönstret. Kap. 9 behåller truthy och falsy som begrepp, eftersom kap. 10 använder dem i `if`-satser.
+
+**Borttaget ur kap. 9:**
+
+- Avsnittet *Kortslutningsutvärdering* (`false && vad_som_helst`, `true || vad_som_helst`).
+- Avsnittet *`&&` och `||` returnerar operander*, med hälsningsexemplet `namnfält.value.trim() || "främling"` och fallgropen med `0`.
+- Övningen *Hej, främling* (tre delar, den sista med ålder och standardvärdet 18) och de två sista raderna i *Logiktabellen* (`0 || "hej"`, `null && "hej"`).
+- Rutan *`null` vs. `undefined`* (`null == undefined`); `==` förklaras nu bara med `5 == "5"` och `0 == ""`.
+
