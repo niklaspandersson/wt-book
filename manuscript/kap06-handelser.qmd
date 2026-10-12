@@ -18,6 +18,99 @@ Från och med det här kapitlet är dina program inte längre något som bara k�
 
 ---
 
+## En sida att öva på
+
+Exemplen i det här kapitlet behöver knappar, textfält och andra element att reagera på. Därför gör du en ny övningssida, i stället för att bygga vidare på den från kapitel [-@sec-dom-intro]. Skapa en ny mapp, till exempel `kap06`, och spara den här koden som `index.html` i den:
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Händelser</title>
+    <script type="module" src="script.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 40rem;
+            margin: 2rem auto;
+        }
+        .dark {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+        }
+        .kort {
+            padding: 2rem;
+            border: 2px solid #ccc;
+            transition: background-color 0.3s;
+        }
+        .kort.aktiv {
+            background-color: lightyellow;
+            border-color: gold;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quizkväll</h1>
+
+    <h2>Knappar</h2>
+    <p id="meddelande">Klicka på knappen!</p>
+    <button id="hälsa-knapp">Säg hej</button>
+    <button id="tema-knapp">Byt tema</button>
+
+    <h2>Räknare</h2>
+    <p>Antal klick: <span id="antal">0</span></p>
+    <button id="räkna-knapp">Klicka!</button>
+
+    <h2>Poäng</h2>
+    <p id="poäng">Poäng: 0</p>
+    <button id="rätt-knapp">Rätt svar (+10)</button>
+    <button id="nollställ-knapp">Börja om</button>
+
+    <h2>Mus</h2>
+    <div id="kort" class="kort">Håll musen över mig!</div>
+
+    <h2>Formulär</h2>
+    <input type="text" id="namnfält" placeholder="Skriv ditt namn">
+    <p id="hälsning">Hej, främling!</p>
+
+    <select id="språk">
+        <option value="sv">Svenska</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+    </select>
+    <p id="valt">Du valde: Svenska</p>
+
+    <input type="text" id="lagfält" placeholder="Lagets namn">
+    <button id="spara-knapp">Spara</button>
+    <p id="lagnamn">Lag: —</p>
+
+    <h2>Övningar</h2>
+    <input type="text" id="svar" placeholder="Ditt svar">
+    <p id="kvitto"></p>
+
+    <button id="ledtråd-knapp">Visa ledtråd</button>
+    <p id="ledtråd" hidden>Svaret börjar på S.</p>
+</body>
+</html>
+```
+
+Skapa sedan `script.js` i samma mapp, med raden `console.log("Skriptet körs!");`, och öppna sidan med Live Server. Står det `Skriptet körs!` i konsolen är allt på plats.
+
+Sidan ser inte märkvärdig ut, och ingenting händer när du klickar. Det är meningen: HTML-koden och CSS:en är färdiga, och allt som får sidan att *reagera* skriver du själv i `script.js` under kapitlets gång.
+
+::: {.callout-note}
+## Så provar du koden i det här kapitlet
+
+- Alla element i kapitlets exempel finns redan på sidan, med samma id. Du behöver bara skriva JavaScript-koden. HTML-snuttarna i exemplen visar vilka element koden arbetar med.
+- Töm `script.js` innan du börjar på ett nytt exempel eller en ny övning. Flera exempel använder samma variabelnamn, till exempel `knapp`, och två `const` med samma namn i samma fil ger ett fel.
+- Några exempel och övningar hämtar knappen med `document.querySelector("button")`. Som du såg i kapitel [-@sec-dom-intro] ger det det *första* elementet som matchar – på den här sidan knappen *Säg hej*.
+- Behöver en övning fler element än sidan har, lägger du till dem i `<body>` i `index.html`.
+:::
+
+---
+
 ## Vad är en händelse?
 
 En **händelse** (*event*) är ett meddelande från webbläsaren om att något har hänt. Webbläsaren genererar händelser hela tiden — varje musrörelse, varje knapptryckning, varje gång sidan laddar klart. De allra flesta ignoreras. Men om du har registrerat en **lyssnare** (*event listener*) på ett element, fångas händelsen upp och en funktion körs.
@@ -47,7 +140,7 @@ Metoden `addEventListener` registrerar en funktion som ska köras när en viss h
 element.addEventListener("händelsetyp", funktion);
 ```
 
-Det första argumentet är en sträng med händelsens namn. Det andra är en funktion som körs när händelsen inträffar — den kallas en **callback-funktion**.
+Det första argumentet är en sträng med händelsens namn. Det andra är en funktion som körs när händelsen inträffar — den kallas en **callback-funktion**. Namnet kommer från engelskans *call back*, "ringa tillbaka": du lämnar över funktionen till webbläsaren ungefär som när du lämnar ditt nummer hos en kundtjänst, och i stället för att du själv anropar den blir den anropad senare, när händelsen faktiskt inträffar.
 
 Här är det enklaste exemplet: en knapp som skriver ut ett meddelande i konsolen när den klickas.
 
@@ -81,7 +174,7 @@ Funktionen vi skickar till `addEventListener` kallas en **callback**. Det är en
 
 I kapitel [-@sec-funktioner] lärde du dig att funktioner i JavaScript är *värden*, precis som tal och strängar. Det är därför det här fungerar: vi skickar en funktion som argument till en annan funktion, på samma sätt som vi kan skicka ett tal.
 
-Notera att vi skriver `hälsa` utan parenteser. I kapitel [-@sec-anropa-funktioner] såg du att ett namn utan parenteser inte kör funktionen – det är bara funktionen själv, som ett värde. Där var det ett misstag att glömma parenteserna. Här är det precis vad vi vill: vi lämnar över *funktionen*, och webbläsaren anropar den senare.
+Notera att vi skriver `hälsa` utan parenteser. I kapitel [-@sec-anropa-funktioner] såg du att ett namn utan parenteser inte kör funktionen – det är bara funktionen själv, som ett värde. Där var det ett misstag att glömma parenteserna. Här är det precis vad vi vill: vi lämnar över *funktionen själv*, och *webbläsaren* anropar den senare.
 
 ::: {.callout-important}
 ## Parenteser eller inte?
@@ -104,19 +197,7 @@ Om du märker att din funktion körs en gång när sidan laddas och sedan aldrig
 
 ### Callbacken direkt på plats
 
-Om funktionen bara behövs på ett ställe är det vanligt att skriva den direkt i anropet, utan att ge den något namn. En sådan funktion kallas **anonym**. Oftast skrivs den med en kortare form än `function`, som kallas **pilfunktion** (*arrow function*) efter tecknen `=>`:
-
-```javascript
-knapp.addEventListener("click", () => {
-    console.log("Klickad!");
-});
-```
-
-En pilfunktion har samma delar som funktionerna i kapitel [-@sec-funktioner], fast utan ordet `function` och utan namn. Först kommer parenteserna med parametrarna – här tomma, eftersom funktionen inte tar emot något. Sedan pilen `=>`, och sist kroppen inom klammerparenteser. Har funktionen parametrar skrivs de inom parenteserna, precis som förut: `(antal) => { … }`.
-
-Läs det noga. Det andra argumentet till `addEventListener` är hela pilfunktionen, från `()` till och med den avslutande klammerparentesen. Därför slutar raden med `});` – klammerparentesen avslutar funktionens kropp, och parentesen avslutar anropet av `addEventListener`.
-
-I andras kod, och i äldre guider, ser du ofta samma sak skriven med ordet `function` men utan namn:
+Om funktionen bara behövs på ett ställe kan du skriva den direkt i anropet i stället för att först definiera den med ett namn. Jämför med funktionen `hälsa` ovan. Ta bort namnet och flytta in hela definitionen där namnet stod som argument:
 
 ```javascript
 knapp.addEventListener("click", function() {
@@ -124,7 +205,27 @@ knapp.addEventListener("click", function() {
 });
 ```
 
-Det fungerar likadant i de här exemplen. En namngiven funktion är bra när samma funktion ska användas på flera ställen, eller när den är lång. En anonym pilfunktion direkt på plats är bra för korta callbacks – och är den form du kommer att se mest i den här boken.
+Det enda nya är att funktionen saknar namn. Ordet `function`, parenteserna för parametrarna och kroppen inom klammerparenteser känner du igen från kapitel [-@sec-funktioner]. En funktion utan namn kallas **anonym**. Den behöver inget namn, eftersom ingen annan del av koden ska anropa den – den lämnas direkt över till webbläsaren. Du kan jämföra med hur du kan använda andra typer av värden direkt som argument, till exempel strängar eller tal, utan att först ge dem ett namn.
+
+Läs koden ovan noga. Det andra argumentet till `addEventListener` är hela funktionen, från `function` till och med den avslutande klammerparentesen. Därför slutar koden med `});` – klammerparentesen avslutar funktionens kropp, och parentesen avslutar anropet av `addEventListener`.
+
+### En kortare skrivform: pilfunktioner
+
+Anonyma callbacks är så vanliga att JavaScript har en kortare skrivform för dem. Den kallas **pilfunktion** (*arrow function*) efter tecknen `=>`. Här är samma callback en gång till, nu som pilfunktion:
+
+```javascript
+knapp.addEventListener("click", () => {
+    console.log("Klickad!");
+});
+```
+
+Jämför de två versionerna. Ordet `function` är borta, och i stället står en pil `=>` mellan parenteserna och kroppen. Allt annat är likadant: parenteserna med parametrarna – här tomma, eftersom funktionen inte tar emot något – och kroppen inom klammerparenteser. Har funktionen parametrar skrivs de inom parenteserna, precis som förut: `(antal) => { … }`. Raden slutar fortfarande med `});`, av samma skäl som förut.
+
+Pilfunktionen är fortfarande anonym. Den är inte en ny sorts funktion, bara ett annat sätt att skriva en.
+
+Varför då lära sig två skrivformer? Den vanliga formen med `function` är lättast att känna igen, eftersom den liknar funktionerna du redan har skrivit. Men pilfunktionen är den form du oftast möter i modern JavaScript – i dokumentation som MDN, i exempel på nätet och i kod som andra har skrivit. Den kommer också tillbaka senare i boken, där korta funktioner skickas som argument på många fler ställen än här. Därför använder resten av boken pilfunktioner för anonyma callbacks. Ser du `function() { … }` i någon annans kod vet du nu att det betyder samma sak.
+
+Sammanfattningsvis: en namngiven funktion är bra när samma funktion ska användas på flera ställen, eller när den är lång. En anonym funktion direkt på plats är bra för korta callbacks, och då används oftast en pilfunktion.
 
 ---
 
@@ -169,6 +270,8 @@ knapp.addEventListener("click", () => {
 ```
 
 Variabeln `antal` lever utanför callbacken men nås inifrån den — det är möjligt tack vare scope-reglerna du lärde dig i kapitel [-@sec-funktioner]. Varje klick ökar `antal` med 1 och uppdaterar sidan. Variabeln måste vara deklarerad *utanför* callbacken: annars skulle den skapas på nytt, med värdet 0, vid varje klick.
+
+Notera också användandet av ett `span`-element för att kunna uppdatera endast delen av texten som visar det faktiska värdet, istället för att skriva över hela paragrafen. Detta är en vanlig teknik som ofta gör koden enklare, då vi inte behöver återskapa hela innehållet i paragrafen varje gång värdet ändras.
 
 ### Mörkt läge — äntligen
 
@@ -463,7 +566,7 @@ Har du redan stött på de klassiska felen – en räknare som aldrig kommer öv
 
 ## Övningar
 
-Övningarna börjar med att du följer och förklarar kod med händelser. Det är svårare än det låter, eftersom det är användaren och inte koden som bestämmer i vilken ordning saker händer.
+Övningarna börjar med att du följer och förklarar kod med händelser. Det är svårare än det låter, eftersom det är användaren och inte koden som bestämmer i vilken ordning saker händer. Gör dem först utan att köra koden. När du sedan kontrollerar dina svar gör du det på övningssidan från avsnittet *En sida att öva på*, som redan har de element övningarna nämner.
 
 ::: {.callout-note}
 ## Övning – Spåra exekveringen
@@ -522,6 +625,12 @@ Gör en spårtabell med kolumnerna *Klick*, *`antal` efter klicket* och *Sidan v
 
 Var och en av kodsnuttarna nedan är tänkt att skriva `Hej!` i konsolen när knappen klickas, men ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, skrivs `Hej!` ut vid fel tillfälle, eller händer ingenting alls? Testa sedan.
 
+När du testar en snutt behöver variabeln `knapp` finnas. Skriv därför den här raden överst i `script.js`, och lägg snutten under den:
+
+```javascript
+const knapp = document.querySelector("button");
+```
+ Testa en snutt i taget.
 ```javascript
 // A
 function hälsa() {
@@ -593,31 +702,49 @@ knapp.addEventListener("onclick", () => {
 
 Utgå från exemplet *Mörkt läge — äntligen* i kapitlet, där en knapp slår av och på klassen `dark` på `<body>`. Bygg vidare på det:
 
-1. Ge knappen texten "Byt tema".
-2. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
+1. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
 
 Att låta knappens text växla mellan "Mörkt läge" och "Ljust läge" kräver att programmet tar reda på vilket läge sidan är i – det gör vi i kapitel [-@sec-villkor].
 :::
 
-::: {.callout-note}
-## Övning – Visa svar
+### Egna sidor
 
-Ta fram sidan från övningen *Facit som döljs* i kapitel [-@sec-dom-intro], där facit är dolt. Lägg till två knappar:
+I de återstående övningarna bygger du sidorna själv, både HTML och JavaScript. Det är så det ser ut när du gör något eget: ingen har förberett elementen åt dig, och du bestämmer själv vad de ska heta. Gör så här för varje övning:
 
-1. "Visa svar" – visar facit.
-2. "Dölj svar" – döljer det igen.
+1. **Skapa en ny mapp** för övningen, till exempel `knappraknare`. Undvik mellanslag i mappnamnet.
+2. **Skapa `index.html`** i mappen med det här skelettet. Det är samma början som på övningssidan, men med en tom `<body>`. Byt ut texten i `<title>` mot övningens namn.
 
-Gör sedan om lösningen så att en *enda* knapp växlar mellan att visa och dölja facit. Vilket av verktygen från kapitel [-@sec-dom-intro] gör det möjligt utan villkor?
-:::
+    ```html
+    <!DOCTYPE html>
+    <html lang="sv">
+    <head>
+        <meta charset="UTF-8">
+        <title>Övningens namn</title>
+        <script type="module" src="script.js"></script>
+    </head>
+    <body>
+
+    </body>
+    </html>
+    ```
+
+3. **Planera elementen.** Skriv ner vilka element sidan behöver, vilken sorts element varje ska vara (`<button>`, `<p>`, `<input>` …) och vilket id det ska ha. Ge id till alla element som koden ska hämta, och välj namn som säger vad elementet är till för, till exempel `öka-knapp` hellre än `knapp2`.
+4. **Skriv elementen i `<body>`** och öppna sidan med Live Server. Kontrollera att sidan *ser* rätt ut innan du skriver någon JavaScript.
+5. **Skapa `script.js` och börja med steget *hämta*.** Hämta varje element med `querySelector` och skriv ut det med `console.log`. Står det `null` i konsolen stämmer selektorn inte med id:t i HTML-koden – rätta det innan du går vidare.
+6. **Skriv resten av koden**, ett steg i taget, och prova efter varje steg.
+
+Behöver sidan CSS lägger du ett `<style>`-element i `<head>`, som på övningssidan.
 
 ::: {.callout-note}
 ## Övning – Knappräknare
 
-Skapa en HTML-sida med en knapp och ett `<p>`-element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
+Gör en sida med en knapp och ett element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
+
+Sidan behöver två element: en knapp och något som visar talet. Titta på exemplet *En räknare*. Där står talet i ett `<span>` inuti ett stycke, så att bara talet behöver bytas ut. Gör likadant, eller låt hela stycket visa talet – men bestäm dig innan du börjar skriva koden, eftersom det påverkar vad callbacken ska skriva in i elementet.
 
 Utöka sedan i två steg:
 
-1. Lägg till en knapp som *minskar* talet med 1, och en som nollställer det.
+1. Lägg till två knappar i `index.html`: en som *minskar* talet med 1 och en som nollställer det. Ge dem id och skriv en lyssnare för var och en.
 2. Låt alla tre knapparna använda *samma* funktion, `visaAntal(antal)`, för att visa talet på sidan. Hur många ställen i koden behöver du ändra om texten i stället ska vara "Antal: 5"?
 
 Vad händer om du flyttar `let antal = 0;` in i callbacken? Förutsäg först, testa sedan.
@@ -626,7 +753,9 @@ Vad händer om du flyttar `let antal = 0;` in i callbacken? Förutsäg först, t
 ::: {.callout-note}
 ## Övning – Spegla texten
 
-Skapa en sida med ett textfält och en tom rubrik. Medan användaren skriver i fältet ska rubriken visa samma text.
+Gör en sida med ett textfält och en rubrik. Medan användaren skriver i fältet ska rubriken visa samma text.
+
+Sidan behöver ett textfält, `<input type="text">`, och en rubrik, till exempel `<h1>`. Låt rubriken vara tom från början, eller ge den en text som "Skriv något …" så att du ser var den finns på sidan.
 
 1. Skriv först de fem stegen som kommentarer i `script.js`, som i avsnittet *Ett mönster för interaktiva sidor*. Fyll sedan i koden under varje kommentar. Vilket steg blir tomt här?
 2. Lös uppgiften med `input`-händelsen.
@@ -637,7 +766,9 @@ Skapa en sida med ett textfält och en tom rubrik. Medan användaren skriver i f
 ::: {.callout-note}
 ## Övning – Markera kort
 
-Skapa en sida med tre "kort" (till exempel `<div>`-element med lite text). När muspekaren är över ett kort ska det få klassen `aktiv`; när muspekaren lämnar ska klassen tas bort.
+Gör en sida med tre "kort". När muspekaren är över ett kort ska det få klassen `aktiv`; när muspekaren lämnar ska klassen tas bort.
+
+Ett kort kan vara ett `<div>`-element med lite text. Ge alla tre korten klassen `kort`, som bestämmer hur de ser ut, och var sitt id, så att koden kan hämta dem ett i taget. Sidan behöver också CSS för klasserna `kort` och `aktiv` i ett `<style>`-element. Utgå från CSS:en i avsnittet *Mushändelser*, men ändra gärna färgerna – då ser du att det är din egen CSS som syns.
 
 1. Lös uppgiften för ett kort.
 2. Skriv en funktion `görMarkerbar(kort)` som tar ett element och registrerar båda lyssnarna på det. Använd funktionen för alla tre korten.
@@ -656,5 +787,10 @@ Den här övningen samlar allt från kapitel [-@sec-variabler] till det här kap
 
 Låt laget vara ett objekt, `const lag = { namn: "—", poäng: 0 };`, och skriv en funktion `visaLag(lag)` som uppdaterar sidan utifrån objektet. Varje callback ska ändra objektet och sedan anropa `visaLag`.
 
-Planera innan du skriver: skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilken knapp behöver inget *läs*-steg?
+Planera innan du skriver:
+
+1. Gör en lista över elementen på sidan, med typ och id för vart och ett. Hur många av dem behöver koden hämta?
+2. Skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilken knapp behöver inget *läs*-steg?
+
+Bygg sedan sidan i samma ordning som i avsnittet *Egna sidor*: först HTML-koden, sedan *hämta*, och därefter en knapp i taget.
 :::
