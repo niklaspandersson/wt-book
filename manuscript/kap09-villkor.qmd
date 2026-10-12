@@ -2,7 +2,7 @@
 
 ## Programmet som fattar beslut
 
-I förra kapitlet lärde du dig att ställa frågor i kod – och att använda svaren direkt, som när en knapp blir avstängd eller ett meddelande döljs. Men ofta räcker det inte. Momsräknaren i kapitel [-@sec-tal] visade `NaN` när användaren skrev något som inte var ett tal; den borde i stället ha visat ett vänligt felmeddelande, och inte räknat alls. Hälsningen i kapitel [-@sec-handelser] visade "Hej, !" när fältet var tomt; den borde ha sagt "Hej, främling!". I båda fallen ska programmet göra *olika saker* beroende på svaret på en fråga.
+I förra kapitlet lärde du dig att ställa frågor i kod – och att använda svaren direkt, som när en knapp blir avstängd eller ett meddelande döljs. Men ofta räcker det inte. Momsräknaren i kapitel [-@sec-tal-och-text] visade `NaN` när användaren skrev något som inte var ett tal; den borde i stället ha visat ett vänligt felmeddelande, och inte räknat alls. Hälsningen i kapitel [-@sec-handelser] visade "Hej, !" när fältet var tomt; den borde ha sagt "Hej, främling!". I båda fallen ska programmet göra *olika saker* beroende på svaret på en fråga.
 
 Föreställ dig att du ska skriva ett hjälpprogram för en kurs. Studenterna gör ett prov med 100 möjliga poäng. Läraren skriver in poängen i ett fält på en webbsida, och programmet ska:
 
@@ -17,7 +17,7 @@ Det är fyra beslut, och vart och ett beror på vad som skrevs in. Inget av dem 
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap10`, och spara den här koden som `index.html` i den:
+Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap09`, och spara den här koden som `index.html` i den:
 
 ```html
 <!DOCTYPE html>
@@ -201,7 +201,7 @@ Med gränser av typen "minst" skriver du den högsta gränsen först.
 
 ---
 
-## Sammansatta villkor och truthy-värden
+## Sammansatta villkor
 
 Villkoret i en `if`-sats kan vara vilket booleskt uttryck som helst – också ett som kombinerar flera frågor med de logiska operatorerna från kapitel [-@sec-booleska]:
 
@@ -238,18 +238,6 @@ namnfält.addEventListener("input", () => {
 ```
 
 Varje gång användaren skriver eller suddar körs callbacken, och `if`-satsen väljer vilken text som ska visas. `trim()` gör att ett fält med bara mellanslag räknas som tomt.
-
-Villkoret behöver inte ens vara ett booleskt värde. Som du såg i kapitel [-@sec-booleska] är alla värden antingen truthy eller falsy, och det gäller även i en `if`-sats. Därför ser du ofta villkor som det här i andras kod:
-
-```javascript
-if (namn) {
-    hälsning.textContent = `Hej, ${namn}!`;
-} else {
-    hälsning.textContent = "Hej, främling!";
-}
-```
-
-Den tomma strängen är falsy, så `if (namn)` betyder här samma sak som `if (namn !== "")`. Formen är kort, men du måste kunna listan över falsy värden för att förstå den – och komma ihåg att även `0` är falsy. I den här boken skriver vi oftast ut frågan, som `namn !== ""` eller `poäng === 0`, eftersom den då går att läsa högt.
 
 ---
 
@@ -288,27 +276,6 @@ hälsning.textContent = `Hej, ${visatNamn}!`;
 ```
 
 Ternäroperatorn passar när ett av två värden ska väljas. Den passar *inte* när vägarna ska göra flera saker, eller när det finns fler än två utfall – då är `if`/`else` tydligare. Kort kod är inte samma sak som lättläst kod.
-
-::: {.callout-note}
-## Bra att veta: `switch`
-
-I andras kod ser du ibland en `switch`-sats. Den jämför ett värde med en lista av exakta värden och kör koden för det som stämmer, ungefär som en `else if`-kedja där varje villkor är `===`:
-
-```javascript
-switch (dag) {
-    case "lördag":
-        console.log("Helg");
-        break;
-    case "söndag":
-        console.log("Helg");
-        break;
-    default:
-        console.log("Vardag");
-}
-```
-
-`break` avslutar `switch`-satsen, och `default` motsvarar `else`. Glömmer man `break` fortsätter JavaScript in i nästa `case`, vilket är en vanlig bugg. Allt som `switch` gör kan skrivas med `if`/`else if`, och det gör vi i den här boken. Mer om `switch` finns på [MDN: switch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch).
-:::
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -533,7 +500,7 @@ Jämför med det lösta exemplet i kapitel [-@sec-handelser]. Steg 1, 2, 3 och 5
 Några detaljer att lägga märke till:
 
 - `trim()` gör att ett fält med bara mellanslag räknas som tomt.
-- Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`, som du såg i kapitel [-@sec-tal].
+- Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`, som du såg i kapitel [-@sec-tal-och-text].
 - `Number.isNaN(värde)` är det pålitliga sättet att fråga om något är `NaN`, som du såg i kapitel [-@sec-booleska].
 - Funktionen `betyg` gör beräkningen. Kontrollen av inmatningen och betygsreglerna hålls isär, och var och en kan ändras utan att den andra påverkas.
 
@@ -619,7 +586,7 @@ En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/
 Villkorssatser ger programmet förmågan att välja väg:
 
 - **`if`** kör ett block om villkoret är sant, **`else`** om det är falskt, och **`else if`**-kedjor täcker flera utfall. Villkoren prövas uppifrån och ned, och bara det första blocket vars villkor är sant körs.
-- Villkoret kan kombinera frågor med **logiska operatorer**. Alla värden kan användas som villkor: truthy-värden räknas som sanna.
+- Villkoret kan kombinera frågor med **logiska operatorer**.
 - **Ternäroperatorn** (`villkor ? a : b`) väljer ett av två värden. För flera saker eller fler än två utfall är `if`/`else` tydligare.
 - Villkor i **funktioner** kan returnera olika värden. **Early return** – att sluta så fort svaret är nej – gör att koden inte behöver nästlas.
 - På webbsidan låter villkorssatser olika saker hända beroende på data: olika texter, klasser och synlighet. Ta bort den klass som inte längre ska gälla.
@@ -860,7 +827,7 @@ Skriv villkorssatser för följande situationer. Du bestämmer själv variabelna
 ::: {.callout-note}
 ## Övning – Temperaturen
 
-Den här övningen bygger vidare på temperaturomvandlaren från kapitel [-@sec-tal]. Gör den i steg och kontrollera att varje steg fungerar innan du går vidare.
+Den här övningen bygger vidare på temperaturomvandlaren från kapitel [-@sec-tal-och-text]. Gör den i steg och kontrollera att varje steg fungerar innan du går vidare.
 
 1. Skriv en funktion `klassificera(temperatur)` som tar en temperatur i Celsius och returnerar `"kallt"` (under 5°C), `"lagom"` (5–20°C, inklusive) eller `"varmt"` (över 20°C). Testa den i konsolen med −10, 5, 15, 20 och 30. Vilka värden är viktigast att testa, och varför?
 2. Gör en sida med ett fält och en knapp. Visa kategorin och temperaturen, till exempel "Lagom (15°C)".
@@ -913,7 +880,7 @@ const röda = { namn: "Röda stjärnor", poäng: 12 };
 const blå = { namn: "Blå blixtarna", poäng: 9 };
 ```
 
-1. Skriv en funktion `ledare(lag1, lag2)` som returnerar till exempel `"Röda stjärnor leder med 3 poäng."`, eller `"Det står lika!"` om lagen har lika många poäng. Använd `Math.abs` från kapitel [-@sec-tal] för skillnaden. Testa med flera olika poäng, också när det andra laget leder.
+1. Skriv en funktion `ledare(lag1, lag2)` som returnerar till exempel `"Röda stjärnor leder med 3 poäng."`, eller `"Det står lika!"` om lagen har lika många poäng. Skillnaden ska alltid vara ett positivt tal – räkna ut den på olika sätt beroende på vilket lag som leder. Testa med flera olika poäng, också när det andra laget leder.
 2. Gör en sida med en knapp "Rätt svar" för varje lag och ett stycke som visar vem som leder. Varje klick ger laget 3 poäng och uppdaterar stycket.
 3. Planera innan du skriver: vilka av de fem stegen finns i varje callback? Vilket steg kan båda callbackarna dela på genom att anropa samma funktion?
 :::

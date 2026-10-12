@@ -20,7 +20,7 @@ Det vi behöver är ett sätt att samla flera värden under ett gemensamt namn �
 
 ::: {.callout-note}
 ## Arrayer är objekt
-Tekniskt sett är en array en speciell typ av **objekt** – den datastruktur som JavaScript använder för att samla data och funktionalitet under ett gemensamt namn. Det är därför arrayer kan ha egenskaper och inbyggda metoder, precis som andra objekt. Men eftersom ordnade listor är en så vanlig datastruktur i programmering har arrayer fått en egen syntax med hakparenteser `[]` och ett antal specialanpassade metoder som gör dem smidiga att arbeta med. Vi kommer att titta närmare på vanliga objekt i kapitel [-@sec-objekt] – just nu räcker det att veta att arrayer är en praktisk specialvariant av dem.
+Tekniskt sett är en array en speciell typ av **objekt** – den datastruktur som JavaScript använder för att samla data och funktionalitet under ett gemensamt namn. Det är därför arrayer kan ha egenskaper och inbyggda metoder, precis som andra objekt. Men eftersom ordnade listor är en så vanlig datastruktur i programmering har arrayer fått en egen syntax med hakparenteser `[]` och ett antal specialanpassade metoder som gör dem smidiga att arbeta med. Du mötte vanliga objekt redan i kapitel [-@sec-variabler] – just nu räcker det att veta att arrayer är en praktisk specialvariant av dem.
 :::
 
 ---
@@ -168,52 +168,10 @@ console.log(borttagen);     // "Clara"
 console.log(studenter);     // ["Anna", "Björn"]
 ```
 
-### `unshift` och `shift` – i början
-
-`unshift()` lägger till i *början* av arrayen, `shift()` tar bort från *början*:
-
-```javascript
-const kö = ["Björn", "Clara"];
-
-kö.unshift("Anna");
-console.log(kö);   // ["Anna", "Björn", "Clara"]
-
-const första = kö.shift();
-console.log(första);   // "Anna"
-console.log(kö);       // ["Björn", "Clara"]
-```
-
-### `splice` – ändra var som helst
-
-`splice()` är det mest flexibla verktyget. Den kan ta bort element, lägga till element, eller båda – på valfri position:
-
-```javascript
-// splice(startindex, antalAttTaBort, ...nyaElement)
-const studenter = ["Anna", "Björn", "Clara", "David"];
-
-// Ta bort 1 element från index 1
-studenter.splice(1, 1);
-console.log(studenter);   // ["Anna", "Clara", "David"]
-
-// Infoga "Bella" på index 1 (ta bort 0 element)
-studenter.splice(1, 0, "Bella");
-console.log(studenter);   // ["Anna", "Bella", "Clara", "David"]
-```
-
-Det första argumentet är startindexet, det andra är hur många element som ska tas bort, och eventuella ytterligare argument är nya element som infogas på den platsen.
-
 ::: {.callout-note}
-## Vilken metod ska jag använda?
+## Bra att veta: fler sätt att ändra en array
 
-Med så många sätt att lägga till och ta bort kan det vara svårt att hålla isär dem. Här är en snabb översikt:
-
-| Vill du...                    | Metod        |
-|-------------------------------|--------------|
-| Lägga till sist               | `push()`     |
-| Ta bort sist                  | `pop()`      |
-| Lägga till först              | `unshift()`  |
-| Ta bort först                 | `shift()`    |
-| Lägga till/ta bort var som helst | `splice()` |
+`push` och `pop` arbetar i slutet av arrayen, och det räcker långt. Det finns också metoder som lägger till och tar bort i *början* av en array (`unshift` och `shift`), och en som kan ta bort eller lägga till var som helst (`splice`). De finns beskrivna på [MDN: Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), tillsammans med många fler arraymetoder. Läs sidorna på samma sätt som i kapitel [-@sec-anropa-funktioner]: vad tar metoden emot, och vad returnerar den?
 :::
 
 ---
@@ -318,7 +276,7 @@ Notera att vi använder `const` i `for...of`-loopen: `for (const student of stud
 
 ## Från text till lista och tillbaka: `split` och `join`
 
-I kapitel [-@sec-strangar] utlovade vi en metod som delar upp en sträng i delar. Nu när du känner till arrayer kan vi titta på den. Metoden `split` delar en sträng vid ett visst tecken – en *avgränsare* – och returnerar en array med delarna:
+I kapitel [-@sec-tal-och-text] nämnde vi en metod som delar upp en sträng i delar. Nu när du känner till arrayer kan vi titta på den. Metoden `split` delar en sträng vid ett visst tecken – en *avgränsare* – och returnerar en array med delarna:
 
 ```javascript
 "Anna Andersson".split(" ")          // ["Anna", "Andersson"]
@@ -528,6 +486,80 @@ Allt du har lärt dig sedan kapitel [-@sec-om-javascript] samverkar: DOM-selekti
 
 ---
 
+## Arrayer av objekt
+
+Quizet ovan har en enda fråga, och frågan, alternativen och det rätta svaret ligger utspridda i HTML-koden och i en variabel. Ett riktigt quiz har många frågor. Varje fråga består dessutom av flera värden som hör ihop – och i kapitel [-@sec-variabler] såg du att värden som hör ihop kan samlas i ett **objekt**:
+
+```javascript
+const fråga = {
+    text: "Vad heter Sveriges huvudstad?",
+    alternativ: ["Göteborg", "Stockholm", "Malmö"],
+    rätt: "Stockholm"
+};
+```
+
+Lägg märke till att en egenskap kan innehålla en array – `alternativ` är en lista med tre strängar. Flera sådana frågor kan i sin tur samlas i en array. Då får man en **array av objekt**, kanske det vanligaste sättet att lagra data i JavaScript:
+
+```javascript
+const frågor = [
+    {
+        text: "Vad heter Sveriges huvudstad?",
+        alternativ: ["Göteborg", "Stockholm", "Malmö"],
+        rätt: "Stockholm"
+    },
+    {
+        text: "Vilket är Sveriges största landskap?",
+        alternativ: ["Lappland", "Småland", "Dalarna"],
+        rätt: "Lappland"
+    }
+];
+```
+
+För att nå ett värde läser du uttrycket från vänster till höger, ett steg i taget – precis som när du kedjade metoder i kapitel [-@sec-tal-och-text]:
+
+| Uttryck | Vad det ger |
+|---|---|
+| `frågor` | hela arrayen med två objekt |
+| `frågor[1]` | det andra objektet – frågan om landskap |
+| `frågor[1].text` | `"Vilket är Sveriges största landskap?"` |
+| `frågor[1].alternativ` | arrayen `["Lappland", "Småland", "Dalarna"]` |
+| `frågor[1].alternativ[0]` | `"Lappland"` |
+
+Med `for...of` går du igenom alla objekten, och i varje varv pekar loopvariabeln på ett helt objekt:
+
+```javascript
+for (const f of frågor) {
+    console.log(`${f.text} (rätt svar: ${f.rätt})`);
+}
+```
+
+Och med en vanlig `for`-loop kan du fylla knapparna på sidan med alternativen till en fråga. Indexet `i` används då både för knappen och för alternativet, eftersom de hör ihop i samma ordning:
+
+```javascript
+const knappar = document.querySelectorAll(".svar");
+const aktuell = frågor[0];
+
+document.querySelector("#fråga").textContent = aktuell.text;
+
+for (let i = 0; i < knappar.length; i++) {
+    knappar[i].textContent = aktuell.alternativ[i];
+}
+```
+
+Byt `frågor[0]` mot `frågor[1]`, så visar samma sida nästa fråga. Det är grunden till ett quiz med hur många frågor som helst: datan ligger i en array av objekt, och koden som visar en fråga är densamma för alla.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vad ger `frågor[0].alternativ[2]`? Läs uttrycket steg för steg.
+2. Vad ger `frågor[2]`, och vad händer om du skriver `frågor[2].text`? Förutsäg först och testa sedan. Jämför felmeddelandet med det du såg i kapitel [-@sec-dom-intro] när `querySelector` inte hittade något.
+3. Hur många varv går loopen som fyller knapparna? Vad händer om en fråga bara har två alternativ?
+:::
+
+Objekt har mycket mer att erbjuda än vi har tittat på här – de kan till exempel innehålla egna funktioner. Det tar vi upp i Del III.
+
+---
+
 ## Sammanfattning
 
 Arrayer är JavaScripts sätt att hantera listor – ordnade samlingar av värden som man kan gå igenom, söka i och ändra.
@@ -535,17 +567,18 @@ Arrayer är JavaScripts sätt att hantera listor – ordnade samlingar av värde
 - En **array** skapas med hakparenteser: `["Anna", "Björn", "Clara"]`.
 - Element nås med **index** som börjar på **0**: `arr[0]` ger det första elementet.
 - `length` ger arrayens storlek; det sista elementet har index `length - 1`.
-- **`push`/`pop`** lägger till och tar bort i slutet; **`unshift`/`shift`** i början; **`splice`** var som helst.
+- **`push`/`pop`** lägger till och tar bort i slutet. Fler metoder finns på MDN.
 - **`includes`** kontrollerar om ett värde finns; **`indexOf`** ger positionen.
 - En **`for`**-loop med index (`for (let i = 0; i < arr.length; i++)`) ger full kontroll.
 - **`for...of`** itererar direkt över värdena – enklare när du inte behöver indexet.
 - **`split`** delar en sträng i en array; **`join`** sätter ihop en array till en sträng.
 - **`querySelectorAll`** returnerar en **NodeList** av DOM-element som kan itereras med `for...of`.
 - Med en loop kan samma **lyssnare** registreras på många element. **`e.target`** talar om vilket element som utlöste händelsen.
+- En **array av objekt** samlar många poster med samma egenskaper, som frågorna i ett quiz. Läs uttryck som `frågor[1].alternativ[0]` steg för steg från vänster.
 
 Arrayer och loopar är oskiljaktiga: en loop utan en lista att bearbeta, eller en lista utan ett sätt att gå igenom den, är båda halvfärdiga verktyg. Tillsammans ger de dig möjligheten att hantera data av godtycklig storlek med en fast mängd kod.
 
-Arrayerna i det här kapitlet har innehållit enkla värden: namn, poäng, taggar. Men i verkliga program är det sällan så enkelt – en student har både namn, program och poäng. I nästa kapitel kombinerar vi arrayer med objekt.
+Med arrayer har du nu alla grundläggande byggstenar: värden och variabler, funktioner, händelser, villkor, loopar och listor. Det är vad som krävs för att bygga sidor som reagerar på användaren och hanterar hur mycket data som helst.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -554,7 +587,7 @@ En array är lättare att förstå om man kan *se* den. Rita den som en rad låd
 
 **Rita arrayens tillstånd:**
 
-> *"Ge mig en array och en sekvens av sex operationer med `push`, `pop`, `shift`, `unshift` och `splice`. Efter varje operation ritar jag arrayen som lådor, till exempel `[ "a" | "b" | "c" ]`, och anger vad operationen returnerade. Rätta mig efter varje steg innan vi går vidare."*
+> *"Ge mig en array och en sekvens av sex operationer med `push`, `pop` och tilldelning med index, som `lista[1] = "x"`. Efter varje operation ritar jag arrayen som lådor, till exempel `[ "a" | "b" | "c" ]`, och anger vad operationen returnerade. Rätta mig efter varje steg innan vi går vidare."*
 
 **Från beskrivning till algoritm:**
 
@@ -634,7 +667,7 @@ Testa att ändra nyckelordet och se att rätt element markeras.
 
 Skriv kod som skapar en *ny* array med elementen i omvänd ordning – utan att använda den inbyggda metoden `reverse()`. Givet `["A", "B", "C", "D", "E"]` ska resultatet bli `["E", "D", "C", "B", "A"]`.
 
-*Tips:* Du kan iterera baklänges med en `for`-loop och använda `push` för att bygga upp den nya arrayen. Alternativt kan du iterera framåt och använda `unshift`.
+*Tips:* Du kan iterera baklänges med en `for`-loop och använda `push` för att bygga upp den nya arrayen.
 :::
 
 ::: {.callout-note}
@@ -675,6 +708,19 @@ Bygg en quizsida med en fråga och tre svarsknappar. Skriv JavaScript som:
 Definiera CSS-klasser för rätt och fel svar. Använd `querySelectorAll`, `for...of` och `event.target`.
 
 **Bonusutmaning:** Gör att knapparna inte reagerar på fler klick efter att ett svar valts.
+:::
+
+::: {.callout-note}
+## Övning – Ett quiz med flera frågor
+
+Bygg vidare på övningen *Interaktivt quiz* ovan, eller på exemplet i avsnittet *Arrayer av objekt*. Gå också tillbaka till övningen *En quizfråga som objekt* i kapitel [-@sec-variabler] – där bestämde du vilka egenskaper en fråga behöver.
+
+1. Skapa en array med minst tre frågor som objekt. Varje fråga ska ha en frågetext, tre alternativ och det rätta svaret.
+2. Skriv en funktion `visaFråga(nr)` som visar frågan med index `nr` och fyller de tre knapparna med dess alternativ.
+3. Lägg till en knapp *Nästa fråga* som visar nästa fråga i arrayen. Vad ska hända när den sista frågan är besvarad?
+4. Räkna antalet rätta svar och visa resultatet när quizet är slut, till exempel `Du fick 2 av 3 rätt.`
+
+Planera först: vilka variabler behöver finnas *utanför* callbackarna, så att de kommer ihåg vilken fråga som visas och hur många rätt det är?
 :::
 
 ::: {.callout-note}

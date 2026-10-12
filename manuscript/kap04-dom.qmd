@@ -192,7 +192,7 @@ Med `innerHTML` kan du alltså bygga rikare innehåll — fetstil, kursiv, listo
 document.querySelector("h1").innerHTML = "Quizkväll — <em>final</em>";
 ```
 
-Att blanda in värden från variabler i HTML-koden går också, men med `+` blir det snabbt rörigt att hålla reda på alla citattecken och taggar. I kapitel [-@sec-strangar] lär du dig ett smidigare sätt att bygga sådan text.
+Att blanda in värden från variabler i HTML-koden går också, men med `+` blir det snabbt rörigt att hålla reda på alla citattecken och taggar. I kapitel [-@sec-tal-och-text] lär du dig ett smidigare sätt att bygga sådan text.
 
 ### När ska du använda vilket?
 

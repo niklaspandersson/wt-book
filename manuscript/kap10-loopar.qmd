@@ -60,7 +60,7 @@ Variabelnamnet `i` är en konvention – det är en förkortning av *index* elle
 ::: {.callout-note}
 ## `i++` och `i += 1`
 
-`i = i + 1` kan som du vet skrivas kortare. Kortformerna från kapitel [-@sec-tal] – `i++`, `i--`, `i += 2` och så vidare – är vanliga i loopar, och `i++` är den allra vanligaste. Från och med nu använder vi dem.
+`i = i + 1` kan som du vet skrivas kortare. Kortformerna från kapitel [-@sec-tal-och-text] – `i++`, `i--`, `i += 2` och så vidare – är vanliga i loopar, och `i++` är den allra vanligaste. Från och med nu använder vi dem.
 :::
 
 ---
@@ -183,84 +183,13 @@ När `break` nås hoppar programmet direkt ut ur loopen och fortsätter med kode
 `poäng` innehåller en **lista** av värden – i JavaScript kallas det en *array*. Med `poäng[i]` hämtar man värdet på position `i` (räknat från noll), och `poäng.length` ger listans längd. Loopar och listor hänger tätt ihop: en loop är ofta det naturliga sättet att gå igenom alla värden i en lista ett i taget. Vi tittar närmare på listor i kapitel [-@sec-arrayer].
 :::
 
-
 ---
-
-## `continue` – hoppa över en iteration
-
-Istället för att avbryta hela loopen kan man hoppa över *resten av den aktuella iterationen* och gå direkt till nästa. Det gör man med `continue`.
-
-```javascript
-// Skriv ut alla tal från 1 till 10 utom 5
-for (let i = 1; i <= 10; i++) {
-    if (i === 5) {
-        continue;  // hoppa över resten av den här iterationen
-    }
-    console.log(i);
-}
-```
-
-När `continue` nås för `i === 5` hoppar programmet tillbaka till uppdateringen (`i++`) och därefter till villkorskontrollen – utan att köra `console.log(5)`.
-
-`break` och `continue` gör loopar mer flexibla, men ska användas med omdöme. Överdrivet användande kan göra flödet svårt att följa. I många fall är ett tydligare villkor att föredra framför ett `continue` mitt i ett block.
-
----
-
-## `do...while` – kör alltid minst en gång
-
-Det finns en variant av `while`-loopen där blocket alltid körs minst en gång, oavsett om villkoret är sant från början:
-
-```javascript
-do {
-    // kod som alltid körs minst en gång
-} while (villkor);
-```
-
-Skillnaden mot vanlig `while`: villkoret kontrolleras *efter* varje körning, inte *innan*. Det är användbart i situationer där man måste göra något minst en gång för att kunna avgöra om man ska fortsätta. Ett exempel är att kasta en tärning tills man får en sexa:
-
-```javascript
-let kast;
-let antalKast = 0;
-
-do {
-    kast = Math.floor(Math.random() * 6) + 1;
-    antalKast++;
-} while (kast !== 6);
-
-console.log(`Det tog ${antalKast} kast att få en sexa.`);
-```
-
-Innan första kastet finns det inget kast att kontrollera – det är därför `do...while` passar här. Med en vanlig `while`-loop hade vi behövt ge `kast` ett låtsasvärde före loopen för att komma in i den. Tärningsuttrycket känner du igen från kapitel [-@sec-tal].
-
-`do...while` är betydligt ovanligare än `while` och `for`. Stöter du på det i ett kodexempel är det viktigaste att komma ihåg att blocket garanterat körs åtminstone en gång.
-
----
-
-## Nästlade loopar
-
-Precis som `if`-satser kan nästlas kan loopar placeras inuti varandra – **nästlade loopar**. Det är användbart för att arbeta med tvådimensionell data, till exempel en matris eller en tabell.
-
-Klassikerexemplet är att skriva ut en multiplikationstabell:
-
-```javascript
-for (let rad = 1; rad <= 5; rad++) {
-    let radtext = "";
-    for (let kol = 1; kol <= 5; kol++) {
-        radtext += `${rad * kol}\t`;
-    }
-    console.log(radtext);
-}
-```
-
-Yttre loopen itererar över raderna (1–5). För varje rad kör den inre loopen *hela sin sekvens* – kolumnerna (1–5). Totalt körs den inre loopens kropp 5 × 5 = 25 gånger.
 
 ::: {.callout-note}
-## Välj distinkta räknarnamn
+## Bra att veta: fler sätt att loopa
 
-I nästlade loopar är det viktigt att använda distinkta namn på räknarvariablerna. Det är konvention att använda `i` för den yttre loopen och `j` för den inre (och `k` för en eventuell tredje). Att råka skriva `i` när man menar `j` – eller tvärtom – är en vanlig källa till svårfunna buggar.
+JavaScript har några varianter som du kan stöta på i andras kod. `continue` hoppar över resten av ett varv och går direkt till nästa. `do...while` är en `while`-loop som alltid körs minst en gång, eftersom villkoret kontrolleras *efter* blocket. Och en loop kan ligga inuti en annan loop – en **nästlad loop** – till exempel för att gå igenom raderna och kolumnerna i en tabell. Allt det kan lösas med det du redan kan, och boken använder det inte. Vill du veta mer finns en översikt på [MDN: Loops and iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration).
 :::
-
-Nästlade loopar kan snabbt bli kostsamma. Om yttre loopen kör *n* gånger och den inre *m* gånger kör den innersta koden *n × m* gånger. Med tre nivåers nästling är det *n × m × k* körningar. För stora tal kan det bli ett problem – men det är ett ämne för ett senare kapitel om optimering.
 
 ---
 
@@ -270,9 +199,7 @@ Loopar ger programmet förmågan att upprepa instruktioner – det som gör det 
 
 - **`while`** upprepar ett block så länge villkoret är sant. Kontrollera alltid att villkoret till slut blir falskt.
 - **`for`** samlar initiering, villkor och uppdatering på en rad – välj den när du räknar med en räknarvariabel.
-- **`break`** avslutar loopen i förtid; **`continue`** hoppar över resten av den aktuella iterationen.
-- **`do...while`** körs alltid minst en gång – villkoret kontrolleras efter blocket.
-- **Nästlade loopar** används för flerdimensionell data; välj distinkta räknarnamn.
+- **`break`** avslutar loopen i förtid.
 
 Loopar kan göra ofantligt mycket på kort tid – och de kan göra det med fel på ofantligt effektivt sätt. En oändlig loop hänger webbläsaren; en räknare som startar på fel värde ger systematiskt fel resultat. Träna på att spåra loopars exekvering manuellt, rad för rad, tills du kan förutsäga resultatet utan att köra koden.
 
@@ -341,31 +268,13 @@ Skriv ett program som skriver ut talen 1 till 30 med följande regler:
 - Om talet är delbart med *både* 3 och 5 skrivs "FizzBuzz" ut.
 - Annars skrivs talet ut som vanligt.
 
-*Tips:* operatorn `%` från kapitel [-@sec-tal] ger resten vid heltalsdivision: `10 % 3` är `1`, `9 % 3` är `0`. Ett tal är delbart med 3 om resten är 0. Tänk på i vilken ordning villkoren behöver kontrolleras.
+*Tips:* operatorn `%` från kapitel [-@sec-tal-och-text] ger det som blir över när man delar upp något i lika stora delar: `10 % 3` är `1`, eftersom 3 får plats tre gånger i 10 och 1 blir över. `9 % 3` är `0`. Ett tal är delbart med 3 om resten är 0. Tänk på i vilken ordning villkoren behöver kontrolleras.
 :::
 
 ::: {.callout-note}
 ## Övning – Summera en sekvens
 
-Skriv kod som beräknar och skriver ut summan av alla heltal från 1 till ett godtyckligt tal `n`. Testa med `n = 100`. Vad bör summan vara? (Summan av de första *n* heltalen är en *aritmetisk summa* och kan beräknas med formeln $\frac{n(n+1)}{2}$ [@wiki-aritmetisk-summa] – stämmer ditt programs svar med formeln?)
-:::
-
-::: {.callout-note}
-## Övning – Mönster med nästlade loopar
-
-Skriv ett program som skriver ut följande mönster i konsolen (med `console.log`):
-
-```
-*
-**
-***
-****
-*****
-```
-
-Varje rad består av ett antal asterisker lika med radnumret. Använd nästlade loopar: en yttre loop för raderna och en inre loop för att bygga upp varje rads sträng.
-
-**Bonusutmaning:** Skriv ut mönstret omvänt (fem asterisker överst, en nederst).
+Skriv kod som beräknar och skriver ut summan av alla heltal från 1 till ett godtyckligt tal `n`. Testa först med `n = 4` och kontrollera svaret i huvudet: 1 + 2 + 3 + 4 = 10. Testa sedan med `n = 100`. Summan ska bli 5050.
 :::
 
 ::: {.callout-note}
@@ -383,9 +292,9 @@ Vad händer om starttalet är 0, negativt eller inte ett tal? Lägg till de kont
 ::: {.callout-note}
 ## Övning – FizzBuzz på sidan
 
-Gå tillbaka till FizzBuzz-övningen (10.3) och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan. Låt användaren välja hur långt programmet ska räkna, med ett fält och en knapp.
+Gå tillbaka till övningen *FizzBuzz* och gör om den: istället för att skriva varje rad i konsolen, bygg upp *hela* resultatet som en sträng (med radbrytning `\n` mellan varje post) och visa det i ett `<pre>`-element på sidan. Låt användaren välja hur långt programmet ska räkna, med ett fält och en knapp.
 
-Tips: `<pre>`-elementet bevarar radbrytningar, vilket gör att `\n` syns som faktiska radbrytningar på sidan.
+Tips: `\n` inuti en sträng betyder *ny rad*. Ett `<pre>`-element bevarar radbrytningar, så `\n` syns som faktiska radbrytningar på sidan.
 :::
 
 ::: {.callout-note}

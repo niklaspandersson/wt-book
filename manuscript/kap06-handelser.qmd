@@ -461,7 +461,7 @@ För `<select>`-element och checkboxar är `change` det naturliga valet. För te
 ::: {.callout-note}
 ## `.value` är alltid en sträng
 
-Allt du läser med `.value` är text – även om användaren har skrivit en siffra, och även om fältet är av typen `<input type="number">`. Vill du räkna med värdet måste du först omvandla det till ett tal. Hur det går till, och vad som händer om du glömmer det, är en av de första sakerna vi tar upp i kapitel [-@sec-tal].
+Allt du läser med `.value` är text – även om användaren har skrivit en siffra, och även om fältet är av typen `<input type="number">`. Vill du räkna med värdet måste du först omvandla det till ett tal. Hur det går till, och vad som händer om du glömmer det, är en av de första sakerna vi tar upp i kapitel [-@sec-tal-och-text].
 :::
 
 ---

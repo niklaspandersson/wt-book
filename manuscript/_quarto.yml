@@ -15,13 +15,11 @@ book:
         - kap04-dom.qmd
         - kap05-egna-funktioner.qmd
         - kap06-handelser.qmd
-        - kap07-tal.qmd
-        - kap08-strangar.qmd
-        - kap09-sant-och-falskt.qmd
-        - kap10-villkor.qmd
-        - kap11-loopar.qmd
-        - kap12-arrayer.qmd
-        - kap13-objekt.qmd
+        - kap07-tal-och-text.qmd
+        - kap08-sant-och-falskt.qmd
+        - kap09-villkor.qmd
+        - kap10-loopar.qmd
+        - kap11-arrayer.qmd
         - del1-sammanfattning.qmd
     - part: "Del II - Webben som plattform"
       chapters:
@@ -34,6 +32,7 @@ book:
 
     - part: "Del III - Javascript på djupet"
       chapters:
+        - kap-objekt.qmd
         - kap-moduler.qmd
         - kap-oop.qmd
         - kap-arv.qmd

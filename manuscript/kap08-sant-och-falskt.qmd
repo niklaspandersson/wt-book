@@ -6,7 +6,7 @@ Tänk dig ett anmälningsformulär till quizkvällen. Laget skriver sitt namn oc
 
 - Knappen "Anmäl" är grå och går inte att klicka på förrän laget har skrivit ett namn.
 - Ett varningsmeddelande dyker upp om laget har fler än sex deltagare.
-- Ett annat varningsmeddelande dyker upp om lagnamnet är längre än 20 tecken – det problem som blev kvar i kapitel [-@sec-strangar].
+- Ett annat varningsmeddelande dyker upp om lagnamnet är längre än 20 tecken – det problem som blev kvar i kapitel [-@sec-tal-och-text].
 
 Allt det bygger på frågor som har exakt två möjliga svar. *Är namnfältet tomt?* *Är antalet större än sex?* *Är namnet för långt?* Ja eller nej. Sant eller falskt.
 
@@ -16,7 +16,7 @@ Den sortens frågor är grunden för allt beslutsfattande i program. I det här 
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap09`, och spara den här koden som `index.html` i den:
+Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap08`, och spara den här koden som `index.html` i den:
 
 ```html
 <!DOCTYPE html>
@@ -128,7 +128,7 @@ Att blanda ihop dem är ett av de vanligaste misstagen i början, eftersom likhe
 
 ### Använd tre likhetstecken
 
-JavaScript har också en äldre jämförelse med *två* likhetstecken, `==`. Den gör om värdena innan den jämför, på samma sätt som du såg med `+` och `-` i kapitel [-@sec-tal] – och resultaten kan bli förvånande:
+JavaScript har också en äldre jämförelse med *två* likhetstecken, `==`. Den gör om värdena innan den jämför, på samma sätt som du såg med `+` och `-` i kapitel [-@sec-tal-och-text] – och resultaten kan bli förvånande:
 
 ```javascript
 5 === "5";    // false – ett tal och en sträng är olika saker
@@ -140,7 +140,7 @@ JavaScript har också en äldre jämförelse med *två* likhetstecken, `==`. Den
 
 ### Jämföra strängar
 
-`===` fungerar på strängar precis som på tal: två strängar är lika om de innehåller exakt samma tecken. Men det betyder också att stora och små bokstäver, och mellanslag, spelar roll. Svarar någon `" stockholm"` på en quizfråga vill du troligen ändå räkna det som rätt. Lösningen är att städa texten med metoderna från kapitel [-@sec-strangar] innan du jämför:
+`===` fungerar på strängar precis som på tal: två strängar är lika om de innehåller exakt samma tecken. Men det betyder också att stora och små bokstäver, och mellanslag, spelar roll. Svarar någon `" stockholm"` på en quizfråga vill du troligen ändå räkna det som rätt. Lösningen är att städa texten med metoderna från kapitel [-@sec-tal-och-text] innan du jämför:
 
 ```javascript
 const svar = "  stockholm ";
@@ -155,7 +155,7 @@ Operatorerna `<` och `>` fungerar också på strängar, och jämför då tecken 
 Number("10") < Number("9");   // false – talet 10 är inte mindre än 9
 ```
 
-Som strängar jämförs bara första tecknet först, och `"1"` kommer före `"9"`. Gör därför om värden från formulärfält till tal med `Number()` innan du jämför dem, precis som du lärde dig i kapitel [-@sec-tal].
+Som strängar jämförs bara första tecknet först, och `"1"` kommer före `"9"`. Gör därför om värden från formulärfält till tal med `Number()` innan du jämför dem, precis som du lärde dig i kapitel [-@sec-tal-och-text].
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -246,31 +246,13 @@ Läs uttrycket högt: "har biljett, *och* antingen över 18 eller har målsman m
 
 ---
 
-## Truthy och falsy
+::: {.callout-note}
+## Bra att veta: truthy och falsy
 
-Hittills har jämförelserna och de logiska operatorerna arbetat med `true` och `false`. Men JavaScript kan behandla *alla* värden som sanna eller falska när det behövs ett ja eller nej. Följande värden räknas som falska och kallas **falsy**:
+Hittills har jämförelserna och de logiska operatorerna arbetat med `true` och `false`. Men JavaScript kan behandla *alla* värden som sanna eller falska när det behövs ett ja eller nej. Värdena `false`, `0`, `""` (tom sträng), `null`, `undefined` och `NaN` räknas som falska och kallas **falsy**. Alla andra värden räknas som sanna och kallas **truthy** – även `"0"` och `" "`, som kan se tomma ut men inte är det.
 
-```javascript
-false;
-0;
-"";          // tom sträng
-null;
-undefined;
-NaN;
-```
-
-Alla andra värden räknas som sanna och kallas **truthy**. Det gäller även `"0"` (en sträng med ett nolltecken) och `" "` (en sträng med ett mellanslag), som kan se tomma ut men inte är det.
-
-Funktionen `Boolean()` visar hur ett värde tolkas:
-
-```javascript
-Boolean(0);        // false – noll är falsy
-Boolean("");       // false – tom sträng är falsy
-Boolean("hej");    // true
-Boolean("0");      // true – en sträng med ett tecken i
-```
-
-Vad har man då för nytta av det? Det märks framför allt i nästa kapitel, där programmet väljer väg utifrån ett ja eller nej. Där kan du ibland skriva bara ett namn, som `namn`, i stället för en fullständig fråga, som `namn !== ""`. Till dess räcker det att känna till listan ovan.
+Det betyder att du i andras kod kan se ett namn, som `namn`, där du hade väntat dig en fullständig fråga, som `namn !== ""`. Den här boken skriver ut frågan, eftersom den är lättare att läsa. Vill du veta mer kan du läsa om [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) och [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy) på MDN.
+:::
 
 ---
 
@@ -373,7 +355,6 @@ Här har det räckt att *svara* på frågor och använda svaren som värden. Ibl
 - **`=` är tilldelning, `===` är jämförelse.** Läs koden högt för att höra skillnaden.
 - Strängar jämförs tecken för tecken, och stora och små bokstäver spelar roll. Städa text med `trim()` och `toLowerCase()`, och gör om tal med `Number()`, innan du jämför – annars blir `"10" < "9"` sant.
 - **Logiska operatorer** kombinerar booleska värden: `&&` (och), `||` (eller), `!` (inte). Använd parenteser när du blandar dem.
-- Värdena `false`, `0`, `""`, `null`, `undefined` och `NaN` är **falsy**; allt annat är **truthy**.
 - Booleska egenskaper som **`hidden`**, **`disabled`** och **`checked`** kan tilldelas svaret på en fråga, och `classList.toggle(klass, villkor)` slår av och på en klass.
 - **`Number.isNaN`** är det pålitliga sättet att upptäcka `NaN`.
 
@@ -386,7 +367,7 @@ Kapitlet heter *Sant och falskt* – så varför inte öva med en sant-eller-fal
 
 **Sant eller falskt?**
 
-> *"Ge mig tolv påståenden om jämförelser, logiska operatorer och truthy/falsy i JavaScript, till exempel 'strängen "0" är falsy'. Ungefär hälften ska vara falska. Jag svarar sant eller falskt och motiverar, och du rättar mig."*
+> *"Ge mig tolv påståenden om jämförelser, och logiska operatorer i JavaScript, till exempel '"Anna" === "anna" är sant'. Ungefär hälften ska vara falska. Jag svarar sant eller falskt och motiverar, och du rättar mig."*
 
 Kontrollera de påståenden du var osäker på genom att skriva uttrycken i konsolen – så vet du att du inte heller har lurats av AI:n.
 
@@ -559,7 +540,7 @@ Gör ett formulär med ett fält för e-postadress, en kryssruta med texten "Jag
 ::: {.callout-note}
 ## Övning – Lagnamnet får en varning
 
-Gå tillbaka till lagnamnet från kapitel [-@sec-strangar] – antingen exemplet i avsnittet *Strängar på webbsidan* eller din poängtavla från övningen *Lagnamnet på poängtavlan*.
+Gå tillbaka till lagnamnet från kapitel [-@sec-tal-och-text] – antingen exemplet i avsnittet *Text på webbsidan* eller din poängtavla från övningen *Poängtavlan räknar rätt*.
 
 1. Visa en varning när det städade namnet är längre än 20 tecken.
 2. Om din sida har en knapp för att spara namnet: gör den avstängd så länge namnet är tomt eller för långt.

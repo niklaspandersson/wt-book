@@ -332,7 +332,7 @@ Stämde dina gissningar? Om något svar överraskade dig: vad var det som var an
 135 % 60;
 ```
 
-Vad verkar `%` göra? En ledtråd: tänk på 135 minuter uttryckt i timmar och minuter. Testa med fler tal tills du kan beskriva operatorn med en egen mening. (Svaret kommer i kapitel [-@sec-tal].)
+Vad verkar `%` göra? En ledtråd: tänk på 135 minuter uttryckt i timmar och minuter. Testa med fler tal tills du kan beskriva operatorn med en egen mening. (Svaret kommer i kapitel [-@sec-tal-och-text].)
 :::
 
 ::: {.callout-note}

@@ -1,0 +1,824 @@
+# Tal och text {#sec-tal-och-text}
+
+## Poängtavlan räknar fel
+
+Quizkvällen har blivit interaktiv. Poängtavlan har ett inmatningsfält där domaren skriver hur många poäng laget fick på rundan, och en knapp som lägger till dem:
+
+```html
+<p id="poäng">Poäng: 10</p>
+<input type="number" id="rundpoäng">
+<button id="lägg-till">Lägg till</button>
+```
+
+```javascript
+let poäng = 10;
+const fält = document.querySelector("#rundpoäng");
+const poängElement = document.querySelector("#poäng");
+
+document.querySelector("#lägg-till").addEventListener("click", () => {
+    poäng = poäng + fält.value;
+    poängElement.textContent = "Poäng: " + poäng;
+});
+```
+
+Domaren skriver `5` och klickar. Sidan visar: *Poäng: 105*.
+
+Något har gått fel – och det är inte matematiken. Programmet har inte räknat 10 + 5, utan satt ihop texten "10" och texten "5". Och det är inte det enda problemet på poängtavlan. Domaren vill visa hur många procent rätt laget har, och resultatet blir `76.66666666666667`. Någon föreslår att nästa fråga ska väljas slumpvis. Och när lagen själva får skriva in sina namn kommer det in `"  räknenissarna  "` med mellanslag före och efter, och `"DE VISA UGGLORNA"` med caps lock på.
+
+Det här kapitlet handlar om de två vanligaste sorterna av data i ett webbprogram: **tal** och **text**. Allt användaren skriver in är text, och nästan allt som visas på sidan är det också. Men ibland är texten egentligen ett tal, och då måste programmet förstå skillnaden.
+
+Kapitlet tar upp *grunderna* – det du behöver för att få poängtavlan att räkna rätt, visa snygga tal och städa upp det användaren skriver. JavaScript har mycket mer att erbjuda, med många fler sätt att räkna och bearbeta text. Kapitlet avslutas därför med var du hittar resten, och hur du läser dig till det du behöver när du behöver det.
+
+Ett kapitel om tal kan låta som ett kapitel om matematik, men det är det inte. Allt du behöver är vardagsräkning: plus, minus, gånger och delat med, som när du räknar ut vad tre biobiljetter kostar. Det svåra är inte räkningen, utan att få datorn att förstå vad som är ett tal och vad som bara är text som *ser ut* som ett tal.
+
+---
+
+## En sida att öva på
+
+Som i förra kapitlet gör du en egen övningssida för kapitlet. Skapa en ny mapp, till exempel `kap07`, och spara den här koden som `index.html` i den:
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Tal och text</title>
+    <script type="module" src="script.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 40rem;
+            margin: 2rem auto;
+        }
+        textarea {
+            width: 100%;
+            height: 5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quizkväll</h1>
+
+    <h2>Poängtavlan</h2>
+    <p id="poäng">Poäng: 10</p>
+    <input type="number" id="rundpoäng">
+    <button id="lägg-till">Lägg till</button>
+
+    <h2>Tärningen</h2>
+    <button id="kasta">Kasta tärningen</button>
+    <p id="kast">–</p>
+
+    <h2>Lagnamn</h2>
+    <input type="text" id="lagfält" placeholder="Lagets namn">
+    <h3 id="förhandsvisning">–</h3>
+
+    <h2>Meddelande till domaren</h2>
+    <textarea id="meddelande"></textarea>
+    <p id="räknare">0 / 140</p>
+
+    <h2>Momsräknaren</h2>
+    <label for="pris">Pris utan moms (kr):</label>
+    <input type="number" id="pris">
+    <button id="räkna">Räkna ut</button>
+    <p id="resultat"></p>
+
+    <h2>Övningar</h2>
+    <label for="summa">Lagets poäng:</label>
+    <input type="number" id="summa">
+    <label for="frågor">Antal frågor:</label>
+    <input type="number" id="frågor">
+    <button id="snitt-knapp">Räkna snitt</button>
+    <p id="snitt"></p>
+
+    <input type="text" id="svar" placeholder="Ditt svar">
+    <button id="svara">Svara</button>
+    <p id="eko"></p>
+</body>
+</html>
+```
+
+Skapa sedan `script.js` i samma mapp, med raden `console.log("Skriptet körs!");`, och öppna sidan med Live Server. Står det `Skriptet körs!` i konsolen är allt på plats.
+
+::: {.callout-note}
+## Så provar du koden i det här kapitlet
+
+- Korta uttryck som `7 + 3;` eller `"hej".length;` provar du enklast direkt i konsolen, som i kapitel [-@sec-anropa-funktioner]. Där syns värdet direkt.
+- Exempel som hämtar element från sidan skriver du i `script.js`. Alla element som exemplen och övningarna använder finns redan på sidan, med samma id.
+- Töm `script.js` innan du börjar på ett nytt exempel eller en ny övning, så att två `const` med samma namn inte krockar.
+:::
+
+---
+
+## Taltypen `number`
+
+I JavaScript finns en enda typ för tal: `number`. Den används för alla tal, både heltal och decimaltal:
+
+```javascript
+42;          // ett heltal
+3.14;        // ett decimaltal
+-7;          // ett negativt tal
+1000000;     // en miljon – utan mellanslag mellan siffrorna
+```
+
+Lägg märke till att decimaltal skrivs med *punkt*, inte med kommatecken som på svenska. Det kommer vi att få anledning att återkomma till när tal skrivs in av användaren.
+
+### Räknesätt
+
+Med tal kan man räkna med de vanliga **aritmetiska operatorerna**, alltså räknetecknen:
+
+| Operator | Betydelse            | Exempel     | Resultat |
+|----------|----------------------|-------------|----------|
+| `+`      | plus                 | `3 + 4`     | `7`      |
+| `-`      | minus                | `10 - 3`    | `7`      |
+| `*`      | gånger               | `3 * 4`     | `12`     |
+| `/`      | delat med            | `15 / 4`    | `3.75`   |
+| `%`      | det som blir över    | `135 % 60`  | `15`     |
+
+Gånger skrivs med en stjärna, `*`, och delat med med ett snedstreck, `/`, eftersom tangentbordet saknar tecknen × och ÷.
+
+Operatorn `%` mötte du redan i övningen *Konsolen som miniräknare* i kapitel [-@sec-om-javascript]. Den ger det som *blir över* när man delar upp något i lika stora delar. Tänk på en film som är 135 minuter lång. En timme är 60 minuter, och 60 får plats två gånger i 135 – det blir 120 minuter. Kvar blir 15 minuter. Det är de 15 minuterna som `135 % 60` ger. Operatorn kallas **modulo** eller **rest**. Du kommer inte att behöva den ofta, men den är bra att känna igen.
+
+JavaScript räknar gånger och delat med före plus och minus, precis som en miniräknare. Vill du ha en annan ordning sätter du parenteser:
+
+```javascript
+3 * 40 + 49;       // 169 – tre biljetter à 40 kr, plus 49 kr i avgift
+3 * (40 + 49);     // 267 – tre gånger summan av 40 och 49
+```
+
+### Ändra ett tal stegvis
+
+Att öka eller minska värdet i en variabel är så vanligt att JavaScript har kortformer för det. Raden `poäng = poäng + 10`, som du har skrivit många gånger vid det här laget, är ett långt sätt att säga "öka `poäng` med 10". Samma sak kan skrivas kortare:
+
+```javascript
+let poäng = 0;
+
+poäng += 10;   // samma som poäng = poäng + 10   → 10
+poäng -= 3;    // samma som poäng = poäng - 3    → 7
+```
+
+På samma sätt finns `*=` och `/=`. Det allra vanligaste fallet – att öka eller minska med exakt 1 – har en egen, ännu kortare form, `++` och `--`:
+
+```javascript
+let antalKlick = 0;
+antalKlick++;   // ökar med 1 → 1
+antalKlick++;   // → 2
+antalKlick--;   // minskar med 1 → 1
+```
+
+Kortformerna gör inget nytt – de är bara ett kortare sätt att skriva en tilldelning. Läs `poäng += 10` på samma sätt som den långa formen: räkna ut `poäng` plus tio, och låt `poäng` peka på det nya värdet. Med pilbilden från kapitel [-@sec-variabler] flyttas pilen från det gamla värdet till det nya.
+
+Eftersom kortformerna är tilldelningar fungerar de bara på variabler som kan tilldelas om, alltså de som deklarerats med `let`. Från och med nu använder boken dem. Räknaren i kapitel [-@sec-handelser] kunde till exempel ha skrivits med `antal++;` i stället för `antal = antal + 1;`.
+
+### När uträkningen går fel: `NaN`
+
+Förr eller senare kommer du att se värdet **`NaN`** (*Not a Number*, "inte ett tal"). Det är svaret när en uträkning inte kan ge något vettigt tal. Trots namnet är `NaN` av typen `number` – det är taltypens sätt att säga "här gick något fel".
+
+```javascript
+"hej" * 2;   // NaN – man kan inte ta text gånger två
+```
+
+`NaN` har en besvärlig egenskap: det *smittar*. Varje uträkning där `NaN` ingår ger också `NaN`. Har ett ogiltigt värde väl smugit sig in syns det ofta först långt senare, när sidan plötsligt visar "Poäng: NaN". Leta då bakåt efter var värdet kom ifrån.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Läs raden `poäng -= 3;` högt med vanliga ord. Vad är den långa formen?
+2. Variabeln `kvar` är deklarerad med `const kvar = 5;`. Vad tror du händer om du skriver `kvar--;`? Förutsäg först och testa sedan i konsolen.
+:::
+
+---
+
+## Tal från användaren
+
+Nu kan vi förklara vad som gick fel med poängtavlan. I kapitel [-@sec-handelser] såg du att `.value` alltid är en *sträng* – även när fältet är av typen `number`, och även när användaren bara har skrivit siffror. När domaren skrev `5` fick programmet strängen `"5"`, inte talet `5`.
+
+### När JavaScript gissar
+
+När man blandar typer försöker JavaScript hjälpa till genom att själv göra om värdena. Det kallas **implicit typkonvertering**, och resultaten kan vara förvånande:
+
+```javascript
+"5" + 3;     // "53" – talet görs om till text, och texterna sätts ihop
+"5" - 3;     // 2    – texten görs om till ett tal, och talen subtraheras
+```
+
+Tecknet `+` har två betydelser: plus för tal och sammanslagning för text, som du såg i kapitel [-@sec-variabler]. Är *något* av värdena en sträng väljer JavaScript sammanslagning. De andra räknetecknen (`-`, `*`, `/`) har bara en betydelse, så där gör JavaScript om strängen till ett tal.
+
+Det är precis det som hände på poängtavlan: `10 + "5"` blev `"105"`. Hade domaren i stället *dragit av* poäng med `-` hade det råkat fungera – vilket gör felet ännu svårare att upptäcka. Lärdomen är att aldrig lita på att JavaScript gissar rätt, utan att alltid göra om värdet själv.
+
+### Gör om texten till ett tal med `Number()`
+
+Den fria funktionen `Number()`, som du såg ett exempel på i kapitel [-@sec-anropa-funktioner], tar ett värde och försöker göra om det till ett tal:
+
+```javascript
+Number("42");       // 42
+Number("3.14");     // 3.14
+Number("hej");      // NaN – kan inte göras om till ett tal
+```
+
+Med `Number()` blir poängtavlan rätt:
+
+```javascript
+document.querySelector("#lägg-till").addEventListener("click", () => {
+    poäng += Number(fält.value);
+    poängElement.textContent = "Poäng: " + poäng;
+});
+```
+
+Nu ger `5` i fältet *Poäng: 15*. Gör det till en vana: varje gång du läser ett tal från sidan, gör om det direkt.
+
+::: {.callout-important}
+## Två fällor med inmatade tal
+
+**Det tomma fältet.** `Number("")` ger `0`, inte `NaN`. Om domaren klickar på knappen utan att skriva något läggs alltså noll poäng till – utan felmeddelande. Ibland är det rimligt, ibland inte.
+
+**Decimalkommat.** JavaScript förstår bara decimal*punkt*. `Number("12,5")` ger `NaN`. Fält av typen `<input type="number">` hjälper ofta till: beroende på webbläsare och språkinställningar kan användaren skriva med komma, och `.value` innehåller då talet med punkt. Men räkna inte med det – och i ett vanligt textfält får du alltid exakt det användaren skrev.
+
+Att *upptäcka* sådana fall – och visa ett vänligt felmeddelande – kräver att programmet kan fatta beslut. Det lär du dig i kapitel [-@sec-villkor].
+:::
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Varför blir `"10" + 5` något annat än `"10" - 5`?
+2. I poängtavlan står `Number(fält.value)` inuti callbacken. Vad hade hänt om raden `const rundpoäng = Number(fält.value);` i stället stod överst i filen, utanför callbacken? (Tänk på steget *läs* i kapitel [-@sec-handelser].)
+:::
+
+---
+
+## Avrunda och slumpa
+
+`Math` är ett inbyggt objekt med användbara funktioner för tal. Du mötte det redan i kapitel [-@sec-anropa-funktioner], där `Math.max` och `Math.min` fick visa hur funktionsanrop och returvärden fungerar. Här är två saker till som du ofta har nytta av i interaktiva sidor: avrundning och slumptal.
+
+### Avrundning
+
+```javascript
+Math.round(3.7);    // 4 – avrundar till närmaste heltal
+Math.round(3.2);    // 3
+Math.floor(3.9);    // 3 – avrundar alltid nedåt
+```
+
+`Math.round` använder du för vanlig avrundning. `Math.floor` använder du när du vill veta hur många *hela* enheter det blir – till exempel hur många biljetter à 40 kr som går att köpa för 150 kr: `Math.floor(150 / 40)` ger `3`.
+
+### Slumptal
+
+Spel, quiz och tärningar behöver slumpen. `Math.random()` returnerar ett slumpmässigt decimaltal som är minst 0 och mindre än 1 – till exempel `0.7291`. Det är sällan just ett sådant tal man vill ha. Oftast vill man ha ett heltal, som ett tärningskast mellan 1 och 6. Det får man fram i fyra steg:
+
+```javascript
+const slump = Math.random();          // ett tal från 0 till strax under 1
+const skalat = slump * 6;             // ett tal från 0 till strax under 6
+const heltal = Math.floor(skalat);    // 0, 1, 2, 3, 4 eller 5
+const tärning = heltal + 1;           // 1, 2, 3, 4, 5 eller 6
+```
+
+Följ ett kast genom stegen. Anta att `Math.random()` den här gången råkar ge `0.7291`:
+
+| Rad | Vad som räknas ut | Namnet pekar på |
+|---|---|---|
+| 1 | `Math.random()` returnerar ett slumptal | `slump` → 0.7291 |
+| 2 | `0.7291 * 6` | `skalat` → 4.3746 |
+| 3 | `Math.floor(4.3746)` – decimalerna stryks | `heltal` → 4 |
+| 4 | `4 + 1` | `tärning` → 5 |
+
+Steg 3 och 4 behövs eftersom `Math.floor` aldrig kan ge 6 – det största `skalat` kan bli är strax under 6, och det avrundas nedåt till 5. Därför flyttas alla utfall ett steg uppåt med `+ 1`.
+
+Samma sak skrivs oftast på en rad, med nästlade anrop:
+
+```javascript
+const tärning = Math.floor(Math.random() * 6) + 1;
+```
+
+Läs uttrycket inifrån och ut, precis som du lärde dig i kapitel [-@sec-anropa-funktioner]. Mönstret går att återanvända: byt `6` mot antalet möjliga utfall. En funktion gör det tydligt:
+
+```javascript
+function slumpaHeltal(max) {
+    return Math.floor(Math.random() * max) + 1;   // 1 till och med max
+}
+
+const frågaNr = slumpaHeltal(20);   // en slumpad fråga av 20
+```
+
+### Visa tal snyggt
+
+Laget har 23 poäng av 30 möjliga. Hur många procent rätt är det? Man delar poängen med det högsta möjliga och tar resultatet gånger 100: `23 / 30 * 100`, vilket blir `76.66666666666667`. Ingen vill se det på en poängtavla.
+
+Ett sätt är att avrunda till heltal med `Math.round`, som ger `77`. Vill man ha en decimal kan man använda metoden `toFixed` – för även tal har metoder:
+
+```javascript
+const andel = 23 / 30 * 100;
+andel.toFixed(1);    // "76.7"
+andel.toFixed(0);    // "77"
+```
+
+Argumentet anger hur många decimaler som ska visas. Lägg märke till citattecknen i kommentarerna: `toFixed` returnerar en *sträng*, inte ett tal. Den är alltså till för *visning*, i slutet av en uträkning – inte för att räkna vidare med. Räkna med fullständiga tal hela vägen, och avrunda först när värdet ska visas.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Gör om spårtabellen för tärningen, men anta att `Math.random()` ger `0.05`. Vilket tal visar tärningen?
+2. Vad skulle `slumpaHeltal(2)` kunna användas till? Vilka värden kan den ge?
+3. Variabeln `pris` pekar på `12.5`. Vilken typ har `pris.toFixed(2)`? Hur kan du kontrollera ditt svar med `typeof`?
+:::
+
+---
+
+## Text: strängar
+
+En **sträng** (*string*) är en följd av tecken – bokstäver, siffror, mellanslag, symboler. Du har använt strängar sedan kapitel [-@sec-variabler], skrivna mellan enkla eller dubbla citattecken:
+
+```javascript
+"Anna";
+'Björn';
+```
+
+Som du just har sett kan strängar innehålla siffror, men de är fortfarande *text*. `"42"` är en sträng med två tecken, `4` och `2` – inte talet fyrtiotvå.
+
+### Templatesträngar
+
+Du vet redan att strängar kan slås ihop med `+`, vilket kallas **konkatenering**. Men när texten består av många delar blir det snabbt ett pussel av citattecken, plustecken och mellanslag som lätt hamnar fel:
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 23 };
+const max = 30;
+
+lag.namn + " har " + lag.poäng + " av " + max + " poäng";   // med konkatenering
+```
+
+Ett smidigare sätt är **templatesträngar** (*template literals*). De skrivs med backticks (\`) i stället för citattecken, och låter dig bädda in värden direkt i texten med `${ }`:
+
+```javascript
+`${lag.namn} har ${lag.poäng} av ${max} poäng`;             // med templatesträng
+```
+
+Båda raderna ger samma resultat, `"Röda stjärnor har 23 av 30 poäng"`, men templatesträngen är lättare att läsa – texten du vill visa syns i ett stycke, och värdena sitter där de ska stå. Backticken hittar du oftast till vänster om backstegstangenten. På ett svenskt tangentbord skriver du den med Skift och tangenten med accenttecknet, och ibland behöver du trycka mellanslag efteråt för att tecknet ska synas.
+
+Inom `${ }` kan du skriva vilket **uttryck** som helst – allt som ger ett värde, som du lärde dig i kapitel [-@sec-om-javascript]. Det kan vara en variabel eller en egenskap, men lika gärna en uträkning eller ett funktionsanrop:
+
+```javascript
+`Dubbla poängen: ${lag.poäng * 2}`;                       // "Dubbla poängen: 46"
+`Andel rätt: ${(lag.poäng / max * 100).toFixed(1)} %`;   // "Andel rätt: 76.7 %"
+```
+
+JavaScript räknar först ut värdet av uttrycket inom `${ }` och bäddar sedan in resultatet i texten. Från och med nu använder boken templatesträngar i stället för konkatenering när text ska byggas av flera delar.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vad blir `` `Fråga ${3 + 1} av 10` ``? Och vad blir `"Fråga ${3 + 1} av 10"`, med vanliga citattecken? Förutsäg först och testa sedan i konsolen.
+2. Skriv om `"Poäng: " + poäng` från poängtavlan som en templatesträng.
+:::
+
+### Längd
+
+Varje sträng har en **egenskap** `length` som anger hur många tecken den innehåller:
+
+```javascript
+"Röda stjärnor".length;   // 13 – mellanslaget räknas också
+"".length;                // 0 – tom sträng
+```
+
+Lägg märke till att `length` saknar parenteser. Det är en egenskap, inte en metod – skillnaden från kapitel [-@sec-anropa-funktioner].
+
+---
+
+## Strängmetoder
+
+Strängar har en lång rad inbyggda **metoder**. I kapitel [-@sec-anropa-funktioner] såg du att en metod är en funktion som hör till ett värde och anropas med punktnotation: `sträng.metod(argument)`. Här är de du har mest nytta av när text kommer från användaren.
+
+```javascript
+"anna".toUpperCase();                    // "ANNA"
+"DE VISA UGGLORNA".toLowerCase();        // "de visa ugglorna"
+"  räknenissarna  ".trim();              // "räknenissarna"
+"Vad heter Sveriges huvudstad?".includes("Sverige");   // true
+```
+
+- `toUpperCase` och `toLowerCase` gör om hela texten till stora eller små bokstäver. De hanterar å, ä och ö korrekt, och är användbara både för att visa text på ett enhetligt sätt och för att jämföra text utan att stora och små bokstäver spelar roll – något vi återkommer till i kapitel [-@sec-booleska].
+- `trim` tar bort mellanslag i början och slutet av en sträng, men inte inne i texten. Det är kanske den mest använda strängmetoden av alla när man läser text från användaren. Mellanslag före och efter syns inte, men de räknas i `length` och gör att två texter som ser likadana ut inte är det.
+- `includes` svarar `true` eller `false` – ja eller nej – på frågan om texten finns någonstans i strängen. Den skiljer på stora och små bokstäver: `"JavaScript".includes("java")` ger `false`, eftersom `j` och `J` är olika tecken.
+
+### Metoderna ändrar inte strängen
+
+En sak gäller alla strängmetoder, och den är lätt att missa: de **ändrar inte** strängen de anropas på. En sträng i JavaScript kan inte ändras över huvud taget – den är **oföränderlig** (*immutable*). Metoderna lämnar originalet orört och *returnerar en ny sträng*. Vill du behålla resultatet måste du spara det, till exempel i en variabel.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+Läs koden och förutsäg vad som skrivs ut, innan du testar i konsolen:
+
+```javascript
+let namn = "  Ugglorna  ";
+namn.trim();
+console.log(namn.length);
+```
+
+1. Blev det 8 eller 12? Varför? Tänk på vad du lärde dig i kapitel [-@sec-anropa-funktioner] om att anropet ersätts av sitt returvärde.
+2. Ändra den andra raden så att utskriften blir `8`.
+:::
+
+### Kedja metoder
+
+Eftersom strängmetoderna returnerar en ny sträng kan du anropa en ny metod direkt *på det returnerade värdet*:
+
+```javascript
+const inmatning = "  anna  ";
+inmatning.trim().toUpperCase();   // "ANNA"
+```
+
+Det kallas att **kedja** metoder. Följ raden steg för steg, på samma sätt som de nästlade anropen i kapitel [-@sec-anropa-funktioner]:
+
+| Steg | Vad som räknas ut | Uttrycket ser nu ut så här |
+|---|---|---|
+| 1 | `inmatning` pekar på `"  anna  "` | `"  anna  ".trim().toUpperCase();` |
+| 2 | `trim()` returnerar `"anna"` | `"anna".toUpperCase();` |
+| 3 | `toUpperCase()` returnerar `"ANNA"` | `"ANNA";` |
+
+En kedja läses från vänster till höger: varje metod arbetar på det som metoden före den returnerade.
+
+---
+
+## Text på webbsidan
+
+Strängmetoder kommer verkligen till nytta när de kombineras med händelser. Här är lagnamnet från kapitlets början, städat och visat medan laget skriver. Koden följer de fem stegen från kapitel [-@sec-handelser]:
+
+```html
+<input type="text" id="lagfält" placeholder="Lagets namn">
+<h3 id="förhandsvisning">–</h3>
+```
+
+```javascript
+function städaNamn(text) {
+    return text.trim().toUpperCase();
+}
+
+// 1. Hämta elementen
+const lagfält = document.querySelector("#lagfält");
+const förhandsvisning = document.querySelector("#förhandsvisning");
+
+// 2. Lyssna efter en händelse
+lagfält.addEventListener("input", () => {
+    // 3. Läs indata
+    const namn = lagfält.value;
+
+    // 4. Bearbeta
+    const städat = städaNamn(namn);
+
+    // 5. Visa resultatet
+    förhandsvisning.textContent = `Lag: ${städat}`;
+});
+```
+
+Händelsen `input` ser till att det sker vid varje tangenttryckning. Oavsett hur laget skriver sitt namn visas det likadant på poängtavlan: utan mellanslag runt och med stora bokstäver. Bearbetningen i steg 4 ligger i en egen funktion med ett beskrivande namn, så att callbacken blir lika lätt att läsa som i kapitel [-@sec-handelser] – och om du senare vill städa namnet på ett annat sätt ändrar du bara på ett ställe.
+
+Och här är en teckenräknare för ett meddelande som får vara högst 140 tecken:
+
+```html
+<textarea id="meddelande"></textarea>
+<p id="räknare">0 / 140</p>
+```
+
+```javascript
+const meddelande = document.querySelector("#meddelande");
+const räknare = document.querySelector("#räknare");
+
+meddelande.addEventListener("input", () => {
+    const antal = meddelande.value.length;
+    räknare.textContent = `${antal} / 140`;
+});
+```
+
+Ett `<textarea>` är ett textfält med plats för flera rader. Precis som för `<input>` läser du dess innehåll med `.value`.
+
+Att visa en varning när lagnamnet är för långt kräver att programmet kan ställa en fråga – *är namnet längre än 20 tecken?* – och det är ämnet för nästa kapitel.
+
+---
+
+## Ett löst exempel: momsräknaren
+
+Nu kan vi sätta ihop det mesta från kapitlet till en liten men komplett räknare. Användaren skriver ett pris utan moms, klickar på en knapp och får priset med moms.
+
+Först själva räkningen. I Sverige är momsen på de flesta varor 25 procent, alltså en fjärdedel av priset. Priset med moms är därför priset plus en fjärdedel till. En vara som kostar 100 kr utan moms kostar 125 kr med moms. I kod skrivs det som `pris * 1.25` – "priset gånger en och en fjärdedel".
+
+Koden följer de fem stegen från kapitel [-@sec-handelser]:
+
+```html
+<label for="pris">Pris utan moms (kr):</label>
+<input type="number" id="pris">
+<button id="räkna">Räkna ut</button>
+<p id="resultat"></p>
+```
+
+```javascript
+// 1. Hämta elementen
+const prisFält = document.querySelector("#pris");
+const räknaKnapp = document.querySelector("#räkna");
+const resultat = document.querySelector("#resultat");
+
+function prisMedMoms(pris) {
+    return pris * 1.25;
+}
+
+// 2. Lyssna efter en händelse
+räknaKnapp.addEventListener("click", () => {
+    // 3. Läs indata – och gör om texten till ett tal
+    const pris = Number(prisFält.value);
+
+    // 4. Bearbeta – räkna med fullständiga tal
+    const total = prisMedMoms(pris);
+
+    // 5. Visa resultatet – avrundat, med en templatesträng
+    resultat.textContent = `${pris} kr blir ${total.toFixed(2)} kr med moms.`;
+});
+```
+
+Jämför med det lösta exemplet i kapitel [-@sec-handelser]. Stegen är desamma, men två av dem har fått mer att göra. I steg 3 görs texten om till ett tal direkt när den läses, och i steg 5 avrundas talet först när det ska visas. Själva uträkningen i steg 4 ligger i en egen funktion, så att den har ett namn och går att ändra på ett enda ställe – om momsen till exempel skulle ändras.
+
+Prova också att lämna fältet tomt och klicka. Vad visas? Prova sedan att ändra fältet till `type="text"` och skriva `hej`. Att hantera sådana fall på ett vänligt sätt är något vi återkommer till i kapitel [-@sec-villkor].
+
+---
+
+## Var hittar du mer?
+
+Det här kapitlet har bara visat en liten del av det JavaScript kan göra med tal och text. Det är med flit. Ingen programmerare kan alla metoder utantill – erfarna programmerare kan *grunderna* väl, och vet var de ska leta när de behöver något mer. Det är just det arbetssättet du ska öva in.
+
+Den viktigaste källan är **MDN Web Docs**, som du lärde dig läsa i avsnittet *Att hitta och läsa om funktioner* i kapitel [-@sec-anropa-funktioner]. Tre sidor är särskilt användbara för det här kapitlets innehåll:
+
+- [MDN: Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) – allt om taltypen, bland annat hur man gör om text till tal på andra sätt än med `Number()`.
+- [MDN: Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) – alla räkneverktyg: avrundning uppåt, avståndet mellan två tal, största och minsta värdet och mycket mer.
+- [MDN: String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) – alla strängmetoder, till exempel för att plocka ut en del av en text, ersätta text eller ta reda på var i en text något står.
+
+På sidorna för `Math` och `String` finns en lista med rubriken *Instance methods* eller *Static methods*. Där står alla metoder, var och en med en kort beskrivning. Du behöver inte läsa hela listan – skumma rubrikerna tills du hittar en som låter rätt, och läs sedan den metodens sida. Börja med exemplen längst upp, och titta efter vad metoden tar emot (*Parameters*) och vad den ger tillbaka (*Return value*).
+
+När du söker på nätet får du bäst träffar om du skriver *mdn* först och beskriver vad du vill göra på engelska, till exempel *mdn string replace text* eller *mdn math round up*.
+
+::: {.callout-note}
+## Några saker du kommer att stöta på
+
+Det här är saker som boken medvetet har hoppat över, men som du kan möta i andras kod eller när du söker hjälp:
+
+- **Flyttal är inte exakta.** `0.1 + 0.2` ger `0.30000000000000004`. Det beror på hur datorer lagrar decimaltal, och händer i nästan alla programmeringsspråk [@ieee754]. Avrunda när du visar resultatet, så märks det inte.
+- **Enskilda tecken.** Tecknen i en sträng är numrerade från 0, och `"Quiz"[0]` ger `"Q"`. Samma sätt att numrera möter du i kapitel [-@sec-arrayer].
+- **`split`** delar upp en sträng i delar, till exempel ett namn i för- och efternamn. Resultatet är en lista, och listor är ämnet för kapitel [-@sec-arrayer].
+:::
+
+---
+
+## Sammanfattning
+
+- JavaScript har en enda taltyp, **`number`**, för både heltal och decimaltal. Decimaltal skrivs med punkt.
+- Räknetecknen är `+`, `-`, `*` (gånger), `/` (delat med) och `%` (det som blir över). Gånger och delat med räknas före plus och minus.
+- **Kortformerna** `+=`, `-=`, `++` och `--` ändrar värdet i en variabel stegvis. `poäng += 10` betyder samma sak som `poäng = poäng + 10`.
+- **`NaN`** betyder att en uträkning gick fel, och "smittar" alla uträkningar det ingår i.
+- Värden från formulärfält är **strängar**. `+` med en sträng blir sammanslagning – gör därför alltid om värdet med **`Number()`**. `Number("")` ger `0`, och `Number("12,5")` ger `NaN`.
+- **`Math.round`** avrundar till närmaste heltal och **`Math.floor`** nedåt. `Math.floor(Math.random() * n) + 1` ger ett slumpat heltal från 1 till och med `n`.
+- **`toFixed(n)`** visar ett tal med `n` decimaler – och returnerar en sträng.
+- **Templatesträngar** (`` `${uttryck}` ``) bygger text av flera delar.
+- **`length`** ger antalet tecken i en sträng.
+- **`toUpperCase`**, **`toLowerCase`**, **`trim`** och **`includes`** är de vanligaste strängmetoderna. De ändrar inte strängen utan returnerar en ny – spara resultatet om du vill behålla det. Metoder kan **kedjas**: `text.trim().toUpperCase()`.
+- Det finns många fler metoder för tal och text. Slå upp dem på **MDN** när du behöver dem.
+
+Nu kan du bearbeta både tal och text. Men dina program gör fortfarande samma sak varje gång – oavsett om användaren skrev ett giltigt tal eller inte, oavsett om lagnamnet var för långt. I nästa kapitel lär du dig att ställa frågor om värden – är texten tom, är talet för stort? – och i kapitlet därefter att låta programmet fatta beslut utifrån svaren.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+Riktiga program som räknar och hanterar text börjar sällan med en formel. De börjar med någon som vill ha något – och som inte har tänkt på allt. Låt AI:n spela den beställaren, så får du träna på det som ofta är det svåraste: att ställa rätt frågor.
+
+**Rollspel – kunden som vill ha en räknare:**
+
+> *"Spela ägaren till ett litet kafé som vill ha en webbsida där personalen skriver in hur många kaffe och bullar en kund köper och får se vad det kostar. Beskriv vad du vill ha, men var lite vag – som en riktig kund. Svara bara på de frågor jag ställer, och avslöja detaljer som avrundning till hela kronor, kundens namn på kvittot eller vad som ska hända med tomma fält, först när jag frågar om dem."*
+
+Fråga om allt som kapitlet tagit upp: vilka tal kommer in, hur ska de avrundas, vad händer med decimalkomma, hur ska namnet visas? När du är nöjd med svaren kan du bygga sidan.
+
+**Kontrollera AI:n:**
+
+> *"Vad blir `Number("")`, `"7" + 3 - 3`, `Math.round(-2.5)` och `" Hej ".trim().length` i JavaScript?"*
+
+Testa sedan alla fyra själv i konsolen. Stämde svaren? Uttryck med kantfall som de här är just där AI-verktyg ibland svarar fel med full övertygelse.
+
+**Hitta rätt metod – utan att få svaret:**
+
+> *"Jag vill att mitt JavaScript-program ska ta reda på om ett filnamn slutar med '.png'. Säg inte vilken metod jag ska använda. Ge mig i stället ett tips om vad jag ska söka efter på MDN, och vilken del av sidan jag ska titta på."*
+
+Så tränar du på att hitta själv – det som avsnittet *Var hittar du mer?* handlar om.
+:::
+
+---
+
+## Övningar
+
+Övningarna börjar med att du förutsäger och följer kod. Gör dem utan att köra koden först, och kontrollera sedan i konsolen eller på övningssidan från avsnittet *En sida att öva på*.
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vad skriver följande rader ut? Resonera dig fram till svaret *innan* du testar i konsolen.
+
+```javascript
+console.log("10" + 5);
+console.log("10" - 5);
+console.log("hej" * 2);
+console.log(Number("10") + 5);
+console.log("10" + 5 - 5);
+console.log(`10 + 5 = ${10 + 5}`);
+```
+
+För varje rad: förklara *varför* du fick det resultatet. Den femte raden är lurig – räkna ut den från vänster till höger, ett steg i taget, och skriv ner vad varje steg ger.
+:::
+
+::: {.callout-note}
+## Övning – Spåra kortformerna
+
+Gå igenom följande kod rad för rad *utan* att köra den.
+
+```javascript
+let poäng = 5;
+poäng += 10;
+poäng--;
+poäng -= poäng;
+poäng++;
+poäng += poäng + 1;
+```
+
+Gör en spårtabell med tre kolumner: *Rad*, *Den långa formen* (till exempel `poäng = poäng + 10`) och *`poäng` pekar på*. Kontrollera sedan i konsolen.
+
+Den sista raden är lurig. Vad blir den långa formen – och stämmer ditt svar med vad konsolen säger?
+:::
+
+::: {.callout-note}
+## Övning – Spåra strängarna
+
+Gå igenom koden rad för rad utan att köra den.
+
+```javascript
+const rå = "  Blå Blixtarna ";
+const steg1 = rå.trim();
+const steg2 = steg1.toLowerCase();
+const finns = steg2.includes("blå");
+rå.toUpperCase();
+const längd = rå.length;
+```
+
+1. Gör en spårtabell med kolumnerna *Rad* och *Namn och värden*. Skriv för varje rad vilket nytt namn som skapas och vilket värde det pekar på. Skriv ut mellanslagen tydligt, till exempel med en punkt för varje mellanslag.
+2. Vad pekar `rå` på efter den femte raden? Vilket värde får `längd`?
+3. Den femte raden gör ingen nytta. Varför inte?
+4. Vilket värde hade `finns` fått om rad 4 i stället hade använt `steg1`? Varför?
+:::
+
+::: {.callout-note}
+## Övning – Tärningskast
+
+Uttrycket `Math.floor(Math.random() * 6) + 1` simulerar ett tärningskast. Bryt ned det steg för steg:
+
+1. Vad returnerar `Math.random()`?
+2. Vilka värden kan `Math.random() * 6` ge?
+3. Vad gör `Math.floor()` med det värdet?
+4. Varför läggs `+ 1` till?
+
+Skriv sedan ett uttryck som simulerar ett kast med en tärning med tio sidor (1–10).
+
+Vad hade hänt om du använt `Math.round` i stället för `Math.floor`? Vilka tal kan då komma upp? Prova att göra en spårtabell som den i avsnittet *Slumptal* för slumptalen `0.05`, `0.5` och `0.95`.
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Var och en av snuttarna nedan ska lägga till rundans poäng på poängtavlan, men ingen av dem fungerar. De använder elementen under *Poängtavlan* på övningssidan. Skriv först de här raderna överst i `script.js`:
+
+```javascript
+let poäng = 10;
+const fält = document.querySelector("#rundpoäng");
+const poängElement = document.querySelector("#poäng");
+const knapp = document.querySelector("#lägg-till");
+```
+
+Lägg sedan till en snutt i taget. Förutsäg för varje snutt vad som händer när domaren skriver `5` och klickar: blir det ett felmeddelande, eller visar sidan fel tal? Testa sedan.
+
+```javascript
+// A
+knapp.addEventListener("click", () => {
+    poäng = poäng + fält.value;
+    poängElement.textContent = `Poäng: ${poäng.toFixed(0)}`;
+});
+```
+
+```javascript
+// B
+knapp.addEventListener("click", () => {
+    poäng += Number(fält.value);
+    poängElement.textContent = "Poäng: " + poäng + Number(fält.value);
+});
+```
+
+```javascript
+// C
+knapp.addEventListener("click", () => {
+    poäng += Number(fält.value);
+    poängElement.textContent = `Poäng: ${Math.Round(poäng)}`;
+});
+```
+
+1. Två av snuttarna ger ett felmeddelande. Vilka, och vad betyder *is not a function* i vart och ett av fallen?
+2. En snutt ger inget felmeddelande, men sidan visar fel. Vilket tal visas, och var i raden uppstår felet?
+3. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+Läs koden. Den använder elementen under *Övningar* på övningssidan.
+
+```javascript
+const summaFält = document.querySelector("#summa");
+const frågorFält = document.querySelector("#frågor");
+const snitt = document.querySelector("#snitt");
+
+document.querySelector("#snitt-knapp").addEventListener("click", () => {
+    const summa = Number(summaFält.value);
+    const frågor = Number(frågorFält.value);
+    const perFråga = summa / frågor;
+    snitt.textContent = `${perFråga.toFixed(1)} poäng per fråga`;
+});
+```
+
+1. Beskriv med en mening vad sidan gör för den som använder den. Beskriv vad som händer, inte vad varje rad gör.
+2. Vad visas om båda fälten är tomma? Förutsäg först och testa sedan.
+:::
+
+::: {.callout-note}
+## Övning – Ordna raderna
+
+På övningssidan finns ett textfält med id `svar`, en knapp med id `svara` och ett stycke med id `eko`. När knappen klickas ska stycket visa svaret utan mellanslag runt och med stora bokstäver, till exempel `Ditt svar: STOCKHOLM`. Välj ut och ordna raderna. Två rader ska inte användas.
+
+```javascript
+});
+    svarsfält.value.trim().toUpperCase();
+const eko = document.querySelector("#eko");
+    eko.textContent = `Ditt svar: ${svar}`;
+document.querySelector("#svara").addEventListener("click", () => {
+    eko.textContent = "Ditt svar: ${svar}";
+const svarsfält = document.querySelector("#svar");
+    const svar = svarsfält.value.trim().toUpperCase();
+```
+
+1. Vilka två rader använde du inte? Vad hade sidan visat om du hade använt dem?
+2. Markera de fem stegen – hämta, lyssna, läs, bearbeta, visa – i din lösning. Vilken rad gör två av stegen på en gång?
+:::
+
+::: {.callout-note}
+## Övning – Slå upp själv
+
+Varje deluppgift kräver en metod som kapitlet *inte* har visat. Använd MDN-sidorna i avsnittet *Var hittar du mer?* för att hitta den. Skriv för varje metod ner vad den heter, vad den tar emot och vad den returnerar – innan du provar den i konsolen.
+
+1. Ett quiz med 128 deltagare ska åka buss, och varje buss tar 50 personer. Hur många bussar behövs? Hitta en metod i `Math` som avrundar *uppåt*, och skriv ett uttryck som ger svaret.
+2. Ett filnamn ska kontrolleras. Hitta en strängmetod som svarar `true` eller `false` på om `"karta.png"` *slutar* med `".png"`.
+3. Lagnamnet `"Röda-stjärnor-från-Växjö"` ska visas med mellanslag i stället för bindestreck. Hitta en strängmetod som byter ut *alla* bindestreck.
+
+Jämför med en kurskamrat: hittade ni samma metoder? Fanns det mer än ett sätt att lösa någon av uppgifterna?
+:::
+
+### Egna sidor
+
+I resten av övningarna bygger du sidorna själv, både HTML och JavaScript. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser]: en ny mapp för varje övning, skelettet till `index.html`, en plan för elementen och sedan koden ett steg i taget. Skriv gärna de fem stegen som kommentarer i `script.js` innan du börjar.
+
+::: {.callout-note}
+## Övning – Bygg vidare på momsräknaren
+
+Utgå från momsräknaren i kapitlet. Kopiera HTML-koden och JavaScript-koden till en ny mapp och kontrollera att den fungerar. Ändra den sedan i steg:
+
+1. Visa också hur mycket själva momsen är, till exempel `100 kr blir 125.00 kr med moms. Momsen är 25.00 kr.`
+2. Lägg till ett fält för *antal*, så att sidan räknar ut priset för flera exemplar av samma vara. I vilket av de fem stegen behöver du ändra mest?
+3. Byt ut `toFixed(2)` mot `Math.round`, så att priset visas i hela kronor. Vad blir skillnaden för den som använder sidan?
+:::
+
+::: {.callout-note}
+## Övning – Temperaturomvandlare
+
+Gör en sida där användaren skriver en temperatur i grader Celsius och får den omräknad till grader Fahrenheit, som används i USA. Själva uträkningen får du färdig: i kod skrivs den `celsius * 1.8 + 32`.
+
+1. Skriv en funktion `tillFahrenheit(celsius)` som returnerar temperaturen i Fahrenheit. Visa resultatet med en decimal, i en mening byggd med en templatesträng.
+2. Testa med 0, 100, 37 och −40. Vad är speciellt med −40?
+3. Lägg till omvandling åt andra hållet, med en egen knapp och en egen funktion `tillCelsius(fahrenheit)`. Uträkningen är `(fahrenheit - 32) / 1.8`. Varför behövs parenteserna?
+
+Spara sidan – i kapitel [-@sec-villkor] bygger du vidare på den.
+:::
+
+::: {.callout-note}
+## Övning – Teckenräknare
+
+Utgå från teckenräknaren i kapitlet. Elementen finns på övningssidan.
+
+1. Visa i stället hur många tecken som är *kvar*, till exempel "Du har 98 tecken kvar".
+2. Ska mellanslag i början och slutet räknas? Ändra räknaren så att de inte gör det.
+:::
+
+::: {.callout-note}
+## Övning – Poängtavlan räknar rätt
+
+Gå tillbaka till övningen *Poängtavlan blir interaktiv* i kapitel [-@sec-handelser], där laget var ett objekt och funktionen `visaLag(lag)` uppdaterade sidan. Bygg vidare på den:
+
+1. Byt ut knappen "Rätt svar" mot ett fält och en knapp "Lägg till", så att domaren kan skriva in hur många poäng laget fick på rundan. Använd kortformen `+=`.
+2. Lägg till ett stycke som visar hur många procent av det högsta möjliga laget har fått, med en decimal. Bestäm själv hur många poäng som är högsta möjliga, och spara det i en `const`.
+3. Lägg till ett textfält där domaren kan skriva lagets namn. Namnet ska städas med `trim` innan det sparas i objektet `lag`.
+4. Skriv om funktionen `visaLag(lag)` så att den bygger texten med en templatesträng.
+
+Planera först: vilket av de fem stegen är nytt jämfört med i kapitel [-@sec-handelser], och vilket har växt? Spara sidan – i nästa kapitel bygger du vidare på den.
+:::

@@ -35,9 +35,9 @@ Chapters must be listed explicitly under `book.chapters` in `_quarto.yml`. The o
 
 See [OUTLINE.md](OUTLINE.md) for the full chapter plan. The book is organized into four parts:
 
-- **Del I** (Ch. 1–13): Foundational JavaScript — values and variables, using functions (calls, arguments, return values, methods), the DOM, writing your own functions, events, numbers, strings, booleans, conditional statements, loops, arrays, objects. Web chapters (4 and 6) come early so later language chapters can use interactive examples; language features are introduced only in language chapters, and web chapters only use what has already been explained (see the restructure section in OUTLINE.md)
+- **Del I** (Ch. 1–11): Foundational JavaScript — values and variables, using functions (calls, arguments, return values, methods), the DOM, writing your own functions, events, numbers and text (basics only, with pointers to MDN for more), booleans, conditional statements, loops, arrays (including arrays of objects). Del I is sized to fit the course Webbteknik 2: teach the basics well and show students where to look up the rest, rather than covering every method. Web chapters (4 and 6) come early so later language chapters can use interactive examples; language features are introduced only in language chapters, and web chapters only use what has already been explained (see the restructure section in OUTLINE.md)
 - **Del II**: The web as a platform — DOM deep-dive, timers, forms, storage, Fetch/JSON, HTTP/REST, audio, drag-and-drop, security, performance
-- **Del III**: The language in depth — closures, async/await, modules, OOP, functional array transforms, error handling
+- **Del III**: The language in depth — objects in depth (methods, `this`, reference semantics), closures, async/await, modules, OOP, functional array transforms, error handling
 - **Del IV**: Craft and methodology — Git/GitHub, debugging
 
 Plus two appendices on HTML and CSS reference.

@@ -4,7 +4,7 @@
 
 Objekt har följt oss genom hela boken. Redan i kapitel [-@sec-variabler] skapade du ditt första objekt – ett lag med namn och poäng – och läste och ändrade dess egenskaper med punktnotation. Sedan dess har du arbetat med objekt i varje kapitel: DOM-element med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, inbyggda objekt som `document`, `Math` och `console`.
 
-Men de objekt du själv har skapat har varit enkla – några egenskaper, lästa och ändrade en i taget. Nu är det dags att gå på djupet: att ge egna objekt *beteende* med metoder, att nå egenskaper vars namn bestäms medan programmet körs, att gå igenom alla egenskaper i ett objekt, och att samla många objekt i en array.
+Men de objekt du själv har skapat har varit enkla – några egenskaper, lästa och ändrade en i taget, och i kapitel [-@sec-arrayer] samlade i en array. Nu är det dags att gå på djupet: att ge egna objekt *beteende* med metoder, att nå egenskaper vars namn bestäms medan programmet körs, att gå igenom alla egenskaper i ett objekt, och att förstå vad som händer när två variabler pekar på samma objekt. Kapitlet bygger bara på Del I, och är en bra början på Del III: kapitlen om klasser och arv bygger vidare på det.
 
 Tänk dig att du ska visa information om studenter på en webbsida. Du har namn, program och årskurs för varje person – men hur samlar du ihop den informationen? Med separata variabler blir det ungefär så här:
 
@@ -434,7 +434,7 @@ Samma sak gäller arrayer – de är också objekt i JavaScript.
 
 ## Arrayer av objekt: produktkort
 
-Nu kan du skapa egna objekt. Nästa steg är att samla dem i en **array** — och det är den kanske viktigaste kombinationen i vardaglig JavaScript. Du har redan mött mönstret: `querySelectorAll` i kapitel [-@sec-arrayer] gav dig en lista av DOM-element, det vill säga en lista av objekt. Skillnaden nu är att du bygger listan själv, med egna objekt anpassade efter ditt programs behov.
+I avsnittet *Arrayer av objekt* i kapitel [-@sec-arrayer] samlade du quizfrågor som objekt i en array – den kanske viktigaste kombinationen i vardaglig JavaScript. Här använder vi samma mönster i ett större exempel, med det du har lärt dig i det här kapitlet.
 
 Studentlistor, produktkataloger, att-göra-listor, sökresultat — allt representeras som arrayer av objekt. Låt oss se hur det ser ut i praktiken. Vi har en lista med produkter och vill visa dem som kort på en webbsida:
 

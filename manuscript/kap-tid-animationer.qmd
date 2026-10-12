@@ -385,11 +385,11 @@ ruta.addEventListener("transitionend", () => {
 });
 ```
 
-Det är användbart för att kedja animationer — starta nästa animation först när den förra är klar — eller för att städa upp efter en animation (ta bort element, återställa klasser).
+Det är användbart för att kedja animationer — starta nästa animation först när den förra är klar — eller för att städa upp efter en animation (dölja element, återställa klasser).
 
-### Ta bort element efter animering
+### Dölj element efter animering
 
-Ett vanligt mönster: tona ut ett element och ta bort det från DOM:en *efter* att animeringen spelat klart:
+Ett vanligt mönster: tona ut ett element och dölj det helt med `hidden` *efter* att animeringen spelat klart. Utan `hidden` skulle det osynliga elementet fortfarande ta plats på sidan:
 
 ```css
 .notis {
@@ -403,10 +403,10 @@ Ett vanligt mönster: tona ut ett element och ta bort det från DOM:en *efter* a
 ```
 
 ```javascript
-function taBortNotis(notis) {
+function döljNotis(notis) {
     notis.classList.add("dölj");
     notis.addEventListener("transitionend", () => {
-        notis.remove();
+        notis.hidden = true;
     }, { once: true });
 }
 ```

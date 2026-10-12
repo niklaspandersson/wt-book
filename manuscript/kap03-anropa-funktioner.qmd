@@ -211,7 +211,7 @@ Funktioner som `alert` och `prompt`, som inte ligger i något objekt utan anropa
 | Fri funktion | `alert("Hej!")` | direkt med namnet |
 | Metod | `Math.max(4, 9)` | via ett objekt och en punkt |
 
-Det finns fler fria funktioner. `Number` gör till exempel om en text till ett tal: `Number("12")` returnerar talet `12`. Den blir viktig i kapitel [-@sec-tal], när du ska räkna med siffror som besökaren har skrivit. Och det finns fler metoder – även strängar har dem. `"quiz".toUpperCase()` returnerar `"QUIZ"`. Strängarnas metoder är ämnet för kapitel [-@sec-strangar].
+Det finns fler fria funktioner. `Number` gör till exempel om en text till ett tal: `Number("12")` returnerar talet `12`. Den blir viktig i kapitel [-@sec-tal-och-text], när du ska räkna med siffror som besökaren har skrivit. Och det finns fler metoder – även strängar har dem. `"quiz".toUpperCase()` returnerar `"QUIZ"`. Strängarnas metoder tar vi upp i samma kapitel.
 
 ### Egenskap eller metod?
 

@@ -7,13 +7,11 @@
 * [X] Kap. 4 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
 * [X] Kap. 5 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, funktioner som tar element, scope och modulscope, funktioner som värden)*
 * [X] Kap. 6 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, input, .value, change, mushändelser, mönstret hämta → lyssna → läs → bearbeta → visa)*
-* [X] Kap. 7 – Tal *(aritmetik i vardagsord, kortformerna `+=`/`++`, NaN, `Number()` och tal från formulärfält, Math, avrundning, slumptal med spårtabell, `toFixed`, löst exempel med femstegsmönstret)*
-* [X] Kap. 8 – Strängar *(templatesträngar, escape, length, index med rutbild, oföränderliga strängar, strängmetoder, kedjning med stegtabell, löst exempel med femstegsmönstret)*
-* [X] Kap. 9 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, truthy/falsy, hidden/disabled/checked, anmälningsformuläret som löst exempel; standardvärden med `||` flyttade, se FLYTTLISTA punkt 5)*
-* [X] Kap. 10 – Villkorssatser *(if/else, else if med spårtabell, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel, tangentbordshändelser; switch bara som Bra att veta-ruta)*
-* [X] Kap. 11 – Loopar
-* [X] Kap. 12 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target)*
-* [X] Kap. 13 – Objekt *(objektliteraler, egenskaper, metoder, this, arrayer av objekt, nästlade objekt, Object.keys/values/entries, referenssemantik)*
+* [X] Kap. 7 – Tal och text *(sammanslagning av gamla kap. 7 Tal och kap. 8 Strängar, bara grunderna: räknesätt, kortformerna, NaN, `Number()` och tal från formulärfält, `Math.round`/`floor`/`random`, `toFixed`, templatesträngar, `length`, `trim`/`toUpperCase`/`toLowerCase`/`includes`, oföränderliga strängar, kedjning, löst exempel med femstegsmönstret, avsnittet *Var hittar du mer?* med MDN)*
+* [X] Kap. 8 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
+* [X] Kap. 9 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel, tangentbordshändelser)*
+* [X] Kap. 10 – Loopar *(while, for, break; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
+* [X] Kap. 11 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target, arrayer av objekt)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
@@ -36,6 +34,7 @@
 **Del III – Fördjupning: språket på djupet**
 *(tematisk, ordning öppen)*
 
+* [X] Kap. ?? – Objekt *(gamla kap. 13, flyttat från Del I: metoder, this, hakparentesnotation, nästlade objekt, Object.keys/values/entries, referenssemantik, produktkort)*
 * [X] Kap. ?? – Moduler: att organisera sin kodbas
 * [X] Kap. ?? – Objektorienterad programmering (klasser, inkapsling, komposition)
 * [X] Kap. ?? – Destructuring och spread
@@ -57,6 +56,24 @@
 ---
 
 # Omstrukturering av Del I
+
+## Nedskärning för Webbteknik 2 (oktober 2026)
+
+Del I ska rymmas i kursen Webbteknik 2 (7,5 hp på halvfart, tio veckor varav två jullovsveckor och en tentavecka) tillsammans med kapitlet *Tid och animationer* ur Del II. Med två kapitel i veckan som högsta rimliga takt för nybörjare räckte inte tiden. Principen för nedskärningen: **lär ut grunderna ordentligt och visa var resten finns**, i stället för att täcka alla metoder. Del I har nu elva kapitel.
+
+| Ändring | Vad | Varför |
+|---|---|---|
+| Kap. 7 och 8 slås ihop till **Tal och text** (`kap07-tal-och-text.qmd`, `sec-tal-och-text`) | Kvar: räknesätt (utan `**`), kortformerna, NaN, `Number()` och de två fällorna, `Math.round`/`floor`, slumptal med spårtabell, `toFixed`, templatesträngar, `length`, `toUpperCase`/`toLowerCase`/`trim`/`includes`, oföränderliga strängar (med *Stanna upp* om osparat returvärde), kedjning, *Text på webbsidan*, momsräknaren. Borttaget: `Infinity`, `parseInt`/`parseFloat`, `Math.ceil`/`max`/`min`/`abs` i texten, flyttalsavsnittet (nu en punkt i en ruta), escape-sekvenser, index och enskilda tecken (nu en punkt i en ruta), `at`, `startsWith`, `indexOf`, `slice`, `replace`, `String()`, emojirutan, `snyggtNamn` (ersatt av `städaNamn` med `trim().toUpperCase()`). Nytt: avsnittet *Var hittar du mer?* om att läsa MDN (bygger på kap. 3) och övningen *Slå upp själv*. | Ungefär 6 100 ord i stället för 9 100. Strängarnas grunder måste komma före kap. 8–9, som använder `trim`, `toLowerCase`, `length` och templatesträngar. |
+| Kap. 13 Objekt flyttas till **Del III** (`kap-objekt.qmd`, första kapitlet i delen) | Inledningen och avsnittet om produktkort hänvisar nu till arraykapitlet. | Inget i Del I eller Del II byggde på kapitlet. Objekt finns redan i kap. 2, och metoder och `this` passar före kapitlen om klasser och arv. |
+| Kap. 11 Arrayer får avsnittet **Arrayer av objekt** | Quizfrågor som objekt i en array, stegtabell för `frågor[1].alternativ[0]`, `for...of` över objekt, knappar som fylls med alternativ. Ny övning *Ett quiz med flera frågor*. `unshift`/`shift`/`splice` är nu en Bra att veta-ruta. | Det enda ur gamla kap. 13 som behövs för kursens slutuppgift. |
+| Kap. 8 Sant och falskt | Truthy och falsy är en Bra att veta-ruta. | Boken skriver ut frågorna (`namn !== ""`). |
+| Kap. 9 Villkorssatser | Truthy-villkor och `switch`-rutan borttagna. *Vem leder?* använder inte längre `Math.abs`. | Används inte senare i Del I. |
+| Kap. 10 Loopar | `continue`, `do...while` och nästlade loopar ersatta av en Bra att veta-ruta med MDN-länk. Övningen med nästlade loopar borttagen. *Summera en sekvens* har inte längre en matematisk formel. FizzBuzz-tipset förklarar `%` på plats. | Ungefär 2 200 ord i stället för 2 700. |
+
+Filerna har bytt namn: `kap09-sant-och-falskt.qmd` → `kap08-…`, `kap10-villkor.qmd` → `kap09-…`, `kap11-loopar.qmd` → `kap10-…`, `kap12-arrayer.qmd` → `kap11-…`, `kap13-objekt.qmd` → `kap-objekt.qmd`. Övningssidornas mappnamn i texten följer de nya numren.
+
+**Kvar att göra:** kap. 10 och 11 är ännu inte granskade enligt mallen som kap. 3–9 följer (egen övningssida, *Stanna upp*, övningsordningen förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv). I `Tid och animationer` döljs notisen nu med `hidden` i stället för `notis.remove()`, så att kapitlet kan läsas direkt efter Del I.
+
 
 ## Uppdelning av funktionskapitlet (oktober 2026)
 
