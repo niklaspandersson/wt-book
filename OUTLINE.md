@@ -7,7 +7,7 @@
 * [X] Kap. 4 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
 * [X] Kap. 5 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, funktioner som tar element, scope och modulscope, funktioner som värden)*
 * [X] Kap. 6 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, input, .value, change, mushändelser, mönstret hämta → lyssna → läs → bearbeta → visa)*
-* [X] Kap. 7 – Tal *(aritmetik, kortformerna `+=`/`++`, Math, avrundning, slumptal, NaN, konvertering, läsa tal från formulärfält)*
+* [X] Kap. 7 – Tal *(aritmetik i vardagsord, kortformerna `+=`/`++`, NaN, `Number()` och tal från formulärfält, Math, avrundning, slumptal med spårtabell, `toFixed`, löst exempel med femstegsmönstret)*
 * [X] Kap. 8 – Strängar *(templatesträngar, escape, length, index, strängmetoder, kedjning)*
 * [X] Kap. 9 – Sant och falskt *(booleska värden, jämförelser, logiska operatorer, truthy/falsy, standardvärden med ||, hidden/disabled/checked)*
 * [X] Kap. 10 – Villkorssatser *(if/else, else if, ternär, switch, villkor i funktioner, early return, kontrollera inmatning, tangentbordshändelser)*
@@ -72,6 +72,14 @@ Funktionskapitlet är därför delat i två, och Del I har nu tretton kapitel:
 | 6 Händelser (`sec-handelser`) | `kap06-handelser.qmd` | Gamla kap. 5. Egen övningssida (ny mapp `kap06`) med alla element och all CSS som exemplen och övningarna behöver; sidan från kap. 4 återanvänds inte. Nytt: det namngivna mönstret *hämta → lyssna → läs → bearbeta → visa* som löst exempel. Anonyma callbacks införs i två steg: först `function() { … }` (bara namnet borttaget jämfört med kap. 5), sedan pilfunktionen som kortare skrivform. Resten av boken använder pilfunktioner för anonyma callbacks, eftersom det är den vanliga formen i modern kod och i Del III. |
 
 Kap. 7–13 har bara fått nya filnamn (`kap07-tal.qmd` … `kap13-objekt.qmd`) och justerade korsreferenser.
+
+### Granskning av kap. 7–10 (oktober 2026)
+
+Kap. 7–10 är granskade mot CLAUDE.md, BOKOVERSIKT och PEDAGOGIK på samma sätt som kap. 3–6. Gemensamt för alla fyra: en egen övningssida (mapp `kap07` … `kap10`) med rutan *Så provar du koden*, *Stanna upp*-rutor efter de tyngre avsnitten, det lösta exemplet markerat med femstegsmönstret från kap. 6, övningar i ordningen *förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv → blandad*, och ett underavsnitt *Egna sidor* som hänvisar till kap. 6. Uttryck på egen rad avslutas med semikolon.
+
+| Kapitel | Ändringar utöver det gemensamma |
+|---|---|
+| 7 Tal (`sec-tal`) | Uttalat att kapitlet bara kräver vardagsräkning. `%` förklaras med minuter och timmar (kopplat till kap. 1) i stället för `15 = 3 × 4 + 3`. IEEE 754 och 64 bitar nämns bara i flyttalsavsnittet. Borttaget: `true + 1`, `Number(true)`, `Math.PI`/`Math.E` (`Math.PI` visas redan i kap. 3), parenteserna i `(12).toFixed(2)`. `parseInt`/`parseFloat` kortat till en *Bra att veta*-ruta. Ny spårtabell för tärningskastet. Momsen förklaras i ord ("priset plus en fjärdedel"). Nya övningar: *Vad säger felet?* (`toFixed` på en sträng, `Math.Round`), *Förklara koden*, *Ordna raderna*, *Bygg vidare på momsräknaren*, *Poängtavlan räknar rätt* (bygger på kap. 6). *Vad returneras?* är omgjord så att den inte upprepar kap. 3. Temperaturomvandlaren ger formeln färdig i kod; *Dela notan* har dricks i kronor. |
 
 **Varför inte som förut?** Kapitlen slogs ihop eftersom det gamla kap. 3 hade tömts på innehåll (Math, typkonvertering och strängmetoder flyttade till kapitlen om tal och strängar) och eftersom egna funktioner måste komma före händelser. Inget av skälen var pedagogiskt. Det nya kap. 3 får sitt eget djup genom den mentala modellen av ett anrop och de vanligaste missuppfattningarna, och gränsen mot kapitlen om tal och strängar är tydlig: kap. 3 använder `Math.max`, `Number` och `toUpperCase` för att visa hur anrop fungerar, men lär inte ut dem som verktyg.
 
