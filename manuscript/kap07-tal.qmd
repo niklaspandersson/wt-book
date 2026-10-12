@@ -85,7 +85,7 @@ poäng *= 2;    // samma som poäng = poäng * 2    → 14
 poäng /= 7;    // samma som poäng = poäng / 7    → 2
 ```
 
-Det allra vanligaste fallet – att öka eller minska med exakt 1 – har en egen, ännu kortare form:
+Det allra vanligaste fallet – att öka eller minska med exakt 1 – har en egen, ännu kortare form, `++` och `--`:
 
 ```javascript
 let antalKlick = 0;

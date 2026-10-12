@@ -223,7 +223,7 @@ Ett kapitel om funktioner från början till slut: först att *anropa* (det stud
 - §Att sätta namn på en beräkning, §Från att använda till att skapa
 - §Att definiera en funktion, §Parametrar och argument, §Standardvärden för parametrar, §Returvärden
 - §Scope – variablers räckvidd, rutan *Håll variabler lokala* (behövs för räknaren i kap. 5)
-- §Funktionsuttryck och pilfunktioner – hela avsnittet: funktioner är värden, §Funktionsuttryck, §Pilfunktioner, rutan *Vilken form ska jag använda?*
+- §Funktioner är värden: en variabel som pekar på en funktion, namn med och utan parenteser (pilbild). Pilfunktioner introduceras i stället i kap. 5, där de första behövs (anonyma callbacks).
 - §Att tänka i funktioner
 
 **Nytt**
@@ -251,7 +251,7 @@ Den stora vändpunkten: från här är alla exempel interaktiva.
 **Från g10**
 
 - §En knapp som inte reagerar, §Vad är en händelse?, §`addEventListener`
-- §Callback-funktioner – **ny ordning**: §Namngiven funktion först, sedan rutan *Parenteser eller inte?*, sedan §Anonym funktion och §Pilfunktion (pilfunktioner är kända från kap. 4)
+- §Callback-funktioner – **ny ordning**: §Namngiven funktion först, sedan rutan *Parenteser eller inte?*, sedan §Anonym funktion och §Pilfunktion (pilfunktioner introduceras här, i formen med klamrar)
 - §Från konsol till sida, §En räknare (använder `++` från kap. 2 och scope från kap. 4), §Mörkt läge — äntligen (bygger på Ö 6.6 i kap. 3)
 - §Event-objektet – bara `event.type` och idén (se beslut 4)
 - §Mushändelser, rutan om hover i CSS eller JavaScript
@@ -420,7 +420,7 @@ Minimala ändringar.
 ## Beslut att fatta
 
 1. **Stil i DOM-kapitlet eller eget kapitel?** Förslaget slår ihop g4 och g6 till kap. 3 (≈ 3 800 ord). Alternativet är ett eget stilkapitel som kap. 4, men då kommer händelser först i kap. 6.
-2. ~~**Var introduceras pilfunktioner?**~~ **Beslutat:** i kap. 4, enligt principen att språkets egenskaper hör till språkkapitlen.
+2. ~~**Var introduceras pilfunktioner?**~~ **Beslutat (ändrat):** i kap. 5, där anonyma callbacks gör dem nödvändiga. Kap. 4 visar i stället att funktioner är värden.
 3. ~~**Är *Villkor* för stort?**~~ **Beslutat:** delat i kap. 8 *Sant och falskt* och kap. 9 *Villkorssatser*. Del I har tolv kapitel.
 4. **`event.target` i kap. 5 eller kap. 10?** Förslaget: kap. 10, där det behövs (en lyssnare per element i en loop). I kap. 5 räcker `event.type` och idén om ett händelseobjekt.
 5. **`dataset`:** introducera `data-`-attribut kort i kap. 10 (så att Ö 10.6 och påståendet i `kap-dom-traversering` stämmer), eller ändra övningen så att den använder `value` som exemplet i kapitlet?

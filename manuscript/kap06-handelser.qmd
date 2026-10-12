@@ -104,13 +104,15 @@ Om du märker att din funktion körs en gång när sidan laddas och sedan aldrig
 
 ### Callbacken direkt på plats
 
-Om funktionen bara behövs på ett ställe är det vanligt att skriva den direkt i anropet, utan att ge den något namn. En sådan funktion kallas **anonym**. Oftast skrivs den som en pilfunktion, som du lärde dig i kapitel [-@sec-funktioner]:
+Om funktionen bara behövs på ett ställe är det vanligt att skriva den direkt i anropet, utan att ge den något namn. En sådan funktion kallas **anonym**. Oftast skrivs den med en kortare form än `function`, som kallas **pilfunktion** (*arrow function*) efter tecknen `=>`:
 
 ```javascript
 knapp.addEventListener("click", () => {
     console.log("Klickad!");
 });
 ```
+
+En pilfunktion har samma delar som funktionerna i kapitel [-@sec-funktioner], fast utan ordet `function` och utan namn. Först kommer parenteserna med parametrarna – här tomma, eftersom funktionen inte tar emot något. Sedan pilen `=>`, och sist kroppen inom klammerparenteser. Har funktionen parametrar skrivs de inom parenteserna, precis som förut: `(antal) => { … }`.
 
 Läs det noga. Det andra argumentet till `addEventListener` är hela pilfunktionen, från `()` till och med den avslutande klammerparentesen. Därför slutar raden med `});` – klammerparentesen avslutar funktionens kropp, och parentesen avslutar anropet av `addEventListener`.
 
