@@ -71,13 +71,13 @@ console.log("Skriptet körs!");
 
 ## Hämta ett element med `querySelector`
 
-Webbläsaren ger dig ett färdigt objekt, `document`, som representerar hela HTML-dokumentet. Det har en metod som heter `querySelector`. Den söker igenom sidan och returnerar det första elementet som matchar en **CSS-selektor**:
+Webbläsaren ger dig ett färdigt objekt, `document`, som representerar hela HTML-dokumentet. Det har en metod som heter `querySelector`. Den söker igenom sidan och returnerar det första elementet som matchar en given **CSS-selektor**:
 
 ```javascript
 const rubrik = document.querySelector("h1");
 ```
 
-Läs raden som du lärde dig i förra kapitlet, från vänster till höger: i objektet `document`, anropa metoden `querySelector` med argumentet `"h1"`. Argumentet är en sträng som innehåller en CSS-selektor, och den här selektorn betyder "det första `<h1>`-elementet".
+Läs raden så som du lärde dig i förra kapitlet, från vänster till höger: i objektet `document`, anropa metoden `querySelector` med argumentet `"h1"`. Argumentet är en sträng som innehåller en CSS-selektor, den här selektorn betyder "`<h1>`-element". Metoden returnerar *det första* elementet som matchar selektorn.
 
 Returvärdet är ett objekt som *representerar* elementet på sidan. Anropet ersätts av det objektet, och namnet `rubrik` får peka på det. Precis som objekten du skapade i kapitel [-@sec-variabler] har elementobjektet egenskaper som du når med punktnotation. Skillnaden är att webbläsaren har skapat det åt dig, och att egenskaperna är kopplade till det som syns på sidan. Nu kan vi använda variabeln för att läsa och ändra elementet.
 
@@ -119,34 +119,6 @@ element.textContent = "Hej!";   // TypeError: Cannot set properties of null
 ```
 
 Det är ett av de vanligaste felen i webbutveckling. Om du ser *"Cannot read properties of null"* eller *"Cannot set properties of null"* i konsolen, kontrollera att selektorn stämmer och att elementet verkligen finns i HTML:en.
-:::
-
-### Varför fungerar skriptet i `<head>`?
-
-I övningssidan står `<script>`-elementet i `<head>`, alltså *före* `<h1>` i dokumentet. Ändå hittar `querySelector` rubriken. Det beror på attributet `type="module"`, som du mötte i kapitel [-@sec-om-javascript].
-
-Webbläsaren läser HTML-dokumentet uppifrån och ned och bygger DOM:en efter hand. Ett vanligt `<script>`-element utan `type="module"` körs i samma ögonblick som webbläsaren når det, innan den läser vidare. Står det i `<head>` har webbläsaren ännu inte kommit fram till `<body>`, och då finns inget `<h1>`-element i DOM:en. `querySelector` returnerar `null`, och nästa rad ger samma fel som i rutan *Vad händer om elementet inte finns?* här ovanför.
-
-En modul körs däremot alltid *efter* att webbläsaren har läst in hela dokumentet, oavsett var `<script>`-elementet står. När koden körs finns alla element på plats.
-
-::: {.callout-note}
-## Äldre sätt att lösa samma problem
-
-I guider och äldre kod stöter du ofta på två andra lösningar. Den ena är att lägga `<script>`-elementet sist i `<body>`, precis före `</body>`. Ibland står koden då direkt i elementet, som ett *inline-skript*:
-
-```html
-<body>
-    <h1>Hej!</h1>
-
-    <script>
-        document.querySelector("h1").textContent = "Hej, JavaScript!";
-    </script>
-</body>
-```
-
-När webbläsaren når skriptet har den redan läst in allt ovanför, och då finns `<h1>`. Den andra lösningen är attributet `defer` (`<script defer src="script.js">`), som gör att webbläsaren väntar med att köra skriptet tills dokumentet är inläst — ungefär som en modul gör automatiskt.
-
-Känn igen formerna när du ser dem, men skriv ny kod som moduler.
 :::
 
 ---
@@ -286,7 +258,7 @@ Varje CSS-egenskap finns som en egenskap på `.style`-objektet, men med en vikti
 | `text-align`         | `style.textAlign`         |
 | `padding`            | `style.padding`           |
 
-Anledningen är enkel: i JavaScript tolkas bindestreck som minusoperatorn. `rubrik.style.font-size` skulle betyda "ta `font`, subtrahera `size`" — inte alls vad vi menar.
+Anledningen är enkel: i JavaScript tolkas bindestreck som ett minustecken. `rubrik.style.font-size` skulle betyda "ta `font`, subtrahera `size`" — inte alls vad vi menar.
 
 #### Flera stilar samtidigt
 
@@ -375,16 +347,6 @@ document.querySelector("body").classList.toggle("dark", mörktLäge);
 ```
 
 Här styr variabeln `mörktLäge` om sidan visas mörk eller ljus. Ändra variabeln till `false` och ladda om, så försvinner klassen.
-
-#### `classList.contains()` — kontrollera om en klass finns
-
-Ibland behöver du veta om ett element har en viss klass:
-
-```javascript
-console.log(ledandeLag.classList.contains("ledare"));   // true eller false
-```
-
-`contains` returnerar ett booleskt värde, `true` eller `false`. Det blir användbart när programmet ska fatta beslut utifrån hur sidan ser ut — något vi kommer till i kapitel [-@sec-villkor].
 
 ---
 
@@ -481,13 +443,12 @@ Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `
 ## Sammanfattning
 
 - Webbläsaren bygger en **DOM** (*Document Object Model*) — en levande modell av HTML-sidan som JavaScript kan läsa och ändra.
-- Ett skript med **`type="module"`** körs först när hela dokumentet är inläst. Ett vanligt skript i `<head>` körs innan elementen finns, och `querySelector` returnerar då `null`.
 - **`document.querySelector(selektor)`** är en metod i objektet `document`. Argumentet är en CSS-selektor, och returvärdet är det första element som matchar — eller `null` om inget hittas.
 - Elementet du får tillbaka är ett **objekt** med egenskaper, precis som objekten i kapitel [-@sec-variabler].
 - **`.textContent`** läser eller skriver ett elements textinnehåll som ren text.
 - **`.innerHTML`** läser eller skriver ett elements HTML-innehåll. Använd det när du behöver formatering — men aldrig med ofiltrerad användardata.
 - **`.style`** ändrar enskilda CSS-egenskaper direkt. Egenskapsnamn skrivs i **camelCase** (`backgroundColor`, `fontSize`).
-- **`classList`** lägger till, tar bort och växlar CSS-klasser: `add()`, `remove()`, `toggle()`, `contains()`. **Föredra `classList`** för visuella tillstånd, och använd `.style` för värden som beräknas i koden.
+- **`classList`** lägger till, tar bort och växlar CSS-klasser: `add()`, `remove()`, `toggle()`. **Föredra `classList`** för visuella tillstånd, och använd `.style` för värden som beräknas i koden.
 - **`hidden`** visar (`false`) eller döljer (`true`) ett element helt; en **CSS-klass med `display: none`** ger mer kontroll.
 - **`console.log()`** är för programmeraren; **DOM-manipulation** är för användaren.
 
@@ -621,10 +582,13 @@ element.textContent = "Ny text!";
 2. Vad händer om du kör koden som den är? Vilket felmeddelande får du?
 3. Rätta felet.
 
-**Del B.** När felet är rättat ändrar någon den andra raden till:
+**Del B.** När felet är rättat ändrar någon den andra raden från:
 
 ```javascript
 element.textContent = "Ny text!";   // före
+```
+till:
+```javascript
 element.textcontent = "Ny text!";   // efter
 ```
 
