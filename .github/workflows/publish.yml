@@ -1,8 +1,9 @@
 name: Bygg och publicera boken
 
+# Boken byggs vid push till alla grenar, men publiceras bara från main.
 on:
   push:
-    branches: [main]
+    branches: ["**"]
   workflow_dispatch:
 
 permissions:
@@ -10,8 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+# En körning per gren åt gången. En ny push avbryter en pågående körning
+# på samma gren, men inte körningar på andra grenar.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -24,37 +27,32 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: 1.8.27
-          tinytex: true
 
-      # Quarto försöker installera saknade LaTeX-paket automatiskt, men det
-      # misslyckas på GitHub. Installera därför paketen som boken behöver i förväg.
-      - name: Installera LaTeX-paket
-        run: |
-          echo "$HOME/.TinyTeX/bin/x86_64-linux" >> "$GITHUB_PATH"
-          TLMGR="$HOME/.TinyTeX/bin/x86_64-linux/tlmgr"
-          "$TLMGR" update --self
-          "$TLMGR" install \
-            luatexbase lualibs luaotfload luahbtex lualatex-math lua-alt-getopt \
-            lua-uni-algos ctablestack selnolig fontspec unicode-math lm lm-math \
-            koma-script babel hyphen-base hyph-utf8 dehyph tcolorbox tikzfill pgf \
-            environ trimspaces pdfcol fontawesome5 framed fancyvrb float caption \
-            booktabs bookmark geometry xcolor xpatch filehook mdwtools \
-            unicode-data etoolbox iftex inconsolata
-
-      - name: Installera Chrome för mermaid-diagram i PDF
-        run: quarto install chrome-headless-shell --no-prompt
-
-      - name: Bygg HTML och PDF
+      # Bara HTML. PDF-bygget fungerar inte på GitHub just nu.
+      - name: Bygg HTML
         working-directory: manuscript
-        run: quarto render
+        run: quarto render --to html
 
-      - uses: actions/configure-pages@v5
+      - if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v5
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Ladda upp sidan för publicering
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: manuscript/_book
 
+      # På andra grenar än main laddas den byggda boken upp som en vanlig
+      # artefakt, så att den kan laddas ner och granskas från körningens sida.
+      - name: Ladda upp boken som artefakt
+        if: github.ref != 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bok-html
+          path: manuscript/_book
+
   deploy:
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
