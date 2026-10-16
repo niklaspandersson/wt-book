@@ -247,7 +247,7 @@ I praktiken är `children` eller `querySelectorAll` oftast smidigare för att g�
 
 ## Data i HTML: `dataset`
 
-I kapitel [-@sec-arrayer] introducerade vi `data-`-attribut och `dataset` kortfattat. Nu är det dags att utforska dem ordentligt — de är en central del av att arbeta med DOM-traversering i praktiken.
+I övningen *Färgväljare med knappar* i kapitel [-@sec-arrayer] bar varje knapp sin färg i attributet `value`. Det fungerar för knappar och formulärfält, men inte för till exempel ett `<li>`-element, och ett element kan bara ha ett `value`. För att lägga egna uppgifter på vilket element som helst finns `data-`-attribut. De är en central del av att arbeta med DOM-traversering i praktiken.
 
 HTML låter dig lägga till egna attribut på element, så länge de börjar med `data-`:
 

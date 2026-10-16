@@ -119,7 +119,7 @@ What works well: the order alternates between the language (2, 3, 5, 7, 8, 9, 11
 - [x] `:242` – code bug (see section 1); `:247` – broken `@sec-forms`.
 - [x] `:203` – "händelser (kapitel 10)" – the chapter refers to itself.
 - [x] Exercises 10.2 and 10.3 repeat the worked examples (copy-paste trap); start where the examples stop.
-- [ ] Exercise 10.6 uses `data-färg`, but `dataset`/`getAttribute` are not taught until Part II. Note that `kap-dom-traversering` ("I kapitel 10 introducerade vi `data-`-attribut och `dataset` kortfattat") assumes ch 10 introduces them. Decide: add a short `dataset` intro to ch 10, or change the exercise and that sentence.
+- [x] Exercise 10.6 uses `data-färg`, but `dataset`/`getAttribute` are not taught until Part II. Note that `kap-dom-traversering` ("I kapitel 10 introducerade vi `data-`-attribut och `dataset` kortfattat") assumes ch 10 introduces them. Decide: add a short `dataset` intro to ch 10, or change the exercise and that sentence. *Resolved: the exercise (now in ch 12) uses `value`, and `kap-dom-traversering` no longer claims an earlier introduction.*
 
 ### Ch 11 – Objekt
 

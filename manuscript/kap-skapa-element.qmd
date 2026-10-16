@@ -360,7 +360,7 @@ Steg för steg:
 ::: {.callout-note}
 ## `Array.from` och samlingar
 
-`Array.from()` konverterar arrayliknande strukturer — som HTMLCollection och NodeList — till riktiga arrayer. Det ger dig tillgång till alla arraymetoder: `sort`, `filter`, `map` och andra. Du stötte på det kort i kapitel [-@sec-arrayer] med NodeList, och det är lika användbart här:
+`Array.from()` konverterar arrayliknande strukturer — som HTMLCollection och NodeList — till riktiga arrayer. Det ger dig tillgång till alla arraymetoder: `sort`, `filter`, `map` och andra. I kapitel [-@sec-arrayer] såg du att `querySelectorAll` ger en NodeList, som liknar en array men saknar en del arraymetoder. `Array.from()` löser det, och det är lika användbart här:
 
 ```javascript
 const allaBarn = Array.from(element.children);

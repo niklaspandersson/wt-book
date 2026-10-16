@@ -2,487 +2,472 @@
 
 ## En lista att hålla ordning på
 
-Föreställ dig att du bygger en enkel webbsida för en klass. Du vill visa en lista med studenternas namn, lägga till nya studenter och kunna söka efter en viss person. Du börjar med att skapa variabler:
+Anmälningarna till quizkvällen har börjat komma in. Hittills har fem lag anmält sig, och domaren vill att webbsidan ska visa dem, räkna dem och tala om ifall ett lagnamn redan är upptaget. Med det du kan hittills blir det ungefär så här:
 
 ```javascript
-const student1 = "Anna";
-const student2 = "Björn";
-const student3 = "Clara";
-const student4 = "David";
-const student5 = "Elsa";
+const lag1 = "Ugglorna";
+const lag2 = "Räknenissarna";
+const lag3 = "Blå blixtarna";
+const lag4 = "Röda stjärnor";
+const lag5 = "Gula gänget";
 ```
 
-Fem variabler. Fem separata namn. Och om du vill gå igenom alla studenter med en loop – hur gör du det? Du kan inte skriva `student + i` och hoppas att JavaScript förstår att du menar `student1`, `student2` och så vidare. Variablerna har inget samband sinsemellan.
+Fem variabler, och det fungerar så länge det är fem lag. Men när ett sjätte lag anmäler sig måste någon skriva en ny rad i koden. Och loopen från förra kapitlet hjälper inte: den kan räkna från 1 till 5, men det finns inget sätt att låta räknaren välja variabel. `lag1`, `lag2` och `lag3` är bara namn som råkar likna varandra. För JavaScript har de inget med varandra att göra.
 
-Eller tänk på loopkapitlet, där vi hade en lista med poäng: `[82, 91, 73, 44, 68, 55]`. Vi använde den för att söka efter underkända resultat. Utan en sådan lista hade vi behövt sex separata variabler och sex separata `if`-satser. Med en lista och en loop räckte det med några rader.
+Det vi behöver är *ett* namn för hela listan, och ett sätt att nå varje lag i den med ett nummer. Då kan en loop gå igenom listan, oavsett om den har fem lag eller femtio. En sådan lista kallas i JavaScript för en **array**.
 
-Det vi behöver är ett sätt att samla flera värden under ett gemensamt namn – en **lista** som man kan gå igenom element för element, söka i och ändra. I JavaScript heter den strukturen **array**.
+---
+
+## En sida att öva på
+
+Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap11`, och spara den här koden som `index.html` i den:
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Arrayer</title>
+    <script type="module" src="script.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 40rem;
+            margin: 2rem auto;
+        }
+        .markerad {
+            background-color: lightyellow;
+        }
+        .rätt {
+            border: 3px solid green;
+        }
+        .fel {
+            border: 3px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quizkvällen</h1>
+
+    <h2>Anmälda lag</h2>
+    <ul>
+        <li class="lag">Ugglorna</li>
+        <li class="lag">Räknenissarna</li>
+        <li class="lag">Blå blixtarna</li>
+        <li class="lag">Röda stjärnor</li>
+        <li class="lag">Gula gänget</li>
+    </ul>
+    <p id="valt-lag">Klicka på ett lag!</p>
+
+    <h2>Anmäl flera lag</h2>
+    <label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
+    <input type="text" id="lagfält">
+    <button id="anmäl">Anmäl</button>
+    <p id="anmälda"></p>
+
+    <h2>Fråga 1</h2>
+    <p id="fråga">Vad heter Sveriges huvudstad?</p>
+    <button class="svar">Göteborg</button>
+    <button class="svar">Stockholm</button>
+    <button class="svar">Malmö</button>
+    <p id="svarsresultat"></p>
+</body>
+</html>
+```
+
+Skapa sedan `script.js` i samma mapp, med raden `console.log("Skriptet körs!");`, och öppna sidan med Live Server.
 
 ::: {.callout-note}
-## Arrayer är objekt
-Tekniskt sett är en array en speciell typ av **objekt** – den datastruktur som JavaScript använder för att samla data och funktionalitet under ett gemensamt namn. Det är därför arrayer kan ha egenskaper och inbyggda metoder, precis som andra objekt. Men eftersom ordnade listor är en så vanlig datastruktur i programmering har arrayer fått en egen syntax med hakparenteser `[]` och ett antal specialanpassade metoder som gör dem smidiga att arbeta med. Du mötte vanliga objekt redan i kapitel [-@sec-variabler] – just nu räcker det att veta att arrayer är en praktisk specialvariant av dem.
+## Så provar du koden i det här kapitlet
+
+- Korta rader som `lag[0];` eller `lag.length;` provar du enklast i konsolen. Skriv först in raden som skapar arrayen, så kan du sedan pröva den rad för rad.
+- Exempel med loopar och exempel som hämtar element från sidan skriver du i `script.js`. Alla element som exemplen och övningarna använder finns redan på övningssidan.
+- Töm `script.js` innan du börjar på ett nytt exempel eller en ny övning.
 :::
 
 ---
 
 ## Skapa en array
 
-En **array** är en ordnad samling av värden. Man skapar den med hakparenteser `[]` och separerar värdena med kommatecken:
+En **array** är en ordnad lista av värden. Den skrivs med hakparenteser `[ ]`, och värdena skiljs åt med kommatecken:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
+const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna", "Röda stjärnor", "Gula gänget"];
 ```
 
-En enda variabel innehåller nu alla fem namnen. Värdena i arrayen kallas **element**, och varje element har en bestämd plats – ett **index**.
+Nu pekar ett enda namn, `lag`, på alla fem lagnamnen. Värdena i en array kallas arrayens **element**.
 
-Man kan också skapa en tom array och fylla den senare:
+En array kan innehålla värden av vilken typ som helst – tal, strängar, booleska värden. I praktiken innehåller en array nästan alltid värden av *samma* sort: en lista med lagnamn, en lista med poäng, en lista med priser. Det gör koden lätt att förstå. Ge arrayen ett namn i plural, som `lag`, `poäng` eller `priser`, så syns det att namnet pekar på flera värden.
 
-```javascript
-const resultat = [];
-```
-
-En array kan innehålla vilken typ av värden som helst – tal, strängar, booleska värden, eller en blandning:
+En array kan också vara tom från början och fyllas på senare. Det ser du snart.
 
 ```javascript
-const blandad = [42, "hej", true, null];
-```
-
-I praktiken innehåller en array oftast värden av samma typ – en lista med namn, en lista med poäng, en lista med priser. Det gör koden lättare att förstå och arbeta med.
-
----
-
-## Index – elementens position
-
-Varje element i en array har ett **index** – ett heltal som anger dess position. Indexeringen börjar på **0**, inte 1:
-
-```javascript
-const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
-//                   0        1        2        3        4
-```
-
-Man hämtar ett enskilt element med **hakparentesnotation**:
-
-```javascript
-console.log(studenter[0]);   // "Anna"
-console.log(studenter[2]);   // "Clara"
-console.log(studenter[4]);   // "Elsa"
-```
-
-Indexet behöver inte vara ett literalt tal – det kan vara en variabel eller ett uttryck:
-
-```javascript
-const i = 3;
-console.log(studenter[i]);       // "David"
-console.log(studenter[i - 1]);   // "Clara"
-```
-
-::: {.callout-important}
-## Indexering börjar på 0
-
-Det kan kännas ovanligt att den första positionen är 0, inte 1. Det är en konvention som JavaScript delar med de flesta programmeringsspråk. Det sista elementet har alltså index `length - 1`, inte `length`. Att råka använda `length` som index – och hamna *utanför* arrayen – är ett av de vanligaste felen bland nybörjare.
-:::
-
-Om du försöker komma åt ett index som inte finns returneras `undefined`:
-
-```javascript
-console.log(studenter[10]);  // undefined – inget element på position 10
-console.log(studenter[-1]);  // undefined – negativa index finns inte
+const svar = [];
 ```
 
 ---
 
-## Arrayens längd: `length`
+## Index – varje element har ett nummer
 
-Varje array har egenskapen `length` som anger hur många element den innehåller:
+Elementen i en array är numrerade. Numret kallas elementets **index**, och numreringen börjar på **0**, precis som för tecknen i en sträng i rutan *Några saker du kommer att stöta på* i kapitel [-@sec-tal-och-text]. Du kan tänka på arrayen som en rad rutor där varje element har sin plats, och numret står under:
+
+| Element | `"Ugglorna"` | `"Räknenissarna"` | `"Blå blixtarna"` | `"Röda stjärnor"` | `"Gula gänget"` |
+|---|---|---|---|---|---|
+| **Index** | 0 | 1 | 2 | 3 | 4 |
+
+Du når ett element med arrayens namn och indexet inom hakparenteser:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
-console.log(studenter.length);   // 5
+lag[0];   // "Ugglorna"
+lag[2];   // "Blå blixtarna"
+lag[4];   // "Gula gänget"
+lag[7];   // undefined – det finns inget element där
 ```
 
-Eftersom indexeringen börjar på 0 har det sista elementet index `length - 1`:
+Läs `lag[2]` högt som "lag nummer 2" – och kom ihåg att det är det *tredje* laget. Finns det inget element på ett index blir svaret `undefined`, utan felmeddelande.
+
+Indexet behöver inte vara ett tal som står i koden. Det kan vara en variabel, och det är det som gör att en loop kan gå igenom arrayen:
 
 ```javascript
-const sista = studenter[studenter.length - 1];
-console.log(sista);   // "Elsa"
+const nummer = 3;
+lag[nummer];       // "Röda stjärnor"
 ```
 
-`length` uppdateras automatiskt när arrayen ändras – du behöver inte hålla reda på det manuellt. Det var den egenskapen vi redan använde i loopkapitlets `break`-exempel: `poäng.length` gav oss antalet element att iterera över.
+### Arrayens längd
 
-::: {.callout-note}
-## MDN: Array
+Egenskapen `length` anger hur många element arrayen har – precis som för en sträng:
 
-Mozilla Developer Network har en omfattande referens för arrayer och alla deras metoder: [developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Du behöver inte memorera alla metoder – det viktiga är att veta att de finns och var du kan slå upp dem.
+```javascript
+lag.length;               // 5
+lag[lag.length - 1];      // "Gula gänget" – det sista elementet
+```
+
+Eftersom numreringen börjar på 0 har det sista elementet index `length - 1`, inte `length`. Arrayen har fem element, men det sista har index 4. Att använda `lag[lag.length]` och få `undefined` är ett av de vanligaste felen med arrayer.
+
+### Ändra ett element
+
+Ett element ändras med tilldelning, på samma sätt som en variabel:
+
+```javascript
+lag[1] = "Räknenissarna 2.0";
+lag;   // ["Ugglorna", "Räknenissarna 2.0", "Blå blixtarna", "Röda stjärnor", "Gula gänget"]
+```
+
+Men vänta: `lag` är deklarerad med `const`. Hur kan den ändras? Tänk på pilbilden från kapitel [-@sec-variabler]. `const` betyder att *pilen* från namnet `lag` inte kan flyttas till en annan array. Arrayen som pilen pekar på kan däremot ändras inuti – det är fortfarande samma array, bara med nytt innehåll. Det är samma sak som för objekten i kapitel [-@sec-variabler]. Försöker du flytta pilen får du ett felmeddelande:
+
+```javascript
+lag = ["Nya laget"];   // TypeError: Assignment to constant variable.
+```
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vad är `lag[1]` och vad är `lag[lag.length - 2]` i den ursprungliga arrayen?
+2. En array har 12 element. Vilket index har det första elementet, och vilket har det sista?
 :::
 
 ---
 
-## Ändra element
+## Lägga till och ta bort
 
-Man kan ändra ett befintligt element genom att tilldela ett nytt värde till ett specifikt index:
+När ett nytt lag anmäler sig ska det läggas till sist i listan. Det gör metoden `push`:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
-studenter[1] = "Bella";
-console.log(studenter);   // ["Anna", "Bella", "Clara", "David", "Elsa"]
+const lag = ["Ugglorna", "Räknenissarna"];
+
+lag.push("Blå blixtarna");
+lag;          // ["Ugglorna", "Räknenissarna", "Blå blixtarna"]
+lag.length;   // 3
 ```
+
+`push` ändrar arrayen. Det skiljer den från strängmetoderna i kapitel [-@sec-tal-och-text], som alltid returnerar en *ny* sträng och lämnar den gamla orörd. Strängar går inte att ändra, men arrayer går det.
+
+Metoden `pop` gör det omvända: den tar bort det sista elementet och returnerar det, så att du kan använda det:
+
+```javascript
+const sist = lag.pop();
+sist;   // "Blå blixtarna"
+lag;    // ["Ugglorna", "Räknenissarna"]
+```
+
+`push` och `pop` arbetar i slutet av arrayen. Det räcker långt, och det är de två som används i den här boken.
 
 ::: {.callout-note}
-## `const` och arrayer
+## Bra att veta: `unshift`, `shift` och `splice`
 
-"Vänta – vi deklarerade `studenter` med `const`, och ändå kan vi ändra innehållet?" Ja. `const` förhindrar att *variabeln* tilldelas om till ett annat värde, men den förhindrar inte att man ändrar *insidan* av en array (eller ett objekt). Följande ger ett felmeddelande:
-
-```javascript
-const studenter = ["Anna", "Björn"];
-studenter = ["Clara", "David"];   // TypeError: Assignment to constant variable.
-```
-
-Men att ändra ett element, lägga till eller ta bort – det är tillåtet. Variabeln pekar fortfarande på *samma* array; det är arrayens *innehåll* som förändras.
+Det finns fler metoder för att ändra en array. `unshift` och `shift` gör samma sak som `push` och `pop`, men i *början* av arrayen. `splice` kan ta bort och lägga till element var som helst. Du hittar dem, och många fler, på [MDN: Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Du behöver inte kunna dem utantill – det viktiga är att veta var du slår upp dem.
 :::
 
 ---
 
-## Lägga till och ta bort element
+## Gå igenom en array
 
-### `push` – lägg till sist
-
-`push()` lägger till ett eller flera element i slutet av arrayen:
+Nu kan loopen från förra kapitlet få något att gå igenom. Räknaren `i` får vara arrayens index, från 0 till och med det sista:
 
 ```javascript
-const studenter = ["Anna", "Björn"];
-studenter.push("Clara");
-console.log(studenter);   // ["Anna", "Björn", "Clara"]
+const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna"];
 
-studenter.push("David", "Elsa");
-console.log(studenter);   // ["Anna", "Björn", "Clara", "David", "Elsa"]
+for (let i = 0; i < lag.length; i++) {
+    console.log(`${i + 1}. ${lag[i]}`);
+}
 ```
 
-### `pop` – ta bort sist
+```
+1. Ugglorna
+2. Räknenissarna
+3. Blå blixtarna
+```
 
-`pop()` tar bort det sista elementet och returnerar det:
+Läs loopen högt: "börja med `i` lika med 0; så länge `i` är mindre än antalet lag; öka `i` med ett". Villkoret är `i < lag.length`, inte `i <= lag.length`. Arrayen har tre element, så `i` ska vara 0, 1 och 2 – men aldrig 3, eftersom `lag[3]` inte finns. Och eftersom villkoret använder `lag.length` i stället för talet 3 fungerar loopen lika bra när arrayen har fem element, eller femtio.
+
+`i + 1` används bara för att människor räknar från 1. Indexet `i` är fortfarande 0 för det första laget.
+
+### `for...of` – när du bara behöver värdena
+
+Oftast behöver man inte indexet, bara värdena. För det finns en kortare loop, `for...of`:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara"];
-const borttagen = studenter.pop();
-console.log(borttagen);     // "Clara"
-console.log(studenter);     // ["Anna", "Björn"]
+for (const namn of lag) {
+    console.log(namn);
+}
 ```
 
-::: {.callout-note}
-## Bra att veta: fler sätt att ändra en array
+Läs högt: "för varje `namn` i `lag`". I första varvet pekar `namn` på `"Ugglorna"`, i andra på `"Räknenissarna"` och så vidare. Loopen tar slut av sig själv när elementen är slut, så det finns ingen räknare, inget villkor och inget `length` att göra fel med. `namn` kan vara `const`, eftersom det är en ny variabel i varje varv.
 
-`push` och `pop` arbetar i slutet av arrayen, och det räcker långt. Det finns också metoder som lägger till och tar bort i *början* av en array (`unshift` och `shift`), och en som kan ta bort eller lägga till var som helst (`splice`). De finns beskrivna på [MDN: Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), tillsammans med många fler arraymetoder. Läs sidorna på samma sätt som i kapitel [-@sec-anropa-funktioner]: vad tar metoden emot, och vad returnerar den?
+Välj så här:
+
+- **`for...of`** när du vill göra något med varje element. Det är det vanligaste.
+- **`for` med index** när du behöver numret, till exempel för att numrera en lista eller nå elementet bredvid.
+
+### Att leta efter det största
+
+Mönstret från förra kapitlet – en variabel före loopen, som uppdateras i loopen och används efter loopen – fungerar lika bra med arrayer. Här är lagens poäng efter första omgången, och vi vill veta den högsta:
+
+```javascript
+const poäng = [12, 19, 15, 8];
+
+let högst = poäng[0];
+
+for (const p of poäng) {
+    if (p > högst) {
+        högst = p;
+    }
+}
+
+console.log(`Högsta poäng: ${högst}`);
+```
+
+Idén är densamma som när man själv letar i en lista: kom ihåg det största du har sett hittills, och byt ut det när du hittar något större. Spårtabellen visar hur det går till:
+
+| Varv | `p` | `p > högst`? | `högst` efteråt |
+|---|---|---|---|
+| – | – | – | 12 (startvärdet) |
+| 1 | 12 | `12 > 12` – `false` | 12 |
+| 2 | 19 | `19 > 12` – `true` | 19 |
+| 3 | 15 | `15 > 19` – `false` | 19 |
+| 4 | 8 | `8 > 19` – `false` | 19 |
+
+Startvärdet är det första elementet, och inte till exempel `0`. Det är ett säkert val: det högsta värdet kan inte vara mindre än något av värdena i listan.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Gör spårtabellen för `poäng = [5, 3, 9, 9, 2]`. Hur många gånger byts `högst` ut?
+2. Vad behöver ändras i koden för att hitta den *lägsta* poängen i stället?
 :::
 
 ---
 
 ## Söka i en array
 
-### `includes` – finns värdet?
-
-`includes()` returnerar `true` om arrayen innehåller det angivna värdet, annars `false`:
+Är ett lagnamn redan upptaget? Arrayer har metoden `includes`, som fungerar precis som strängmetoden med samma namn i kapitel [-@sec-tal-och-text]. Metoden `indexOf` talar dessutom om *var* värdet finns – eller svarar `-1` om det inte finns, eftersom `-1` aldrig kan vara ett index:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara"];
-console.log(studenter.includes("Björn"));   // true
-console.log(studenter.includes("David"));   // false
+const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna"];
+
+lag.includes("Ugglorna");      // true – finns namnet?
+lag.includes("ugglorna");      // false – stora och små bokstäver skiljer
+lag.indexOf("Blå blixtarna");  // 2 – på vilket index?
+lag.indexOf("Tigrarna");       // -1 – finns inte
 ```
 
-### `indexOf` – var ligger det?
-
-`indexOf()` returnerar indexet för det första elementet som matchar. Om värdet inte finns returneras `-1`:
+`includes` svarar ja eller nej och passar därför direkt i en `if`-sats:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara"];
+const nyttLag = "Ugglorna";
 
-console.log(studenter.indexOf("Clara"));   // 2
-console.log(studenter.indexOf("David"));   // -1
-```
-
-Returvärdet `-1` är ett klassiskt mönster i JavaScript: det signalerar "hittades inte" utan att använda `null` eller `undefined`. Man ser ofta mönstret:
-
-```javascript
-if (studenter.indexOf("David") !== -1) {
-    console.log("David finns i listan");
+if (lag.includes(nyttLag)) {
+    console.log(`Namnet ${nyttLag} är redan upptaget.`);
+} else {
+    lag.push(nyttLag);
 }
 ```
 
-Med `includes()` blir samma kontroll mer läsbar:
-
-```javascript
-if (studenter.includes("David")) {
-    console.log("David finns i listan");
-}
-```
-
-Använd `includes()` när du bara vill veta *om* ett värde finns, och `indexOf()` när du behöver veta *var*.
+Använd `includes` när du vill veta *om* något finns, och `indexOf` när du behöver veta *var*.
 
 ---
 
-## Iterera över en array
+## Från text till lista: `split` och `join`
 
-Här knyts loopar och arrayer ihop. En av de vanligaste användningarna av loopar är att gå igenom alla element i en array, ett i taget.
-
-### Med `for`-loopen
-
-Det klassiska mönstret: en `for`-loop som räknar från 0 till `length - 1`:
+I kapitel [-@sec-tal-och-text] nämnde vi en metod som delar upp en sträng i delar. Nu när du känner till arrayer kan vi titta på den. Metoden `split` delar en sträng vid ett visst tecken och returnerar en array med delarna:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
-
-for (let i = 0; i < studenter.length; i++) {
-    console.log(`${i + 1}. ${studenter[i]}`);
-}
+"Anna Andersson".split(" ");                 // ["Anna", "Andersson"]
+"Ugglorna,Räknenissarna,Tigrarna".split(",");  // ["Ugglorna", "Räknenissarna", "Tigrarna"]
 ```
 
-Resultat:
-
-```
-1. Anna
-2. Björn
-3. Clara
-4. David
-5. Elsa
-```
-
-Mönstret `for (let i = 0; i < array.length; i++)` är så vanligt att du kommer att skriva det av ren rutin. Notera att villkoret är `i < studenter.length`, inte `i <= studenter.length` – det sista elementet har index `length - 1`, så `<=` hade tagit oss ett steg för långt.
-
-### Med `for...of`
-
-JavaScript har en enklare syntax för att iterera över alla element i en array: `for...of`:
+Metoden `join` gör det omvända. Den sätter ihop elementen i en array till en enda sträng, med en text emellan:
 
 ```javascript
-const studenter = ["Anna", "Björn", "Clara", "David", "Elsa"];
-
-for (const student of studenter) {
-    console.log(student);
-}
+["Ugglorna", "Räknenissarna", "Tigrarna"].join(" · ");   // "Ugglorna · Räknenissarna · Tigrarna"
 ```
 
-`for...of` ger dig elementens *värden* direkt – du behöver inte hantera index. Variabeln `student` tilldelas automatiskt nästa element i varje iteration.
+### Ett löst exempel: anmäl flera lag
 
-::: {.callout-note}
-## `const` i `for...of`
-
-Notera att vi använder `const` i `for...of`-loopen: `for (const student of studenter)`. Det kan verka konstigt – ändras inte `student` i varje iteration? Tekniskt sett skapas en *ny* variabel i varje iteration, snarare än att den gamla ändras. Därför är `const` korrekt – det förhindrar att du av misstag tilldelar om variabeln inuti loopens kropp.
-:::
-
-### Vad ska man välja?
-
-- Använd **`for`** om du behöver indexet – till exempel för numrering, eller för att ändra element på specifika positioner.
-- Använd **`for...of`** om du bara behöver värdena – det är kortare och tydligare.
-
----
-
-## Från text till lista och tillbaka: `split` och `join`
-
-I kapitel [-@sec-tal-och-text] nämnde vi en metod som delar upp en sträng i delar. Nu när du känner till arrayer kan vi titta på den. Metoden `split` delar en sträng vid ett visst tecken – en *avgränsare* – och returnerar en array med delarna:
-
-```javascript
-"Anna Andersson".split(" ")          // ["Anna", "Andersson"]
-"äpple,banan,citron".split(",")      // ["äpple", "banan", "citron"]
-"hej".split("")                      // ["h", "e", "j"] – varje tecken för sig
-```
-
-Resultatet är en vanlig array, så allt du lärt dig i kapitlet fungerar på den:
-
-```javascript
-const delar = "Anna Andersson".split(" ");
-console.log(delar[0]);        // "Anna"
-console.log(delar.length);    // 2
-```
-
-Metoden `join` gör det omvända: den sätter ihop elementen i en array till en enda sträng, med en valfri avgränsare emellan:
-
-```javascript
-["äpple", "banan", "citron"].join(", ")   // "äpple, banan, citron"
-["2026", "10", "07"].join("-")            // "2026-10-07"
-```
-
-Tillsammans gör `split` och `join` det enkelt att ta emot en lista från användaren. Här skriver användaren taggar separerade med kommatecken, och sidan visar hur många taggar det blev och listar dem städade:
+Tillsammans gör `split` och `join` det enkelt att ta emot en lista från användaren. Domaren skriver flera lagnamn i ett fält, åtskilda med kommatecken, och klickar på *Anmäl*. Sidan ska visa hur många lag det blev och lista dem städade. Elementen finns på övningssidan:
 
 ```html
-<input type="text" id="taggfält" placeholder="t.ex. javascript, html, css">
-<p id="taggar"></p>
+<label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
+<input type="text" id="lagfält">
+<button id="anmäl">Anmäl</button>
+<p id="anmälda"></p>
 ```
+
+Koden följer de fem stegen från kapitel [-@sec-handelser]:
 
 ```javascript
-const taggfält = document.querySelector("#taggfält");
-const taggResultat = document.querySelector("#taggar");
+// 1. Hämta elementen
+const lagfält = document.querySelector("#lagfält");
+const anmälKnapp = document.querySelector("#anmäl");
+const anmälda = document.querySelector("#anmälda");
 
-taggfält.addEventListener("input", () => {
-    const delar = taggfält.value.split(",");
-    const taggar = [];
+// 2. Lyssna efter en händelse
+anmälKnapp.addEventListener("click", () => {
+    // 3. Läs indata
+    const text = lagfält.value;
+
+    // 4. Bearbeta – dela upp, städa och samla ihop
+    const delar = text.split(",");
+    const lagnamn = [];
 
     for (const del of delar) {
-        taggar.push(del.trim());
+        const namn = del.trim();
+        if (namn !== "") {
+            lagnamn.push(namn);
+        }
     }
 
-    taggResultat.textContent = `${taggar.length} taggar: ${taggar.join(" · ")}`;
+    // 5. Visa resultatet
+    anmälda.textContent = `${lagnamn.length} lag: ${lagnamn.join(" · ")}`;
 });
 ```
+
+Steg 4 har tre delar. `split` gör om texten till en array. Loopen går igenom delarna och städar var och en med `trim` från kapitel [-@sec-tal-och-text]. `if`-satsen hoppar över tomma delar, som uppstår om någon skriver två kommatecken i rad eller ett kommatecken sist. Det som blir kvar samlas i en ny array med `push` – samma mönster som i förra kapitlet, men nu är startvärdet en tom array i stället för en tom sträng.
+
+Prova med texten `Ugglorna,  Tigrarna ,,Räknenissarna,`. Hur många delar ger `split`, och hur många lag visas?
 
 Lägg märke till att resultatet visas med `textContent`, inte med `innerHTML`. Texten kommer från användaren, och som du såg i säkerhetsvarningen i kapitel [-@sec-dom-intro] ska sådan text aldrig tolkas som HTML.
 
 ---
 
-## Arrayer och DOM: `querySelectorAll`
+## Arrayer och webbsidan: `querySelectorAll`
 
-I kapitel [-@sec-dom-intro] lärde du dig att hämta *ett* element med `document.querySelector()`. Men vad gör man när man vill hämta *alla* element som matchar en selektor? Det är precis vad `document.querySelectorAll()` gör.
-
-Tänk dig en att-göra-lista i HTML:
-
-```html
-<ul>
-    <li>Handla mjölk</li>
-    <li>Lämna tillbaka bok</li>
-    <li>Plugga JavaScript</li>
-</ul>
-```
+I kapitel [-@sec-dom-intro] hämtade du *ett* element med `querySelector`. Övningssidan har fem `<li>`-element med klassen `lag`. För att hämta *alla* används `querySelectorAll`:
 
 ```javascript
-const uppgifter = document.querySelectorAll("li");
-console.log(uppgifter.length);   // 3
+const lagElement = document.querySelectorAll(".lag");
+console.log(lagElement.length);   // 5
 ```
 
-`querySelectorAll` returnerar en **NodeList** – en samling av alla element som matchar selektorn. En NodeList liknar en array: den har `length`, man kan komma åt element med index (`uppgifter[0]`), och man kan iterera med `for...of`.
+`querySelectorAll` returnerar alla element som matchar selektorn, i den ordning de står på sidan. Samlingen fungerar nästan som en array: den har `length`, du når elementen med index (`lagElement[0]`), och du kan gå igenom den med `for...of`. Tekniskt sett är det inte en array utan en **NodeList**, och den saknar en del arraymetoder, som `push`. Det behövs sällan, eftersom det är sidans element den räknar upp.
+
+Med en loop kan du nu göra samma sak med alla elementen:
 
 ```javascript
-for (const uppgift of uppgifter) {
-    console.log(uppgift.textContent);
-}
-```
-
-Resultat:
-
-```
-Handla mjölk
-Lämna tillbaka bok
-Plugga JavaScript
-```
-
-### Kombinera med villkor och stiländringar
-
-Kraften i `querySelectorAll` visar sig när man kombinerar iteration med villkor och DOM-manipulation. Här är ett exempel som markerar alla listobjekt som innehåller ordet "JavaScript":
-
-```javascript
-const uppgifter = document.querySelectorAll("li");
-
-for (const uppgift of uppgifter) {
-    if (uppgift.textContent.includes("JavaScript")) {
-        uppgift.classList.add("markerad");
+for (const element of lagElement) {
+    if (element.textContent.includes("Blå")) {
+        element.classList.add("markerad");
     }
 }
 ```
 
-Det här mönstret – hämta alla element, gå igenom dem, gör något med de som uppfyller ett villkor – är grundläggande i DOM-programmering. Det knyter ihop allt vi lärt oss hittills: selektorer, loopar, villkor och stiländringar.
+Mönstret – hämta alla, gå igenom dem, gör något med dem som uppfyller ett villkor – är grundläggande när man arbetar med webbsidor. Det knyter ihop selektorer, loopar, villkor och klasser.
 
-::: {.callout-note}
-## NodeList är inte en array
+::: {.callout-warning}
+## En lista kan inte lyssna
 
-En NodeList liknar en array men är inte en. De viktigaste skillnaderna:
-
-- En NodeList som returneras av `querySelectorAll` har `length` och stödjer `for...of` och hakparentesnotation, men saknar arraymetoder som `push()`, `pop()` och `splice()`.
-- Om du behöver arraymetoder kan du konvertera en NodeList till en riktig array med `Array.from()`:
+Ett av de vanligaste felen med `querySelectorAll` är att behandla listan som om den vore ett element:
 
 ```javascript
-const uppgifter = document.querySelectorAll("li");
-const uppgiftsArray = Array.from(uppgifter);
-uppgiftsArray.push(/* ... */);   // Nu fungerar arraymetoder
+const lagElement = document.querySelectorAll(".lag");
+lagElement.classList.add("markerad");
+// TypeError: Cannot read properties of undefined (reading 'add')
 ```
 
-I de flesta fall räcker det att iterera med `for...of`, och då spelar skillnaden ingen roll.
+Listan har ingen `classList` – det har bara elementen *i* listan. Samma sak gäller `textContent` och `addEventListener`. Använd en loop och gör det med ett element i taget.
 :::
 
 ---
 
 ## Händelser i en loop
 
-I kapitel [-@sec-handelser] registrerade du lyssnare på ett element i taget. Hade du tjugo kort som skulle reagera på musen fick du skriva tjugo anrop – eller en hjälpfunktion som du anropade tjugo gånger. Med `querySelectorAll` och en loop blir det några få rader, oavsett hur många element det är.
-
-```html
-<ul>
-    <li>Äpple</li>
-    <li>Banan</li>
-    <li>Citron</li>
-    <li>Dadel</li>
-</ul>
-<p id="vald-frukt">Klicka på en frukt!</p>
-```
+I övningen *Markera kort* i kapitel [-@sec-handelser] registrerade du lyssnare på ett kort i taget. Med `querySelectorAll` och en loop blir det några få rader, oavsett hur många element det är:
 
 ```javascript
-const frukter = document.querySelectorAll("li");
-const valdFrukt = document.querySelector("#vald-frukt");
+const lagElement = document.querySelectorAll(".lag");
+const valtLag = document.querySelector("#valt-lag");
 
-for (const frukt of frukter) {
-    frukt.addEventListener("click", (e) => {
-        valdFrukt.textContent = `Du valde: ${e.target.textContent}`;
+for (const element of lagElement) {
+    element.addEventListener("click", (e) => {
+        valtLag.textContent = `Du valde: ${e.target.textContent}`;
     });
 }
 ```
 
-Loopen registrerar en klicklyssnare på *varje* `<li>`-element. Inuti callbacken använder vi `e.target` – en egenskap i event-objektet som du mötte i kapitel [-@sec-handelser] – för att ta reda på vilket element som klickades, och visar dess text. Det här mönstret — iterera med `for...of` och registrera lyssnare — är grundläggande i interaktiv webbutveckling.
+Loopen körs en gång, när sidan laddas, och registrerar en lyssnare på vart och ett av de fem lagen. Callbacken körs senare, varje gång någon klickar.
 
-### `event.target`
-
-`event.target` är det element som *utlöste* händelsen. Ett annat exempel är en rad knappar som var och en byter sidans bakgrundsfärg. Varje knapp bär sin färg i attributet `value`:
-
-```html
-<button class="färg-knapp" value="red">Röd</button>
-<button class="färg-knapp" value="blue">Blå</button>
-<button class="färg-knapp" value="green">Grön</button>
-```
-
-```javascript
-const knappar = document.querySelectorAll(".färg-knapp");
-
-for (const knapp of knappar) {
-    knapp.addEventListener("click", (e) => {
-        const färg = e.target.value;
-        document.body.style.backgroundColor = färg;
-    });
-}
-```
-
-Här registrerar vi samma lyssnare på tre knappar. Inuti callbacken använder vi `e.target` för att ta reda på *vilken* knapp som klickades och hämtar dess `value`-attribut. `value` är ett attribut som alla formulärelement har, inklusive knappar. Formulärelement återkommer vi till i ett senare kapitel.
+Men hur vet callbacken *vilket* lag som klickades? Det berättar event-objektet `e` från kapitel [-@sec-handelser]. Egenskapen `e.target` är det element som händelsen gällde – här det `<li>`-element som användaren klickade på. Samma callback kan på så sätt reagera olika beroende på var användaren klickar.
 
 ### Ett interaktivt quiz
 
-Här är ett mer komplett exempel som knyter ihop arrayer, funktioner, händelser, villkor och stiländringar:
+Här är ett större exempel som knyter ihop arrayer, händelser, villkor och klasser. Övningssidan har en fråga med tre svarsknappar, alla med klassen `svar`:
 
 ```html
-<h2 id="fråga">Vad heter Sveriges huvudstad?</h2>
-<div id="alternativ">
-    <button class="svar">Göteborg</button>
-    <button class="svar">Stockholm</button>
-    <button class="svar">Malmö</button>
-</div>
-<p id="resultat"></p>
+<p id="fråga">Vad heter Sveriges huvudstad?</p>
+<button class="svar">Göteborg</button>
+<button class="svar">Stockholm</button>
+<button class="svar">Malmö</button>
+<p id="svarsresultat"></p>
 ```
 
 ```javascript
-const rätt = "Stockholm";
+const rättSvar = "Stockholm";
 const knappar = document.querySelectorAll(".svar");
-const resultat = document.querySelector("#resultat");
+const svarsresultat = document.querySelector("#svarsresultat");
 
 for (const knapp of knappar) {
     knapp.addEventListener("click", (e) => {
         const svar = e.target.textContent;
 
-        if (svar === rätt) {
-            resultat.textContent = "Rätt!";
-            resultat.style.color = "green";
-            e.target.classList.add("korrekt");
+        if (svar === rättSvar) {
+            svarsresultat.textContent = "Rätt!";
+            e.target.classList.add("rätt");
         } else {
-            resultat.textContent = `Fel! Rätt svar är ${rätt}.`;
-            resultat.style.color = "red";
-            e.target.classList.add("felaktigt");
+            svarsresultat.textContent = `Fel! Rätt svar är ${rättSvar}.`;
+            e.target.classList.add("fel");
         }
     });
 }
 ```
 
-Allt du har lärt dig sedan kapitel [-@sec-om-javascript] samverkar: DOM-selektion, textändring, stiländringar med `classList` och `.style`, funktioner som callbacks, event-objektet, villkor och loopar över element. Det är en fullt interaktiv quizfråga.
+Läs koden i två delar. Loopen ser till att alla tre knapparna har en lyssnare. Callbacken är densamma för alla tre, men `e.target` gör att den alltid arbetar med den knapp som klickades. Vill du lägga till ett fjärde svarsalternativ behöver du bara lägga till en knapp i HTML-koden – JavaScript-koden kan stå kvar som den är.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Hur många lyssnare finns det på övningssidan efter att quizkoden har körts? Hur många gånger har loopen körts när du klickar på den tredje knappen?
+2. Klicka på *Göteborg* och sedan på *Stockholm*. Vad visas, och vilka knappar har en färgad ram? Vad borde hända i ett riktigt quiz?
+:::
 
 ---
 
@@ -556,119 +541,205 @@ Byt `frågor[0]` mot `frågor[1]`, så visar samma sida nästa fråga. Det är g
 3. Hur många varv går loopen som fyller knapparna? Vad händer om en fråga bara har två alternativ?
 :::
 
-Objekt har mycket mer att erbjuda än vi har tittat på här – de kan till exempel innehålla egna funktioner. Det tar vi upp i Del III.
+Objekt har mycket mer att erbjuda än vi har tittat på här – de kan till exempel innehålla egna funktioner. Det tar vi upp i kapitel [-@sec-objekt], som inleder Del III.
 
 ---
 
 ## Sammanfattning
 
-Arrayer är JavaScripts sätt att hantera listor – ordnade samlingar av värden som man kan gå igenom, söka i och ändra.
-
-- En **array** skapas med hakparenteser: `["Anna", "Björn", "Clara"]`.
-- Element nås med **index** som börjar på **0**: `arr[0]` ger det första elementet.
-- `length` ger arrayens storlek; det sista elementet har index `length - 1`.
-- **`push`/`pop`** lägger till och tar bort i slutet. Fler metoder finns på MDN.
-- **`includes`** kontrollerar om ett värde finns; **`indexOf`** ger positionen.
-- En **`for`**-loop med index (`for (let i = 0; i < arr.length; i++)`) ger full kontroll.
-- **`for...of`** itererar direkt över värdena – enklare när du inte behöver indexet.
-- **`split`** delar en sträng i en array; **`join`** sätter ihop en array till en sträng.
-- **`querySelectorAll`** returnerar en **NodeList** av DOM-element som kan itereras med `for...of`.
-- Med en loop kan samma **lyssnare** registreras på många element. **`e.target`** talar om vilket element som utlöste händelsen.
+- En **array** är en ordnad lista av värden: `["Ugglorna", "Tigrarna"]`. Ge den ett namn i plural.
+- Elementen nås med **index** som börjar på **0**: `lag[0]` är det första. Finns inget element på ett index blir svaret `undefined`.
+- **`length`** ger antalet element. Det sista elementet har index `length - 1`.
+- Ett element ändras med tilldelning: `lag[1] = "Nytt namn"`. Det fungerar även med `const`, eftersom det är samma array.
+- **`push`** lägger till sist och **`pop`** tar bort sist. Till skillnad från strängmetoderna ändrar de arrayen.
+- En **`for`-loop** med `i < lag.length` går igenom alla index. **`for...of`** går direkt igenom värdena och är oftast enklast.
+- Mönstret *före loopen – i loopen – efter loopen* fungerar för att summera, hitta det största och bygga en ny array med `push`.
+- **`includes`** och **`indexOf`** söker i en array, precis som i en sträng.
+- **`split`** delar en sträng till en array, och **`join`** sätter ihop en array till en sträng.
+- **`querySelectorAll`** hämtar alla element som matchar en selektor. Gå igenom dem med en loop – listan själv har ingen `classList` eller `addEventListener`.
+- Med en loop kan samma lyssnare registreras på många element, och **`e.target`** talar om vilket element som klickades.
 - En **array av objekt** samlar många poster med samma egenskaper, som frågorna i ett quiz. Läs uttryck som `frågor[1].alternativ[0]` steg för steg från vänster.
-
-Arrayer och loopar är oskiljaktiga: en loop utan en lista att bearbeta, eller en lista utan ett sätt att gå igenom den, är båda halvfärdiga verktyg. Tillsammans ger de dig möjligheten att hantera data av godtycklig storlek med en fast mängd kod.
 
 Med arrayer har du nu alla grundläggande byggstenar: värden och variabler, funktioner, händelser, villkor, loopar och listor. Det är vad som krävs för att bygga sidor som reagerar på användaren och hanterar hur mycket data som helst.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-En array är lättare att förstå om man kan *se* den. Rita den som en rad lådor med indexen under – och låt AI:n kontrollera bilden.
+En array är lättare att förstå om man kan *se* den. Rita den som en rad rutor med indexen under – och låt AI:n kontrollera bilden.
 
 **Rita arrayens tillstånd:**
 
-> *"Ge mig en array och en sekvens av sex operationer med `push`, `pop` och tilldelning med index, som `lista[1] = "x"`. Efter varje operation ritar jag arrayen som lådor, till exempel `[ "a" | "b" | "c" ]`, och anger vad operationen returnerade. Rätta mig efter varje steg innan vi går vidare."*
+> *"Ge mig en array med fyra lagnamn och en sekvens av sex rader JavaScript som ändrar den med `push`, `pop` och tilldelning till ett index, till exempel `lag[1] = "Tigrarna";`. Efter varje rad ritar jag arrayen som rutor, till exempel `[ "a" | "b" | "c" ]`, med indexen under, och anger vad raden returnerade. Rätta mig efter varje steg innan vi går vidare."*
 
-**Från beskrivning till algoritm:**
+**Från beskrivning till steg:**
 
 Många arrayproblem bygger på samma få mönster: gå igenom alla, hitta en, räkna, bygg en ny lista.
 
-> *"Ge mig fem vardagliga uppgifter med listor, som 'hitta den dyraste varan i kundvagnen' eller 'gör en lista med bara de godkända resultaten'. För varje uppgift beskriver jag först i ord, steg för steg, hur jag skulle lösa den – utan kod. Granska mina steg och säg om något fall glöms bort, innan jag börjar koda."*
+> *"Ge mig fem vardagliga uppgifter med listor, som 'hitta den dyraste varan i kundvagnen' eller 'gör en lista med bara de lag som har minst 10 poäng'. För varje uppgift beskriver jag först i ord, steg för steg, hur jag skulle lösa den – utan kod. Granska mina steg och säg om något fall glöms bort, till exempel en tom lista, innan jag börjar koda."*
 
-Att formulera stegen i ord först – en *algoritm* – gör själva kodandet mycket enklare. Du kommer att märka att samma få mönster dyker upp gång på gång.
+Att formulera stegen i ord först gör själva kodandet mycket enklare. Du kommer att märka att samma få mönster dyker upp gång på gång.
 :::
 
 ---
 
 ## Övningar
 
+Övningarna börjar med att du förutsäger och följer kod. Gör dem utan att köra koden först, och kontrollera sedan i konsolen eller på övningssidan från avsnittet *En sida att öva på*.
+
 ::: {.callout-note}
-## Övning – Skapa och utforska
+## Övning – Förutsäg värdena
 
-Skapa en array med namnen på fem städer du har besökt (eller vill besöka). Skriv kod som:
+Anta att följande rad har körts:
 
-1. Skriver ut det första och sista namnet.
-2. Skriver ut arrayens längd.
-3. Ändrar det tredje elementet till en annan stad.
-4. Lägger till en sjätte stad med `push`.
-5. Skriver ut hela arrayen med en `for...of`-loop.
+```javascript
+const frukter = ["äpple", "banan", "citron", "dadel"];
+```
+
+Ange utan att köra koden vad varje rad ger. Raderna körs i ordning, så en rad som ändrar arrayen påverkar raderna efter den. För `push` räcker det att du säger hur arrayen ser ut efteråt.
+
+```javascript
+frukter[1];
+frukter.length;
+frukter[frukter.length];
+frukter.indexOf("citron");
+frukter.includes("Äpple");
+frukter.push("fikon");
+frukter[frukter.length - 1];
+frukter.pop();
+frukter.length;
+frukter.join("-");
+```
+
+Vilken av raderna var svårast? Rita arrayen som rutor med index efter de rader som ändrar den.
 :::
 
 ::: {.callout-note}
-## Övning – Hitta det största talet
+## Övning – Spåra loopen
 
-Skapa en array med minst åtta slumpmässiga heltal, till exempel `[34, 7, 91, 12, 45, 68, 3, 56]`. Skriv kod som hittar och skriver ut det *största* talet i arrayen med en `for`-loop – du får inte använda `Math.max()`.
+Gå igenom koden för hand.
 
-*Tips:* Börja med att anta att det första elementet är störst och spara det i en variabel. Jämför sedan med resten av elementen i varje iteration.
+```javascript
+const poäng = [48, 72, 50, 31, 90];
+let antal = 0;
+
+for (const p of poäng) {
+    if (p >= 50) {
+        antal++;
+    }
+}
+
+console.log(antal);
+```
+
+1. Gör en spårtabell med kolumnerna *Varv*, *`p`*, *`p >= 50`?* och *`antal` efteråt*. Vad skrivs ut?
+2. Skriv om loopen som en `for`-loop med index. Vad står på den plats där det nu står `p`?
 :::
 
 ::: {.callout-note}
-## Övning – Filtrera en lista
+## Övning – Vad säger felet?
 
-Skapa en array med tio poängvärden (0–100). Skriv kod som bygger upp en *ny* array som bara innehåller de godkända resultaten (50 poäng eller mer). Skriv ut den nya arrayen.
+Var och en av snuttarna nedan innehåller ett fel. Förutsäg först: kommer det ett felmeddelande, och i så fall vilket? Prova sedan i `script.js` på övningssidan, en snutt i taget.
 
-*Tips:* Skapa en tom array före loopen och använd `push` i varje iteration där villkoret uppfylls.
+```javascript
+// A
+const lag = ["Ugglorna", "Tigrarna"];
+console.log(lag[lag.length].toUpperCase());
+```
+
+```javascript
+// B
+const lag = ["Ugglorna", "Tigrarna"];
+lag = [];
+```
+
+```javascript
+// C
+const knappar = document.querySelectorAll(".svar");
+knappar.addEventListener("click", () => {
+    console.log("Klick!");
+});
+```
+
+```javascript
+// D
+const lag = ["Ugglorna", "Tigrarna"];
+for (let i = 0; i <= lag.length; i++) {
+    console.log(lag[i].length);
+}
+```
+
+1. Vilket felmeddelande ger varje snutt? Vilka två snuttar ger nästan samma meddelande, och varför?
+2. I D skrivs något ut innan felet kommer. Vad, och varför kommer felet först i tredje varvet?
+3. Rätta alla fyra. Finns det mer än ett sätt att rätta B?
 :::
 
 ::: {.callout-note}
-## Övning – Sök i listan
+## Övning – Förklara koden
 
-Skapa en array med minst sex namn. Deklarera en variabel `söknamn` med ett namn att söka efter. Skriv kod som:
+Läs funktionen.
 
-1. Kontrollerar om `söknamn` finns i arrayen med `includes`.
-2. Om det finns, skriv ut dess position (index) med `indexOf`.
-3. Om det inte finns, skriv ut "Namnet hittades inte".
+```javascript
+function hittaLag(lagnamn, sökt) {
+    for (let i = 0; i < lagnamn.length; i++) {
+        if (lagnamn[i] === sökt) {
+            return i;
+        }
+    }
+    return -1;
+}
+```
 
-Testa med ett namn som finns och ett som inte finns.
+1. Beskriv med en mening vad funktionen gör. Vilken inbyggd metod gör samma sak?
+2. Vad returnerar `hittaLag(["A", "B", "C", "B"], "B")`? Hur många varv har loopen gjort när funktionen returnerar?
+3. Varför står `return -1;` *efter* loopen och inte i ett `else`-block inuti den? Prova att flytta det och testa med `"C"`.
 :::
 
 ::: {.callout-note}
-## Övning – Numrerad lista på sidan
+## Övning – Ordna raderna
 
-Skapa en HTML-sida med ett `<ol>`-element med id `"namnlista"`. Skapa en array med minst fem namn i JavaScript. Skriv en loop som bygger upp en HTML-sträng med `<li>`-element för varje namn och visar den i `<ol>`-elementet med `innerHTML`.
+Koden ska bygga en ny array, `godkända`, med bara de poäng som är 50 eller mer, och sedan skriva ut den. Välj ut och ordna raderna. Två rader ska inte användas.
 
-Förväntat resultat: en numrerad lista på sidan med alla namn.
+```javascript
+}
+    if (p >= 50) {
+console.log(godkända);
+    const godkända = [];
+const poäng = [48, 72, 50, 31, 90];
+        godkända.push(p);
+const godkända = [];
+for (const p of poäng) {
+    }
+        godkända = p;
+```
+
+1. Vilka två rader använde du inte? Vad hade hänt om du använt dem?
+2. Vad skrivs ut?
+3. Ändra din lösning så att den också skriver ut *hur många* som är godkända. Behövs en räknare, eller finns svaret redan?
 :::
 
 ::: {.callout-note}
-## Övning – Markera element med `querySelectorAll`
+## Övning – Bygg vidare på anmälan
 
-Skapa en HTML-sida med en `<ul>`-lista med minst sex `<li>`-element – till exempel fruktnamn. Skriv JavaScript som:
+Utgå från avsnittet *Ett löst exempel: anmäl flera lag* och övningssidan.
 
-1. Hämtar alla `<li>`-element med `querySelectorAll`.
-2. Itererar över dem med `for...of`.
-3. Om elementets text innehåller ett visst nyckelord (t.ex. "äpple"), ger elementet en CSS-klass `markerad` med gul bakgrund.
-
-Testa att ändra nyckelordet och se att rätt element markeras.
+1. Om samma lagnamn står två gånger i fältet ska det bara räknas en gång. Använd `includes` innan du gör `push`.
+2. Visa lagen som en numrerad lista, ett lag per rad, i stället för med `·` emellan. Använd en `for`-loop med index och ett `<pre>`-element, som i kapitel [-@sec-loopar].
+3. Högst åtta lag får plats. Visa ett meddelande om fler än åtta lag skrivs in. I vilket av de fem stegen hör kontrollen hemma, och ska den göras före eller efter att dubbletterna har tagits bort?
 :::
 
 ::: {.callout-note}
-## Övning – Vänd på arrayen
+## Övning – Bygg vidare på quizet
 
-Skriv kod som skapar en *ny* array med elementen i omvänd ordning – utan att använda den inbyggda metoden `reverse()`. Givet `["A", "B", "C", "D", "E"]` ska resultatet bli `["E", "D", "C", "B", "A"]`.
+Utgå från avsnittet *Ett interaktivt quiz* och övningssidan.
 
-*Tips:* Du kan iterera baklänges med en `for`-loop och använda `push` för att bygga upp den nya arrayen.
+1. När användaren har svarat ska alla tre knapparna bli avstängda med `disabled`, som i kapitel [-@sec-booleska], så att det inte går att svara igen. Du behöver en loop till – var i koden ska den stå?
+2. Om svaret är fel ska den rätta knappen också få klassen `rätt`, så att användaren ser vilket som var rätt svar. Hur hittar du den rätta knappen?
+3. Lägg till en knapp *Nästa försök* som tar bort klasserna `rätt` och `fel` från alla svarsknappar, slår på dem igen och tömmer resultatet.
 :::
+
+### Egna sidor
+
+I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
 
 ::: {.callout-note}
 ## Övning – Ord i en mening
@@ -678,42 +749,53 @@ Skapa en sida med ett textfält och ett stycke för resultatet. Medan användare
 1. Använd `split(" ")` för att dela upp meningen i ord.
 2. Prova med två mellanslag mellan två ord, och med mellanslag i slutet av meningen. Stämmer antalet? Undersök arrayen i konsolen och förklara vad som händer.
 3. Rätta räkningen så att tomma "ord" inte räknas.
-4. Visa även det längsta ordet i meningen.
+4. Visa även det längsta ordet i meningen. Vilket mönster från kapitlet kan du använda?
 :::
 
 ::: {.callout-note}
 ## Övning – Live-sökning
 
-Skapa en HTML-sida med ett textfält och en `<ul>`-lista med minst åtta namn (som `<li>`-element). Skriv JavaScript som:
+Skapa en sida med ett textfält och en `<ul>`-lista med minst åtta namn som `<li>`-element. Medan användaren skriver i fältet ska bara de namn som innehåller söktexten synas.
 
-1. Lyssnar på `input`-händelsen på textfältet.
-2. Vid varje ändring: gå igenom alla `<li>`-element med `querySelectorAll` och `for...of`.
-3. Dölj (med `hidden` eller en CSS-klass) de element vars text *inte* innehåller det som användaren skrivit i fältet.
-
-Resultatet ska vara en lista som filtreras i realtid.
-
-*Tips:* `textContent.toLowerCase().includes(söktext.toLowerCase())` gör sökningen skiftlägesokänslig.
+1. Lyssna på `input`-händelsen på textfältet.
+2. Vid varje ändring: gå igenom alla `<li>`-element och dölj de element vars text *inte* innehåller söktexten. Använd `hidden` och ett booleskt uttryck, som i kapitel [-@sec-booleska].
+3. Gör sökningen okänslig för stora och små bokstäver.
+4. Vad händer när fältet töms? Förklara varför – du behöver troligen inte lägga till någon kod.
 :::
 
 ::: {.callout-note}
-## Övning – Interaktivt quiz
+## Övning – Färgväljare med knappar
 
-Bygg en quizsida med en fråga och tre svarsknappar. Skriv JavaScript som:
+Skapa en sida med fem knappar. Varje knapp har sin färg i attributet `value`, till exempel `<button class="färg-knapp" value="tomato">Tomat</button>`. Precis som för ett `<input>` når du attributet med `.value`.
 
-1. Registrerar en klicklyssnare på varje svarsknapp.
-2. Vid klick: kontrollerar om svaret är rätt.
-3. Om rätt: visar "Rätt!" i grönt och ger knappen en grön ram.
-4. Om fel: visar "Fel!" i rött, ger knappen en röd ram, och markerar den korrekta knappen med grön ram.
+1. Hämta alla knappar med `querySelectorAll` och registrera en klicklyssnare på var och en.
+2. Vid klick: ändra sidans bakgrundsfärg till knappens färg med `document.body.style.backgroundColor`. Här passar `.style` bättre än en CSS-klass, eftersom färgen kommer från knappen.
+3. Ge den klickade knappen klassen `aktiv` och ta bort den från alla andra knappar, så att bara en knapp åt gången är markerad.
 
-Definiera CSS-klasser för rätt och fel svar. Använd `querySelectorAll`, `for...of` och `event.target`.
+*Tips:* Gå igenom alla knappar och ta bort `aktiv` innan du lägger till den på den klickade.
+:::
 
-**Bonusutmaning:** Gör att knapparna inte reagerar på fler klick efter att ett svar valts.
+::: {.callout-note}
+## Övning – Vem leder nu?
+
+I övningen *Vem leder?* i kapitel [-@sec-villkor] jämförde du två lag. Nu kan du jämföra hur många som helst.
+
+1. Börja med lagen i två arrayer, där samma index hör ihop:
+
+    ```javascript
+    const lagnamn = ["Ugglorna", "Räknenissarna", "Blå blixtarna", "Röda stjärnor"];
+    const poäng = [12, 19, 15, 8];
+    ```
+
+    Ta reda på vilket lag som leder. Utgå från exemplet i avsnittet *Att leta efter det största*, men kom ihåg *indexet* för det största värdet i stället för bara värdet. Visa resultatet på en sida, till exempel `Räknenissarna leder med 19 poäng.`
+2. Ett nytt lag, *Tigrarna*, anmäler sig. Vad måste du komma ihåg att ändra? Vad händer om du bara lägger till namnet i `lagnamn`?
+3. Gör om lagen till en array av objekt, som i avsnittet *Arrayer av objekt*, med ett objekt per lag: `{ namn: "Ugglorna", poäng: 12 }`. Skriv om koden som hittar ledaren. Behöver du indexet nu? Vilken version är lättast att lägga till ett lag i?
 :::
 
 ::: {.callout-note}
 ## Övning – Ett quiz med flera frågor
 
-Bygg vidare på övningen *Interaktivt quiz* ovan, eller på exemplet i avsnittet *Arrayer av objekt*. Gå också tillbaka till övningen *En quizfråga som objekt* i kapitel [-@sec-variabler] – där bestämde du vilka egenskaper en fråga behöver.
+Bygg vidare på din lösning till övningen *Bygg vidare på quizet*, eller på exemplet i avsnittet *Arrayer av objekt*. Gå också tillbaka till övningen *En quizfråga som objekt* i kapitel [-@sec-variabler] – där bestämde du vilka egenskaper en fråga behöver.
 
 1. Skapa en array med minst tre frågor som objekt. Varje fråga ska ha en frågetext, tre alternativ och det rätta svaret.
 2. Skriv en funktion `visaFråga(nr)` som visar frågan med index `nr` och fyller de tre knapparna med dess alternativ.
@@ -724,14 +806,9 @@ Planera först: vilka variabler behöver finnas *utanför* callbackarna, så att
 :::
 
 ::: {.callout-note}
-## Övning – Färgväljare med knappar
+## Övning – Vänd på listan
 
-Skapa en sida med fem knappar, var och en med ett `data-färg`-attribut (t.ex. `data-färg="tomato"`). Skriv JavaScript som:
+Skriv kod som skapar en *ny* array med elementen i omvänd ordning, utan den inbyggda metoden `reverse`. Givet `["A", "B", "C", "D", "E"]` ska resultatet bli `["E", "D", "C", "B", "A"]`.
 
-1. Hämtar alla knappar med `querySelectorAll`.
-2. Registrerar en klicklyssnare på var och en.
-3. Vid klick: ändrar sidans bakgrundsfärg till knappens `data-färg`-värde.
-4. Ger den klickade knappen en CSS-klass `aktiv` och tar bort den från alla andra knappar.
-
-*Tips:* Loopa igenom alla knappar och ta bort `aktiv`-klassen innan du lägger till den på den klickade.
+*Tips:* Gå igenom den gamla arrayen baklänges med en `for`-loop, som nedräkningen i kapitel [-@sec-loopar], och använd `push`. Vilket index ska loopen börja på, och när ska den sluta?
 :::

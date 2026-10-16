@@ -120,3 +120,21 @@ Flyttas ut enligt BOKOVERSIKT §3.3: "En subtil regel som även erfarna programm
 **Varför:** BOKOVERSIKT §3.3 – `while`, `for` och `break` räcker för Del I. Ingen senare del av boken använder `continue` eller `do...while`. Multiplikationstabellen var det enda exemplet på nästlade loopar, och den bygger på matematik (BOKOVERSIKT §3.4).
 
 **Borttaget ur kap. 10 vid granskningen:** övningarna *Summera en sekvens*, *FizzBuzz* och *FizzBuzz på sidan* (ersatta av *Frågornas typer*, samma `%`-logik i ett quizsammanhang) och *Multiplikationstabell* (ersatt av *Biljettpriser*). Stjärnmönstret finns kvar som del D i *Hur många varv?*, nu med en enda loop.
+
+---
+
+## Från kap. 11 Arrayer (granskning oktober 2026)
+
+### 8. `unshift`, `shift`, `splice` och `Array.from`
+
+- [x] `unshift`/`shift`/`splice` är en *Bra att veta*-ruta i kap. 11 med en länk till MDN (vid nedskärningen för Webbteknik 2, se OUTLINE.md).
+- [x] `Array.from` förklaras där det används: `kap-skapa-element.qmd` (meningen som hänvisade till arraykapitlet är omskriven).
+
+**Varför:** BOKOVERSIKT §3.3 – kapitlet hade 32 underrubriker. `push` och `pop` räcker i Del I, och ingen senare del av boken använder `shift`, `unshift` eller `splice`. Skillnaden mellan NodeList och array förklaras utförligt i `kap-dom-traversering.qmd`; kap. 11 nämner den i två meningar.
+
+**Borttaget ur kap. 11 vid granskningen:** rutorna *Arrayer är objekt* och *NodeList är inte en array* (med `Array.from`), färgknappsexemplet med `value` (nu övningen *Färgväljare med knappar*), övningarna *Skapa och utforska*, *Sök i listan*, *Numrerad lista på sidan*, *Markera element* (nu ett exempel i texten), *Filtrera en lista* (nu Parsons-problemet *Ordna raderna*) och *Interaktivt quiz* (nu *Bygg vidare på quizet*, som utgår från exemplet). *Hitta det största talet* är nu ett exempel med spårtabell.
+
+### 9. `data-`-attribut (beslut 5 i OUTLINE.md)
+
+- [x] Övningen *Färgväljare med knappar* använder `value` i stället för `data-färg`, som exemplet i kapitlet gjorde tidigare.
+- [x] `kap-dom-traversering.qmd` påstår inte längre att arraykapitlet introducerade `dataset`, utan motiverar `data-` utifrån begränsningarna hos `value`.
