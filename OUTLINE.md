@@ -34,7 +34,7 @@
 **Del III – Fördjupning: språket på djupet**
 *(tematisk, ordning öppen)*
 
-* [X] Kap. ?? – Objekt *(gamla kap. 13, flyttat från Del I: metoder, this, hakparentesnotation, nästlade objekt, Object.keys/values/entries, referenssemantik, produktkort)*
+* [X] Kap. ?? – Objekt *(gamla kap. 13, flyttat från Del I och granskat: repetition, arrayer av objekt, referenser med pilbild, objekt som argument, nästlade objekt, hakparentesnotation och for...in, egna metoder med this, kiosken som löst exempel; Object.keys/values/entries flyttade till destructuring-kapitlet)*
 * [X] Kap. ?? – Moduler: att organisera sin kodbas
 * [X] Kap. ?? – Objektorienterad programmering (klasser, inkapsling, komposition)
 * [X] Kap. ?? – Destructuring och spread
@@ -72,16 +72,17 @@ Del I ska rymmas i kursen Webbteknik 2 (7,5 hp på halvfart, tio veckor varav tv
 
 Filerna har bytt namn: `kap09-sant-och-falskt.qmd` → `kap08-…`, `kap10-villkor.qmd` → `kap09-…`, `kap11-loopar.qmd` → `kap10-…`, `kap12-arrayer.qmd` → `kap11-…`, `kap13-objekt.qmd` → `kap-objekt.qmd`. Övningssidornas mappnamn i texten följer de nya numren.
 
-**Granskat:** kap. 10 och 11 följer nu samma mall som kap. 3–9 (se *Granskning av kap. 10–11* nedan). I `Tid och animationer` döljs notisen nu med `hidden` i stället för `notis.remove()`, så att kapitlet kan läsas direkt efter Del I.
+**Granskat:** kap. 10 och 11 följer nu samma mall som kap. 3–9 (se *Granskning av kap. 10–11 och kapitlet Objekt* nedan). I `Tid och animationer` döljs notisen nu med `hidden` i stället för `notis.remove()`, så att kapitlet kan läsas direkt efter Del I.
 
-### Granskning av kap. 10–11 (oktober 2026)
+### Granskning av kap. 10–11 och kapitlet Objekt (oktober 2026)
 
-Kap. 10 och 11 är granskade enligt samma mall som kap. 3–9: egen övningssida med rutan *Så provar du koden*, *Stanna upp*-rutor, ett löst exempel med femstegsmönstret, övningar i ordningen *förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv → blandad* och ett underavsnitt *Egna sidor*.
+Kap. 10 och 11, och kapitlet *Objekt* som inleder Del III, är granskade enligt samma mall som kap. 3–9: egen övningssida med rutan *Så provar du koden*, *Stanna upp*-rutor, ett löst exempel med femstegsmönstret, övningar i ordningen *förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv → blandad* och ett underavsnitt *Egna sidor*.
 
 | Kapitel | Ändringar |
 |---|---|
 | 10 Loopar (`sec-loopar`) | Nytt scenario från quizkvällen (nedräkning, prislista, tärning tills sexa) som kapitlet löser i tur och ordning. Spårtabell för `while` (villkoret prövas en gång mer än blocket körs, räknarens värde efter loopen). Nytt avsnitt *Bygga upp ett resultat* (före – i – efter loopen) med spårtabell och rutan om startvärdet inuti loopen. `while` motiveras med tärningen (okänt antal varv); `break` visas utan array (högst tre kast), så rutan *Vad är `[82, 91, …]`?* är borta. `\n` förklaras på plats, eftersom escape-sekvenser inte längre finns i kap. 7. Nedräkningen är det lösta exemplet, med kontrollen från kap. 9. Rutan *Bra att veta* om `continue`, `do...while` och nästlade loopar finns kvar (FLYTTLISTA punkt 7). *Summera en sekvens*, FizzBuzz och multiplikationstabellen är ersatta av *Spargrisen*, *Biljettpriser* och *Frågornas typer* (samma `%`-logik i ett quizsammanhang). Nya övningar: *Hur många varv?*, *Spåra summan*, *Vad säger felet?* (`SyntaxError`, `ReferenceError`, startvärde i loopen, oändlig loop), *Förklara koden*, *Ordna raderna*, *Bygg vidare på nedräkningen*. |
 | 11 Arrayer (`sec-arrayer`) | Scenariot är anmälda lag (fem variabler som en loop inte kan nå). Index som rutor; `const` förklaras med pilbilden. `push` ställs mot strängmetoderna (arrayer kan ändras). *Hitta det största* med spårtabell. `includes` kopplas till kap. 7, och `indexOf` förklaras på plats (finns inte längre för strängar i kap. 7). *Anmäl flera lag* (`split`, `trim`, tomma delar, `push`, `join`) är det lösta exemplet. Ny varningsruta: listan från `querySelectorAll` har ingen `classList`/`addEventListener`. Quizet använder klasser i stället för `.style.color`, och avsnittet *Arrayer av objekt* från nedskärningen ligger kvar efter quizet. **Flyttat:** `Array.from` (FLYTTLISTA punkt 8). **Beslut 5:** *Färgväljare* använder `value` (FLYTTLISTA punkt 9). Nya övningar: *Förutsäg värdena*, *Spåra loopen*, *Vad säger felet?*, *Förklara koden*, *Ordna raderna* (filtrera), *Bygg vidare på anmälan*, *Bygg vidare på quizet*, *Vem leder nu?* (från parallella arrayer till en array av objekt). *Ett quiz med flera frågor* finns kvar. |
+| Objekt (`sec-objekt`, Del III) | Scenariot fortsätter från *Vem leder nu?* i kap. 11: parallella arrayer som går i otakt. Studenter och kurser är ersatta av lag. Ny ordning: repetition → arrayer av objekt (bygger på avsnittet i kap. 11) → referenser → objekt som argument → nästlade objekt → hakparentesnotation och `for...in` → egna metoder → löst exempel. Referenssemantiken har två pilbilder (`ledare` och `lag[1]` på samma objekt; `a`, `b`, `c`) och kopplas till kap. 2 och kap. 5. Metoder bara i kortform; `this` som "objektet före punkten", pilfunktionsfällan i en mening. Kiosken (data → loop → HTML med kryssruta) är det lösta exemplet och ersätter produktkorten. **Flyttat:** `Object.keys/values/entries`, `delete`, `in` (FLYTTLISTA punkt 10–11). Nya övningar: *Förutsäg värdena*, *Spåra pilarna*, *Vad säger felet?*, *Förklara koden*, *Ordna raderna* (`hittaLag`), *Poängtavlan* (på övningssidan, samlar Del I), *Bygg vidare på kiosken*, *Räknaren som objekt*, *Kontaktbok*. *Ett quiz med flera frågor* finns bara i kap. 11. |
 
 
 ## Uppdelning av funktionskapitlet (oktober 2026)

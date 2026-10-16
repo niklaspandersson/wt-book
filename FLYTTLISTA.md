@@ -138,3 +138,22 @@ Flyttas ut enligt BOKOVERSIKT §3.3: "En subtil regel som även erfarna programm
 
 - [x] Övningen *Färgväljare med knappar* använder `value` i stället för `data-färg`, som exemplet i kapitlet gjorde tidigare.
 - [x] `kap-dom-traversering.qmd` påstår inte längre att arraykapitlet introducerade `dataset`, utan motiverar `data-` utifrån begränsningarna hos `value`.
+
+---
+
+## Från kapitlet Objekt (Del III, granskning oktober 2026)
+
+### 10. `Object.keys`, `Object.values` och `Object.entries`
+
+- [x] Kortade till rutan *Bra att veta* i kapitlet *Objekt*. `kap-destructuring.qmd` (avsnittet *Destructuring med `Object.entries`*) förklarar nu `Object.entries` från början och nämner `keys`/`values`.
+
+**Varför:** BOKOVERSIKT §3.3. `Object.entries` med `[nyckel, värde]` i loopen förutsatte destructuring, som kapitlet fick förklara i förbigående. `for...in` med hakparentesnotation finns kvar som det enda sättet att gå igenom egenskaper i kapitlet.
+
+### 11. `this` och pilfunktioner, `delete` och `in`
+
+- [ ] Fallgropen att en metod skriven som pilfunktion saknar eget `this` kan förklaras utförligt i Del III, kapitlet *Funktioner på djupet*, när det skrivs. Kapitlet *Objekt* säger det nu i en mening.
+- [ ] `delete` och operatorn `in` används inte i boken. Ta upp dem i *Felhantering och robusthet* om det behövs, tillsammans med `?.` (se punkt 5).
+
+**Varför:** BOKOVERSIKT §3.3 – `this` hör hemma i OOP-kapitlet, som förklarar det från början (`kap-oop.qmd`, *`this` – det aktuella objektet*). Kapitlet behåller egna metoder med `this` i kortform, eftersom det förbereder klasserna i `kap-oop.qmd`.
+
+**Borttaget ur kapitlet *Objekt*:** metodformen `presentation: function() { … }` (bara kortformen visas), rutan *Pilfunktioner och `this`* med felmeddelandet, avsnitten *Ta bort egenskaper* och *Kontrollera om en egenskap finns*, rutan *`for...in` vs. `for...of`* (en mening kvar), exemplen med studenter och kurser (ersatta av lag), produktkorten (ersatta av kiosken, med samma mönster; arrayer av objekt introduceras nu i kap. 11) och övningarna *Skapa och utforska*, *Studentregister* och *Nästlade objekt* (skolan).

@@ -1,494 +1,474 @@
 # Objekt {#sec-objekt}
 
-## En student är mer än ett namn
+## Ett lag är mer än ett namn
 
-Objekt har följt oss genom hela boken. Redan i kapitel [-@sec-variabler] skapade du ditt första objekt – ett lag med namn och poäng – och läste och ändrade dess egenskaper med punktnotation. Sedan dess har du arbetat med objekt i varje kapitel: DOM-element med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, inbyggda objekt som `document`, `Math` och `console`.
-
-Men de objekt du själv har skapat har varit enkla – några egenskaper, lästa och ändrade en i taget, och i kapitel [-@sec-arrayer] samlade i en array. Nu är det dags att gå på djupet: att ge egna objekt *beteende* med metoder, att nå egenskaper vars namn bestäms medan programmet körs, att gå igenom alla egenskaper i ett objekt, och att förstå vad som händer när två variabler pekar på samma objekt. Kapitlet bygger bara på Del I, och är en bra början på Del III: kapitlen om klasser och arv bygger vidare på det.
-
-Tänk dig att du ska visa information om studenter på en webbsida. Du har namn, program och årskurs för varje person – men hur samlar du ihop den informationen? Med separata variabler blir det ungefär så här:
+I övningen *Vem leder nu?* i kapitel [-@sec-arrayer] låg lagens namn och poäng först i två arrayer:
 
 ```javascript
-const namn1 = "Anna";
-const program1 = "Webbutveckling";
-const årskurs1 = 2;
-
-const namn2 = "Björn";
-const program2 = "Datavetenskap";
-const årskurs2 = 1;
-
-const namn3 = "Clara";
-const program3 = "Webbutveckling";
-const årskurs3 = 3;
+const lagnamn = ["Ugglorna", "Räknenissarna", "Blå blixtarna"];
+const poäng = [12, 19, 15];
 ```
 
-Nio variabler för tre studenter. Och de hänger bara ihop genom namnkonvention – inget i koden säger att `namn1` och `program1` tillhör samma person. Om du vill skicka "en student" till en funktion måste du skicka tre separata argument. Om du vill lägga studenter i en array – vilken array? En för namn, en för program, en för årskurs?
+Det fungerar, men bara så länge ingen gör fel. Att Ugglorna har 12 poäng framgår bara av att båda värdena råkar ha index 0. Inget i koden säger att de hör ihop. Lägger någon till ett lag i den ena arrayen men glömmer den andra, hamnar alla poäng efter det fel. Och domaren vill dessutom hålla reda på hur många deltagare varje lag har, och lagets färg. Ska det bli fyra arrayer, där samma index måste stämma i alla fyra?
 
-Du vet redan att objekt samlar relaterad data under ett namn. Låt oss börja med en kort repetition, och sedan bygga vidare.
+Du vet redan hur man håller ihop uppgifter som hör till samma sak. I kapitel [-@sec-variabler] skapade du ett objekt för ett lag, och i avsnittet *Arrayer av objekt* i kapitel [-@sec-arrayer] samlade du quizfrågor som objekt i en array:
+
+```javascript
+const röda = { namn: "Röda stjärnor", poäng: 12 };
+```
+
+Sedan dess har du arbetat med objekt i nästan varje kapitel: element från webbsidan med egenskaper som `textContent` och `classList`, event-objektet med `target` och `key`, och inbyggda objekt som `document`, `Math` och `console`. I det här kapitlet går vi på djupet. Du lär dig att förstå vad som händer när två namn pekar på samma objekt, att ge objekt egna metoder, att nå egenskaper vars namn bestäms medan programmet körs, och att bygga en webbsida utifrån en lista med objekt. Kapitlet bygger bara på Del I och inleder Del III: kapitlen om klasser och arv bygger vidare på det.
 
 ---
 
-## Skapa och läsa objekt – en repetition
+## En sida att öva på
 
-Som du minns från kapitel [-@sec-variabler] skapas ett objekt med en **objektliteral**: klammerparenteser med egenskaper i form av `nyckel: värde`-par, separerade med kommatecken. Egenskaperna läses med punktnotation:
+Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `objekt`, och spara den här koden som `index.html` i den:
 
-```javascript
-const student = {
-    namn: "Anna",
-    program: "Webbutveckling",
-    årskurs: 2
-};
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Objekt</title>
+    <script type="module" src="script.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 40rem;
+            margin: 2rem auto;
+        }
+        .vara {
+            border: 1px solid #ccc;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .slut {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quizkvällen</h1>
 
-console.log(student.namn);      // "Anna"
-console.log(student.epost);     // undefined – egenskapen finns inte
+    <h2>Poängtavlan</h2>
+    <pre id="tavla"></pre>
+    <label for="lagfält">Lag:</label>
+    <input type="text" id="lagfält">
+    <button id="ge-poäng">+3 poäng</button>
+    <p id="meddelande"></p>
+
+    <h2>Kiosken</h2>
+    <input type="checkbox" id="bara-i-lager">
+    <label for="bara-i-lager">Visa bara det som finns kvar</label>
+    <div id="kiosk"></div>
+</body>
+</html>
 ```
 
-Precis som arrayer kan objektets egenskaper ha vilken typ av värde som helst – strängar, tal, booleska värden, arrayer, eller till och med andra objekt:
+Skapa sedan `script.js` i samma mapp, med raden `console.log("Skriptet körs!");`, och öppna sidan med Live Server.
 
-```javascript
-const kurs = {
-    namn: "Webbteknik 2",
-    poäng: 7.5,
-    distans: false,
-    nyckelord: ["JavaScript", "DOM", "HTML"]
-};
-```
+::: {.callout-note}
+## Så provar du koden i det här kapitlet
 
-Att en egenskap som inte finns ger `undefined` – utan felmeddelande – är värt att komma ihåg. Det kan vara förrädiskt: ett stavfel som `student.nman` ger inte en varning, bara `undefined` som sedan smyger vidare i koden.
-
-### Hakparentesnotation
-
-Det finns ett andra sätt att komma åt egenskaper: **hakparentesnotation**. Då skriver man nyckeln som en sträng inom hakparenteser:
-
-```javascript
-console.log(student["namn"]);      // "Anna"
-console.log(student["program"]);   // "Webbutveckling"
-```
-
-Resultatet är detsamma. Varför finns det då två sätt? Hakparentesnotation har en fördel: nyckeln kan vara en *variabel*:
-
-```javascript
-const fält = "namn";
-console.log(student[fält]);   // "Anna"
-```
-
-Det fungerar inte med punktnotation – `student.fält` hade letat efter en egenskap som heter just `fält`, inte efter egenskapen vars namn finns i variabeln.
-
-Hakparentesnotation är också nödvändig om nyckeln innehåller mellanslag eller andra specialtecken:
-
-```javascript
-const person = {
-    "fullständigt namn": "Anna Andersson",
-    "födelseår": 1999
-};
-
-console.log(person["fullständigt namn"]);   // "Anna Andersson"
-```
-
-I praktiken undviker man nycklar med mellanslag och använder punktnotation som standard. Men hakparentesnotation är ovärderlig när nyckeln bestäms dynamiskt – till exempel av en variabel eller ett funktionsargument.
-
----
-
-## Ändra och lägga till egenskaper
-
-Även det känner du igen. Man ändrar en befintlig egenskap och lägger till en ny på samma sätt – genom tilldelning:
-
-```javascript
-student.årskurs = 3;                 // ändrar en befintlig egenskap
-student.epost = "anna@example.com";  // lägger till en ny
-```
-
-I JavaScript är objekt *dynamiska* – deras struktur kan ändras efter att de skapats. Det ger stor flexibilitet, men kräver också disciplin: om du glömmer att lägga till en egenskap i ett objekt men inte i ett annat kan det skapa svårfunna buggar. Och som du såg i kapitel [-@sec-variabler] fungerar allt detta även om objektet är deklarerat med `const` – `const` hindrar bara att variabeln får ett helt nytt objekt.
-
-### Ta bort egenskaper
-
-Man kan ta bort en egenskap med operatorn `delete`:
-
-```javascript
-const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
-delete student.årskurs;
-console.log(student.årskurs);   // undefined
-console.log(student);           // { namn: "Anna", program: "Webbutveckling" }
-```
-
-`delete` används sällan i vardaglig kod, men det är bra att veta att det finns.
-
----
-
-## Metoder – funktioner i objekt
-
-I kapitel [-@sec-anropa-funktioner] såg du att en metod är en egenskap vars värde är en *funktion* – den ger objektet beteende, inte bara data. Sedan dess har du anropat många: `"anna".toUpperCase()`, `arr.push()`, `element.classList.add()`. Nu kan du definiera egna:
-
-```javascript
-const student = {
-    namn: "Anna",
-    program: "Webbutveckling",
-    årskurs: 2,
-
-    presentation: function() {
-        return `${this.namn}, ${this.program} år ${this.årskurs}`;
-    }
-};
-
-console.log(student.presentation());
-// "Anna, Webbutveckling år 2"
-```
-
-Några saker att notera:
-
-- Metoden `presentation` definieras som en vanlig egenskap, men dess värde är en funktion.
-- Inuti metoden refererar `this` till det objekt som metoden tillhör – alltså `student`. `this.namn` ger `"Anna"`, `this.program` ger `"Webbutveckling"`.
-- Metoden *anropas* med parenteser: `student.presentation()` – precis som alla andra funktionsanrop.
-
-Inbyggda metoder fungerar på samma sätt. När du skriver `studenter.push("Elsa")` vet metoden vilken array den ska lägga till i, eftersom den anropades *på* `studenter` – inuti `push` är `this` just den arrayen. Nu har du sett mekanismen bakom det.
-
-### Kortare syntax
-
-Det finns en kortare form för att definiera metoder i objektliteraler. Istället för `nyckel: function() { ... }` kan man skriva `nyckel() { ... }`:
-
-```javascript
-const student = {
-    namn: "Anna",
-    program: "Webbutveckling",
-    årskurs: 2,
-
-    presentation() {
-        return `${this.namn}, ${this.program} år ${this.årskurs}`;
-    }
-};
-```
-
-Resultatet är exakt detsamma. Den korta formen är vanligare i modern JavaScript och den du bör använda.
-
-::: {.callout-important}
-## Pilfunktioner och `this`
-
-Pilfunktioner fungerar inte som metoder om du behöver använda `this`:
-
-```javascript
-const student = {
-    namn: "Anna",
-    hälsa: () => {
-        console.log(`Hej, jag heter ${this.namn}`);  // fungerar inte!
-    }
-};
-```
-
-Pilfunktioner har inte sitt eget `this` – de ärver det från den omgivande koden, vilket i det här fallet inte är objektet. I en modul är `this` på översta nivån `undefined`, så anropet `student.hälsa()` ger felet *Cannot read properties of undefined (reading 'namn')*. Använd den vanliga syntaxen (`function` eller den korta `metod() { ... }`) när du definierar metoder som behöver `this`.
+- Korta rader som `lag.namn;` provar du enklast i konsolen, efter att du har skrivit in raden som skapar objektet. Konsolen visar objekt med en liten pil som du kan klicka på för att se alla egenskaper.
+- Exempel med loopar och exempel som hämtar element från sidan skriver du i `script.js`. Alla element som exemplen och övningarna använder finns redan på övningssidan.
+- Töm `script.js` innan du börjar på ett nytt exempel eller en ny övning.
 :::
 
 ---
 
-## Objekt som funktionsargument
+## Objekt – en repetition
 
-En av de stora fördelarna med objekt är att man kan skicka all relaterad data som *ett* argument till en funktion, istället för flera separata:
-
-```javascript
-function visaStudent(student) {
-    const text = `${student.namn} (${student.program}, år ${student.årskurs})`;
-    console.log(text);
-}
-
-const anna = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
-const björn = { namn: "Björn", program: "Datavetenskap", årskurs: 1 };
-
-visaStudent(anna);    // "Anna (Webbutveckling, år 2)"
-visaStudent(björn);   // "Björn (Datavetenskap, år 1)"
-```
-
-Jämför med att skicka tre separata argument:
+Ett objekt skapas med en **objektliteral**: klammerparenteser med **egenskaper**, skrivna som `namn: värde` och åtskilda med kommatecken. Ett objekt kan ha hur många egenskaper som helst, och de kan ha värden av olika typ:
 
 ```javascript
-function visaStudent(namn, program, årskurs) {
-    console.log(`${namn} (${program}, år ${årskurs})`);
-}
+const ugglorna = {
+    namn: "Ugglorna",
+    poäng: 12,
+    deltagare: 4,
+    färg: "brun"
+};
 ```
 
-Med ett objekt är funktionen tydligare – man ser direkt att den tar "en student", inte tre lösa värden. Ordningen på egenskaperna spelar ingen roll (till skillnad från ordningen på argument). Och om studenten får fler egenskaper behöver funktionssignaturen inte ändras.
+Egenskaperna läses och ändras med **punktnotation**, som i kapitel [-@sec-variabler]. En egenskap som inte finns läggs till när du tilldelar den ett värde:
+
+```javascript
+ugglorna.namn;              // "Ugglorna"
+ugglorna.poäng += 3;        // ändrar en egenskap som finns
+ugglorna.kapten = "Sara";   // lägger till en ny egenskap
+```
+
+Läs `ugglorna.poäng` högt som "ugglornas poäng". Och kom ihåg från kapitel [-@sec-variabler] att allt detta fungerar fast `ugglorna` är deklarerad med `const`: pilen från namnet flyttas inte, det är objektet som ändras.
+
+En egenskap som inte finns ger `undefined`, utan felmeddelande:
+
+```javascript
+ugglorna.pong;   // undefined – stavfel!
+```
+
+Det kan vara förrädiskt. Ett stavfel ger ingen varning, bara ett `undefined` som smyger vidare i koden. Räknar du med det blir resultatet `NaN`. Får du `undefined` eller `NaN` där du väntade dig ett värde är ett felstavat egenskapsnamn en av de första sakerna att leta efter.
 
 ---
 
-## Kontrollera om en egenskap finns
+## Objekt i en array
 
-Operatorn `in` testar om en egenskap finns i ett objekt och returnerar ett booleskt värde:
+Lösningen på problemet från kapitlets början känner du igen från kapitel [-@sec-arrayer]. I stället för en array per uppgift gör vi *ett objekt per lag*, och lägger objekten i *en* array:
 
 ```javascript
-const student = { namn: "Anna", program: "Webbutveckling" };
-
-console.log("namn" in student);      // true
-console.log("epost" in student);     // false
+const lag = [
+    { namn: "Ugglorna", poäng: 12, deltagare: 4 },
+    { namn: "Räknenissarna", poäng: 19, deltagare: 6 },
+    { namn: "Blå blixtarna", poäng: 15, deltagare: 5 }
+];
 ```
 
-`in`-operatorn returnerar `true` om egenskapen finns, oavsett dess värde. Den är särskilt användbar för att kontrollera valfria egenskaper:
+Varje element i arrayen är ett helt lag, och allt som hör till laget finns samlat i objektet. Ett nytt lag läggs till med en enda `push`, och det kan inte hamna i otakt med något annat:
 
 ```javascript
-if ("epost" in student) {
-    console.log(`E-post: ${student.epost}`);
-} else {
-    console.log("Ingen e-post angiven.");
+lag.push({ namn: "Tigrarna", poäng: 0, deltagare: 3 });
+```
+
+För att nå en uppgift om ett visst lag kombinerar du hakparenteserna för arrayer med punktnotationen:
+
+```javascript
+lag[1];          // { namn: "Räknenissarna", poäng: 19, deltagare: 6 }
+lag[1].namn;     // "Räknenissarna"
+lag[1].poäng;    // 19
+```
+
+Läs uttrycket från vänster till höger: `lag[1]` är lag nummer 1, alltså det andra laget, och `.namn` är det lagets namn. Varje steg ger ett värde som nästa steg arbetar vidare med, precis som när du kedjade metoder i kapitel [-@sec-tal-och-text].
+
+Med `for...of` går du igenom lagen ett i taget. Variabeln i loopen pekar då på ett helt objekt i varje varv:
+
+```javascript
+for (const ettLag of lag) {
+    console.log(`${ettLag.namn}: ${ettLag.poäng} poäng`);
 }
 ```
 
-Det är ett tydligare alternativ till att jämföra med `undefined`, och det fungerar korrekt även när egenskapens värde råkar *vara* `undefined`.
+Namnet `ettLag` är valt för att skilja det från arrayen `lag`. Det är vanligt att arrayen får ett namn i plural och loopvariabeln samma namn i singular, som `för varje produkt i produkter`. På svenska är *lag* både singular och plural, så här behövs en omskrivning.
 
----
-
-## Nästlade objekt
-
-Egenskapernas värden kan vara vilken typ som helst – inklusive andra objekt. Det kallas **nästlade objekt**:
+Mönstret för att hitta det största från kapitel [-@sec-arrayer] fungerar också. Men nu kan vi komma ihåg hela laget, inte bara poängen:
 
 ```javascript
-const kurs = {
-    namn: "Webbteknik 2",
-    poäng: 7.5,
-    lärare: {
-        namn: "Maria Svensson",
-        epost: "maria@example.com"
-    },
-    schema: {
-        dag: "Tisdag",
-        tid: "10:00"
+let ledare = lag[0];
+
+for (const ettLag of lag) {
+    if (ettLag.poäng > ledare.poäng) {
+        ledare = ettLag;
     }
-};
-```
-
-Man når nästlade egenskaper genom att kedja punktnotation:
-
-```javascript
-console.log(kurs.lärare.namn);     // "Maria Svensson"
-console.log(kurs.schema.dag);      // "Tisdag"
-```
-
-Man kan också kombinera med arrayer – en array inuti ett objekt, eller objekt inuti en array inuti ett objekt:
-
-```javascript
-const kurs = {
-    namn: "Webbteknik 2",
-    studenter: [
-        { namn: "Anna", betyg: "B" },
-        { namn: "Björn", betyg: "C" },
-        { namn: "Clara", betyg: "A" }
-    ]
-};
-
-console.log(kurs.studenter[0].namn);    // "Anna"
-console.log(kurs.studenter[2].betyg);   // "A"
-
-for (const s of kurs.studenter) {
-    console.log(`${s.namn}: ${s.betyg}`);
 }
+
+console.log(`${ledare.namn} leder med ${ledare.poäng} poäng.`);
 ```
 
-Nästlade strukturer är vanliga i data från webb-API:er. Att kunna navigera dem – `objekt.egenskap.egenskap` och `objekt.array[index].egenskap` – är en färdighet du kommer att använda ofta.
+I övningen *Quizets topplista* i kapitel [-@sec-anropa-funktioner] kunde du ta reda på den högsta poängen men inte vilket lag som hade den. Nu får du båda på en gång, eftersom namn och poäng ligger i samma objekt.
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
 
-Du kan nästla hur djupt du vill, men djup nästling gör koden svårare att läsa och navigera. En tumregel: om du befinner dig tre eller fyra nivåer ned är det ett tecken på att strukturen kanske bör organiseras om.
+1. Vad är `lag[2].deltagare`? Vad är `lag.length`, och vad är `lag[0].namn.length`?
+2. Varför står det `ledare.poäng` och inte bara `ledare` i villkoret `ettLag.poäng > ledare.poäng`?
+:::
+
+---
+
+## Två namn, samma objekt
+
+När loopen ovan är klar pekar `ledare` på Räknenissarnas objekt. Men är `ledare` en *kopia* av laget, eller samma lag? Prova:
+
+```javascript
+ledare.poäng += 3;
+
+console.log(ledare.poäng);     // 22
+console.log(lag[1].poäng);     // 22
+```
+
+Poängen ändrades på båda ställena. Det beror på att raden `ledare = ettLag;` inte kopierade objektet. Den lät namnet `ledare` peka på *samma* objekt som redan fanns i arrayen. Med pilbilden från kapitel [-@sec-variabler] ser det ut så här:
+
+```{mermaid}
+%%| fig-alt: "Två pilar pekar på samma objekt. Den ena kommer från namnet ledare, den andra från plats 1 i arrayen lag. Objektet innehåller namn Räknenissarna och poäng 22."
+flowchart LR
+    L[ledare] --> O(["{ namn: 'Räknenissarna', poäng: 22, … }"])
+    A["lag[1]"] --> O
+```
+
+Det finns bara ett objekt, och två vägar dit. Ändras objektet syns ändringen vilken väg du än tar. Det här kallas att objekt hanteras som **referenser**: namnet pekar på objektet, och tilldelningen kopierar bara pilen.
+
+Det är samma sak som du såg med funktioner i kapitel [-@sec-funktioner], där två namn kunde peka på samma funktion. För tal och strängar märks det inte, eftersom de inte kan ändras inuti – `poäng += 3` flyttar pilen till ett nytt tal. Men ett objekt *kan* ändras inuti, och då spelar det roll hur många pilar som pekar på det. Samma sak gäller arrayer, som också är objekt.
+
+### Lika eller samma?
+
+Jämför nu med två objekt som har samma innehåll:
+
+```javascript
+const a = { namn: "Ugglorna" };
+const b = { namn: "Ugglorna" };
+const c = a;
+
+a === b;   // false
+a === c;   // true
+```
+
+```{mermaid}
+%%| fig-alt: "Namnen a och c pekar på samma objekt med namn Ugglorna. Namnet b pekar på ett annat objekt som också har namn Ugglorna."
+flowchart LR
+    A[a] --> O1(["{ namn: 'Ugglorna' }"])
+    C[c] --> O1
+    B[b] --> O2(["{ namn: 'Ugglorna' }"])
+```
+
+Varje objektliteral skapar ett *nytt* objekt. `a` och `b` pekar på två olika objekt som råkar se likadana ut, ungefär som två exemplar av samma bok. `===` frågar för objekt inte "ser de likadana ut?" utan "är det *samma* objekt?" – pekar pilarna på samma ställe? Därför är `a === b` falskt men `a === c` sant.
+
+Vill du veta om två lag har samma namn jämför du egenskaperna: `a.namn === b.namn`.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Rita pilbilden efter de här raderna: `const x = { poäng: 5 }; const y = x; y.poäng = 9;`. Vad är `x.poäng`?
+2. Rita pilbilden efter `let p = 5; let q = p; q = 9;`. Vad är `p`? Varför blir det olika?
+:::
+
+---
+
+## Objekt som argument
+
+En funktion kan ta ett helt objekt som argument. Då behöver den bara en parameter, hur många uppgifter objektet än har:
+
+```javascript
+function beskriv(ettLag) {
+    return `${ettLag.namn} (${ettLag.deltagare} deltagare): ${ettLag.poäng} poäng`;
+}
+
+console.log(beskriv(lag[0]));   // "Ugglorna (4 deltagare): 12 poäng"
+```
+
+Jämför med en funktion som tar tre separata värden, `beskriv(namn, deltagare, poäng)`. Där måste argumenten komma i rätt ordning, och får laget en ny uppgift måste alla anrop ändras.
+
+I kapitel [-@sec-funktioner] såg du att parametern pekar på argumentets värde. När värdet är ett objekt pekar parametern alltså på *samma* objekt som den som anropade. Därför kan en funktion ändra ett objekt den får:
+
+```javascript
+function rättSvar(ettLag) {
+    ettLag.poäng += 3;
+}
+
+rättSvar(lag[0]);
+console.log(lag[0].poäng);   // 15
+```
+
+Det är användbart, men det kan också överraska. En funktion som ändrar sitt argument bör ha ett namn som säger det, och det bör vara det enda den gör.
+
+---
+
+## Objekt inuti objekt
+
+En egenskap kan ha vilket värde som helst – också en array eller ett annat objekt:
+
+```javascript
+const ugglorna = {
+    namn: "Ugglorna",
+    poäng: 12,
+    medlemmar: ["Sara", "Ali", "Kim", "Jonna"],
+    kapten: { namn: "Sara", telefon: "070-123 45 67" }
+};
+```
+
+Du når värdena längre in genom att fortsätta kedjan:
+
+```javascript
+ugglorna.medlemmar.length;   // 4
+ugglorna.medlemmar[1];       // "Ali"
+ugglorna.kapten.telefon;     // "070-123 45 67"
+```
+
+Läs dem från vänster till höger: "ugglornas medlemmar, nummer 1" och "ugglornas kapten, telefon". Sådana nästlade strukturer är vanliga i data som hämtas från webbtjänster, och i Del II kommer du att navigera i dem. En tumregel är att en eller två nivåer är lagom – behöver du gå djupare än så blir koden svårläst.
 
 ::: {.callout-warning}
 ## Cannot read properties of undefined
 
-Den kedjade punktnotationen döljer en fallgrop. Om ett mellanobjekt saknas i kedjan kraschar hela uttrycket:
+Den långa kedjan döljer en fallgrop. Om en del i mitten saknas kraschar hela uttrycket:
 
 ```javascript
-const produkt = { namn: "Trådlöst tangentbord", pris: 649 };
+const tigrarna = { namn: "Tigrarna", poäng: 0 };
 
-console.log(produkt.tillverkare);          // undefined – egenskapen finns inte
-console.log(produkt.tillverkare.namn);     // TypeError!
+tigrarna.kapten;          // undefined – egenskapen finns inte
+tigrarna.kapten.namn;     // TypeError!
 ```
 
-Den första raden är ok – `produkt.tillverkare` returnerar `undefined` eftersom egenskapen inte finns. Men den andra raden försöker sedan läsa egenskapen `namn` från `undefined`, och det är inte möjligt. JavaScript kastar ett `TypeError` med meddelandet, och hela programmet kraschar:
+Den första raden är ofarlig: `tigrarna.kapten` ger `undefined`. Men den andra raden försöker sedan läsa egenskapen `namn` från `undefined`, och det går inte:
 
 ```
-Cannot read properties of undefined (reading 'namn')
+TypeError: Cannot read properties of undefined (reading 'namn')
 ```
 
-Det är ett av de allra vanligaste felmeddelandena i JavaScript. När du stöter på det, läs vad som ska läsas (`'namn'` i exemplet ovan) och spåra bakåt: vad borde ha stått till vänster om den sista punkten – och varför var det `undefined`?
+Det är ett av de vanligaste felmeddelandena i JavaScript, och du har redan mött det i kapitel [-@sec-arrayer], när ett index var för stort. Läs vad som skulle läsas – `'namn'` – och gå bakåt i kedjan: vad stod till vänster om den sista punkten, och varför var det `undefined`?
 :::
 
 ---
 
-## Iterera över ett objekts egenskaper
+## Egenskaper vars namn finns i en variabel
 
-Ibland vill man gå igenom *alla* egenskaper i ett objekt utan att veta deras namn i förväg. JavaScript erbjuder flera sätt att göra det.
-
-### `for...in` – loopa över nycklar
-
-`for...in`-loopen itererar över ett objekts egenskapsnamn (nycklar):
+Det finns ett andra sätt att nå en egenskap: med hakparenteser och egenskapens namn som en sträng. Det kallas **hakparentesnotation**:
 
 ```javascript
-const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
+ugglorna["namn"];    // "Ugglorna" – samma som ugglorna.namn
+```
 
-for (const nyckel in student) {
-    console.log(`${nyckel}: ${student[nyckel]}`);
+Det ser ut som ett omständligt sätt att skriva `ugglorna.namn`, och för det mesta är det också det. Men det har en fördel: strängen kan komma från en variabel. Då kan programmet bestämma *medan det körs* vilken egenskap som ska läsas:
+
+```javascript
+const uppgift = "poäng";
+ugglorna[uppgift];   // 12
+ugglorna.uppgift;    // undefined – letar efter en egenskap som heter "uppgift"
+```
+
+Med punktnotation skriver du egenskapens namn direkt i koden. Med hakparenteser skriver du ett uttryck, och det är *värdet* av uttrycket som blir namnet.
+
+Det används framför allt när man vill gå igenom alla egenskaper i ett objekt. Loopen `for...in` ger namnet på en egenskap i varje varv, och hakparenteserna hämtar värdet:
+
+```javascript
+const tigrarna = { namn: "Tigrarna", poäng: 0, deltagare: 3 };
+
+for (const egenskap in tigrarna) {
+    console.log(`${egenskap}: ${tigrarna[egenskap]}`);
 }
-// namn: Anna
-// program: Webbutveckling
-// årskurs: 2
+// namn: Tigrarna
+// poäng: 0
+// deltagare: 3
 ```
 
-Variabeln `nyckel` tilldelas ett egenskapsnamn i varje iteration – en *sträng*, inte ett värde. För att komma åt värdet använder man hakparentesnotation: `student[nyckel]`.
-
-::: {.callout-important}
-## `for...in` vs. `for...of`
-
-Det är lätt att blanda ihop dem:
-
-- **`for...in`** itererar över ett objekts *nycklar* (egenskapsnamn). Den är gjord för objekt.
-- **`for...of`** itererar över en samlings *värden*. Den är gjord för arrayer (och andra itererbara strukturer).
-
-```javascript
-const arr = ["a", "b", "c"];
-for (const i in arr) {
-    console.log(i);   // "0", "1", "2" (index som strängar)
-}
-for (const v of arr) {
-    console.log(v);   // "a", "b", "c" (värdena)
-}
-```
-
-Använd `for...of` för arrayer, `for...in` för objekt. Att använda `for...in` på en array fungerar men ger index som strängar, inte tal, och kan ge oväntade resultat.
-:::
-
-### `Object.keys`, `Object.values` och `Object.entries`
-
-Ett alternativ till `for...in` är att använda metoderna på `Object` som returnerar arrayer. Det ger dig tillgång till alla arrayverktyg du redan kan.
-
-`Object.keys()` returnerar en array med objektets nyckelnamn:
-
-```javascript
-const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
-
-const nycklar = Object.keys(student);
-console.log(nycklar);   // ["namn", "program", "årskurs"]
-```
-
-Eftersom resultatet är en vanlig array kan man iterera med `for...of`:
-
-```javascript
-for (const nyckel of Object.keys(student)) {
-    console.log(`${nyckel}: ${student[nyckel]}`);
-}
-```
-
-`Object.values()` returnerar en array med bara värdena:
-
-```javascript
-console.log(Object.values(student));   // ["Anna", "Webbutveckling", 2]
-```
-
-`Object.entries()` returnerar en array av par, där varje par är en liten array med `[nyckel, värde]`:
-
-```javascript
-for (const [nyckel, värde] of Object.entries(student)) {
-    console.log(`${nyckel}: ${värde}`);
-}
-```
-
-Syntaxen `[nyckel, värde]` i loopen kallas **destrukturering** – den packar upp varje tvåelements-array i två separata variabler. Det är ett smidigt mönster som du kommer att se ofta.
-
-Alla tre metoderna – `keys`, `values` och `entries` – ger en ögonblicksbild av objektets egenskaper. Tillsammans med `for...in` har du flera sätt att iterera; välj det som passar situationen bäst.
+Läs högt: "för varje egenskap i tigrarna". Håll isär de två looparna: `for...of` ger *värdena* i en array, `for...in` ger *namnen* på egenskaperna i ett objekt.
 
 ::: {.callout-note}
-## MDN: Object
+## Bra att veta: `Object.keys`, `Object.values` och `Object.entries`
 
-Mozilla Developer Network har en omfattande referens för objekt: [developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object). Där hittar du alla metoder på `Object`, inklusive `keys`, `values`, `entries` och många fler.
+Det inbyggda objektet `Object` har metoder som gör om ett objekts egenskaper till arrayer: `Object.keys(tigrarna)` ger `["namn", "poäng", "deltagare"]`, och `Object.values(tigrarna)` ger `["Tigrarna", 0, 3]`. De och `Object.entries` tas upp i kapitel [-@sec-destructuring]. Se också [MDN: Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object).
 :::
 
 ---
 
-## Jämföra objekt
+## Egna metoder
 
-En vanlig fallgrop: två objekt med samma innehåll är *inte* lika enligt `===`:
-
-```javascript
-const a = { namn: "Anna" };
-const b = { namn: "Anna" };
-
-console.log(a === b);   // false
-```
-
-Varför? Eftersom `===` jämför *identitet*, inte innehåll. `a` och `b` är två *separata* objekt i minnet – de har samma egenskaper, men de är inte *samma* objekt. Det är som två identiska kopior av en bok: de ser likadana ut, men det är fortfarande två böcker.
-
-Tilldelning av ett objekt kopierar inte det – den skapar en ny *referens* till samma objekt:
+I kapitel [-@sec-anropa-funktioner] såg du att en metod är en funktion som ligger i ett objekt. Sedan dess har du anropat många: `"hej".toUpperCase()`, `lag.push(…)`, `element.classList.add(…)`. Nu kan du skriva egna:
 
 ```javascript
-const a = { namn: "Anna" };
-const c = a;
+const ugglorna = {
+    namn: "Ugglorna",
+    poäng: 12,
 
-console.log(a === c);   // true – samma objekt
-c.namn = "Bella";
-console.log(a.namn);    // "Bella" – ändringen syns via båda
+    rättSvar() {
+        this.poäng += 3;
+    },
+
+    beskriv() {
+        return `${this.namn}: ${this.poäng} poäng`;
+    }
+};
+
+ugglorna.rättSvar();
+console.log(ugglorna.beskriv());   // "Ugglorna: 15 poäng"
 ```
 
-`a` och `c` pekar på *samma* objekt. Ändrar man objektet via `c` syns ändringen via `a`. Det kallas att objekt har **referenssemantik** – variabeln innehåller en *referens* (en pekare) till objektet, inte objektet självt.
+En metod skrivs i objektliteralen som en funktion utan ordet `function`: namnet, parenteser för parametrarna och kroppen inom klammerparenteser. Metoden anropas med punkt och parenteser, precis som de inbyggda.
 
-::: {.callout-important}
-## Referenssemantik
+Det nya ordet är `this`. Inuti en metod pekar `this` på det objekt som metoden anropades på – objektet *före punkten*. När du skriver `ugglorna.rättSvar()` pekar `this` på `ugglorna`, och `this.poäng` är ugglornas poäng. Det är så de inbyggda metoderna fungerar också: `lag.push(…)` vet vilken array den ska lägga till i, eftersom den anropades på `lag`.
 
-Att objekt är referenser, inte kopior, är en av de vanligaste källorna till förvirring i JavaScript. Tänk på det så här: en variabel som innehåller ett tal *innehåller* talet. En variabel som innehåller ett objekt *pekar på* objektet. Tilldelning av ett tal kopierar det; tilldelning av ett objekt kopierar bara pekaren.
-
-Samma sak gäller arrayer – de är också objekt i JavaScript.
-:::
+Skriv metoder på det här sättet, och inte som pilfunktioner (`rättSvar: () => { … }`). En pilfunktion får inget eget `this`, och metoden fungerar då inte. I kapitel [-@sec-oop] lär du dig *klasser*, ett sätt att ge många objekt samma metoder, och där återkommer `this`.
 
 ---
 
-## Arrayer av objekt: produktkort
+## Ett löst exempel: kiosken
 
-I avsnittet *Arrayer av objekt* i kapitel [-@sec-arrayer] samlade du quizfrågor som objekt i en array – den kanske viktigaste kombinationen i vardaglig JavaScript. Här använder vi samma mönster i ett större exempel, med det du har lärt dig i det här kapitlet.
-
-Studentlistor, produktkataloger, att-göra-listor, sökresultat — allt representeras som arrayer av objekt. Låt oss se hur det ser ut i praktiken. Vi har en lista med produkter och vill visa dem som kort på en webbsida:
+Under quizkvällen säljer arrangörerna fika i en kiosk. Varorna finns i en array av objekt, och webbsidan ska visa ett kort för varje vara: namn, pris och hur många som finns kvar. Med en kryssruta ska besökarna kunna välja att bara se det som finns kvar. Elementen finns på övningssidan:
 
 ```html
-<div id="produkter"></div>
+<input type="checkbox" id="bara-i-lager">
+<label for="bara-i-lager">Visa bara det som finns kvar</label>
+<div id="kiosk"></div>
 ```
+
+Arbetet delas i två delar. Funktionen `visaKiosken` bygger upp sidan utifrån arrayen. Den följer mönstret från kapitel [-@sec-loopar]: en tom sträng före loopen, `+=` i loopen och användning efter loopen. Händelselyssnaren följer de fem stegen från kapitel [-@sec-handelser] och låter funktionen göra steg 4 och 5:
 
 ```javascript
-const produkter = [
-    { namn: "Trådlös mus", pris: 299, lager: 45 },
-    { namn: "Mekaniskt tangentbord", pris: 1299, lager: 12 },
-    { namn: "USB-C-hubb", pris: 549, lager: 0 },
-    { namn: "Webbkamera", pris: 899, lager: 7 }
+const varor = [
+    { namn: "Kaffe", pris: 15, kvar: 40 },
+    { namn: "Kanelbulle", pris: 20, kvar: 12 },
+    { namn: "Festis", pris: 10, kvar: 0 },
+    { namn: "Chokladboll", pris: 15, kvar: 5 }
 ];
 
-const container = document.querySelector("#produkter");
-let html = "";
+// 1. Hämta elementen
+const kryssruta = document.querySelector("#bara-i-lager");
+const kiosk = document.querySelector("#kiosk");
 
-for (const produkt of produkter) {
-    const tillgänglig = produkt.lager > 0;
-    const statusText = tillgänglig ? `${produkt.lager} i lager` : "Slut i lager";
-    const statusKlass = tillgänglig ? "i-lager" : "slut";
+function visaKiosken(baraILager) {
+    // 4. Bearbeta – bygg ett kort för varje vara som ska visas
+    let html = "";
 
-    html += `
-        <div class="produktkort">
-            <h3>${produkt.namn}</h3>
-            <p class="pris">${produkt.pris} kr</p>
-            <p class="${statusKlass}">${statusText}</p>
-        </div>
-    `;
+    for (const vara of varor) {
+        const finns = vara.kvar > 0;
+
+        if (finns || !baraILager) {
+            const status = finns ? `${vara.kvar} kvar` : "Slut";
+            const klass = finns ? "" : "slut";
+
+            html += `
+                <div class="vara">
+                    <h3>${vara.namn}</h3>
+                    <p>${vara.pris} kr</p>
+                    <p class="${klass}">${status}</p>
+                </div>
+            `;
+        }
+    }
+
+    // 5. Visa resultatet
+    kiosk.innerHTML = html;
 }
 
-container.innerHTML = html;
+// 2. Lyssna efter en händelse
+kryssruta.addEventListener("change", () => {
+    // 3. Läs indata
+    const baraILager = kryssruta.checked;
+    visaKiosken(baraILager);
+});
+
+// Visa alla varor när sidan laddas
+visaKiosken(false);
 ```
 
-Allt hänger ihop: ett objekt samlar en produkts data, en array samlar alla produkter, en loop går igenom dem och bygger HTML med villkor för lagerstatus. Det här mönstret – *data som objekt → loop → HTML* – är grunden för hur dynamiska webbsidor byggs.
+Steg 1–3 ser ut som förut. Steg 4 och 5 ligger i en egen funktion, eftersom de ska köras vid två tillfällen: när sidan laddas, så att varorna syns direkt, och varje gång kryssrutan ändras. Det är samma upplägg som funktionen `uppdatera` i kapitel [-@sec-booleska].
+
+Några detaljer att lägga märke till:
+
+- Läs villkoret `finns || !baraILager` högt: "om varan finns kvar, eller om vi inte bara ska visa det som finns kvar". Är kryssrutan inte ikryssad visas alltså alla varor.
+- En templatesträng får sträcka sig över flera rader. Det gör HTML-koden lättare att läsa. Inuti den hämtas värdena ur objektet med punktnotation.
+- Här är `innerHTML` rätt verktyg, eftersom koden bygger HTML-element. Det är säkert eftersom texten kommer från vår egen array. Hade varornas namn kommit från användaren hade de behövt visas med `textContent`. Kapitel [-@sec-skapa-element] visar hur man skapar element ett i taget, så att det går.
+
+Det viktigaste är ändå mönstret: **data i en array av objekt → en loop → HTML på sidan**. Sidan är en bild av datan. Lägg till en vara i arrayen, eller ändra `kvar` för Festis till 8, och spara. Sidan visar ändringen utan att du rör HTML-koden. Det är så de flesta webbsidor med listor fungerar: produkter i en webbutik, inlägg i ett flöde, sökträffar.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vad hade visats om raden `visaKiosken(false);` sist i koden saknades? Och när hade varorna dykt upp?
+2. Kanelbullarna tar slut. Vilken enda sak behöver ändras i koden för att sidan ska visa det?
+:::
 
 ---
 
 ## Sammanfattning
 
-Du har använt objekt genom hela boken – nu kan du också skapa egna. Med objektliteraler har du full kontroll över hur du grupperar data och beteende i dina program.
+- Ett **objekt** samlar uppgifter som hör ihop: `{ namn: "Ugglorna", poäng: 12 }`. Egenskaper läses, ändras och läggs till med **punktnotation**. En egenskap som inte finns ger `undefined` – se upp för stavfel.
+- En **array av objekt** håller ihop uppgifterna för varje sak i en lista. `lag[1].namn` läses från vänster: lag nummer 1, dess namn. Med `for...of` pekar loopvariabeln på ett helt objekt i varje varv.
+- Ett namn pekar på ett objekt, och tilldelning kopierar bara **pilen**. Två namn kan peka på samma objekt, och en ändring syns då via båda. Det gäller även parametrar och arrayer.
+- **`===`** frågar för objekt om det är *samma* objekt, inte om innehållet är likadant.
+- Egenskaper kan innehålla **arrayer och andra objekt**: `ugglorna.kapten.telefon`. Saknas en del i kedjan blir det `TypeError: Cannot read properties of undefined`.
+- Med **hakparentesnotation**, `objekt[uppgift]`, kan egenskapens namn komma från en variabel. **`for...in`** går igenom namnen på ett objekts egenskaper.
+- En **metod** skrivs `namn() { … }` i objektliteralen. Inuti den pekar **`this`** på objektet före punkten.
+- Mönstret **data → loop → HTML** gör sidan till en bild av datan: ändra datan och visa den på nytt.
 
-- Ett **objekt** skapas med klammerparenteser: `{ nyckel: värde, ... }`.
-- **Egenskaper** nås med **punktnotation** (`obj.namn`) eller **hakparentesnotation** (`obj["namn"]`).
-- Man **ändrar** och **lägger till** egenskaper med tilldelning: `obj.ny = "värde"`.
-- En **metod** är en egenskap vars värde är en funktion. Inuti metoden refererar `this` till objektet.
-- **Arrayer av objekt** är det vanligaste sättet att representera listor av strukturerad data.
-- **Nästlade objekt** gör det möjligt att modellera komplex data med objekt inuti objekt.
-- `Object.keys()`, `Object.values()` och `Object.entries()` ger arrayer av ett objekts nycklar, värden respektive par.
-- Objekt jämförs med **referens**, inte innehåll: `{} === {}` är `false`.
-- Operatorn `in` kontrollerar om en egenskap finns: `"namn" in obj`.
-
-I nästa del av boken bygger vi vidare på objekt när vi fördjupar oss i JavaScript och webben som plattform. Längre fram, i kapitel [-@sec-oop], introduceras **klasser** – ett sätt att definiera återanvändbara mallar för objekt som garanterar att varje objekt skapas med rätt struktur och beteende.
+Objekt är grunden för resten av Del III. I nästa kapitel delar vi upp koden i **moduler**, och i kapitel [-@sec-oop] introduceras **klasser** – ett sätt att skapa många objekt med samma egenskaper och metoder. Där återkommer både `this` och referenserna.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -497,109 +477,195 @@ Att arbeta med objekt handlar mindre om syntax och mer om *modellering*: att bes
 
 **Modellera en verksamhet:**
 
-> *"Jag ska modellera ett bibliotek i JavaScript med objekt och arrayer: böcker, låntagare och lån. Här är mitt förslag: [klistra in dina objekt]. Ställ frågor som får mig att upptäcka vad som saknas eller är oklokt – till exempel vad som händer om två böcker har samma titel. Ge inte ditt eget förslag förrän jag ber om det."*
+> *"Jag ska beskriva ett bibliotek i JavaScript med objekt och arrayer: böcker, låntagare och lån. Här är mitt förslag: [klistra in dina objekt]. Ställ frågor som får mig att upptäcka vad som saknas eller är oklokt – till exempel vad som händer om två böcker har samma titel. Ge inte ditt eget förslag förrän jag ber om det."*
 
-**Läs verklig data:**
+**Hitta vägen in:**
 
-Data från webb-API:er är ofta stora, nästlade objekt.
-
-> *"Visa ett realistiskt exempel på data från ett väder-API, skrivet som ett JavaScript-objekt med några nivåers nästling och minst en array. Ställ sedan sex frågor som 'vad blir temperaturen i morgon?', där jag svarar med det JavaScript-uttryck som når värdet, till exempel `data.prognos[1].temperatur`."*
+> *"Skriv ett JavaScript-objekt som beskriver en quizkväll, med en array av lag där varje lag har ett namn, poäng och en array med medlemmar. Ställ sedan sex frågor som 'vad heter den andra medlemmen i det första laget?', där jag svarar med det uttryck som når värdet, till exempel `kväll.lag[0].medlemmar[1]`. Rätta mig efter varje svar."*
 
 **Referens eller kopia?**
 
-> *"Ge mig fem korta kodexempel där objekt tilldelas till nya variabler eller skickas till funktioner som ändrar dem. Fråga mig efter varje exempel vad originalobjektet innehåller efteråt."*
+> *"Ge mig fem korta kodexempel där objekt tilldelas till nya variabler eller skickas till funktioner som ändrar dem. Fråga mig efter varje exempel vad originalobjektet innehåller efteråt, och be mig rita pilbilden i text innan du ger svaret."*
 :::
 
 ---
 
 ## Övningar
 
-::: {.callout-note}
-## Övning – Skapa och utforska
-
-Skapa ett objekt som representerar en bok med egenskaperna `titel`, `författare`, `år` och `läst` (booleskt värde). Skriv kod som:
-
-1. Skriver ut bokens titel och författare.
-2. Ändrar `läst` till `true`.
-3. Lägger till en ny egenskap `betyg` med ett värde mellan 1 och 5.
-4. Skriver ut alla egenskaper och deras värden med en loop och `Object.entries`.
-:::
+Övningarna börjar med att du förutsäger och följer kod. Gör dem utan att köra koden först, och kontrollera sedan i konsolen eller på övningssidan från avsnittet *En sida att öva på*.
 
 ::: {.callout-note}
-## Övning – Studentregister
+## Övning – Förutsäg värdena
 
-Skapa en array med minst fem studentobjekt, där varje student har `namn`, `program` och `poäng` (ett tal 0–100). Skriv kod som:
-
-1. Skriver ut alla studenters namn och poäng med en `for...of`-loop.
-2. Hittar och skriver ut studenten med högst poäng.
-3. Bygger en ny array med bara de studenter som har 50 poäng eller mer.
-4. Räknar ut medelpoängen för alla studenter.
-:::
-
-::: {.callout-note}
-## Övning – Produktkort på sidan
-
-Skapa en HTML-sida med en tom `<div>` med ett id. Skapa i JavaScript en array med minst fyra produktobjekt (med `namn`, `pris` och `kategori`). Skriv en loop som bygger upp HTML-kort för varje produkt och visar dem på sidan.
-
-Utöka sedan: lägg till ett textfält för sökning. Lyssna på `input`-händelsen och filtrera produkterna – visa bara de vars namn innehåller söktexten. Jämför med övningen *Live-sökning* i kapitel [-@sec-arrayer]: vad är annorlunda när datan finns i en array av objekt i stället för i HTML-koden?
-:::
-
-::: {.callout-note}
-## Övning – Nästlade objekt
-
-Skapa ett objekt som representerar en skola. Skolan har ett `namn`, en `stad`, och en array `klasser`. Varje klass är ett objekt med `namn` (t.ex. "3A") och `elever` (en array med elevnamn).
-
-Skriv kod som:
-
-1. Skriver ut skolans namn och stad.
-2. Skriver ut antalet klasser.
-3. Skriver ut alla elever i en viss klass.
-4. Räknar det totala antalet elever på hela skolan.
-:::
-
-::: {.callout-note}
-## Övning – Referenssemantik
-
-Utan att köra koden — gå igenom följande och förutsäg vad som skrivs ut. Förklara varför.
+Anta att följande kod har körts:
 
 ```javascript
-const a = { namn: "Anna", ålder: 22 };
-const b = a;
-b.ålder = 25;
-
-console.log(a.ålder);
-console.log(b.ålder);
-console.log(a === b);
-
-const c = { namn: "Anna", ålder: 25 };
-console.log(a === c);
+const lag = [
+    { namn: "Ugglorna", poäng: 12, medlemmar: ["Sara", "Ali"] },
+    { namn: "Tigrarna", poäng: 7, medlemmar: ["Kim", "Jonna", "Leo"] }
+];
 ```
 
-Varför ger `a === c` det resultat det ger, trots att objekten har samma innehåll?
+Ange utan att köra koden vad varje uttryck ger.
+
+```javascript
+lag.length;
+lag[1].namn;
+lag[0].medlemmar.length;
+lag[1].medlemmar[2];
+lag[0].namn[0];
+lag[0].färg;
+lag[1].poäng + lag[0].poäng;
+lag[2];
+```
+
+Vilka av uttrycken skulle ge ett felmeddelande om du lade till `.namn` sist? Varför just de?
 :::
 
 ::: {.callout-note}
-## Övning – Metoder
+## Övning – Spåra pilarna
+
+Gå igenom koden för hand.
+
+```javascript
+const a = { namn: "Ugglorna", poäng: 12 };
+const b = a;
+b.poäng = 20;
+
+console.log(a.poäng);
+console.log(a === b);
+
+const c = { namn: "Ugglorna", poäng: 20 };
+console.log(a === c);
+
+function nollställ(ettLag) {
+    ettLag.poäng = 0;
+}
+
+nollställ(c);
+console.log(a.poäng);
+console.log(c.poäng);
+```
+
+1. Rita pilbilden efter raden `b.poäng = 20;` och efter raden som skapar `c`. Hur många objekt finns det?
+2. Förutsäg de fem utskrifterna.
+3. Varför ger `a === c` det resultat det ger, trots att objekten har samma innehåll?
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Utgå från arrayen `lag` i övningen *Förutsäg värdena*. Var och en av raderna nedan innehåller ett fel. Förutsäg först: kommer det ett felmeddelande, och i så fall vilket – eller blir resultatet bara fel? Prova sedan i `script.js`, en rad i taget under arrayen.
+
+```javascript
+// A
+console.log(lag[2].namn);
+
+// B
+console.log(lag[0].pong + 3);
+
+// C
+console.log(lag.namn);
+
+// D
+const nytt = { namn: "Lejonen" poäng: 0 };
+```
+
+1. Vilken rad ger ett `SyntaxError`, och vilken ger ett `TypeError`? Vad står inom parentesen i meddelandet för `TypeError`, och vad säger det?
+2. Två rader ger inget felmeddelande alls. Vilka värden skrivs ut, och varför?
+3. Rätta alla fyra.
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+Läs funktionen.
+
+```javascript
+function räkna(lag) {
+    let summa = 0;
+    for (const ettLag of lag) {
+        summa += ettLag.medlemmar.length;
+    }
+    return summa;
+}
+```
+
+1. Beskriv med en mening vad funktionen räknar ut. Ge den ett bättre namn.
+2. Vad returnerar den för arrayen i övningen *Förutsäg värdena*?
+3. Vad händer om ett av lagen saknar egenskapen `medlemmar`? Vilket felmeddelande blir det?
+:::
+
+::: {.callout-note}
+## Övning – Ordna raderna
+
+Funktionen `hittaLag` ska gå igenom arrayen `lag` och returnera hela *objektet* för det lag som har ett visst namn, eller `null` om inget lag heter så. Välj ut och ordna raderna. Två rader ska inte användas.
+
+```javascript
+}
+    return null;
+        if (ettLag === namn) {
+function hittaLag(namn) {
+        }
+            return ettLag.namn;
+    for (const ettLag of lag) {
+            return ettLag;
+        if (ettLag.namn === namn) {
+    }
+```
+
+1. Vilka två rader använde du inte? Vad hade funktionen returnerat om du använt dem?
+2. Varför är det bättre att returnera hela objektet än bara namnet, om den som anropar vill ge laget poäng?
+3. Varför står `return null;` efter loopen?
+:::
+
+::: {.callout-note}
+## Övning – Poängtavlan
+
+Övningssidan har en poängtavla med ett fält och en knapp. Bygg den med en array av lagobjekt, som i avsnittet *Objekt i en array*, och funktionen `hittaLag` från övningen *Ordna raderna*. Den här övningen samlar mycket från Del I: jämför med *Poängtavlan blir interaktiv* i kapitel [-@sec-handelser], som bara hade ett lag.
+
+1. Skriv en funktion `visaTavlan()` som visar alla lag i `<pre>`-elementet, ett per rad, till exempel `Ugglorna: 12 poäng`. Anropa den när sidan laddas.
+2. När domaren skriver ett lagnamn och klickar på *+3 poäng* ska laget få tre poäng och tavlan visas på nytt. Skriv de fem stegen som kommentarer först.
+3. Om inget lag har namnet ska ett meddelande visas i stycket med id `meddelande`. Använd early return.
+4. Visa under tavlan vilket lag som leder. Var ska den koden stå för att alltid vara uppdaterad?
+5. Fundera: `hittaLag` returnerar ett objekt, och du ändrar dess poäng. Varför syns ändringen i arrayen?
+:::
+
+::: {.callout-note}
+## Övning – Bygg vidare på kiosken
+
+Utgå från avsnittet *Ett löst exempel: kiosken* och övningssidan.
+
+1. Visa överst hur många varor som visas, till exempel *3 varor*. Vilket mönster från kapitel [-@sec-loopar] behöver du, och var i `visaKiosken` hör det hemma?
+2. Lägg till en andra kryssruta, *Bara under 20 kr*. Båda kryssrutorna ska kunna användas samtidigt. Hur många parametrar behöver `visaKiosken` nu, och hur ser villkoret ut?
+3. Ge varje vara en egenskap `kategori`, till exempel `"dryck"` eller `"fika"`, och visa den på kortet. Hur många ställen i koden behövde du ändra?
+:::
+
+### Egna sidor
+
+I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
+
+::: {.callout-note}
+## Övning – Räknaren som objekt
 
 Skapa ett objekt `räknare` med:
 
-- En egenskap `värde` som börjar på 0.
-- En metod `öka()` som ökar `värde` med 1.
-- En metod `minska()` som minskar `värde` med 1, men inte under 0.
-- En metod `nollställ()` som sätter `värde` till 0.
-- En metod `visa()` som returnerar en sträng i formatet `"Räknare: 5"`.
+- en egenskap `värde` som börjar på 0,
+- en metod `öka()` som ökar `värde` med 1,
+- en metod `minska()` som minskar `värde` med 1, men inte under 0,
+- en metod `nollställ()` som sätter `värde` till 0,
+- en metod `beskriv()` som returnerar en sträng som `"Räknare: 5"`.
 
-Testa alla metoder och kontrollera att `minska()` inte går under 0.
+1. Testa alla metoder med `console.log` och kontrollera att `minska()` inte går under 0.
+2. Gör en sida med tre knappar och ett stycke, som knappräknaren i kapitel [-@sec-handelser]. Varje callback anropar en metod och visar sedan `räknare.beskriv()` på sidan. Jämför med din gamla lösning: var finns logiken nu?
 :::
 
 ::: {.callout-note}
 ## Övning – Kontaktbok
 
-Bygg en kontaktbok. Skapa en array med minst sex kontaktobjekt (med `namn`, `telefon` och `stad`). Skapa en HTML-sida med:
+Bygg en kontaktbok. Skapa en array med minst sex kontaktobjekt med `namn`, `telefon` och `stad`.
 
-1. En `<ul>` som visar alla kontakter.
-2. Ett textfält för sökning som filtrerar listan i realtid (matcha mot namn *eller* stad).
-3. En knapp "Visa alla" som återställer filtret.
-
-Det här är en mer ambitiös övning som kombinerar objekt, arrayer, DOM-manipulation och händelser. Återanvänd gärna det du byggde i övningen *Produktkort på sidan* – sökningen fungerar på samma sätt, men nu ska den matcha mot två egenskaper.
+1. Visa alla kontakter på sidan med mönstret *data → loop → HTML*.
+2. Lägg till ett textfält för sökning som filtrerar listan medan man skriver. En kontakt ska visas om söktexten finns i namnet *eller* i staden.
+3. Jämför med övningen *Live-sökning* i kapitel [-@sec-arrayer]. Där fanns namnen i HTML-koden och dolda element; här finns de i en array och sidan byggs om. Vilket sätt är lättast att bygga vidare på, till exempel för att också söka på telefonnummer?
 :::

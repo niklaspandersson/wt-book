@@ -207,7 +207,7 @@ Höger sida skapar en tillfällig array `[2, 1]`, och vänster sida destructurer
 
 ### Destructuring med `Object.entries`
 
-I objektkapitlet använde du `Object.entries()` med en `for...of`-loop:
+I objektkapitlet gick du igenom ett objekts egenskaper med `for...in`. Ett annat sätt är metoden `Object.entries()`, som gör om objektet till en array av par. Varje par är en liten array med egenskapens namn och värde, och med destructuring kan paren packas upp direkt i loopen:
 
 ```javascript
 const student = { namn: "Anna", program: "Webbutveckling", årskurs: 2 };
@@ -217,7 +217,7 @@ for (const [nyckel, värde] of Object.entries(student)) {
 }
 ```
 
-Nu förstår du mekanismen: `Object.entries()` returnerar en array av `[nyckel, värde]`-par, och `[nyckel, värde]` i loopen är array-destructuring som packar upp varje par i två separata variabler.
+`Object.entries(student)` returnerar `[["namn", "Anna"], ["program", "Webbutveckling"], ["årskurs", 2]]`, och `[nyckel, värde]` i loopen är array-destructuring som packar upp varje par i två separata variabler. Det finns också `Object.keys()`, som bara ger namnen, och `Object.values()`, som bara ger värdena. Båda returnerar vanliga arrayer.
 
 ---
 
