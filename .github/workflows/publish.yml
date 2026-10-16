@@ -1,25 +1,29 @@
 name: Bygg och publicera boken
 
-# Boken byggs vid push till alla grenar, men publiceras bara från main.
+# Boken byggs och publiceras vid push till alla grenar:
+# - main publiceras i roten av sidan (den officiella versionen)
+# - alla andra grenar publiceras i mappen preview/, för granskning.
+#   Den senaste pushen till en gren som inte är main ersätter det som fanns där.
+#
+# Sidan publiceras från grenen gh-pages. I GitHub: Settings → Pages →
+# Source: "Deploy from a branch", gren gh-pages, mapp / (root).
 on:
   push:
-    branches: ["**"]
+    # gh-pages innehåller den färdiga sidan och ska inte byggas.
+    branches-ignore: [gh-pages]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# En körning per gren åt gången. En ny push avbryter en pågående körning
-# på samma gren, men inte körningar på andra grenar.
-concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: true
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # En ny push avbryter en pågående körning på samma gren,
+    # men inte körningar på andra grenar.
+    concurrency:
+      group: build-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
 
@@ -33,31 +37,71 @@ jobs:
         working-directory: manuscript
         run: quarto render --to html
 
-      - if: github.ref == 'refs/heads/main'
-        uses: actions/configure-pages@v5
-
-      - name: Ladda upp sidan för publicering
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: manuscript/_book
-
-      # På andra grenar än main laddas den byggda boken upp som en vanlig
-      # artefakt, så att den kan laddas ner och granskas från körningens sida.
-      - name: Ladda upp boken som artefakt
-        if: github.ref != 'refs/heads/main'
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: bok-html
           path: manuscript/_book
 
-  deploy:
-    if: github.ref == 'refs/heads/main'
+  publish:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    # main och preview publiceras var för sig. En nyare publicering av
+    # samma sort ersätter en äldre som ännu inte är klar.
+    concurrency:
+      group: publish-${{ github.ref == 'refs/heads/main' && 'main' || 'preview' }}
+      cancel-in-progress: true
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: bok-html
+          path: site
+
+      - name: Publicera till gh-pages
+        run: |
+          set -euo pipefail
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          # Hämta gh-pages, eller skapa grenen om den inte finns än.
+          if git ls-remote --exit-code --heads "$REMOTE" gh-pages > /dev/null; then
+            git clone --depth 1 --branch gh-pages "$REMOTE" pages
+          else
+            mkdir pages
+            git -C pages init -b gh-pages
+            git -C pages remote add origin "$REMOTE"
+          fi
+
+          if [ "$GITHUB_REF" = "refs/heads/main" ]; then
+            # Ersätt roten, men låt preview/ vara kvar.
+            rsync -a --checksum --delete --exclude .git/ --exclude preview/ site/ pages/
+            MESSAGE="Publicera main (${GITHUB_SHA::7})"
+          else
+            mkdir -p pages/preview
+            rsync -a --checksum --delete site/ pages/preview/
+            MESSAGE="Publicera ${GITHUB_REF_NAME} i preview/ (${GITHUB_SHA::7})"
+          fi
+
+          # Hindra GitHub från att köra Jekyll på sidan.
+          touch pages/.nojekyll
+
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Inga ändringar att publicera."
+            exit 0
+          fi
+          git commit -q -m "$MESSAGE"
+
+          # main och preview kan publiceras samtidigt. De ändrar olika mappar,
+          # så om pushen nekas räcker det att hämta den andras ändring och försöka igen.
+          for attempt in 1 2 3 4 5; do
+            if git push origin gh-pages; then
+              exit 0
+            fi
+            git pull --rebase origin gh-pages
+          done
+          echo "Kunde inte publicera till gh-pages." >&2
+          exit 1
