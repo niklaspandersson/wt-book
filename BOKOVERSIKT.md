@@ -235,8 +235,8 @@ Alla fyra kapitel följer nu ordningen *förutsäg → spåra → förklara → 
 ### Kvar att göra
 
 - **"Minns du?"-frågor** i början av kapitlen (§3.7) är inte införda.
-- **Reflektionsrutor** (*Stanna upp*, `{.callout-note appearance="simple"}`) med korta frågor efter de tyngre avsnitten finns i kap. 3, 5 och 7–10. De bör införas även i kap. 4, 6 och 11–13.
+- **Reflektionsrutor** (*Stanna upp*, `{.callout-note appearance="simple"}`) med korta frågor efter de tyngre avsnitten finns i kap. 3, 5 och 7–10 (numreringen efter nedskärningen i OUTLINE.md). De bör införas även i kap. 4, 6 och 11.
 - **Kap. 4** saknar fortfarande ett löst exempel med namngivna delmål. Mönstret från kap. 6 kunde användas bakåt i en enklare form (*hämta → bearbeta → visa*).
-- **Femstegsmönstret** bör återkomma i de interaktiva exemplen i kap. 7–13, där steg 4 (*bearbeta*) växer. *Genomfört i kap. 7–10 (se OUTLINE.md, Granskning av kap. 7–10); kvar i kap. 11–13.*
+- **Femstegsmönstret** bör återkomma i de interaktiva exemplen i kap. 7–11, där steg 4 (*bearbeta*) växer. *Genomfört i kap. 7–10 (se OUTLINE.md, Granskning av kap. 7–10 och 10–11); kvar i kap. 11.*
 - **En ordlista** svenska–engelska (§3.8) saknas. Kap. 3 introducerar många termer som syns på engelska på MDN och i felmeddelanden (*call, argument, return value, method*).
 - ~~**Kap. 7 *Tal*** hänvisar nu tillbaka till kap. 3 när `Number` och `Math` introduceras, men har inte kortats. Övningen *Vad returneras?* i kap. 7 överlappar delvis med kap. 3:s övningar och kan göras svårare.~~ *Genomfört: kortat och övningen omgjord till* Vad blir värdet?

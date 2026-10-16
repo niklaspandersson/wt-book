@@ -108,3 +108,15 @@ Flyttas ut enligt BOKOVERSIKT §3.3: "En subtil regel som även erfarna programm
 
 **Borttaget ur kap. 10:** avsnittet *`switch`-satsen* med veckodagsexemplet där måndag–fredag delar block (*fall-through*), och AI-prompten *`switch` utan `break`*.
 
+---
+
+## Från kap. 10 Loopar (nedskärning och granskning oktober 2026)
+
+### 7. `continue`, `do...while` och nästlade loopar
+
+- [x] Kortade till rutan *Bra att veta* i kap. 10, med en länk till MDN (vid nedskärningen för Webbteknik 2, se OUTLINE.md).
+- [ ] Om något kapitel i Del II/III behöver nästlade loopar (till exempel ett rutnät eller en tabell) förklaras de där.
+
+**Varför:** BOKOVERSIKT §3.3 – `while`, `for` och `break` räcker för Del I. Ingen senare del av boken använder `continue` eller `do...while`. Multiplikationstabellen var det enda exemplet på nästlade loopar, och den bygger på matematik (BOKOVERSIKT §3.4).
+
+**Borttaget ur kap. 10 vid granskningen:** övningarna *Summera en sekvens*, *FizzBuzz* och *FizzBuzz på sidan* (ersatta av *Frågornas typer*, samma `%`-logik i ett quizsammanhang) och *Multiplikationstabell* (ersatt av *Biljettpriser*). Stjärnmönstret finns kvar som del D i *Hur många varv?*, nu med en enda loop.

@@ -10,7 +10,7 @@
 * [X] Kap. 7 – Tal och text *(sammanslagning av gamla kap. 7 Tal och kap. 8 Strängar, bara grunderna: räknesätt, kortformerna, NaN, `Number()` och tal från formulärfält, `Math.round`/`floor`/`random`, `toFixed`, templatesträngar, `length`, `trim`/`toUpperCase`/`toLowerCase`/`includes`, oföränderliga strängar, kedjning, löst exempel med femstegsmönstret, avsnittet *Var hittar du mer?* med MDN)*
 * [X] Kap. 8 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
 * [X] Kap. 9 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel, tangentbordshändelser)*
-* [X] Kap. 10 – Loopar *(while, for, break; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
+* [X] Kap. 10 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
 * [X] Kap. 11 – Arrayer *(index, push/pop, sök, iterera, split/join, querySelectorAll, lyssnare i loopar, event.target, arrayer av objekt)*
 
 **Del II – Fördjupning: webben som plattform**
@@ -72,7 +72,15 @@ Del I ska rymmas i kursen Webbteknik 2 (7,5 hp på halvfart, tio veckor varav tv
 
 Filerna har bytt namn: `kap09-sant-och-falskt.qmd` → `kap08-…`, `kap10-villkor.qmd` → `kap09-…`, `kap11-loopar.qmd` → `kap10-…`, `kap12-arrayer.qmd` → `kap11-…`, `kap13-objekt.qmd` → `kap-objekt.qmd`. Övningssidornas mappnamn i texten följer de nya numren.
 
-**Kvar att göra:** kap. 10 och 11 är ännu inte granskade enligt mallen som kap. 3–9 följer (egen övningssida, *Stanna upp*, övningsordningen förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv). I `Tid och animationer` döljs notisen nu med `hidden` i stället för `notis.remove()`, så att kapitlet kan läsas direkt efter Del I.
+**Kvar att göra:** kap. 11 är ännu inte granskat enligt mallen som kap. 3–9 följer (egen övningssida, *Stanna upp*, övningsordningen förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv). I `Tid och animationer` döljs notisen nu med `hidden` i stället för `notis.remove()`, så att kapitlet kan läsas direkt efter Del I.
+
+### Granskning av kap. 10–11 (oktober 2026)
+
+Kap. 10 är granskat enligt samma mall som kap. 3–9: egen övningssida med rutan *Så provar du koden*, *Stanna upp*-rutor, ett löst exempel med femstegsmönstret, övningar i ordningen *förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv → blandad* och ett underavsnitt *Egna sidor*.
+
+| Kapitel | Ändringar |
+|---|---|
+| 10 Loopar (`sec-loopar`) | Nytt scenario från quizkvällen (nedräkning, prislista, tärning tills sexa) som kapitlet löser i tur och ordning. Spårtabell för `while` (villkoret prövas en gång mer än blocket körs, räknarens värde efter loopen). Nytt avsnitt *Bygga upp ett resultat* (före – i – efter loopen) med spårtabell och rutan om startvärdet inuti loopen. `while` motiveras med tärningen (okänt antal varv); `break` visas utan array (högst tre kast), så rutan *Vad är `[82, 91, …]`?* är borta. `\n` förklaras på plats, eftersom escape-sekvenser inte längre finns i kap. 7. Nedräkningen är det lösta exemplet, med kontrollen från kap. 9. Rutan *Bra att veta* om `continue`, `do...while` och nästlade loopar finns kvar (FLYTTLISTA punkt 7). *Summera en sekvens*, FizzBuzz och multiplikationstabellen är ersatta av *Spargrisen*, *Biljettpriser* och *Frågornas typer* (samma `%`-logik i ett quizsammanhang). Nya övningar: *Hur många varv?*, *Spåra summan*, *Vad säger felet?* (`SyntaxError`, `ReferenceError`, startvärde i loopen, oändlig loop), *Förklara koden*, *Ordna raderna*, *Bygg vidare på nedräkningen*. |
 
 
 ## Uppdelning av funktionskapitlet (oktober 2026)
