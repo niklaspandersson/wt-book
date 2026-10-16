@@ -1,29 +1,25 @@
 name: Bygg och publicera boken
 
-# Boken byggs och publiceras vid push till alla grenar:
-# - main publiceras i roten av sidan (den officiella versionen)
-# - alla andra grenar publiceras i mappen preview/, för granskning.
-#   Den senaste pushen till en gren som inte är main ersätter det som fanns där.
-#
-# Sidan publiceras från grenen gh-pages. I GitHub: Settings → Pages →
-# Source: "Deploy from a branch", gren gh-pages, mapp / (root).
+# Boken byggs och publiceras vid push till alla grenar.
+# Den senaste pushen, oavsett gren, är den som syns på sidan.
 on:
   push:
-    # gh-pages innehåller den färdiga sidan och ska inte byggas.
-    branches-ignore: [gh-pages]
+    branches: ["**"]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# Bara en publicering åt gången. En ny push avbryter en pågående körning.
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # En ny push avbryter en pågående körning på samma gren,
-    # men inte körningar på andra grenar.
-    concurrency:
-      group: build-${{ github.ref }}
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
 
@@ -37,71 +33,18 @@ jobs:
         working-directory: manuscript
         run: quarto render --to html
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: bok-html
           path: manuscript/_book
 
-  publish:
+  deploy:
     needs: build
     runs-on: ubuntu-latest
-    # main och preview publiceras var för sig. En nyare publicering av
-    # samma sort ersätter en äldre som ännu inte är klar.
-    concurrency:
-      group: publish-${{ github.ref == 'refs/heads/main' && 'main' || 'preview' }}
-      cancel-in-progress: true
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: bok-html
-          path: site
-
-      - name: Publicera till gh-pages
-        run: |
-          set -euo pipefail
-          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-
-          # Hämta gh-pages, eller skapa grenen om den inte finns än.
-          if git ls-remote --exit-code --heads "$REMOTE" gh-pages > /dev/null; then
-            git clone --depth 1 --branch gh-pages "$REMOTE" pages
-          else
-            mkdir pages
-            git -C pages init -b gh-pages
-            git -C pages remote add origin "$REMOTE"
-          fi
-
-          if [ "$GITHUB_REF" = "refs/heads/main" ]; then
-            # Ersätt roten, men låt preview/ vara kvar.
-            rsync -a --checksum --delete --exclude .git/ --exclude preview/ site/ pages/
-            MESSAGE="Publicera main (${GITHUB_SHA::7})"
-          else
-            mkdir -p pages/preview
-            rsync -a --checksum --delete site/ pages/preview/
-            MESSAGE="Publicera ${GITHUB_REF_NAME} i preview/ (${GITHUB_SHA::7})"
-          fi
-
-          # Hindra GitHub från att köra Jekyll på sidan.
-          touch pages/.nojekyll
-
-          cd pages
-          git config user.name "github-actions[bot]"
-          git config user.email "41898+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "Inga ändringar att publicera."
-            exit 0
-          fi
-          git commit -q -m "$MESSAGE"
-
-          # main och preview kan publiceras samtidigt. De ändrar olika mappar,
-          # så om pushen nekas räcker det att hämta den andras ändring och försöka igen.
-          for attempt in 1 2 3 4 5; do
-            if git push origin gh-pages; then
-              exit 0
-            fi
-            git pull --rebase origin gh-pages
-          done
-          echo "Kunde inte publicera till gh-pages." >&2
-          exit 1
+      - id: deployment
+        uses: actions/deploy-pages@v4
