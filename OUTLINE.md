@@ -83,7 +83,7 @@ Boken ska användas i två kurser vid Linnéuniversitetet: **Webbteknik 2** (1ME
 
 Vecka 4 har mest text men lättast begrepp. Vecka 5 har minst text men de svåraste begreppen. Slutuppgiften bygger på arrayer av objekt och timers, till exempel ett reaktionsspel, ett quiz med tidsgräns eller en nedräkning med animerad återkoppling. Den behöver tydliga delmål, så att studenterna inte kör fast under lovet utan handledning.
 
-**Jämfört med 2025:**
+**Jämfört med förra kursomgången (2025/26):**
 
 - *Kvar:* introduktion, variabler, villkor och booleska värden, Math och slumptal, funktioner, loopar, arrayer, strängar, DOM, händelser, stil med JavaScript, `Date` och timers.
 - *Nytt eller fördjupat:* skillnaden mellan att använda och att skriva funktioner, pilfunktioner (förra året i Webbteknik 3), ternäroperatorn (förra året i Webbteknik 3), arrayer av objekt, CSS-animationer.
@@ -121,7 +121,7 @@ Tolv kapitel på åtta undervisningsveckor. JSON kommer före fetch, så att `JS
 | Optimering, SEO, WPO, analys av användning | Optimering, SEO och webbprestanda |
 | Lokal webbserver | Moduler (avsnittet *Lokal utvecklingsserver*), fetch-kapitlet |
 
-**Jämfört med 2025:**
+**Jämfört med förra kursomgången (2025/26):**
 
 - *Kvar:* moduler, Git (med revert/reset), objekt med metoder och `this`, `localStorage`, JSON och XML-översikt, fetch och async/await, klasser med privata fält och getters/setters, `find`/`filter`/`map`, `??` och `?.`, formulär, `try`/`catch`, `URLSearchParams`, kartintegration med Leaflet, SEO och Lighthouse.
 - *Flyttat till Webbteknik 2:* pilfunktioner och ternäroperatorn.
