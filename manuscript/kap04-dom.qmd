@@ -40,7 +40,7 @@ Vi behöver inte förstå hela trädstrukturen i detalj ännu. Det viktiga just 
 
 ## En sida att öva på
 
-Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem på. Skapa en mapp med två filer. Spara den här koden som `index.html`:
+Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem på. Skapa en ny mapp, till exempel `kap04`. Spara den här koden som `index.html`:
 
 ```html
 <!DOCTYPE html>
@@ -487,7 +487,7 @@ Sidan har den här HTML-koden:
 
 ```html
 <h1>Quizkväll</h1>
-<p id="lag">Lag: —</p>
+<p id="lagnamn">Lag: —</p>
 <p id="poäng">Poäng: 0</p>
 ```
 
@@ -495,7 +495,7 @@ Och det här skriptet körs:
 
 ```javascript
 const lag = { namn: "Gula gänget", poäng: 4 };
-document.querySelector("#lag").textContent = lag.namn;
+document.querySelector("#lagnamn").textContent = lag.namn;
 document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
 lag.poäng = lag.poäng + 6;
 document.querySelector("h1").innerHTML = "Quizkväll — <em>final</em>";

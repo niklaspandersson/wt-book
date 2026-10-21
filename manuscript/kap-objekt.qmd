@@ -53,6 +53,7 @@ Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `objekt`, och
 
     <h2>Poängtavlan</h2>
     <pre id="tavla"></pre>
+    <p id="ledare"></p>
     <label for="lagfält">Lag:</label>
     <input type="text" id="lagfält">
     <button id="ge-poäng">+3 poäng</button>
@@ -622,12 +623,12 @@ function hittaLag(namn) {
 ::: {.callout-note}
 ## Övning – Poängtavlan
 
-Övningssidan har en poängtavla med ett fält och en knapp. Bygg den med en array av lagobjekt, som i avsnittet *Objekt i en array*, och funktionen `hittaLag` från övningen *Ordna raderna*. Den här övningen samlar mycket från Del I: jämför med *Poängtavlan blir interaktiv* i kapitel [-@sec-handelser], som bara hade ett lag.
+Övningssidan har en poängtavla: ett `<pre>`-element med id `tavla`, ett fält med id `lagfält` och en knapp med id `ge-poäng`. Bygg den med en array av lagobjekt, som i avsnittet *Objekt i en array*, och funktionen `hittaLag` från övningen *Ordna raderna*. Den här övningen samlar mycket från Del I: jämför med *Poängtavlan blir interaktiv* i kapitel [-@sec-handelser], som bara hade ett lag.
 
 1. Skriv en funktion `visaTavlan()` som visar alla lag i `<pre>`-elementet, ett per rad, till exempel `Ugglorna: 12 poäng`. Anropa den när sidan laddas.
 2. När domaren skriver ett lagnamn och klickar på *+3 poäng* ska laget få tre poäng och tavlan visas på nytt. Skriv de fem stegen som kommentarer först.
 3. Om inget lag har namnet ska ett meddelande visas i stycket med id `meddelande`. Använd early return.
-4. Visa under tavlan vilket lag som leder. Var ska den koden stå för att alltid vara uppdaterad?
+4. Visa vilket lag som leder i stycket med id `ledare`, under tavlan. Var ska den koden stå för att alltid vara uppdaterad?
 5. Fundera: `hittaLag` returnerar ett objekt, och du ändrar dess poäng. Varför syns ändringen i arrayen?
 :::
 

@@ -593,7 +593,7 @@ console.log("C");
 ::: {.callout-note}
 ## Övning – Vad händer vid klicket?
 
-Sidan har en knapp och ett stycke med id `antal`, som visar `0`. Läs koden.
+Sidan har en knapp och ett element med id `antal`, som visar `0`. Läs koden.
 
 ```javascript
 let antal = 0;

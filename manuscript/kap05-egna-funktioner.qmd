@@ -24,7 +24,12 @@ Det du skulle vilja är att ge raden ett namn – `visaPoäng` – skriva den en
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-I kapitel [-@sec-anropa-funktioner] skrev du det mesta direkt i konsolen. För egna funktioner fungerar det sämre: en funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och ändra i den. Skriv därför exemplen och övningarna i `script.js` på övningssidan från kapitel [-@sec-dom-intro]. När du sparar laddar Live Server om sidan, och koden körs uppifrån och ned. Det som skrivs ut med `console.log` syns i konsolen, liksom felmeddelanden. Ett felmeddelande anger också filen och raden där felet uppstod, till exempel `script.js:7`.
+I kapitel [-@sec-anropa-funktioner] skrev du det mesta direkt i konsolen. För egna funktioner fungerar det sämre: en funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och ändra i den. Skriv därför exemplen och övningarna i en fil, `script.js`, som hör till en egen sida för det här kapitlet. Du kan skapa sidan på två sätt:
+
+- **Kopiera mappen från förra kapitlet.** Kopiera mappen `kap04` från kapitel [-@sec-dom-intro] och döp kopian till `kap05`. Öppna `script.js` i den nya mappen och ta bort allt som står där. Då har du kvar alla element från övningssidan, och koden från kapitel [-@sec-dom-intro] ligger orörd i `kap04`.
+- **Börja med en tom mapp.** Skapa en ny mapp, `kap05`. Lägg i den en fil `index.html` med samma HTML-kod som i avsnittet *En sida att öva på* i kapitel [-@sec-dom-intro], och en tom fil `script.js`. Exemplen i kapitlet använder elementen med id `lagnamn`, `poäng` och `resultat` på den sidan.
+
+Öppna `index.html` i den nya mappen med Live Server. Det är den sidan som kallas *övningssidan* i resten av kapitlet. När du sparar laddar Live Server om sidan, och koden körs uppifrån och ned. Det som skrivs ut med `console.log` syns i konsolen, liksom felmeddelanden. Ett felmeddelande anger också filen och raden där felet uppstod, till exempel `script.js:7`.
 
 Några saker är bra att veta:
 
@@ -32,7 +37,7 @@ Några saker är bra att veta:
 - Ett returvärde syns inte av sig självt när anropet står i en fil, som du såg i kapitel [-@sec-anropa-funktioner]. Vill du se vad en funktion returnerar skriver du ut det: `console.log(biljettpris(3));`.
 - Du kan inte anropa funktionerna i `script.js` genom att skriva i konsolen. Varför förklaras i avsnittet om scope.
 - Töm `script.js` innan du börjar på ett nytt exempel eller en ny övning, så att gammal kod inte stör. Vill du spara den gamla koden kan du först kopiera den till en annan fil.
-- Behöver en övning fler element än övningssidan har, lägger du till dem i `<body>` i `index.html`.
+- Behöver en övning element som inte finns på sidan, lägger du till dem i `<body>` i `index.html`.
 :::
 
 ---
@@ -486,7 +491,7 @@ Märker du att du börjar svara vagt – "det bara fungerar så" – har du hitt
 
 ## Övningar
 
-Övningarna börjar som vanligt med att du läser och följer kod. Gör de första utan att köra koden – det är att kunna följa hoppen mellan anrop och funktion som gör det möjligt att skriva egna funktioner. När du sedan ska kontrollera dina svar eller skriva egen kod gör du det i `script.js` på övningssidan, som rutan *Så provar du koden i det här kapitlet* beskriver.
+Övningarna börjar som vanligt med att du läser och följer kod. Gör de första utan att köra koden – det är att kunna följa hoppen mellan anrop och funktion som gör det möjligt att skriva egna funktioner. När du sedan ska kontrollera dina svar eller skriva egen kod gör du det i `script.js` i mappen `kap05`, som rutan *Så provar du koden i det här kapitlet* beskriver.
 
 ::: {.callout-note}
 ## Övning – I vilken ordning?
@@ -609,7 +614,7 @@ function visaLedare(lag1, lag2) {
 ::: {.callout-note}
 ## Övning – Byt insidan
 
-Ett quiz visar vad ett lag ska betala. (Vill du prova koden, lägg till `<p id="pris">—</p>` på övningssidan.)
+Inträdet till quizkvällen kostar 40 kronor per person, som i avsnittet om `return`. Programmet nedan räknar ut vad ett lag ska betala och visar summan på sidan. (Vill du prova koden, lägg till `<p id="pris">—</p>` i `index.html`.)
 
 ```javascript
 function biljettpris(antal) {
@@ -713,7 +718,7 @@ markera(document.querySelector("#fråga-3"));
 2. Vad pekar parametern `element` på under det första anropet? Under det andra?
 3. Vad händer om det inte finns något element med id `fråga-3` på sidan? Vilket värde får `element` då, och på vilken rad tror du att felet visas?
 
-**Del B.** Lägg till tre stycken på övningssidan, vart och ett med ett eget id. Skriv en funktion `sättText(selektor, text)` som hämtar elementet som matchar selektorn och ger det den nya texten. Använd funktionen för att ändra alla tre stycken.
+**Del B.** Lägg till tre stycken i `index.html`, vart och ett med ett eget id. Skriv en funktion `sättText(selektor, text)` som hämtar elementet som matchar selektorn och ger det den nya texten. Använd funktionen för att ändra alla tre stycken.
 
 Jämför sedan med att skriva tre `querySelector`-rader direkt. När lönar sig funktionen? Vad händer om du stavar en selektor fel – vilket felmeddelande får du, och på vilken rad pekar det? Är det raden med anropet eller en rad inne i funktionen?
 :::

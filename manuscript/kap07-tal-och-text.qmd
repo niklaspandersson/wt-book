@@ -675,6 +675,8 @@ Uttrycket `Math.floor(Math.random() * 6) + 1` simulerar ett tärningskast. Bryt 
 
 Skriv sedan ett uttryck som simulerar ett kast med en tärning med tio sidor (1–10).
 
+Prova sedan tärningen på övningssidan. Under *Tärningen* finns en knapp med id `kasta` och ett stycke med id `kast`. Skriv kod som visar ett nytt kast i stycket varje gång knappen klickas, till exempel `Du slog 4`. Klicka många gånger: kommer alla tal från 1 till 6 upp, och aldrig 0 eller 7?
+
 Vad hade hänt om du använt `Math.round` i stället för `Math.floor`? Vilka tal kan då komma upp? Prova att göra en spårtabell som den i avsnittet *Slumptal* för slumptalen `0.05`, `0.5` och `0.95`.
 :::
 
