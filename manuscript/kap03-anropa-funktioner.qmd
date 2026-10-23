@@ -2,47 +2,30 @@
 
 ## Funktioner är färdiga maskiner
 
-Tänk på ett vanligt kök. Där står en kaffebryggare, en mikrovågsugn och kanske en diskmaskin. Du har inte byggt någon av dem, och du behöver inte veta hur de fungerar inuti. Någon annan har konstruerat dem och ställt dit dem. Du behöver bara *använda* dem.
+En kaffebryggare har du inte byggt själv, och du behöver inte veta hur den fungerar inuti. Du häller i vatten och kaffe, trycker på knappen och får kaffe. Allt som händer däremellan – vattnet som värms, pumpas upp och droppar genom filtret – är gömt bakom knappen. Det är en **abstraktion** av samma slag som i kapitel [-@sec-om-javascript]: många steg samlade under ett enda namn.
 
-För att använda en maskin behöver du egentligen bara veta två saker:
+Webbläsaren är full av sådana färdiga maskiner. De kallas **funktioner**, och du har redan använt två: `alert` och `console.log`. I det här kapitlet är du *operatör*: du lär dig använda funktioner som andra har byggt. Att bygga egna kommer i kapitel [-@sec-funktioner].
 
-1. **Vilken knapp ska jag trycka på?** På mikrovågsugnen finns knappar som *Värm*, *Tina* och *Grilla*.
-2. **Vad behöver maskinen?** Trycker du på *Tina* vill ugnen veta hur mycket maten väger, till exempel 500 gram. Du behöver också stoppa in den frysta maten.
-
-Mer behövs inte. Du trycker på *Tina*, anger 500 gram, och maskinen gör resten.
-
-Det här är just det som kapitel [-@sec-om-javascript] kallade en **abstraktion**: en lösning av ett delproblem som har samlats ihop och fått ett namn, så att du kan tänka på den som en enda sak. Där var exemplet att du säger "jag kokar kaffe" utan att tänka på varje enskilt steg. Kaffebryggaren är samma idé byggd i plast och metall. Vattnet ska värmas, pumpas upp och droppa genom filtret, men allt det är gömt bakom en enda knapp. Knappen är abstraktionen, och tack vare den kan du koka kaffe utan att kunna något om värmeelement. En **funktion** fungerar likadant: ett namn som står för många instruktioner du inte behöver se.
-
-En webbläsare är som ett sådant kök – eller som en verkstad full av färdiga verktyg. Den har maskiner som visar en ruta för besökaren, skriver i konsolen, letar upp en rubrik på sidan och många, många fler. Allt det är redan byggt. Precis som i köket behöver du bara veta vad knappen heter och vad maskinen behöver.
-
-I det här kapitlet är du alltså *operatör* i första hand, inte uppfinnare. Du ska lära dig att styra maskiner som andra har byggt. Att bygga egna maskiner kommer i kapitel [-@sec-funktioner], och då har du stor nytta av att redan veta hur färdiga maskiner används.
-
-I JavaScript kallas de färdiga maskinerna som sagt **funktioner**. Du har faktiskt redan använt två stycken: `alert("Hej, världen!")` och `console.log("Hej, världen!")` i kapitel [-@sec-om-javascript]. I det här kapitlet lär du dig att anropa färdiga funktioner, att skicka med värden till dem och att ta hand om det de ger tillbaka. Det är kunskap du kommer att använda på i stort sett varje rad kod i resten av boken. Redan i nästa kapitel, när du börjar köra din kod på en faktisk webbsida, består nästan varje rad av ett funktionsanrop.
-
-Som i kapitel [-@sec-variabler] kan du prova allt i det här kapitlet i webbläsarens konsol.
+Prova allt i kapitlet i webbläsarens konsol.
 
 ---
 
 ## Vad är en funktion?
 
-En **funktion** är en namngiven bit kod som utför en uppgift – en maskin som någon har byggt och gett ett namn. I programmering har funktionens delar egna namn:
+En **funktion** är en namngiven bit kod som utför en uppgift. Att köra den kallas att **anropa** den (på engelska *call*), och uttrycket där det sker kallas ett **funktionsanrop**. Ett anrop har tre delar:
 
-1. **Namnet** – vad funktionen heter, till exempel `alert`. Det motsvarar knappen du trycker på.
-2. **Argumenten** – det du skickar med till funktionen. Som de 500 grammen till mikrovågsugnen.
-3. **Returvärdet** – det värde funktionen ger tillbaka när den är klar. Till exempel kaffet från kaffebryggaren.
+1. **Namnet** – vad funktionen heter, till exempel `alert`.
+2. **Argumenten** – värdena du skickar med.
+3. **Returvärdet** – värdet funktionen ger tillbaka när den är klar.
 
-Det tredje skiljer olika maskiner åt. En kaffebryggare *ger dig något tillbaka*: du anger hur många koppar du vill ha, och ut kommer kaffe som du kan hälla upp och dricka. En dörrklocka *gör* i stället bara något: den ringer, men du får ingenting i handen.
-
-Funktioner är likadana. Vissa *gör* något som syns eller märks: `alert` visar en ruta och `console.log` skriver i konsolen. Andra *räknar ut* eller *tar reda på* något och ger tillbaka resultatet. Några gör båda delarna.
-
-Att köra en funktion kallas att **anropa** den (på engelska *call*), och uttrycket där det sker kallas ett **funktionsanrop**.
+Alla funktioner ger inte tillbaka något användbart. En kaffebryggare *ger dig något*: kaffe som du kan hälla upp. En dörrklocka *gör* bara något: den ringer, men du får ingenting i handen. På samma sätt *gör* vissa funktioner något som syns, medan andra *räknar ut* något och ger tillbaka resultatet. Några gör båda.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-Det här kapitlet innehåller många nya ord. I rutor som den här får du stanna upp och kontrollera att du har hängt med innan du läser vidare. Svara i huvudet eller skriv ner ett kort svar. Kan du inte svara, läs avsnittet en gång till – det är inget misslyckande, utan precis så man lär sig.
+I rutor som den här kontrollerar du att du har hängt med innan du läser vidare. Svara i huvudet eller skriv ner ett kort svar. Kan du inte svara, läs avsnittet igen.
 
-1. Tänk på en maskin du använder i vardagen, till exempel en tvättmaskin eller en biljettautomat. Vad är "knappen", vad skickar du med, och får du något tillbaka – eller gör maskinen bara något?
+1. Tänk på en maskin du använder i vardagen, till exempel en tvättmaskin eller en biljettautomat. Vad skickar du med, och får du något tillbaka – eller gör maskinen bara något?
 2. Är `alert` mer lik kaffebryggaren eller dörrklockan? Varför?
 :::
 
@@ -56,15 +39,15 @@ Ett funktionsanrop skrivs alltid på samma sätt: namnet, en vänsterparentes, e
 alert("Dags för första frågan!");
 ```
 
-Parenteserna är det som säger åt JavaScript att *köra* funktionen. Det är lätt att glömma dem, så det är bra att se vad som händer då. Skriv namnet utan parenteser i konsolen:
+Det är parenteserna som *kör* funktionen. Skriv namnet utan parenteser i konsolen:
 
 ```javascript
 alert;
 ```
 
-Ingen ruta visas. Konsolen svarar i stället med något i stil med `ƒ alert() { [native code] }`. Det är konsolens sätt att visa själva funktionen – maskinen, inte resultatet av att köra den. Det är som att hämta kaffebryggare istället för att brygga och hämta kaffe. Utan parenteser körs ingenting, och du får inte heller något felmeddelande (ibland är det faktiskt kaffebryggaren du vill ha). Det är därför felet är så lätt att missa.
+Ingen ruta visas. Konsolen svarar med något i stil med `ƒ alert() { [native code] }`, alltså själva funktionen, inte resultatet av att köra den. Det är tillåtet att tala om en funktion utan att köra den, så du får inget felmeddelande, och misstaget är lätt att missa.
 
-Inom parenteserna skriver du argumenten. En funktion kan ta inget, ett eller flera argument. Flera argument skiljs åt med kommatecken:
+Inom parenteserna står argumenten. En funktion kan ta inget, ett eller flera argument, åtskilda med kommatecken:
 
 ```javascript
 console.log();                            // inget argument – en tom rad
@@ -72,7 +55,7 @@ console.log("Röda stjärnor");             // ett argument
 console.log("Poäng:", 12, "av", 20);      // fyra argument – skrivs ut med mellanslag emellan
 ```
 
-Ett argument kan vara vilket uttryck som helst – ett värde, en variabel, en beräkning och så vidare. JavaScript räknar först ut uttrycket, och det är *värdet* som skickas till funktionen:
+Ett argument kan vara vilket uttryck som helst. JavaScript räknar först ut uttrycket och skickar sedan *värdet* till funktionen:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 12 };
@@ -83,8 +66,6 @@ console.log(lag.namn + ": " + lag.poäng); // skickar "Röda stjärnor: 12"
 ```
 
 Funktionen ser aldrig uttrycket `lag.poäng + 3`, bara talet `15`.
-
-När en funktion tar emot flera argument spelar ordningen i regel roll. Den som byggde funktionen har bestämt vad varje plats i parentesen betyder: det första argumentet används till en sak, det andra till en annan, och så vidare. Ordningen är alltså en del av hur funktionen är konstruerad, på samma sätt som det är bestämt vilken knapp på mikrovågsugnen som gör vad. Det påminner om en blankett med rutor för namn och adress. Skriver du adressen i namnrutan blir det fel, hur rätt själva adressen än är. En funktion kan inte se vad du *menade* med ett argument, bara på vilken plats det står. För varje funktion behöver du därför veta både *vilka* argument den vill ha och *i vilken ordning*. 
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -97,19 +78,17 @@ När en funktion tar emot flera argument spelar ordningen i regel roll. Den som 
 
 ## Returvärden
 
-Funktionen `console.log` gör något, men ger inte tillbaka något användbart. Låt oss titta på en funktion som är till för att ge tillbaka ett värde. `Math.max` tar emot ett antal tal och returnerar det största av dem:
+`console.log` gör något men ger inte tillbaka något användbart. `Math.max` är i stället till för att ge tillbaka ett värde. Den tar emot ett antal tal och **returnerar** det största:
 
 ```javascript
 Math.max(12, 19, 7);   // 19
 ```
 
-Värdet en funktion ger tillbaka kallas dess **returvärde**, och man säger att funktionen **returnerar** värdet. Det viktiga att förstå är vart värdet tar vägen. När JavaScript har kört funktionen *ersätts hela anropet av returvärdet*. Vi säger att funktionen *utvärderas* till sitt returvärde. Ta den här raden:
+Värdet kallas funktionens **returvärde**. När funktionen har körts *ersätts hela anropet av returvärdet*. Ta den här raden:
 
 ```javascript
 const högst = Math.max(12, 19, 7);
 ```
-
-JavaScript arbetar sig igenom den i tre steg:
 
 ```{mermaid}
 %%| fig-alt: "Tre steg uppifrån och ned. Steg 1: raden const högst = Math.max(12, 19, 7). Steg 2: funktionen har körts och anropet har ersatts av sitt returvärde, så raden lyder const högst = 19. Steg 3: namnet högst pekar med en pil på värdet 19."
@@ -122,62 +101,56 @@ flowchart TD
     end
 ```
 
-1. Funktionen anropas med argumenten `12`, `19` och `7`.
-2. Funktionen returnerar `19`, och anropet ersätts av det värdet. Raden lyder nu i praktiken `const högst = 19;`.
-3. Tilldelningen sker som vanligt: namnet `högst` pekar på `19`.
-
-Den här bilden – *anropet ersätts av sitt returvärde* – räcker för att förstå nästan allt om hur funktionsanrop fungerar (faktiskt alla typer av uttryck). Ett returvärde kan sparas i en variabel som ovan, men det kan också användas direkt där ett värde behövs:
+När `Math.max` har returnerat `19` lyder raden i praktiken `const högst = 19;`, och tilldelningen sker som vanligt. Eftersom anropet blir ett värde kan det stå var som helst där ett värde behövs, inte bara i en tilldelning:
 
 ```javascript
-console.log(Math.max(12, 19, 7));                      // 19
+console.log(Math.max(12, 19, 7));                          // 19
 console.log("Högsta poängen är " + Math.max(12, 19, 7));   // Högsta poängen är 19
 ```
 
 ### Ett värde som kommer från användaren
 
-Funktionen `prompt` är en släkting till `alert`. Den visar också en ruta, men rutan har ett textfält där besökaren kan skriva något. Prova i konsolen:
+Funktionen `prompt` visar, precis som `alert`, en ruta. Men rutan har ett textfält där besökaren kan skriva:
 
 ```javascript
 const lagnamn = prompt("Vad heter ert lag?");
 ```
 
-Skriv ett lagnamn i rutan och klicka OK. Skriv sedan `lagnamn` i konsolen. Variabeln pekar på texten du skrev, för den texten är `prompt`s returvärde. Här syns det tydligt att returvärdet inte står någonstans i koden. Det uppstår när funktionen körs, och det kan bli olika varje gång. Klickar du *Avbryt* i stället returnerar `prompt` värdet `null` – det avsiktligt tomma värdet från kapitel [-@sec-variabler].
+Skriv ett lagnamn, klicka OK och skriv sedan `lagnamn` i konsolen. Variabeln pekar på texten du skrev, eftersom texten är `prompt`s returvärde. Returvärdet står alltså inte i koden. Det uppstår när funktionen körs, och det kan bli olika varje gång. Klickar du *Avbryt* returnerar `prompt` värdet `null` (kapitel [-@sec-variabler]). `prompt` både *gör* något och *ger tillbaka* något.
 
-`prompt` kan också ta emot ett andra argument: en text som redan står ifylld i textfältet när rutan visas. Besökaren kan godta den eller skriva över den:
+`prompt` kan också ta ett andra argument: en text som redan står ifylld i textfältet.
 
 ```javascript
 const lagnamn = prompt("Vad heter ert lag?", "Röda stjärnor");
 ```
 
-Här ser du tydligt det du läste om i avsnittet *Att anropa en funktion*: ordningen är en del av hur funktionen är byggd. Det första argumentet är alltid frågan och det andra är alltid den ifyllda texten. Byter du plats på dem blir det fel, men du får inget felmeddelande:
+Här spelar ordningen roll. Funktionen bestämmer vad varje plats betyder: det första argumentet är frågan och det andra är den ifyllda texten. Byter du plats på dem frågar rutan "Röda stjärnor":
 
 ```javascript
 const lagnamn = prompt("Röda stjärnor", "Vad heter ert lag?");
 ```
 
-Nu frågar rutan "Röda stjärnor", och i textfältet står "Vad heter ert lag?". Båda argumenten är fullt giltiga texter, så `prompt` gör precis det den är byggd för: den visar det första argumentet som fråga och det andra som ifylld text.
-
-`prompt` är alltså en funktion som både *gör* något (visar rutan) och *ger tillbaka* något (texten). På riktiga webbsidor används den sällan, eftersom den stoppar allt annat på sidan tills besökaren har svarat. I kapitel [-@sec-handelser] lär du dig ett bättre sätt att läsa vad besökaren skriver.
+Du får inget felmeddelande, eftersom båda argumenten är giltiga texter. Funktionen kan inte veta vad du menade, bara på vilken plats varje argument står. När en funktion tar flera argument behöver du därför veta både *vilka* den vill ha och *i vilken ordning*.
 
 ### Att göra eller att ge tillbaka
 
-Vad returnerar då `console.log`? Prova:
+Vad returnerar då `console.log`?
 
 ```javascript
 const svar = console.log("Hej!");   // skriver ut: Hej!
 console.log(svar);                  // undefined
 ```
 
-`console.log` returnerar `undefined`, värdet som betyder "inget värde". Det förklarar något du såg redan i kapitel [-@sec-om-javascript]. När du skrev `console.log("Hej, världen!")` i konsolen skrevs texten ut, och sedan svarade konsolen med ett grått `undefined`. Konsolen visar alltid värdet av det du skrev in, och värdet av ett anrop är dess returvärde. Texten var något funktionen *gjorde*. `undefined` var det den *gav tillbaka*.
+`console.log` returnerar `undefined`, värdet som betyder "inget värde". Därför svarade konsolen med ett grått `undefined` när du skrev `console.log("Hej, världen!")` i kapitel [-@sec-om-javascript]. Konsolen visar alltid värdet av det du skriver in. Texten var något funktionen *gjorde*, och `undefined` var det den *gav tillbaka*.
 
-Det här är en vanlig källa till förvirring, så det är värt att säga rakt ut: **att skriva ut ett värde är inte samma sak som att returnera det.** Det som `console.log` skriver ut går inte att räkna med eller spara i en variabel. Det som `Math.max` returnerar går det.
+**Att skriva ut ett värde är inte samma sak som att returnera det.** Det som `console.log` skriver ut går inte att spara i en variabel eller räkna med. Det som `Math.max` returnerar går det.
 
 ::: {.callout-important}
 ## I konsolen syns returvärdet – i en fil gör det inte det
 
-När du skriver `Math.max(12, 19, 7)` i konsolen visas `19`, eftersom konsolen alltid visar värdet av det du skriver in. Står samma rad i en JavaScript-fil händer ingenting synligt. Funktionen körs och returnerar `19`, men ingen tar hand om värdet, så det försvinner.
+Skriver du `Math.max(12, 19, 7)` i konsolen visas `19`. Står samma rad i en JavaScript-fil händer ingenting synligt. Funktionen returnerar `19`, men ingen tar hand om värdet, så det försvinner.
 
-Från och med nästa kapitel skriver du kod i filer. Ett returvärde du vill använda måste du då själv göra något med: spara det i en variabel, skicka det vidare till en annan funktion eller skriva ut det med `console.log`.
+Från och med nästa kapitel skriver du kod i filer. Då måste du själv ta hand om returvärdet: spara det i en variabel, skicka det vidare till en annan funktion eller skriva ut det med `console.log`.
 :::
 
 ::: {.callout-note appearance="simple"}
@@ -192,9 +165,7 @@ Från och med nästa kapitel skriver du kod i filer. Ett returvärde du vill anv
 
 ## Metoder – funktioner i objekt
 
-Nu kan vi förklara punkten i `Math.max` och `console.log`. I kapitel [-@sec-variabler] såg du att ett objekt samlar värden i namngivna egenskaper, som `lag.namn` och `lag.poäng`. En egenskap kan innehålla vilket värde som helst – ett tal, en sträng, ett annat objekt. Den kan också innehålla en *funktion*. En funktion som ligger i ett objekt kallas en **metod**.
-
-`Math` är ett objekt som JavaScript har färdigt åt dig, fullt av metoder för att räkna med tal. `console` är ett objekt som webbläsaren har färdigt, med metoder för att skriva i konsolen. Du anropar en metod med punktnotation följd av parenteser:
+Nu kan vi förklara punkten i `Math.max` och `console.log`. Ett objekt samlar värden i egenskaper, som `lag.namn` och `lag.poäng` (kapitel [-@sec-variabler]). En egenskap kan också innehålla en funktion, och då kallas den en **metod**. `Math` är ett inbyggt objekt med metoder för att räkna med tal, och `console` är ett objekt med metoder för att skriva i konsolen:
 
 ```javascript
 console.log("Hej!");     // metoden log i objektet console
@@ -202,20 +173,13 @@ Math.max(12, 19, 7);     // metoden max i objektet Math
 Math.min(12, 19, 7);     // metoden min i objektet Math – ger 7
 ```
 
-Läs ett metodanrop från vänster till höger: "i objektet `Math`, ta egenskapen `max`, och kör den med argumenten `12`, `19` och `7`". Allt du har lärt dig om argument och returvärden gäller precis likadant för metoder. En metod *är* en funktion, den bor bara i ett objekt.
+Läs ett metodanrop från vänster till höger: "i objektet `Math`, ta egenskapen `max`, och kör den med argumenten `12`, `19` och `7`". En metod *är* en funktion som bor i ett objekt, så allt om argument och returvärden gäller likadant.
 
-Funktioner som `alert` och `prompt`, som inte ligger i något objekt utan anropas direkt med sitt namn, kallas ibland **fria funktioner** för att skilja dem från metoder. Skillnaden ligger bara i hur du når dem:
-
-| | Exempel | Hur du når den |
-|---|---|---|
-| Fri funktion | `alert("Hej!")` | direkt med namnet |
-| Metod | `Math.max(4, 9)` | via ett objekt och en punkt |
-
-Det finns fler fria funktioner. `Number` gör till exempel om en text till ett tal: `Number("12")` returnerar talet `12`. Den blir viktig i kapitel [-@sec-tal-och-text], när du ska räkna med siffror som besökaren har skrivit. Och det finns fler metoder – även strängar har dem. `"quiz".toUpperCase()` returnerar `"QUIZ"`. Strängarnas metoder tar vi upp i samma kapitel.
+Funktioner som anropas direkt med sitt namn, utan objekt och punkt, kallas **fria funktioner**. Hit hör `alert` och `prompt`, men också till exempel `Number`, som gör om en text till ett tal: `Number("12")` returnerar talet `12`.
 
 ### Egenskap eller metod?
 
-Eftersom både vanliga egenskaper och metoder nås med en punkt kan de se lika ut. Parenteserna avslöjar skillnaden:
+Både vanliga egenskaper och metoder nås med en punkt. Parenteserna avslöjar skillnaden:
 
 ```javascript
 Math.PI;               // 3.141592653589793 – en egenskap: ett lagrat värde
@@ -223,7 +187,7 @@ Math.max(4, 9);        // 9 – en metod: en funktion som körs
 lag.namn;              // "Röda stjärnor" – en egenskap
 ```
 
-En egenskap *läser* du – värdet finns redan där. En metod *kör* du – värdet räknas fram när du anropar den. Står det parenteser efter namnet körs en funktion.
+En egenskap *läser* du – värdet finns redan där. En metod *kör* du – värdet räknas fram när du anropar den.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -236,13 +200,7 @@ En egenskap *läser* du – värdet finns redan där. En metod *kör* du – vä
 
 ## Anrop inuti anrop
 
-Eftersom ett anrop ersätts av sitt returvärde kan det stå var som helst där ett värde får stå. Det betyder att du kan skicka returvärdet från en funktion direkt som argument till en annan:
-
-```javascript
-console.log(Math.max(12, 19, 7));
-```
-
-Ett anrop inuti ett annat kallas ett **nästlat** anrop. JavaScript utvärderar det *inifrån och ut*: det innersta anropet körs först, och dess returvärde blir argument till det yttre. Följ den här raden steg för steg:
+Eftersom ett anrop ersätts av sitt returvärde kan du skicka returvärdet från en funktion direkt som argument till en annan. Ett anrop inuti ett annat kallas ett **nästlat** anrop, och det utvärderas *inifrån och ut*: det innersta anropet körs först, och dess returvärde blir argument till det yttre. Följ den här raden steg för steg:
 
 ```javascript
 console.log("Högsta poängen är " + Math.max(12, 19, 7));
@@ -254,7 +212,9 @@ console.log("Högsta poängen är " + Math.max(12, 19, 7));
 | 2 | `"Högsta poängen är " + 19` blir en sträng | `console.log("Högsta poängen är 19");` |
 | 3 | `console.log` skriver ut texten och returnerar `undefined` | – |
 
-Varje steg följer samma regel: räkna ut det innersta, ersätt det med sitt värde, fortsätt utåt. Lägg märke till att steg 2 inte är något funktionsanrop alls, utan en vanlig sammanslagning av text med `+`. Regeln gäller nämligen inte bara anrop utan alla **uttryck** – alla bitar kod som ger ett värde, som du lärde dig i kapitel [-@sec-om-javascript]. Ett funktionsanrop är helt enkelt en sorts uttryck bland andra, precis som `3 * 49` eller ett variabelnamn. Hur lång och snårig en rad än är kan JavaScript räkna ut den bit för bit på det här sättet, tills bara ett värde återstår. När du läser en sådan rad kan du göra likadant med penna och papper, och stryka över varje del när du har ersatt den med sitt värde.
+Steg 2 är inget anrop utan en sammanslagning av text. Regeln gäller nämligen alla **uttryck** (kapitel [-@sec-om-javascript]), och ett funktionsanrop är en sorts uttryck bland andra: räkna ut det innersta, ersätt det med sitt värde och fortsätt utåt tills bara ett värde återstår.
+
+Du kan läsa en lång rad på samma sätt med penna och papper. Stryk över varje del och skriv dess värde ovanför.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -266,7 +226,7 @@ Varje steg följer samma regel: räkna ut det innersta, ersätt det med sitt vä
 
 ## När anropet går fel
 
-Med funktionsanrop kommer några nya felmeddelanden. De är bra att känna igen, eftersom de är bland de vanligaste du kommer att se.
+Fyra misstag är vanliga när du anropar funktioner.
 
 **Namnet finns inte.** Stavar du fel på en fri funktion vet JavaScript inte vad du menar:
 
@@ -274,7 +234,7 @@ Med funktionsanrop kommer några nya felmeddelanden. De är bra att känna igen,
 alrt("Hej!");   // ReferenceError: alrt is not defined
 ```
 
-`ReferenceError` betyder att JavaScript letade efter namnet `alrt` och inte hittade något med det namnet.
+`ReferenceError` betyder att JavaScript letade efter namnet `alrt` och inte hittade något.
 
 **Det finns inget att köra.** Stavar du fel på en metod blir felet ett annat:
 
@@ -282,7 +242,7 @@ alrt("Hej!");   // ReferenceError: alrt is not defined
 Math.Max(4, 9);   // TypeError: Math.Max is not a function
 ```
 
-Objektet `Math` finns, så JavaScript hittar det. Men `Math` har ingen egenskap som heter `Max` med stort M, och som du såg i kapitel [-@sec-variabler] ger en egenskap som inte finns värdet `undefined`. Parenteserna försöker sedan köra `undefined`, och det går inte – `undefined` är ingen funktion. Det är samma fel som du fick när du skrev `console.lg` i kapitel [-@sec-om-javascript]. Ser du *is not a function* ska du alltså titta på namnet precis före parenteserna. Oftast är det felstavat.
+Objektet `Math` finns, men det har ingen egenskap `Max` med stort M, och en egenskap som inte finns ger värdet `undefined` (kapitel [-@sec-variabler]). Parenteserna försöker sedan köra `undefined`, och det går inte. Ser du *is not a function*, titta på namnet precis före parenteserna. Oftast är det felstavat.
 
 **En parentes saknas.** Varje vänsterparentes måste ha en högerparentes:
 
@@ -290,9 +250,9 @@ Objektet `Math` finns, så JavaScript hittar det. Men `Math` har ingen egenskap 
 console.log(Math.max(4, 9);   // SyntaxError: missing ) after argument list
 ```
 
-Här kör JavaScript inte koden alls, eftersom raden inte följer språkets syntax. Räkna parenteserna: två öppnas, en stängs.
+Raden följer inte språkets syntax, så JavaScript kör den inte alls. Räkna parenteserna: två öppnas, en stängs.
 
-**Parenteserna saknas helt.** Som du såg tidigare ger det inget felmeddelande alls. Funktionen körs bara inte. Om ingenting händer, kontrollera att du verkligen har skrivit parenteserna.
+**Parenteserna saknas helt.** Det ger inget felmeddelande. Funktionen körs bara inte. Händer ingenting, kontrollera att parenteserna finns.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -305,37 +265,37 @@ Här kör JavaScript inte koden alls, eftersom raden inte följer språkets synt
 
 ## Att hitta och läsa om funktioner
 
-JavaScript och webbläsaren har hundratals färdiga funktioner, och ingen kan dem alla utantill. Det programmerare kan är att slå upp dem. Den viktigaste källan är [MDN Web Docs](https://developer.mozilla.org/), som du mötte redan i kapitel [-@sec-om-javascript].
+JavaScript och webbläsaren har hundratals färdiga funktioner, och ingen kan dem alla utantill. Programmerare slår upp dem, oftast i [MDN Web Docs](https://developer.mozilla.org/).
 
-Sidan om [`Math.max` på MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) är skriven på engelska och följer samma mönster som nästan alla sidor om funktioner där. Med det här kapitlets ord är det lätt att hitta rätt:
+Sidan om [`Math.max` på MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) är på engelska och följer samma mönster som nästan alla sidor om funktioner där:
 
 - **Syntax** visar hur anropet skrivs.
-- **Parameters** beskriver vilka argument funktionen tar emot och i vilken ordning de ska stå.
+- **Parameters** beskriver vilka argument funktionen tar emot och i vilken ordning.
 - **Return value** berättar vad funktionen returnerar.
 
-Läs alltid avsnittet om returvärdet. Det svarar på frågan som avgör hur du kan använda funktionen: *ger den tillbaka något jag kan arbeta vidare med, eller gör den bara något?*
+Läs alltid *Return value*. Det svarar på frågan som avgör hur du kan använda funktionen: *ger den tillbaka något jag kan arbeta vidare med, eller gör den bara något?*
 
 ---
 
 ## Sammanfattning
 
 - En **funktion** är en namngiven bit kod som utför en uppgift. Att köra den kallas att **anropa** den, och det skrivs `namn(argument)`.
-- **Parenteserna** kör funktionen. Utan parenteser körs ingenting och det är funktionen i sig du får tillbaka, inte resultatet.
-- **Argument** är de värden du skickar med. Flera argument skiljs åt med kommatecken, och ordningen har i regel betydelse: funktionen bestämmer vad varje plats betyder. Ett argument kan vara ett uttryck – det är värdet som skickas.
-- **Returvärdet** är det funktionen ger tillbaka. Anropet *ersätts* av sitt returvärde, och kan därför stå där ett värde behövs.
+- **Parenteserna** kör funktionen. Utan parenteser får du funktionen själv, inte resultatet.
+- **Argument** är de värden du skickar med, åtskilda med kommatecken. Ordningen har i regel betydelse. Ett argument kan vara ett uttryck – det är värdet som skickas.
+- **Returvärdet** är det funktionen ger tillbaka. Anropet *ersätts* av sitt returvärde och kan därför stå där ett värde behövs.
 - Att **skriva ut** är inte att **returnera**. `console.log` skriver ut, men returnerar `undefined`.
 - I konsolen visas returvärdet automatiskt. I en fil försvinner det om du inte tar hand om det.
-- En **metod** är en funktion som ligger i ett objekt och anropas med punktnotation: `Math.max(4, 9)`. Funktioner som anropas direkt med namnet, som `alert`, kallas **fria funktioner**.
-- En **egenskap** läser du (`Math.PI`); en **metod** kör du (`Math.max(4, 9)`). Parenteserna avslöjar skillnaden.
+- En **metod** är en funktion i ett objekt och anropas med punktnotation: `Math.max(4, 9)`. Funktioner som anropas direkt med namnet, som `alert`, kallas **fria funktioner**.
+- En **egenskap** läser du (`Math.PI`); en **metod** kör du (`Math.max(4, 9)`).
 - **Nästlade anrop** utvärderas inifrån och ut.
 - `ReferenceError: … is not defined` betyder att namnet inte finns. `TypeError: … is not a function` betyder att det du försöker köra inte är en funktion – ofta ett felstavat namn.
 
-I nästa kapitel tar vi steget från konsolen till webbsidan. Där möter du ett nytt objekt, `document`, och dess egenskaper och metoder, till exempel `querySelector`. Med kunskapen från det här kapitlet kommer du att kunna läsa precis vad den gör: vilket argument den tar och vad den returnerar.
+I nästa kapitel tar du steget från konsolen till webbsidan och möter objektet `document` och dess metod `querySelector`. Med det här kapitlets ord kan du läsa vad den tar emot och vad den returnerar.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
 
-Kapitlets viktigaste färdighet är att kunna titta på ett anrop och säga vad som händer: vilka argument som skickas, vad som returneras och om något syns. Det är en färdighet som kräver mängdträning, och AI:n kan ge dig hur många exempel som helst.
+Kapitlets viktigaste färdighet är att titta på ett anrop och säga vad som händer: vilka argument som skickas, vad som returneras och om något syns. Det kräver mängdträning, och AI:n kan ge dig hur många exempel som helst.
 
 **Returvärdesquiz:**
 

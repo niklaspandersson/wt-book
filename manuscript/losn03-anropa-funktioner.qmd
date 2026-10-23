@@ -10,7 +10,7 @@ Lösningar till övningarna i kapitel [-@sec-anropa-funktioner].
 
 **Vad är en funktion?**
 
-1. Ta en biljettautomat. "Knappen" är valet av biljett, till exempel *Vuxen, enkel resa*. Det du skickar med är betalningen. Tillbaka får du en biljett. Automaten är alltså en maskin som ger något tillbaka, som kaffebryggaren. En tvättmaskin är mer som dörrklockan: du väljer program och stoppar in tvätten, och maskinen *gör* något med tvätten, men du får inget nytt tillbaka.
+1. Ta en biljettautomat. Det du skickar med är valet av biljett, till exempel *Vuxen, enkel resa*, och betalningen. Tillbaka får du en biljett. Automaten är alltså en maskin som ger något tillbaka, som kaffebryggaren. En tvättmaskin är mer som dörrklockan: du väljer program och stoppar in tvätten, och maskinen *gör* något med tvätten, men du får inget nytt tillbaka.
 2. `alert` liknar dörrklockan. Den *gör* något – visar en ruta – men ger inget användbart tillbaka.
 
 **Att anropa en funktion**

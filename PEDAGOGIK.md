@@ -80,6 +80,12 @@ En studie med 496 nybörjare fann att metaforen "variabeln är en låda" hjälpt
 
 **För boken.** Bokens AI-rutor bör, som i dag, låta AI:n *förhöra, förklara, ge ledtrådar och skapa övningsmaterial*, men inte lösa uppgifterna. Studenten bör alltid försöka själv först. Det är särskilt viktigt för de svagaste studenterna, och det är de som är målgruppen.
 
+## 11. Onödig belastning: säg det en gång
+
+**Forskning.** Kognitiv belastningsteori skiljer mellan belastning som kommer från själva stoffet och *onödig* belastning som kommer från hur det presenteras. Att ge samma information två gånger, eller i två former som var för sig räcker, gör inlärningen sämre, inte bättre (*redundanseffekten*, Chandler & Sweller 1991). Intressanta men ovidkommande detaljer (*seductive details*) försämrar både minne och förmåga att tillämpa det man lärt sig (Harp & Mayer 1998), och en metaanalys bekräftar den negativa effekten (Sundararajan & Adesope 2020). Mayer sammanfattar detta i *koherensprincipen*: man lär sig bättre när ovidkommande ord, bilder och ljud tas bort (Mayer & Fiorella 2014). Nybörjare drabbas mest, eftersom de ännu inte kan avgöra vad som är kärnan och vad som är utfyllnad.
+
+**För boken.** Att förklara en sak noga är inte samma sak som att förklara den många gånger. En analogi som tydliggör en mekanism hjälper. När den byggs ut förbi det den motsvarar blir den en ovidkommande detalj. Samma sak gäller omformuleringar av en poäng som redan är gjord, sidospår, framåtblickar och meningar som pratar om texten i stället för om innehållet. Repetitionen ska ligga i aktiviteterna (§1–3, §8), där studenten själv måste hämta fram och använda kunskapen, inte i brödtexten. Konkreta skrivregler finns i CLAUDE.md under *Prose density*.
+
 ---
 
 ## Referenser
@@ -88,15 +94,18 @@ En studie med 496 nybörjare fann att metaforen "variabeln är en låda" hjälpt
 - Becker, B. A., Glanville, G., Iwashima, R., McDonnell, C., Goslin, K. & Mooney, C. (2016). Effective compiler error message enhancement for novice programming students. *Computer Science Education*, 26(2–3).
 - Bego, C. R. m.fl. (2024). Spaced retrieval practice in introductory STEM courses. *International Journal of STEM Education*, 11.
 - Brown, N. C. C. & Altadmri, A. (2017). Novice Java programming mistakes: Large-scale data vs. educator beliefs. *ACM TOCE*, 17(2).
+- Chandler, P. & Sweller, J. (1991). Cognitive load theory and the format of instruction. *Cognition and Instruction*, 8(4).
 - du Boulay, B. (1986). Some difficulties of learning to program. *Journal of Educational Computing Research*, 2(1).
 - Ericson, B. J. (2018). *Evaluating the effectiveness and efficiency of Parsons problems and dynamically adaptive Parsons problems as a type of low cognitive load practice for introductory computer programming*. Doktorsavhandling, Georgia Tech.
 - Ericson, B. J. m.fl. (2023). Multi-institutional multi-national studies of Parsons problems. *ITiCSE 2023*.
+- Harp, S. F. & Mayer, R. E. (1998). How seductive details do their damage: A theory of cognitive interest in science learning. *Journal of Educational Psychology*, 90(3).
 - Hermans, F., Swidan, A., Aivaloglou, E. & Smit, M. (2018). Thinking out of the box: Comparing metaphors for variables in programming education. *WiPSCE 2018*.
 - Hou, X., Ericson, B. J. & Wang, X. (2023). Parsons problems to scaffold code writing: Impact on performance and problem-solving efficiency. *ITiCSE 2023*.
 - Kazemitabaar, M. m.fl. (2023). Studying the effect of AI code generators on supporting novice learners in introductory programming. *CHI 2023*.
 - Lee, I. m.fl. (2011). Computational thinking for youth in practice. *ACM Inroads*, 2(1).
 - Lytle, N. m.fl. (2019). Use, modify, create: Comparing computational thinking lesson progressions for STEM classes. *ITiCSE 2019*.
 - Margulieux, L. E., Morrison, B. B. & Decker, A. (2020). Reducing withdrawal and failure rates in introductory programming with subgoal labeled worked examples. *International Journal of STEM Education*, 7.
+- Mayer, R. E. & Fiorella, L. (2014). Principles for reducing extraneous processing in multimedia learning: Coherence, signaling, redundancy, spatial contiguity, and temporal contiguity principles. I R. E. Mayer (red.), *The Cambridge Handbook of Multimedia Learning* (2 uppl.). Cambridge University Press.
 - Murphy, L., Fitzgerald, S., Lister, R. & McCauley, R. (2012). Ability to "explain in plain English" linked to proficiency in computer-based programming. *ICER 2012*.
 - Patitsas, E., Berlin, J., Craig, M. & Easterbrook, S. (2016). Evidence that computer science grades are not bimodal. *ICER 2016*.
 - Porter, L., Bailey Lee, C. & Simon, B. (2013). Halving fail rates using peer instruction. *SIGCSE 2013*.
@@ -105,6 +114,7 @@ En studie med 496 nybörjare fann att metaforen "variabeln är en låda" hjälpt
 - Robins, A. (2010). Learning edge momentum: A new account of outcomes in CS1. *Computer Science Education*, 20(1).
 - Sentance, S., Waite, J. & Kallia, M. (2019). Teaching computer programming with PRIMM: A sociocultural perspective. *Computer Science Education*, 29(2–3).
 - Sorva, J. (2013). Notional machines and introductory programming education. *ACM TOCE*, 13(2).
+- Sundararajan, N. & Adesope, O. (2020). Keep it coherent: A meta-analysis of the seductive details effect. *Educational Psychology Review*, 32(3).
 - Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. *Cognitive Science*, 12(2).
 - van Gog, T., Paas, F. & Sweller, J. (2010). Cognitive load theory: Advances in research on worked examples, animations, and cognitive load measurement. *Educational Psychology Review*, 22.
 - Venables, A., Tan, G. & Lister, R. (2009). A closer look at tracing, explaining and code writing skills in the novice programmer. *ICER 2009*.

@@ -63,7 +63,7 @@
 
 Boken ska användas i två kurser vid Linnéuniversitetet: **Webbteknik 2** (1ME322) och **Webbteknik 3** (1ME323). Båda är 7,5 hp och går på halvfart, tio veckor à 20 timmar.
 
-**Tempo:** ett kapitel i den omarbetade stilen (4 000–6 000 ord, 10–12 övningar) tar 8–10 timmar för en student. Två kapitel i veckan är därför det högsta rimliga tempot, och bara när kapitlen inte är begreppstunga. De svåraste veckorna (loopar och arrayer i Webbteknik 2, fetch i Webbteknik 3) får mest tid per idé.
+**Tempo:** ett kapitel i den omarbetade stilen (4 000–6 000 ord inklusive kod och övningar, 10–12 övningar) tar 8–10 timmar för en student. Siffran beskriver hur kapitlen ser ut i dag och är inget mål. Brödtexten bör sällan överstiga cirka 2 500 ord (se *Prose density* i CLAUDE.md), och tiden bör gå till övningarna snarare än till läsningen. Två kapitel i veckan är därför det högsta rimliga tempot, och bara när kapitlen inte är begreppstunga. De svåraste veckorna (loopar och arrayer i Webbteknik 2, fetch i Webbteknik 3) får mest tid per idé.
 
 ## Webbteknik 2
 

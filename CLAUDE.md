@@ -51,7 +51,7 @@ Every decision about the book's content, structure, order, examples and exercise
 - **One new idea at a time.** Prefer fewer concepts explained thoroughly over complete coverage. If a section introduces something that is not needed until later, move it to where it is needed.
 - **Follow the research.** Design explanations and exercises according to the research summary in [PEDAGOGIK.md](PEDAGOGIK.md) (e.g. reading and tracing code before writing it, worked examples, Parsons problems, explicit notional machine, attention to known misconceptions). 
 
-When in doubt, ask: *Would a first-year student from a humanities or social science programme follow this without help?*
+When in doubt, ask: *Would a first-year student from a humanities or social science programme follow this without help?* Then ask the opposite question about every sentence: *Would the student miss it if it were deleted?* Both questions apply. The first one alone leads to over-explaining (see *Prose density* below).
 
 ## Writing Conventions
 
@@ -68,3 +68,21 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
 - Reference authorative online documentation (e.g., MDN Web Docs) where appropriate.
 - Add references to `references.bib` as needed, and cite them in the text using standard Quarto Markdown citation syntax.
 - Update [OUTLINE.md](OUTLINE.md) as needed to reflect changes in the chapter plan or structure.
+
+## Prose density (always applies)
+
+The book tends to over-explain. Every rule above tells us what to add. This section is the counterweight. Extra words cost the student working memory and attention (PEDAGOGIK.md §11). Reinforcement belongs in the activities, where the student does the work, not in the prose.
+
+- **Say each point once.** Explain a concept in one place with one example. Do not restate it in new words "to be safe". Repetition belongs in *Stanna upp* boxes, exercises and the summary.
+- **One analogy per concept, briefly.** One or two sentences, then let the code take over. Do not mix analogies, extend them past the point they map, or return to them later in the chapter.
+- **Get to code quickly.** The opening scenario is a short paragraph (about 150 words). Then follow the pattern: one or two sentences, a short example, a comment.
+- **One idea per paragraph.** A paragraph that also generalises, gives a tip and points forward should be split or cut.
+- **Don't talk about the text.** Avoid signposting and emphasis that announces a point instead of making it: "Det viktiga att förstå är…", "det är värt att säga rakt ut", "Här ser du tydligt…", "Lägg märke till…", and filler words like "faktiskt" and "alltså".
+- **Back-references only when the reader needs them.** Link to an earlier chapter when the student needs to look something up, not to remind them they have seen it. "(kapitel X)" is enough.
+- **No detours.** No side facts, practical caveats or previews of later chapters unless the current section needs them. At most one forward pointer per chapter, at the end.
+- **Define terms briefly.** "Every term is explained" means a short definition where the term is first needed, not a paragraph.
+- **Trust the activities.** Do not pre-empt every possible confusion in the prose. Cover the known misconceptions (PEDAGOGIK.md §5) once, then leave the rest to *Stanna upp* boxes and exercises.
+
+**Budget.** Chapter prose, excluding code blocks and exercises, should rarely exceed about 2,500 words. A chapter that grows past that is covering too much or saying it too often.
+
+**Revision pass.** Before finishing a section, reread it and delete sentences that repeat the previous one, analogy extensions, meta-comments, hedges and unneeded back-references. MDN's [Functions](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Functions) article is a useful reference for density, though not for pedagogy. Our chapters keep their notional machine, misconceptions and check questions.
