@@ -11,8 +11,10 @@
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt"
+	// Mark the workspace as a safe git directory system-wide, so git does not
+	// refuse to run when the bind mount shows up with a different owner.
+	// (~/.gitconfig is overwritten by VS Code from the host, so use --system.)
+	"postCreateCommand": "sudo git config --system --add safe.directory ${containerWorkspaceFolder}"
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
