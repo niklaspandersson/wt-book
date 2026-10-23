@@ -375,7 +375,7 @@ Math.max(3, 8, 5) + Math.min(3, 8, 5);
 ::: {.callout-note}
 ## Övning – Inifrån och ut
 
-Följ raderna nedan steg för steg, på samma sätt som i tabellen i avsnittet *Anrop inuti anrop*. Skriv för varje steg vilket anrop som körs, vad det returnerar och hur raden ser ut efteråt.
+Följ de två raderna med `console.log` steg för steg, på samma sätt som i tabellen i avsnittet *Anrop inuti anrop*. Gör en tabell för varje rad. Skriv för varje steg vad som räknas ut och hur raden ser ut efteråt. Tänk på att inte alla steg är anrop: också att läsa en egenskap och att slå ihop text är steg.
 
 ```javascript
 const lag = { namn: "Gula gänget", poäng: 14 };
@@ -383,11 +383,11 @@ console.log(lag.namn + " har " + Math.max(lag.poäng, 10) + " poäng");
 console.log(Math.min(Math.max(2, 9), 5));
 ```
 
-| Steg | Anrop | Returvärde | Raden efteråt |
-|---|---|---|---|
-| 1 | | | |
-| 2 | | | |
-| … | | | |
+| Steg | Vad som räknas ut | Raden ser nu ut så här |
+|---|---|---|
+| 1 | | |
+| 2 | | |
+| … | | |
 
 Vad skrivs ut? Kontrollera dina svar i konsolen.
 :::
@@ -407,7 +407,7 @@ Number("7")
 document.title
 ```
 
-Den sista raden har du kanske inte sett förut. Kan du ändå avgöra vad den är? Prova den i konsolen. (Du gjorde det också i övningen *Utforska DevTools* i kapitel [-@sec-om-javascript].)
+Den sista raden har du kanske inte sett förut. Kan du ändå avgöra vad den är? Prova den i konsolen.
 :::
 
 ::: {.callout-note}
@@ -438,7 +438,7 @@ console.log(lagnamn);
 ```
 
 1. Beskriv med en mening vad *besökaren* är med om när koden körs. Beskriv det som händer, inte vad varje rad gör.
-2. Vilka av de tre anropen returnerar något som programmet använder? Vilket returvärde tar ingen hand om?
+2. Vilket av de tre anropen returnerar ett värde som programmet använder? Vad händer med returvärdena från de andra två anropen?
 3. Vad visas i rutan om besökaren klickar *Avbryt* i stället för att skriva något? Förutsäg först, testa sedan.
 :::
 
@@ -463,17 +463,17 @@ const vinnarpoäng = console.log(Math.max(lag1, lag2));
 ::: {.callout-note}
 ## Övning – Slå upp en funktion
 
-Gå till MDN:s sida om [`Math.min`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min).
+Gå till MDN:s sida om [`prompt`](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt).
 
-1. Hitta avsnitten *Parameters* och *Return value*. Beskriv med egna ord, på svenska, vad funktionen tar emot och vad den returnerar.
-2. Sidan beskriver också vad som händer om ett av argumenten inte är ett tal. Vad säger den? Testa med `Math.min(4, "hej", 9)` i konsolen och se om det stämmer.
+1. Hitta avsnitten *Parameters* och *Return value*. Beskriv med egna ord, på svenska, vad funktionen tar emot, i vilken ordning, och vad den returnerar.
+2. Under *Return value* står två möjliga returvärden. När får man det ena, och när det andra? Stämmer det med det du läste i avsnittet *Ett värde som kommer från användaren*? Testa i konsolen: klicka en gång på *OK* och en gång på *Avbryt*.
 3. Leta sedan upp MDN:s sida om `alert`. Vad står det under *Return value*? Stämmer det med vad du vet om skillnaden mellan att göra och att ge tillbaka?
 :::
 
 ::: {.callout-note}
 ## Övning – Quizets topplista
 
-Skapa tre objekt för tre lag, på samma sätt som i kapitel [-@sec-variabler]:
+Skapa tre objekt för tre lag:
 
 ```javascript
 const röda = { namn: "Röda stjärnor", poäng: 12 };
@@ -482,7 +482,7 @@ const gula = { namn: "Gula gänget", poäng: 15 };
 ```
 
 1. Skriv *en* rad som skriver ut den högsta poängen i formatet `Högsta poäng: 19`. Använd egenskaperna i objekten, inte talen direkt.
-2. Skriv en rad som skriver ut skillnaden mellan högsta och lägsta poäng, till exempel `Skillnad: 7 poäng`.
+2. Skriv en rad som skriver ut skillnaden mellan högsta och lägsta poäng, till exempel `Skillnad: 7 poäng`. Tips: JavaScript räknar från vänster till höger, och ett `-` mitt i en sammanslagning av text ger ett konstigt resultat. Sätt parenteser runt den del som ska räknas ut först.
 3. Blå blixtarna får 5 minuspoäng för fusk. Ändra objektet och kör dina två rader igen. Vilka av raderna behövde du ändra, och varför behövde du inte ändra de andra?
-4. Kan du med `Math.max` ta reda på vilket *lag* som leder – inte bara hur många poäng det har? Vad saknas? (Det kommer du att kunna lösa i kapitel [-@sec-villkor].)
+4. Kan du med `Math.max` ta reda på vilket *lag* som leder – inte bara hur många poäng det har? Vad saknas?
 :::

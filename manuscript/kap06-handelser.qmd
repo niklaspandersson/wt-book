@@ -587,7 +587,7 @@ console.log("C");
 
 1. Vad skrivs ut direkt när sidan laddas?
 2. Vad händer när användaren klickar på knappen en gång? Två gånger?
-3. Varför skrivs "B" inte ut direkt? Jämför med övningen *I vilken ordning?* i kapitel [-@sec-funktioner]: vad är likt, och vad är annorlunda?
+3. Varför skrivs "B" inte ut direkt? Var i koden står anropet av callbacken, och vem är det som anropar den?
 :::
 
 ::: {.callout-note}
@@ -703,8 +703,6 @@ knapp.addEventListener("onclick", () => {
 Utgå från exemplet *Mörkt läge — äntligen* i kapitlet, där en knapp slår av och på klassen `dark` på `<body>`. Bygg vidare på det:
 
 1. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
-
-Att låta knappens text växla mellan "Mörkt läge" och "Ljust läge" kräver att programmet tar reda på vilket läge sidan är i – det gör vi i kapitel [-@sec-villkor].
 :::
 
 ### Egna sidor
@@ -746,8 +744,6 @@ Utöka sedan i två steg:
 
 1. Lägg till två knappar i `index.html`: en som *minskar* talet med 1 och en som nollställer det. Ge dem id och skriv en lyssnare för var och en.
 2. Låt alla tre knapparna använda *samma* funktion, `visaAntal(antal)`, för att visa talet på sidan. Hur många ställen i koden behöver du ändra om texten i stället ska vara "Antal: 5"?
-
-Vad händer om du flyttar `let antal = 0;` in i callbacken? Förutsäg först, testa sedan.
 :::
 
 ::: {.callout-note}
@@ -772,13 +768,13 @@ Ett kort kan vara ett `<div>`-element med lite text. Ge alla tre korten klassen 
 
 1. Lös uppgiften för ett kort.
 2. Skriv en funktion `görMarkerbar(kort)` som tar ett element och registrerar båda lyssnarna på det. Använd funktionen för alla tre korten.
-3. Hur mycket kod hade det blivit för tjugo kort? I kapitel [-@sec-arrayer] ser du hur samma sak görs med några få rader.
+3. Hur mycket kod hade det blivit för tjugo kort?
 :::
 
 ::: {.callout-note}
 ## Övning – Poängtavlan blir interaktiv
 
-Den här övningen samlar allt från kapitel [-@sec-variabler] till det här kapitlet. Bygg en poängtavla för *ett* lag:
+Bygg en poängtavla för *ett* lag:
 
 - Ett textfält och en knapp "Spara" för lagets namn.
 - En knapp "Rätt svar" som ger laget 3 poäng.
@@ -790,7 +786,7 @@ Låt laget vara ett objekt, `const lag = { namn: "—", poäng: 0 };`, och skriv
 Planera innan du skriver:
 
 1. Gör en lista över elementen på sidan, med typ och id för vart och ett. Hur många av dem behöver koden hämta?
-2. Skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilken knapp behöver inget *läs*-steg?
+2. Skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilka knappar behöver inget *läs*-steg, och varför?
 
 Bygg sedan sidan i samma ordning som i avsnittet *Egna sidor*: först HTML-koden, sedan *hämta*, och därefter en knapp i taget.
 :::

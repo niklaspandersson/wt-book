@@ -1,0 +1,236 @@
+---
+losningar-till: kap04-dom.qmd
+---
+
+# Kapitel 4: Din kod möter webbsidan {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-dom-intro].
+
+## Övning – Vad visas på sidan?
+
+När skriptet har körts visar sidan:
+
+- **Rubriken:** Quizkväll — *final*, med ordet *final* i kursiv stil.
+- **Första stycket:** `<strong>Ledning!</strong>` – med taggarna synliga som vanlig text.
+- **Andra stycket:** Poäng: 4
+
+1. Sidan visar 4 poäng. Raden som skriver poängen på sidan körs när `lag.poäng` är `4`, och den färdiga texten `"Poäng: 4"` hamnar på sidan. Att objektet sedan får 10 poäng påverkar inte sidan. Sidan och variablerna är två olika saker, och sidan ändras bara när du skriver dit något nytt.
+2. Den sista raden ändrar det *första* `<p>`-elementet på sidan, alltså stycket med id `lagnamn`, som nyss fick texten *Gula gänget*. Texten skrivs över, och eftersom raden använder `textContent` tolkas taggarna inte som HTML. De visas som de är.
+
+## Övning – Vilket element hittas?
+
+| Selektor | Returnerar |
+|---|---|
+| `"p"` | det första `<p>`-elementet: *Vad heter Sveriges huvudstad?* |
+| `".fråga"` | samma element – det är det första med klassen `fråga` |
+| `"#fråga-2"` | stycket *Hur många ben har en spindel?* |
+| `"#titel"` | rubriken `<h1>` |
+| `"titel"` | `null` – det finns inget element som *heter* `titel` |
+| `".ledtråd"` | `null` – `ledtråd` är ett id, inte en klass |
+
+Selektorerna `"titel"` och `".ledtråd"` är de lömska. Utan `#` eller `.` letar `querySelector` efter en *elementtyp*, som `h1` eller `p`, och det finns ingen typ som heter `titel`. Punkten betyder klass, och inget element har klassen `ledtråd`.
+
+Försöker du ändra `textContent` på `null` får du `TypeError: Cannot set properties of null (setting 'textContent')`. Det finns inget element att ändra på.
+
+## Övning – Spåra klasserna
+
+| Rad | Klasser på elementet | Syns elementet? |
+|---|---|---|
+| 1 | `aktiv` | ja |
+| 2 | `aktiv markerad` | ja |
+| 3 | `markerad` | ja |
+| 4 | *(inga)* | ja |
+| 5 | `besvarad` | ja |
+| 6 | `besvarad` | nej |
+| 7 | *(inga)* | nej |
+
+- Rad 4: `toggle` tar bort `markerad`, eftersom klassen fanns.
+- Rad 5: `toggle` lägger till `besvarad`, eftersom klassen saknades.
+- Rad 6: `hidden` ändrar inte klasserna, bara om elementet syns.
+- Rad 7: det andra argumentet `false` betyder "ta bort". Klassen fanns, så den tas bort. Hade den saknats hade ingenting hänt – `toggle` med `false` lägger aldrig till klassen.
+
+Elementet förblir dolt på rad 7, eftersom inget har ändrat `hidden` tillbaka.
+
+## Övning – Vad säger felet?
+
+**Del A.**
+
+1. Selektorn `".meddelande"` letar efter en *klass*, men elementet har ett *id*.
+2. `querySelector` returnerar `null`, och nästa rad ger `TypeError: Cannot set properties of null (setting 'textContent')`. Inget ändras på sidan.
+3. Byt punkten mot en brädgård: `document.querySelector("#meddelande")`.
+
+**Del B.** JavaScript skiljer på stora och små bokstäver, så `textcontent` och `textContent` är två olika namn. Elementobjektet har ingen egenskap `textcontent`, men precis som med andra objekt skapas en ny egenskap när du tilldelar den. Objektet får alltså en ny egenskap som ingen bryr sig om, och den riktiga `textContent` är oförändrad. Därför syns ingen ändring, och det blir inget fel.
+
+**Del C.** `TypeError: document.querySelektor is not a function`. Det är ett `TypeError`, inte ett `ReferenceError`. Objektet `document` finns, men det har ingen egenskap `querySelektor`, så värdet blir `undefined`, och `undefined` går inte att köra. Det är samma fel som `Math.Max(4, 9)`. Ett `ReferenceError` hade det blivit om själva objektnamnet var fel, till exempel `dokument.querySelector(…)`.
+
+## Övning – Förklara koden
+
+*Rubriken byter text till "Quizet är slut!", poängen lyfts fram i stor grön text, och knappen eller elementet för nästa fråga försvinner från sidan.* Med andra ord: besökaren ser att quizet är över och vilken poäng laget slutade på, och kan inte gå vidare till en ny fråga.
+
+## Övning – Ordna raderna
+
+```javascript
+const facit = document.querySelector("#facit");
+facit.hidden = true;
+const ledtråd = document.querySelector("#ledtråd");
+ledtråd.classList.add("markerad");
+```
+
+1. Raderna som inte används:
+   - `const ledtråd = document.querySelector("ledtråd");` – brädgården saknas, så selektorn letar efter ett element av typen `ledtråd`. Den returnerar `null`, och raden `ledtråd.classList.add("markerad")` ger sedan felmeddelandet `TypeError: Cannot read properties of null (reading 'classList')`.
+   - `ledtråd.classList.add(".markerad");` – punkten hör till CSS-selektorn, inte till klassens namn. Elementet får klassen `.markerad` *med* punkt, och den matchar inte regeln `.markerad` i CSS:en. Inget felmeddelande, men ingen gul bakgrund heller. Det syns om du tittar på elementet i fliken *Elements*: `class=".markerad"`.
+2. Varje `const`-rad måste komma före raden som använder variabeln: `facit` före `facit.hidden`, och `ledtråd` före `ledtråd.classList`. Mer än så spelar ingen roll. Paren kan komma i vilken ordning som helst, och du kan till exempel hämta båda elementen först och ändra dem sedan.
+
+## Övning – Ritningen och huset
+
+En möjlig rad i `script.js`:
+
+```javascript
+document.querySelector("h1").textContent = "Välkommen till quizet!";
+```
+
+1. I *Elements* står den nya texten, *Välkommen till quizet!*.
+2. I källkoden står den gamla texten, *Quizkväll*. (Under Live Server ser du också ett skript längst ned som du inte har skrivit. Det är Live Server som lägger dit det, för att kunna ladda om sidan när du sparar.)
+3. Källkoden är ritningen: filen `index.html`, precis som den ligger på disken och skickas från servern. *Elements* visar huset: DOM:en som webbläsaren byggde av ritningen, och som ditt skript sedan har ändrat i. JavaScript ändrar aldrig ritningen, bara huset.
+4. Efter omladdningen står texten från skriptet, *Välkommen till quizet!*. Din ändring i *Elements* gjordes bara i huset och försvann när sidan laddades om. Webbläsaren byggde då ett nytt hus från ritningen, där rubriken hette *Quizkväll* – och sedan körde skriptet igen och ändrade rubriken. Den som laddar sidan ser alltså aldrig *Quizkväll*, fast det är den texten som står i filen.
+
+## Övning – Bygg vidare på poängtavlan
+
+```html
+<h1>Quizkväll</h1>
+<p id="lagnamn">Lag: —</p>
+<p id="poäng">Poäng: 0</p>
+<p id="runda">Runda: —</p>
+<p id="resultat">Resultat visas här.</p>
+```
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 15, runda: 2 };
+
+document.querySelector("#lagnamn").textContent = "Lag: " + lag.namn;
+document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+document.querySelector("#runda").textContent = "Runda: " + lag.runda;
+
+// 2. Laget svarar rätt
+lag.poäng = lag.poäng + 3;
+document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+
+// 3. Rubriken
+document.querySelector("h1").innerHTML = "Quizkväll – <em>final</em>";
+
+// 4. För programmeraren
+console.log(lag);
+```
+
+2. Det räcker inte att ändra objektet. Sidan visar fortfarande 15 poäng tills du skriver den nya texten till elementet igen. Därför står raden med `#poäng` två gånger. (I nästa kapitel lär du dig att samla en sådan rad i en funktion, så att den bara behöver skrivas en gång.)
+4. Utskriften i konsolen är till för dig som programmerare. Där kan du kontrollera att objektet innehåller det du tror, men besökaren ser den aldrig. Sidan är till för besökaren.
+
+## Övning – `.style` vs `classList`
+
+1. I CSS:
+
+    ```css
+    .info-ruta {
+        color: white;
+        background-color: #333;
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+    ```
+
+    I JavaScript:
+
+    ```javascript
+    const element = document.querySelector("#info");
+    element.classList.add("info-ruta");
+    ```
+
+2. Några fördelar:
+   - Koden blir kortare: en rad i stället för fem.
+   - Utseendet ligger i CSS, där det hör hemma. Den som vill ändra färgen behöver inte leta i JavaScript-koden.
+   - Klassen kan återanvändas på flera element utan att raderna upprepas.
+   - Det är lätt att ta bort utseendet igen med `classList.remove`. Med `.style` måste du nollställa varje egenskap för sig.
+3. När värdet räknas ut i koden och inte kan förberedas i CSS. Kapitlets exempel är en stapel vars bredd beror på hur många procent av frågorna som är besvarade: `stapel.style.width = besvarade + "%";`. Det går inte att skriva en klass för varje tänkbar procentsats.
+
+## Övning – Facit som döljs
+
+```html
+<style>
+    .framhävd {
+        background-color: lightyellow;
+    }
+</style>
+```
+
+```javascript
+// 1
+document.querySelector("#facit").hidden = true;
+
+// 2
+document.querySelector("#ledtråd").classList.add("framhävd");
+```
+
+1. De två sätten från kapitlet är egenskapen `hidden` och en CSS-klass med `display: none`, som `.dold` i avsnittet *Dölja med CSS-klass*. (Det fungerar också med `.style.display = "none"`, men kapitlet rekommenderar de två andra.)
+3. Facit syns, trots `hidden = true`. `hidden` fungerar genom att webbläsaren ger elementet `display: none`, men din egen regel `#facit { display: block; }` vinner över webbläsarens. Det är fallgropen som beskrivs i rutan *`hidden` eller CSS-klass?*. Undersöker du elementet i *Elements* ser du att attributet `hidden` finns, men att `display` är `block`.
+
+## Övning – Från konsol till sida
+
+Ett lösningsförslag:
+
+```html
+<h2 id="frågetext">—</h2>
+<p id="frågepoäng">—</p>
+<p id="ledtråd">—</p>
+```
+
+```javascript
+const fråga = {
+    text: "Vad heter Sveriges huvudstad?",
+    svar: "Stockholm",
+    poäng: 3,
+    ledtråd: "Staden ligger vid Mälaren."
+};
+
+document.querySelector("#frågetext").textContent = fråga.text;
+document.querySelector("#frågepoäng").textContent = "Frågan ger " + fråga.poäng + " poäng";
+document.querySelector("#ledtråd").textContent = "Ledtråd: " + fråga.ledtråd;
+```
+
+Frågetexten passar bra i en rubrik och poängen och ledtråden i var sitt stycke, men andra val fungerar också. Det rätta svaret ska förstås *inte* visas på sidan. Det kan ligga kvar i objektet tills programmet behöver det.
+
+## Övning – Mörkt läge
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Mörkt läge</title>
+    <script type="module" src="script.js"></script>
+    <style>
+        .dark {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+        }
+        .dark a {
+            color: #8ecaff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quizkväll</h1>
+    <p>Välkommen till kvällens quiz.</p>
+    <p>Läs <a href="regler.html">reglerna</a> innan vi börjar.</p>
+</body>
+</html>
+```
+
+```javascript
+const mörktLäge = true;
+document.querySelector("body").classList.toggle("dark", mörktLäge);
+```
+
+Regeln `.dark a` gäller länkar inuti ett element med klassen `dark`. Länkar har en egen färg i webbläsaren, och blå text syns dåligt mot mörk bakgrund, så länkfärgen måste anpassas. Med `true` får `<body>` klassen och sidan blir mörk. Med `false` tas klassen bort, eller läggs aldrig till.
+
+*Fundera:* Med en knapp skulle besökaren själv kunna välja läge, och sidan skulle byta läge direkt, utan att någon behöver ändra i koden och ladda om sidan.

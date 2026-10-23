@@ -226,7 +226,7 @@ document.querySelector("h1").textContent = "Hej, JavaScript!";   // ersätter "H
 Du kan använda kommentarer för att förklara vad din kod gör – för andra, eller för dig själv nästa vecka. I den här boken används en kommentar på första raden i ett exempel ofta för att visa vilken fil koden hör hemma i.
 :::
 
-Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul**. Det viktigaste för dig just nu är att en modul alltid körs *efter* att webbläsaren har läst in hela HTML-dokumentet, oavsett var `<script>`-elementet står. Därför kan det ligga i `<head>` utan problem: när koden körs finns `<h1>`-elementet redan. Varför det spelar roll, och hur det ser ut när det går fel, ser vi i kapitel [-@sec-dom-intro].
+Attributet `type="module"` gör att webbläsaren behandlar filen som en **modul**. Det viktigaste för dig just nu är att en modul alltid körs *efter* att webbläsaren har läst in hela HTML-dokumentet, oavsett var `<script>`-elementet står. Därför kan det ligga i `<head>` utan problem: när koden körs finns `<h1>`-elementet redan.
 
 Moduler har också andra fördelar, men de blir begripliga först när du har skrivit lite mer kod. Vi återkommer till dem i kapitel [-@sec-funktioner] och kapitel [-@sec-moduler]. I den här boken används `type="module"` konsekvent – det är den form du ska vänja dig vid.
 
@@ -305,9 +305,9 @@ Fundera på följande webbfunktioner. Vilken teknik – HTML, CSS eller JavaScri
 
 1. Hitta en `<h1>`-rubrik i *Elements*-panelen och ändra texten direkt i panelen. Vad händer på sidan? Vad händer om du laddar om sidan?
 2. Hitta en CSS-egenskap för rubriken (t.ex. `font-size`) och ändra värdet. Vad händer?
-3. Gå till *Console* och skriv `document.title`. Vad returneras?
+3. Gå till *Console*, skriv `document.title` och tryck Enter. Vad svarar konsolen? Jämför med det som står på sidans flik i webbläsaren.
 
-Det du gör i DevTools är temporärt – sidan återgår till original vid omladdning. Varför är det så? Vad hade behövts förändras för att ändringen skulle bestå?
+Det du gör i DevTools är temporärt – sidan återgår till original vid omladdning. Varför är det så? Vad hade behövt ändras för att ändringen skulle bestå?
 :::
 
 ::: {.callout-note}
@@ -332,13 +332,13 @@ Stämde dina gissningar? Om något svar överraskade dig: vad var det som var an
 135 % 60;
 ```
 
-Vad verkar `%` göra? En ledtråd: tänk på 135 minuter uttryckt i timmar och minuter. Testa med fler tal tills du kan beskriva operatorn med en egen mening. (Svaret kommer i kapitel [-@sec-tal-och-text].)
+Vad verkar `%` göra? En ledtråd: tänk på 135 minuter uttryckt i timmar och minuter. Testa med fler tal tills du kan beskriva operatorn med en egen mening.
 :::
 
 ::: {.callout-note}
 ## Övning – Uttryck eller sats?
 
-Titta på raderna nedan. Avgör för varje rad, *innan* du kör den, om konsolen kommer att svara med ett värde eller med `undefined`. Är raden ett uttryck eller en sats? Kör sedan raderna en i taget och jämför.
+Titta på raderna nedan. Avgör för varje rad, *innan* du kör den, om konsolen kommer att svara med ett värde eller med `undefined`. Är raden ett uttryck som *ger* ett värde, eller en instruktion som *gör* något utan att ge ett värde tillbaka? Kör sedan raderna en i taget och jämför.
 
 ```javascript
 7 * 6;
@@ -402,7 +402,7 @@ Formulera din gissning i ord, och testa den sedan.
    ```
 1. Öppna sidan i en webbläsare.
 1. Öppna konsolen (`F12` → *Console*).
-1. Klistra in raden och tryck Enter.
+1. Skriv in raden och tryck Enter. (Skriv den hellre än att klistra in den. Chrome stoppar inklistring i konsolen tills du har skrivit `allow pasting`, ett skydd mot bedragare som lurar folk att klistra in skadlig kod.)
 
 Stämde din gissning? Vad hände med sidan? Vad händer om du laddar om sidan efteråt – och varför?
 :::

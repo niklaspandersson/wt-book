@@ -1,0 +1,268 @@
+---
+losningar-till: kap08-sant-och-falskt.qmd
+---
+
+# Kapitel 8: Sant och falskt {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-booleska].
+
+## Stanna upp-frågorna
+
+**Jämförelseoperatorer**
+
+1. *Låt `ärRätt` peka på svaret på frågan: är `svar` lika med "Stockholm"?* De tre likhetstecknen `===` jämför. Det ensamma `=` tilldelar svaret till `ärRätt`.
+2. Jämförelsen ger `false`, som om blå lag hade flest poäng. `.value` är strängar, och strängar jämförs tecken för tecken: `"1"` kommer före `"9"`, så `"12"` räknas som mindre än `"9"`. Rättad kod: `Number(rödaFält.value) > Number(blåFält.value)`.
+
+**Logiska operatorer**
+
+1. *Sant och inte falskt.* `!false` är `true`, och `true && true` är `true`.
+2. `||`. Biljetten är gratis om *minst en* av sakerna stämmer – och givetvis också om båda gör det.
+
+**Ett formulär som svarar direkt**
+
+1. Varningen ska vara dold när namnet *är* kort nog, och det är precis vad `kortNamn` säger – svaret kan användas som det är. Knappen ska vara avstängd när formuläret *inte* är rätt ifyllt. Frågan som ställs är om allt är rätt, och knappen behöver motsatsen. Därför `!`.
+2. `harNamn` är `true`, `kortNamn` är `true` och `giltigtAntal` är `true`. Då är `harNamn && kortNamn && giltigtAntal` sant, `!` gör det falskt, och knappen är *inte* avstängd.
+
+## Övning – Förutsäg jämförelserna
+
+```javascript
+5 === "5";                          // false
+5 == "5";                           // true
+"Anna" === "anna";                  // false
+"Anna".toLowerCase() === "anna";    // true
+"10" < "9";                         // true
+Number("10") < Number("9");         // false
+" ja ".trim() === "ja";             // true
+"Ja" !== "ja";                      // true
+```
+
+De två första raderna visar varför man ska använda `===`: med `==` blir talet 5 och texten `"5"` lika, trots att de är olika typer.
+
+Raden `"10" < "9"` visar buggen med formulärfält. Två strängar jämförs tecken för tecken, och eftersom `"1"` kommer före `"9"` räknas `"10"` som mindre. Kommer båda värdena från fält är de strängar, och då blir jämförelsen fel om du inte gör om dem med `Number()` först.
+
+## Övning – Logiktabellen
+
+| Uttryck | Svar | Motivering |
+|---|---|---|
+| `true && false` | `false` | `&&` kräver att båda är sanna |
+| `false || true` | `true` | `||` räcker med att en är sann |
+| `!false` | `true` | inte falskt är sant |
+| `true && true && false` | `false` | en av tre är falsk |
+| `false || false || true` | `true` | en av tre är sann |
+| `!(3 > 5)` | `true` | `3 > 5` är falskt, och inte falskt är sant |
+| `3 > 2 && 10 < 5` | `false` | den första delen är sann, den andra falsk |
+| `3 > 2 || 10 < 5` | `true` | den första delen är sann, och det räcker |
+| `!("Anna" === "anna")` | `true` | strängarna är olika, så jämförelsen är falsk, och `!` vänder den |
+| `5 >= 5 && 5 !== 5` | `false` | `5 >= 5` är sant, men `5 !== 5` är falskt |
+
+Rader med `!` framför en parentes brukar bli lättare att förstå när de läses högt: *det är inte så att tre är större än fem*. Och `5 !== 5` läst som *fem är inte lika med fem* hörs direkt vara falskt.
+
+## Övning – Spåra formuläret
+
+| Fall | `harNamn` | `kortNamn` | `giltigtAntal` | Namnvarningen syns? | Antalsvarningen syns? | Knappen avstängd? |
+|---|---|---|---|---|---|---|
+| 1 | `false` | `true` | `true` | nej | nej | ja |
+| 2 | `true` | `true` | `false` | nej | ja | ja |
+| 3 | `false` | `true` | `true` | nej | nej | ja |
+| 4 | `true` | `true` | `false` | nej | nej | ja |
+| 5 | `true` | `true` | `true` | nej | nej | nej |
+
+Några fall att titta närmare på:
+
+- **Fall 3:** tre mellanslag blir en tom sträng efter `trim()`, och räknas därför inte som ett namn.
+- **Fall 4:** det tomma antalsfältet ger `Number("")`, alltså `0`. `0 >= 1` är falskt, så antalet är inte giltigt. Men antalsvarningen döljs, eftersom `0 <= 6` är sant.
+- **Kort namn:** ett tomt namn har längden 0, och 0 är mindre än 20. `kortNamn` är alltså sant även när det inte finns något namn alls.
+
+1. Kontrollera själv på övningssidan.
+2. I fall 1, 3 och 4 är knappen avstängd utan att någon varning förklarar varför. Användaren ser en grå knapp, men får inget besked om vad som saknas. I fall 1 är det kanske uppenbart – namnfältet är tomt. I fall 3 *ser* fältet tomt ut, fast användaren har skrivit något, och i fall 4 kan det vara lätt att missa att antalet saknas. Ett bättre formulär hade sagt till, till exempel med texten *Skriv lagets namn* eller *Ange antal deltagare*.
+
+## Övning – `=` eller `===`?
+
+```
+false Göteborg
+Stockholm Stockholm
+```
+
+1. `const ärRätt1 = svar === "Stockholm";` läses *låt `ärRätt1` peka på svaret på frågan: är `svar` lika med Stockholm?* `const ärRätt2 = svar = "Stockholm";` läses *låt `svar` peka på Stockholm, och låt sedan `ärRätt2` peka på samma värde.* Den andra raden frågar ingenting – den ändrar `svar`.
+2. En tilldelning ger själv ett värde: det värde som tilldelades. Raden ser ut som en fråga, men den ändrar svaret till rätt svar och ger dessutom ett värde som inte är `false`. Felet syns inte där det sker. Det märks först senare, när `svar` har fel värde och alla svar räknas som rätt.
+3. Nu får du `TypeError: Assignment to constant variable.` på raden med `ärRätt2`. Den första utskriften hinner köras, men sedan stoppar `const` försöket att tilldela om `svar`. Det är en fördel med `const`: misstaget ger ett felmeddelande i stället för att tyst ändra värdet.
+
+## Övning – Förklara koden
+
+1. *Knappen går bara att klicka på när användaren har skrivit något i fältet. Mellanslag räknas inte.*
+2. Koden körs först vid händelsen `input`, alltså när användaren skriver något. Innan dess har ingen ändrat `disabled`, och knappen är som HTML-koden säger: påslagen. Lägg till attributet `disabled` på knappen i HTML-koden, `<button id="skicka" disabled>Skicka</button>`, som för knappen *Anmäl*. Då är den avstängd från början, och koden slår på den först när fältet har innehåll.
+
+## Övning – Ordna raderna
+
+```javascript
+const fält = document.querySelector("#svar");
+const varning = document.querySelector("#svarsvarning");
+fält.addEventListener("input", () => {
+    const förLångt = fält.value.length > 10;
+    varning.hidden = !förLångt;
+});
+```
+
+1. Raderna som inte används:
+   - `const förLångt = fält.value.length => 10;` – operatorn heter `>=`, med likhetstecknet sist. `=>` är pilen i en pilfunktion. Raden ger ett `SyntaxError`, och inget i filen körs. (Med `>=` hade den fungerat, men då hade 10 tecken också räknats som för långt.)
+   - `varning.hidden = förLångt;` – utan `!` blir det tvärtom: varningen döljs när svaret är för långt och visas när det är kort. Inget felmeddelande, men sidan beter sig precis fel.
+2. *Varningen ska vara dold när det inte är så att svaret är för långt.*
+
+## Övning – Från ord till uttryck
+
+```javascript
+// 1
+const ålder = 70;
+const fårBarnEllerPensionärspris = ålder < 12 || ålder >= 65;
+
+// 2
+const ordervärde = 450;
+const ärMedlem = true;
+const friFrakt = ordervärde >= 500 || ärMedlem;
+
+// 3
+const ärInloggad = true;
+const harBekräftatEpost = true;
+const ärAvstängd = false;
+const fårKommaIn = ärInloggad && harBekräftatEpost && !ärAvstängd;
+
+// 4
+const användarnamn = "anna";
+const lösenord = "hemligt123";
+const giltigtLösenord = lösenord.length >= 8 && lösenord !== användarnamn;
+
+// 5
+const lagnamn = "  Ugglorna ";
+const städat = lagnamn.trim();
+const giltigtLagnamn = städat !== "" && städat.length <= 20;
+```
+
+Testa med flera värden, särskilt *gränsvärdena*: ålder 12 och 65, ordervärde 500, ett lösenord med exakt 8 tecken. Det är där `<` och `<=` gör skillnad.
+
+Påstående 5 är ofta svårast. Mellanslagen ska bort *innan* båda frågorna ställs, och det är lätt att bara städa i den ena. Att först spara det städade namnet i en egen variabel gör det enklare.
+
+"Eller" betyder här aldrig "antingen eller". I påstående 1 kan ingen vara både under 12 och över 65, så det spelar ingen roll. I påstående 2 ska en medlem som handlar för mer än 500 kr självklart också få fri frakt, och det är just så `||` fungerar.
+
+## Övning – Knappar som vet sitt tillstånd
+
+```html
+<style>
+    .max {
+        color: red;
+    }
+</style>
+
+<p>Antal: <span id="antal">0</span></p>
+<button id="öka-knapp">+1</button>
+<button id="minska-knapp">−1</button>
+<button id="nollställ-knapp">Nollställ</button>
+```
+
+```javascript
+const antalElement = document.querySelector("#antal");
+const ökaKnapp = document.querySelector("#öka-knapp");
+const minskaKnapp = document.querySelector("#minska-knapp");
+const nollställKnapp = document.querySelector("#nollställ-knapp");
+
+let antal = 0;
+
+function visaAntal(antal) {
+    antalElement.textContent = antal;
+    minskaKnapp.disabled = antal === 0;
+    ökaKnapp.disabled = antal === 10;
+    antalElement.classList.toggle("max", antal === 10);
+}
+
+ökaKnapp.addEventListener("click", () => {
+    antal++;
+    visaAntal(antal);
+});
+
+minskaKnapp.addEventListener("click", () => {
+    antal--;
+    visaAntal(antal);
+});
+
+nollställKnapp.addEventListener("click", () => {
+    antal = 0;
+    visaAntal(antal);
+});
+
+visaAntal(antal);
+```
+
+1. Uppdateringen ska ske i `visaAntal`, eftersom den anropas varje gång talet ändras. Då har knapparna alltid rätt tillstånd, oavsett vilken knapp som klickades. Lägg också märke till anropet `visaAntal(antal);` längst ned. Utan det är minusknappen påslagen när sidan laddas, fast talet är 0 – tillståndet sätts ju först vid första klicket. (Alternativet är att skriva `disabled` på minusknappen i HTML-koden.)
+2. Se `ökaKnapp.disabled = antal === 10;`.
+3. Se raden med `classList.toggle`. Klassen läggs till när talet är 10 och tas bort så fort det är något annat.
+
+## Övning – Villkor för att godkänna
+
+```html
+<label for="epost">E-postadress:</label>
+<input type="text" id="epost">
+<p id="epostvarning" class="varning" hidden>E-postadressen saknar @.</p>
+
+<input type="checkbox" id="villkor">
+<label for="villkor">Jag godkänner villkoren</label>
+
+<button id="skicka" disabled>Skicka</button>
+```
+
+```javascript
+const epostfält = document.querySelector("#epost");
+const epostvarning = document.querySelector("#epostvarning");
+const villkor = document.querySelector("#villkor");
+const skickaKnapp = document.querySelector("#skicka");
+
+function uppdatera() {
+    const epost = epostfält.value.trim();
+
+    const harSnabel = epost.includes("@");
+    const ärTom = epost === "";
+    const harGodkänt = villkor.checked;
+
+    epostvarning.hidden = ärTom || harSnabel;
+    skickaKnapp.disabled = !(harSnabel && harGodkänt);
+}
+
+epostfält.addEventListener("input", uppdatera);
+villkor.addEventListener("change", uppdatera);
+```
+
+2. Varningen ska *synas* när fältet har text men saknar `@`. Den ska alltså vara *dold* när fältet är tomt eller har ett `@` – det är uttrycket `ärTom || harSnabel`. Det går också att skriva `!(!ärTom && !harSnabel)`, men det är mycket svårare att läsa.
+3. Med en variabel per fråga läses de sista raderna nästan som svenska: *dölj varningen om fältet är tomt eller har ett snabel-a*. I ett enda långt uttryck, som `skickaKnapp.disabled = !(epostfält.value.trim().includes("@") && villkor.checked);`, måste läsaren själv lista ut vad varje del betyder. Variabelnamnen fungerar som förklarande kommentarer som inte kan bli inaktuella.
+
+## Övning – Lagnamnet får en varning
+
+Utgångspunkten är exemplet i avsnittet *Text på webbsidan* i kapitel [-@sec-tal-och-text], med ett tillagt stycke för varningen:
+
+```html
+<input type="text" id="lagfält" placeholder="Lagets namn">
+<h3 id="förhandsvisning">–</h3>
+<p id="namnvarning" hidden>Namnet får vara högst 20 tecken.</p>
+<button id="spara-knapp" disabled>Spara</button>
+```
+
+```javascript
+function städaNamn(text) {
+    return text.trim().toUpperCase();
+}
+
+const lagfält = document.querySelector("#lagfält");
+const förhandsvisning = document.querySelector("#förhandsvisning");
+const namnvarning = document.querySelector("#namnvarning");
+const sparaKnapp = document.querySelector("#spara-knapp");
+
+lagfält.addEventListener("input", () => {
+    const städat = städaNamn(lagfält.value);
+
+    const förLångt = städat.length > 20;
+    const ärTomt = städat === "";
+
+    förhandsvisning.textContent = `Lag: ${städat}`;
+    namnvarning.hidden = !förLångt;
+    sparaKnapp.disabled = ärTomt || förLångt;
+});
+```
+
+3. I koden ovan räknas mellanslagen inte, eftersom längden mäts på det städade namnet. Det är det rimliga valet: mellanslag före och efter tas ju bort innan namnet sparas, så de kommer aldrig att synas på poängtavlan. Att varna för ett namn som blir kort nog när det har städats vore förvirrande för användaren.

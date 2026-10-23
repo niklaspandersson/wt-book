@@ -105,7 +105,7 @@ Det liknar ett recept där det står "gör smeten enligt sidan 12". Du bläddrar
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-Som i kapitel [-@sec-anropa-funktioner] får du i rutor som den här stanna upp och kontrollera att du har hängt med. Svara i huvudet eller skriv ner ett kort svar innan du läser vidare.
+I rutor som den här får du stanna upp och kontrollera att du har hängt med. Svara i huvudet eller skriv ner ett kort svar innan du läser vidare.
 
 1. Peka ut de fyra delarna i definitionen av `visaPoäng`: nyckelordet, namnet, parenteserna och kroppen.
 2. En fil innehåller bara en funktionsdefinition och inget anrop. Vad händer när sidan laddas?
@@ -250,7 +250,7 @@ console.log("Att betala: " + prisB + " kr");   // Att betala: undefined kr
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. Är `visaPoäng` mer lik kaffebryggaren eller dörrklockan från kapitel [-@sec-anropa-funktioner]? Och `biljettpris`?
+1. Ger `visaPoäng` något tillbaka, som en kaffebryggare, eller gör den bara något, som en dörrklocka? Och `biljettpris`?
 2. Vad står det i praktiken på raden `console.log(Math.max(biljettpris(3), biljettpris(5)));` efter att de två inre anropen har körts?
 :::
 
@@ -357,19 +357,19 @@ function biljettpris(antal) {
     return antal * 40;
 }
 
-const inträde = biljettpris;
+const kostnad = biljettpris;
 
-console.log(inträde(3));       // 120
+console.log(kostnad(3));       // 120
 console.log(biljettpris(3));   // 120
 ```
 
-Raden `const inträde = biljettpris;` har inga parenteser. Funktionen *anropas* alltså inte. I stället får `inträde` peka på samma funktion som `biljettpris` pekar på. Nu finns det två namn på en och samma funktion, och den kan anropas med vilket av dem som helst.
+Raden `const kostnad = biljettpris;` har inga parenteser. Funktionen *anropas* alltså inte. I stället får `kostnad` peka på samma funktion som `biljettpris` pekar på. Nu finns det två namn på en och samma funktion, och den kan anropas med vilket av dem som helst.
 
 ```{mermaid}
-%%| fig-alt: "Två namn, biljettpris och inträde, pekar med var sin pil på samma värde: en funktion som tar emot antal och returnerar antal gånger 40."
+%%| fig-alt: "Två namn, biljettpris och kostnad, pekar med var sin pil på samma värde: en funktion som tar emot antal och returnerar antal gånger 40."
 flowchart LR
     B[biljettpris] --> F(["funktionen: tar emot antal, returnerar antal * 40"])
-    I[inträde] --> F
+    I[kostnad] --> F
 ```
 
 Ingen kopia av funktionen skapas – det finns fortfarande bara en funktion, med två namn som pekar på den.
@@ -383,11 +383,11 @@ const pris = biljettpris(3);
 Här *finns* parenteserna. Funktionen anropas, anropet ersätts av sitt returvärde, och `pris` pekar på talet `120`. Skillnaden mellan de två raderna är bara två tecken, men resultatet är helt olika:
 
 ```{mermaid}
-%%| fig-alt: "Två jämförda rader. Till vänster: const inträde = biljettpris, utan parenteser – namnet inträde pekar på funktionen. Till höger: const pris = biljettpris(3), med parenteser – funktionen körs och namnet pris pekar på talet 120."
+%%| fig-alt: "Två jämförda rader. Till vänster: const kostnad = biljettpris, utan parenteser – namnet kostnad pekar på funktionen. Till höger: const pris = biljettpris(3), med parenteser – funktionen körs och namnet pris pekar på talet 120."
 flowchart LR
-    subgraph U["const inträde = biljettpris;"]
+    subgraph U["const kostnad = biljettpris;"]
         direction TB
-        I[inträde] --> F(["funktionen"])
+        I[kostnad] --> F(["funktionen"])
     end
     subgraph M["const pris = biljettpris(3);"]
         direction TB
@@ -403,7 +403,7 @@ Varför skulle man vilja ge en funktion ett nytt namn? Oftast vill man inte det.
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. Förutsäg vad som skrivs ut av `console.log(inträde);` och av `console.log(inträde(2));`. Testa sedan genom att lägga till raderna efter exemplet i `script.js`.
+1. Förutsäg vad som skrivs ut av `console.log(kostnad);` och av `console.log(kostnad(2));`. Testa sedan genom att lägga till raderna efter exemplet i `script.js`.
 2. Efter raden `const x = biljettpris;` – pekar `x` på ett tal eller på en funktion? Och efter `const y = biljettpris(1);`?
 :::
 
@@ -609,12 +609,13 @@ function visaLedare(lag1, lag2) {
 1. Beskriv med en mening vad funktionen gör *som helhet* – som om du förklarade det för den som leder quizet.
 2. Vad måste man skicka in när man anropar funktionen? Skriv ett exempel på ett anrop.
 3. Returnerar funktionen något? Hur ser du det?
+4. Läs avsnittet *Bra namn* igen. Stämmer namnet `visaLedare` med vad funktionen gör? Föreslå ett bättre namn.
 :::
 
 ::: {.callout-note}
 ## Övning – Byt insidan
 
-Inträdet till quizkvällen kostar 40 kronor per person, som i avsnittet om `return`. Programmet nedan räknar ut vad ett lag ska betala och visar summan på sidan. (Vill du prova koden, lägg till `<p id="pris">—</p>` i `index.html`.)
+Inträdet till quizkvällen kostar 40 kronor per person. Programmet nedan räknar ut vad ett lag ska betala och visar summan på sidan. (Vill du prova koden, lägg till `<p id="pris">—</p>` i `index.html`.)
 
 ```javascript
 function biljettpris(antal) {
@@ -635,7 +636,7 @@ Svara på frågorna innan du ändrar något i koden.
 1. Beskriv utsidan av var och en av de två funktionerna. Vad måste den som anropar dem veta?
 2. Inträdet höjs till 50 kronor. Vilken rad ändrar du? Behöver något av anropen ändras?
 3. Den som håller i quizet vill att sidan ska visa `3 biljetter: 150 kr`. Kan du ändra det genom att bara ändra *insidan* av en funktion? Vilken?
-4. Nu ska priset bero på vilken kväll det är, så att funktionen behöver få priset per person som ett andra argument. Varför räcker det inte längre att ändra insidan? Vilka rader i programmet måste ändras?
+4. Arrangörerna vill kunna ta olika pris olika kvällar. Därför ska `biljettpris` få priset per person som ett andra argument: `biljettpris(antal, prisPerPerson)`. Varför är det en ändring av funktionens *utsida*, till skillnad från ändringarna i fråga 2 och 3? Vilka rader i programmet måste ändras? Tänk på att `visaPris` också måste få veta priset per person från någon.
 :::
 
 ::: {.callout-note}

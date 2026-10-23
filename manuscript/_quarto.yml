@@ -37,6 +37,19 @@ book:
         - kap-oop.qmd
         - kap-arv.qmd
         - kap-destructuring.qmd
+    - part: losningar.qmd
+      chapters:
+        - losn01-om-javascript.qmd
+        - losn02-variabler.qmd
+        - losn03-anropa-funktioner.qmd
+        - losn04-dom.qmd
+        - losn05-egna-funktioner.qmd
+        - losn06-handelser.qmd
+        - losn07-tal-och-text.qmd
+        - losn08-sant-och-falskt.qmd
+        - losn09-villkor.qmd
+        - losn10-loopar.qmd
+        - losn11-arrayer.qmd
     - summary.qmd
     - references.qmd
 
@@ -52,16 +65,16 @@ format:
       - brand
     mermaid:
       theme: neutral
-  pdf:
-    documentclass: scrbook
-    include-in-header: preamble.tex
-    geometry:
-      - paperwidth=168mm
-      - paperheight=234mm
-      - inner=24mm
-      - outer=20mm
-      - top=20mm
-      - bottom=24mm
+  # pdf:
+  #   documentclass: scrbook
+  #   include-in-header: preamble.tex
+  #   geometry:
+  #     - paperwidth=168mm
+  #     - paperheight=234mm
+  #     - inner=24mm
+  #     - outer=20mm
+  #     - top=20mm
+  #     - bottom=24mm
 
 
 

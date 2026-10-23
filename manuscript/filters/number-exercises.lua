@@ -3,6 +3,11 @@
 --- Reads _quarto.yml to determine chapter order and assigns each exercise
 --- a number in the format "Övning X.Y – Title".
 ---
+--- Solution chapters set `losningar-till: <chapter file>` in their front
+--- matter. In those files, headings of the form "Övning – Title" are numbered
+--- with the chapter number of that file, in order, so that they match the
+--- exercises in the chapter.
+---
 --- In Quarto 1.3+, callouts are custom AST nodes handled via the
 --- Callout() filter function, with fields: type, title, content, etc.
 
@@ -76,13 +81,21 @@ end
 --- Two-pass filter: first pass reads chapter number from Meta,
 --- second pass numbers the exercise callouts.
 
+local solution_mode = false
+
 local function init_chapter(meta)
   chapter_num = get_current_chapter()
   exercise_count = 0
+  solution_mode = false
+  if meta["losningar-till"] then
+    local target = pandoc.utils.stringify(meta["losningar-till"])
+    chapter_num = chapter_map[target]
+    solution_mode = chapter_num ~= nil
+  end
 end
 
 local function number_callout(callout)
-  if not chapter_num then return nil end
+  if not chapter_num or solution_mode then return nil end
   if callout.type ~= "note" then return nil end
 
   -- callout.title may be nil, Inlines, or other types depending on content
@@ -99,7 +112,18 @@ local function number_callout(callout)
   return callout
 end
 
+local function number_solution_header(header)
+  if not solution_mode then return nil end
+  local exercise_title = extract_exercise_title(pandoc.utils.stringify(header.content))
+  if not exercise_title then return nil end
+
+  exercise_count = exercise_count + 1
+  header.content = pandoc.Inlines({pandoc.Str(string.format("Övning %d.%d – %s",
+    chapter_num, exercise_count, exercise_title))})
+  return header
+end
+
 return {
   {Meta = init_chapter},
-  {Callout = number_callout},
+  {Callout = number_callout, Header = number_solution_header},
 }

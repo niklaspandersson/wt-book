@@ -1,0 +1,292 @@
+---
+losningar-till: kap05-egna-funktioner.qmd
+---
+
+# Kapitel 5: Egna funktioner {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-funktioner].
+
+## Stanna upp-frågorna
+
+**Att definiera en funktion**
+
+1. Nyckelordet är `function`, namnet är `visaPoäng`, parenteserna `()` är tomma, och kroppen är raden mellan `{` och `}`.
+2. Ingenting syns. JavaScript läser in funktionen och kommer ihåg den, men kroppen körs aldrig, eftersom ingen anropar funktionen.
+3. Med `visaPoäng` ändrar du en enda rad, den inne i funktionen. Utan funktionen måste du ändra alla tre raderna där texten skrivs – och missar du en visar sidan olika format.
+
+**Parametrar**
+
+1. Argumenten är `"Blå bläckfiskar"` och `9`. Det första argumentet går till den första parametern, så `namn` får `"Blå bläckfiskar"` och `poäng` får `9`.
+2. Den första versionen hämtar poängen direkt ur objektet `lag`, så den kan bara visa just det lagets poäng. Den nya versionen får poängen som ett argument. Den vet inte var talet kommer ifrån, och därför kan den visa vilket tal som helst.
+
+**`return`**
+
+1. `visaPoäng` liknar dörrklockan: den *gör* något på sidan, men ger inget tillbaka. `biljettpris` liknar kaffebryggaren: den ger tillbaka ett pris som du kan använda.
+2. `console.log(Math.max(120, 200));` – och sedan `console.log(200);`.
+
+**Scope**
+
+1. Ungefär: *En variabels scope är den del av koden där den finns. En variabel på översta nivån har hela filen som scope, och funktionen ligger i filen. En variabel inuti en funktion har bara funktionens klammerparenteser som scope, och koden på översta nivån ligger utanför dem.*
+2. Nej. Variabeln finns i modulen, men den syns bara i filen. Konsolen ligger utanför modulens scope och hittar därför inte namnet.
+
+**Funktioner är värden**
+
+1. `console.log(kostnad);` skriver ut själva funktionen, ungefär `ƒ biljettpris(antal) { return antal * 40; }`. Lägg märke till att den heter `biljettpris` – det finns bara en funktion, och det var under det namnet den skapades. `console.log(kostnad(2));` skriver ut `80`.
+2. `x` pekar på en funktion, eftersom parenteserna saknas. `y` pekar på talet `40`, eftersom funktionen anropas och anropet ersätts av sitt returvärde.
+
+**Att tänka i funktioner**
+
+1. Utsidan är namnet `biljettpris`, parametern `antal` och returvärdet, ett pris i kronor. Insidan är uträkningen `antal * 40`. Den som anropar behöver bara veta att man skickar in ett antal personer och får tillbaka vad de ska betala.
+2. Namnet innehåller *och*, vilket tyder på att funktionen gör två saker. Den kan delas upp i två: en som hämtar svaret och en som räknar ut poängen.
+3. Nej. `visaResultat` visar det som `poängtext` returnerar, vad det än är. Formatet bestäms bara i `poängtext`.
+
+## Övning – I vilken ordning?
+
+Utskriften blir:
+
+```
+A
+B
+C
+B
+```
+
+1. `B` skrivs ut två gånger, eftersom funktionen anropas två gånger. Varje anrop kör kroppen på nytt.
+2. Utan anropen skrivs bara `A` och `C` ut. Definitionen av `förklara` står kvar men körs aldrig. Att definiera en funktion är att skriva receptet. Att anropa den är att laga maten.
+
+## Övning – Spåra exekveringen
+
+1. Spårtabellen:
+
+    | Rad | Vad som händer | Namn och värden |
+    |---|---|---|
+    | 1–3 | `dubbla` läses in | `dubbla` → funktionen |
+    | 5–7 | `addera` läses in | `addera` → funktionen |
+    | 9 | `poäng` skapas | `poäng` → 5 |
+    | 10 | `dubbla(5)` anropas | `poäng` → 5, `antal` → 5 |
+    | 2 | `return` skickar tillbaka 10. `antal` försvinner | `poäng` → 5 |
+    | 10 | anropet har ersatts av 10 | `poäng` → 5, `dubbelt` → 10 |
+    | 11 | `addera(10, 3)` anropas | …, `första` → 10, `andra` → 3 |
+    | 6 | `return` skickar tillbaka 13. `första` och `andra` försvinner | `poäng` → 5, `dubbelt` → 10 |
+    | 11 | anropet har ersatts av 13 | `poäng` → 5, `dubbelt` → 10, `summa` → 13 |
+    | 13 | `13` skrivs ut | |
+
+2. Det inre anropet körs först: `addera(2, 3)` returnerar `5`. Sedan anropas `dubbla(5)`, så parametern `antal` får värdet `5`, och `dubbla` returnerar `10`.
+3. Utskriften blir `13` och sedan `10`.
+
+## Övning – Parameter, argument eller returvärde?
+
+1. Parametrarna är `antal` och `styckpris`. Argumenten är `3` och `40` i det första anropet, `40` och `3` i det andra. På sista raden finns två anrop: det inre får `1` och `5`, det yttre får det inre anropets returvärde, `5`, och `10`.
+2. `a` blir `120` (3 gånger 40), `b` blir också `120` (40 gånger 3), och `c` blir `50`: det inre anropet ger 1 gånger 5, alltså 5, och det yttre 5 gånger 10, alltså 50.
+3. Att `a` och `b` blir lika är en slump. Det beror på att multiplikation ger samma svar oavsett ordning. Med `visaLag` syns att ordningen spelar roll: `visaLag(12, "Röda stjärnor")` gör att sidan visar `Lag: 12` och `Poäng: Röda stjärnor`. Funktionen vet inte vad du *menade*, bara på vilken plats argumenten står. Och även för `totalpris` är `b` egentligen fel: 40 personer som betalar 3 kronor var är något helt annat än 3 personer som betalar 40 kronor, även om summan råkar bli densamma.
+4. Utan `return` returnerar funktionen `undefined`. Både `a` och `b` blir `undefined`. Också `c` blir `undefined`, men det är värt att följa varför: det inre anropet returnerar `undefined`, så det yttre räknar ut `undefined * 10`, som blir `NaN` inne i funktionen – men det returneras inte heller, så `c` pekar på `undefined`.
+
+## Övning – Vad säger felet?
+
+**Del A.** Felet blir `ReferenceError: vuxna is not defined`, på raden med `console.log`. `vuxna` och `barn` deklareras inuti funktionens klammerparenteser, och deras scope är bara funktionens kropp. När anropet är klart finns de inte längre, och raden utanför funktionen hittar inte namnen.
+
+Två sätt att rätta det:
+
+```javascript
+// Sätt 1: returnera summan
+function räknaUt(antal) {
+    const vuxna = antal * 40;
+    const barn = antal * 20;
+    return vuxna + barn;
+}
+
+console.log(räknaUt(3));   // 180
+```
+
+```javascript
+// Sätt 2: skriv ut inuti funktionen, där variablerna finns
+function räknaUt(antal) {
+    const vuxna = antal * 40;
+    const barn = antal * 20;
+    console.log(vuxna + barn);
+}
+
+räknaUt(3);   // skriver ut 180
+```
+
+Sätt 1 är oftast bättre, eftersom resultatet då kan användas vidare – visas på sidan eller räknas med. Det går också att deklarera `vuxna` och `barn` på översta nivån, men det är just det som rutan *Håll variabler lokala* avråder från.
+
+**Del B.** Anropet skickar bara ett argument. `namn` får `"Gula gänget"`, men `poäng` får inget argument och får därför värdet `undefined`. Rättat anrop:
+
+```javascript
+visaLag(lag.namn, lag.poäng);
+```
+
+## Övning – Förklara koden
+
+1. *Funktionen tar emot två lag och visar den högsta av deras poäng på sidan.*
+2. Två lagobjekt som var och en har egenskapen `poäng`, till exempel:
+
+    ```javascript
+    const röda = { namn: "Röda stjärnor", poäng: 12 };
+    const blå = { namn: "Blå blixtarna", poäng: 9 };
+    visaLedare(röda, blå);   // sidan visar "Ledande poäng: 12"
+    ```
+
+3. Nej. Kroppen saknar `return`, så funktionen returnerar `undefined`. Det den gör är att ändra sidan.
+4. Inte riktigt. Namnet lovar att funktionen visar *vilket lag* som leder, men den visar bara den högsta poängen. Den som litar på namnet blir lurad. Bättre namn är till exempel `visaHögstaPoäng` eller `visaLedandePoäng`.
+
+## Övning – Byt insidan
+
+1. `biljettpris` tar emot ett antal personer och *returnerar* vad de ska betala. `visaPris` tar emot ett antal personer och *visar* priset på sidan, men returnerar ingenting. Den som anropar behöver bara veta funktionernas namn och att de vill ha ett antal personer.
+2. Raden `return antal * 40;` ändras till `return antal * 50;`. Inget anrop behöver ändras – utsidan är densamma.
+3. Ja, insidan av `visaPris`:
+
+    ```javascript
+    function visaPris(antal) {
+        document.querySelector("#pris").textContent = antal + " biljetter: " + biljettpris(antal) + " kr";
+    }
+    ```
+
+    Anropen och `biljettpris` är orörda. Det är `visaPris` som bestämmer hur texten ser ut.
+
+4. Parametrarna hör till funktionens utsida: de är en del av det den som anropar måste känna till. När `biljettpris` får en parameter till måste varje anrop av den skicka med ett pris till – annars får `prisPerPerson` värdet `undefined`, och priset blir `NaN`. I fråga 2 och 3 ändrades bara vad som händer inne i kroppen, och anropen kunde se likadana ut.
+
+    Raderna som måste ändras:
+
+    ```javascript
+    function biljettpris(antal, prisPerPerson) {          // ny parameter
+        return antal * prisPerPerson;                      // använder den
+    }
+
+    function visaPris(antal, prisPerPerson) {             // ny parameter här också
+        document.querySelector("#pris").textContent = "Att betala: " + biljettpris(antal, prisPerPerson) + " kr";
+    }
+
+    visaPris(3, 40);   // alla anrop måste skicka med priset
+    visaPris(5, 50);
+    visaPris(2, 40);
+    ```
+
+    `visaPris` anropar `biljettpris`, så den måste själv få veta priset för att kunna skicka det vidare. Ändringen sprider sig alltså utåt: först `biljettpris`, sedan anropet inne i `visaPris`, sedan `visaPris`s utsida och till sist alla tre anrop längst ned – sex rader, mot en enda i fråga 2. Det är därför det lönar sig att tänka igenom en funktions utsida noga innan den används på många ställen.
+
+## Övning – Ordna raderna
+
+```javascript
+function poängtext(namn, poäng) {
+    return namn + ": " + poäng + " poäng";
+}
+document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 12);
+```
+
+1. Raderna som inte används:
+   - `function poängtext("namn", "poäng") {` – parametrar ska vara *namn*, inte strängar. Det ger ett `SyntaxError` direkt, och inget i filen körs.
+   - `console.log(namn + ": " + poäng + " poäng");` – den ger inget felmeddelande, men gör fel sak: texten skrivs ut i stället för att returneras.
+2. Med `console.log` i stället för `return` skrivs `Röda stjärnor: 12 poäng` ut i konsolen, men elementet på sidan blir *tomt*. Funktionen returnerar ingenting, så anropet ersätts av `undefined`, och det är det värdet som tilldelas `textContent`. Många gissar att det ska stå *undefined* på sidan, men `textContent` behandlar `undefined` som "ingen text" och tömmer elementet. (Hade `undefined` slagits ihop med en annan text, som i `"Att betala: " + prisB`, hade ordet *undefined* däremot synts.)
+
+## Övning – Poängtavlan med funktioner
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 15, runda: 2 };
+
+function visaLag(lag) {
+    document.querySelector("#lagnamn").textContent = "Lag: " + lag.namn;
+    document.querySelector("#poäng").textContent = lag.poäng + " p";
+    document.querySelector("#runda").textContent = "Runda: " + lag.runda;
+}
+
+visaLag(lag);
+
+lag.poäng = lag.poäng + 3;
+visaLag(lag);
+```
+
+Parametern heter här `lag`, precis som variabeln på översta nivån. Det fungerar: inne i funktionen är det parametern som gäller. Men det kan förvirra, och vill du vara tydlig kan du ge parametern ett annat namn.
+
+3. Med funktionen behövs en enda ändring, inne i `visaLag`. I lösningen från kapitel [-@sec-dom-intro] skrevs poängen på två ställen – en gång från början och en gång efter att laget svarat rätt – så där hade det varit två ändringar. Ju fler gånger poängen visas, desto större blir skillnaden.
+
+## Övning – Funktioner som uppdaterar sidan
+
+```javascript
+function resultattext(poäng, maxPoäng) {
+    return poäng + " av " + maxPoäng + " poäng";
+}
+
+function visaResultat(namn, poäng, maxPoäng) {
+    document.querySelector("#namn").textContent = namn;
+    document.querySelector("#resultat").textContent = resultattext(poäng, maxPoäng);
+}
+
+visaResultat("Karin", 15, 20);
+visaResultat("Erik", 9, 20);
+visaResultat("Lena", 18, 20);
+```
+
+Bara Lenas resultat syns, eftersom varje anrop skriver över det förra – i samma två element. Anropen körs så snabbt efter varandra att du aldrig hinner se de två första.
+
+För att kontrollera att de kördes kan du lägga till en rad med `console.log` i `visaResultat`, till exempel `console.log("visaResultat anropades med", namn);`. Då ser du tre utskrifter i konsolen. Du kan också anropa `resultattext` direkt och skriva ut returvärdet: `console.log(resultattext(15, 20));`.
+
+## Övning – Skriv anropen först
+
+1. Till exempel:
+
+    ```javascript
+    visaRunda(2);
+    visaPoäng(0);
+    visaMeddelande("Lycka till!");
+    ```
+
+    Alla tre funktionerna behöver ett argument: rundans nummer, poängen och texten. (`visaPoäng` skulle kunna sakna argument och alltid visa 0, men med ett argument kan den användas resten av quizet också.)
+
+2. Ja – raderna läses nästan som vanlig svenska: *visa runda 2, visa poäng 0, visa meddelandet "Lycka till!"*.
+3. Felet blir `ReferenceError: visaRunda is not defined`. JavaScript klagar bara på den första funktionen, eftersom programmet avbryts vid första felet. De andra raderna körs aldrig.
+4. När `visaRunda` finns pekar felet i stället på `visaPoäng`, och sedan på `visaMeddelande`. När alla tre finns försvinner felet. Felmeddelandet blir en att göra-lista. Funktionerna kan se ut så här:
+
+    ```javascript
+    function visaRunda(nummer) {
+        document.querySelector("#runda").textContent = "Runda " + nummer;
+    }
+
+    function visaPoäng(poäng) {
+        document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+    }
+
+    function visaMeddelande(text) {
+        document.querySelector("#meddelande").textContent = text;
+    }
+    ```
+
+5. Här finns inget facit. Bra namn är sådana som gör att kurskamraten förstår programmet utan att läsa funktionerna.
+
+## Övning – En funktion för flera element
+
+**Del A.**
+
+1. `document.querySelector("#lag-röda")` körs först. Det returnerar elementet med id `lag-röda`, och det elementet blir argument till `markera`.
+2. Under det första anropet pekar `element` på elementet med id `lag-röda`, under det andra på elementet med id `fråga-3`.
+3. `querySelector` returnerar `null`, så `element` pekar på `null`. Felet visas på raden inne i funktionen, `element.classList.add("markerad");`: `TypeError: Cannot read properties of null (reading 'classList')`. Det är där `null` faktiskt används. Felmeddelandet i konsolen kan fällas ut, och då syns också raden med anropet som ledde dit.
+
+**Del B.**
+
+```html
+<p id="första">Ett</p>
+<p id="andra">Två</p>
+<p id="tredje">Tre</p>
+```
+
+```javascript
+function sättText(selektor, text) {
+    document.querySelector(selektor).textContent = text;
+}
+
+sättText("#första", "Första stycket");
+sättText("#andra", "Andra stycket");
+sättText("#tredje", "Tredje stycket");
+```
+
+Med bara tre korta rader är vinsten liten. Funktionen lönar sig när samma sak görs på många ställen, eller när det som görs är mer än en rad, till exempel om texten också ska markeras.
+
+Stavar du en selektor fel får du `TypeError: Cannot set properties of null (setting 'textContent')`. Felet pekar på raden *inne i funktionen*, eftersom det är där `null` används. Det felstavade värdet står däremot i anropet. Fäll ut felmeddelandet i konsolen för att se vilket anrop det kom från. Det är en nackdel med att gömma kod i en funktion: felet visar sig ett steg från där det orsakades.
+
+## Övning – Modulens scope
+
+1. Ja, konsolen visar `Hej från skriptfilen! Och hej, Ida!`. `hälsning` är deklarerad på modulens översta nivå, och dess scope är hela filen. Funktionen ligger i filen och kan därför läsa variabeln.
+2. `ReferenceError: hälsning is not defined`. Konsolen ligger utanför modulen, och variabeln syns inte utanför filen.
+3. Nu svarar konsolen `'Hej från skriptfilen!'`. Utan `type="module"` hamnar variabeln i det globala scopet, som delas av alla skript på sidan – och av konsolen.
+
+I en modul stannar variablerna i filen. I ett vanligt skript blir de gemensamma för hela sidan. Med tre vanliga skript som alla har en variabel som heter `hälsning` krockar de: deklareras den med `const` i två skript får du ett felmeddelande, och i värsta fall skriver det ena skriptet över det andras värde utan att någon märker det. Med moduler har varje fil sina egna namn, och du behöver inte hålla reda på vad som heter vad i alla andra filer.

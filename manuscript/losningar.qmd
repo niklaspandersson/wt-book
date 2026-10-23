@@ -1,0 +1,11 @@
+# Lösningar {.unnumbered}
+
+Den här delen innehåller lösningsförslag, svar och förklaringar till övningarna i Del I. Övningarna har samma nummer här som i kapitlen.
+
+Använd lösningarna på rätt sätt, annars lär du dig mindre än du tror. Att läsa en lösning och tycka att den verkar rimlig är inte samma sak som att kunna lösa uppgiften själv. Gör så här:
+
+1. **Försök först.** Gör övningen så långt du kan, och skriv ner ditt svar – också när du är osäker. En förutsägelse som blev fel lär dig ofta mer än en som blev rätt.
+2. **Jämför sedan.** Stämmer ditt svar med lösningen? Om inte: leta upp *var* ditt resonemang tog en annan väg, och läs avsnittet i kapitlet igen.
+3. **Kör koden.** Lösningarna säger vad som händer, men konsolen har alltid sista ordet. Pröva det du är osäker på.
+
+Många övningar har mer än ett rätt svar. Det gäller särskilt övningarna där du bygger egna sidor: din lösning kan se annorlunda ut och ändå vara lika bra. Lösningsförslaget visar *ett* sätt att lösa uppgiften och förklarar varför det fungerar. När du jämför, fråga dig om din lösning gör samma sak, och om den är lika lätt att läsa och ändra.

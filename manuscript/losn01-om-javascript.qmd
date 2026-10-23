@@ -1,0 +1,87 @@
+---
+losningar-till: kap01-om-javascript.qmd
+---
+
+# Kapitel 1: JavaScript och webbläsaren {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-om-javascript].
+
+## Övning – HTML, CSS eller JavaScript?
+
+1. **HTML.** Rubriken och dess text är innehåll, till exempel ett `<h1>`-element.
+2. **CSS.** Färg och storlek är utseende: `color: red;` och `font-size: 32px;`.
+3. **CSS eller JavaScript.** Det går att göra med enbart CSS och pseudoklassen `:hover`, eftersom bilden bara ska ändra utseende medan musen är över produkten. Behöver sidan göra något mer, till exempel hämta en större bild, behövs JavaScript. Båda svaren är rimliga om du motiverar dem.
+4. **JavaScript.** Sidan måste *minnas* hur många produkter som finns i korgen och ändra siffran när användaren klickar. Det är beteende.
+5. **CSS.** Layouten är utseende. HTML bestämmer vilka delar som finns (en meny och ett innehåll), men CSS placerar dem bredvid varandra.
+6. **JavaScript** – och delvis HTML. Att *kontrollera* namnet och visa ett meddelande är beteende. HTML har också inbyggda kontroller: attributet `required` på ett fält gör att webbläsaren själv säger till när fältet är tomt. Vill du bestämma hur och när meddelandet visas behövs JavaScript.
+7. **HTML.** En länk är innehåll, ett `<a>`-element med attributet `href`.
+8. **JavaScript.** Siffran ändras varje sekund utan att någon gör något. Det kräver ett program som räknar och uppdaterar sidan.
+
+Lägg märke till mönstret: det som *finns* på sidan är HTML, hur det *ser ut* är CSS, och det som *händer* är JavaScript.
+
+## Övning – Utforska DevTools
+
+1. Texten på sidan ändras så fort du har skrivit klart i panelen. Laddar du om sidan är den gamla texten tillbaka.
+2. Rubriken ändrar storlek direkt. Även den ändringen försvinner när sidan laddas om.
+3. Konsolen svarar med sidans titel som en text inom citattecken, till exempel `'Linnéuniversitetet'`. Det är samma text som står på sidans flik i webbläsaren, och den kommer från `<title>`-elementet i HTML-koden.
+
+Ändringarna försvinner eftersom de bara görs i *din* webbläsares kopia av sidan. Sidans filer ligger kvar på servern, oförändrade. När du laddar om sidan hämtar webbläsaren filerna från servern igen. För att en ändring ska bestå måste den göras i filerna, och filerna måste läggas upp på servern på nytt.
+
+## Övning – Konsolen som miniräknare
+
+```javascript
+10 + 3;   // 13
+10 - 3;   // 7
+10 * 3;   // 30
+10 / 3;   // 3.3333333333333335
+```
+
+Det som brukar överraska är den sista raden. JavaScript ger inte en jämn trea, utan ett decimaltal med många decimaler, och sista siffran är en femma i stället för en trea. Datorn kan inte spara oändligt många decimaler, så den avrundar någonstans. Decimaltecknet är en punkt och inte ett kommatecken, som i engelskspråkiga länder.
+
+**Gåtan:**
+
+```javascript
+10 % 3;    // 1
+7 % 2;     // 1
+135 % 60;  // 15
+```
+
+`%` ger det som *blir över* när man delar upp ett tal i lika stora delar. 135 minuter är 2 timmar och 15 minuter: 60 får plats två gånger i 135, och kvar blir 15. På samma sätt får 3 plats tre gånger i 10 med 1 över, och 2 får plats tre gånger i 7 med 1 över. Operatorn heter *modulo* eller *rest*.
+
+## Övning – Uttryck eller sats?
+
+| Rad | Konsolen svarar | Vad det är |
+|---|---|---|
+| `7 * 6;` | `42` | ett uttryck som ger ett värde |
+| `console.log(7 * 6);` | skriver ut `42`, svarar sedan `undefined` | en instruktion som gör något |
+| `"Hej" + "!";` | `'Hej!'` | ett uttryck som ger ett värde |
+| `alert("Hej");` | visar en ruta, svarar sedan `undefined` | en instruktion som gör något |
+| `24 * 60;` | `1440` | ett uttryck som ger ett värde |
+
+De två raderna med både något som syns och `undefined` är `console.log(7 * 6);` och `alert("Hej");`. Det som syns – utskriften `42` och rutan med `Hej` – är det instruktionen *gör*. `undefined` är konsolens svar på frågan om vilket värde raden gav, och svaret är "inget värde".
+
+Utskriften från `console.log` och konsolens svar kan se likadana ut, men de är olika saker. Utskriften är text som programmet har skrivit ut. Svaret är konsolens sätt att visa ett värde, och det visas bara när du skriver direkt i konsolen.
+
+## Övning – Gör fel med flit
+
+| Rad | Felet | Konsolen säger |
+|---|---|---|
+| `console.lg("Hej!");` | `lg` ska vara `log` | `TypeError: console.lg is not a function` |
+| `Console.log("Hej!");` | stort C i `Console` | `ReferenceError: Console is not defined` |
+| `console.log("Hej!);` | citattecknet efter `Hej!` saknas | `SyntaxError: Invalid or unexpected token` |
+
+Den del av meddelandet som pekar ut felet är den som innehåller namnet från din egen kod: `console.lg` i det första fallet och `Console` i det andra. JavaScript skiljer på stora och små bokstäver, så `Console` och `console` är två olika namn, och bara det ena finns.
+
+Det tredje meddelandet är oftast svårast att förstå. Det säger inte vad som saknas, bara att något på raden inte går att tolka. Ordet *token* betyder ungefär "bit av koden". Felet är av en annan sort än de två första. Där kunde JavaScript läsa raden men inte hitta det du bad om. Här kan JavaScript inte ens läsa raden, eftersom texten aldrig tar slut. Exakt hur meddelandet är formulerat skiljer sig mellan webbläsare. Firefox skriver till exempel att en sträng innehåller en radbrytning som inte är tillåten.
+
+## Övning – Läs koden innan du kör den
+
+En rimlig gissning, del för del:
+
+- `document.querySelector("h1")` letar upp något i dokumentet, alltså sidan. `"h1"` pekar ut vad: `<h1>`-rubriken.
+- `textContent` är rubrikens textinnehåll, alltså texten mellan `<h1>` och `</h1>`.
+- `=` ger textinnehållet ett nytt värde: texten `Hej, JavaScript!`.
+
+Hela raden: *leta upp rubriken på sidan och byt ut dess text mot "Hej, JavaScript!"*.
+
+När du kör raden ändras rubriken från *Hej!* till *Hej, JavaScript!*. Laddar du om sidan står det *Hej!* igen. Raden ändrade bara webbläsarens kopia av sidan – filen `index.html` är oförändrad. Skulle ändringen göras varje gång sidan laddas måste raden stå i en fil som sidan laddar, som `script.js` i avsnittet *Att koppla JavaScript till en HTML-sida*.

@@ -602,7 +602,7 @@ Bygg vidare på koden i övningen *Förklara koden*. Gör en sida med två fält
 
 1. När man klickar ska sidan visa hur många veckor det tar, till exempel "Det tar 8 veckor att spara ihop till 1200 kr."
 2. Visa också hur mycket man har sparat efter varje vecka, en rad per vecka, i ett `<pre>`-element.
-3. Vad händer om man skriver `0` i fältet för veckobeloppet? Lägg till de kontroller du behöver, med det du lärde dig i kapitel [-@sec-villkor], innan du provar.
+3. Vad händer om man skriver `0` i fältet för veckobeloppet? Lägg till de kontroller du behöver innan du provar.
 :::
 
 ::: {.callout-note}
@@ -620,7 +620,7 @@ Gör en sida där användaren skriver in priset per person och det största anta
 
 Ett quiz har 15 frågor. Var tredje fråga (3, 6, 9 …) är en musikfråga, och var femte (5, 10, 15) är en bildfråga. En fråga som är både och är en *bonusfråga*. Övriga frågor är vanliga frågor.
 
-1. Skriv en loop som skriver ut en rad per fråga, till exempel `Fråga 3: musik`. Använd `%` från kapitel [-@sec-tal-och-text]: ett tal är "var tredje" om resten vid division med 3 är 0, precis som 135 minuter är 2 timmar och 15 minuter över.
-2. I vilken ordning måste villkoren i `else if`-kedjan stå för att fråga 15 ska bli en bonusfråga? Jämför med rutan *Ordningen spelar roll* i kapitel [-@sec-villkor].
+1. Skriv en loop som skriver ut en rad per fråga, till exempel `Fråga 3: musik`. Använd `%`: ett tal är "var tredje" om resten vid division med 3 är 0, precis som 135 minuter är 2 timmar och 15 minuter över.
+2. I vilken ordning måste villkoren i `else if`-kedjan stå för att fråga 15 ska bli en bonusfråga?
 3. Låt användaren skriva in antalet frågor i ett fält, och visa listan på sidan i ett `<pre>`-element.
 :::

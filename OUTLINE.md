@@ -50,6 +50,8 @@
 * Kap. ?? – Versionshantering med Git och GitHub
 * Kap. ?? – Felsökning och debugging
 
+**Lösningar** – lösningsförslag, svar och förklaringar till alla övningar och Stanna upp-frågor i Del I, ett kapitel per kapitel (`losn01-…` till `losn11-…`, med inledningen `losningar.qmd`). Ligger som en egen del efter Del III. Övningsnumren sätts av `filters/number-exercises.lua` via `losningar-till:` i varje fils front matter, så rubrikerna i en lösningsfil måste stå i samma ordning som övningarna i kapitlet. Ändras en övning ska lösningen ändras också.
+
 **Appendix A** – HTML-referens: element och semantik
 **Appendix B** – CSS-referens och layout
 

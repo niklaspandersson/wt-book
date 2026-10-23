@@ -370,7 +370,7 @@ Den andra versionen läses uppifrån och ned utan att man behöver hålla flera 
 ## Stanna upp
 
 1. I den andra versionen av `godkänd` saknas `else`. Varför behövs det inte?
-2. Funktionen `godkänd` returnerar ett booleskt värde. Kan du skriva hela kroppen som en enda rad med `return` och `&&`, med det du lärde dig i kapitel [-@sec-booleska]?
+2. Funktionen `godkänd` returnerar ett booleskt värde. Kan du skriva hela kroppen som en enda rad med `return` och `&&`?
 :::
 
 ---
@@ -708,7 +708,7 @@ if (poäng >= 50) {
 ```
 
 1. Tre av snuttarna ger ett `SyntaxError`. Vilka? Lägg till en rad `console.log("Start");` överst i filen. Skrivs den ut när filen innehåller ett `SyntaxError`? Vad säger det om när JavaScript upptäcker den sortens fel?
-2. En snutt ger inget felmeddelande, men gör fel. Vilken, och vilket värde har `poäng` efteråt? Jämför med övningen *`=` eller `===`?* i kapitel [-@sec-booleska].
+2. En snutt ger inget felmeddelande, men gör fel. Vilken, och vilket värde har `poäng` efteråt?
 3. Rätta alla fyra.
 :::
 
@@ -797,7 +797,7 @@ console.log(`${namn3}: ${status3}`);
 
 Skriv en funktion `bedöm(namn, poäng)` som innehåller logiken och skriver ut resultatet. Ersätt sedan de tre upprepade blocken med tre anrop till funktionen. Hur mycket kortare och tydligare blir koden?
 
-Funktionen `bedöm` gör nu två saker: den avgör om resultatet är godkänt *och* skriver ut det. Dela upp den i två funktioner enligt principen "en funktion bör göra en sak" från kapitel [-@sec-funktioner]: en som *returnerar* statusen och en som skriver ut. Vilken av dem skulle du kunna återanvända om resultatet i stället skulle visas på en webbsida? Kan den som returnerar statusen skrivas med ternäroperatorn?
+Funktionen `bedöm` gör nu två saker: den avgör om resultatet är godkänt *och* skriver ut det. Dela upp den i två funktioner enligt principen att en funktion bör göra en sak: en som *returnerar* statusen och en som skriver ut. Vilken av dem skulle du kunna återanvända om resultatet i stället skulle visas på en webbsida? Kan den som returnerar statusen skrivas med ternäroperatorn?
 :::
 
 ::: {.callout-note}
@@ -808,6 +808,16 @@ Utgå från avsnittet *Ett löst exempel: kontrollera inmatningen* och övningss
 1. Ge resultatet klassen `godkänd` eller `underkänd` beroende på betyget. Klicka flera gånger med olika poäng. Försvinner den gamla klassen som den ska?
 2. Visa hjälptexten med id `hjälp` bara när betyget är F.
 3. Om fältet innehåller något som inte är giltigt ska *ingen* av klasserna finnas kvar, och hjälptexten ska vara dold. Var i koden behöver du lägga till något för det?
+:::
+
+::: {.callout-note}
+## Övning – Tangentbordsrörelser
+
+Utgå från exemplet med piltangenterna i kapitlet och övningssidan, där en röd ruta flyttas tio pixlar per tryck. Bygg vidare på det:
+
+1. Lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att få fönstrets bredd och höjd i pixlar – och tänk på att rutan själv är 50 pixlar bred och hög.
+2. Låt tangenten `c` växla rutans färg mellan två färger med hjälp av en CSS-klass. Tänk på att rutans röda färg sätts med selektorn `#ruta` i CSS-koden, och att en regel för ett id väger tyngre än en regel för en klass. Skriv därför din regel som `#ruta.klassnamn`, annars syns ingen skillnad.
+3. *Fundera:* Håll en piltangent nedtryckt en stund. Vad verkar hända med `keydown`-händelserna när en tangent hålls nere?
 :::
 
 ### Egna sidor
@@ -867,13 +877,13 @@ Gå tillbaka till övningen *Mörkt läge* i kapitel [-@sec-handelser]. I kapitl
 1. Med returvärdet från `classList.toggle`, som är `true` om klassen lades till och `false` om den togs bort. Behöver du `classList.contains` då?
 2. Med ternäroperatorn, så att knappens text sätts på en enda rad.
 
-Vilket av de tre sätten tycker du är tydligast? Varför går det inte att lösa enbart med en tilldelning av ett booleskt värde, som `hidden` och `disabled` i kapitel [-@sec-booleska]?
+Vilket av de tre sätten tycker du är tydligast? Varför går det inte att lösa enbart med en tilldelning av ett booleskt värde, som för `hidden` och `disabled`?
 :::
 
 ::: {.callout-note}
 ## Övning – Vem leder?
 
-I övningen *Quizets topplista* i kapitel [-@sec-anropa-funktioner] kunde du ta reda på den högsta poängen med `Math.max`, men inte vilket *lag* som hade den. Nu kan du det.
+Två lag har fått var sin poäng:
 
 ```javascript
 const röda = { namn: "Röda stjärnor", poäng: 12 };
@@ -881,16 +891,6 @@ const blå = { namn: "Blå blixtarna", poäng: 9 };
 ```
 
 1. Skriv en funktion `ledare(lag1, lag2)` som returnerar till exempel `"Röda stjärnor leder med 3 poäng."`, eller `"Det står lika!"` om lagen har lika många poäng. Skillnaden ska alltid vara ett positivt tal – räkna ut den på olika sätt beroende på vilket lag som leder. Testa med flera olika poäng, också när det andra laget leder.
-2. Gör en sida med en knapp "Rätt svar" för varje lag och ett stycke som visar vem som leder. Varje klick ger laget 3 poäng och uppdaterar stycket.
-3. Planera innan du skriver: vilka av de fem stegen finns i varje callback? Vilket steg kan båda callbackarna dela på genom att anropa samma funktion?
-:::
-
-::: {.callout-note}
-## Övning – Tangentbordsrörelser
-
-Utgå från exemplet med piltangenterna i kapitlet, där en röd ruta flyttas tio pixlar per tryck. Bygg vidare på det:
-
-1. Lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att få fönstrets bredd och höjd i pixlar – och tänk på att rutan själv är 50 pixlar bred och hög.
-2. Låt tangenten `c` växla rutans färg mellan två färger med hjälp av en CSS-klass.
-3. *Fundera:* Håll en piltangent nedtryckt en stund. Vad verkar hända med `keydown`-händelserna när en tangent hålls nere?
+2. Nu ska du göra en sida med en knapp "Rätt svar" för varje lag och ett stycke som visar vem som leder. Varje klick ger laget 3 poäng och uppdaterar stycket. Planera innan du skriver: vilka av de fem stegen finns i varje callback? Vilket steg kan båda callbackarna dela på genom att anropa samma funktion?
+3. Bygg sidan.
 :::

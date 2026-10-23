@@ -1,0 +1,607 @@
+---
+losningar-till: kap09-villkor.qmd
+---
+
+# Kapitel 9: Villkorssatser {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-villkor].
+
+## Stanna upp-frågorna
+
+**`else if` – flera vägar**
+
+1. Med `poäng` 50:
+
+    | Villkor | Svar | Vad som händer |
+    |---|---|---|
+    | `poäng >= 90` | `false` | hoppas över |
+    | `poäng >= 80` | `false` | hoppas över |
+    | `poäng >= 70` | `false` | hoppas över |
+    | `poäng >= 60` | `false` | hoppas över |
+    | `poäng >= 50` | `true` | `Betyg: E` skrivs ut |
+    | `else` | – | körs inte |
+
+    Fem villkor prövas. Med `poäng` 12 blir alla fem villkoren `false`, och `else`-blocket körs: `Betyg: F – underkänd`. Också där prövas fem villkor, men inget av dem stämmer.
+
+2. Nej. Kedjan kör bara det *första* blocket vars villkor är sant, och hoppar sedan över resten. Även om 95 poäng också är minst 80, prövas det villkoret aldrig.
+
+**Ternäroperatorn**
+
+1. *Är summan minst 500? I så fall 0, annars 49.* Med `summa` 350 blir `frakt` 49.
+2. Med `if`/`else`:
+
+    ```javascript
+    let frakt;
+    if (summa >= 500) {
+        frakt = 0;
+    } else {
+        frakt = 49;
+    }
+    ```
+
+    Här är ternäroperatorn kortare och lika lätt att läsa, eftersom det enda som skiljer vägarna är ett värde. Lägg märke till att `if`-versionen måste använda `let`: variabeln skapas utan värde och tilldelas senare.
+
+**Villkor i funktioner**
+
+1. `return` avslutar funktionen. Kommer programmet förbi den första `if`-satsen vet vi att `poäng < 50` var falskt – annars hade funktionen redan returnerat. Ett `else` skulle inte tillföra något.
+2. `return poäng >= 50 && inlämnadITid;` – uttrycket är redan det booleska värde som ska returneras.
+
+## Övning – Spåra exekveringen
+
+1. Med `antal` 15:
+
+    | Villkor | Svar | Vad som händer |
+    |---|---|---|
+    | `antal > 20` | `false` | hoppas över |
+    | `antal > 10` | `true` | `B` skrivs ut |
+    | `antal > 5` | – | prövas inte |
+    | `else` | – | körs inte |
+
+    Utskriften blir `B`.
+
+2. 25 ger `A`, 10 ger `C` och 3 ger `D`. Lättast att gissa fel på är 10: `antal > 10` är falskt, eftersom 10 inte är *större* än 10. Det är först `antal > 5` som stämmer.
+3. Med `antal > 5` överst skulle alla tal större än 5 hamna i det första blocket. 25, 15 och 10 skulle alla ge samma utskrift, och de två villkoren efter skulle aldrig nås för något tal. Bara 3 skulle ge något annat (`D`). Det är fallgropen från rutan *Ordningen spelar roll*.
+
+## Övning – Hitta felet
+
+1. Utskrifterna blir `80`, `120` och `120`. Den sista är fel – en pensionär på 70 år ska betala 90 kr.
+2. Blocket med `return 90` kan aldrig köras. För att JavaScript ska komma fram till villkoret `ålder >= 65` måste `ålder >= 12` ha varit falskt, alltså måste åldern vara under 12. Och ingen som är under 12 är samtidigt 65 eller äldre.
+
+    | Villkor | `ålder` 70 | Vad som händer |
+    |---|---|---|
+    | `ålder >= 12` | `true` | `return 120` |
+    | `ålder >= 65` | – | prövas inte |
+    | `else` | – | körs inte |
+
+3. Två sätt att rätta:
+
+    ```javascript
+    // Den högsta gränsen först
+    function biljettpris(ålder) {
+        if (ålder >= 65) {
+            return 90;
+        } else if (ålder >= 12) {
+            return 120;
+        } else {
+            return 80;
+        }
+    }
+    ```
+
+    ```javascript
+    // Specialfallen först, det vanliga fallet sist
+    function biljettpris(ålder) {
+        if (ålder < 12) {
+            return 80;
+        }
+        if (ålder >= 65) {
+            return 90;
+        }
+        return 120;
+    }
+    ```
+
+    Den andra versionen använder early return. Barn och pensionärer är undantagen, och vanligt pris står sist.
+
+## Övning – Vad säger felet?
+
+| Snutt | Vad händer |
+|---|---|
+| A | `SyntaxError` – parenteserna runt villkoret saknas |
+| B | `SyntaxError` – `else` kan inte ha ett villkor |
+| C | inget felmeddelande, men `Full pott!` skrivs ut |
+| D | `SyntaxError` – den avslutande klammerparentesen saknas |
+
+1. A, B och D ger `SyntaxError`. Raden `console.log("Start");` skrivs *inte* ut när filen innehåller ett sådant fel. JavaScript läser igenom hela filen innan något körs, och hittar den ett syntaxfel körs ingenting alls – inte ens raderna före felet. (Felmeddelandet för D brukar vara *Unexpected end of input*: filen tog slut medan blocket fortfarande var öppet.)
+2. C. `poäng = 100` är en tilldelning, inte en jämförelse. Den ändrar `poäng` till 100, och tilldelningen ger själv värdet 100, som räknas som sant. Efteråt pekar `poäng` på `100`, och *Full pott!* skrivs ut oavsett vad poängen var.
+3. Rättade:
+
+    ```javascript
+    // A
+    if (poäng >= 50) {
+        console.log("Godkänd");
+    }
+    ```
+
+    ```javascript
+    // B
+    if (poäng >= 50) {
+        console.log("Godkänd");
+    } else {
+        console.log("Underkänd");
+    }
+    ```
+
+    ```javascript
+    // C
+    if (poäng === 100) {
+        console.log("Full pott!");
+    }
+    ```
+
+    ```javascript
+    // D
+    if (poäng >= 50) {
+        console.log("Godkänd");
+    }
+    ```
+
+    I B går det också att skriva `else if (poäng < 50)`, men det villkoret är onödigt: kommer programmet dit vet vi redan att poängen är under 50.
+
+## Övning – Förklara koden
+
+1. *Funktionen kontrollerar en anmälan till quizet och returnerar ett meddelande: antingen vad som är fel, eller att laget är välkommet.*
+2. `anmälan("", 8)` returnerar `"Laget behöver ett namn."`. Den första kontrollen stämmer, och `return` avslutar funktionen direkt. Den andra kontrollen körs aldrig. Det är priset för early return: funktionen säger bara till om det första felet den hittar.
+3. `anmälan("Ugglorna", 0)` returnerar `"Välkomna till quizet!"` – fast laget inte har några deltagare. En kontroll till:
+
+    ```javascript
+    function anmälan(lagnamn, antal) {
+        if (lagnamn.trim() === "") {
+            return "Laget behöver ett namn.";
+        }
+        if (antal < 1) {
+            return "Laget behöver minst en deltagare.";
+        }
+        if (antal > 6) {
+            return "Högst sex deltagare per lag.";
+        }
+        return "Välkomna till quizet!";
+    }
+    ```
+
+    Kontrollen ska stå bland de andra kontrollerna, före det sista `return`. Där spelar ordningen mellan kontrollerna ingen större roll, men den måste stå före `return "Välkomna till quizet!"` – annars nås den aldrig.
+
+## Övning – Ordna raderna
+
+```javascript
+const namnfält = document.querySelector("#namnfält");
+const hälsning = document.querySelector("#hälsning");
+namnfält.addEventListener("input", () => {
+    const namn = namnfält.value.trim();
+    if (namn === "") {
+        hälsning.textContent = "Hej, främling!";
+    } else {
+        hälsning.textContent = `Hej, ${namn}!`;
+    }
+});
+```
+
+1. Raderna som inte används:
+   - `} else if {` – ett `else if` måste ha ett villkor inom parentes. Det är ett `SyntaxError`, och det upptäcks redan när sidan laddas, eftersom JavaScript läser hela filen innan något körs.
+   - `if (namn = "") {` – en tilldelning i stället för en jämförelse. Syntaxen är giltig, så sidan laddas utan fel. Men när användaren skriver något körs callbacken, och raden försöker tilldela om `namn`, som är deklarerad med `const`. Det ger `TypeError: Assignment to constant variable.` – först då.
+2. Med ternäroperatorn:
+
+    ```javascript
+    namnfält.addEventListener("input", () => {
+        const namn = namnfält.value.trim();
+        hälsning.textContent = namn === "" ? "Hej, främling!" : `Hej, ${namn}!`;
+    });
+    ```
+
+    Här är ternäroperatorn lätt att läsa, eftersom det enda som skiljer vägarna är vilken text som visas. Många tycker ändå att `if`/`else` är tydligare när värdena är långa.
+
+## Övning – Refaktorera med funktioner
+
+```javascript
+function bedöm(namn, poäng) {
+    let status;
+    if (poäng >= 50) {
+        status = "Godkänd";
+    } else {
+        status = "Underkänd";
+    }
+    console.log(`${namn}: ${status}`);
+}
+
+bedöm("Karin", 78);
+bedöm("Erik", 43);
+bedöm("Lena", 91);
+```
+
+Koden blir 12 rader i stället för 29, och de tre sista raderna säger direkt vad som händer. Vill du ändra gränsen eller formatet gör du det på ett ställe.
+
+Uppdelad i två funktioner:
+
+```javascript
+function status(poäng) {
+    return poäng >= 50 ? "Godkänd" : "Underkänd";
+}
+
+function skrivUtBedömning(namn, poäng) {
+    console.log(`${namn}: ${status(poäng)}`);
+}
+
+skrivUtBedömning("Karin", 78);
+skrivUtBedömning("Erik", 43);
+skrivUtBedömning("Lena", 91);
+```
+
+`status` går att återanvända på en webbsida, eftersom den bara *returnerar* statusen och inte bryr sig om var den ska visas: `resultat.textContent = status(78);`. `skrivUtBedömning` är bunden till konsolen. Och ja, `status` kan skrivas med ternäroperatorn, eftersom den bara väljer ett av två värden.
+
+## Övning – Betyg på sidan
+
+```javascript
+const poängfält = document.querySelector("#poängfält");
+const beräknaKnapp = document.querySelector("#beräkna");
+const resultat = document.querySelector("#resultat");
+const hjälp = document.querySelector("#hjälp");
+
+beräknaKnapp.addEventListener("click", () => {
+    const text = poängfält.value.trim();
+
+    // Nollställ först, så att inget gammalt läge ligger kvar
+    resultat.classList.remove("godkänd", "underkänd");
+    hjälp.hidden = true;
+
+    if (text === "") {
+        resultat.textContent = "Skriv in ett antal poäng.";
+        return;
+    }
+
+    const poäng = Number(text);
+
+    if (Number.isNaN(poäng)) {
+        resultat.textContent = `"${text}" är inte ett tal.`;
+        return;
+    }
+
+    if (poäng < 0 || poäng > 100) {
+        resultat.textContent = "Poängen måste vara mellan 0 och 100.";
+        return;
+    }
+
+    const bokstav = betyg(poäng);
+    resultat.textContent = `${poäng} poäng ger betyget ${bokstav}.`;
+
+    if (bokstav === "F") {
+        resultat.classList.add("underkänd");
+        hjälp.hidden = false;
+    } else {
+        resultat.classList.add("godkänd");
+    }
+});
+```
+
+(Funktionen `betyg` från avsnittet *Villkor i funktioner* måste också stå i filen.)
+
+1. Ja, eftersom båda klasserna tas bort innan den nya läggs till. Gör du *inte* det har elementet båda klasserna efter ett godkänt och ett underkänt försök, och stilarna blandas ihop. `classList.remove` kan ta emot flera klassnamn på en gång.
+2. Se blocket `if (bokstav === "F")`. Hjälptexten visas bara där, och döljs annars.
+3. Nollställningen måste ske *innan* kontrollerna, högst upp i callbacken. Kontrollerna avslutar funktionen med `return`, så det som står efter dem körs inte när inmatningen är ogiltig. Alternativet är att skriva samma två rader i vart och ett av de tre `if`-blocken – men det är tre gånger så mycket kod och lätt att glömma ett.
+
+## Övning – Tangentbordsrörelser
+
+```css
+#ruta.blå {
+    background-color: steelblue;
+}
+```
+
+```javascript
+const ruta = document.querySelector("#ruta");
+const storlek = 50;
+let uppifrån = 100;
+let vänsterifrån = 100;
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") {
+        uppifrån -= 10;
+    } else if (e.key === "ArrowDown") {
+        uppifrån += 10;
+    } else if (e.key === "ArrowLeft") {
+        vänsterifrån -= 10;
+    } else if (e.key === "ArrowRight") {
+        vänsterifrån += 10;
+    } else if (e.key === "c") {
+        ruta.classList.toggle("blå");
+    }
+
+    // Håll rutan inom fönstret
+    if (uppifrån < 0) {
+        uppifrån = 0;
+    }
+    if (uppifrån > window.innerHeight - storlek) {
+        uppifrån = window.innerHeight - storlek;
+    }
+    if (vänsterifrån < 0) {
+        vänsterifrån = 0;
+    }
+    if (vänsterifrån > window.innerWidth - storlek) {
+        vänsterifrån = window.innerWidth - storlek;
+    }
+
+    ruta.style.top = `${uppifrån}px`;
+    ruta.style.left = `${vänsterifrån}px`;
+});
+```
+
+1. Rutans `top` och `left` anger var dess *övre vänstra hörn* är. Därför får `top` vara högst fönstrets höjd minus rutans höjd – annars sticker rutan ut nedanför. Kontrollerna står efter förflyttningen och flyttar tillbaka rutan om den har hamnat utanför.
+2. Regeln måste skrivas `#ruta.blå`. En regel med bara `.blå` hade varit svagare än `#ruta`, och rutan hade förblivit röd.
+3. Håller du en tangent nedtryckt kommer det först en händelse, sedan en kort paus, och sedan nya `keydown`-händelser många gånger i sekunden – som när en bokstav upprepas i en textredigerare. Rutan glider därför över skärmen. (Event-objektet har en egenskap `e.repeat` som är `true` för de upprepade händelserna.)
+
+## Övning – Formulera villkoren
+
+```javascript
+// 1
+function rundmeddelande(rätt) {
+    if (rätt === 10) {
+        return "Full pott!";
+    } else if (rätt >= 7) {
+        return "Mycket bra!";
+    } else if (rätt >= 4) {
+        return "Bra kämpat!";
+    } else {
+        return "Bättre lycka nästa gång!";
+    }
+}
+
+console.log(rundmeddelande(10));   // Full pott!
+console.log(rundmeddelande(7));    // Mycket bra!
+console.log(rundmeddelande(3));    // Bättre lycka nästa gång!
+```
+
+```javascript
+// 2
+function frakt(ordervärde, ärMedlem) {
+    if (ordervärde >= 500 || ärMedlem) {
+        return 0;
+    }
+    return 49;
+}
+
+console.log(frakt(450, false));   // 49
+console.log(frakt(450, true));    // 0
+console.log(frakt(500, false));   // 0
+```
+
+```javascript
+// 3
+function inloggning(ärInloggad, harBekräftatEpost, ärAvstängd) {
+    if (!ärInloggad) {
+        return "Du måste logga in.";
+    }
+    if (!harBekräftatEpost) {
+        return "Du måste bekräfta din e-postadress.";
+    }
+    if (ärAvstängd) {
+        return "Ditt konto är avstängt.";
+    }
+    return "Välkommen!";
+}
+
+console.log(inloggning(true, true, false));    // Välkommen!
+console.log(inloggning(true, false, false));   // Du måste bekräfta din e-postadress.
+```
+
+I uppgift 1 räcker `rätt >= 7` för "Mycket bra!", eftersom 10 redan är taget om hand. Testa gränsvärdena – 10, 7, 6, 4 och 3 – där det är lätt att välja fel mellan `>` och `>=`.
+
+## Övning – Temperaturen
+
+```javascript
+function klassificera(temperatur) {
+    if (temperatur < 5) {
+        return "kallt";
+    } else if (temperatur <= 20) {
+        return "lagom";
+    } else {
+        return "varmt";
+    }
+}
+
+console.log(klassificera(-10));   // kallt
+console.log(klassificera(5));     // lagom
+console.log(klassificera(15));    // lagom
+console.log(klassificera(20));    // lagom
+console.log(klassificera(30));    // varmt
+```
+
+1. De viktigaste värdena att testa är gränserna, 5 och 20. Där avgör valet mellan `<` och `<=` vilken kategori det blir, och det är där felen brukar sitta. −10, 15 och 30 hamnar mitt i sina kategorier och avslöjar sällan något.
+
+2–5. En hel sida:
+
+```html
+<style>
+    .kallt { background-color: lightblue; }
+    .lagom { background-color: lightgreen; }
+    .varmt { background-color: lightsalmon; }
+</style>
+
+<label for="celsius">Grader Celsius:</label>
+<input type="text" id="celsius">
+<button id="visa">Visa</button>
+<p id="temperatur"></p>
+```
+
+```javascript
+function tillFahrenheit(celsius) {
+    return celsius * 1.8 + 32;
+}
+
+const celsiusFält = document.querySelector("#celsius");
+const temperaturElement = document.querySelector("#temperatur");
+
+document.querySelector("#visa").addEventListener("click", () => {
+    const text = celsiusFält.value.trim();
+    temperaturElement.classList.remove("kallt", "lagom", "varmt");
+
+    if (text === "") {
+        temperaturElement.textContent = "Skriv in en temperatur.";
+        return;
+    }
+
+    const celsius = Number(text);
+
+    if (Number.isNaN(celsius)) {
+        temperaturElement.textContent = `"${text}" är inte ett tal.`;
+        return;
+    }
+
+    const kategori = klassificera(celsius);
+    const fahrenheit = tillFahrenheit(celsius).toFixed(1);
+
+    temperaturElement.textContent = `${kategori} (${celsius}°C, ${fahrenheit}°F)`;
+    temperaturElement.classList.add(kategori);
+});
+```
+
+3. Funktionen returnerar kategorin med små bokstäver, och klasserna heter likadant. Därför kan returvärdet användas direkt som klassnamn.
+4. Felmeddelandena följer samma mönster som i avsnittet *Ett löst exempel: kontrollera inmatningen*: tomt fält först, sedan `Number.isNaN`.
+5. Nej, `klassificera` behöver inte ändras. Den bedömer en temperatur i Celsius, och det gör den lika bra oavsett hur resultatet sedan visas. Omvandlingen till Fahrenheit är en annan uppgift och ligger i en egen funktion. Det är principen "en funktion bör göra en sak".
+
+Sidan visar *lagom (15°C, 59.0°F)* med liten bokstav, eftersom det är så `klassificera` returnerar kategorin. Vill du ha stor bokstav, som i uppgiften, kan du låta `klassificera` returnera `"Lagom"` och så vidare – men då måste klasserna i CSS:en heta likadant, eller väljas med en egen `if`-sats.
+
+## Övning – Quiz med visuell feedback
+
+```html
+<style>
+    .rätt {
+        border: 2px solid green;
+        background-color: #e8f5e9;
+    }
+    .fel {
+        border: 2px solid red;
+        background-color: #ffebee;
+    }
+</style>
+```
+
+```javascript
+const rättSvar = "Stockholm";
+
+const svarsfält = document.querySelector("#svar");
+const svaraKnapp = document.querySelector("#svara");
+const feedback = document.querySelector("#feedback");
+
+function kontrollera() {
+    const svar = svarsfält.value.trim().toLowerCase();
+
+    feedback.hidden = false;
+    feedback.classList.remove("rätt", "fel");
+
+    if (svar === rättSvar.toLowerCase()) {
+        feedback.textContent = "Rätt svar!";
+        feedback.classList.add("rätt");
+    } else {
+        feedback.textContent = `Fel! Rätt svar är ${rättSvar}.`;
+        feedback.classList.add("fel");
+    }
+}
+
+svaraKnapp.addEventListener("click", kontrollera);
+
+svarsfält.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        kontrollera();
+    }
+});
+```
+
+- `" stockholm "` räknas som rätt eftersom både svaret och det rätta svaret görs om till små bokstäver, och svaret städas med `trim()`. Det rätta svaret sparas med stor bokstav, så att det ser rätt ut i felmeddelandet.
+- Båda klasserna tas bort innan en ny läggs till. Annars får elementet både `rätt` och `fel` när användaren först svarar fel och sedan rätt.
+- Funktionen `kontrollera` anropas från två ställen. I klicklyssnaren lämnas den över utan parenteser. I tangentlyssnaren *anropas* den, med parenteser, men bara när tangenten är Enter.
+
+## Övning – Temaknappen
+
+```javascript
+const temaKnapp = document.querySelector("#tema-knapp");
+
+// 1. Med returvärdet från toggle
+temaKnapp.addEventListener("click", () => {
+    const ärMörkt = document.body.classList.toggle("dark");
+    if (ärMörkt) {
+        temaKnapp.textContent = "Ljust läge";
+    } else {
+        temaKnapp.textContent = "Mörkt läge";
+    }
+});
+```
+
+```javascript
+// 2. Med ternäroperatorn
+temaKnapp.addEventListener("click", () => {
+    const ärMörkt = document.body.classList.toggle("dark");
+    temaKnapp.textContent = ärMörkt ? "Ljust läge" : "Mörkt läge";
+});
+```
+
+1. Nej. `toggle` säger själv om klassen lades till, så `classList.contains` behövs inte. Det booleska svaret finns redan.
+2. Se ovan.
+
+Vilket sätt som är tydligast är en smaksak, men version 2 är kortast och säger precis vad som händer: knappens text blir en av två texter.
+
+Det går inte att lösa med enbart en tilldelning av ett booleskt värde, eftersom `textContent` inte är en boolesk egenskap. `hidden` och `disabled` vill ha `true` eller `false`, och då kan svaret på en fråga tilldelas direkt. Knappens text ska vara en av två *strängar*, och då måste programmet välja – med `if`/`else` eller ternäroperatorn.
+
+## Övning – Vem leder?
+
+1. Funktionen:
+
+    ```javascript
+    function ledare(lag1, lag2) {
+        if (lag1.poäng > lag2.poäng) {
+            return `${lag1.namn} leder med ${lag1.poäng - lag2.poäng} poäng.`;
+        } else if (lag2.poäng > lag1.poäng) {
+            return `${lag2.namn} leder med ${lag2.poäng - lag1.poäng} poäng.`;
+        } else {
+            return "Det står lika!";
+        }
+    }
+
+    const röda = { namn: "Röda stjärnor", poäng: 12 };
+    const blå = { namn: "Blå blixtarna", poäng: 9 };
+
+    console.log(ledare(röda, blå));   // Röda stjärnor leder med 3 poäng.
+    ```
+
+    Testa också med `blå` först i anropet, med blå i ledning, och med lika poäng. Skillnaden räknas alltid som det ledande lagets poäng minus det andras, så den blir aldrig negativ.
+
+2. Planeringen: varje callback har stegen *lyssna*, *bearbeta* (ge laget 3 poäng) och *visa*. Inget *läs*-steg, eftersom ingen skriver något. Steget *visa* är detsamma för båda knapparna – stycket ska visa vem som leder – så båda callbackarna kan anropa samma funktion.
+
+3. Sidan:
+
+    ```html
+    <button id="röda-knapp">Rätt svar – Röda stjärnor</button>
+    <button id="blå-knapp">Rätt svar – Blå blixtarna</button>
+    <p id="ledning">Det står lika!</p>
+    ```
+
+    ```javascript
+    const röda = { namn: "Röda stjärnor", poäng: 0 };
+    const blå = { namn: "Blå blixtarna", poäng: 0 };
+
+    const ledning = document.querySelector("#ledning");
+
+    function visaLedning() {
+        ledning.textContent = ledare(röda, blå);
+    }
+
+    document.querySelector("#röda-knapp").addEventListener("click", () => {
+        röda.poäng += 3;
+        visaLedning();
+    });
+
+    document.querySelector("#blå-knapp").addEventListener("click", () => {
+        blå.poäng += 3;
+        visaLedning();
+    });
+    ```
+
+    (Funktionen `ledare` från uppgift 1 måste också stå i filen.) `ledare` returnerar texten och `visaLedning` visar den: en funktion bygger texten, en annan visar den.

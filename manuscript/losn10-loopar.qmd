@@ -1,0 +1,371 @@
+---
+losningar-till: kap10-loopar.qmd
+---
+
+# Kapitel 10: Loopar {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-loopar].
+
+## Stanna upp-frågorna
+
+**`while`-loopen**
+
+1. Med villkoret `i < 3`:
+
+    | Varv | `i` före | Villkoret `i < 3` | Utskrift | `i` efter |
+    |---|---|---|---|---|
+    | 1 | 1 | `true` | `1` | 2 |
+    | 2 | 2 | `true` | `2` | 3 |
+    | – | 3 | `false` | `Klart!` (efter loopen) | 3 |
+
+    Blocket körs två gånger, och `i` pekar på 3 efter loopen.
+
+2. Bara `Klart!` skrivs ut. Villkoret `5 <= 3` är falskt redan första gången, så blocket körs aldrig. Villkoret prövas en gång.
+
+**`for`-loopen**
+
+1. Fyra gånger. `i` får värdena 0, 1, 2 och 3. När `i` blir 4 är villkoret falskt.
+2. Två sätt:
+
+    ```javascript
+    for (let i = 2; i <= 8; i += 2) {
+        console.log(i);
+    }
+    ```
+
+    ```javascript
+    for (let i = 1; i <= 4; i++) {
+        console.log(i * 2);
+    }
+    ```
+
+    I det första sättet räknar räknaren i steg om två. I det andra räknar den 1 till 4, och värdet som skrivs ut räknas ut från räknaren.
+
+**Bygga upp ett resultat**
+
+1. Sidan hade uppdaterats i varje varv, först med en rad, sedan två, och så vidare. Men loopen går så fort att du bara hinner se slutresultatet – sidan ser likadan ut. Skillnaden är att webbläsaren gör onödigt arbete.
+2. `summa` pekar på 240: 40 + 80 + 120.
+
+**När antalet varv inte är känt**
+
+1. I teorin skulle tärningen kunna låta bli att visa en sexa hur länge som helst, men i praktiken händer det inte – varje kast har en chans på sex att bli en sexa, och loopen tar slut efter några kast. Med `tärning !== 7` blir det däremot en oändlig loop: tärningen visar aldrig 7, så villkoret är alltid sant.
+2. Det första klicket fungerar som vanligt. Men efter det pekar `tärning` redan på 6. Vid nästa klick är villkoret `tärning !== 6` falskt redan från början, loopen körs inte, och sidan visar samma antal kast som förra gången. Variablerna måste skapas på nytt för varje klick – därför står de i callbacken.
+
+## Övning – Hur många varv?
+
+| Loop | Utskrift | Antal varv |
+|---|---|---|
+| A | 0, 1, 2, 3, 4 | 5 |
+| B | 10, 7, 4, 1 | 4 |
+| C | inget | 0 |
+| D | `*`, `**`, `***`, `****` | 4 |
+
+- **A:** räknaren börjar på 0, och villkoret `i < 5` gör att 5 inte kommer med. Fem varv, men det högsta talet är 4.
+- **B:** räknaren minskar med 3. Efter 1 blir den −2, och `-2 > 0` är falskt.
+- **C:** körs inte en enda gång. Villkoret `5 < 5` är falskt redan när loopen börjar. Det ger inget felmeddelande, eftersom det inte är något fel: en loop som noll gånger ska göra något är fullt giltig. JavaScript prövar villkoret, får svaret `false` och går vidare.
+- **D:** `rad` byggs upp med en stjärna per varv och skrivs ut varje gång.
+
+## Övning – Spåra summan
+
+1. Spårtabellen:
+
+    | Varv | `i` | Villkoret `i <= 5` | `summa` före | `summa` efter |
+    |---|---|---|---|---|
+    | 1 | 1 | `true` | 0 | 1 |
+    | 2 | 2 | `true` | 1 | 3 |
+    | 3 | 3 | `true` | 3 | 6 |
+    | 4 | 4 | `true` | 6 | 10 |
+    | 5 | 5 | `true` | 10 | 15 |
+    | – | 6 | `false` | 15 | 15 |
+
+2. `15`.
+3. I loopen skrivs summan ut i varje varv: `1`, `3`, `6`, `10`, `15` – fem rader. Du ser hur summan växer, men slutsumman är densamma.
+
+## Övning – Hitta felet
+
+1. `0`, `2`, `4`, `6` och `8` – de jämna talen. Räknaren börjar på 0 och ökar med 2, så den hamnar aldrig på ett udda tal.
+2. Byt startvärdet: `for (let i = 1; i <= 9; i += 2)`.
+3. Det blir sex rader, men för 0 till 5 deltagare. Den första raden blir `0 st: 0 kr`, vilket är konstigt, och raden för 6 deltagare saknas. Både starten och villkoret är fel. Det är det klassiska felet att gå ett steg fel: `antal = 1` och `antal <= 6` ger rätt rader.
+
+## Övning – Vad säger felet?
+
+| Snutt | Vad händer |
+|---|---|
+| A | `SyntaxError` – kommatecken i stället för semikolon i parentesen |
+| B | 1–5 skrivs ut, sedan `ReferenceError: i is not defined` |
+| C | `1 `, `2 ` och `3 ` på var sin rad – inget fel, men troligen inte det som var tänkt |
+| D | oändlig loop – sidan hänger sig |
+
+1. A ger ett `SyntaxError`. Parentesens tre delar ska skiljas åt med semikolon, och felet pekar på raden med `for`. Ingenting i filen körs. B ger ett `ReferenceError` på raden med `console.log` efter loopen. `i` är skapad med `let` i loopens parentes och finns bara inuti loopen. Loopen hinner köras klart innan felet kommer.
+2. C. Tanken var troligen att bygga upp texten `1 2 3 ` med mönstret från avsnittet *Bygga upp ett resultat*. Men `let text = "";` står i loopen, så variabeln skapas på nytt i varje varv och innehåller bara ett tal åt gången. Det är just felet i rutan *Startvärdet hör hemma före loopen*.
+3. Raden `antal++;` ökar antalet i stället för att minska det. Villkoret `antal > 0` blir aldrig falskt – antalet blir bara större och större.
+4. Rättade:
+
+    ```javascript
+    // A
+    for (let i = 1; i <= 5; i++) {
+        console.log(i);
+    }
+    ```
+
+    ```javascript
+    // B
+    let i = 1;
+    while (i <= 5) {
+        console.log(i);
+        i++;
+    }
+    console.log(`Loopen slutade på ${i}`);
+    ```
+
+    ```javascript
+    // C
+    let text = "";
+    for (let i = 1; i <= 3; i++) {
+        text += `${i} `;
+    }
+    console.log(text);
+    ```
+
+    ```javascript
+    // D
+    let antal = 10;
+    while (antal > 0) {
+        console.log(antal);
+        antal--;
+    }
+    ```
+
+    B kan rättas på flera sätt. Ovan är loopen omskriven som en `while`-loop, där räknaren skapas före loopen och därför finns kvar efteråt. Utskriften blir `Loopen slutade på 6`. Eller så tar man helt enkelt bort den sista raden: efter `for (let i = 1; i <= 5; i++)` vet man ju redan att räknaren slutar på 6.
+
+## Övning – Förklara koden
+
+1. *Koden räknar ut hur många veckor det tar att spara ihop till något som kostar 1200 kr, om man lägger undan 150 kr i veckan.* Den skriver ut `8`.
+2. Man vet inte i förväg hur många veckor det blir – det är ju det som ska räknas ut. Loopen ska fortsätta *så länge* man inte har sparat tillräckligt, och det är vad `while` uttrycker.
+3. Med 500 kr i veckan skrivs `3` ut. Efter två veckor har man 1000 kr, vilket inte räcker, och efter tre veckor 1500 kr. Man har alltså inte sparat exakt 1200 kr, utan 300 kr mer. Loopen slutar så fort `sparat` är *minst* lika med priset.
+
+## Övning – Ordna raderna
+
+```javascript
+const prislista = document.querySelector("#prislista");
+let text = "";
+for (let antal = 1; antal <= 6; antal++) {
+    text += `${antal} st: ${antal * 40} kr\n`;
+}
+prislista.textContent = text;
+```
+
+1. Raderna som inte används:
+   - `for (let antal = 1; antal < 6; antal++) {` – med `<` kommer 6 inte med. Sidan hade visat raderna för 1–5 deltagare.
+   - `text = \`${antal} st: ${antal * 40} kr\n\`;` – med `=` i stället för `+=` skrivs texten över i varje varv. Efter loopen innehåller `text` bara den sista raden, och sidan hade visat `6 st: 240 kr`.
+2. Raden ska stå *efter* loopen – den ska bara finnas en gång. Antingen läggs den till i `text` efter loopen:
+
+    ```javascript
+    text += "Max 6 deltagare per lag";
+    ```
+
+    eller så slås den ihop med texten när den visas. Står den i loopen kommer den med sex gånger, och före loopen hamnar den överst.
+
+## Övning – Bygg vidare på nedräkningen
+
+```html
+<label for="starttal">Räkna ned från:</label>
+<input type="text" id="starttal">
+<label for="steg">Steg:</label>
+<input type="text" id="steg">
+<button id="starta">Starta</button>
+<pre id="nedräkning"></pre>
+```
+
+```javascript
+const starttalFält = document.querySelector("#starttal");
+const stegFält = document.querySelector("#steg");
+const startaKnapp = document.querySelector("#starta");
+const nedräkning = document.querySelector("#nedräkning");
+
+startaKnapp.addEventListener("click", () => {
+    const starttal = Number(starttalFält.value);
+    const steg = Number(stegFält.value);
+
+    if (Number.isNaN(starttal) || starttal < 1 || starttal > 100) {
+        nedräkning.textContent = "Skriv ett starttal mellan 1 och 100.";
+        return;
+    }
+
+    if (Number.isNaN(steg) || steg < 1) {
+        nedräkning.textContent = "Steget måste vara minst 1.";
+        return;
+    }
+
+    let text = "";
+    for (let i = starttal; i >= 1; i -= steg) {
+        text += `${i}\n`;
+    }
+    text += "Kör!";
+
+    nedräkning.textContent = text;
+});
+```
+
+1. Med starttalet 10 och steget 4 blir det 10, 6, 2 och *Kör!*. Ettan kommer inte med, eftersom 2 − 4 är −2 och loopen slutar. Om det ska vara så är en smaksak – men det är det programmet gör, och det är bra att ha tänkt igenom det.
+2. Med steget 0 ändras aldrig räknaren, och `i >= 1` förblir sant för alltid – en oändlig loop. Med ett negativt steg blir det ännu värre: `i -= -2` *ökar* räknaren. Därför kontrolleras steget innan loopen körs. Lägg märke till att ett tomt stegfält ger `Number("")`, alltså 0, och fångas av samma kontroll.
+3. Mellanslaget i `${i} ` byts mot en radbrytning, `\n`. Men i ett `<p>`-element visas radbrytningar som mellanslag, så elementet måste också bytas till `<pre>` i HTML-koden.
+
+## Övning – Spargrisen
+
+```html
+<label for="pris">Det kostar (kr):</label>
+<input type="text" id="pris">
+<label for="per-vecka">Jag sparar per vecka (kr):</label>
+<input type="text" id="per-vecka">
+<button id="räkna">Räkna ut</button>
+<p id="svar"></p>
+<pre id="veckor"></pre>
+```
+
+```javascript
+const prisFält = document.querySelector("#pris");
+const perVeckaFält = document.querySelector("#per-vecka");
+const svar = document.querySelector("#svar");
+const veckorElement = document.querySelector("#veckor");
+
+document.querySelector("#räkna").addEventListener("click", () => {
+    const pris = Number(prisFält.value);
+    const perVecka = Number(perVeckaFält.value);
+
+    veckorElement.textContent = "";
+
+    if (Number.isNaN(pris) || pris <= 0) {
+        svar.textContent = "Skriv vad det kostar.";
+        return;
+    }
+
+    if (Number.isNaN(perVecka) || perVecka <= 0) {
+        svar.textContent = "Du måste spara mer än 0 kr i veckan.";
+        return;
+    }
+
+    let sparat = 0;
+    let veckor = 0;
+    let lista = "";
+
+    while (sparat < pris) {
+        sparat += perVecka;
+        veckor++;
+        lista += `Vecka ${veckor}: ${sparat} kr\n`;
+    }
+
+    svar.textContent = `Det tar ${veckor} veckor att spara ihop till ${pris} kr.`;
+    veckorElement.textContent = lista;
+});
+```
+
+3. Med 0 kr i veckan ökar `sparat` aldrig, och `sparat < pris` förblir sant – en oändlig loop, och sidan hänger sig. Därför ska kontrollen skrivas *innan* du provar. Samma sak gäller ett negativt belopp och ett tomt fält, eftersom `Number("")` ger 0.
+
+## Övning – Biljettpriser
+
+```html
+<label for="pris">Pris per person (kr):</label>
+<input type="text" id="pris">
+<label for="max">Största antal deltagare:</label>
+<input type="text" id="max">
+<button id="visa">Visa prislista</button>
+<pre id="prislista"></pre>
+```
+
+```javascript
+// 1. Hämta
+const prisFält = document.querySelector("#pris");
+const maxFält = document.querySelector("#max");
+const prislista = document.querySelector("#prislista");
+
+// 2. Lyssna
+document.querySelector("#visa").addEventListener("click", () => {
+    // 3. Läs
+    const pris = Number(prisFält.value);
+    const max = Number(maxFält.value);
+
+    // 4. Bearbeta
+    if (Number.isNaN(pris) || Number.isNaN(max) || pris < 0 || max < 1 || max > 50) {
+        prislista.textContent = "Skriv ett pris och ett antal mellan 1 och 50.";
+        return;
+    }
+
+    let text = "";
+    let totalt = 0;
+
+    for (let antal = 1; antal <= max; antal++) {
+        const lagpris = antal * pris;
+        text += `${antal} st: ${lagpris} kr\n`;
+        totalt += lagpris;
+    }
+
+    text += `Totalt för ett lag av varje storlek: ${totalt} kr`;
+
+    // 5. Visa
+    prislista.textContent = text;
+});
+```
+
+2. Samma loop kan räkna ut summan. Varje varv räknar ändå ut lagets pris, och det kan både läggas till i texten och i summan. Två variabler byggs upp samtidigt: `text` och `totalt`, båda med startvärden före loopen.
+3. Med 1000 som största antal fungerar programmet, men sidan visar tusen rader. Det är knappast vad användaren ville, och de flesta rader är meningslösa – inget quizlag har 800 deltagare. Därför har lösningen en övre gräns, som nedräkningen i kapitlet. Exakt var gränsen går är ett val.
+
+## Övning – Frågornas typer
+
+```javascript
+for (let nr = 1; nr <= 15; nr++) {
+    if (nr % 3 === 0 && nr % 5 === 0) {
+        console.log(`Fråga ${nr}: bonus`);
+    } else if (nr % 3 === 0) {
+        console.log(`Fråga ${nr}: musik`);
+    } else if (nr % 5 === 0) {
+        console.log(`Fråga ${nr}: bild`);
+    } else {
+        console.log(`Fråga ${nr}: vanlig`);
+    }
+}
+```
+
+1. `nr % 3 === 0` frågar om det blir något över när frågorna delas upp i grupper om tre. Blir det inget över – som för 3, 6, 9, 12 och 15 – är det var tredje fråga.
+2. Villkoret för bonusfrågan måste stå *först*. Fråga 15 är både var tredje och var femte. Står musikvillkoret först stämmer det för 15, kedjan väljer musik och hoppar över resten. Det mest specifika villkoret – det som kräver mest – ska stå överst, precis som den högsta gränsen i betygskedjan.
+3. Med ett fält:
+
+    ```html
+    <label for="antal">Antal frågor:</label>
+    <input type="text" id="antal">
+    <button id="visa">Visa</button>
+    <pre id="frågor"></pre>
+    ```
+
+    ```javascript
+    const antalFält = document.querySelector("#antal");
+    const frågorElement = document.querySelector("#frågor");
+
+    document.querySelector("#visa").addEventListener("click", () => {
+        const antal = Number(antalFält.value);
+
+        if (Number.isNaN(antal) || antal < 1 || antal > 100) {
+            frågorElement.textContent = "Skriv ett antal mellan 1 och 100.";
+            return;
+        }
+
+        let text = "";
+        for (let nr = 1; nr <= antal; nr++) {
+            let typ;
+            if (nr % 3 === 0 && nr % 5 === 0) {
+                typ = "bonus";
+            } else if (nr % 3 === 0) {
+                typ = "musik";
+            } else if (nr % 5 === 0) {
+                typ = "bild";
+            } else {
+                typ = "vanlig";
+            }
+            text += `Fråga ${nr}: ${typ}\n`;
+        }
+
+        frågorElement.textContent = text;
+    });
+    ```
+
+    Här väljer `if`-kedjan bara *typen*, och raden byggs på ett ställe. Det är kortare än att skriva hela raden i varje gren, och formatet kan ändras på ett ställe.

@@ -1,0 +1,158 @@
+---
+losningar-till: kap03-anropa-funktioner.qmd
+---
+
+# Kapitel 3: Att använda funktioner {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-anropa-funktioner].
+
+## Stanna upp-frågorna
+
+**Vad är en funktion?**
+
+1. Ta en biljettautomat. "Knappen" är valet av biljett, till exempel *Vuxen, enkel resa*. Det du skickar med är betalningen. Tillbaka får du en biljett. Automaten är alltså en maskin som ger något tillbaka, som kaffebryggaren. En tvättmaskin är mer som dörrklockan: du väljer program och stoppar in tvätten, och maskinen *gör* något med tvätten, men du får inget nytt tillbaka.
+2. `alert` liknar dörrklockan. Den *gör* något – visar en ruta – men ger inget användbart tillbaka.
+
+**Att anropa en funktion**
+
+1. `alert` utan parenteser ger dig själva funktionen, maskinen. `alert("Hej!")` *kör* funktionen, och rutan visas. Det blir inget fel eftersom det är fullt tillåtet att tala om en funktion utan att köra den – ibland är det just vad man vill.
+2. Funktionen får värdet `15`. JavaScript räknar ut uttrycket först, och funktionen ser bara resultatet.
+
+**Returvärden**
+
+1. Ungefär: när funktionen är klar är det som om anropet hade suddats ut ur koden och ersatts av värdet som funktionen gav tillbaka. Resten av raden fortsätter sedan med det värdet.
+2. `svar` pekar på `undefined`. `alert` visar rutan men returnerar ingenting. Det upptäcker du först när du har klickat bort rutan, för det är först då anropet är klart.
+3. I konsolen visas alltid värdet av det man skriver in. I en fil finns ingen som visar värdet. Funktionen körs och returnerar `19`, men ingen sparar, skickar vidare eller skriver ut det, så det försvinner.
+
+**Metoder – funktioner i objekt**
+
+1. En metod. Det står ett objekt, `console`, och en punkt före namnet `log`.
+2. Du får `TypeError: Math.PI is not a function`. `Math.PI` är ett tal, och ett tal går inte att köra. Det är samma sorts fel som när en metod är felstavad: det som står före parenteserna är ingen funktion.
+
+**Anrop inuti anrop**
+
+1. Det innersta anropet körs först: `Math.max(2, 7)` returnerar `7`. Raden blir `console.log(Math.min(4, 7));`. Sedan returnerar `Math.min(4, 7)` värdet `4`, och raden blir `console.log(4);`. Till sist skrivs `4` ut.
+
+**När anropet går fel**
+
+1. Felet där parenteserna saknas. Det ger inget felmeddelande alls – det händer bara ingenting. De andra tre felen märks direkt, eftersom konsolen visar röd text.
+2. Titta på namnet precis före parenteserna, `Math.mxa`. Objektet `Math` finns, men det har ingen metod `mxa`. Det ska stå `max`.
+
+## Övning – Vad svarar konsolen?
+
+| Rad | Konsolen svarar | Händer något mer? |
+|---|---|---|
+| `Math.max(3, 8, 5);` | `8` | nej |
+| `Math.min(3, 8, 5);` | `3` | nej |
+| `console.log(Math.max(3, 8, 5));` | `undefined` | `8` skrivs ut först |
+| `console.log;` | `ƒ log() { [native code] }` | nej |
+| `alert("Rätt svar!");` | `undefined` | en ruta visas |
+| `Math.max(3, 8, 5) + Math.min(3, 8, 5);` | `11` | nej |
+
+1. Rad 1 och rad 3 ger båda `8`. På rad 1 är `8` konsolens svar, alltså returvärdet från `Math.max`. På rad 3 är `8` en utskrift som `console.log` gör. Konsolens svar på den raden är `undefined`, eftersom det är vad `console.log` returnerar. (Utskriften har ingen pil eller grå färg framför sig – titta noga på skillnaden i din konsol.)
+2. Konsolen visar själva funktionen, ungefär `ƒ log() { [native code] }`. Ingenting skrivs ut, eftersom parenteserna saknas och funktionen därför aldrig körs.
+
+## Övning – Inifrån och ut
+
+**Rad 1:** `console.log(lag.namn + " har " + Math.max(lag.poäng, 10) + " poäng");`
+
+| Steg | Vad som räknas ut | Raden ser nu ut så här |
+|---|---|---|
+| 1 | `lag.namn` läses: `"Gula gänget"` | `console.log("Gula gänget" + " har " + Math.max(lag.poäng, 10) + " poäng");` |
+| 2 | `lag.poäng` läses: `14` | `console.log("Gula gänget" + " har " + Math.max(14, 10) + " poäng");` |
+| 3 | `Math.max(14, 10)` returnerar `14` | `console.log("Gula gänget" + " har " + 14 + " poäng");` |
+| 4 | texten slås ihop | `console.log("Gula gänget har 14 poäng");` |
+| 5 | `console.log` skriver ut texten och returnerar `undefined` | – |
+
+Steg 1 och 2 kan också tas i omvänd ordning, eller som ett gemensamt steg. Det viktiga är att alla värden finns på plats innan `Math.max` körs, och att `Math.max` körs innan texten slås ihop.
+
+**Rad 2:** `console.log(Math.min(Math.max(2, 9), 5));`
+
+| Steg | Vad som räknas ut | Raden ser nu ut så här |
+|---|---|---|
+| 1 | `Math.max(2, 9)` returnerar `9` | `console.log(Math.min(9, 5));` |
+| 2 | `Math.min(9, 5)` returnerar `5` | `console.log(5);` |
+| 3 | `console.log` skriver ut `5` och returnerar `undefined` | – |
+
+Utskriften blir:
+
+```
+Gula gänget har 14 poäng
+5
+```
+
+## Övning – Fri funktion, metod eller egenskap?
+
+| Rad | Vad det är | Hur du ser det |
+|---|---|---|
+| `prompt("Ditt namn?")` | fri funktion | parenteser, men ingen punkt framför |
+| `Math.PI` | egenskap | punkt, men inga parenteser |
+| `console.log("Hej")` | metod | punkt och parenteser |
+| `lag.poäng` | egenskap | punkt, men inga parenteser |
+| `Math.round(4.6)` | metod | punkt och parenteser |
+| `Number("7")` | fri funktion | parenteser, men ingen punkt framför |
+| `document.title` | egenskap | punkt, men inga parenteser |
+
+Regeln: parenteser betyder att något körs, och en punkt framför betyder att det ligger i ett objekt. `document.title` är alltså en egenskap i objektet `document`. I konsolen ger den sidans titel.
+
+## Övning – Vad säger felet?
+
+| Rad | Fel | Det som pekar ut felet |
+|---|---|---|
+| `Console.log("Hej!");` | `ReferenceError: Console is not defined` | namnet `Console`, med stort C |
+| `Math.mx(4, 9);` | `TypeError: Math.mx is not a function` | `Math.mx` – namnet före parenteserna |
+| `alert "Hej!";` | `SyntaxError: Unexpected string` | *string*: en sträng står där JavaScript inte väntade sig en |
+| `Math.max(4, 9;` | `SyntaxError: missing ) after argument list` | *missing )* – en parentes saknas |
+| `prompt;` | inget fel | – |
+
+Raden utan felmeddelande är `prompt;`. Parenteserna saknas, så funktionen körs aldrig. Konsolen visar bara själva funktionen, och ingen ruta dyker upp.
+
+Lägg märke till skillnaden mellan de två första. `Console` finns inte alls, och det ger ett `ReferenceError`. `Math` finns, men det saknar egenskapen `mx`, och försöket att köra `undefined` ger ett `TypeError`. Exakt hur meddelandena är formulerade kan skilja sig lite mellan webbläsare.
+
+## Övning – Förklara koden
+
+1. *Besökaren får frågan vad laget heter, skriver in ett namn och hälsas sedan välkommen med lagets namn.* (Utskriften i konsolen ser besökaren inte.)
+2. Bara `prompt` returnerar ett värde som programmet använder: texten som besökaren skrev, som sparas i `lagnamn`. `alert` och `console.log` returnerar båda `undefined`, och ingen tar hand om de värdena – de försvinner, vilket är helt i sin ordning.
+3. Rutan visar `Välkommen till quizkvällen, null!`. När besökaren klickar *Avbryt* returnerar `prompt` värdet `null`. När `null` slås ihop med en sträng görs det om till texten `null`, precis som ett tal görs om till text.
+
+## Övning – Ordna raderna
+
+```javascript
+const lag1 = 12;
+const lag2 = 17;
+const vinnarpoäng = Math.max(lag1, lag2);
+console.log("Vinnarna fick " + vinnarpoäng + " poäng");
+```
+
+1. Raderna som inte används:
+   - `const vinnarpoäng = Math.max;` – parenteserna saknas, så funktionen körs inte. `vinnarpoäng` pekar på själva *funktionen*, inte på ett returvärde. Utskriften blir ungefär `Vinnarna fick function max() { [native code] } poäng`.
+   - `const vinnarpoäng = console.log(Math.max(lag1, lag2));` – här skrivs `17` ut, men `vinnarpoäng` pekar på `console.log`s *returvärde*, som är `undefined`. Utskriften blir `Vinnarna fick undefined poäng`.
+2. Raderna med `lag1` och `lag2` kan stå i vilken ordning som helst sinsemellan. Men båda måste stå *före* raden med `Math.max`, eftersom deras värden behövs som argument när den raden körs. Står de efter får du ett felmeddelande om att `lag1` inte kan användas innan den har fått ett värde.
+
+## Övning – Slå upp en funktion
+
+1. Under *Parameters* står två parametrar, `message` och `defaultValue`. Den första är texten som visas i rutan, alltså frågan. Den andra är texten som redan står ifylld i textfältet. Båda är märkta *optional*, alltså valfria: man behöver inte skicka med dem. Under *Return value* står att funktionen returnerar texten som användaren skrev. Med egna ord: *du ger `prompt` en fråga och, om du vill, ett förslag på svar, och du får tillbaka det användaren skrev.*
+2. Returvärdet är antingen en *string*, texten som användaren skrev, eller `null`. Texten får man när användaren klickar *OK*, också om fältet är tomt – då är det en tom sträng. `null` får man när användaren klickar *Avbryt*. Det stämmer med kapitlet. Testar du i konsolen, till exempel med `prompt("Vad heter ert lag?");`, ser du antingen texten inom citattecken eller `null`.
+3. Under *Return value* för `alert` står *None (`undefined`)*. Det stämmer: `alert` är en dörrklocka. Den gör något, men ger inget tillbaka.
+
+## Övning – Quizets topplista
+
+```javascript
+const röda = { namn: "Röda stjärnor", poäng: 12 };
+const blå = { namn: "Blå blixtarna", poäng: 19 };
+const gula = { namn: "Gula gänget", poäng: 15 };
+
+// 1
+console.log("Högsta poäng: " + Math.max(röda.poäng, blå.poäng, gula.poäng));
+
+// 2
+console.log("Skillnad: " + (Math.max(röda.poäng, blå.poäng, gula.poäng) - Math.min(röda.poäng, blå.poäng, gula.poäng)) + " poäng");
+
+// 3
+blå.poäng = blå.poäng - 5;
+```
+
+1. Utskriften blir `Högsta poäng: 19`.
+2. Utskriften blir `Skillnad: 7 poäng`. Parentesen runt subtraktionen behövs. Utan den räknar JavaScript från vänster: först slås `"Skillnad: "` ihop med `19` till texten `"Skillnad: 19"`, och sedan försöker JavaScript dra `12` från en text. Det går inte, och resultatet blir `NaN`, en förkortning av *Not a Number*, "inte ett tal". Utskriften blir då `NaN poäng`. Med parentesen räknas skillnaden ut först.
+3. Kör du raderna igen efter ändringen ger de `Högsta poäng: 15` och `Skillnad: 3 poäng`. Bara raden som ändrar objektet behövde skrivas. De andra raderna behövde inte ändras, eftersom de läser poängen från objekten varje gång de körs. Hade du skrivit talen direkt, `Math.max(12, 19, 15)`, hade du fått ändra i dem också.
+4. Nej. `Math.max` får bara talen, inte lagen, och returnerar ett tal. Den vet inte vilket lag talet kom från. Det som saknas är ett sätt att *välja*: om röda har mest, skriv röda, annars … Det är just vad villkorssatser gör.

@@ -463,7 +463,7 @@ tid;
 typeof tid;
 ```
 
-En av raderna ger `undefined`. Vilken, och varför? (Tänk på skillnaden mellan uttryck och satser från kapitel [-@sec-om-javascript].)
+En av raderna ger `undefined`. Vilken, och varför? (Tänk på skillnaden mellan uttryck och satser.)
 :::
 
 ::: {.callout-note}
@@ -583,7 +583,7 @@ let poäng = 5;
 ```
 
 1. Vilken rad använde du inte? Vilket felmeddelande tror du att du skulle få om du använde den i stället? Testa i konsolen (ladda om sidan mellan försöken).
-2. Spelar det någon roll i vilken ordning de två första raderna i ditt program står? Varför?
+2. Spelar det någon roll om raden med `lagnamn` står före eller efter raderna med `poäng`? Vilka rader *måste* stå i en viss ordning, och varför?
 :::
 
 ::: {.callout-note}

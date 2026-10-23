@@ -1,0 +1,206 @@
+---
+losningar-till: kap02-variabler.qmd
+---
+
+# Kapitel 2: Värden och variabler {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-variabler].
+
+## Övning – Förutsäg konsolens svar
+
+```javascript
+"Poäng: " + 12;   // 'Poäng: 12'
+5 + 3;            // 8
+"5" + 3;          // '53'
+let tid = 30;     // undefined
+tid;              // 30
+typeof tid;       // 'number'
+```
+
+Raden som ger `undefined` är `let tid = 30;`. En deklaration är en sats: den *gör* något – skapar variabeln `tid` – men ger inget värde. Konsolen har därför inget att visa. Raden efter, `tid;`, är ett uttryck, och dess värde är det värde som `tid` pekar på.
+
+Jämför också rad 1 och rad 3. I båda slås en sträng ihop med ett tal, och talet görs om till text. I rad 1 är det just vad vi vill. I rad 3 blir det `'53'` och inte `8`, eftersom `"5"` är en sträng och inte ett tal.
+
+## Övning – Typa värdena
+
+| Värde | Typ | Motivering |
+|---|---|---|
+| `-7` | `number` | ett tal, minustecknet hör till talet |
+| `"false"` | `string` | citattecken gör det till text |
+| `false` | `boolean` | ett av de två sanningsvärdena |
+| `"3.14"` | `string` | citattecken – text som ser ut som ett tal |
+| `3.14` | `number` | ett decimaltal |
+| `null` | *(se nedan)* | det avsiktligt tomma värdet |
+| `0` | `number` | noll är ett tal som alla andra |
+| `{ poäng: 0 }` | `object` | klammerparenteser och en egenskap |
+
+`null` är sin egen typ, men `typeof null` ger `"object"`. Det är det historiska felet i JavaScript som kapitlet beskriver. Om du svarade "object" och fick rätt i konsolen har du alltså hittat buggen.
+
+`"false"` och `false` ser lika ut, men det ena är fem bokstäver och det andra är ett sanningsvärde. Det som avgör är citattecknen. Med citattecken är det text, och för JavaScript är texten `"false"` inte mer falsk än texten `"banan"`. Samma sak gäller `"3.14"` och `3.14`. Skillnaden blir viktig när du börjar läsa vad användaren skriver i formulär, eftersom det alltid kommer som text.
+
+## Övning – Spåra poängen
+
+| Rad | `poäng` | `bonus` |
+|---|---|---|
+| 1 | 5 | – |
+| 2 | 5 | 2 |
+| 3 | 7 | 2 |
+| 4 | 7 | 6 |
+| 5 | 13 | 6 |
+| 6 | 13 | 13 |
+| 7 | 12 | 13 |
+
+1. Rad 3 läses: "räkna ut `poäng + bonus`, alltså `5 + 2`, och låt sedan `poäng` vara det". `poäng` pekar därefter på `7`.
+2. Efter rad 6 pekar både `poäng` och `bonus` på värdet `13`. Rad 7 räknar ut `13 - 1` och flyttar `poäng`s pil till `12`. `bonus` pekar kvar på `13`.
+
+```{mermaid}
+%%| fig-alt: "Två lägen. Efter rad 6 pekar både namnet poäng och namnet bonus på värdet 13. Efter rad 7 pekar poäng på 12, medan bonus fortfarande pekar på 13."
+flowchart LR
+    subgraph rad6["Efter rad 6"]
+        direction LR
+        A[poäng] --> V1((13))
+        B[bonus] --> V1
+    end
+    subgraph rad7["Efter rad 7"]
+        direction LR
+        C[poäng] --> V2((12))
+        D[bonus] --> V3((13))
+    end
+```
+
+`bonus` ändras alltså inte. Rad 6 gav `bonus` samma *värde* som `poäng` hade just då – den kopplade inte ihop namnen. När `poäng` sedan får ett nytt värde påverkar det bara `poäng`s pil.
+
+## Övning – Vilka rader ger fel?
+
+| Rad | Resultat |
+|---|---|
+| `tidKvar;` | fungerar: `undefined`, eftersom variabeln aldrig har fått något värde |
+| `lag.poäng = 10;` | fungerar: objektets poäng ändras till `10` |
+| `maxPoäng = 120;` | fel: `TypeError: Assignment to constant variable.` |
+| `lag = { namn: "Gula gänget", poäng: 0 };` | fel: samma `TypeError` |
+| `"10" + lag.poäng;` | fungerar: `'1010'` – strängen `"10"` och talet `10` slås ihop till text |
+| `lag.kapten;` | fungerar: `undefined`, egenskapen finns inte |
+| `typeof tidKvar;` | fungerar: `'undefined'` |
+
+Ordet som pekar ut felet i meddelandet är *constant*: du försöker tilldela om en variabel som är deklarerad med `const`.
+
+Två rader brukar ställa till det:
+
+- **`lag.poäng = 10;` fungerar trots `const`.** `const` hindrar att variabeln `lag` får ett nytt värde, men inte att objektet ändras. Se rutan *`const` och objekt*.
+- **`lag = { … };` ger fel** av precis samma skäl: här får variabeln ett helt nytt objekt, och då måste pilen flyttas.
+
+Lägg också märke till att `typeof tidKvar` ger *strängen* `'undefined'` – med citattecken – medan `tidKvar` ger själva *värdet* `undefined`.
+
+## Övning – Förklara koden
+
+En möjlig förklaring: *Blå blixtarna hade 9 poäng, svarade rätt och fick 3 poäng till, och nu skrivs deras nya poäng ut.*
+
+Utskriften blir:
+
+```
+Blå blixtarna har 12 poäng
+```
+
+En förklaring som går igenom raderna – "först skapas ett objekt, sedan en konstant …" – är inte fel, men den säger *hur* och inte *vad*. Övningen tränar dig att se helheten.
+
+## Övning – Namnge rätt
+
+| Namn | Problem | Bättre namn |
+|---|---|---|
+| `1stPlats` | ogiltigt: börjar med en siffra | `förstaPlats` |
+| `svar-rätt` | ogiltigt: bindestrecket läses som minus | `svarRätt` eller `ärRätt` |
+| `x` | fungerar, men säger inget om innehållet | `tidKvar` |
+| `TheNumberOfSecondsRemainingInTheCurrentRound` | fungerar, men är för långt och börjar med versal (PascalCase, som används för klasser) | `sekunderKvar` |
+| `let` | ogiltigt: `let` är ett reserverat ord | `hälsning` |
+
+Bättre namn kan se ut på många sätt. Det viktiga är att namnet följer reglerna, skrivs i camelCase och säger vad variabeln innehåller utan att bli onödigt långt.
+
+## Övning – Ordna raderna
+
+```javascript
+const lagnamn = "Röda stjärnor";
+let poäng = 5;
+poäng = poäng + 10;
+console.log(lagnamn + ": " + poäng + " poäng");
+```
+
+1. Raden som inte används är `const poäng = 5;`. Med den i stället för `let` skulle raden `poäng = poäng + 10;` ge `TypeError: Assignment to constant variable.`, eftersom en `const`-variabel inte kan tilldelas om. (Använder du *båda* deklarationerna får du i stället ett `SyntaxError`, eftersom `poäng` deklareras två gånger.)
+2. Raden med `lagnamn` kan stå var som helst före `console.log`. Den har inget med `poäng` att göra. De andra tre raderna måste däremot stå i just den ordningen: variabeln måste deklareras innan den tilldelas om, och båda måste hända innan värdet skrivs ut. Skrivs `console.log` före tilldelningen blir utskriften `Röda stjärnor: 5 poäng`.
+
+## Övning – Från variabler till objekt
+
+```javascript
+const lag1 = {
+    namn: "Röda stjärnor",
+    poäng: 12,
+    ärAktivt: true
+};
+
+const lag2 = {
+    namn: "Blå blixtarna",
+    poäng: 9,
+    ärAktivt: false
+};
+
+lag2.poäng = lag2.poäng + 10;
+lag1.ärAktivt = false;
+lag2.ärAktivt = true;
+
+console.log(lag1.namn + ": " + lag1.poäng + " poäng");   // Röda stjärnor: 12 poäng
+console.log(lag2.namn + ": " + lag2.poäng + " poäng");   // Blå blixtarna: 19 poäng
+```
+
+`const` fungerar eftersom ingen av variablerna får ett nytt värde. Pilen från `lag2` pekar på samma objekt hela tiden – det är bara objektets *innehåll* som ändras. Hade du i stället skrivit `lag2 = { namn: "Blå blixtarna", poäng: 19, ärAktivt: true };` hade pilen flyttats till ett nytt objekt, och då hade `const` gett fel.
+
+Det går också bra att skriva `lag2.poäng = 19;`. Men `lag2.poäng + 10` säger *vad som hände* – laget fick 10 poäng – och fungerar oavsett hur många poäng laget hade innan.
+
+## Övning – Quizprogrammets variabler
+
+```javascript
+const spelarnamn = "Anna";    // const: namnet byts inte under spelets gång
+let poäng = 0;                // let: ökar när spelaren svarar rätt
+let sekunderKvar = 30;        // let: räknas ned under rundan
+let svaretVarRätt = false;    // let: ändras för varje nytt svar
+const maxPoäng = 100;         // const: ändras aldrig under spelets gång
+```
+
+Startvärdet för `svaretVarRätt` kan diskuteras. `false` fungerar, men inget svar har ju getts än. `null` – "avsiktligt tomt" – säger det tydligare. Om spelarnamnet ska kunna ändras, till exempel om spelaren skrev fel, ska det vara `let`.
+
+**Objektet `spelare`** bör innehålla namnet och poängen. De beskriver spelaren och hör ihop.
+
+```javascript
+const spelare = {
+    namn: "Anna",
+    poäng: 0
+};
+```
+
+De andra hör inte till spelaren. Tiden som är kvar hör till *rundan*, om svaret var rätt hör till *frågan* (eller svaret), och det maximala antalet poäng hör till *spelet*. Spelas quizet av flera spelare har var och en sitt namn och sina poäng, men alla delar på samma runda och samma maxpoäng.
+
+## Övning – En quizfråga som objekt
+
+```javascript
+const fråga = {
+    text: "Vad heter Sveriges huvudstad?",
+    svar: "Stockholm",
+    poäng: 3
+};
+
+// 1
+console.log("Fråga (" + fråga.poäng + " poäng): " + fråga.text);
+
+// 2
+fråga.poäng = fråga.poäng * 2;
+console.log("Fråga (" + fråga.poäng + " poäng): " + fråga.text);   // nu 6 poäng
+
+// 3
+fråga.ledtråd = "Staden ligger vid Mälaren.";
+
+// 4
+console.log(fråga.svårighetsgrad);   // undefined
+```
+
+1. Utskriften blir `Fråga (3 poäng): Vad heter Sveriges huvudstad?`. Det är lätt att glömma mellanslagen i textbitarna. Utan dem blir det `Fråga (3poäng):Vad heter …`.
+2. Raden räknar ut `fråga.poäng * 2` med det nuvarande värdet och låter sedan egenskapen peka på resultatet – samma mönster som `poäng = poäng + 10` i kapitlet.
+3. En ny egenskap skapas genom att man tilldelar den ett värde. Den behöver inte finnas i objektliteralen från början.
+4. Det skrivs ut `undefined`. Att läsa en egenskap som inte finns är inget fel i JavaScript. Svaret är bara att det inte finns något värde. Det är därför ett stavfel i ett egenskapsnamn kan vara svårt att hitta: programmet fortsätter, men med `undefined` där du väntade dig ett värde.

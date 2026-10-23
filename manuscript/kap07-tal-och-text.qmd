@@ -240,7 +240,7 @@ Att *upptäcka* sådana fall – och visa ett vänligt felmeddelande – kräver
 ## Stanna upp
 
 1. Varför blir `"10" + 5` något annat än `"10" - 5`?
-2. I poängtavlan står `Number(fält.value)` inuti callbacken. Vad hade hänt om raden `const rundpoäng = Number(fält.value);` i stället stod överst i filen, utanför callbacken? (Tänk på steget *läs* i kapitel [-@sec-handelser].)
+2. I poängtavlan står `Number(fält.value)` inuti callbacken. Vad hade hänt om raden `const rundpoäng = Number(fält.value);` i stället stod överst i filen, utanför callbacken? (Tänk på när raden körs.)
 :::
 
 ---
@@ -410,7 +410,7 @@ namn.trim();
 console.log(namn.length);
 ```
 
-1. Blev det 8 eller 12? Varför? Tänk på vad du lärde dig i kapitel [-@sec-anropa-funktioner] om att anropet ersätts av sitt returvärde.
+1. Blev det 8 eller 12? Varför? Tänk på att anropet ersätts av sitt returvärde.
 2. Ändra den andra raden så att utskriften blir `8`.
 :::
 
@@ -754,11 +754,11 @@ På övningssidan finns ett textfält med id `svar`, en knapp med id `svara` och
 });
     svarsfält.value.trim().toUpperCase();
 const eko = document.querySelector("#eko");
-    eko.textContent = `Ditt svar: ${svar}`;
+    eko.textContent = `Ditt svar: ${svaret}`;
 document.querySelector("#svara").addEventListener("click", () => {
-    eko.textContent = "Ditt svar: ${svar}";
+    eko.textContent = "Ditt svar: ${svaret}";
 const svarsfält = document.querySelector("#svar");
-    const svar = svarsfält.value.trim().toUpperCase();
+    const svaret = svarsfält.value.trim().toUpperCase();
 ```
 
 1. Vilka två rader använde du inte? Vad hade sidan visat om du hade använt dem?
@@ -819,8 +819,8 @@ Gå tillbaka till övningen *Poängtavlan blir interaktiv* i kapitel [-@sec-hand
 
 1. Byt ut knappen "Rätt svar" mot ett fält och en knapp "Lägg till", så att domaren kan skriva in hur många poäng laget fick på rundan. Använd kortformen `+=`.
 2. Lägg till ett stycke som visar hur många procent av det högsta möjliga laget har fått, med en decimal. Bestäm själv hur många poäng som är högsta möjliga, och spara det i en `const`.
-3. Lägg till ett textfält där domaren kan skriva lagets namn. Namnet ska städas med `trim` innan det sparas i objektet `lag`.
+3. Namnet från textfältet ska städas med `trim` innan det sparas i objektet `lag`, så att mellanslag före och efter försvinner.
 4. Skriv om funktionen `visaLag(lag)` så att den bygger texten med en templatesträng.
 
-Planera först: vilket av de fem stegen är nytt jämfört med i kapitel [-@sec-handelser], och vilket har växt? Spara sidan – i nästa kapitel bygger du vidare på den.
+Planera först: knappen *Rätt svar* behövde inget *läs*-steg. Hur ser de fem stegen ut för den nya knappen *Lägg till*? Vilka steg har växt jämfört med din tidigare version? Spara sidan – i nästa kapitel bygger du vidare på den.
 :::

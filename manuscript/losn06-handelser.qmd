@@ -1,0 +1,332 @@
+---
+losningar-till: kap06-handelser.qmd
+---
+
+# Kapitel 6: Händelser {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-handelser].
+
+## Övning – Spåra exekveringen
+
+1. När sidan laddas skrivs `A` och sedan `C` ut. Raden med `addEventListener` registrerar callbacken, men kör den inte.
+2. Vid ett klick skrivs `B` ut. Vid två klick skrivs `B` ut två gånger – en gång per klick. Callbacken körs varje gång händelsen inträffar.
+3. `B` skrivs inte ut direkt eftersom callbacken bara lämnas över till webbläsaren. Det finns inget anrop av den någonstans i koden. Det är webbläsaren som anropar den, när användaren klickar – och klickar ingen körs den aldrig.
+
+## Övning – Vad händer vid klicket?
+
+Knappen som `querySelector("button")` hittar är *Säg hej*, den första knappen på sidan. Båda lyssnarna körs vid varje klick, i den ordning de registrerades.
+
+| Klick | `antal` efter klicket | Sidan visar |
+|---|---|---|
+| 1 | 1 | 2 |
+| 2 | 2 | 3 |
+| 3 | 3 | 4 |
+
+Vid första klicket ökar den första lyssnaren `antal` till 2 och visar det. Sedan minskar den andra lyssnaren `antal` till 1 – men visar det inte.
+
+1. Efter tre klick visar sidan `4`, men `antal` pekar på `3`.
+2. Den andra lyssnaren ändrar variabeln men uppdaterar inte sidan. Sidan visar alltså alltid värdet *mitt i* klicket, efter den första lyssnaren men före den andra. Det finns två sätt att få dem att stämma: anropa `visaAntal(antal)` också i den andra lyssnaren, eller – enklare – slå ihop allt i en enda lyssnare som först räknar ut det nya värdet och sedan visar det. Lärdomen är att sidan bara ändras när du skriver till den.
+
+## Övning – Vad säger felet?
+
+| Snutt | Vad händer | Fel |
+|---|---|---|
+| A | `Hej!` skrivs ut en gång när sidan laddas, men aldrig vid klick | inget felmeddelande |
+| B | ingenting händer, varken vid laddning eller klick | inget felmeddelande |
+| C | felmeddelande när sidan laddas | `TypeError: knapp.addEventlistener is not a function` |
+
+1. Snutt C ger ett felmeddelande, ett `TypeError`. Ordet som pekar ut felet är `addEventlistener`: det ska vara stort L. Knappen finns, men den har ingen metod med det namnet.
+2. A och B ger inga fel. I A anropas `hälsa` direkt, eftersom parenteserna finns, och `addEventListener` får funktionens returvärde, `undefined`. Webbläsaren tar emot `undefined` som callback utan att klaga, och gör ingenting vid klick. I B finns ingen händelse som heter `"klick"`, men webbläsaren kontrollerar inte namnet – den väntar bara på en händelse som aldrig kommer. Fel utan felmeddelande är svårast att hitta, eftersom ingenting pekar ut var du ska leta. Du märker bara att något inte händer.
+3. Rättade:
+
+    ```javascript
+    // A
+    function hälsa() {
+        console.log("Hej!");
+    }
+    knapp.addEventListener("click", hälsa);
+    ```
+
+    ```javascript
+    // B
+    knapp.addEventListener("click", () => {
+        console.log("Hej!");
+    });
+    ```
+
+    ```javascript
+    // C
+    knapp.addEventListener("click", () => {
+        console.log("Hej!");
+    });
+    ```
+
+## Övning – Förklara koden
+
+1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.* (På övningssidan är knappen *Säg hej*, eftersom det är den första knappen.)
+2. Alla fem stegen finns:
+   - **Hämta:** de två första raderna, plus `document.querySelector("button")`.
+   - **Lyssna:** `addEventListener("click", …)`.
+   - **Läs:** `svarsfält.value`.
+   - **Bearbeta:** `"Ditt svar: " + svarsfält.value`.
+   - **Visa:** `kvitto.textContent = …`.
+
+    Det nya är raden `svarsfält.value = "";`. I kapitlets exempel lästes `.value`, men här *skrivs* det: koden tömmer fältet. `.value` fungerar alltså åt båda hållen, precis som `textContent`.
+
+## Övning – Ordna raderna
+
+```javascript
+const knapp = document.querySelector("#ledtråd-knapp");
+const ledtråd = document.querySelector("#ledtråd");
+knapp.addEventListener("click", () => {
+    ledtråd.hidden = false;
+});
+```
+
+(De två första raderna kan byta plats.)
+
+1. Raderna som inte används:
+   - `knapp.addEventListener("click", visaLedtråd());` – parenteserna gör att funktionen anropas direkt, och det är dess returvärde som skickas. Här finns dessutom ingen funktion som heter `visaLedtråd`, så raden ger `ReferenceError: visaLedtråd is not defined`.
+   - `knapp.addEventListener("onclick", () => {` – händelsen heter `"click"`, inte `"onclick"`. Inget felmeddelande, men ingenting händer vid klick.
+2. De två `const`-raderna och raden med `addEventListener` körs när sidan laddas. Raden `ledtråd.hidden = false;` körs vid varje klick.
+3. Med en namngiven funktion:
+
+    ```javascript
+    const knapp = document.querySelector("#ledtråd-knapp");
+    const ledtråd = document.querySelector("#ledtråd");
+
+    function visaLedtråd() {
+        ledtråd.hidden = false;
+    }
+
+    knapp.addEventListener("click", visaLedtråd);
+    ```
+
+    Raden med `addEventListener` har `visaLedtråd` *utan* parenteser – det är funktionen som lämnas över, inte ett anrop.
+
+## Övning – Mörkt läge
+
+Lägg till en knapp i `index.html`:
+
+```html
+<button id="storlek-knapp">Större text</button>
+```
+
+Och en klass i `<style>`:
+
+```css
+.stor-text {
+    font-size: 1.25rem;
+}
+```
+
+```javascript
+const temaKnapp = document.querySelector("#tema-knapp");
+const storlekKnapp = document.querySelector("#storlek-knapp");
+
+temaKnapp.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+});
+
+storlekKnapp.addEventListener("click", () => {
+    document.body.classList.toggle("stor-text");
+});
+```
+
+Knapparna fungerar oberoende av varandra. Varje knapp slår av och på sin egen klass, och `toggle` påverkar bara den klass den får som argument. Sidan kan alltså vara mörk med stor text, ljus med stor text, och så vidare – alla fyra kombinationerna.
+
+## Övning – Knappräknare
+
+```html
+<p>Antal: <span id="antal">0</span></p>
+<button id="öka-knapp">+1</button>
+<button id="minska-knapp">−1</button>
+<button id="nollställ-knapp">Nollställ</button>
+```
+
+```javascript
+// Hämta
+const antalElement = document.querySelector("#antal");
+const ökaKnapp = document.querySelector("#öka-knapp");
+const minskaKnapp = document.querySelector("#minska-knapp");
+const nollställKnapp = document.querySelector("#nollställ-knapp");
+
+let antal = 0;
+
+function visaAntal(antal) {
+    antalElement.textContent = antal;
+}
+
+// Lyssna
+ökaKnapp.addEventListener("click", () => {
+    antal = antal + 1;
+    visaAntal(antal);
+});
+
+minskaKnapp.addEventListener("click", () => {
+    antal = antal - 1;
+    visaAntal(antal);
+});
+
+nollställKnapp.addEventListener("click", () => {
+    antal = 0;
+    visaAntal(antal);
+});
+```
+
+2. Ska texten vara `Antal: 5` behöver du bara ändra ett ställe, inne i `visaAntal`. (Med ett `<span>` som ovan står ordet *Antal* redan i HTML-koden, så där behövs ingen ändring alls. Låter du hela stycket visa talet är det `visaAntal` som ändras.)
+
+## Övning – Spegla texten
+
+```html
+<input type="text" id="textfält">
+<h1 id="spegel">Skriv något …</h1>
+```
+
+```javascript
+// 1. Hämta
+const textfält = document.querySelector("#textfält");
+const spegel = document.querySelector("#spegel");
+
+// 2. Lyssna
+textfält.addEventListener("input", () => {
+    // 3. Läs
+    const text = textfält.value;
+
+    // 4. Bearbeta – inget att göra här
+
+    // 5. Visa
+    spegel.textContent = text;
+});
+```
+
+1. Steg 4, *bearbeta*, blir tomt. Texten ska visas precis som den skrevs.
+2. Se koden ovan.
+3. Med `"change"` uppdateras rubriken först när användaren lämnar fältet eller trycker Enter, inte för varje bokstav. `change` är bättre när det som ska hända är för stort eller störande för att ske vid varje tangenttryckning, till exempel när ett namn ska sparas, en sökning göras eller en kontroll som visar ett felmeddelande köras. Ingen vill få "ogiltig e-postadress" efter första bokstaven.
+4. Ja, båda körs, i den ordning de registrerades:
+
+    ```javascript
+    textfält.addEventListener("input", () => {
+        console.log(textfält.value);
+    });
+    ```
+
+## Övning – Markera kort
+
+```html
+<style>
+    .kort {
+        padding: 2rem;
+        border: 2px solid #ccc;
+        margin-bottom: 1rem;
+    }
+    .kort.aktiv {
+        background-color: lavender;
+        border-color: rebeccapurple;
+    }
+</style>
+
+<div id="kort1" class="kort">Första kortet</div>
+<div id="kort2" class="kort">Andra kortet</div>
+<div id="kort3" class="kort">Tredje kortet</div>
+```
+
+1. För ett kort:
+
+    ```javascript
+    const kort1 = document.querySelector("#kort1");
+
+    kort1.addEventListener("mouseenter", () => {
+        kort1.classList.add("aktiv");
+    });
+
+    kort1.addEventListener("mouseleave", () => {
+        kort1.classList.remove("aktiv");
+    });
+    ```
+
+2. Med en funktion:
+
+    ```javascript
+    function görMarkerbar(kort) {
+        kort.addEventListener("mouseenter", () => {
+            kort.classList.add("aktiv");
+        });
+        kort.addEventListener("mouseleave", () => {
+            kort.classList.remove("aktiv");
+        });
+    }
+
+    görMarkerbar(document.querySelector("#kort1"));
+    görMarkerbar(document.querySelector("#kort2"));
+    görMarkerbar(document.querySelector("#kort3"));
+    ```
+
+    Varje anrop får ett eget element som argument, och lyssnarna som registreras inne i funktionen arbetar med just det elementet.
+
+3. Med funktionen blir det en rad per kort – tjugo rader för tjugo kort, och tjugo id:n att hålla reda på i HTML-koden. Utan funktionen hade det blivit sju rader per kort, alltså 140 rader. Med arrayer och loopar räcker några få rader, oavsett antal kort.
+
+## Övning – Poängtavlan blir interaktiv
+
+1. Elementen:
+
+    | Typ | id | Hämtas av koden? |
+    |---|---|---|
+    | `<input type="text">` | `lagfält` | ja – namnet ska läsas |
+    | `<button>` *Spara* | `spara-knapp` | ja – ska lyssnas på |
+    | `<button>` *Rätt svar* | `rätt-knapp` | ja |
+    | `<button>` *Börja om* | `nollställ-knapp` | ja |
+    | `<p>` | `tavla` | ja – här visas resultatet |
+
+    Alla fem behöver hämtas. En rubrik eller etiketter till fältet kan också finnas på sidan, men dem behöver koden inte röra.
+
+2. Stegen per knapp:
+
+    | Knapp | Läs | Bearbeta | Visa |
+    |---|---|---|---|
+    | Spara | fältets `.value` | ge `lag.namn` det nya värdet | `visaLag(lag)` |
+    | Rätt svar | – | öka `lag.poäng` med 3 | `visaLag(lag)` |
+    | Börja om | – | sätt `lag.poäng` till 0 | `visaLag(lag)` |
+
+    *Rätt svar* och *Börja om* behöver inget *läs*-steg. De tar inte emot något från användaren – det enda de behöver veta är *att* någon klickade, och det vet callbacken redan när den körs.
+
+```html
+<input type="text" id="lagfält" placeholder="Lagets namn">
+<button id="spara-knapp">Spara</button>
+<p id="tavla">—: 0 poäng</p>
+<button id="rätt-knapp">Rätt svar</button>
+<button id="nollställ-knapp">Börja om</button>
+```
+
+```javascript
+// Hämta
+const lagfält = document.querySelector("#lagfält");
+const sparaKnapp = document.querySelector("#spara-knapp");
+const rättKnapp = document.querySelector("#rätt-knapp");
+const nollställKnapp = document.querySelector("#nollställ-knapp");
+const tavla = document.querySelector("#tavla");
+
+const lag = { namn: "—", poäng: 0 };
+
+function visaLag(lag) {
+    tavla.textContent = lag.namn + ": " + lag.poäng + " poäng";
+}
+
+// Lyssna
+sparaKnapp.addEventListener("click", () => {
+    lag.namn = lagfält.value;
+    visaLag(lag);
+});
+
+rättKnapp.addEventListener("click", () => {
+    lag.poäng = lag.poäng + 3;
+    visaLag(lag);
+});
+
+nollställKnapp.addEventListener("click", () => {
+    lag.poäng = 0;
+    visaLag(lag);
+});
+```
+
+`lag` kan vara `const` trots att både namn och poäng ändras. Det är objektets egenskaper som ändras, inte vilket objekt variabeln pekar på. Och objektet ligger på översta nivån, utanför callbackarna, så att det minns poängen mellan klicken.

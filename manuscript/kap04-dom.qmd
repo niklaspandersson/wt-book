@@ -121,6 +121,7 @@ element.textContent = "Hej!";   // TypeError: Cannot set properties of null
 Det är ett av de vanligaste felen i webbutveckling. Om du ser *"Cannot read properties of null"* eller *"Cannot set properties of null"* i konsolen, kontrollera att selektorn stämmer och att elementet verkligen finns i HTML:en.
 :::
 
+
 ---
 
 ## Ändra text med `textContent`
@@ -461,7 +462,7 @@ För att öva på DOM-manipulation behöver du sidor att öva *på*, och att skr
 
 **Beställ en övningssida:**
 
-> *"Skriv en HTML-sida, utan JavaScript, för ett påhittat kafé: rubriker, en meny med priser, några stycken med klasser och några element med id. Ge mig sedan tio uppdrag som ska lösas med `querySelector`, `textContent`, `classList` och `hidden` – till exempel 'dölj dagens erbjudande' eller 'markera alla vegetariska rätter'. Visa inga lösningar."*
+> *"Skriv en HTML-sida, utan JavaScript, för ett påhittat kafé: rubriker, en meny med priser, några stycken med klasser och några element med id. Ge mig sedan tio uppdrag som ska lösas med `querySelector`, `textContent`, `classList` och `hidden` – till exempel 'dölj dagens erbjudande' eller 'markera dagens rätt'. Visa inga lösningar."*
 
 Lös uppdragen i din egen `script.js`. Fastnar du, be om en *ledtråd* – inte om lösningen.
 
@@ -549,7 +550,7 @@ fråga.hidden = true;
 fråga.classList.toggle("besvarad", false);
 ```
 
-Fyll i en spårtabell, på samma sätt som i övningen *Spåra poängen* i kapitel [-@sec-variabler]. Den första raden är ifylld:
+Fyll i spårtabellen. Den första raden är ifylld:
 
 | Rad | Klasser på elementet | Syns elementet? |
 |---|---|---|
@@ -592,7 +593,7 @@ till:
 element.textcontent = "Ny text!";   // efter
 ```
 
-Den här gången kommer inget felmeddelande alls, men texten på sidan ändras inte. Varför? Ledtråd: vad hände i kapitel [-@sec-variabler] när du gav ett objekt en egenskap som det inte hade förut?
+Den här gången kommer inget felmeddelande alls, men texten på sidan ändras inte. Varför? Ledtråd: vad händer när du ger ett objekt en egenskap som det inte har?
 
 **Del C.** Någon skriver i stället den första raden så här:
 
@@ -600,7 +601,7 @@ Den här gången kommer inget felmeddelande alls, men texten på sidan ändras i
 const element = document.querySelektor("#meddelande");
 ```
 
-Vilket felmeddelande får du nu? Jämför med felen i avsnittet *När anropet går fel* i kapitel [-@sec-anropa-funktioner]: är det ett `ReferenceError` eller ett `TypeError`, och varför?
+Vilket felmeddelande får du nu? Är det ett `ReferenceError` eller ett `TypeError`, och varför?
 :::
 
 ::: {.callout-note}
@@ -616,7 +617,7 @@ poäng.classList.add("vinnare");
 document.querySelector("#nästa-fråga").hidden = true;
 ```
 
-Beskriv med en eller två meningar vad en besökare märker när koden har körts. Beskriv det som händer på sidan, inte vad varje rad gör.
+I sidans CSS-kod finns klassen `.vinnare`, som gör texten stor och grön. Beskriv med en eller två meningar vad en besökare märker när koden har körts. Beskriv det som händer på sidan, inte vad varje rad gör.
 :::
 
 ::: {.callout-note}
@@ -645,17 +646,16 @@ ledtråd.classList.add(".markerad");
 :::
 
 ::: {.callout-note}
-## Övning – Var ska skriptet stå?
+## Övning – Ritningen och huset
 
-Utgå från övningssidan i avsnittet *En sida att öva på*. Skriv en rad i `script.js` som ändrar rubrikens text, och öppna sidan med Live Server. Du ska prova att placera `<script>`-elementet i `<head>` på tre olika sätt:
+I början av kapitlet beskrevs HTML-koden som ritningen och DOM:en som huset. Den här övningen låter dig se skillnaden.
 
-1. *Utan* `type="module"` och utan `defer`
-2. Med `defer`
-3. Med `type="module"`
+Utgå från övningssidan i avsnittet *En sida att öva på*. Skriv en rad i `script.js` som ändrar rubrikens text, spara och titta på sidan.
 
-Förutsäg först, för vart och ett av fallen, om rubriken kommer att ändras. Prova sedan och notera vad som händer på sidan och i konsolen.
-
-I vilket av fallen misslyckas koden? Vad står det i felmeddelandet, och hur hänger det ihop med hur webbläsaren läser dokumentet? Flytta sedan skriptet från fall 1 till slutet av `<body>`. Vad händer nu — och varför?
+1. Öppna fliken *Elements* i utvecklarverktygen. Vilken text står i `<h1>`-elementet där?
+2. Visa sidans källkod: högerklicka på sidan och välj *Visa sidkälla* (*View Page Source*). Vilken text står i `<h1>`-elementet där?
+3. Förklara skillnaden med bilden av ritningen och huset. Vilken av dem visar fliken *Elements*, och vilken visar källkoden?
+4. Ändra rubrikens text direkt i fliken *Elements*. Förutsäg sedan vilken text rubriken har när du laddar om sidan: texten i HTML-koden, texten från ditt skript eller texten du nyss skrev? Ladda om och förklara vad som händer.
 :::
 
 ::: {.callout-note}
@@ -702,24 +702,22 @@ Skapa en sida med en quizfråga, ett facit och en ledtråd:
 1. Dölj facit med JavaScript, utan att ändra i HTML-koden. Vilka två sätt från kapitlet kan du använda?
 2. Visa ledtråden med en annan bakgrundsfärg genom att lägga till en CSS-klass som du skriver själv.
 3. Vad händer om du både sätter `hidden = true` *och* skriver en CSS-regel `#facit { display: block; }`? Förutsäg först, testa sedan, och förklara resultatet.
-
-Spara sidan — i kapitel [-@sec-handelser] lägger du till en knapp som visar facit.
 :::
 
 ::: {.callout-note}
 ## Övning – Från konsol till sida
 
-I kapitel [-@sec-variabler] skapade du ett objekt `fråga` för quizet och skrev ut det i konsolen. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska frågetexten och poängen – och ledtråden, om du lade till en – visas i separata element på sidan. Du behöver själv bestämma vilka HTML-element som passar och ge dem unika id:n.
+I övningen *En quizfråga som objekt* i kapitel [-@sec-variabler] skapade du ett objekt `fråga` för quizet och skrev ut det i konsolen. Gå tillbaka till den övningen och gör om den: istället för `console.log()` ska frågetexten och poängen – och ledtråden, om du lade till en – visas i separata element på sidan. Du behöver själv bestämma vilka HTML-element som passar och ge dem unika id:n.
 :::
 
 ::: {.callout-note}
 ## Övning – Mörkt läge
 
-Skapa en sida med lite innehåll (rubrik, ett par stycken text). Definiera en CSS-klass `.dark` på `<body>` som ger mörk bakgrund, ljus textfärg, och anpassade länkfärger.
+Skapa en sida med lite innehåll: en rubrik, ett par stycken text och en länk. Definiera en CSS-klass `.dark` på `<body>` som ger mörk bakgrund, ljus textfärg, och anpassade länkfärger.
 
 Skriv JavaScript som använder `classList.toggle("dark", mörktLäge)` för att aktivera mörkt läge baserat på en boolesk variabel `mörktLäge`.
 
 Testa genom att ändra variabeln mellan `true` och `false` och ladda om sidan.
 
-*Fundera:* Hur skulle det vara att kunna slå på och av mörkt läge med en knapptryckning? Det är precis vad vi gör i kapitel [-@sec-handelser].
+*Fundera:* Hur skulle det vara att kunna slå på och av mörkt läge med en knapptryckning?
 :::

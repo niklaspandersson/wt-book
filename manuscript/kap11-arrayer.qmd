@@ -63,7 +63,7 @@ Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap11`, och 
     <label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
     <input type="text" id="lagfält">
     <button id="anmäl">Anmäl</button>
-    <p id="anmälda"></p>
+    <pre id="anmälda"></pre>
 
     <h2>Fråga 1</h2>
     <p id="fråga">Vad heter Sveriges huvudstad?</p>
@@ -330,7 +330,7 @@ Tillsammans gör `split` och `join` det enkelt att ta emot en lista från använ
 <label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
 <input type="text" id="lagfält">
 <button id="anmäl">Anmäl</button>
-<p id="anmälda"></p>
+<pre id="anmälda"></pre>
 ```
 
 Koden följer de fem stegen från kapitel [-@sec-handelser]:
@@ -537,7 +537,7 @@ Byt `frågor[0]` mot `frågor[1]`, så visar samma sida nästa fråga. Det är g
 ## Stanna upp
 
 1. Vad ger `frågor[0].alternativ[2]`? Läs uttrycket steg för steg.
-2. Vad ger `frågor[2]`, och vad händer om du skriver `frågor[2].text`? Förutsäg först och testa sedan. Jämför felmeddelandet med det du såg i kapitel [-@sec-dom-intro] när `querySelector` inte hittade något.
+2. Vad ger `frågor[2]`, och vad händer om du skriver `frågor[2].text`? Förutsäg först och testa sedan.
 3. Hur många varv går loopen som fyller knapparna? Vad händer om en fråga bara har två alternativ?
 :::
 
@@ -723,7 +723,7 @@ for (const p of poäng) {
 Utgå från avsnittet *Ett löst exempel: anmäl flera lag* och övningssidan.
 
 1. Om samma lagnamn står två gånger i fältet ska det bara räknas en gång. Använd `includes` innan du gör `push`.
-2. Visa lagen som en numrerad lista, ett lag per rad, i stället för med `·` emellan. Använd en `for`-loop med index och ett `<pre>`-element, som i kapitel [-@sec-loopar].
+2. Visa lagen som en numrerad lista, ett lag per rad, i stället för med `·` emellan. Använd en `for`-loop med index. Elementet med id `anmälda` är ett `<pre>`-element, så radbrytningar syns.
 3. Högst åtta lag får plats. Visa ett meddelande om fler än åtta lag skrivs in. I vilket av de fem stegen hör kontrollen hemma, och ska den göras före eller efter att dubbletterna har tagits bort?
 :::
 
@@ -732,7 +732,7 @@ Utgå från avsnittet *Ett löst exempel: anmäl flera lag* och övningssidan.
 
 Utgå från avsnittet *Ett interaktivt quiz* och övningssidan.
 
-1. När användaren har svarat ska alla tre knapparna bli avstängda med `disabled`, som i kapitel [-@sec-booleska], så att det inte går att svara igen. Du behöver en loop till – var i koden ska den stå?
+1. När användaren har svarat ska alla tre knapparna bli avstängda med `disabled`, så att det inte går att svara igen. Du behöver en loop till – var i koden ska den stå?
 2. Om svaret är fel ska den rätta knappen också få klassen `rätt`, så att användaren ser vilket som var rätt svar. Hur hittar du den rätta knappen?
 3. Lägg till en knapp *Nästa försök* som tar bort klasserna `rätt` och `fel` från alla svarsknappar, slår på dem igen och tömmer resultatet.
 :::
@@ -758,7 +758,7 @@ Skapa en sida med ett textfält och ett stycke för resultatet. Medan användare
 Skapa en sida med ett textfält och en `<ul>`-lista med minst åtta namn som `<li>`-element. Medan användaren skriver i fältet ska bara de namn som innehåller söktexten synas.
 
 1. Lyssna på `input`-händelsen på textfältet.
-2. Vid varje ändring: gå igenom alla `<li>`-element och dölj de element vars text *inte* innehåller söktexten. Använd `hidden` och ett booleskt uttryck, som i kapitel [-@sec-booleska].
+2. Vid varje ändring: gå igenom alla `<li>`-element och dölj de element vars text *inte* innehåller söktexten. Använd `hidden` och ett booleskt uttryck.
 3. Gör sökningen okänslig för stora och små bokstäver.
 4. Vad händer när fältet töms? Förklara varför – du behöver troligen inte lägga till någon kod.
 :::
@@ -778,8 +778,6 @@ Skapa en sida med fem knappar. Varje knapp har sin färg i attributet `value`, t
 ::: {.callout-note}
 ## Övning – Vem leder nu?
 
-I övningen *Vem leder?* i kapitel [-@sec-villkor] jämförde du två lag. Nu kan du jämföra hur många som helst.
-
 1. Börja med lagen i två arrayer, där samma index hör ihop:
 
     ```javascript
@@ -795,7 +793,7 @@ I övningen *Vem leder?* i kapitel [-@sec-villkor] jämförde du två lag. Nu ka
 ::: {.callout-note}
 ## Övning – Ett quiz med flera frågor
 
-Bygg vidare på din lösning till övningen *Bygg vidare på quizet*, eller på exemplet i avsnittet *Arrayer av objekt*. Gå också tillbaka till övningen *En quizfråga som objekt* i kapitel [-@sec-variabler] – där bestämde du vilka egenskaper en fråga behöver.
+Bygg vidare på din lösning till övningen *Bygg vidare på quizet*, eller på exemplet i avsnittet *Arrayer av objekt*.
 
 1. Skapa en array med minst tre frågor som objekt. Varje fråga ska ha en frågetext, tre alternativ och det rätta svaret.
 2. Skriv en funktion `visaFråga(nr)` som visar frågan med index `nr` och fyller de tre knapparna med dess alternativ.
@@ -810,5 +808,5 @@ Planera först: vilka variabler behöver finnas *utanför* callbackarna, så att
 
 Skriv kod som skapar en *ny* array med elementen i omvänd ordning, utan den inbyggda metoden `reverse`. Givet `["A", "B", "C", "D", "E"]` ska resultatet bli `["E", "D", "C", "B", "A"]`.
 
-*Tips:* Gå igenom den gamla arrayen baklänges med en `for`-loop, som nedräkningen i kapitel [-@sec-loopar], och använd `push`. Vilket index ska loopen börja på, och när ska den sluta?
+*Tips:* Gå igenom den gamla arrayen baklänges med en `for`-loop, och använd `push`. Vilket index ska loopen börja på, och när ska den sluta?
 :::
