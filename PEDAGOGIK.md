@@ -62,7 +62,7 @@ En studie med 496 nybörjare fann att metaforen "variabeln är en låda" hjälpt
 
 **Forskning.** Återkommande, lågt insatta förhör och sprid repetition ger bättre långsiktigt minne än samlad övning. Effekten är väl belagd i allmän kognitionsforskning, men stödet i introduktionskurser i programmering är ännu begränsat och blandat (se t.ex. Bego m.fl. 2024).
 
-**För boken.** Övningar som blandar ett nytt begrepp med begrepp från tidigare kapitel (t.ex. en loopövning som också kräver strängar och villkor) och korta "minns du?"-frågor i början av kapitel är billiga att lägga in och har stöd i forskningen.
+**För boken.** Övningar som blandar ett nytt begrepp med begrepp från tidigare kapitel (t.ex. en loopövning som också kräver strängar och villkor) och korta "minns du?"-frågor i början av kapitel är billiga att lägga in och har stöd i forskningen. Frågorna bör bara gälla det kapitlet bygger vidare på direkt, så att de inte för bort studenten från kapitlets ämne (§11).
 
 ## 9. Kamratlärande
 

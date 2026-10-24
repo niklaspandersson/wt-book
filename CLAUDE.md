@@ -71,7 +71,11 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
 - Style: Traditional textbook — flowing prose with integrated examples that introduce, explain, and deepen concepts
 - Code style: end every JavaScript statement with a semicolon, including lines that consist only of an expression (`42;`, `typeof x;`, `` `Hej ${namn}`; ``). Exceptions: lines that open or continue a block, object literal or array (`{`, `,`), and plain-text blocks listing values for students to classify. Always use braces with `if` and loops.
 - Exercises must avoid the "copy-paste trap"; students should reason and apply, not just transcribe
-- Prefer to start each chapter with a concrete scenario or problem that the students can recognize, then introduce concepts as tools to solve it.
+- **Chapter openings.** Every chapter opens with two things, in whichever order reads best:
+  - a **motivating example** that shows why the chapter's subject matters. It can be a problem to solve, but also a familiar situation or a short demonstration of what the student will be able to do.
+  - a **clear definition** of the main concept the chapter covers, where there is one, in a sentence or two. Define the concept, not the chapter's contents.
+
+  The motivation leads straight into the concept and is not a story of its own. Together they take a paragraph or two (about 150 words) before the first code.
 - Each chapter should include one `{.callout-tip}` box with ideas on how to use AI tools to practise the chapter's topic in a meaningful way. Place it right after the **summary section** if it covers the entire chapter, or at the end of a section if it only covers that section. The box must be specific to the chapter's content — generic framing belongs in the introduction chapter only.
   - Give suggestions of prompts that students can use to deepen their understanding of the chapter's content.
   - Or give suggestions of how students can use AI tools to practise, for example by generating flash cards or example problems. The AI should quiz, explain, give hints and create practice material, never solve the exercises (PEDAGOGIK.md §10).
@@ -88,6 +92,7 @@ Chapters 1–11 follow a common template, based on PEDAGOGIK.md:
 - ***Stanna upp* boxes** (`{.callout-note appearance="simple"}` with the heading `## Stanna upp`) after the heavier sections: a few short questions that check understanding, often asking the student to predict before testing.
 - **Notional machine.** Use the arrow model from chapter 2 (names point to values) and trace tables (one column per variable, one row per step) wherever beginners have known misconceptions.
 - **A worked example** with named steps, usually headed *Ett löst exempel: …*. Interactive examples use the five-step pattern from chapter 6: *hämta → lyssna → läs → bearbeta → visa*, marked with comments (`// 1. Hämta`).
+- **"Minns du?" questions are optional and narrow.** Use them only for something the chapter builds on right away, at most two or three, and only about that. They must not turn into a review of earlier chapters or delay the chapter's own subject.
 - **Beyond the basics.** Put what Del I does not need in a short *Bra att veta* box with a link to MDN, or move it to the chapter where it is needed.
 - **Exercises** come after the summary and the AI box, under `## Övningar`. Each is a `{.callout-note}` with the heading `## Övning – Namn`. Order: predict → trace → find the error (*Vad säger felet?*) → explain (*Förklara koden*, one sentence about the whole) → Parsons problem (*Ordna raderna*, with distractor lines) → modify → write → a mixed exercise that uses earlier chapters. Aim for about half reading exercises. Exercises done on the student's own pages go under the subheading `### Egna sidor`.
 - **References in exercises.** Exercises, *Stanna upp* questions and solutions refer to other chapters or exercises only when the student needs the information, for example when an exercise builds on an earlier solution.
@@ -99,10 +104,9 @@ The book tends to over-explain. Every rule above tells us what to add. This sect
 
 - **Say each point once.** Explain a concept in one place with one example. Do not restate it in new words "to be safe". Repetition belongs in *Stanna upp* boxes, exercises and the summary.
 - **One analogy per concept, briefly.** One or two sentences, then let the code take over. Do not mix analogies, extend them past the point they map, or return to them later in the chapter.
-- **Get to code quickly.** The opening scenario is a short paragraph (about 150 words). Then follow the pattern: one or two sentences, a short example, a comment.
+- **Get to code quickly.** Keep the opening short (see *Chapter openings*). Then follow the pattern: one or two sentences, a short example, a comment.
 - **One idea per paragraph.** A paragraph that also generalises, gives a tip and points forward should be split or cut.
-- **Don't talk about the text.** Avoid signposting and emphasis that announces a point instead of making it: "Det viktiga att förstå är…", "det är värt att säga rakt ut", "Här ser du tydligt…", "Lägg märke till…", and filler words like "faktiskt" and "alltså".
-- **Back-references only when the reader needs them.** Link to an earlier chapter when the student needs to look something up, not to remind them they have seen it. "(kapitel X)" is enough.
+- **Don't talk about the text.** Avoid signposting and emphasis that announces a point instead of making it: "Det viktiga att förstå är…", "det är värt att säga rakt ut", "Här ser du tydligt…", "Lägg märke till…", and filler words like "faktiskt" and "alltså".- **Back-references only when the reader needs them.** Link to an earlier chapter when the student needs to look something up, not to remind them they have seen it. "(kapitel X)" is enough.
 - **Keep explanations to the main line.** Brevity is not enough: ask whether each passage belongs where it stands. A passage that demonstrates a mistake belongs in the chapter's error section. A passage that walks through a longer example step by step (e.g. a trace table) is usually a worked example, and belongs at the start of the exercise that practises it. Corollaries of a rule already explained ("so a call can also be an argument") get a sentence and an example, not a section of their own.
 - **No detours.** No side facts, practical caveats or previews of later chapters unless the current section needs them. At most one forward pointer per chapter, at the end.
 - **Define terms briefly.** "Every term is explained" means a short definition where the term is first needed, not a paragraph.
