@@ -57,7 +57,7 @@ Plus two appendices on HTML and CSS reference.
 
 Every decision about the book's content, structure, order, examples and exercises must start from who the readers are:
 
-- **Complete beginners in programming.** Assume no prior experience of code, the command line, file systems beyond everyday use, or technical vocabulary. Every term is explained the first time it is used.
+- **Complete beginners in programming, but not on the web.** They have taken a basic course in HTML and CSS, so they know how to write, save and open web pages. Do not explain that. Assume no prior experience of programming, the command line, file systems beyond everyday use, or technical vocabulary. Every term is explained the first time it is used.
 - **Many have no science background and limited mathematics.** Do not rely on mathematical notation, formulas or mathematical intuition (e.g. functions in the mathematical sense, algebra, modulo arithmetic, percentages beyond everyday use). When a calculation is needed, choose everyday contexts (prices, scores, time) and explain it in words. Avoid examples whose difficulty lies in the maths rather than in the programming concept.
 - **One new idea at a time.** Prefer fewer concepts explained thoroughly over complete coverage. If a section introduces something that is not needed until later, move it to where it is needed.
 - **Follow the research.** Design explanations and exercises according to the research summary in [PEDAGOGIK.md](PEDAGOGIK.md) (e.g. reading and tracing code before writing it, worked examples, Parsons problems, explicit notional machine, attention to known misconceptions). 
@@ -88,7 +88,7 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
 
 Chapters 1–11 follow a common template, based on PEDAGOGIK.md:
 
-- **Scripts in Del I.** Code is written in a `<script>` element at the end of `<body>`, never in a separate file and never as a module (`type="module"`). Pages are opened directly from the file system and reloaded by hand; no web server or Live Server is needed. Separate script files and modules are introduced in the modules chapter.
+- **Scripts in Del I.** Code is written in a `<script>` element at the end of `<body>`, never in a separate file and never as a module (`type="module"`). Pages are opened directly from the file system; no web server or Live Server is needed. Do not explain how to create, save, open or reload pages (see *Target Audience*). Separate script files and modules are introduced in the modules chapter.
 - **Practice page.** From chapter 4 on, each chapter has its own practice page (a folder `kapNN` with an `index.html`, usually in a section *En sida att öva på*) containing every element the examples and exercises need. From chapter 5 on, a callout *Så provar du koden i det här kapitlet* says how to work with it.
 - ***Stanna upp* boxes** (`{.callout-note appearance="simple"}` with the heading `## Stanna upp`) after the heavier sections: a few short questions that check understanding, often asking the student to predict before testing.
 - **Notional machine.** Use the arrow model from chapter 2 (names point to values) and trace tables (one column per variable, one row per step) wherever beginners have known misconceptions.

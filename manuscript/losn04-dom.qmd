@@ -10,7 +10,7 @@ Lösningar till övningarna i kapitel [-@sec-dom-intro].
 
 När skriptet har körts visar sidan:
 
-- **Rubriken:** Quizkväll — *final*, med ordet *final* i kursiv stil.
+- **Rubriken:** Quizkväll – *final*, med ordet *final* i kursiv stil.
 - **Första stycket:** `<strong>Ledning!</strong>` – med taggarna synliga som vanlig text.
 - **Andra stycket:** Poäng: 4
 
@@ -83,24 +83,24 @@ ledtråd.classList.add("markerad");
 
 ## Övning – Ritningen och huset
 
-En möjlig rad i `script.js`:
+En möjlig rad i `<script>`-elementet:
 
 ```javascript
 document.querySelector("h1").textContent = "Välkommen till quizet!";
 ```
 
 1. I *Elements* står den nya texten, *Välkommen till quizet!*.
-2. I källkoden står den gamla texten, *Quizkväll*. (Under Live Server ser du också ett skript längst ned som du inte har skrivit. Det är Live Server som lägger dit det, för att kunna ladda om sidan när du sparar.)
-3. Källkoden är ritningen: filen `index.html`, precis som den ligger på disken och skickas från servern. *Elements* visar huset: DOM:en som webbläsaren byggde av ritningen, och som ditt skript sedan har ändrat i. JavaScript ändrar aldrig ritningen, bara huset.
+2. I källkoden står den gamla texten, *Quizkväll*, och längst ned ditt `<script>`-element med raden som ändrar den.
+3. Källkoden är ritningen: filen `index.html`, precis som den ligger på disken. *Elements* visar huset: DOM:en som webbläsaren byggde av ritningen, och som ditt skript sedan har ändrat i. JavaScript ändrar aldrig ritningen, bara huset.
 4. Efter omladdningen står texten från skriptet, *Välkommen till quizet!*. Din ändring i *Elements* gjordes bara i huset och försvann när sidan laddades om. Webbläsaren byggde då ett nytt hus från ritningen, där rubriken hette *Quizkväll* – och sedan körde skriptet igen och ändrade rubriken. Den som laddar sidan ser alltså aldrig *Quizkväll*, fast det är den texten som står i filen.
 
 ## Övning – Bygg vidare på poängtavlan
 
 ```html
 <h1>Quizkväll</h1>
-<p id="lagnamn">Lag: —</p>
+<p id="lagnamn">Lag: –</p>
 <p id="poäng">Poäng: 0</p>
-<p id="runda">Runda: —</p>
+<p id="runda">Runda: –</p>
 <p id="resultat">Resultat visas här.</p>
 ```
 
@@ -179,9 +179,9 @@ document.querySelector("#ledtråd").classList.add("framhävd");
 Ett lösningsförslag:
 
 ```html
-<h2 id="frågetext">—</h2>
-<p id="frågepoäng">—</p>
-<p id="ledtråd">—</p>
+<h2 id="frågetext">–</h2>
+<p id="frågepoäng">–</p>
+<p id="ledtråd">–</p>
 ```
 
 ```javascript
@@ -207,7 +207,6 @@ Frågetexten passar bra i en rubrik och poängen och ledtråden i var sitt styck
 <head>
     <meta charset="UTF-8">
     <title>Mörkt läge</title>
-    <script type="module" src="script.js"></script>
     <style>
         .dark {
             background-color: #1a1a2e;
@@ -222,13 +221,13 @@ Frågetexten passar bra i en rubrik och poängen och ledtråden i var sitt styck
     <h1>Quizkväll</h1>
     <p>Välkommen till kvällens quiz.</p>
     <p>Läs <a href="regler.html">reglerna</a> innan vi börjar.</p>
+
+    <script>
+        const mörktLäge = true;
+        document.querySelector("body").classList.toggle("dark", mörktLäge);
+    </script>
 </body>
 </html>
-```
-
-```javascript
-const mörktLäge = true;
-document.querySelector("body").classList.toggle("dark", mörktLäge);
 ```
 
 Regeln `.dark a` gäller länkar inuti ett element med klassen `dark`. Länkar har en egen färg i webbläsaren, och blå text syns dåligt mot mörk bakgrund, så länkfärgen måste anpassas. Med `true` får `<body>` klassen och sidan blir mörk. Med `false` tas klassen bort, eller läggs aldrig till.

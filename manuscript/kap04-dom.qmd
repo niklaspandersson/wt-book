@@ -2,19 +2,17 @@
 
 ## Poängtavlan som ingen ser
 
-I kapitel [-@sec-variabler] byggde du upp quizkvällens poängtavla i konsolen. Lagens namn och poäng finns i variabler och objekt, och du kan räkna upp poängen när ett lag svarar rätt. I förra kapitlet lärde du dig att anropa färdiga funktioner och att ta hand om det de returnerar. Men när kompisarna samlas runt datorn ser de ingenting av det. Konsolen är programmerarens verktyg — besökaren ser bara själva webbsidan.
+Quizkvällens poängtavla finns nu i konsolen: lagens namn och poäng ligger i objekt, och du kan räkna upp poängen när ett lag svarar rätt. Men när kompisarna samlas runt datorn ser de ingenting av det. Konsolen är programmerarens verktyg – besökaren ser bara själva webbsidan.
 
-I det här kapitlet tar vi steget från konsolen till sidan. Du lär dig att hämta ett element på sidan, att ändra dess text och utseende och att visa och dölja det. Det mesta av det gör du med metoder som webbläsaren har färdiga åt dig, så du kommer att få användning för allt du vet om anrop, argument och returvärden. När kapitlet är slut kan poängtavlan stå där alla ser den.
+För att ändra det besökaren ser behöver JavaScript komma åt sidan. Det gör det genom **DOM:en** (*Document Object Model*): en modell av sidan som webbläsaren bygger när sidan laddas, där varje element är ett objekt som JavaScript kan läsa och ändra.
 
 ---
 
 ## Webbsidan som en modell
 
-När webbläsaren laddar en HTML-sida händer mer än att den ritar upp text och bilder. Webbläsaren bygger en intern modell av sidan — en strukturerad representation av alla element, deras egenskaper och deras relationer. Den modellen kallas **DOM** (*Document Object Model*).
+HTML-koden är ritningen, och DOM:en är det färdiga huset. Ritningen är text i en fil. Huset är en struktur som kan förändras medan sidan visas. JavaScript arbetar med huset, inte med ritningen.
 
-Tänk på det så här: HTML-koden är ritningen, och DOM:en är det färdiga huset. Ritningen är statisk text i en fil; huset är en levande struktur som kan förändras. JavaScript arbetar med huset, inte med ritningen.
-
-Betrakta följande HTML:
+Ta den här HTML-koden:
 
 ```html
 <body>
@@ -23,7 +21,7 @@ Betrakta följande HTML:
 </body>
 ```
 
-Webbläsaren bygger en trädstruktur av detta: `body` är en gren, och inuti den finns `h1` och `p` som mindre grenar. (Själva roten i trädet är `html`-elementet, som omsluter både `head` och `body`.) Varje gren är ett **element** med egenskaper — text, CSS-stilar, attribut — som JavaScript kan läsa och ändra.
+Webbläsaren bygger ett träd av den. Roten är `html`-elementet, som omsluter `head` och `body`. Inuti `body` finns `h1` och `p`:
 
 ```{mermaid}
 %%| fig-alt: "Ett träd med html överst. Under html finns head och body. Under body finns h1 med texten Quizkväll och p med texten Poäng: 0."
@@ -34,13 +32,13 @@ flowchart TD
     body --> p["p<br>Poäng: 0"]
 ```
 
-Vi behöver inte förstå hela trädstrukturen i detalj ännu. Det viktiga just nu är att varje HTML-element på sidan finns som ett **objekt** i DOM:en, och att JavaScript kan hämta det objektet och förändra det.
+Varje element i trädet är ett objekt med egenskaper – text, stil, attribut – som JavaScript kan hämta och förändra.
 
 ---
 
 ## En sida att öva på
 
-Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem på. Skapa en ny mapp, till exempel `kap04`. Spara den här koden som `index.html`:
+Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem på. Skapa en ny mapp, till exempel `kap04`, och spara den här koden i den som `index.html`:
 
 ```html
 <!DOCTYPE html>
@@ -48,40 +46,37 @@ Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem p
 <head>
     <meta charset="UTF-8">
     <title>Quizkväll</title>
-    <script type="module" src="script.js"></script>
 </head>
 <body>
     <h1>Quizkväll</h1>
-    <p id="lagnamn">Lag: —</p>
+    <p id="lagnamn">Lag: –</p>
     <p id="poäng">Poäng: 0</p>
     <p id="resultat">Resultat visas här.</p>
+
+    <script>
+        console.log("Skriptet körs!");
+    </script>
 </body>
 </html>
 ```
 
-Skapa sedan filen `script.js` i samma mapp, med en enda rad:
-
-```javascript
-console.log("Skriptet körs!");
-```
-
-Öppna sidan med Live Server, som i kapitel [-@sec-om-javascript], och öppna konsolen. Står det `Skriptet körs!` där är allt på plats. Exemplen i resten av kapitlet kan du skriva i `script.js` — Live Server laddar om sidan varje gång du sparar. Sidan blir också utgångspunkt för flera av övningarna.
+Står det `Skriptet körs!` i konsolen när du öppnar sidan är allt på plats. Exemplen i resten av kapitlet skriver du i `<script>`-elementet. Sidan är också utgångspunkt för flera av övningarna.
 
 ---
 
 ## Hämta ett element med `querySelector`
 
-Webbläsaren ger dig ett färdigt objekt, `document`, som representerar hela HTML-dokumentet. Det har en metod som heter `querySelector`. Den söker igenom sidan och returnerar det första elementet som matchar en given **CSS-selektor**:
+Webbläsaren ger dig ett färdigt objekt, `document`, som representerar hela sidan. Det har en metod, `querySelector`, som söker igenom sidan och returnerar det första elementet som matchar en **CSS-selektor**:
 
 ```javascript
 const rubrik = document.querySelector("h1");
 ```
 
-Läs raden så som du lärde dig i förra kapitlet, från vänster till höger: i objektet `document`, anropa metoden `querySelector` med argumentet `"h1"`. Argumentet är en sträng som innehåller en CSS-selektor, den här selektorn betyder "`<h1>`-element". Metoden returnerar *det första* elementet som matchar selektorn.
+Läs raden från vänster till höger: i objektet `document`, anropa metoden `querySelector` med argumentet `"h1"`. Argumentet är en sträng med en CSS-selektor, och den här selektorn betyder "`<h1>`-element".
 
-Returvärdet är ett objekt som *representerar* elementet på sidan. Anropet ersätts av det objektet, och namnet `rubrik` får peka på det. Precis som objekten du skapade i kapitel [-@sec-variabler] har elementobjektet egenskaper som du når med punktnotation. Skillnaden är att webbläsaren har skapat det åt dig, och att egenskaperna är kopplade till det som syns på sidan. Nu kan vi använda variabeln för att läsa och ändra elementet.
+Returvärdet är ett objekt som *representerar* elementet på sidan, och namnet `rubrik` får peka på det. Precis som dina egna objekt har elementobjektet egenskaper som du når med punktnotation. Skillnaden är att webbläsaren har skapat det, och att egenskaperna är kopplade till det som syns på sidan.
 
-Pilbilden från kapitel [-@sec-variabler] fungerar här också. Namnet `rubrik` pekar på elementobjektet i DOM:en — inte på en kopia av det. Det är därför en ändring via `rubrik` syns direkt på sidan:
+Namnet `rubrik` pekar på elementobjektet i DOM:en, inte på en kopia av det. Därför syns en ändring via `rubrik` direkt på sidan:
 
 ```{mermaid}
 %%| fig-alt: "Namnet rubrik pekar med en pil på h1-elementet med texten Quizkväll, som sitter i DOM-trädet under body."
@@ -96,7 +91,7 @@ flowchart LR
 
 ### CSS-selektorer som du redan kan
 
-`querySelector` tar samma selektorer som du redan använder i CSS:
+`querySelector` tar samma selektorer som du använder i CSS:
 
 ```javascript
 document.querySelector("h1");          // första <h1>-elementet
@@ -105,12 +100,12 @@ document.querySelector(".resultat");   // första elementet med class="resultat"
 document.querySelector("#poäng");      // elementet med id="poäng"
 ```
 
-Selektorn `.resultat` matchar klasser, och `#poäng` matchar id:n — precis som i CSS. (Står raderna i en fil händer ingenting synligt, eftersom ingen tar hand om returvärdena. Prova dem i konsolen, så ser du vilka element som returneras.) Om ingen matchning hittas returnerar `querySelector` värdet `null`, det avsiktligt tomma värdet från kapitel [-@sec-variabler].
+Prova raderna i konsolen, så ser du vilka element som returneras. Hittar `querySelector` inget element returnerar den `null`.
 
 ::: {.callout-important}
 ## Vad händer om elementet inte finns?
 
-Om `querySelector` inte hittar något element returneras `null`. Försöker du sedan använda resultatet — till exempel läsa eller ändra `.textContent` — får du ett felmeddelande:
+Försöker du använda `null` som om det vore ett element – till exempel ändra `.textContent` – får du ett felmeddelande:
 
 ```javascript
 const element = document.querySelector(".finns-inte");
@@ -118,15 +113,14 @@ console.log(element);            // null
 element.textContent = "Hej!";   // TypeError: Cannot set properties of null
 ```
 
-Det är ett av de vanligaste felen i webbutveckling. Om du ser *"Cannot read properties of null"* eller *"Cannot set properties of null"* i konsolen, kontrollera att selektorn stämmer och att elementet verkligen finns i HTML:en.
+Det är ett av de vanligaste felen i webbutveckling. Ser du *"Cannot read properties of null"* eller *"Cannot set properties of null"*, kontrollera att selektorn stämmer och att elementet finns i HTML-koden.
 :::
-
 
 ---
 
 ## Ändra text med `textContent`
 
-Varje element i DOM:en har egenskapen `textContent` — den text som elementet innehåller. Du kan både *läsa* och *skriva* den:
+Varje element har egenskapen `textContent`: texten som elementet innehåller. Du kan både *läsa* och *skriva* den:
 
 ```javascript
 const rubrik = document.querySelector("h1");
@@ -138,17 +132,16 @@ console.log(rubrik.textContent);   // "Quizkväll"
 rubrik.textContent = "Quizkväll – final!";
 ```
 
-Den sista raden ändrar texten *direkt på sidan* — ingen omladdning behövs. Det är det här som gör JavaScript kraftfullt: du kan förändra vad användaren ser, i realtid, som svar på data och beräkningar i din kod.
+Den sista raden ändrar texten *direkt på sidan*, utan omladdning.
 
-Låt oss bygga vidare på quizkväll-exemplet. Övningssidan har redan den här HTML-koden:
+Övningssidan har element för lagets namn och poäng:
 
 ```html
-<h1>Quizkväll</h1>
-<p id="lagnamn">Lag: —</p>
+<p id="lagnamn">Lag: –</p>
 <p id="poäng">Poäng: 0</p>
 ```
 
-Nu kan vi uppdatera sidan med JavaScript:
+Nu kan du visa laget på sidan:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 15 };
@@ -157,9 +150,7 @@ document.querySelector("#lagnamn").textContent = "Lag: " + lag.namn;
 document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
 ```
 
-Två rader kod — och sidan visar lagets namn och poäng. Ingen konsol behövs; användaren ser resultatet direkt.
-
-Lägg märke till en sak som många nybörjare snubblar på. Raden `"Poäng: " + lag.poäng` räknas ut *en gång*, när raden körs, och det är den färdiga texten som hamnar på sidan. Ändrar du `lag.poäng` efteråt ändras inte sidan av sig själv:
+Raden `"Poäng: " + lag.poäng` räknas ut *en gång*, när raden körs, och det är den färdiga texten som hamnar på sidan. Ändrar du `lag.poäng` efteråt ändras inte sidan av sig själv:
 
 ```javascript
 lag.poäng = lag.poäng + 5;   // objektet har nu 20 poäng ...
@@ -167,67 +158,59 @@ lag.poäng = lag.poäng + 5;   // objektet har nu 20 poäng ...
 document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;   // nu: "Poäng: 20"
 ```
 
-Sidan och dina variabler är två olika saker. Vill du att sidan ska visa ett nytt värde måste du själv skriva det dit.
+Sidan och dina variabler är två olika saker. Ska sidan visa ett nytt värde måste du själv skriva dit det.
 
 ---
 
 ## Infoga HTML med `innerHTML`
 
-`textContent` ändrar den rena texten i ett element. Men ibland vill du infoga *HTML-kod* — till exempel göra ett ord fetstilt, eller lägga in en länk. Då använder du `innerHTML` istället:
+`textContent` ändrar den rena texten i ett element. Vill du i stället infoga *HTML-kod* – till exempel göra ett ord fetstilt eller lägga in en länk – använder du `innerHTML`:
 
 ```javascript
 const resultat = document.querySelector("#resultat");
 
-// textContent — ren text, HTML-taggar visas bokstavligt
+// textContent – ren text, HTML-taggar visas bokstavligt
 resultat.textContent = "Du fick <strong>15</strong> poäng";
 // Visar: Du fick <strong>15</strong> poäng
 
-// innerHTML — HTML-taggar tolkas och renderas
+// innerHTML – HTML-taggar tolkas
 resultat.innerHTML = "Du fick <strong>15</strong> poäng";
 // Visar: Du fick **15** poäng (med fetstil)
 ```
-
-Med `innerHTML` kan du alltså bygga rikare innehåll — fetstil, kursiv, listor, länkar:
-
-```javascript
-document.querySelector("h1").innerHTML = "Quizkväll — <em>final</em>";
-```
-
-Att blanda in värden från variabler i HTML-koden går också, men med `+` blir det snabbt rörigt att hålla reda på alla citattecken och taggar. I kapitel [-@sec-tal-och-text] lär du dig ett smidigare sätt att bygga sådan text.
 
 ### När ska du använda vilket?
 
 - **`textContent`** när du bara vill visa ren text. Det är snabbare och säkrare.
 - **`innerHTML`** när du behöver HTML-formatering i innehållet.
 
-Som tumregel: börja med `textContent`. Byt till `innerHTML` bara när du verkligen behöver HTML-taggar i resultatet.
+Börja med `textContent`, och byt till `innerHTML` bara när du verkligen behöver HTML-taggar.
 
 ::: {.callout-warning}
 ## Säkerhetsvarning: innerHTML och användardata
 
-Sätt **aldrig** in ofiltrerad användardata med `innerHTML`. Om en användare skriver in text som innehåller HTML-taggar kommer webbläsaren att tolka det som riktig HTML-kod — och vissa taggar kan bära med sig JavaScript som körs, som i exemplet nedan. Det kan utnyttjas för attacker som kallas *cross-site scripting* (XSS).
+Sätt **aldrig** in ofiltrerad användardata med `innerHTML`. Skriver en användare text som innehåller HTML-taggar tolkar webbläsaren det som riktig HTML-kod, och vissa taggar kan bära med sig JavaScript som körs. Det kan utnyttjas för attacker som kallas *cross-site scripting* (XSS).
 
-Tänk dig att besökaren själv får skriva in sitt lagnamn, och att koden visar det med `innerHTML`. Skriver någon då in `<img src=x onerror=alert('hackad')>` som lagnamn, tolkar webbläsaren texten som en bild med JavaScript-kod i — och koden körs. Med `textContent` hade texten bara visats som den är.
+Tänk dig att besökaren får skriva in sitt lagnamn, och att koden visar det med `innerHTML`. Skriver någon `<img src=x onerror=alert('hackad')>` som lagnamn, tolkar webbläsaren texten som en bild med JavaScript-kod i, och koden körs. Med `textContent` hade texten bara visats som den är.
 
-Så länge du bara använder `innerHTML` med text som *du själv kontrollerar* i din kod — strängar och variabler du själv har satt — är det säkert. Problemet uppstår först när du blandar in data som kommer utifrån. Vi återkommer till webbsäkerhet i ett senare kapitel.
+Så länge du bara använder `innerHTML` med text som *du själv* har skrivit i koden är det säkert. Problemet uppstår när du blandar in data som kommer utifrån.
 :::
 
 ---
 
 ## `console.log()` lever kvar
 
-Att vi nu kan visa resultat på webbsidan betyder inte att `console.log()` blir överflödigt. Tvärtom — de två verktygen har olika roller:
+Att du kan visa resultat på sidan gör inte `console.log()` överflödigt. De två har olika roller:
 
-- **`console.log()`** är för *dig som programmerare*. Använd det för att inspektera värden, felsöka och förstå vad koden gör under körning. Användaren ser det inte.
-- **DOM-manipulation** är för *användaren*. Använd det för att visa resultat, uppdatera gränssnitt och ge visuell respons.
+- **`console.log()`** är för *dig som programmerare*: för att se värden, felsöka och förstå vad koden gör. Användaren ser det inte.
+- **Ändringar i DOM:en** är för *användaren*: för att visa resultat och ge återkoppling.
 
-I praktiken använder du ofta båda i samma program: `console.log()` för att kontrollera att beräkningen stämmer, och DOM-manipulation för att visa resultatet för användaren.
+Ofta använder du båda i samma program:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 12 };
 lag.poäng = lag.poäng + 3;                          // laget svarar rätt
 
-console.log(lag);                                   // för dig — stämmer objektet?
+console.log(lag);                                   // för dig – stämmer objektet?
 document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;   // för besökaren
 ```
 
@@ -235,11 +218,11 @@ document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;   // f�
 
 ## Ändra utseendet
 
-Hittills har vi ändrat vad som *står* på sidan. Men en sida kommunicerar också med färg, storlek och form. Tänk dig quizprogrammet igen: när ett lag leder vill du att dess namn lyser upp, och när en fråga är besvarad vill du att den grånar. Allt det handlar om att ändra elementens *utseende* — och det kan JavaScript också göra.
+En sida kommunicerar också med färg, storlek och form. När ett lag leder vill du att dess namn lyser upp, och när en fråga är besvarad vill du att den grånar. Det kan JavaScript också göra.
 
 ### Ändra stil med `.style`
 
-Varje element i DOM:en har en egenskap som heter `style`. Via den kan du läsa och ändra enskilda CSS-egenskaper direkt:
+Varje element har en egenskap `style`, som du kan använda för att ändra enskilda CSS-egenskaper:
 
 ```javascript
 const rubrik = document.querySelector("h1");
@@ -248,7 +231,7 @@ rubrik.style.fontSize = "2.5rem";
 rubrik.style.textAlign = "center";
 ```
 
-Varje CSS-egenskap finns som en egenskap på `.style`-objektet, men med en viktig skillnad: **bindestreck ersätts med camelCase**. I CSS skriver du `font-size`, men i JavaScript skriver du `fontSize`. Mönstret är konsekvent:
+CSS-egenskaperna skrivs i camelCase: i CSS skriver du `font-size`, men i JavaScript `fontSize`. I JavaScript är bindestrecket ett minustecken, så `rubrik.style.font-size` skulle betyda "`rubrik.style.font` minus `size`".
 
 | CSS-egenskap         | JavaScript (.style)       |
 |----------------------|---------------------------|
@@ -259,27 +242,9 @@ Varje CSS-egenskap finns som en egenskap på `.style`-objektet, men med en vikti
 | `text-align`         | `style.textAlign`         |
 | `padding`            | `style.padding`           |
 
-Anledningen är enkel: i JavaScript tolkas bindestreck som ett minustecken. `rubrik.style.font-size` skulle betyda "ta `font`, subtrahera `size`" — inte alls vad vi menar.
-
-#### Flera stilar samtidigt
-
-Du kan ändra hur många stilegenskaper du vill, en i taget:
-
-```javascript
-const poängElement = document.querySelector("#poäng");
-poängElement.style.backgroundColor = "lightyellow";
-poängElement.style.padding = "1rem";
-poängElement.style.borderRadius = "8px";
-poängElement.style.border = "2px solid gold";
-```
-
-Det fungerar, men börjar snabbt bli omständligt. Fyra rader JavaScript bara för att ge ett element ett visst utseende. Och om du vill ge samma utseende till ett annat element måste du upprepa alla fyra raderna. Det finns ett bättre sätt.
-
----
-
 ### CSS-klasser med `classList`
 
-I CSS grupperar du ofta stilar i **klasser**:
+I CSS samlar du ofta flera stilar i en **klass**:
 
 ```css
 .ledare {
@@ -298,28 +263,24 @@ I CSS grupperar du ofta stilar i **klasser**:
 }
 ```
 
-Med JavaScript kan du lägga till och ta bort sådana klasser via elementets **`classList`**-egenskap. `classList` är i sin tur ett objekt, med egna metoder för att hantera klasser. Det är mycket kraftfullare och renare än att ändra stilar en och en.
+Med JavaScript lägger du till och tar bort sådana klasser via elementets egenskap **`classList`**. `classList` är i sin tur ett objekt, med egna metoder för att hantera klasser. Ett anrop som `rubrik.classList.add("ledare")` läser du från vänster till höger: i elementet `rubrik`, ta objektet `classList`, och anropa dess metod `add` med argumentet `"ledare"`.
 
-Ett anrop som `rubrik.classList.add("ledare")` läser du från vänster till höger, precis som andra metodanrop: i elementet `rubrik`, ta objektet `classList`, och anropa dess metod `add` med argumentet `"ledare"`. Objekt kan alltså ligga i objekt, och punkterna leder dig steg för steg fram till metoden.
-
-#### `classList.add()` — lägga till en klass
+#### `classList.add()` – lägga till en klass
 
 ```javascript
 const ledandeLag = document.querySelector("#lag-röda");
 ledandeLag.classList.add("ledare");
 ```
 
-En enda rad — `classList.add("ledare")` — aktiverar alla stilregler som hör till klassen `.ledare` i din CSS. Fem CSS-egenskaper appliceras på en gång.
+En enda rad aktiverar alla stilregler i klassen `.ledare` – fem CSS-egenskaper på en gång.
 
-#### `classList.remove()` — ta bort en klass
-
-Om du vill ta bort en klass använder du `remove`:
+#### `classList.remove()` – ta bort en klass
 
 ```javascript
 ledandeLag.classList.remove("ledare");
 ```
 
-Det är viktigt att ta bort gamla klasser när ett element byter tillstånd. Tänk dig en fråga som först är markerad som aktiv och sedan blir besvarad. Om du bara lägger till den nya klassen finns båda kvar, och stilarna blandas ihop:
+När ett element byter tillstånd behöver du ta bort den gamla klassen. Lägger du bara till den nya finns båda kvar, och stilarna blandas ihop:
 
 ```javascript
 const fråga = document.querySelector("#fråga-3");
@@ -327,20 +288,16 @@ fråga.classList.remove("aktiv");
 fråga.classList.add("besvarad");
 ```
 
-#### `classList.toggle()` — slå av och på
+#### `classList.toggle()` – slå av och på
 
-`toggle` lägger till klassen om den saknas, och tar bort den om den redan finns:
+`toggle` lägger till klassen om den saknas och tar bort den om den redan finns, som en strömbrytare:
 
 ```javascript
 const kort = document.querySelector(".kort");
-
-// Om "kort" har klassen "markerad" tas den bort; annars läggs den till
-kort.classList.toggle("markerad");
+kort.classList.toggle("markerad");   // av blir på, på blir av
 ```
 
-Det är som en strömbrytare för en klass. `toggle` blir särskilt användbart när vi lär oss om händelser i kapitel [-@sec-handelser] — till exempel att klicka på ett element för att markera eller avmarkera det.
-
-Man kan också skicka med ett andra argument, ett booleskt värde, som bestämmer riktningen: om det är `true` läggs klassen till, om det är `false` tas den bort.
+Med ett andra argument, ett booleskt värde, bestämmer du riktningen: `true` lägger till klassen och `false` tar bort den.
 
 ```javascript
 const mörktLäge = true;
@@ -349,48 +306,27 @@ document.querySelector("body").classList.toggle("dark", mörktLäge);
 
 Här styr variabeln `mörktLäge` om sidan visas mörk eller ljus. Ändra variabeln till `false` och ladda om, så försvinner klassen.
 
----
+### `.style` eller `classList`?
 
-### `.style` eller `classList` — när väljer du vad?
+Båda ändrar utseendet, men de passar i olika situationer. **Använd `classList`** när du växlar mellan tillstånd som kan bestämmas i förväg, som ledare/inte ledare, aktiv/besvarad eller ljust/mörkt. Då ligger utseendet i CSS och JavaScript bestämmer bara *när* det ska gälla. Det är det vanliga fallet, så föredra `classList`.
 
-Båda verktygen ändrar utseendet på ett element, men de passar i olika situationer:
-
-**Använd `.style`** när du:
-
-- Ändrar *en enskild* egenskap
-- Arbetar med ett värde som beror på en beräkning eller variabel (till exempel en bredd i procent)
+**Använd `.style`** när värdet räknas ut i koden och inte går att förbereda i CSS:
 
 ```javascript
-// Bredd som beror på data — svårt att förbereda i CSS
 const stapel = document.querySelector("#stapel");
 const besvarade = 65;   // så många procent av frågorna är besvarade
 stapel.style.width = besvarade + "%";
 ```
 
-**Använd `classList`** när du:
-
-- Ändrar *flera* egenskaper på en gång
-- Växlar mellan fördefinierade visuella tillstånd (ledare/inte ledare, aktiv/besvarad, ljust/mörkt)
-- Vill hålla stilar i CSS och beteende i JavaScript
-
-```javascript
-// Byt visuellt tillstånd — alla stilar definierade i CSS
-element.classList.add("markerad");
-```
-
-Som tumregel: **föredra `classList`**. Det ger en tydligare uppdelning — CSS ansvarar för *hur* saker ser ut, JavaScript ansvarar för *när* de ska se ut så. Utseende i CSS-filer är också lättare att underhålla, ändra och återanvända.
-
-`.style` är mest användbart för dynamiska värden som beräknas i JavaScript, till exempel att sätta en stapels bredd utifrån en procentsats eller flytta ett element till en beräknad position.
-
 ---
 
 ## Visa och dölja element
 
-En av de vanligaste visuella förändringarna på en webbsida är att visa eller dölja innehåll. En ledtråd som bara syns om man behöver hjälp. Ett felmeddelande som bara dyker upp vid fel. Ett svar som är dolt tills man vill se det.
+En ledtråd som bara syns om man behöver hjälp, ett felmeddelande som bara dyker upp vid fel, ett svar som är dolt tills man vill se det – att visa och dölja är en av de vanligaste ändringarna på en webbsida.
 
 ### Egenskapen `hidden`
 
-Det enklaste sättet att dölja ett element är med den inbyggda egenskapen `hidden`:
+Det enklaste sättet att dölja ett element är egenskapen `hidden`:
 
 ```javascript
 const ledtråd = document.querySelector("#ledtråd");
@@ -398,22 +334,17 @@ ledtråd.hidden = true;    // elementet försvinner från sidan
 ledtråd.hidden = false;   // elementet syns igen
 ```
 
-`hidden` är en boolesk egenskap — `true` döljer elementet, `false` visar det. Det motsvarar HTML-attributet `hidden`:
+`hidden` är en boolesk egenskap: `true` döljer elementet och `false` visar det. Den motsvarar HTML-attributet `hidden`:
 
 ```html
-<!-- Dessa två gör samma sak -->
 <p id="ledtråd" hidden>Tips: tänk på huvudstäder i Norden.</p>
 ```
 
-```javascript
-document.querySelector("#ledtråd").hidden = true;
-```
-
-Elementet tas bort ur flödet helt — det tar ingen plats och syns inte. Övriga element runt omkring det justeras som om det inte fanns.
+Ett dolt element tar ingen plats, och elementen runt omkring flyttar ihop som om det inte fanns.
 
 ### Dölja med CSS-klass
 
-Ett alternativ till `hidden` är att använda en CSS-klass:
+Ett alternativ är en CSS-klass:
 
 ```css
 .dold {
@@ -422,38 +353,35 @@ Ett alternativ till `hidden` är att använda en CSS-klass:
 ```
 
 ```javascript
-// Dölj
-element.classList.add("dold");
-
-// Visa
-element.classList.remove("dold");
+element.classList.add("dold");      // dölj
+element.classList.remove("dold");   // visa
 ```
 
-Fördelen med en CSS-klass är flexibilitet. Du kan definiera `.dold` med `display: none` (tar ingen plats) men du kan också använda `visibility: hidden` (elementet tar plats men syns inte) eller `opacity: 0` (elementet är osynligt men fortfarande klickbart). Beteendet styrs från CSS, inte från JavaScript.
+Fördelen är att du bestämmer i CSS hur elementet döljs. `display: none` tar bort det helt, `visibility: hidden` låter det ta plats men inte synas, och `opacity: 0` gör det osynligt men fortfarande klickbart.
 
 ::: {.callout-note}
 ## `hidden` eller CSS-klass?
 
-Tumregel: använd `hidden` när du bara vill visa eller dölja. Använd en CSS-klass om du behöver mer kontroll, till exempel om elementet ska ta plats fast det inte syns.
+Använd `hidden` när du bara vill visa eller dölja. Använd en CSS-klass om du behöver mer kontroll, till exempel om elementet ska ta plats fast det inte syns.
 
-Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `display: none`. Om din egen CSS sätter `display` på elementet – till exempel `display: flex` – vinner din regel, och elementet syns trots `hidden`. Om `hidden` inte tycks fungera, kontrollera elementets `display` i utvecklarverktygen.
+Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `display: none`. Sätter din egen CSS `display` på elementet – till exempel `display: flex` – vinner din regel, och elementet syns trots `hidden`. Fungerar inte `hidden`, kontrollera elementets `display` i utvecklarverktygen.
 :::
 
 ---
 
 ## Sammanfattning
 
-- Webbläsaren bygger en **DOM** (*Document Object Model*) — en levande modell av HTML-sidan som JavaScript kan läsa och ändra.
-- **`document.querySelector(selektor)`** är en metod i objektet `document`. Argumentet är en CSS-selektor, och returvärdet är det första element som matchar — eller `null` om inget hittas.
-- Elementet du får tillbaka är ett **objekt** med egenskaper, precis som objekten i kapitel [-@sec-variabler].
-- **`.textContent`** läser eller skriver ett elements textinnehåll som ren text.
-- **`.innerHTML`** läser eller skriver ett elements HTML-innehåll. Använd det när du behöver formatering — men aldrig med ofiltrerad användardata.
-- **`.style`** ändrar enskilda CSS-egenskaper direkt. Egenskapsnamn skrivs i **camelCase** (`backgroundColor`, `fontSize`).
-- **`classList`** lägger till, tar bort och växlar CSS-klasser: `add()`, `remove()`, `toggle()`. **Föredra `classList`** för visuella tillstånd, och använd `.style` för värden som beräknas i koden.
-- **`hidden`** visar (`false`) eller döljer (`true`) ett element helt; en **CSS-klass med `display: none`** ger mer kontroll.
-- **`console.log()`** är för programmeraren; **DOM-manipulation** är för användaren.
+- Webbläsaren bygger en **DOM** (*Document Object Model*) – en modell av HTML-sidan som JavaScript kan läsa och ändra.
+- **`document.querySelector(selektor)`** är en metod i objektet `document`. Argumentet är en CSS-selektor, och returvärdet är det första element som matchar – eller `null` om inget hittas.
+- Elementet du får tillbaka är ett **objekt** med egenskaper, precis som dina egna objekt.
+- **`.textContent`** läser eller skriver ett elements text. **`.innerHTML`** läser eller skriver dess HTML-innehåll – men aldrig med ofiltrerad användardata.
+- Sidan uppdateras inte av sig själv när en variabel ändras. Du måste skriva det nya värdet till sidan.
+- **`.style`** ändrar enskilda CSS-egenskaper, med namn i **camelCase** (`backgroundColor`, `fontSize`).
+- **`classList`** lägger till, tar bort och växlar CSS-klasser: `add()`, `remove()`, `toggle()`. **Föredra `classList`**, och använd `.style` för värden som räknas ut i koden.
+- **`hidden`** döljer (`true`) eller visar (`false`) ett element; en **CSS-klass** ger mer kontroll.
+- **`console.log()`** är för programmeraren; ändringar i DOM:en är för användaren.
 
-Nu har du tre sätt att påverka vad användaren ser: ändra text (`textContent` / `innerHTML`), ändra utseende (`.style` / `classList`), och visa eller dölja element (`hidden`). Men två saker skaver. Allt händer i samma ögonblick som sidan laddas. Och du har säkert märkt att samma rader kommer tillbaka gång på gång — varje gång poängen ändras skriver du hela raden med `querySelector` och `textContent` igen. I nästa kapitel lär du dig skriva egna funktioner, så att sådana rader kan få ett namn och skrivas en enda gång. Det är den sista pusselbiten innan sidan kan reagera på klick i kapitel [-@sec-handelser].
+Du har säkert märkt att samma rader kommer tillbaka gång på gång: varje gång poängen ändras skriver du hela raden med `querySelector` och `textContent` igen. I nästa kapitel lär du dig skriva egna funktioner, så att sådana rader kan få ett namn och skrivas en enda gång.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -464,7 +392,7 @@ För att öva på DOM-manipulation behöver du sidor att öva *på*, och att skr
 
 > *"Skriv en HTML-sida, utan JavaScript, för ett påhittat kafé: rubriker, en meny med priser, några stycken med klasser och några element med id. Ge mig sedan tio uppdrag som ska lösas med `querySelector`, `textContent`, `classList` och `hidden` – till exempel 'dölj dagens erbjudande' eller 'markera dagens rätt'. Visa inga lösningar."*
 
-Lös uppdragen i din egen `script.js`. Fastnar du, be om en *ledtråd* – inte om lösningen.
+Lös uppdragen i ett `<script>`-element sist i sidans `<body>`. Fastnar du, be om en *ledtråd* – inte om lösningen.
 
 **Selektorquiz:**
 
@@ -488,7 +416,7 @@ Sidan har den här HTML-koden:
 
 ```html
 <h1>Quizkväll</h1>
-<p id="lagnamn">Lag: —</p>
+<p id="lagnamn">Lag: –</p>
 <p id="poäng">Poäng: 0</p>
 ```
 
@@ -499,7 +427,7 @@ const lag = { namn: "Gula gänget", poäng: 4 };
 document.querySelector("#lagnamn").textContent = lag.namn;
 document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
 lag.poäng = lag.poäng + 6;
-document.querySelector("h1").innerHTML = "Quizkväll — <em>final</em>";
+document.querySelector("h1").innerHTML = "Quizkväll – <em>final</em>";
 document.querySelector("p").textContent = "<strong>Ledning!</strong>";
 ```
 
@@ -521,7 +449,7 @@ Utgå från den här HTML-koden:
 <p id="ledtråd">Tänk på åtta.</p>
 ```
 
-Vilket element returnerar `querySelector` för var och en av selektorerna nedan — eller returnerar den `null`?
+Vilket element returnerar `querySelector` för var och en av selektorerna nedan – eller returnerar den `null`?
 
 ```javascript
 document.querySelector("p");
@@ -568,7 +496,7 @@ Kontrollera sedan dina svar: lägg in elementet på övningssidan, kör raderna 
 ::: {.callout-note}
 ## Övning – Vad säger felet?
 
-**Del A.** Följande HTML och JavaScript fungerar inte — inget händer på sidan. Undersök koden och hitta felet. (Kör inte koden direkt — resonera först.)
+**Del A.** Följande HTML och JavaScript fungerar inte – inget händer på sidan. Undersök koden och hitta felet. (Kör inte koden direkt – resonera först.)
 
 ```html
 <p id="meddelande">Originaltext</p>
@@ -650,7 +578,7 @@ ledtråd.classList.add(".markerad");
 
 I början av kapitlet beskrevs HTML-koden som ritningen och DOM:en som huset. Den här övningen låter dig se skillnaden.
 
-Utgå från övningssidan i avsnittet *En sida att öva på*. Skriv en rad i `script.js` som ändrar rubrikens text, spara och titta på sidan.
+Utgå från övningssidan i avsnittet *En sida att öva på*. Skriv en rad i `<script>`-elementet som ändrar rubrikens text, och titta på sidan.
 
 1. Öppna fliken *Elements* i utvecklarverktygen. Vilken text står i `<h1>`-elementet där?
 2. Visa sidans källkod: högerklicka på sidan och välj *Visa sidkälla* (*View Page Source*). Vilken text står i `<h1>`-elementet där?
@@ -661,7 +589,7 @@ Utgå från övningssidan i avsnittet *En sida att öva på*. Skriv en rad i `sc
 ::: {.callout-note}
 ## Övning – Bygg vidare på poängtavlan
 
-Skriv in exemplet från avsnittet *Ändra text med `textContent`* i `script.js` på övningssidan, så att sidan visar lagets namn och poäng. Ändra det sedan steg för steg:
+Skriv in exemplet från avsnittet *Ändra text med `textContent`* i `<script>`-elementet på övningssidan, så att sidan visar lagets namn och poäng. Ändra det sedan steg för steg:
 
 1. Lägg till egenskapen `runda` i objektet och ett nytt `<p>`-element i HTML-koden, så att sidan också visar till exempel `Runda: 2`.
 2. Laget svarar rätt på en fråga och får 3 poäng till. Ändra objektet och se till att sidan visar den nya poängen.

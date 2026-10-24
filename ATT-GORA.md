@@ -10,21 +10,20 @@
 - **Kontrollera i en riktig webbläsare.** Lösningarna är testkörda med Node.js och jsdom, men följande går inte att testa där:
   - övning 1.6: Chromes spärr mot inklistring i konsolen (`allow pasting`);
   - övning 1.5, 3.4 och 9.3: felmeddelandenas exakta formulering i Firefox och Safari;
-  - övning 4.7: vad *Visa sidkälla* visar under Live Server;
+  - övning 4.7: vad *Visa sidkälla* visar för en sida som öppnats direkt från filsystemet;
   - övning 4.10 fråga 3: att `#facit { display: block; }` vinner över `hidden`;
   - övning 9.8: att `#ruta.blå` behövs för att färgen ska synas, och hur `keydown` upprepas när en tangent hålls nere;
   - rutan i kap. 7 om decimalkomma i `<input type="number">`.
 
 ## Del I
 
-- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 5 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 4 och 6–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Kap. 4 rad 68 hänvisar till Live Server "som i kapitel 1". Görs i samband med att respektive kapitel kortas.
-- **Stanna upp-rutor saknas i kap. 4 och 6.**
-- **Kap. 4 saknar ett löst exempel med namngivna delmål.** Femstegsmönstret från kap. 6 kunde användas i en enklare form (*hämta → bearbeta → visa*).
+- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1, 4 och 5 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 6–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
+- **Stanna upp-rutor saknas i kap. 6.**
 - **Övningen *Frågornas typer* i kap. 10** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Se över dem i samband med kortningen av varje kapitel.
 - **En ordlista svenska–engelska** (PEDAGOGIK §6) saknas. Felmeddelanden och MDN är på engelska (*call, argument, return value, method* …).
-- **Tankstreck:** kap. 4 och 6, och fyra ställen i kap. 5, använder långt tankstreck (—). Resten av Del I använder kort (–).
+- **Tankstreck:** kap. 6 använder långt tankstreck (—). Resten av Del I använder kort (–).
 - **Del I-sammanfattningen** är bara en kort text. Den kunde bli ett repetitionskapitel med blandade övningar från hela Del I (PEDAGOGIK §8).
 - *Valfritt:* låt quizet vara en röd tråd genom hela Del I. Exemplen växlar i dag mellan quiz, lag, biljetter och moms.
 - *Valfritt:* ett kort stycke i kap. 1 om att programmering är svårt och att det är normalt (inspirerat av inledningen till *Eloquent JavaScript*, CC BY-NC). Väg mot *Prose density* i CLAUDE.md.
@@ -35,7 +34,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 1 JavaScript och webbläsaren
 
-- **Ingen textredigerare nämns längre.** VS Code kom bara in via Live Server, som är borttaget. Studenterna behöver veta vilket program de skriver HTML-filen i, hur de sparar den och hur de öppnar den i webbläsaren. Behövs senast inför kap. 4, där filer används första gången. Kanske en kort ruta i kap. 1 eller i kap. 4.
 - **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter *Uttryck och satser* och efter *När något går fel*.
 - **`console.log` och "inget värde".** Kap. 1 säger att `console.log("…")` är en sats som inte ger något värde. Kap. 3 säger att `console.log` returnerar `undefined`. Båda går att försvara, men bilderna bör stämma överens. Överväg att kap. 1 säger "ger värdet `undefined`, alltså inget värde".
 - **Första egna sidan.** Övningen *Läs koden innan du kör den* kunde avslutas med att studenten lägger raden i ett `<script>`-element sist i `<body>` och ser att ändringen nu finns kvar efter omladdning. Det övar avsnittet *Att koppla JavaScript till en HTML-sida*, som ingen övning använder i dag.
@@ -51,6 +49,12 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **`prompt` returnerar alltid text.** Kapitlet säger det inte. Det knyter an till kap. 2 ("allt användaren skriver kommer som text") och förbereder `Number()` i kap. 7. En mening och en rad i *Vad svarar konsolen?* skulle räcka.
 - **Nya möjligheter utan moduler:** övningar där studenten anropar funktioner från konsolen på en sida med eget skript blir möjliga från kap. 4.
+
+### Kap. 4 Din kod möter webbsidan
+
+- **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter `querySelector` (vad returneras, och när blir det `null`?), efter *Ändra text med `textContent`* (sidan uppdateras inte av sig själv) och efter `classList`.
+- **Inget löst exempel med namngivna delmål.** Femstegsmönstret från kap. 6 kunde användas i en enklare form (*hämta → bearbeta → visa*), till exempel poängtavlan som visar namn, poäng och runda och markerar det ledande laget. Det skulle också knyta ihop kapitlet, som nu är en rad verktyg efter varandra.
+- **`innerHTML` med variabler.** Kapitlet visar bara `innerHTML` med fasta strängar. Att bygga HTML med `+` och variabler är klumpigt och väntar på templatesträngar i kap. 7. Kap. 7 kunde knyta an hit.
 
 ### Kap. 5 Att skriva egna funktioner
 

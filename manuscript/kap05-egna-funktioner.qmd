@@ -29,7 +29,7 @@ En funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och 
 - **Kopiera sidan från förra kapitlet.** Kopiera `index.html` från kapitel [-@sec-dom-intro] till en ny mapp, `kap05`, och töm `<script>`-elementet. Då har du kvar alla element från övningssidan, och koden från kapitel [-@sec-dom-intro] ligger orörd.
 - **Börja om.** Skapa mappen `kap05` med en fil `index.html`, med samma HTML som i avsnittet *En sida att öva på* i kapitel [-@sec-dom-intro] och ett tomt `<script>`-element sist i `<body>`. Exemplen använder elementen med id `lagnamn`, `poäng` och `resultat`.
 
-Öppna `index.html` i webbläsaren. Det är den sidan som kallas *övningssidan* i resten av kapitlet. När du har ändrat i koden sparar du filen och laddar om sidan. Utskrifter och felmeddelanden syns i konsolen, och ett felmeddelande anger raden där felet uppstod, till exempel `index.html:31`.
+Det är den sidan som kallas *övningssidan* i resten av kapitlet. Ett felmeddelande i konsolen anger raden där felet uppstod, till exempel `index.html:31`.
 
 - Ett returvärde syns inte av sig självt när anropet står i en fil. Vill du se vad en funktion returnerar skriver du ut det: `console.log(biljettpris(3));`.
 - När sidan har laddats kan du också anropa dina funktioner från konsolen, till exempel `biljettpris(3)`.
@@ -521,7 +521,7 @@ function visaLedare(lag1, lag2) {
 ::: {.callout-note}
 ## Övning – Byt insidan
 
-Inträdet till quizkvällen kostar 40 kronor per person. Programmet nedan räknar ut vad ett lag ska betala och visar summan på sidan. (Vill du prova koden, lägg till `<p id="pris">—</p>` i `index.html`.)
+Inträdet till quizkvällen kostar 40 kronor per person. Programmet nedan räknar ut vad ett lag ska betala och visar summan på sidan. (Vill du prova koden, lägg till `<p id="pris">–</p>` i `index.html`.)
 
 ```javascript
 function biljettpris(antal) {
@@ -579,7 +579,7 @@ Ta fram din lösning på övningen *Bygg vidare på poängtavlan* i kapitel [-@s
 Övningssidan har redan ett stycke med id `resultat`. Lägg till en rubrik ovanför det:
 
 ```html
-<h2 id="namn">—</h2>
+<h2 id="namn">–</h2>
 ```
 
 Skriv två funktioner:
@@ -596,8 +596,8 @@ Testa med tre anrop efter varandra: `visaResultat("Karin", 15, 20)`, `visaResult
 När en ny runda börjar i quizet ska tre saker hända på sidan: rundans nummer ska visas, poängen ska visas som 0 och meddelandet `Lycka till!` ska visas. Övningssidan har redan ett element med id `poäng`. Lägg till två till:
 
 ```html
-<p id="runda">—</p>
-<p id="meddelande">—</p>
+<p id="runda">–</p>
+<p id="meddelande">–</p>
 ```
 
 1. Skriv *först*, i ett tomt `<script>`-element, de rader som startar runda 2, som om funktionerna redan fanns: en rad per sak, med ett anrop till en funktion med ett bra namn. Bestäm för varje funktion vilka argument den behöver, om några. Skriv inga funktioner än.

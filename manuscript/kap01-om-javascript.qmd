@@ -194,7 +194,7 @@ Kod du skriver i konsolen försvinner när du laddar om sidan. I ett verkligt pr
 </html>
 ```
 
-Webbläsaren läser sidan uppifrån och ned och kör skriptet när den kommer fram till `<script>`-elementet. Därför står det sist i `<body>`: när koden körs finns `<h1>`-elementet redan. Du öppnar sidan genom att dubbelklicka på filen. När du har ändrat i koden sparar du filen och laddar om sidan i webbläsaren.
+Webbläsaren läser sidan uppifrån och ned och kör skriptet när den kommer fram till `<script>`-elementet. Därför står det sist i `<body>`: när koden körs finns `<h1>`-elementet redan.
 
 Precis som CSS kan JavaScript också ligga i en egen fil som sidan pekar ut. Det kommer vi till när skripten blir längre.
 

@@ -176,7 +176,7 @@ Brödtext före övningarna, utan kodblock:
 | 1 JavaScript och webbläsaren | ≈ 2 650 | Klart (från ≈ 3 700) |
 | 2 Värden och variabler | ≈ 2 450 | Klart (från ≈ 3 350) |
 | 3 Att använda funktioner | ≈ 1 700 | Klart (från ≈ 3 300) |
-| 4 Din kod möter webbsidan | ≈ 2 650 | |
+| 4 Din kod möter webbsidan | ≈ 1 850 | Klart (från ≈ 2 650) |
 | 5 Att skriva egna funktioner | ≈ 2 600 | Klart (från ≈ 3 800) |
 | 6 Händelser | ≈ 3 000 | |
 | 7 Tal och text | ≈ 4 000 | |
