@@ -17,7 +17,6 @@
 
 ## Del I
 
-- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 4–10 är omskrivna. Kvar: övningssidan och instruktionerna i kap. 11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
 - **Övningen *Frågornas typer* i kap. 10** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Se över dem i samband med kortningen av varje kapitel.
@@ -89,6 +88,13 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 - **Prislistans spårtabell** är nu ett löst exempel i övningen *Spåra summan*. Brödtexten har kvar spårtabellen för `while`, som är kapitlets modell. Fundera på om *Bygga upp ett resultat* behöver en bild av hur `text` växer (till exempel pilbilden) nu när tabellen är borta.
 - **`continue`, `do...while` och nästlade loopar** nämns inte längre alls. Studenterna möter dem i andras kod och på MDN.
 - **Övningen *Frågornas typer*** bygger på `%` (se punkten under Del I ovan).
+
+### Kap. 11 Arrayer
+
+- **Över budget.** Brödtexten är cirka 2 600 ord. Kandidater att se över: `indexOf` (behövs bara i övningen *Förklara koden*), *Bra att veta*-rutan om `unshift`/`shift`/`splice`, och avsnittet om NodeList.
+- **Det interaktiva quizet** är nu startpunkt i övningen *Bygg vidare på quizet*. Brödtexten visar `e.target` bara med lagen i listan. Avsnittet *Arrayer av objekt* börjar nu med övningssidans quizfråga utan att koden för den har visats i texten.
+- **Tabellen `frågor[1].alternativ[0]`** är del B i övningen *Förutsäg värdena*. I texten finns en mening kvar.
+- **Del I slutar här.** Kapitlets sista stycke sammanfattar byggstenarna. Inget pekar vidare till Del II, vilket hänger ihop med punkten om `del1-sammanfattning.qmd` under *Före kursstart*.
 
 ## Del II–III
 

@@ -32,8 +32,7 @@ Lösningar till övningarna i kapitel [-@sec-arrayer].
 
 **Händelser i en loop**
 
-1. Det finns tre lyssnare, en på varje svarsknapp. Loopen kördes tre varv när sidan laddades, och körs inte alls när du klickar – då är det bara callbacken som körs.
-2. Efter klicket på *Göteborg* visas `Fel! Rätt svar är Stockholm.`, och Göteborg får röd ram. Efter klicket på *Stockholm* visas `Rätt!`, och Stockholm får grön ram. Båda knapparna har nu en färgad ram, och den som svarade fel har ändå fått "Rätt!". I ett riktigt quiz borde det bara gå att svara en gång – knapparna borde stängas av efter det första svaret.
+1. Det finns fem lyssnare, en på varje lag. Loopen kördes fem varv när sidan laddades, och körs inte alls när du klickar – då är det bara callbacken som körs.
 
 **Arrayer av objekt**
 
@@ -71,6 +70,29 @@ De rader som brukar vara svårast:
 - `frukter[frukter.length - 1]` efter `push`: `length` är nu 5, så det är `frukter[4]` – det nya sista elementet.
 
 (I konsolen svarar `push` med arrayens nya längd, `5`. Det behöver du inte kunna.)
+
+**Del B.**
+
+| Uttryck | Vad det ger |
+|---|---|
+| `frågor[0]` | det första objektet – frågan om huvudstaden |
+| `frågor[0].rätt` | `"Stockholm"` |
+
+| Uttryck | Vad det ger |
+|---|---|
+| `frågor[0]` | det första objektet |
+| `frågor[0].alternativ` | arrayen `["Göteborg", "Stockholm", "Malmö"]` |
+| `frågor[0].alternativ.length` | `3` |
+
+| Uttryck | Vad det ger |
+|---|---|
+| `frågor.length` | `2` |
+| `frågor.length - 1` | `1` |
+| `frågor[1]` | det andra – och sista – objektet, frågan om landskap |
+| `frågor[1].alternativ` | arrayen `["Lappland", "Småland", "Dalarna"]` |
+| `frågor[1].alternativ[1]` | `"Småland"` |
+
+I det sista uttrycket räknas indexet `frågor.length - 1` ut först. Det ger alltid det sista objektet, hur många frågor arrayen än har.
 
 ## Övning – Spåra loopen
 
@@ -232,6 +254,8 @@ anmälKnapp.addEventListener("click", () => {
 3. Kontrollen hör till steg 4, *bearbeta*, och ska göras *efter* att dubbletterna har tagits bort. Skriver någon samma lag nio gånger är det bara ett lag, och det ska inte ge ett felmeddelande om att det är för många.
 
 ## Övning – Bygg vidare på quizet
+
+Efter klicket på *Göteborg* visas `Fel! Rätt svar är Stockholm.`, och Göteborg får röd ram. Efter klicket på *Stockholm* visas `Rätt!`, och Stockholm får grön ram. Båda knapparna har nu en färgad ram, och den som svarade fel har ändå fått "Rätt!". I ett riktigt quiz borde det bara gå att svara en gång – knapparna borde stängas av efter det första svaret. Det är vad fråga 1 handlar om.
 
 ```html
 <p id="fråga">Vad heter Sveriges huvudstad?</p>

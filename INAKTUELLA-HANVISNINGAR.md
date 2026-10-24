@@ -17,10 +17,3 @@ Kapitlet kortades i oktober 2026 enligt *Prose density* i CLAUDE.md.
 Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kostnad = biljettpris;`, två namn på samma funktion) är borttaget. Det behövs först för callbacks i kap. 6, som redan förklarar att ett namn utan parenteser är funktionen själv.
 
 - **kap-objekt.qmd, rad 200.** "samma sak som du såg med funktioner i kapitel 5, där två namn kunde peka på samma funktion". Exemplet finns inte längre i kap. 5.
-
-## Till kapitel 7, *Tal och text* (`sec-tal-och-text`)
-
-Kapitlet kortades i oktober 2026. Rutan *Några saker du kommer att stöta på* (flyttal, enskilda tecken, `split`), teckenräknaren och meningen om att längdvarningen kommer i nästa kapitel är borttagna.
-
-- **kap11-arrayer.qmd, rad 112.** Index börjar på 0 "precis som för tecknen i en sträng i rutan *Några saker du kommer att stöta på*". Rutan finns inte längre. Förklara att numreringen börjar på 0 utan hänvisning.
-- **kap11-arrayer.qmd, rad 312.** "I kapitel 7 nämnde vi en metod som delar upp en sträng i delar." Kap. 7 nämner inte längre `split`. Introducera metoden utan hänvisning.

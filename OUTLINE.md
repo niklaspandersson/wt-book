@@ -183,6 +183,6 @@ Brödtext före övningarna, utan kodblock:
 | 8 Sant och falskt | ≈ 2 200 | Klart (från ≈ 2 400) |
 | 9 Villkorssatser | ≈ 2 150 | Klart (från ≈ 2 650) |
 | 10 Loopar | ≈ 2 350 | Klart (från ≈ 2 750) |
-| 11 Arrayer | ≈ 2 950 | |
+| 11 Arrayer | ≈ 2 600 | Klart (från ≈ 2 950) |
 
 Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare kapitel påverkar de senare. Kap. 3 och 5 gjordes först, som pilot. Råder det minsta tvekan om ett avsnitt ska flyttas eller strykas, avgör författaren.

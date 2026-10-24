@@ -84,4 +84,4 @@ En rimlig gissning, del för del:
 
 Hela raden: *leta upp rubriken på sidan och byt ut dess text mot "Hej, JavaScript!"*.
 
-När du kör raden ändras rubriken från *Hej!* till *Hej, JavaScript!*. Laddar du om sidan står det *Hej!* igen. Raden ändrade bara webbläsarens kopia av sidan – filen `index.html` är oförändrad. Skulle ändringen göras varje gång sidan laddas måste raden stå i en fil som sidan laddar, som `script.js` i avsnittet *Att koppla JavaScript till en HTML-sida*.
+När du kör raden ändras rubriken från *Hej!* till *Hej, JavaScript!*. Laddar du om sidan står det *Hej!* igen. Raden ändrade bara webbläsarens kopia av sidan – filen `index.html` är oförändrad. Skulle ändringen göras varje gång sidan laddas måste raden stå i sidans eget `<script>`-element, som i avsnittet *Att koppla JavaScript till en HTML-sida*.
