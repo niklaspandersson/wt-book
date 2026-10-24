@@ -17,7 +17,7 @@
 
 ## Del I
 
-- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 4–8 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 9–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
+- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 4–9 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 10–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
 - **Övningen *Frågornas typer* i kap. 10** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Se över dem i samband med kortningen av varje kapitel.
@@ -77,6 +77,12 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Ingen *Vad säger felet?*-övning**, som de flesta andra kapitel har. Övningen *`=` eller `===`?* ligger närmast. Typiska fel att avkoda: `=>` i stället för `>=` (`SyntaxError`), `=` i ett uttryck som ska jämföra, och `"10" < "9"` som ger fel svar utan felmeddelande.
 - **Truthy och falsy** står kvar som *Bra att veta*-ruta, men ingen övning eller senare kapitel i Del I använder begreppen.
+
+### Kap. 9 Villkorssatser
+
+- **Scenariot handlar om betyg i en kurs**, medan resten av Del I använder quizkvällen. Samma beslut (godkänd, betygssteg, färg, ogiltig inmatning) kunde handla om ett lags resultat efter en quizrunda. Hänger ihop med punkten om quizet som röd tråd.
+- **Tangenthändelserna** är det första ställe där event-objektet används på riktigt (`e.key`). Se punkten under kap. 6 om att flytta event-objektet hit.
+- **Piltangentsexemplet** är nu startpunkt i övningen *Tangentbordsrörelser*. Ingen övning i brödtexten visar `.style` med ett värde som ändras hela tiden, vilket kap. 4 nämner som skälet att välja `.style`.
 
 ## Del II–III
 

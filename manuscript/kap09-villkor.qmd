@@ -2,22 +2,20 @@
 
 ## Programmet som fattar beslut
 
-I förra kapitlet lärde du dig att ställa frågor i kod – och att använda svaren direkt, som när en knapp blir avstängd eller ett meddelande döljs. Men ofta räcker det inte. Momsräknaren i kapitel [-@sec-tal-och-text] visade `NaN` när användaren skrev något som inte var ett tal; den borde i stället ha visat ett vänligt felmeddelande, och inte räknat alls. Hälsningen i kapitel [-@sec-handelser] visade "Hej, !" när fältet var tomt; den borde ha sagt "Hej, främling!". I båda fallen ska programmet göra *olika saker* beroende på svaret på en fråga.
-
-Föreställ dig att du ska skriva ett hjälpprogram för en kurs. Studenterna gör ett prov med 100 möjliga poäng. Läraren skriver in poängen i ett fält på en webbsida, och programmet ska:
+Föreställ dig ett hjälpprogram för en kurs. Studenterna gör ett prov med 100 möjliga poäng. Läraren skriver in poängen i ett fält på en webbsida, och programmet ska:
 
 - avgöra om studenten är godkänd (minst 50 poäng),
 - sätta ett betyg (F, E, D, C, B eller A),
 - visa resultatet på sidan med rätt färg,
 - säga till om det som skrevs in inte är ett giltigt antal poäng.
 
-Det är fyra beslut, och vart och ett beror på vad som skrevs in. Inget av dem kan skrivas som en enkel uträkning – programmet måste *välja* vilken kod som ska köras. Det är precis vad **villkorssatser** är till för. Frågorna formulerar du med jämförelser och logiska operatorer från kapitel [-@sec-booleska]; villkorssatserna bestämmer vad som händer med svaret.
+Det är fyra beslut, och vart och ett beror på vad som skrevs in. Inget av dem kan skrivas som en enkel uträkning – programmet måste *välja* vilken kod som ska köras. Det gör det med **villkorssatser**: kod som körs bara om ett villkor är sant. Själva villkoret är en fråga, formulerad med jämförelser och logiska operatorer.
 
 ---
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap09`, och spara den här koden som `index.html` i den:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap09`:
 
 ```html
 <!DOCTYPE html>
@@ -25,7 +23,6 @@ Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap09`, och 
 <head>
     <meta charset="UTF-8">
     <title>Villkorssatser</title>
-    <script type="module" src="script.js"></script>
     <style>
         body {
             font-family: sans-serif;
@@ -46,14 +43,6 @@ Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap09`, och 
             background-color: #1a1a2e;
             color: #e0e0e0;
         }
-        #ruta {
-            width: 50px;
-            height: 50px;
-            background-color: tomato;
-            position: absolute;
-            top: 100px;
-            left: 100px;
-        }
     </style>
 </head>
 <body>
@@ -73,19 +62,19 @@ Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap09`, och 
     <h2>Tema</h2>
     <button id="tema-knapp">Mörkt läge</button>
 
-    <div id="ruta"></div>
+    <script>
+        console.log("Skriptet körs!");
+    </script>
 </body>
 </html>
 ```
 
-Skapa sedan `script.js` i samma mapp, med raden `console.log("Skriptet körs!");`, och öppna sidan med Live Server. Den röda rutan hamnar ovanpå en del av sidan. Det är meningen – den används i avsnittet om tangentbordet i slutet av kapitlet.
-
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-- Skriv exemplen i `script.js`. En `if`-sats sträcker sig över flera rader, och då är det lättare att skriva och ändra i en fil än i konsolen.
-- De första exemplen skriver bara ut text med `console.log`. Ändra värdet på variabeln `poäng` och spara, så ser du hur utskriften ändras.
-- Alla element som exemplen och övningarna använder finns redan på övningssidan. Töm `script.js` innan du börjar på ett nytt exempel eller en ny övning.
+- Skriv exemplen i `<script>`-elementet. En `if`-sats sträcker sig över flera rader, och då är det lättare att skriva och ändra i en fil än i konsolen.
+- De första exemplen skriver bara ut text med `console.log`. Ändra värdet på variabeln `poäng` och ladda om sidan, så ser du hur utskriften ändras.
+- Alla element som exemplen och övningarna använder finns redan på övningssidan. Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning.
 :::
 
 ---
@@ -112,7 +101,7 @@ if (poäng >= 50) {
 }
 ```
 
-Läs det högt: "om poängen är minst 50, skriv ut *Godkänd*". `poäng >= 50` är en jämförelse från kapitel [-@sec-booleska] – den blir `true` om poängen är 50 eller mer, och `false` annars.
+Läs det högt: "om poängen är minst 50, skriv ut *Godkänd*". `poäng >= 50` blir `true` om poängen är 50 eller mer, och `false` annars.
 
 Klammerparenteserna avgränsar ett **kodblock**. Alla rader inuti blocket körs, eller hoppas över, tillsammans. Skriv alltid klammerparenteserna, även om blocket bara innehåller en enda rad. Det gör koden tydligare och förebygger misstag när du lägger till rader senare.
 
@@ -203,7 +192,7 @@ Med gränser av typen "minst" skriver du den högsta gränsen först.
 
 ## Sammansatta villkor
 
-Villkoret i en `if`-sats kan vara vilket booleskt uttryck som helst – också ett som kombinerar flera frågor med de logiska operatorerna från kapitel [-@sec-booleska]:
+Villkoret i en `if`-sats kan vara vilket booleskt uttryck som helst – också ett som kombinerar flera frågor med logiska operatorer:
 
 ```javascript
 if (poäng >= 50 && inlämnadITid) {
@@ -215,7 +204,7 @@ if (!registrerad) {
 }
 ```
 
-Nu kan vi också laga hälsningen från kapitel [-@sec-handelser]. Elementen finns på övningssidan:
+Nu kan vi också laga hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt. Elementen finns på övningssidan:
 
 ```html
 <input type="text" id="namnfält" placeholder="Skriv ditt namn">
@@ -288,7 +277,7 @@ Ternäroperatorn passar när ett av två värden ska väljas. Den passar *inte* 
 
 ## Villkor i funktioner
 
-Funktioner, som du lärde dig skriva i kapitel [-@sec-funktioner], och villkorssatser passar bra ihop. En funktion kan ta emot ett värde, göra en bedömning och returnera resultatet:
+Villkorssatser passar bra i funktioner. En funktion kan ta emot ett värde, göra en bedömning och returnera resultatet:
 
 ```javascript
 function betyg(poäng) {
@@ -312,7 +301,7 @@ console.log(betyg(73));   // C
 console.log(betyg(41));   // F
 ```
 
-Betygskedjan från början av kapitlet har nu ett namn. Du kan använda `betyg(poäng)` var som helst i programmet utan att skriva kedjan igen. Lägg också märke till att funktionen *returnerar* betyget i stället för att skriva ut det – det gör den användbar både i konsolen och på en webbsida, som du såg i kapitel [-@sec-funktioner].
+Betygskedjan har nu ett namn, och `betyg(poäng)` kan användas var som helst i programmet. Funktionen *returnerar* betyget i stället för att skriva ut det, så att det kan användas både i konsolen och på en webbsida.
 
 ### Villkor inuti villkor
 
@@ -334,7 +323,7 @@ Det fungerar, men blir snabbt svårläst. Redan vid två nivåer måste man hål
 
 ### Early return – sluta tidigt
 
-`return` avslutar en funktion direkt, som du såg i kapitel [-@sec-funktioner]. Det kan man utnyttja: kontrollera först de fall där svaret är nej, och avsluta funktionen direkt. Tekniken kallas **early return** ("tidig retur"). Jämför två versioner av samma funktion. Den första är nästlad:
+`return` avslutar en funktion direkt. Det kan man utnyttja: kontrollera först de fall där svaret är nej, och avsluta funktionen direkt. Tekniken kallas **early return** ("tidig retur"). Jämför två versioner av samma funktion. Den första är nästlad:
 
 ```javascript
 function godkänd(poäng, inlämnadITid) {
@@ -364,7 +353,7 @@ function godkänd(poäng, inlämnadITid) {
 }
 ```
 
-Den andra versionen läses uppifrån och ned utan att man behöver hålla flera öppna villkor i huvudet. Varje `return false` tar hand om ett felfall, och det sista `return true` är det vanliga fallet. Principen är: sluta så fort du vet att svaret är nej, och låt det vanliga fallet stå sist. Du kommer att se den ofta – bland annat i nästa avsnitt.
+Den andra versionen läses uppifrån och ned utan att man behöver hålla flera öppna villkor i huvudet. Varje `return false` tar hand om ett felfall, och det sista `return true` är det vanliga fallet. Principen är: sluta så fort du vet att svaret är nej, och låt det vanliga fallet stå sist.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -377,28 +366,16 @@ Den andra versionen läses uppifrån och ned utan att man behöver hålla flera 
 
 ## Villkor på webbsidan
 
-Villkor blir riktigt användbara när de kombineras med det du lärt dig om webbsidan. Nu kan sidan visa *olika* text och *olika* utseende beroende på situationen.
+Med villkor kan sidan visa *olika* text och *olika* utseende beroende på situationen.
 
 ### Utseende efter resultat
 
-I kapitel [-@sec-dom-intro] såg du att det oftast är bäst att förbereda utseendet i CSS-klasser och slå på dem med `classList`. Övningssidan har två klasser, `.godkänd` och `.underkänd`. Med en villkorssats kan rätt klass väljas:
+Övningssidan har två CSS-klasser, `.godkänd` och `.underkänd`. Med en villkorssats väljs rätt klass. Kan samma element få olika klasser vid olika tillfällen måste du också ta bort den klass som inte längre ska gälla. Annars finns båda kvar efter en ny uträkning, och stilarna blandas ihop:
 
 ```javascript
 const poäng = 73;
 const resultatElement = document.querySelector("#resultat");
 
-if (poäng >= 50) {
-    resultatElement.textContent = "Godkänd!";
-    resultatElement.classList.add("godkänd");
-} else {
-    resultatElement.textContent = "Underkänd";
-    resultatElement.classList.add("underkänd");
-}
-```
-
-En sak behöver man tänka på när samma element kan få olika klasser vid olika tillfällen. Tänk dig att programmet först visar "Underkänd" och sedan uppdateras med nya poäng. Om den gamla klassen inte tas bort finns båda kvar, och stilarna blandas ihop. Ta därför alltid bort den klass som inte längre ska gälla:
-
-```javascript
 if (poäng >= 50) {
     resultatElement.textContent = "Godkänd!";
     resultatElement.classList.remove("underkänd");
@@ -410,7 +387,7 @@ if (poäng >= 50) {
 }
 ```
 
-Om det enda som skulle hända var att en klass slås av och på hade `toggle` med ett villkor som andra argument räckt, som du såg i kapitel [-@sec-booleska]. Men så fort vägarna gör olika *saker*, som att sätta olika texter, behövs `if`/`else`.
+Om det enda som skulle hända var att en klass slås av och på hade `toggle` med ett villkor som andra argument räckt. Men så fort vägarna gör olika *saker*, som att sätta olika texter, behövs `if`/`else`.
 
 Åt andra hållet kan man använda en klass *som* villkor. `classList.contains` returnerar ett booleskt värde, och passar därför direkt i en `if`-sats. Här byter temaknappen på övningssidan både tema och text:
 
@@ -428,24 +405,6 @@ temaKnapp.addEventListener("click", () => {
 });
 ```
 
-### Visa och dölja med villkor
-
-När flera saker ska hända i varje väg samlas de i blocken:
-
-```javascript
-const hjälpElement = document.querySelector("#hjälp");
-
-if (poäng >= 50) {
-    resultatElement.textContent = "Godkänd!";
-    hjälpElement.hidden = true;
-} else {
-    resultatElement.textContent = "Underkänd";
-    hjälpElement.hidden = false;
-}
-```
-
-Här visas hjälptexten bara för den som är underkänd. Om det enda som skulle hända var att hjälptexten visas eller döljs hade det räckt att skriva `hjälpElement.hidden = poäng >= 50;`, som i kapitel [-@sec-booleska].
-
 ---
 
 ## Ett löst exempel: kontrollera inmatningen
@@ -459,7 +418,7 @@ Nu kan vi lösa problemet från kapitlets början. Ett program som läser data f
 <p id="resultat">Betyg visas här.</p>
 ```
 
-Koden följer de fem stegen från kapitel [-@sec-handelser]. Funktionen `betyg` från förra avsnittet behöver också stå i `script.js`:
+Koden följer de fem stegen från kapitel [-@sec-handelser]. Funktionen `betyg` från förra avsnittet behöver också stå i skriptet:
 
 ```javascript
 // 1. Hämta elementen
@@ -495,20 +454,18 @@ beräknaKnapp.addEventListener("click", () => {
 });
 ```
 
-Jämför med det lösta exemplet i kapitel [-@sec-handelser]. Steg 1, 2, 3 och 5 ser ut som förut. Det är steg 4 som har växt: först tre kontroller, sedan själva beräkningen. Kontrollerna använder early return. Callbacken är en funktion, och varje felfall visar ett meddelande och avslutar funktionen med `return`. Bara om alla kontroller har passerats når programmet den sista raden. Utan early return hade koden behövt tre nivåers nästling.
+Jämfört med det lösta exemplet i kapitel [-@sec-handelser] är det steg 4 som har växt: först tre kontroller, sedan själva beräkningen. Kontrollerna använder early return. Callbacken är en funktion, och varje felfall visar ett meddelande och avslutar funktionen med `return`. Bara om alla kontroller har passerats når programmet den sista raden. Utan early return hade koden behövt tre nivåers nästling.
 
-Några detaljer att lägga märke till:
+Två detaljer:
 
-- `trim()` gör att ett fält med bara mellanslag räknas som tomt.
-- Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`, som du såg i kapitel [-@sec-tal-och-text].
-- `Number.isNaN(värde)` är det pålitliga sättet att fråga om något är `NaN`, som du såg i kapitel [-@sec-booleska].
+- Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`.
 - Funktionen `betyg` gör beräkningen. Kontrollen av inmatningen och betygsreglerna hålls isär, och var och en kan ändras utan att den andra påverkas.
 
 ---
 
 ## Tangentbordshändelser
 
-I kapitel [-@sec-handelser] nämnde vi tangentbordshändelserna men sköt upp dem, eftersom de blir användbara först när programmet kan avgöra *vilken* tangent som trycktes. Nu kan vi det. De viktigaste händelserna är:
+Med villkor kan programmet reagera på *vilken* tangent som trycktes. De viktigaste tangenthändelserna är:
 
 - `keydown` – en tangent trycks ned
 - `keyup` – en tangent släpps
@@ -523,7 +480,7 @@ document.addEventListener("keydown", (e) => {
 
 Trycker du på "a" skrivs `Tangent: a`. Trycker du på Enter skrivs `Tangent: Enter`. Mellanslag blir `Tangent:  ` (med ett mellanslag på slutet).
 
-Lägg märke till att lyssnaren är registrerad på `document` – inte på ett visst element. Då fångas tangenttryckningen oavsett var på sidan användaren befinner sig.
+Lyssnaren är registrerad på `document`, inte på ett visst element. Då fångas tangenttryckningen oavsett var på sidan användaren befinner sig.
 
 ### Reagera på vissa tangenter
 
@@ -536,31 +493,6 @@ document.addEventListener("keydown", (e) => {
     }
 });
 ```
-
-Här är ett mer praktiskt exempel: piltangenterna flyttar den röda rutan på övningssidan. Rutans plats anges i CSS med `top` (avståndet från överkanten) och `left` (avståndet från vänsterkanten), båda 100 pixlar från början.
-
-```javascript
-const ruta = document.querySelector("#ruta");
-let uppifrån = 100;
-let vänsterifrån = 100;
-
-document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp") {
-        uppifrån -= 10;
-    } else if (e.key === "ArrowDown") {
-        uppifrån += 10;
-    } else if (e.key === "ArrowLeft") {
-        vänsterifrån -= 10;
-    } else if (e.key === "ArrowRight") {
-        vänsterifrån += 10;
-    }
-
-    ruta.style.top = `${uppifrån}px`;
-    ruta.style.left = `${vänsterifrån}px`;
-});
-```
-
-Varje tryck på en piltangent flyttar rutan tio pixlar. Uppåt betyder ett *mindre* avstånd från överkanten, därför `-=`. Det är en grundläggande spelmekanik – och den byggdes med bara en händelselyssnare, två variabler, en `else if`-kedja och `.style`. Här är `.style` rätt verktyg i stället för en CSS-klass, eftersom värdet ändras hela tiden.
 
 ::: {.callout-note}
 ## Vanliga tangentnamn
@@ -583,8 +515,6 @@ En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/
 
 ## Sammanfattning
 
-Villkorssatser ger programmet förmågan att välja väg:
-
 - **`if`** kör ett block om villkoret är sant, **`else`** om det är falskt, och **`else if`**-kedjor täcker flera utfall. Villkoren prövas uppifrån och ned, och bara det första blocket vars villkor är sant körs.
 - Villkoret kan kombinera frågor med **logiska operatorer**.
 - **Ternäroperatorn** (`villkor ? a : b`) väljer ett av två värden. För flera saker eller fler än två utfall är `if`/`else` tydligare.
@@ -593,7 +523,7 @@ Villkorssatser ger programmet förmågan att välja väg:
 - **Kontrollera inmatning** innan du räknar med den: tomt fält, `Number.isNaN` och rimliga gränser. Kontrollerna hör till steg 4, *bearbeta*.
 - **Tangentbordshändelser** (`keydown`, `keyup`) och `e.key` låter programmet reagera på enskilda tangenter.
 
-Med villkor kan programmet reagera olika beroende på data och på vad användaren gör. Men varje beslut gäller fortfarande *ett* värde i taget. I nästa kapitel lär vi oss loopar – att upprepa kod – så att programmet kan arbeta sig igenom många värden.
+I nästa kapitel lär du dig loopar: att upprepa kod, så att programmet kan arbeta sig igenom många värden.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -621,7 +551,7 @@ Att låta AI:n hitta *testfall* i stället för att skriva koden tränar precis 
 
 ## Övningar
 
-Övningarna börjar med att du förutsäger och följer kod. Gör dem utan att köra koden först, och kontrollera sedan i `script.js` på övningssidan från avsnittet *En sida att öva på*.
+Övningarna börjar med att du förutsäger och följer kod. Gör dem utan att köra koden först, och kontrollera sedan på övningssidan från avsnittet *En sida att öva på*.
 
 ::: {.callout-note}
 ## Övning – Spåra exekveringen
@@ -676,7 +606,7 @@ console.log(biljettpris(70));
 ::: {.callout-note}
 ## Övning – Vad säger felet?
 
-Var och en av snuttarna nedan innehåller ett fel. Skriv `let poäng = 73;` överst i `script.js` och prova en snutt i taget under den. Förutsäg först: kommer det ett felmeddelande, eller körs koden men gör fel?
+Var och en av snuttarna nedan innehåller ett fel. Skriv `let poäng = 73;` överst i `<script>`-elementet och prova en snutt i taget under den. Förutsäg först: kommer det ett felmeddelande, eller körs koden men gör fel?
 
 ```javascript
 // A
@@ -707,7 +637,7 @@ if (poäng >= 50) {
     console.log("Godkänd");
 ```
 
-1. Tre av snuttarna ger ett `SyntaxError`. Vilka? Lägg till en rad `console.log("Start");` överst i filen. Skrivs den ut när filen innehåller ett `SyntaxError`? Vad säger det om när JavaScript upptäcker den sortens fel?
+1. Tre av snuttarna ger ett `SyntaxError`. Vilka? Lägg till en rad `console.log("Start");` överst i skriptet. Skrivs den ut när skriptet innehåller ett `SyntaxError`? Vad säger det om när JavaScript upptäcker den sortens fel?
 2. En snutt ger inget felmeddelande, men gör fel. Vilken, och vilket värde har `poäng` efteråt?
 3. Rätta alla fyra.
 :::
@@ -813,7 +743,47 @@ Utgå från avsnittet *Ett löst exempel: kontrollera inmatningen* och övningss
 ::: {.callout-note}
 ## Övning – Tangentbordsrörelser
 
-Utgå från exemplet med piltangenterna i kapitlet och övningssidan, där en röd ruta flyttas tio pixlar per tryck. Bygg vidare på det:
+Lägg till en röd ruta på övningssidan, ovanför `<script>`-elementet, och en CSS-regel för den i `<style>`:
+
+```html
+<div id="ruta"></div>
+```
+
+```css
+#ruta {
+    width: 50px;
+    height: 50px;
+    background-color: tomato;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+```
+
+Rutans plats anges med `top` (avståndet från överkanten) och `left` (avståndet från vänsterkanten). Den här koden låter piltangenterna flytta rutan tio pixlar per tryck:
+
+```javascript
+const ruta = document.querySelector("#ruta");
+let uppifrån = 100;
+let vänsterifrån = 100;
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") {
+        uppifrån -= 10;
+    } else if (e.key === "ArrowDown") {
+        uppifrån += 10;
+    } else if (e.key === "ArrowLeft") {
+        vänsterifrån -= 10;
+    } else if (e.key === "ArrowRight") {
+        vänsterifrån += 10;
+    }
+
+    ruta.style.top = `${uppifrån}px`;
+    ruta.style.left = `${vänsterifrån}px`;
+});
+```
+
+Uppåt betyder ett *mindre* avstånd från överkanten, därför `-=`. Här är `.style` rätt verktyg i stället för en CSS-klass, eftersom värdet ändras hela tiden. Prova koden och bygg sedan vidare på den:
 
 1. Lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att få fönstrets bredd och höjd i pixlar – och tänk på att rutan själv är 50 pixlar bred och hög.
 2. Låt tangenten `c` växla rutans färg mellan två färger med hjälp av en CSS-klass. Tänk på att rutans röda färg sätts med selektorn `#ruta` i CSS-koden, och att en regel för ett id väger tyngre än en regel för en klass. Skriv därför din regel som `#ruta.klassnamn`, annars syns ingen skillnad.
