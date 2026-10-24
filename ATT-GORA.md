@@ -17,7 +17,7 @@
 
 ## Del I
 
-- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 4–9 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 10–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
+- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 4–10 är omskrivna. Kvar: övningssidan och instruktionerna i kap. 11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
 - **Övningen *Frågornas typer* i kap. 10** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Se över dem i samband med kortningen av varje kapitel.
@@ -84,6 +84,12 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 - **Tangenthändelserna** är det första ställe där event-objektet används på riktigt (`e.key`). Se punkten under kap. 6 om att flytta event-objektet hit.
 - **Piltangentsexemplet** är nu startpunkt i övningen *Tangentbordsrörelser*. Ingen övning i brödtexten visar `.style` med ett värde som ändras hela tiden, vilket kap. 4 nämner som skälet att välja `.style`.
 
+### Kap. 10 Loopar
+
+- **Prislistans spårtabell** är nu ett löst exempel i övningen *Spåra summan*. Brödtexten har kvar spårtabellen för `while`, som är kapitlets modell. Fundera på om *Bygga upp ett resultat* behöver en bild av hur `text` växer (till exempel pilbilden) nu när tabellen är borta.
+- **`continue`, `do...while` och nästlade loopar** nämns inte längre alls. Studenterna möter dem i andras kod och på MDN.
+- **Övningen *Frågornas typer*** bygger på `%` (se punkten under Del I ovan).
+
 ## Del II–III
 
 - **`kap-arv.qmd`, rad 692, 697 och 719:** `if`-satser utan klamrar, mot bokens egen rekommendation.
@@ -100,4 +106,4 @@ Det här togs bort ur Del I och ska tas upp om och när kapitlet skrivs. Ingen d
   - kortslutning, att `&&` och `||` returnerar operander, och `värde || standard` med fallgropen `0 || 10`;
   - `??` och `?.`, som löser samma problem utan fallgropen;
   - `delete` och operatorn `in`, om de behövs.
-- **Bara i *Bra att veta*-rutor i Del I:** `switch`, `continue`, `do...while` och nästlade loopar. Om ett senare kapitel behöver dem förklaras de utförligt där.
+- **Finns inte i Del I:** `switch`, `continue`, `do...while` och nästlade loopar. Om ett senare kapitel behöver dem förklaras de där.
