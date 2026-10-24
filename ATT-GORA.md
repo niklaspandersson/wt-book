@@ -17,7 +17,7 @@
 
 ## Del I
 
-- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 4–6 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 7–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
+- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 4–7 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 8–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Görs i samband med att respektive kapitel kortas.
 - **Övningen *Frågornas typer* i kap. 10** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Se över dem i samband med kortningen av varje kapitel.
@@ -65,6 +65,13 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 - **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter *Callback-funktioner* (`hälsa` eller `hälsa()`?), efter räknaren (varför ligger `antal` utanför?) och efter det lösta exemplet (vilka steg körs när?).
 - **Event-objektet** har bara `e.type` och används inte i kapitlets exempel eller övningar. Det behövs först i kap. 9 (`e.key`) och kap. 11 (`e.target`). Överväg att flytta det dit det behövs.
 - **Ingen övning med pilfunktion som tar emot en parameter.** `(antal) => { … }` nämns men övas inte förrän event-objektet används.
+
+### Kap. 7 Tal och text
+
+- **Över budget.** Brödtexten är cirka 2 900 ord, eftersom kapitlet är två sammanslagna kapitel. Överväg att dela det i *Tal* och *Text* igen, eller att flytta något (till exempel kortformerna eller `%`) dit det först behövs.
+- **`%` finns kvar**, fast CLAUDE.md säger att boken ska undvika modulo. Den används i övningen *Frågornas typer* i kap. 10 (se ovan). Fattas beslut om den övningen kan `%` kanske strykas här.
+- **Stegtabellen för kedjade metoder** står kvar i brödtexten. Enligt regeln om lösta exempel kunde den flyttas till övningen *Spåra strängarna*, som tärningens spårtabell flyttades till *Tärningskast*. Författaren avgör.
+- **Flyttal.** Rutan om att `0.1 + 0.2` ger `0.30000000000000004` är borttagen. Kommer det upp i en övning (till exempel momsräknaren med vissa priser) behöver lösningen förklara det.
 
 ## Del II–III
 

@@ -10,8 +10,6 @@ Hänvisningar från ett kapitel till ett annat som inte längre stämmer, efter 
 
 Kapitlet kortades i oktober 2026 enligt *Prose density* i CLAUDE.md.
 
-- **kap07-tal-och-text.qmd, rad 210.** "Den fria funktionen `Number()`, som du såg ett exempel på i kapitel 3". `Number` visas inte längre i kap. 3 (bara i övningen *Fri funktion, metod eller egenskap?*). Introducera `Number` här utan hänvisning.
-- **kap07-tal-och-text.qmd, rad 426.** "Följ raden steg för steg, på samma sätt som de nästlade anropen i kapitel 3". Stegtabellen finns nu bara i övningen *Inifrån och ut*, inte i kapiteltexten. Hänvisa till övningen eller stryk hänvisningen.
 - **kap-objekt.qmd, rad 354.** "I kapitel 3 såg du att en metod är en funktion som ligger i ett objekt. Sedan dess har du anropat många: `"hej".toUpperCase()` …". Stämmer fortfarande, men `toUpperCase` nämns inte längre i kap. 3 (den kommer i kap. 7). Ingen åtgärd krävs om "sedan dess" får stå kvar.
 
 ## Till kapitel 5, *Att skriva egna funktioner* (`sec-funktioner`)
@@ -20,3 +18,11 @@ Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kos
 
 - **kap-objekt.qmd, rad 200.** "samma sak som du såg med funktioner i kapitel 5, där två namn kunde peka på samma funktion". Exemplet finns inte längre i kap. 5.
 - **kap08-sant-och-falskt.qmd, rad 336.** "funktionen ska vara definierad innan den lämnas över till `addEventListener`, som du lärde dig i kapitel 5". Kap. 5 tar inte upp det, och `addEventListener` kommer först i kap. 6. (Fel redan före kortningen.)
+
+## Till kapitel 7, *Tal och text* (`sec-tal-och-text`)
+
+Kapitlet kortades i oktober 2026. Rutan *Några saker du kommer att stöta på* (flyttal, enskilda tecken, `split`), teckenräknaren och meningen om att längdvarningen kommer i nästa kapitel är borttagna.
+
+- **kap11-arrayer.qmd, rad 112.** Index börjar på 0 "precis som för tecknen i en sträng i rutan *Några saker du kommer att stöta på*". Rutan finns inte längre. Förklara att numreringen börjar på 0 utan hänvisning.
+- **kap11-arrayer.qmd, rad 312.** "I kapitel 7 nämnde vi en metod som delar upp en sträng i delar." Kap. 7 nämner inte längre `split`. Introducera metoden utan hänvisning.
+- **kap08-sant-och-falskt.qmd, rad 9.** Varningen om för långa lagnamn beskrivs som "det problem som blev kvar i kapitel 7". Kap. 7 tar inte längre upp det. Stryk hänvisningen; varningen kan stå för sig själv i scenariot.

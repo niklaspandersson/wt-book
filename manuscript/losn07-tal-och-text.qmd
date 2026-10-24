@@ -86,16 +86,21 @@ Mellanslag skrivs som `·`.
 
 ## Övning – Tärningskast
 
-1. Ett slumpat decimaltal som är minst 0 och mindre än 1, till exempel `0.7291`.
-2. Ett decimaltal som är minst 0 och mindre än 6 – från `0` till strax under `6`.
-3. Den stryker decimalerna, så att det blir ett av heltalen `0`, `1`, `2`, `3`, `4` eller `5`.
-4. För att flytta alla utfall ett steg uppåt, så att de blir `1` till `6` i stället för `0` till `5`.
+1. Spårtabellerna:
 
-En tärning med tio sidor:
+    | Rad | `0.05` | `0.95` |
+    |---|---|---|
+    | 1 | `slump` → 0.05 | `slump` → 0.95 |
+    | 2 | `skalat` → 0.3 | `skalat` → 5.7 |
+    | 3 | `heltal` → 0 | `heltal` → 5 |
+    | 4 | `tärning` → 1 | `tärning` → 6 |
 
-```javascript
-Math.floor(Math.random() * 10) + 1;
-```
+    `skalat` är alltid minst 0 och alltid under 6. `Math.floor` ger därför ett heltal från 0 till 5, och `+ 1` flyttar det till 1–6. Noll kan inte komma upp, eftersom det minsta värdet flyttas upp till 1. Sju kan inte komma upp, eftersom `skalat` aldrig når 6.
+2. En tärning med tio sidor:
+
+    ```javascript
+    Math.floor(Math.random() * 10) + 1;
+    ```
 
 **Med `Math.round` i stället:**
 
@@ -280,19 +285,27 @@ document.querySelector("#till-c").addEventListener("click", () => {
 
 ## Övning – Teckenräknare
 
-```javascript
-const meddelande = document.querySelector("#meddelande");
-const räknare = document.querySelector("#räknare");
+1. Räknaren:
 
-meddelande.addEventListener("input", () => {
-    const antal = meddelande.value.trim().length;
-    const kvar = 140 - antal;
+    ```javascript
+    const meddelande = document.querySelector("#meddelande");
+    const räknare = document.querySelector("#räknare");
+
+    meddelande.addEventListener("input", () => {
+        const antal = meddelande.value.length;
+        räknare.textContent = `${antal} / 140`;
+    });
+    ```
+
+    Händelsen `input` gör att räknaren uppdateras vid varje tangenttryckning.
+2. Antalet kvar är det högsta tillåtna minus det som redan är skrivet:
+
+    ```javascript
+    const kvar = 140 - meddelande.value.length;
     räknare.textContent = `Du har ${kvar} tecken kvar`;
-});
-```
+    ```
 
-1. Antalet kvar är det högsta tillåtna minus det som redan är skrivet.
-2. Med `trim()` före `length` räknas inte mellanslagen i början och slutet. Om det är rätt beror på varför gränsen finns. Ska texten få plats någonstans räknas alla tecken, mellanslag eller inte. Ska den bara inte vara för lång att läsa är det rimligt att strunta i mellanslag som ändå inte syns. Lägg märke till att mellanslag *inne i* texten räknas i båda fallen.
+3. Skriv `meddelande.value.trim().length` i stället. Med `trim()` före `length` räknas inte mellanslagen i början och slutet. Om det är rätt beror på varför gränsen finns. Ska texten få plats någonstans räknas alla tecken, mellanslag eller inte. Ska den bara inte vara för lång att läsa är det rimligt att strunta i mellanslag som ändå inte syns. Lägg märke till att mellanslag *inne i* texten räknas i båda fallen.
 
 ## Övning – Poängtavlan räknar rätt
 
@@ -301,7 +314,7 @@ meddelande.addEventListener("input", () => {
 ```html
 <input type="text" id="lagfält" placeholder="Lagets namn">
 <button id="spara-knapp">Spara</button>
-<p id="tavla">—: 0 poäng</p>
+<p id="tavla">–: 0 poäng</p>
 <p id="andel">0.0 % av maxpoängen</p>
 
 <input type="number" id="rundpoäng">
@@ -316,7 +329,7 @@ const tavla = document.querySelector("#tavla");
 const andel = document.querySelector("#andel");
 
 const maxPoäng = 30;
-const lag = { namn: "—", poäng: 0 };
+const lag = { namn: "–", poäng: 0 };
 
 function visaLag(lag) {
     tavla.textContent = `${lag.namn}: ${lag.poäng} poäng`;
