@@ -39,15 +39,7 @@ Ett funktionsanrop skrivs alltid på samma sätt: namnet, en vänsterparentes, e
 alert("Dags för första frågan!");
 ```
 
-Det är parenteserna som *kör* funktionen. Skriv namnet utan parenteser i konsolen:
-
-```javascript
-alert;
-```
-
-Ingen ruta visas. Konsolen svarar med något i stil med `ƒ alert() { [native code] }`, alltså själva funktionen, inte resultatet av att köra den. Det är tillåtet att tala om en funktion utan att köra den, så du får inget felmeddelande, och misstaget är lätt att missa.
-
-Inom parenteserna står argumenten. En funktion kan ta inget, ett eller flera argument, åtskilda med kommatecken:
+Det är parenteserna som *kör* funktionen. Inom dem står argumenten. En funktion kan ta inget, ett eller flera argument, åtskilda med kommatecken:
 
 ```javascript
 console.log();                            // inget argument – en tom rad
@@ -70,8 +62,7 @@ Funktionen ser aldrig uttrycket `lag.poäng + 3`, bara talet `15`.
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. Vad är skillnaden mellan att skriva `alert` och `alert("Hej!")` i konsolen? Varför får du inget felmeddelande i det första fallet?
-2. I anropet `console.log(lag.poäng + 3)` – vad får funktionen: uttrycket `lag.poäng + 3` eller något annat?
+1. I anropet `console.log(lag.poäng + 3)` – vad får funktionen: uttrycket `lag.poäng + 3` eller något annat?
 :::
 
 ---
@@ -101,12 +92,13 @@ flowchart TD
     end
 ```
 
-När `Math.max` har returnerat `19` lyder raden i praktiken `const högst = 19;`, och tilldelningen sker som vanligt. Eftersom anropet blir ett värde kan det stå var som helst där ett värde behövs, inte bara i en tilldelning:
+När `Math.max` har returnerat `19` lyder raden i praktiken `const högst = 19;`, och tilldelningen sker som vanligt. Eftersom anropet blir ett värde kan det stå var som helst där ett värde behövs, till exempel som argument till en annan funktion:
 
 ```javascript
-console.log(Math.max(12, 19, 7));                          // 19
-console.log("Högsta poängen är " + Math.max(12, 19, 7));   // Högsta poängen är 19
+console.log(Math.max(12, 19, 7));   // 19
 ```
+
+Ett sådant **nästlat** anrop körs *inifrån och ut*: först returnerar `Math.max` värdet `19`, och sedan får `console.log` det som argument.
 
 ### Ett värde som kommer från användaren
 
@@ -198,32 +190,6 @@ En egenskap *läser* du – värdet finns redan där. En metod *kör* du – vä
 
 ---
 
-## Anrop inuti anrop
-
-Eftersom ett anrop ersätts av sitt returvärde kan du skicka returvärdet från en funktion direkt som argument till en annan. Ett anrop inuti ett annat kallas ett **nästlat** anrop, och det utvärderas *inifrån och ut*: det innersta anropet körs först, och dess returvärde blir argument till det yttre. Följ den här raden steg för steg:
-
-```javascript
-console.log("Högsta poängen är " + Math.max(12, 19, 7));
-```
-
-| Steg | Vad som räknas ut | Raden ser nu ut så här |
-|---|---|---|
-| 1 | `Math.max(12, 19, 7)` returnerar `19` | `console.log("Högsta poängen är " + 19);` |
-| 2 | `"Högsta poängen är " + 19` blir en sträng | `console.log("Högsta poängen är 19");` |
-| 3 | `console.log` skriver ut texten och returnerar `undefined` | – |
-
-Steg 2 är inget anrop utan en sammanslagning av text. Regeln gäller nämligen alla **uttryck** (kapitel [-@sec-om-javascript]), och ett funktionsanrop är en sorts uttryck bland andra: räkna ut det innersta, ersätt det med sitt värde och fortsätt utåt tills bara ett värde återstår.
-
-Du kan läsa en lång rad på samma sätt med penna och papper. Stryk över varje del och skriv dess värde ovanför.
-
-::: {.callout-note appearance="simple"}
-## Stanna upp
-
-1. Läs raden `console.log(Math.min(4, Math.max(2, 7)));` inifrån och ut. Vilket anrop körs först, vilket värde ersätter det, och vad skrivs till sist ut?
-:::
-
----
-
 ## När anropet går fel
 
 Fyra misstag är vanliga när du anropar funktioner.
@@ -252,7 +218,13 @@ console.log(Math.max(4, 9);   // SyntaxError: missing ) after argument list
 
 Raden följer inte språkets syntax, så JavaScript kör den inte alls. Räkna parenteserna: två öppnas, en stängs.
 
-**Parenteserna saknas helt.** Det ger inget felmeddelande. Funktionen körs bara inte. Händer ingenting, kontrollera att parenteserna finns.
+**Parenteserna saknas helt.** Då körs funktionen inte, men du får inget felmeddelande:
+
+```javascript
+alert;   // ƒ alert() { [native code] }
+```
+
+Ingen ruta visas. Konsolen visar själva funktionen i stället för resultatet av att köra den. Att tala om en funktion utan att köra den är tillåtet, och därför är misstaget lätt att missa. Händer ingenting, kontrollera att parenteserna finns.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -335,7 +307,21 @@ Math.max(3, 8, 5) + Math.min(3, 8, 5);
 ::: {.callout-note}
 ## Övning – Inifrån och ut
 
-Följ de två raderna med `console.log` steg för steg, på samma sätt som i tabellen i avsnittet *Anrop inuti anrop*. Gör en tabell för varje rad. Skriv för varje steg vad som räknas ut och hur raden ser ut efteråt. Tänk på att inte alla steg är anrop: också att läsa en egenskap och att slå ihop text är steg.
+En lång rad kan du räkna ut på samma sätt som JavaScript gör: ta det innersta, ersätt det med sitt värde och fortsätt utåt tills bara ett värde återstår. Så här ser det ut för en rad från kapitlet:
+
+```javascript
+console.log("Högsta poängen är " + Math.max(12, 19, 7));
+```
+
+| Steg | Vad som räknas ut | Raden ser nu ut så här |
+|---|---|---|
+| 1 | `Math.max(12, 19, 7)` returnerar `19` | `console.log("Högsta poängen är " + 19);` |
+| 2 | `"Högsta poängen är " + 19` blir en sträng | `console.log("Högsta poängen är 19");` |
+| 3 | `console.log` skriver ut texten och returnerar `undefined` | – |
+
+Steg 2 är inget anrop. Regeln gäller alla uttryck, och att slå ihop text eller läsa en egenskap är också steg.
+
+Gör nu en likadan tabell för var och en av de två raderna med `console.log` nedan.
 
 ```javascript
 const lag = { namn: "Gula gänget", poäng: 14 };

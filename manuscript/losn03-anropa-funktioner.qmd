@@ -15,8 +15,7 @@ Lösningar till övningarna i kapitel [-@sec-anropa-funktioner].
 
 **Att anropa en funktion**
 
-1. `alert` utan parenteser ger dig själva funktionen, maskinen. `alert("Hej!")` *kör* funktionen, och rutan visas. Det blir inget fel eftersom det är fullt tillåtet att tala om en funktion utan att köra den – ibland är det just vad man vill.
-2. Funktionen får värdet `15`. JavaScript räknar ut uttrycket först, och funktionen ser bara resultatet.
+1. Funktionen får värdet `15`. JavaScript räknar ut uttrycket först, och funktionen ser bara resultatet.
 
 **Returvärden**
 
@@ -29,13 +28,9 @@ Lösningar till övningarna i kapitel [-@sec-anropa-funktioner].
 1. En metod. Det står ett objekt, `console`, och en punkt före namnet `log`.
 2. Du får `TypeError: Math.PI is not a function`. `Math.PI` är ett tal, och ett tal går inte att köra. Det är samma sorts fel som när en metod är felstavad: det som står före parenteserna är ingen funktion.
 
-**Anrop inuti anrop**
-
-1. Det innersta anropet körs först: `Math.max(2, 7)` returnerar `7`. Raden blir `console.log(Math.min(4, 7));`. Sedan returnerar `Math.min(4, 7)` värdet `4`, och raden blir `console.log(4);`. Till sist skrivs `4` ut.
-
 **När anropet går fel**
 
-1. Felet där parenteserna saknas. Det ger inget felmeddelande alls – det händer bara ingenting. De andra tre felen märks direkt, eftersom konsolen visar röd text.
+1. Felet där parenteserna saknas. Det ger inget felmeddelande alls – konsolen visar bara själva funktionen, och ingen ruta visas. De andra tre felen märks direkt, eftersom konsolen visar röd text.
 2. Titta på namnet precis före parenteserna, `Math.mxa`. Objektet `Math` finns, men det har ingen metod `mxa`. Det ska stå `max`.
 
 ## Övning – Vad svarar konsolen?
