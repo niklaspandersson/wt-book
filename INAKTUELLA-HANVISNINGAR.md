@@ -2,6 +2,10 @@
 
 Hänvisningar från ett kapitel till ett annat som inte längre stämmer, efter att det kapitel som hänvisas till har kortats eller gjorts om. Kapitel kortas utan hänsyn till vad andra kapitel hänvisar till. Hänvisningarna rättas i stället när det hänvisande kapitlet ses över. Stryk en punkt när den är åtgärdad.
 
+## Till kapitel 1, *JavaScript och webbläsaren* (`sec-om-javascript`)
+
+- **kap-moduler.qmd, rad 78.** Strikt läge beskrivs som något "som vi kort berört i tidigare kapitel". Det togs bort ur kap. 1, och inget annat kapitel tar upp det. Stryk hänvisningen och förklara strikt läge på plats.
+
 ## Till kapitel 3, *Att använda funktioner* (`sec-anropa-funktioner`)
 
 Kapitlet kortades i oktober 2026 enligt *Prose density* i CLAUDE.md.

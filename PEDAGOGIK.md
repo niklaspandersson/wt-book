@@ -24,7 +24,7 @@ Förmågan att förklara kod på en övergripande nivå ("den här koden hittar 
 
 **Forskning.** I ett Parsons-problem får studenten de rätta kodraderna i blandad ordning och ska ordna dem (ibland med extra rader som inte ska användas). Studenter löser dem betydligt snabbare än motsvarande uppgifter där de skriver koden själva, med samma inlärning (Ericson 2018; Ericson m.fl. 2023). Som stöd för uppgifter att skriva kod höjde de prestation och effektivitet, särskilt för studenter med låg tilltro till sin egen förmåga (Hou, Ericson & Wang 2023).
 
-**För boken.** Parsons-problem passar en tryckt bok utmärkt och finns inte alls i Del I i dag. De är ett naturligt mellansteg mellan "spåra" och "skriv själv", och lämpliga för funktioner, villkor, loopar och händelselyssnare. Distraktorrader (t.ex. `=` i stället för `===`, eller en rad med `let` som deklarerar en variabel på nytt) tränar dessutom kända missuppfattningar.
+**För boken.** Parsons-problem passar en tryckt bok utmärkt. Varje kapitel i Del I har ett (*Ordna raderna*). De är ett naturligt mellansteg mellan "spåra" och "skriv själv", och lämpliga för funktioner, villkor, loopar och händelselyssnare. Distraktorrader (t.ex. `=` i stället för `===`, eller en rad med `let` som deklarerar en variabel på nytt) tränar dessutom kända missuppfattningar.
 
 ## 4. Lösta exempel och delmål (kognitiv belastning)
 
@@ -44,7 +44,7 @@ Förmågan att förklara kod på en övergripande nivå ("den här koden hittar 
 
 En studie med 496 nybörjare fann att metaforen "variabeln är en låda" hjälpte vid enkel tilldelning men förstärkte missuppfattningen med flera värden vid upprepad tilldelning, där "variabeln är en etikett/ett namn" fungerade bättre (Hermans m.fl. 2018).
 
-**För boken.** Bokens pilmodell (namn → värde) i kap. 2 är i linje med forskningen. Den bör användas konsekvent genom boken: vid tilldelning i loopar, vid funktionsanrop (parametrar som får värden), vid arrayer och vid referenser i kap. 12. Spårtabeller (en kolumn per variabel, en rad per steg) är ett enkelt sätt att göra modellen synlig i text.
+**För boken.** Bokens pilmodell (namn → värde) i kap. 2 är i linje med forskningen. Den bör användas konsekvent genom boken: vid tilldelning i loopar, vid funktionsanrop (parametrar som får värden), vid arrayer och vid referenser i kapitlet *Objekt*. Spårtabeller (en kolumn per variabel, en rad per steg) är ett enkelt sätt att göra modellen synlig i text.
 
 ## 6. Matematik är ingen förutsättning – men språkförmåga spelar roll
 

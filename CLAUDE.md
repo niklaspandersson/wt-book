@@ -25,19 +25,30 @@ Build output lands in `manuscript/_book/`.
 ## Structure
 
 - `manuscript/_quarto.yml` — book configuration (title, author, chapter list, output formats)
-- `manuscript/*.qmd` — chapter files in Quarto Markdown
+- `manuscript/kapNN-*.qmd` (Del I) and `manuscript/kap-*.qmd` (Del II–III) — chapter files in Quarto Markdown
+- `manuscript/losnNN-*.qmd` — solutions to the exercises in Del I, with the introduction `losningar.qmd`
+- `manuscript/filters/number-exercises.lua` — numbers the exercises and solutions
 - `manuscript/references.bib` — BibTeX bibliography
 - `manuscript/_book/` — generated output (gitignored)
 
 Chapters must be listed explicitly under `book.chapters` in `_quarto.yml`. The output formats are HTML (cosmo theme) and PDF (scrreprt document class).
 
+Project documents in the repository root:
+
+- [OUTLINE.md](OUTLINE.md) — chapter plan, draft course plans, and the background and status of the current iteration
+- [PEDAGOGIK.md](PEDAGOGIK.md) — research summary that the book's pedagogy builds on
+- [ATT-GORA.md](ATT-GORA.md) — open items, and material waiting for a chapter that is not yet written
+- [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md) — references between chapters that no longer hold
+
+Keep these documents current: strike items when they are done, and do not keep logs of finished work. Git history records what changed.
+
 ## Content Plan
 
 See [OUTLINE.md](OUTLINE.md) for the full chapter plan. The book is organized into four parts:
 
-- **Del I** (Ch. 1–11): Foundational JavaScript — values and variables, using functions (calls, arguments, return values, methods), the DOM, writing your own functions, events, numbers and text (basics only, with pointers to MDN for more), booleans, conditional statements, loops, arrays (including arrays of objects). Del I is sized to fit the course Webbteknik 2: teach the basics well and show students where to look up the rest, rather than covering every method. Web chapters (4 and 6) come early so later language chapters can use interactive examples; language features are introduced only in language chapters, and web chapters only use what has already been explained (see the restructure section in OUTLINE.md)
-- **Del II**: The web as a platform — DOM deep-dive, timers, forms, storage, Fetch/JSON, HTTP/REST, audio, drag-and-drop, security, performance
-- **Del III**: The language in depth — objects in depth (methods, `this`, reference semantics), closures, async/await, modules, OOP, functional array transforms, error handling
+- **Del I** (Ch. 1–11): Foundational JavaScript — values and variables, using functions (calls, arguments, return values, methods), the DOM, writing your own functions, events, numbers and text, booleans, conditional statements, loops, arrays (including arrays of objects). Del I is sized to fit the course Webbteknik 2: teach the basics well and show students where to look up the rest, rather than covering every method. Web chapters (4 and 6) come early so later language chapters can use interactive examples. Language features are introduced only in language chapters, and web chapters only use what has already been explained.
+- **Del II**: The web as a platform — DOM traversal, creating elements, events in depth, drag and drop, media, time and animations; planned: forms, storage, Fetch/JSON, HTTP/REST, security, performance
+- **Del III**: The language in depth — objects, modules, OOP, destructuring, inheritance; planned: closures, async/await, functional array transforms, error handling
 - **Del IV**: Craft and methodology — Git/GitHub, debugging
 
 Plus two appendices on HTML and CSS reference.
@@ -58,16 +69,29 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
 - Language: Swedish throughout
 - Audience: University students, no prior technical background assumed
 - Style: Traditional textbook — flowing prose with integrated examples that introduce, explain, and deepen concepts
-- Code style: end every JavaScript statement with a semicolon, including lines that consist only of an expression (`42;`, `typeof x;`, `` `Hej ${namn}`; ``). Exceptions: lines that open or continue a block, object literal or array (`{`, `,`), and plain-text blocks listing values for students to classify.
+- Code style: end every JavaScript statement with a semicolon, including lines that consist only of an expression (`42;`, `typeof x;`, `` `Hej ${namn}`; ``). Exceptions: lines that open or continue a block, object literal or array (`{`, `,`), and plain-text blocks listing values for students to classify. Always use braces with `if` and loops.
 - Exercises must avoid the "copy-paste trap"; students should reason and apply, not just transcribe
-- Perfer to start each chapter with some concrete scenario or problem that the students caan recognize, then introduce concepts as tools to solve it.
-- Each chapter should include one `{.callout-tip}` box with ideas on how to use AI tools to practice the related topic in a meaningfull way. It can be placed in the end, right adter the **summary section** if it covers the entire chapter. It if only covers a section, the box should be placed in the end of that section. The box must be specific to the chapter's content — generic framing belongs in the introduction chapter only.
+- Prefer to start each chapter with a concrete scenario or problem that the students can recognize, then introduce concepts as tools to solve it.
+- Each chapter should include one `{.callout-tip}` box with ideas on how to use AI tools to practise the chapter's topic in a meaningful way. Place it right after the **summary section** if it covers the entire chapter, or at the end of a section if it only covers that section. The box must be specific to the chapter's content — generic framing belongs in the introduction chapter only.
   - Give suggestions of prompts that students can use to deepen their understanding of the chapter's content.
-  - Or give suggestions of how students can use AI tools to practice the chapter's content in a meaningfull way. it could be generating flash cards, example problems to solve etc.
+  - Or give suggestions of how students can use AI tools to practise, for example by generating flash cards or example problems. The AI should quiz, explain, give hints and create practice material, never solve the exercises (PEDAGOGIK.md §10).
 - Update the chapter list in `_quarto.yml` as you add new chapters, and ensure they are in the correct order for the intended progression.
-- Reference authorative online documentation (e.g., MDN Web Docs) where appropriate.
+- Reference authoritative online documentation (e.g., MDN Web Docs, `/en-US/` pages) where appropriate.
 - Add references to `references.bib` as needed, and cite them in the text using standard Quarto Markdown citation syntax.
 - Update [OUTLINE.md](OUTLINE.md) as needed to reflect changes in the chapter plan or structure.
+
+## Chapter conventions (Del I)
+
+Chapters 1–11 follow a common template, based on PEDAGOGIK.md:
+
+- **Practice page.** From chapter 4 on, each chapter has its own practice page (a folder `kapNN` with HTML, CSS and `script.js`, usually in a section *En sida att öva på*) containing every element the examples and exercises need. From chapter 5 on, a callout *Så provar du koden i det här kapitlet* says how to work with it.
+- ***Stanna upp* boxes** (`{.callout-note appearance="simple"}` with the heading `## Stanna upp`) after the heavier sections: a few short questions that check understanding, often asking the student to predict before testing.
+- **Notional machine.** Use the arrow model from chapter 2 (names point to values) and trace tables (one column per variable, one row per step) wherever beginners have known misconceptions.
+- **A worked example** with named steps, usually headed *Ett löst exempel: …*. Interactive examples use the five-step pattern from chapter 6: *hämta → lyssna → läs → bearbeta → visa*, marked with comments (`// 1. Hämta`).
+- **Beyond the basics.** Put what Del I does not need in a short *Bra att veta* box with a link to MDN, or move it to the chapter where it is needed.
+- **Exercises** come after the summary and the AI box, under `## Övningar`. Each is a `{.callout-note}` with the heading `## Övning – Namn`. Order: predict → trace → find the error (*Vad säger felet?*) → explain (*Förklara koden*, one sentence about the whole) → Parsons problem (*Ordna raderna*, with distractor lines) → modify → write → a mixed exercise that uses earlier chapters. Aim for about half reading exercises. Exercises done on the student's own pages go under the subheading `### Egna sidor`.
+- **References in exercises.** Exercises, *Stanna upp* questions and solutions refer to other chapters or exercises only when the student needs the information, for example when an exercise builds on an earlier solution.
+- **Solutions.** Every exercise and *Stanna upp* question in Del I has a solution in `losnNN-….qmd`, linked to its chapter with `losningar-till:` in the front matter. The filter numbers the exercises in both files, so the headings in a solution file must be in the same order as the exercises in the chapter. When an exercise changes, change its solution too. The heading "Kapitel N:" in each solution file, and exercise numbers mentioned in running text ("övning 2.5"), are written by hand and do not update automatically.
 
 ## Prose density (always applies)
 

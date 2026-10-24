@@ -1,5 +1,5 @@
 **Del I – Grunden: det du behöver för att komma igång**
-*(kronologisk progression – omstrukturerad, se [Omstrukturering av Del I](#omstrukturering-av-del-i) nedan)*
+*(kronologisk progression)*
 
 * [X] Kap. 1 – JavaScript och webbläsaren *(webbens tre språk, vad är programmering, programmeringsspråk och syntax, konsolen, uttryck och satser, felmeddelanden, en första titt på script-elementet; laddningsordning, inline-skript och `defer` har flyttat till kap. 4)*
 * [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, konkatenering med `+`, let/const, tilldelning, objekt som samlar värden, punktnotation, typeof, dynamisk typning, namngivning)*
@@ -50,7 +50,7 @@
 * Kap. ?? – Versionshantering med Git och GitHub
 * Kap. ?? – Felsökning och debugging
 
-**Lösningar** – lösningsförslag, svar och förklaringar till alla övningar och Stanna upp-frågor i Del I, ett kapitel per kapitel (`losn01-…` till `losn11-…`, med inledningen `losningar.qmd`). Ligger som en egen del efter Del III. Övningsnumren sätts av `filters/number-exercises.lua` via `losningar-till:` i varje fils front matter, så rubrikerna i en lösningsfil måste stå i samma ordning som övningarna i kapitlet. Ändras en övning ska lösningen ändras också.
+**Lösningar** – lösningsförslag till alla övningar och Stanna upp-frågor i Del I (`losn01-…` till `losn11-…`, med inledningen `losningar.qmd`), som en egen del efter Del III. Konventionerna står i CLAUDE.md.
 
 **Appendix A** – HTML-referens: element och semantik
 **Appendix B** – CSS-referens och layout
@@ -63,7 +63,7 @@
 
 Boken ska användas i två kurser vid Linnéuniversitetet: **Webbteknik 2** (1ME322) och **Webbteknik 3** (1ME323). Båda är 7,5 hp och går på halvfart, tio veckor à 20 timmar.
 
-**Tempo:** ett kapitel i den omarbetade stilen (4 000–6 000 ord inklusive kod och övningar, 10–12 övningar) tar 8–10 timmar för en student. Siffran beskriver hur kapitlen ser ut i dag och är inget mål. Brödtexten bör sällan överstiga cirka 2 500 ord (se *Prose density* i CLAUDE.md), och tiden bör gå till övningarna snarare än till läsningen. Två kapitel i veckan är därför det högsta rimliga tempot, och bara när kapitlen inte är begreppstunga. De svåraste veckorna (loopar och arrayer i Webbteknik 2, fetch i Webbteknik 3) får mest tid per idé.
+**Tempo:** ett kapitel i den omarbetade stilen (4 000–6 000 ord inklusive kod och övningar, 10–12 övningar) tar 8–10 timmar för en student. Siffran beskriver kapitlen före den pågående kortningen (se *Bakgrund* nedan) och är inget mål. Brödtexten bör sällan överstiga cirka 2 500 ord (se *Prose density* i CLAUDE.md), och tiden bör gå till övningarna snarare än till läsningen. Två kapitel i veckan är därför det högsta rimliga tempot, och bara när kapitlen inte är begreppstunga. De svåraste veckorna (loopar och arrayer i Webbteknik 2, fetch i Webbteknik 3) får mest tid per idé.
 
 ## Webbteknik 2
 
@@ -161,434 +161,28 @@ Tolv kapitel på åtta undervisningsveckor. JSON kommer före fetch, så att `JS
 
 ---
 
-# Omstrukturering av Del I
+# Bakgrund
 
-## Nedskärning för Webbteknik 2 (oktober 2026)
+Boken skrevs först som ett utkast i kronologisk ordning. Hösten 2026 omarbetades Del I i flera steg. Webbkapitlen (DOM och händelser) flyttades tidigt, så att språkkapitlen kan använda interaktiva exempel. Funktionskapitlet delades i att använda och att skriva funktioner. Del I kortades för att rymmas i Webbteknik 2: tal och strängar slogs ihop, objekt flyttades till Del III och fördjupningar blev *Bra att veta*-rutor. Kap. 1–11 och kapitlet *Objekt* granskades sedan mot forskningen i PEDAGOGIK.md (övningsordning, Parsons-problem, spårtabeller, lösta exempel, *Stanna upp*-rutor), och alla övningar fick lösningsförslag. Detaljerna finns i git-historiken.
 
-Del I ska rymmas i kursen Webbteknik 2 (7,5 hp på halvfart, tio veckor varav två jullovsveckor och en tentavecka) tillsammans med kapitlet *Tid och animationer* ur Del II. Med två kapitel i veckan som högsta rimliga takt för nybörjare räckte inte tiden. Principen för nedskärningen: **lär ut grunderna ordentligt och visa var resten finns**, i stället för att täcka alla metoder. Del I har nu elva kapitel.
+## Pågående iteration: kortare brödtext (oktober 2026)
 
-| Ändring | Vad | Varför |
+Kapitlen förklarar för mycket och för många gånger, och studenterna riskerar att tappa fokus. Brödtexten kortas därför ett kapitel i taget enligt *Prose density* i CLAUDE.md: varje poäng sägs en gång, analogier hålls korta, och sidospår flyttas till felavsnittet, övningarna eller bort. Text behålls inte för att andra kapitel hänvisar till den. Sådana hänvisningar samlas i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md) och rättas när det hänvisande kapitlet ses över.
+
+Brödtext före övningarna, utan kodblock:
+
+| Kapitel | Ord | Status |
 |---|---|---|
-| Kap. 7 och 8 slås ihop till **Tal och text** (`kap07-tal-och-text.qmd`, `sec-tal-och-text`) | Kvar: räknesätt (utan `**`), kortformerna, NaN, `Number()` och de två fällorna, `Math.round`/`floor`, slumptal med spårtabell, `toFixed`, templatesträngar, `length`, `toUpperCase`/`toLowerCase`/`trim`/`includes`, oföränderliga strängar (med *Stanna upp* om osparat returvärde), kedjning, *Text på webbsidan*, momsräknaren. Borttaget: `Infinity`, `parseInt`/`parseFloat`, `Math.ceil`/`max`/`min`/`abs` i texten, flyttalsavsnittet (nu en punkt i en ruta), escape-sekvenser, index och enskilda tecken (nu en punkt i en ruta), `at`, `startsWith`, `indexOf`, `slice`, `replace`, `String()`, emojirutan, `snyggtNamn` (ersatt av `städaNamn` med `trim().toUpperCase()`). Nytt: avsnittet *Var hittar du mer?* om att läsa MDN (bygger på kap. 3) och övningen *Slå upp själv*. | Ungefär 6 100 ord i stället för 9 100. Strängarnas grunder måste komma före kap. 8–9, som använder `trim`, `toLowerCase`, `length` och templatesträngar. |
-| Kap. 13 Objekt flyttas till **Del III** (`kap-objekt.qmd`, första kapitlet i delen) | Inledningen och avsnittet om produktkort hänvisar nu till arraykapitlet. | Inget i Del I eller Del II byggde på kapitlet. Objekt finns redan i kap. 2, och metoder och `this` passar före kapitlen om klasser och arv. |
-| Kap. 11 Arrayer får avsnittet **Arrayer av objekt** | Quizfrågor som objekt i en array, stegtabell för `frågor[1].alternativ[0]`, `for...of` över objekt, knappar som fylls med alternativ. Ny övning *Ett quiz med flera frågor*. `unshift`/`shift`/`splice` är nu en Bra att veta-ruta. | Det enda ur gamla kap. 13 som behövs för kursens slutuppgift. |
-| Kap. 8 Sant och falskt | Truthy och falsy är en Bra att veta-ruta. | Boken skriver ut frågorna (`namn !== ""`). |
-| Kap. 9 Villkorssatser | Truthy-villkor och `switch`-rutan borttagna. *Vem leder?* använder inte längre `Math.abs`. | Används inte senare i Del I. |
-| Kap. 10 Loopar | `continue`, `do...while` och nästlade loopar ersatta av en Bra att veta-ruta med MDN-länk. Övningen med nästlade loopar borttagen. *Summera en sekvens* har inte längre en matematisk formel. FizzBuzz-tipset förklarar `%` på plats. | Ungefär 2 200 ord i stället för 2 700. |
-
-Filerna har bytt namn: `kap09-sant-och-falskt.qmd` → `kap08-…`, `kap10-villkor.qmd` → `kap09-…`, `kap11-loopar.qmd` → `kap10-…`, `kap12-arrayer.qmd` → `kap11-…`, `kap13-objekt.qmd` → `kap-objekt.qmd`. Övningssidornas mappnamn i texten följer de nya numren.
-
-**Granskat:** kap. 10 och 11 följer nu samma mall som kap. 3–9 (se *Granskning av kap. 10–11 och kapitlet Objekt* nedan). I `Tid och animationer` döljs notisen nu med `hidden` i stället för `notis.remove()`, så att kapitlet kan läsas direkt efter Del I.
-
-### Granskning av kap. 10–11 och kapitlet Objekt (oktober 2026)
-
-Kap. 10 och 11, och kapitlet *Objekt* som inleder Del III, är granskade enligt samma mall som kap. 3–9: egen övningssida med rutan *Så provar du koden*, *Stanna upp*-rutor, ett löst exempel med femstegsmönstret, övningar i ordningen *förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv → blandad* och ett underavsnitt *Egna sidor*.
-
-| Kapitel | Ändringar |
-|---|---|
-| 10 Loopar (`sec-loopar`) | Nytt scenario från quizkvällen (nedräkning, prislista, tärning tills sexa) som kapitlet löser i tur och ordning. Spårtabell för `while` (villkoret prövas en gång mer än blocket körs, räknarens värde efter loopen). Nytt avsnitt *Bygga upp ett resultat* (före – i – efter loopen) med spårtabell och rutan om startvärdet inuti loopen. `while` motiveras med tärningen (okänt antal varv); `break` visas utan array (högst tre kast), så rutan *Vad är `[82, 91, …]`?* är borta. `\n` förklaras på plats, eftersom escape-sekvenser inte längre finns i kap. 7. Nedräkningen är det lösta exemplet, med kontrollen från kap. 9. Rutan *Bra att veta* om `continue`, `do...while` och nästlade loopar finns kvar (FLYTTLISTA punkt 7). *Summera en sekvens*, FizzBuzz och multiplikationstabellen är ersatta av *Spargrisen*, *Biljettpriser* och *Frågornas typer* (samma `%`-logik i ett quizsammanhang). Nya övningar: *Hur många varv?*, *Spåra summan*, *Vad säger felet?* (`SyntaxError`, `ReferenceError`, startvärde i loopen, oändlig loop), *Förklara koden*, *Ordna raderna*, *Bygg vidare på nedräkningen*. |
-| 11 Arrayer (`sec-arrayer`) | Scenariot är anmälda lag (fem variabler som en loop inte kan nå). Index som rutor; `const` förklaras med pilbilden. `push` ställs mot strängmetoderna (arrayer kan ändras). *Hitta det största* med spårtabell. `includes` kopplas till kap. 7, och `indexOf` förklaras på plats (finns inte längre för strängar i kap. 7). *Anmäl flera lag* (`split`, `trim`, tomma delar, `push`, `join`) är det lösta exemplet. Ny varningsruta: listan från `querySelectorAll` har ingen `classList`/`addEventListener`. Quizet använder klasser i stället för `.style.color`, och avsnittet *Arrayer av objekt* från nedskärningen ligger kvar efter quizet. **Flyttat:** `Array.from` (FLYTTLISTA punkt 8). **Beslut 5:** *Färgväljare* använder `value` (FLYTTLISTA punkt 9). Nya övningar: *Förutsäg värdena*, *Spåra loopen*, *Vad säger felet?*, *Förklara koden*, *Ordna raderna* (filtrera), *Bygg vidare på anmälan*, *Bygg vidare på quizet*, *Vem leder nu?* (från parallella arrayer till en array av objekt). *Ett quiz med flera frågor* finns kvar. |
-| Objekt (`sec-objekt`, Del III) | Scenariot fortsätter från *Vem leder nu?* i kap. 11: parallella arrayer som går i otakt. Studenter och kurser är ersatta av lag. Ny ordning: repetition → arrayer av objekt (bygger på avsnittet i kap. 11) → referenser → objekt som argument → nästlade objekt → hakparentesnotation och `for...in` → egna metoder → löst exempel. Referenssemantiken har två pilbilder (`ledare` och `lag[1]` på samma objekt; `a`, `b`, `c`) och kopplas till kap. 2 och kap. 5. Metoder bara i kortform; `this` som "objektet före punkten", pilfunktionsfällan i en mening. Kiosken (data → loop → HTML med kryssruta) är det lösta exemplet och ersätter produktkorten. **Flyttat:** `Object.keys/values/entries`, `delete`, `in` (FLYTTLISTA punkt 10–11). Nya övningar: *Förutsäg värdena*, *Spåra pilarna*, *Vad säger felet?*, *Förklara koden*, *Ordna raderna* (`hittaLag`), *Poängtavlan* (på övningssidan, samlar Del I), *Bygg vidare på kiosken*, *Räknaren som objekt*, *Kontaktbok*. *Ett quiz med flera frågor* finns bara i kap. 11. |
-
-
-## Uppdelning av funktionskapitlet (oktober 2026)
-
-Efter omstruktureringen nedan låg DOM-kapitlet före funktionskapitlet. Det visade sig bryta mot omstruktureringens egen princip: webbkapitlet använde funktionsanrop, argument, returvärden och metoder (`querySelector`, `classList.add`) innan de var förklarade, och avsnittet om `querySelector` fick börja med en framåthänvisning. Funktionskapitlet var dessutom bokens mest begreppstäta (BOKOVERSIKT §4).
-
-Funktionskapitlet är därför delat i två, och Del I har nu tretton kapitel:
-
-| Nytt kapitel | Fil | Innehåll |
-|---|---|---|
-| 3 Att använda funktioner (`sec-anropa-funktioner`) | `kap03-anropa-funktioner.qmd` | Första halvan av gamla kap. 4, utbyggd: "världen är full av färdiga maskiner" som scenario – studenten som operatör, inte uppfinnare (kalkylprogrammens formler som ytterligare exempel), anropet ersätts av sitt returvärde (med diagram), `prompt` som exempel på ett returvärde som kommer utifrån, att göra eller ge tillbaka, returvärden i konsolen kontra i en fil, fria funktioner och metoder, egenskap eller metod, nästlade anrop med stegtabell, vanliga felmeddelanden (`ReferenceError`, `TypeError: … is not a function`, saknad parentes), att läsa en MDN-sida. |
-| 4 Din kod möter webbsidan (`sec-dom-intro`) | `kap04-dom.qmd` | Gamla kap. 3. `querySelector` och `classList` beskrivs nu med kap. 3:s ord (metod, argument, returvärde) utan framåthänvisning. Kapitelslutet pekar på de upprepade raderna som nästa kapitel löser. |
-| 5 Att skriva egna funktioner (`sec-funktioner`) | `kap05-egna-funktioner.qmd` | Andra halvan av gamla kap. 4. Scenariot är poängtavlan från kap. 4 där samma rad upprepas. Nytt: definitionen körs inte – anropet gör det, parametrar med pilbild, argument kopplas i ordning, spårtabell för ett anrop, modulscope förklarat på plats. Borttaget: funktionsuttryck med `function` och standardvärden för parametrar (se FLYTTLISTA). |
-| 6 Händelser (`sec-handelser`) | `kap06-handelser.qmd` | Gamla kap. 5. Egen övningssida (ny mapp `kap06`) med alla element och all CSS som exemplen och övningarna behöver; sidan från kap. 4 återanvänds inte. Nytt: det namngivna mönstret *hämta → lyssna → läs → bearbeta → visa* som löst exempel. Anonyma callbacks införs i två steg: först `function() { … }` (bara namnet borttaget jämfört med kap. 5), sedan pilfunktionen som kortare skrivform. Resten av boken använder pilfunktioner för anonyma callbacks, eftersom det är den vanliga formen i modern kod och i Del III. |
-
-Kap. 7–13 har bara fått nya filnamn (`kap07-tal.qmd` … `kap13-objekt.qmd`) och justerade korsreferenser.
-
-### Granskning av kap. 7–10 (oktober 2026)
-
-Kap. 7–10 är granskade mot CLAUDE.md, BOKOVERSIKT och PEDAGOGIK på samma sätt som kap. 3–6. Gemensamt för alla fyra: en egen övningssida (mapp `kap07` … `kap10`) med rutan *Så provar du koden*, *Stanna upp*-rutor efter de tyngre avsnitten, det lösta exemplet markerat med femstegsmönstret från kap. 6, övningar i ordningen *förutsäg → spåra → felsök → förklara → Parsons → modifiera → skriv → blandad*, och ett underavsnitt *Egna sidor* som hänvisar till kap. 6. Uttryck på egen rad avslutas med semikolon.
-
-| Kapitel | Ändringar utöver det gemensamma |
-|---|---|
-| 7 Tal (`sec-tal`) | Uttalat att kapitlet bara kräver vardagsräkning. `%` förklaras med minuter och timmar (kopplat till kap. 1) i stället för `15 = 3 × 4 + 3`. IEEE 754 och 64 bitar nämns bara i flyttalsavsnittet. Borttaget: `true + 1`, `Number(true)`, `Math.PI`/`Math.E` (`Math.PI` visas redan i kap. 3), parenteserna i `(12).toFixed(2)`. `parseInt`/`parseFloat` kortat till en *Bra att veta*-ruta. Ny spårtabell för tärningskastet. Momsen förklaras i ord ("priset plus en fjärdedel"). Nya övningar: *Vad säger felet?* (`toFixed` på en sträng, `Math.Round`), *Förklara koden*, *Ordna raderna*, *Bygg vidare på momsräknaren*, *Poängtavlan räknar rätt* (bygger på kap. 6). *Vad returneras?* är omgjord så att den inte upprepar kap. 3. Temperaturomvandlaren ger formeln färdig i kod; *Dela notan* har dricks i kronor. |
-| 8 Strängar (`sec-strangar`) | Strängens index visas som en rad rutor med numren under (mental modell inför arrayer). Kedjning följs med en stegtabell som i kap. 3. Ny *Stanna upp* om returvärdet från `trim()` som inte sparas – den vanligaste missuppfattningen om oföränderliga strängar. Metodurvalet är mindre: `trimStart`/`trimEnd` borta, `endsWith` och `\t` bara nämnda. Konsolens tysta `ord[0] = "X"` förklaras. Exemplet med postnummer som tal är ersatt (`String(poäng).length`). Lagnamnsexemplet är det lösta exemplet med de fem stegen. *Egenskaper eller metoder?* (överlappade kap. 3) är ersatt av *Vad säger felet?*. Nya övningar: *Spåra strängarna*, *Förklara koden* (`indexOf` ger `-1`), *Ordna raderna* (osparat returvärde, fel citattecken), *Lagnamnet på poängtavlan* (bygger på kap. 6–7). |
-| 9 Sant och falskt (`sec-booleska`) | **Flyttat:** kortslutning, `&&`/`||` som returnerar operander och standardvärden med `||` (FLYTTLISTA punkt 5); hälsningen löses i kap. 10. **Nytt:** rutan *`=` är inte `===`* (PEDAGOGIK §5) och läsa-högt-formuleringar för jämförelser och tilldelning av booleska svar. Scenariots tredje punkt är nu längdvarningen som kap. 8 lämnade öppen, och formulärexemplet har tre frågor och markerade steg. Exemplen med betyg och inlämning är ersatta av lag, deltagare och rabatt. Borttaget: rutan om `null == undefined`, Unicode-värden, `[]`/`{}` i truthy-listan (arrayer kommer i kap. 12), algebra i Boole-meningen och `0 ≤ poäng ≤ 100`. Nya övningar: *Spåra formuläret* (spårtabell), *`=` eller `===`?*, *Förklara koden*, *Ordna raderna* (distraktorer `=>` och omvänd `hidden`), *Lagnamnet får en varning* (bygger på kap. 8). *Från ord till uttryck* har inte längre delbarhet med 10. |
-| 10 Villkorssatser (`sec-villkor`) | Spårtabell för en `else if`-kedja (vilka villkor prövas, vilka hoppas över). Hälsningen från kap. 6 löses här, med `if`/`else` och sedan ternär (ersätter `||` från kap. 9). Truthy-villkor visas men boken föredrar utskrivna frågor. `switch` är kortad till en *Bra att veta*-ruta utan övning (används inte senare i boken; ternär behålls, eftersom kap. 13 och Del II–III använder den). Nästlade villkor är ett kort underavsnitt som leder fram till early return. `.style.color`-varianten i *Utseende efter resultat* är borttagen; exemplet börjar med `classList`. *Kontrollera inmatning* är det lösta exemplet, där steg 4 växer med kontrollerna. Piltangentsexemplet har CSS i övningssidan och namnen `uppifrån`/`vänsterifrån` i stället för `x`/`y`. Skottårsövningen är ersatt av biljettpriser efter ålder (BOKOVERSIKT §3.4). Borttagna övningar: *Villkorligt hjälpmeddelande* (upprepade exemplet) och *`if/else` eller ternär?* (uppgår i *Ordna raderna* och *Temaknappen*). Nya: *Vad säger felet?* (`SyntaxError` och `=` i villkoret), *Förklara koden* (early return), *Ordna raderna*, *Betyg på sidan* (nu en modifieringsövning), *Vem leder?* (löser frågan i kap. 3:s *Quizets topplista*). |
-
-**Varför inte som förut?** Kapitlen slogs ihop eftersom det gamla kap. 3 hade tömts på innehåll (Math, typkonvertering och strängmetoder flyttade till kapitlen om tal och strängar) och eftersom egna funktioner måste komma före händelser. Inget av skälen var pedagogiskt. Det nya kap. 3 får sitt eget djup genom den mentala modellen av ett anrop och de vanligaste missuppfattningarna, och gränsen mot kapitlen om tal och strängar är tydlig: kap. 3 använder `Math.max`, `Number` och `toUpperCase` för att visa hur anrop fungerar, men lär inte ut dem som verktyg.
-
-**Principen gäller nu fullt ut:** språkets egenskaper introduceras i språkkapitlen (2, 3, 5, 7–13). Webbkapitlen (4 och 6) använder bara det som redan har förklarats.
-
-Avsnitten nedan beskriver den tidigare omstruktureringen och använder den numrering som gällde då.
-
-## Status
-
-Omstruktureringen är genomförd enligt mappningen nedan, med följande avvikelser:
-
-- **Villkor delas i två kapitel** (beslut 3): kap. 8 *Sant och falskt* (booleska värden, jämförelser, logiska operatorer, truthy/falsy och booleska egenskaper på webbsidan – helt utan `if`) och kap. 9 *Villkorssatser* (`if`/`else`, ternär, `switch`, early return, kontrollera inmatning, tangentbord). Ternäroperatorn ligger i kap. 9 eftersom den förklaras som ett alternativ till `if`/`else`. Loopar, arrayer och objekt blir kap. 10–12.
-- **Kap. 5:** exemplet med `input`-händelsen använder inte längre en `if`-sats; fallet med tomt fält tas upp i kap. 8.
-- **Kap. 9:** `do...while`-exemplet med `prompt` är ersatt av ett tärningsexempel (kasta tills det blir en sexa).
-- **Kap. 10:** `split`/`join` visas med `textContent` i stället för att bygga en lista med `innerHTML`, eftersom texten kommer från användaren.
-
-Beslut 1 och 4 är genomförda enligt förslagen (stil i kap. 3, `event.target` i arraykapitlet) men kan fortfarande ändras. Beslut 3 är avgjort: villkor delas i två kapitel. Beslut 5 och 6 är öppna. Avsnitten nedan beskriver planen som den såg ut innan arbetet började.
-
-### Bantning av kap. 2 (efter omstruktureringen)
-
-Kap. 2 upplevdes som för långt och spretigt för nybörjare och har bantats:
-
-- **Uttryck och satser** har flyttat till kap. 1 (§Konsolen → *Uttryck och satser*), tillsammans med ett nytt avsnitt *Programmeringsspråk* (maskinkod, olika språk, syntax). Kap. 4 hänvisar dit.
-- **Templatesträngar** introduceras först i kap. 7. Kap. 3–6 bygger text med konkatenering (`"Poäng: " + poäng`), som tas upp i kap. 2 tillsammans med att ett tal görs om till text vid `+` med en sträng. Templatesträngsövningen har flyttat till kap. 7.
-- **Kortformerna** `+=`, `-=`, `*=`, `/=`, `++`, `--` introduceras först i kap. 6 (§Ändra ett tal stegvis). Kap. 3–5 använder `x = x + 1`. Övningen *Spåra poängen* finns kvar i kap. 2 i lång form och har en kortformsvariant i kap. 6.
-- Ny ordning i kap. 2: värden → datatyper → variabler → objekt → dynamisk typning (med `typeof`) → namngivning.
-
-## Varför
-
-Kursen handlar om att göra webbsidor interaktiva *och* om grundläggande programmering. I den tidigare ordningen kom händelser först i kapitel 10, och övningarna i kapitel 4–9 byggde på mönstret "ändra variabeln och ladda om sidan". Den nya ordningen för in webbsidan (kap. 3), funktioner (kap. 4) och händelser (kap. 5) tidigt. Språkets byggstenar – tal, strängar, villkor, loopar, arrayer och objekt – lärs sedan ut genom interaktiva exempel.
-
-**Princip:** språkets egenskaper introduceras i *språkkapitlen* (2, 4, 6–11). Webbkapitlen (3 och 5) använder bara det som redan tagits upp, och tillför webbens API:er. Språkkapitlen får däremot gärna använda webben i sina exempel och övningar – det är så de blir interaktiva.
-
-Omstruktureringen löser samtidigt flera punkter i [REVIEW-DEL1.md](REVIEW-DEL1.md): strängar får ett eget kapitel, överlappet mellan gamla kap. 2 och 3 försvinner, objekt introduceras ordentligt (med en objektliteral) innan de används, och de upprepade temperaturövningarna kan slås ihop.
-
-Hänvisningar nedan använder den **gamla** numreringen: `g2` = gamla kapitel 2 (`kap02-variabler.qmd`), `g2 §Variabler` = avsnittet *Variabler* i det kapitlet, `Ö 5.3` = gamla övning 5.3.
-
-## Översikt
-
-| Nytt kapitel | Fil (förslag) | Byggs av | Ny text | Uppskattad längd |
-|---|---|---|---|---|
-| 1 JavaScript och webbläsaren | `kap01-om-javascript.qmd` | g1 | – | ≈ 3 000 ord (oförändrat) |
-| 2 Värden och variabler | `kap02-variabler.qmd` | g2 (bantat) | lite | ≈ 3 000 |
-| 3 Din kod möter webbsidan | `kap03-dom.qmd` | g4 + g6 | lite | ≈ 3 600 |
-| 4 Funktioner | `kap04-funktioner.qmd` | g3 + g9 | en del | ≈ 3 800 |
-| 5 Händelser | `kap05-handelser.qmd` | g10 (första halvan) | lite | ≈ 2 300 |
-| 6 Tal | `kap06-tal.qmd` | g2 + g3 | **mycket** | ≈ 2 500 |
-| 7 Strängar | `kap07-strangar.qmd` | g2 + g3 | **mycket** | ≈ 2 500 |
-| 8 Villkor | `kap08-villkor.qmd` | g5 + g2 + g6 + g9 + g10 | en del | ≈ 5 000 (se beslut 3) |
-| 9 Loopar | `kap09-loopar.qmd` | g7 | lite | ≈ 2 500 |
-| 10 Arrayer | `kap10-arrayer.qmd` | g8 + g10 (andra halvan) | lite | ≈ 3 500 |
-| 11 Objekt | `kap11-objekt.qmd` | g11 | minimal | ≈ 3 500 |
-
-Filerna flyttas med `git mv` så att historiken följer med. Två gamla filer försvinner: `kap03-anropa-funktioner.qmd` (går upp i nya kap. 4) och `kap06-stil.qmd` (går upp i nya kap. 3).
-
-## Kapitel för kapitel
-
-### Kap. 1 – JavaScript och webbläsaren *(g1)*
-
-Nästan oförändrat.
-
-- §En förhandsvarning om okänd syntax: säg att funktionsanrop förklaras i kap. 4 och webbsidan i kap. 3 (tidigare tvärtom).
-- §Vad är programmering?: hänvisningarna (beslut → villkor, upprepning → loopar, återanvändbara delar → funktioner) uppdateras automatiskt, men kontrollera att meningen stämmer med ordningen.
-- Ö 1.1 *Konsolen som miniräknare*: hänvisningen till `%` och `**` ska peka på kap. 6 (`sec-tal`) i stället för kap. 2.
-
-### Kap. 2 – Värden och variabler *(g2, bantat)*
-
-Ett generellt kapitel om *värden* och *variabler*, och om hur flera värden kan samlas i ett *objekt*. Detaljerna om varje datatyp flyttar till egna kapitel.
-
-**Behålls från g2**
-
-- §En quizkväll att programmera (scenario)
-- §Vad är ett värde?
-- §Primitiva datatyper – **kortas** till en översikt: ett stycke var om `number`, `string`, `boolean`, `null`, `undefined`, med framåthänvisningar till kap. 6, 7 och 8
-- §Tomma värden: `null` och `undefined` (kortad; `null` återkommer i kap. 3 när `querySelector` inte hittar något)
-- §Templatesträngar – grunderna (behövs redan i kap. 3); fördjupning i kap. 7
-- §Variabler, §Deklarera med `let`, §Konstanter med `const`, §Vad hände med `var`?
-- §Namngivning av variabler, §Namnkonventioner
-- §Objekt – en första bekantskap + §Punktnotation – **omskrivet** och placerat efter §Variabler: objekt som ett sätt att samla värden som hör ihop. Visa objektliteralen (`const lag = { namn: "Röda stjärnor", poäng: 12 };`), läs och ändra egenskaper med punktnotation, och lägg till en egenskap. Löser review-punkten om `lag.namn` (objektet skapas nu innan det används). Metoder nämns inte här – de kommer i kap. 4.
-- En kort ruta om `const` och objekt: variabeln kan inte tilldelas om, men egenskaperna kan ändras (studenterna stöter på det direkt i övningarna). Underlag finns i g11 §`const` och objekt.
-- §Dynamisk typning – bara själva idén (en variabel kan byta typ), med underavsnitten §Operatorn `typeof` och §När typer blandas; konverteringsdetaljerna flyttar
-- §Uttryck och satser
-
-**Flyttas hit**
-
-- g7 §`i++` och `i += 1` (rutan) → nytt avsnitt *Ändra en variabel stegvis*. Behövs för räknaren i kap. 5.
-
-**Flyttas ut**
-
-| Avsnitt | Till |
-|---|---|
-| §Tal – `number`, §Aritmetiska operatorer, §Specialvärden: NaN och Infinity, MDN-rutan | kap. 6 |
-| §Sanningsvärden – `boolean` (jämförelser, logiska operatorer), rutan `null` vs `undefined` | kap. 8 |
-| §Text – `string`: §Konkatenering, §Escape-sekvenser, §Stränglängd och grundläggande strängoperationer | kap. 7 |
-| §Implicit konvertering | kap. 6 |
-| §Explicit konvertering: `Number()` → kap. 6, `String()` → kap. 7, `Boolean()` och truthy/falsy → kap. 8 | kap. 6–8 |
-
-**Övningar**
-
-- Ordnade enligt mallen i BOKOVERSIKT §3.1 (läsa före skriva): *Förutsäg konsolens svar* (ny), *Typa värdena*, *Spåra poängen* (nu med spårtabell och pilbild), *Vilka rader ger fel?*, *Förklara koden* (ny), *Namnge rätt*, *Ordna raderna* (nytt Parsons-problem med distraktorer), *Från variabler till objekt* (ny, modifiera), *Quizprogrammets variabler*, *En quizfråga som objekt* (kap. 3 bygger vidare på den)
-- Flyttade tidigare: Ö 2.2 *Förutsäg resultaten* (typkonvertering) → kap. 6; *Templatesträngar* → kap. 7
-
-### Kap. 3 – Din kod möter webbsidan *(g4 + g6)*
-
-Allt som handlar om att ändra *vad användaren ser* – text, HTML, stil, klasser, visa och dölja – samlat i ett kapitel. Här finns ännu inga egna funktioner eller villkor. `querySelector` presenteras som ett anrop vars mekanik förklaras i kap. 4 (som kap. 1 redan gör).
-
-**Från g4 (hela kapitlet)**
-
-- §Från konsolen till sidan, §Webbsidan som en modell
-- §Hämta ett element med `querySelector`, §CSS-selektorer som du redan kan, rutan om `null`
-- §Ändra text med `textContent`, §Infoga HTML med `innerHTML`, §När ska du använda vilket?, säkerhetsvarningen
-- §En sida att öva på (tidigare §En mall att utgå från, nu direkt efter §Webbsidan som en modell), §`console.log()` lever kvar
-- Nytt efter rutan om `null`: §Varför fungerar skriptet i `<head>`? med rutan om inline-skript och `defer` (flyttat från kap. 1)
-
-**Hänvisning bakåt:** efter §Hämta ett element räcker en mening om att elementet är ett *objekt* med egenskaper, precis som objekten i kap. 2 – därför fungerar `rubrik.textContent`. `document` och `console` är också objekt.
-
-**Från g6**
-
-- §Ändra stil med `.style`, §Flera stilar samtidigt
-- §CSS-klasser med `classList`: `add`, `remove`, `toggle` (även med andra argumentet), `contains` (presenteras som "svarar `true` eller `false`" – används i kap. 8)
-- §`.style` eller `classList` — när väljer du vad?
-- §Visa och dölja element: §Egenskapen `hidden`, §Dölja med CSS-klass, rutan *`hidden` eller CSS-klass?* (inkl. fallgropen med `display`)
-
-**Flyttas ut**
-
-- g6 §Visa och dölja med villkor, exemplen med godkänd/underkänd i `if`-satser → kap. 8
-- Inledningsscenariot i g6 ("en sida som ser likadan ut …") bygger på villkor → används i kap. 8
-
-**Övningar**
-
-- Ordnade enligt mallen i BOKOVERSIKT §3.1: *Vad visas på sidan?*, *Vilket element hittas?*, *Spåra klasserna* (spårtabell), *Vad säger felet?* (tidigare *Felsök selektorn*, nu med en del B om `textcontent`), *Förklara koden*, *Ordna raderna* (Parsons), *Var ska skriptet stå?* (från kap. 1), *Bygg vidare på poängtavlan* (modifiera), *`.style` vs `classList`*, *Facit som döljs* (används i kap. 5), *Från konsol till sida*, *Mörkt läge* (blir en knapp i kap. 5)
-- Borttagna: *Ändra sidan* och *Quizpoäng på sidan* (ersatta av *Bygg vidare på poängtavlan*), *innerHTML i praktiken* (byggde HTML med konkatenering)
-- Flyttas till kap. 8: Ö 6.1 *Betyg med färgkodning*, Ö 6.2 *Temperatur med visuell respons*, Ö 6.3 *Villkorligt hjälpmeddelande*, Ö 6.5 *Quiz med visuell feedback*
-
-### Kap. 4 – Funktioner *(g3 + g9)*
-
-Ett kapitel om funktioner från början till slut: först att *anropa* (det studenterna redan gjort med `querySelector` och `console.log`), sedan att *definiera* egna. Exemplen klarar sig utan villkor.
-
-**Från g3**
-
-- §Poängtavlan behöver hjälp → **skrivs om**; scenariot om avrundning och slumptal passar bättre i kap. 6. Förslag: inled med g9 §Att sätta namn på en beräkning (moms) eller med quizets poängtavla.
-- §Du har redan använt funktioner (nu med `querySelector` och `classList.add` som exempel)
-- §Vad är en funktion?, §Funktionsanropet, §Returvärden
-- §Metoder — funktioner på objekt: en metod är en funktion som ligger som egenskap i ett objekt (bygger på objekten i kap. 2). Exempel: `console.log`, `document.querySelector`, `element.classList.add`. Att *skriva* egna metoder med `this` väntar till kap. 11.
-- §Funktionsanropet som uttryck
-
-**Från g9**
-
-- §Att sätta namn på en beräkning, §Från att använda till att skapa
-- §Att definiera en funktion, §Parametrar och argument, §Standardvärden för parametrar, §Returvärden
-- §Scope – variablers räckvidd, rutan *Håll variabler lokala* (behövs för räknaren i kap. 5)
-- §Funktioner är värden: en variabel som pekar på en funktion, namn med och utan parenteser (pilbild). Pilfunktioner introduceras i stället i kap. 5, där de första behövs (anonyma callbacks).
-- §Att tänka i funktioner
-
-**Nytt**
-
-- Avsnitt *Funktioner som uppdaterar sidan*: `function visaPoäng(poäng) { … textContent … }` – bron till kap. 5 (idén finns i Ö 9.6)
-
-**Flyttas ut**
-
-| Avsnitt | Till |
-|---|---|
-| g3 §Inbyggda funktioner: §Typkonvertering, §Math-objektet | kap. 6 |
-| g3 §Kedja metoder | kap. 7 |
-| g9 §Funktioner med villkorssatser, §Early return | kap. 8 |
-
-**Övningar**
-
-- Behålls: Ö 9.1 *Spåra exekveringen*, Ö 9.2 *Skriv en funktion* (`cirkelArea`, använder `Math.PI` – förklara kort eller flytta till kap. 6), Ö 9.4 *Hitta scope-felet*, Ö 9.6 *Funktioner som uppdaterar sidan* (utan färgdelen, som kräver villkor)
-- Flyttas: Ö 3.1 *Vad returneras?*, Ö 3.2 *Tärningskast*, Ö 3.5 *Hitta rätt funktion* → kap. 6; Ö 3.3 *Metoder i kedja*, Ö 3.4 *Egenskaper eller metoder?* → kap. 7; Ö 9.3 *Funktioner med villkorssatser*, Ö 9.5 *Refaktorera med funktioner* → kap. 8
-- Ny: en egen funktion som tar ett element och en text och uppdaterar sidan; en övning om parameter vs argument
-
-### Kap. 5 – Händelser *(g10, första halvan)*
-
-Den stora vändpunkten: från här är alla exempel interaktiva.
-
-**Från g10**
-
-- §En knapp som inte reagerar, §Vad är en händelse?, §`addEventListener`
-- §Callback-funktioner – **ny ordning**: §Namngiven funktion först, sedan rutan *Parenteser eller inte?*, sedan §Anonym funktion och §Pilfunktion (pilfunktioner introduceras här, i formen med klamrar)
-- §Från konsol till sida, §En räknare (använder `++` från kap. 2 och scope från kap. 4), §Mörkt läge — äntligen (bygger på Ö 6.6 i kap. 3)
-- §Event-objektet – bara `event.type` och idén (se beslut 4)
-- §Mushändelser, rutan om hover i CSS eller JavaScript
-- §Input-händelser, rutan *`.value`, inte `.textContent`*, §`change`-händelsen – med en framåthänvisning: "`.value` är alltid en sträng – vill du räkna med den behöver du kap. 6"
-- §Flera lyssnare på samma element
-
-**Flyttas ut**
-
-| Avsnitt | Till |
-|---|---|
-| §Tangentbordshändelser, §Reagera på specifika tangenter, rutan *Vanliga tangentnamn* (behöver `if`) | kap. 8 |
-| §`event.target`, §Händelser och arrayer, §Ett interaktivt quiz (behöver `querySelectorAll` och loopar) | kap. 10 |
-
-**Övningar**
-
-- Behålls: Ö 10.1 *Knappräknare* (första delen), Ö 10.7 *Spåra exekveringen*, Ö 10.2 *Mörkt läge* steg 1 och 3 (steg 2, knappens text, kräver villkor → kap. 8)
-- Flyttas: Ö 10.1 andra delen ("aldrig under 0") → kap. 8; Ö 10.3 *Tangentbordsrörelser* → kap. 8; Ö 10.4 *Live-sökning*, Ö 10.5 *Interaktivt quiz*, Ö 10.6 *Färgväljare* → kap. 10
-- Nya: "Visa svar"-knapp som tar bort `hidden` från facit; en textruta vars innehåll speglas i en rubrik medan man skriver; `mouseenter`/`mouseleave` som markerar kort
-
-### Kap. 6 – Tal *(nytt kapitel; material från g2 och g3)*
-
-**Scenario (förslag):** quizets poängtavla ska visa procent rätt och ett slumpat frågenummer, och poängen läses från ett inmatningsfält – där `"10"` inte är `10` (idén från g3 §Poängtavlan behöver hjälp).
-
-**Från g2**
-
-- §Tal – `number`, §Aritmetiska operatorer (inkl. beräkningsordning och modulo), §Specialvärden: NaN och Infinity, MDN-rutan
-- §Implicit konvertering – nu med ett verkligt sammanhang: `fält.value + 1`
-- §Explicit konvertering – delen om `Number()`
-
-**Från g3**
-
-- §Typkonvertering: `Number`, `parseInt`, `parseFloat`
-- §Math-objektet: avrundning, `max`/`min`, `abs`, `random`, konstanter
-- Tärningsexemplet från §Returvärden och §Funktionsanropet som uttryck
-
-**Nytt**
-
-- Läsa tal från formulärfält: `Number(fält.value)`, även `type="number"` ger en sträng
-- Visa tal snyggt: `toFixed`, avrundning för visning kontra beräkning
-- Flyttalsprecision: `0.1 + 0.2`
-- Framåthänvisning: att *kontrollera* om inmatningen är ett giltigt tal kräver villkor (kap. 8)
-
-**Övningar**
-
-- Från: Ö 2.2 *Förutsäg resultaten*, Ö 3.1 *Vad returneras?*, Ö 3.2 *Tärningskast*, Ö 3.5 *Hitta rätt funktion*
-- Nya, interaktiva: momsräknare med fält och knapp; tärningsknapp; temperaturomvandlare Celsius → Fahrenheit (startpunkten för temperaturtråden som fortsätter i kap. 8)
-
-### Kap. 7 – Strängar *(nytt kapitel; material från g2 och g3)*
-
-Ger strängarna det egna kapitel som g2 lovade.
-
-**Scenario (förslag):** användaren skriver in sitt lagnamn som `"  räknenissarna  "` – det ska rensas, visas med stor bokstav och inte få vara för långt.
-
-**Från g2**
-
-- §Text – `string`, §Konkatenering, §Templatesträngar (fördjupning: uttryck inuti `${}`, flera rader), §Escape-sekvenser, §Stränglängd och grundläggande strängoperationer
-- §Explicit konvertering – delen om `String()`
-
-**Från g3**
-
-- §Metoder — funktioner på objekt – strängexemplen (`toUpperCase`, `trim`, `includes`, `startsWith`)
-- §Kedja metoder
-
-**Nytt**
-
-- Index och enskilda tecken (`text[0]`, `at(-1)`)
-- `toLowerCase`, `indexOf`, `slice`, `replace`/`replaceAll`
-- Strängar går inte att ändra: metoder returnerar en *ny* sträng
-- Interaktivt: `input`-händelsen + `length` → teckenräknare
-
-**Flyttas ut:** `split` och `join` väntar till kap. 10, eftersom `split` returnerar en array.
-
-**Övningar**
-
-- Från: Ö 3.3 *Metoder i kedja*, Ö 3.4 *Egenskaper eller metoder?*
-- Nya, interaktiva: teckenräknare för en textruta; initialer ur för- och efternamn; förhandsvisning som trimmar och formaterar texten medan man skriver
-
-### Kap. 8 – Villkor *(g5 + delar av g2, g6, g9, g10)*
-
-Booleska värden och deras operatorer flyttar hit, som du föreslog. Kapitlet heter *Villkor*.
-
-**Scenario:** behåll g5 §Programmet som fattar beslut (betygsprogrammet) – men nu med ett inmatningsfält och en knapp, så att färgen kan sättas direkt (den gamla framåthänvisningen till kap. 6 försvinner).
-
-**Del 1 – Sant och falskt**
-
-- g2 §Sanningsvärden – `boolean` (typen, George Boole)
-- g5 §Jämförelseoperatorer, §Strikt jämförelse, §Jämförelse av strängar; rutan `null` vs `undefined` från g2
-- g5 §Logiska operatorer, §`&&`, §`||`, §`!`, §Kortslutningsutvärdering
-- g5 §Truthy och falsy + g2 §Explicit konvertering (delen om `Boolean()`), stycket om att `&&`/`||` returnerar operander
-
-**Del 2 – Villkorssatser**
-
-- g5 §`if`-satsen, rutan *Indentering*, §`else`, §`else if`, rutan *Ordningen spelar roll*
-- g5 §Ternäroperatorn, §`switch`-satsen, §Nästlade villkor
-- g9 §Funktioner med villkorssatser, §Early return (funktioner finns ju redan nu)
-
-**Del 3 – Villkor på webbsidan**
-
-- g6 inledningsscenario och §Visa och dölja med villkor; godkänd/underkänd-klasserna; `classList.contains` i villkor; `toggle(namn, villkor)` som alternativ till `if`/`else`
-- g10 §Tangentbordshändelser, §Reagera på specifika tangenter (rutan som flyttas), rutan *Vanliga tangentnamn*
-- Nytt: enkel validering av inmatning – tomt fält, `Number.isNaN` för ogiltiga tal (följer upp kap. 6)
-
-**Övningar** – här finns många kandidater; välj och slå ihop:
-
-- Från g5: Ö 5.1 *Spåra exekveringen*, Ö 5.2 *Hitta felet* (skottår), Ö 5.3 *Formulera villkoren*, Ö 5.4 *`if/else` eller ternär?*, Ö 5.5 *Logiktabellen*, Ö 5.6 *Betyg på sidan*
-- **Temperaturtråden:** slå ihop Ö 5.7, Ö 6.2 och Ö 9.3 till *en* progressiv övning: funktion `klassificera(temperatur)` → visa text → lägg till CSS-klass → läs temperaturen från ett fält (bygger vidare på omvandlaren i kap. 6)
-- Från g6: Ö 6.1 *Betyg med färgkodning* (kan slås ihop med Ö 5.6), Ö 6.3 *Villkorligt hjälpmeddelande*, Ö 6.5 *Quiz med visuell feedback* (nu med textfält och knapp)
-- Från g9: Ö 9.5 *Refaktorera med funktioner*
-- Från g10: Ö 10.1 andra delen (räknaren får inte gå under 0), Ö 10.2 steg 2 (knappens text), Ö 10.3 *Tangentbordsrörelser*
-
-### Kap. 9 – Loopar *(g7)*
-
-I stort sett oförändrat.
-
-- Rutan §`i++` och `i += 1` ersätts av en kort påminnelse (flyttad till kap. 2)
-- §`break` använder fortfarande en array före arraykapitlet, som tidigare – rutan *Vad är `[82, 91, …]`?* behålls
-- §`do...while`: `prompt` är ett udda inslag när studenterna redan kan läsa från formulärfält – överväg ett annat exempel
-- Övningar: gör några interaktiva – Ö 7.6 *Nedräkning på sidan* och Ö 7.7 *FizzBuzz på sidan* kan läsa `n` från ett fält. Ny: multiplikationstabell för ett tal som användaren anger. Hänvisningen "(7.3)" i Ö 7.7 ändras till nya numret.
-
-### Kap. 10 – Arrayer *(g8 + andra halvan av g10)*
-
-**Från g8:** hela kapitlet.
-
-**Från g10**
-
-- §`event.target` (färgknapparna) – placeras efter §Arrayer och DOM: `querySelectorAll`
-- §Händelser och arrayer (lyssnare i en loop)
-- §Ett interaktivt quiz – kapitlets avslutande exempel
-
-**Nytt**
-
-- `split` och `join` (flyttat från strängkapitlet), med ett interaktivt exempel: en kommaseparerad lista i ett textfält blir en lista på sidan
-
-**Övningar**
-
-- Från g8: alla (Ö 8.6 kan byta `.style.backgroundColor` mot en CSS-klass)
-- Från g10: Ö 10.4 *Live-sökning*, Ö 10.5 *Interaktivt quiz*, Ö 10.6 *Färgväljare* (se beslut 5 om `dataset`)
-
-### Kap. 11 – Objekt *(g11)*
-
-Minimala ändringar.
-
-- §En student är mer än ett namn: "Redan i kapitel 2 fick du en första bekantskap" stämmer fortfarande – men stycket om vad studenterna redan sett behöver nämna objektliteralen från kap. 2
-- §Skapa ett objekt och §Läsa egenskaper upprepar delvis kap. 2 – korta dem till en påminnelse och gå snabbare vidare till hakparentesnotation
-- Rutan §`const` och objekt kortas till en hänvisning till kap. 2
-- Ö 11.3 och Ö 11.7 upprepar Live-sökningen från kap. 10 – gör den ena till en uttalad vidareutveckling ("Gå tillbaka till övning 10.x …")
-
-## Följdändringar
-
-- **`_quarto.yml`:** ny kapitellista i Del I.
-- **Kapitel-id:** behåll `sec-om-javascript`, `sec-variabler`, `sec-dom-intro`, `sec-funktioner`, `sec-handelser`, `sec-villkor`, `sec-loopar`, `sec-arrayer`, `sec-objekt`. Nya: `sec-tal`, `sec-strangar`. Två försvinner:
-  - `sec-anropa-funktioner` → ersätts med `sec-funktioner` (används i `kap01:95`, `kap09:5`, `kap09:71`)
-  - `sec-stil` → ersätts med `sec-dom-intro` (används i `kap10:182`, `kap10:203`)
-- **Korsreferensernas riktning:** numren uppdateras automatiskt, men *formuleringarna* gör det inte. "Som du lärde dig i kapitel X" kan bli fel när X nu kommer efter, till exempel g9:s "Det betygsprogram vi byggde i kapitel 5". Gå igenom alla `[-@sec-…]` i Del I efter omarbetningen.
-- **Handskrivna övningsnummer** (genereras av filtret och följer inte med automatiskt):
-  - `kap04:276` "övning 2.5" (stämmer fortfarande), `kap04:282` "övning 4.2" (blir 3.x)
-  - `kap07:391` "(7.3)" (blir 9.x)
-  - `kap01:330` "övning 1.3" (oförändrad)
-  - **Del II:** `kap-dom-traversering:373` hänvisar till "övning 10.6" (Färgväljaren) – blir 10.x i det nya arraykapitlet
-- **Del II/III om Del I:** `kap-dom-traversering` påstår att kap. 10 introducerade `data-`-attribut och `dataset` (se beslut 5).
-- **`del1-sammanfattning.qmd`:** beskrivningen av de två spåren stämmer fortfarande; kontrollera "I elva kapitel".
-- **`CLAUDE.md`:** uppdatera raden om Del I under *Content Plan*.
-- **AI-rutor:** de nya kapitlen 6 och 7 behöver egna; kap. 3, 4 och 8 behöver sammanslagna.
-- **Sammanfattningar och kapitelövergångar:** varje kapitels "I nästa kapitel …" skrivs om.
-
-## Beslut att fatta
-
-1. **Stil i DOM-kapitlet eller eget kapitel?** Förslaget slår ihop g4 och g6 till kap. 3 (≈ 3 800 ord). Alternativet är ett eget stilkapitel som kap. 4, men då kommer händelser först i kap. 6.
-2. ~~**Var introduceras pilfunktioner?**~~ **Beslutat (ändrat):** i kap. 5, där anonyma callbacks gör dem nödvändiga. Kap. 4 visar i stället att funktioner är värden.
-3. ~~**Är *Villkor* för stort?**~~ **Beslutat:** delat i kap. 8 *Sant och falskt* och kap. 9 *Villkorssatser*. Del I har tolv kapitel.
-4. **`event.target` i kap. 5 eller kap. 10?** Förslaget: kap. 10, där det behövs (en lyssnare per element i en loop). I kap. 5 räcker `event.type` och idén om ett händelseobjekt.
-5. ~~**`dataset`:** introducera `data-`-attribut kort i kap. 10 (så att Ö 10.6 och påståendet i `kap-dom-traversering` stämmer), eller ändra övningen så att den använder `value` som exemplet i kapitlet?~~ **Beslutat:** övningen använder `value`, och `kap-dom-traversering` motiverar `data-` på egen hand (FLYTTLISTA punkt 9).
-6. **En röd tråd?** Quizet finns redan i flera kapitel och kan växa genom hela Del I:
-   - kap. 2: variabler för lag och poäng
-   - kap. 3: poängtavlan på sidan
-   - kap. 4: funktionen `visaPoäng`
-   - kap. 5: knappar som ger poäng
-   - kap. 6: procent rätt
-   - kap. 7: rensat lagnamn
-   - kap. 8: rätt/fel-feedback
-   - kap. 9–10: flera frågor i en array
-   - kap. 11: frågor som objekt
-
-   Det kräver fler omskrivna exempel men ger ett starkt sammanhang. Ett mellanläge är att använda quizet i kapitlens inledningar och låta övningarna variera.
-
-## Föreslagen arbetsordning
-
-Varje steg blir ett eget kapitel att granska innan nästa påbörjas.
-
-1. Kap. 2 (bantning) och kap. 3 (sammanslagning) – de är förutsättningar för resten.
-2. Kap. 4 (sammanslagning av g3 och g9).
-3. Kap. 5 (g10 delas).
-4. Kap. 6 och 7 (nya kapitel – mest ny text).
-5. Kap. 8 (sammanslagning från fem källor).
-6. Kap. 9–11 (mindre justeringar).
-7. Följdändringar: `_quarto.yml`, korsreferensernas formuleringar, övningsnummer, sammanfattning av Del I, `CLAUDE.md`.
+| 1 JavaScript och webbläsaren | ≈ 3 700 | |
+| 2 Värden och variabler | ≈ 3 350 | |
+| 3 Att använda funktioner | ≈ 1 700 | Klart (från ≈ 3 300) |
+| 4 Din kod möter webbsidan | ≈ 2 650 | |
+| 5 Att skriva egna funktioner | ≈ 3 800 | |
+| 6 Händelser | ≈ 3 000 | |
+| 7 Tal och text | ≈ 4 000 | Nästa |
+| 8 Sant och falskt | ≈ 2 400 | |
+| 9 Villkorssatser | ≈ 2 650 | |
+| 10 Loopar | ≈ 2 750 | |
+| 11 Arrayer | ≈ 2 950 | |
+
+Föreslagen ordning: kap. 7, 5 och 1 (mest text), sedan resten av Del I.
