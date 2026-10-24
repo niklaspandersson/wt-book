@@ -8,20 +8,12 @@ Lösningar till övningarna i kapitel [-@sec-anropa-funktioner].
 
 ## Stanna upp-frågorna
 
-**Vad är en funktion?**
-
-1. Ta en biljettautomat. Det du skickar med är valet av biljett, till exempel *Vuxen, enkel resa*, och betalningen. Tillbaka får du en biljett. Automaten är alltså en maskin som ger något tillbaka, som kaffebryggaren. En tvättmaskin är mer som dörrklockan: du väljer program och stoppar in tvätten, och maskinen *gör* något med tvätten, men du får inget nytt tillbaka.
-2. `alert` liknar dörrklockan. Den *gör* något – visar en ruta – men ger inget användbart tillbaka.
-
-**Att anropa en funktion**
-
-1. Funktionen får värdet `15`. JavaScript räknar ut uttrycket först, och funktionen ser bara resultatet.
-
 **Returvärden**
 
-1. Ungefär: när funktionen är klar är det som om anropet hade suddats ut ur koden och ersatts av värdet som funktionen gav tillbaka. Resten av raden fortsätter sedan med det värdet.
-2. `svar` pekar på `undefined`. `alert` visar rutan men returnerar ingenting. Det upptäcker du först när du har klickat bort rutan, för det är först då anropet är klart.
-3. I konsolen visas alltid värdet av det man skriver in. I en fil finns ingen som visar värdet. Funktionen körs och returnerar `19`, men ingen sparar, skickar vidare eller skriver ut det, så det försvinner.
+1. Ta en biljettautomat. Det du skickar med är valet av biljett, till exempel *Vuxen, enkel resa*, och betalningen. Tillbaka får du en biljett. Automaten är alltså en maskin som ger något tillbaka, som kaffebryggaren. En tvättmaskin är mer som dörrklockan: du väljer program och stoppar in tvätten, och maskinen *gör* något med tvätten, men du får inget nytt tillbaka.
+2. Ungefär: när funktionen är klar är det som om anropet hade suddats ut ur koden och ersatts av värdet som funktionen gav tillbaka. Resten av raden fortsätter sedan med det värdet.
+3. `svar` pekar på `undefined`. `alert` liknar alltså dörrklockan: den *gör* något – visar en ruta – men ger inget användbart tillbaka. Det upptäcker du först när du har klickat bort rutan, för det är först då anropet är klart.
+4. I konsolen visas alltid värdet av det man skriver in. I en fil finns ingen som visar värdet. Funktionen körs och returnerar `19`, men ingen sparar, skickar vidare eller skriver ut det, så det försvinner.
 
 **Metoder – funktioner i objekt**
 

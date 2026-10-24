@@ -84,6 +84,8 @@ The book tends to over-explain. Every rule above tells us what to add. This sect
 - **Define terms briefly.** "Every term is explained" means a short definition where the term is first needed, not a paragraph.
 - **Trust the activities.** Do not pre-empt every possible confusion in the prose. Cover the known misconceptions (PEDAGOGIK.md §5) once, then leave the rest to *Stanna upp* boxes and exercises.
 
+**Don't keep text for other chapters' sake.** When tightening a chapter, judge each passage only by what this chapter needs. If another chapter refers to something you cut, leave that chapter alone and record the stale reference in [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md). Fix the reference when that chapter is reviewed, and strike the entry.
+
 **Budget.** Chapter prose, excluding code blocks and exercises, should rarely exceed about 2,500 words. A chapter that grows past that is covering too much or saying it too often.
 
 **Revision pass.** Before finishing a section, reread it and delete sentences that repeat the previous one, analogy extensions, meta-comments, hedges and unneeded back-references. MDN's [Functions](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Functions) article is a useful reference for density, though not for pedagogy. Our chapters keep their notional machine, misconceptions and check questions.
