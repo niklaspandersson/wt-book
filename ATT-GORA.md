@@ -25,6 +25,19 @@
 - *Valfritt:* låt quizet vara en röd tråd genom hela Del I. Exemplen växlar i dag mellan quiz, lag, biljetter och moms.
 - *Valfritt:* ett kort stycke i kap. 1 om att programmering är svårt och att det är normalt (inspirerat av inledningen till *Eloquent JavaScript*, CC BY-NC). Väg mot *Prose density* i CLAUDE.md.
 
+## Enhetlighet i Del I
+
+Kap. 6–11 följer kapitelmallen i CLAUDE.md. Kap. 1–5 skrevs före mallen och följer den bara delvis. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
+
+- ***Stanna upp*-rutor saknas i kap. 1, 2, 4 och 6.** Kap. 3 introducerar rutorna som något återkommande, men nästa ruta kommer först i kap. 5.
+- **Lösta exempel med namngivna delmål** (PEDAGOGIK §4) börjar först i kap. 6. Kap. 1–5 saknar dem; kap. 4 behöver det mest. I kap. 8 används femstegsmönstret, men avsnittet har inte rubriken *Ett löst exempel*.
+- **Pilbilden** (PEDAGOGIK §5) används i kap. 2–5 men inte i kap. 6–11, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 10 och för arrayen och `const` i kap. 11.
+- ***Vad säger felet?*** finns i kap. 3–7 och 9–11. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 8 saknar en.
+- **Kap. 1 har sex övningar** och varken *Förklara koden* eller *Ordna raderna*, medan de andra kapitlen har 8–13.
+- **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 3 (en analogi, ingen situation), kap. 9 (betyg i en kurs).
+- **Småsaker:** kap. 5 har sin övningssida i en ruta i stället för avsnittet *En sida att öva på*; kap. 4 har övningar på egna sidor utan rubriken *Egna sidor*.
+- **Läs i följd.** Läs kap. 3 → 4 → 5 och 8 → 9 i ett svep för att se om övergångar och ton håller ihop. Kap. 3 är kortast (≈ 1 700 ord) efter kortningen.
+
 ## Innehåll att se över i nästa iteration
 
 Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas ut. Det gås igenom i en egen iteration när kortningen är klar. Det är förslag, inga beslut.

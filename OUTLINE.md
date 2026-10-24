@@ -165,7 +165,7 @@ Tolv kapitel på åtta undervisningsveckor. JSON kommer före fetch, så att `JS
 
 Boken skrevs först som ett utkast i kronologisk ordning. Hösten 2026 omarbetades Del I i flera steg. Webbkapitlen (DOM och händelser) flyttades tidigt, så att språkkapitlen kan använda interaktiva exempel. Funktionskapitlet delades i att använda och att skriva funktioner. Del I kortades för att rymmas i Webbteknik 2: tal och strängar slogs ihop, objekt flyttades till Del III och fördjupningar blev *Bra att veta*-rutor. Kap. 1–11 och kapitlet *Objekt* granskades sedan mot forskningen i PEDAGOGIK.md (övningsordning, Parsons-problem, spårtabeller, lösta exempel, *Stanna upp*-rutor), och alla övningar fick lösningsförslag. Detaljerna finns i git-historiken.
 
-## Pågående iteration: kortare brödtext (oktober 2026)
+## Iteration: kortare brödtext (oktober 2026, klar för Del I)
 
 Kapitlen förklarar för mycket och för många gånger, och studenterna riskerar att tappa fokus. Brödtexten kortas därför ett kapitel i taget enligt *Prose density* i CLAUDE.md: varje poäng sägs en gång, analogier hålls korta, och sidospår flyttas till felavsnittet, övningarna eller bort. Text behålls inte för att andra kapitel hänvisar till den. Samtidigt noteras i [ATT-GORA.md](ATT-GORA.md), under *Innehåll att se över i nästa iteration*, var kapitlet kunde ändras eller byggas ut. Det tas i en egen iteration när kortningen är klar. Sådana hänvisningar samlas i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md) och rättas när det hänvisande kapitlet ses över.
 
@@ -186,3 +186,46 @@ Brödtext före övningarna, utan kodblock:
 | 11 Arrayer | ≈ 2 600 | Klart (från ≈ 2 950) |
 
 Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare kapitel påverkar de senare. Kap. 3 och 5 gjordes först, som pilot. Råder det minsta tvekan om ett avsnitt ska flyttas eller strykas, avgör författaren.
+
+## Nästa iteration: omstrukturering av Del I (planerad, ej påbörjad)
+
+**Varför.** Webbteknik 2 blir för tung i veckorna med kap. 5–11 om alla övningar görs (uppskattat ≈ 100 timmar bokarbete för Del I och *Tid och animationer*). Tiden går framför allt till övningarna, inte till läsningen. Målet är kapitel som tar 4–6 timmar var med kärnövningarna, och ett innehåll som kommer där det behövs.
+
+**Beslutat:**
+
+1. **Kap. 7 *Tal och text* delas i två kortare kapitel: *Text* och sedan *Tal*.** Text först, eftersom *Tal* (momsräknaren) använder templatesträngar och *Text* inte behöver något från *Tal*. Båda måste komma före *Sant och falskt*, som använder `trim`, `length` och `Number()`. `split` och `join` flyttas in i *Text* (arrayernas grunder finns då redan, se punkt 2).
+2. **Arrayernas grunder flyttas till kap. 2:** arrayliteraler, index från 0, `length` och en array som egenskap i ett objekt (cirka 300 ord). Villkor för flytten: något måste använda arrayer före arraykapitlet, till exempel quizfrågan som objekt med en array av alternativ i kap. 2, `split`/`join`/`includes` i *Text*, och korta listor i exempel. Arraykapitlet behåller `push`/`pop`, loopar över arrayer, sökning, mönstret för det största och arrayer av objekt.
+3. **Ett nytt händelsekapitel efter arraykapitlet** (arbetsnamn *Händelser och många element*). Innehåll: event-objektet (flyttas från kap. 6), tangenthändelser och `e.key` (flyttas från *Villkorssatser*), `querySelectorAll`, lyssnare i en loop, `e.target` och quizknapparna (flyttas från arraykapitlet), samt **bubbling och delegering**. Delegering – en lyssnare på listan i stället för en per element – passar ihop med `e.target` och är enklare än lyssnare i en loop. Det tillför uppskattningsvis 500–700 ord.
+4. **Funktionsuttryck ligger kvar** där de är (`function () { … }` som anonym callback i kap. 6, sedan pilfunktioner).
+
+**Föreslagen ordning** (≈ timmar med kärnövningar):
+
+| # | Kapitel | Ändring | ≈ |
+|---|---|---|---|
+| 1 | JavaScript och webbläsaren | – | 4 h |
+| 2 | Värden och variabler | + arrayernas grunder | 5,5 h |
+| 3 | Att använda funktioner | – | 4 h |
+| 4 | Din kod möter webbsidan | – | 5,5 h |
+| 5 | Att skriva egna funktioner | – | 6 h |
+| 6 | Händelser | − event-objektet | 5,5 h |
+| 7 | Text | från gamla kap. 7, + `split`/`join` | 4,5 h |
+| 8 | Tal | från gamla kap. 7 | 4,5 h |
+| 9 | Sant och falskt | – | 5 h |
+| 10 | Villkorssatser | − tangenthändelser | 5 h |
+| 11 | Loopar | – | 5,5 h |
+| 12 | Arrayer | − grunderna, − `querySelectorAll` och händelser i en loop | 5 h |
+| 13 | Händelser och många element | nytt (se punkt 3) | 5–6 h |
+| – | Tid och animationer (Del II) | – | 5 h |
+
+Totalt cirka 70 timmar med kärnövningar, plus cirka 30 timmar extraövningar som kan göras till exempel under lovveckorna. Hur kapitlen fördelas på veckor bestäms för kursen som helhet, inte här.
+
+**Väntar tills ordningen är genomförd:**
+
+- **Kärn- och extraövningar.** Varje kapitels övningar ska delas i kärna och extra. En möjlig regel: läsövningarna (förutsäg, spåra, felet, förklara, Parsons) plus en övning som ändrar eller bygger är kärna, resten extra. Övningstrådarna som bygger på varandra (poängtavlan kap. 4 → 5 → 6 → 7, temperaturen 7 → 9, mörkt läge 4 → 6 → 9, lagnamnet 7 → 8, knappräknaren 6 → 8) kan helt eller delvis bli extra. En kärnövning får aldrig kräva en extraövning.
+
+**Följdändringar att komma ihåg:**
+
+- Filnamn, `_quarto.yml`, korsreferenser (`sec-…`), övningssidornas mappar och handskrivna övningsnummer förskjuts när kapitlen blir tretton.
+- Lösningsfilerna följer med det innehåll som flyttas, och de två nya kapitlen behöver egna (`losn…`), liksom inledning, sammanfattning och AI-ruta.
+- Kursplanen för Webbteknik 3 (avsnittet ovan) tar upp händelsebubbling och delegering i *Händelser och DOM-trädet*. Kapitlet `kap-handelser-djupet.qmd` behöver då bara propageringens faser, `preventDefault` och `removeEventListener`.
+- Punkterna under *Enhetlighet i Del I* och *Innehåll att se över i nästa iteration* i ATT-GORA.md bör tas med i omstruktureringen där de berör flyttat innehåll (till exempel event-objektet, `%`, kap. 7 och 11 över budget).
