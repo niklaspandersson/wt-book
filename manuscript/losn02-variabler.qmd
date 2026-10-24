@@ -34,7 +34,7 @@ Jämför också rad 1 och rad 3. I båda slås en sträng ihop med ett tal, och 
 | `0` | `number` | noll är ett tal som alla andra |
 | `{ poäng: 0 }` | `object` | klammerparenteser och en egenskap |
 
-`null` är sin egen typ, men `typeof null` ger `"object"`. Det är det historiska felet i JavaScript som kapitlet beskriver. Om du svarade "object" och fick rätt i konsolen har du alltså hittat buggen.
+`null` är sin egen typ, men `typeof null` ger `"object"`. Det är ett fel som har funnits sedan JavaScripts första version. Det rättas aldrig, eftersom gamla webbsidor som räknar med det då skulle sluta fungera. Om du svarade "object" och fick rätt i konsolen har du alltså hittat buggen.
 
 `"false"` och `false` ser lika ut, men det ena är fem bokstäver och det andra är ett sanningsvärde. Det som avgör är citattecknen. Med citattecken är det text, och för JavaScript är texten `"false"` inte mer falsk än texten `"banan"`. Samma sak gäller `"3.14"` och `3.14`. Skillnaden blir viktig när du börjar läsa vad användaren skriver i formulär, eftersom det alltid kommer som text.
 

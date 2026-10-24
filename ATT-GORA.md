@@ -18,7 +18,6 @@
 ## Del I
 
 - **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 5 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 4 och 6–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Kap. 4 rad 68 hänvisar till Live Server "som i kapitel 1". Görs i samband med att respektive kapitel kortas.
-- **Kap. 2: tilldelning utan deklaration.** Utan moduler körs skripten inte i strikt läge. En tilldelning till ett namn som inte är deklarerat, till exempel en felstavning som `poang = poäng + 1;`, skapar då tyst en ny global variabel i stället för att ge `ReferenceError`. Lägg till en kort anmärkning där kap. 2 lär ut `let` och `const`: deklarera alltid, för ett stavfel här ger inget felmeddelande. Inför inte `"use strict"`. Görs när kap. 2 kortas.
 - **Stanna upp-rutor saknas i kap. 4 och 6.**
 - **Kap. 4 saknar ett löst exempel med namngivna delmål.** Femstegsmönstret från kap. 6 kunde användas i en enklare form (*hämta → bearbeta → visa*).
 - **Övningen *Frågornas typer* i kap. 10** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
@@ -29,6 +28,35 @@
 - **Del I-sammanfattningen** är bara en kort text. Den kunde bli ett repetitionskapitel med blandade övningar från hela Del I (PEDAGOGIK §8).
 - *Valfritt:* låt quizet vara en röd tråd genom hela Del I. Exemplen växlar i dag mellan quiz, lag, biljetter och moms.
 - *Valfritt:* ett kort stycke i kap. 1 om att programmering är svårt och att det är normalt (inspirerat av inledningen till *Eloquent JavaScript*, CC BY-NC). Väg mot *Prose density* i CLAUDE.md.
+
+## Innehåll att se över i nästa iteration
+
+Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas ut. Det gås igenom i en egen iteration när kortningen är klar. Det är förslag, inga beslut.
+
+### Kap. 1 JavaScript och webbläsaren
+
+- **Ingen textredigerare nämns längre.** VS Code kom bara in via Live Server, som är borttaget. Studenterna behöver veta vilket program de skriver HTML-filen i, hur de sparar den och hur de öppnar den i webbläsaren. Behövs senast inför kap. 4, där filer används första gången. Kanske en kort ruta i kap. 1 eller i kap. 4.
+- **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter *Uttryck och satser* och efter *När något går fel*.
+- **`console.log` och "inget värde".** Kap. 1 säger att `console.log("…")` är en sats som inte ger något värde. Kap. 3 säger att `console.log` returnerar `undefined`. Båda går att försvara, men bilderna bör stämma överens. Överväg att kap. 1 säger "ger värdet `undefined`, alltså inget värde".
+- **Första egna sidan.** Övningen *Läs koden innan du kör den* kunde avslutas med att studenten lägger raden i ett `<script>`-element sist i `<body>` och ser att ändringen nu finns kvar efter omladdning. Det övar avsnittet *Att koppla JavaScript till en HTML-sida*, som ingen övning använder i dag.
+
+### Kap. 2 Värden och variabler
+
+- **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter tilldelning med `let`, efter `const` och objekt.
+- **Rutan *Deklarera alltid* saknar övning.** Lägg till en rad med en felstavad, odeklarerad tilldelning i *Vilka rader ger fel?* eller *Spåra poängen*, där studenten ska upptäcka att inget felmeddelande kommer.
+- **Två namn, samma värde.** Pilbilden visar bara ett namn som pekas om. Ett exempel där `bonus = poäng;` följs av att `poäng` ändras (finns i övningen *Spåra poängen*) kunde stå i texten, som förberedelse för referenser i kapitlet *Objekt*.
+- **Inget löst exempel.** Poängtavlan som ett objekt som uppdateras steg för steg kunde fylla den rollen.
+
+### Kap. 3 Att använda funktioner
+
+- **`prompt` returnerar alltid text.** Kapitlet säger det inte. Det knyter an till kap. 2 ("allt användaren skriver kommer som text") och förbereder `Number()` i kap. 7. En mening och en rad i *Vad svarar konsolen?* skulle räcka.
+- **Nya möjligheter utan moduler:** övningar där studenten anropar funktioner från konsolen på en sida med eget skript blir möjliga från kap. 4.
+
+### Kap. 5 Att skriva egna funktioner
+
+- **Var spårtabellen ska stå.** *Följ ett anrop steg för steg* ligger kvar i brödtexten. Enligt regeln om lösta exempel kunde den flyttas till övningen *Spåra exekveringen*. Författaren avgör.
+- **Konsolen som verktyg.** Nu när skriptets funktioner nås från konsolen kunde en övning låta studenten anropa sina funktioner där med olika argument, som ett sätt att testa dem.
+- **Inget löst exempel med namngivna delmål.** Spårtabellen fyller delvis den rollen.
 
 ## Del II–III
 

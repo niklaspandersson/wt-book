@@ -167,14 +167,14 @@ Boken skrevs först som ett utkast i kronologisk ordning. Hösten 2026 omarbetad
 
 ## Pågående iteration: kortare brödtext (oktober 2026)
 
-Kapitlen förklarar för mycket och för många gånger, och studenterna riskerar att tappa fokus. Brödtexten kortas därför ett kapitel i taget enligt *Prose density* i CLAUDE.md: varje poäng sägs en gång, analogier hålls korta, och sidospår flyttas till felavsnittet, övningarna eller bort. Text behålls inte för att andra kapitel hänvisar till den. Sådana hänvisningar samlas i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md) och rättas när det hänvisande kapitlet ses över.
+Kapitlen förklarar för mycket och för många gånger, och studenterna riskerar att tappa fokus. Brödtexten kortas därför ett kapitel i taget enligt *Prose density* i CLAUDE.md: varje poäng sägs en gång, analogier hålls korta, och sidospår flyttas till felavsnittet, övningarna eller bort. Text behålls inte för att andra kapitel hänvisar till den. Samtidigt noteras i [ATT-GORA.md](ATT-GORA.md), under *Innehåll att se över i nästa iteration*, var kapitlet kunde ändras eller byggas ut. Det tas i en egen iteration när kortningen är klar. Sådana hänvisningar samlas i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md) och rättas när det hänvisande kapitlet ses över.
 
 Brödtext före övningarna, utan kodblock:
 
 | Kapitel | Ord | Status |
 |---|---|---|
 | 1 JavaScript och webbläsaren | ≈ 2 650 | Klart (från ≈ 3 700) |
-| 2 Värden och variabler | ≈ 3 350 | |
+| 2 Värden och variabler | ≈ 2 450 | Klart (från ≈ 3 350) |
 | 3 Att använda funktioner | ≈ 1 700 | Klart (från ≈ 3 300) |
 | 4 Din kod möter webbsidan | ≈ 2 650 | |
 | 5 Att skriva egna funktioner | ≈ 2 600 | Klart (från ≈ 3 800) |
