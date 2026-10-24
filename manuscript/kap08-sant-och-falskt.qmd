@@ -6,17 +6,17 @@ Tänk dig ett anmälningsformulär till quizkvällen. Laget skriver sitt namn oc
 
 - Knappen "Anmäl" är grå och går inte att klicka på förrän laget har skrivit ett namn.
 - Ett varningsmeddelande dyker upp om laget har fler än sex deltagare.
-- Ett annat varningsmeddelande dyker upp om lagnamnet är längre än 20 tecken – det problem som blev kvar i kapitel [-@sec-tal-och-text].
+- Ett annat varningsmeddelande dyker upp om lagnamnet är längre än 20 tecken.
 
 Allt det bygger på frågor som har exakt två möjliga svar. *Är namnfältet tomt?* *Är antalet större än sex?* *Är namnet för långt?* Ja eller nej. Sant eller falskt.
 
-Den sortens frågor är grunden för allt beslutsfattande i program. I det här kapitlet lär du dig att *formulera* frågorna i kod: att jämföra värden, att kombinera flera frågor till en, och att använda svaren direkt på webbsidan. I nästa kapitel lär du dig att låta programmet välja olika vägar beroende på svaret.
+Svaren på sådana frågor kallas **booleska värden**: `true` (sant) eller `false` (falskt). De är grunden för allt beslutsfattande i program.
 
 ---
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap08`, och spara den här koden som `index.html` i den:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap08`:
 
 ```html
 <!DOCTYPE html>
@@ -24,7 +24,6 @@ Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap08`, och 
 <head>
     <meta charset="UTF-8">
     <title>Sant och falskt</title>
-    <script type="module" src="script.js"></script>
     <style>
         body {
             font-family: sans-serif;
@@ -57,27 +56,31 @@ Gör en ny övningssida för kapitlet. Skapa en mapp, till exempel `kap08`, och 
     <input type="text" id="svar" placeholder="Ditt svar">
     <p id="svarsvarning" class="varning" hidden>Svaret är för långt.</p>
     <button id="skicka">Skicka</button>
+
+    <script>
+        console.log("Skriptet körs!");
+    </script>
 </body>
 </html>
 ```
 
-Skapa sedan `script.js` i samma mapp, med raden `console.log("Skriptet körs!");`, och öppna sidan med Live Server. Knappen *Anmäl* är redan grå: attributet `disabled` i HTML-koden gör den avstängd från början. I slutet av kapitlet är det din kod som bestämmer när den går att klicka på.
+Knappen *Anmäl* är redan grå: attributet `disabled` i HTML-koden gör den avstängd från början. I slutet av kapitlet är det din kod som bestämmer när den går att klicka på.
 
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
 - Korta jämförelser som `10 > 5;` provar du enklast direkt i konsolen, där svaret syns direkt.
-- Exempel och övningar som hämtar element från sidan skriver du i `script.js`. Alla element de använder finns redan på övningssidan.
-- Töm `script.js` innan du börjar på ett nytt exempel eller en ny övning.
+- Exempel och övningar som hämtar element från sidan skriver du i `<script>`-elementet. Alla element de använder finns redan på övningssidan.
+- Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning.
 :::
 
 ---
 
 ## Booleska värden
 
-I kapitel [-@sec-variabler] mötte du **booleska värden** (*boolean values*), som bara kan vara ett av två: `true` (sant) eller `false` (falskt). Typen har fått sitt namn efter George Boole, en engelsk matematiker som på 1800-talet beskrev hur man kan räkna med just sant och falskt.
+Booleska värden (*boolean values*) har fått sitt namn efter George Boole, en engelsk matematiker som på 1800-talet beskrev hur man räknar med sant och falskt.
 
-Booleska värden kan skrivas direkt i koden, som när du satte `hidden = true` i kapitel [-@sec-dom-intro]. Men oftast uppstår de när man **jämför** två värden. En jämförelse är ett uttryck som blir antingen `true` eller `false`:
+Booleska värden kan skrivas direkt i koden, som i `hidden = true`. Men oftast uppstår de när man **jämför** två värden. En jämförelse är ett uttryck som blir antingen `true` eller `false`:
 
 ```javascript
 10 > 5;            // true  – tio är större än fem
@@ -128,7 +131,7 @@ Att blanda ihop dem är ett av de vanligaste misstagen i början, eftersom likhe
 
 ### Använd tre likhetstecken
 
-JavaScript har också en äldre jämförelse med *två* likhetstecken, `==`. Den gör om värdena innan den jämför, på samma sätt som du såg med `+` och `-` i kapitel [-@sec-tal-och-text] – och resultaten kan bli förvånande:
+JavaScript har också en äldre jämförelse med *två* likhetstecken, `==`. Den gör om värdena innan den jämför, på samma sätt som `+` och `-` gör med blandade typer, och resultaten kan förvåna:
 
 ```javascript
 5 === "5";    // false – ett tal och en sträng är olika saker
@@ -140,7 +143,7 @@ JavaScript har också en äldre jämförelse med *två* likhetstecken, `==`. Den
 
 ### Jämföra strängar
 
-`===` fungerar på strängar precis som på tal: två strängar är lika om de innehåller exakt samma tecken. Men det betyder också att stora och små bokstäver, och mellanslag, spelar roll. Svarar någon `" stockholm"` på en quizfråga vill du troligen ändå räkna det som rätt. Lösningen är att städa texten med metoderna från kapitel [-@sec-tal-och-text] innan du jämför:
+`===` fungerar på strängar precis som på tal: två strängar är lika om de innehåller exakt samma tecken. Men det betyder också att stora och små bokstäver, och mellanslag, spelar roll. Svarar någon `" stockholm"` på en quizfråga vill du troligen ändå räkna det som rätt. Lösningen är att städa texten med `trim` och `toLowerCase` innan du jämför:
 
 ```javascript
 const svar = "  stockholm ";
@@ -155,7 +158,7 @@ Operatorerna `<` och `>` fungerar också på strängar, och jämför då tecken 
 Number("10") < Number("9");   // false – talet 10 är inte mindre än 9
 ```
 
-Som strängar jämförs bara första tecknet först, och `"1"` kommer före `"9"`. Gör därför om värden från formulärfält till tal med `Number()` innan du jämför dem, precis som du lärde dig i kapitel [-@sec-tal-och-text].
+Som strängar jämförs bara första tecknet först, och `"1"` kommer före `"9"`. Gör därför om värden från formulärfält till tal med `Number()` innan du jämför dem.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -249,7 +252,7 @@ Läs uttrycket högt: "har biljett, *och* antingen över 18 eller har målsman m
 ::: {.callout-note}
 ## Bra att veta: truthy och falsy
 
-Hittills har jämförelserna och de logiska operatorerna arbetat med `true` och `false`. Men JavaScript kan behandla *alla* värden som sanna eller falska när det behövs ett ja eller nej. Värdena `false`, `0`, `""` (tom sträng), `null`, `undefined` och `NaN` räknas som falska och kallas **falsy**. Alla andra värden räknas som sanna och kallas **truthy** – även `"0"` och `" "`, som kan se tomma ut men inte är det.
+JavaScript kan behandla *alla* värden som sanna eller falska när det behövs ett ja eller nej. Värdena `false`, `0`, `""` (tom sträng), `null`, `undefined` och `NaN` räknas som falska och kallas **falsy**. Alla andra värden räknas som sanna och kallas **truthy** – även `"0"` och `" "`, som kan se tomma ut men inte är det.
 
 Det betyder att du i andras kod kan se ett namn, som `namn`, där du hade väntat dig en fullständig fråga, som `namn !== ""`. Den här boken skriver ut frågan, eftersom den är lättare att läsa. Vill du veta mer kan du läsa om [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) och [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy) på MDN.
 :::
@@ -258,7 +261,7 @@ Det betyder att du i andras kod kan se ett namn, som `namn`, där du hade vänta
 
 ## Sant och falskt på webbsidan
 
-Många egenskaper hos element på sidan är booleska. Du har redan mött `hidden`. Nu när du kan formulera frågor kan du tilldela dem *svaret på en fråga* i stället för ett fast värde – och sidan anpassar sig själv.
+Många egenskaper hos element på sidan är booleska, som `hidden`. Du kan tilldela dem *svaret på en fråga* i stället för ett fast värde, så anpassar sig sidan själv.
 
 ### Egenskaper som tar booleska värden
 
@@ -268,9 +271,9 @@ minusKnapp.disabled = antal === 0;                   // knappen går inte att kl
 resultat.classList.toggle("godkänd", poäng >= 50);   // klassen bara när svaret är ja
 ```
 
-- **`hidden`** döljer elementet när värdet är `true`, som du såg i kapitel [-@sec-dom-intro].
+- **`hidden`** döljer elementet när värdet är `true`.
 - **`disabled`** finns på knappar och formulärfält. När den är `true` blir elementet grått och går inte att använda.
-- **`classList.toggle(klass, värde)`** lägger till klassen när värdet är `true` och tar bort den när det är `false`. I kapitel [-@sec-dom-intro] använde du en variabel som andra argument; nu kan det vara en jämförelse.
+- **`classList.toggle(klass, värde)`** lägger till klassen när värdet är `true` och tar bort den när det är `false`. Det andra argumentet kan vara en jämförelse.
 
 Läs den första raden högt, i två steg: "räkna ut svaret på frågan *är poängen minst 50?*, och låt sedan `hidden` få det svaret". Det är samma regel som för alla tilldelningar: först räknas högersidan ut, sedan tilldelas värdet.
 
@@ -282,7 +285,7 @@ kryssruta.checked;                    // true om en kryssruta är ikryssad
 Number.isNaN(Number(fält.value));     // true om fältet inte innehåller ett tal
 ```
 
-`checked` är egenskapen för `<input type="checkbox">`, och den kan både läsas och sättas. `Number.isNaN` är det pålitliga sättet att fråga om ett värde är `NaN` – du kan inte skriva `värde === NaN`, eftersom `NaN` är det enda värdet i JavaScript som inte är lika med sig självt.
+`checked` är egenskapen för `<input type="checkbox">`, och den kan både läsas och sättas. `Number.isNaN` frågar om ett värde är `NaN`.
 
 ### Ett formulär som svarar direkt
 
@@ -331,13 +334,11 @@ namnfält.addEventListener("input", uppdatera);
 antalfält.addEventListener("input", uppdatera);
 ```
 
-Läs funktionen `uppdatera` uppifrån och ned. Först läses värdena in och städas. Sedan ställs tre frågor, var och en i en egen variabel med ett namn som beskriver frågan. Till sist används svaren. Namnvarningen döljs så länge namnet är kort nog. Antalsvarningen döljs så länge antalet är högst sex. Och knappen är avstängd så länge det *inte* är sant att alla tre frågorna har svaret ja.
+Läs funktionen `uppdatera` uppifrån och ned. Först läses värdena in och städas. Sedan ställs tre frågor, var och en i en variabel med ett namn som beskriver frågan. Till sist används svaren. Namnvarningen döljs så länge namnet är kort nog. Antalsvarningen döljs så länge antalet är högst sex. Och knappen är avstängd så länge det *inte* är sant att alla tre frågorna har svaret ja.
 
-Steg 2 står sist i koden, efter funktionen. Det beror på att funktionen ska vara definierad innan den lämnas över till `addEventListener`, som du lärde dig i kapitel [-@sec-funktioner]. Stegen är desamma, bara ordningen i filen är en annan.
+Steg 2 står sist i koden, efter funktionen som lyssnarna använder. Stegen är desamma, bara ordningen i skriptet är en annan.
 
-Lägg märke till att funktionen körs vid *varje* ändring, i båda fälten. Den tar inte reda på vad som har ändrats, utan beskriver hur sidan ska se ut med de värden som står i fälten just nu. Det är ett robust sätt att bygga gränssnitt: det finns inget gammalt läge som kan bli fel.
-
-Här har det räckt att *svara* på frågor och använda svaren som värden. Ibland behöver programmet göra helt *olika saker* beroende på svaret – visa olika texter, köra olika kod. Det är ämnet för nästa kapitel.
+Funktionen körs vid *varje* ändring, i båda fälten. Den tar inte reda på vad som har ändrats, utan beskriver hur sidan ska se ut med de värden som står i fälten just nu. Det är ett robust sätt att bygga gränssnitt: det finns inget gammalt läge som kan bli fel.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp

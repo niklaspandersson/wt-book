@@ -180,7 +180,7 @@ Brödtext före övningarna, utan kodblock:
 | 5 Att skriva egna funktioner | ≈ 2 600 | Klart (från ≈ 3 800) |
 | 6 Händelser | ≈ 2 150 | Klart (från ≈ 3 000) |
 | 7 Tal och text | ≈ 2 900 | Klart (från ≈ 4 000) |
-| 8 Sant och falskt | ≈ 2 400 | |
+| 8 Sant och falskt | ≈ 2 200 | Klart (från ≈ 2 400) |
 | 9 Villkorssatser | ≈ 2 650 | |
 | 10 Loopar | ≈ 2 750 | |
 | 11 Arrayer | ≈ 2 950 | |
