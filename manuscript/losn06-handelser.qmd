@@ -14,18 +14,19 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 
 ## Övning – Vad händer vid klicket?
 
-Knappen som `querySelector("button")` hittar är *Säg hej*, den första knappen på sidan. Båda lyssnarna körs vid varje klick, i den ordning de registrerades.
+Knappen som `querySelector("button")` hittar är *Säg hej*, den första knappen på sidan.
 
-| Klick | `antal` efter klicket | Sidan visar |
-|---|---|---|
-| 1 | 1 | 2 |
-| 2 | 2 | 3 |
-| 3 | 3 | 4 |
+1. Båda lyssnarna körs vid varje klick, i den ordning de registrerades. Ett element kan ha hur många lyssnare som helst, även för samma händelse.
+2. Efter tre klick visar sidan `4`, men `antal` pekar på `3`.
+3. Spårtabellen:
 
-Vid första klicket ökar den första lyssnaren `antal` till 2 och visar det. Sedan minskar den andra lyssnaren `antal` till 1 – men visar det inte.
+    | Klick | `antal` efter klicket | Sidan visar |
+    |---|---|---|
+    | 1 | 1 | 2 |
+    | 2 | 2 | 3 |
+    | 3 | 3 | 4 |
 
-1. Efter tre klick visar sidan `4`, men `antal` pekar på `3`.
-2. Den andra lyssnaren ändrar variabeln men uppdaterar inte sidan. Sidan visar alltså alltid värdet *mitt i* klicket, efter den första lyssnaren men före den andra. Det finns två sätt att få dem att stämma: anropa `visaAntal(antal)` också i den andra lyssnaren, eller – enklare – slå ihop allt i en enda lyssnare som först räknar ut det nya värdet och sedan visar det. Lärdomen är att sidan bara ändras när du skriver till den.
+    Vid första klicket ökar den första lyssnaren `antal` till 2 och visar det. Sedan minskar den andra lyssnaren `antal` till 1 – men visar det inte. Den andra lyssnaren ändrar variabeln men uppdaterar inte sidan. Sidan visar alltså alltid värdet *mitt i* klicket, efter den första lyssnaren men före den andra. Det finns två sätt att få dem att stämma: anropa `visaAntal(antal)` också i den andra lyssnaren, eller – enklare – slå ihop allt i en enda lyssnare som först räknar ut det nya värdet och sedan visar det. Lärdomen är att sidan bara ändras när du skriver till den.
 
 ## Övning – Vad säger felet?
 
@@ -293,7 +294,7 @@ textfält.addEventListener("input", () => {
 ```html
 <input type="text" id="lagfält" placeholder="Lagets namn">
 <button id="spara-knapp">Spara</button>
-<p id="tavla">—: 0 poäng</p>
+<p id="tavla">–: 0 poäng</p>
 <button id="rätt-knapp">Rätt svar</button>
 <button id="nollställ-knapp">Börja om</button>
 ```
@@ -306,7 +307,7 @@ const rättKnapp = document.querySelector("#rätt-knapp");
 const nollställKnapp = document.querySelector("#nollställ-knapp");
 const tavla = document.querySelector("#tavla");
 
-const lag = { namn: "—", poäng: 0 };
+const lag = { namn: "–", poäng: 0 };
 
 function visaLag(lag) {
     tavla.textContent = lag.namn + ": " + lag.poäng + " poäng";

@@ -18,6 +18,5 @@ Kapitlet kortades i oktober 2026 enligt *Prose density* i CLAUDE.md.
 
 Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kostnad = biljettpris;`, två namn på samma funktion) är borttaget. Det behövs först för callbacks i kap. 6, som redan förklarar att ett namn utan parenteser är funktionen själv.
 
-- **kap06-handelser.qmd, rad 175.** "I kapitel 5 lärde du dig att funktioner i JavaScript är *värden*". Kap. 5 tar inte längre upp det. Förklara det på plats; raden efter (om namnet utan parenteser) gör redan det mesta av jobbet.
 - **kap-objekt.qmd, rad 200.** "samma sak som du såg med funktioner i kapitel 5, där två namn kunde peka på samma funktion". Exemplet finns inte längre i kap. 5.
 - **kap08-sant-och-falskt.qmd, rad 336.** "funktionen ska vara definierad innan den lämnas över till `addEventListener`, som du lärde dig i kapitel 5". Kap. 5 tar inte upp det, och `addEventListener` kommer först i kap. 6. (Fel redan före kortningen.)
