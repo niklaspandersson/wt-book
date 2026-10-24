@@ -88,7 +88,8 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
 
 Chapters 1–11 follow a common template, based on PEDAGOGIK.md:
 
-- **Practice page.** From chapter 4 on, each chapter has its own practice page (a folder `kapNN` with HTML, CSS and `script.js`, usually in a section *En sida att öva på*) containing every element the examples and exercises need. From chapter 5 on, a callout *Så provar du koden i det här kapitlet* says how to work with it.
+- **Scripts in Del I.** Code is written in a `<script>` element at the end of `<body>`, never in a separate file and never as a module (`type="module"`). Pages are opened directly from the file system and reloaded by hand; no web server or Live Server is needed. Separate script files and modules are introduced in the modules chapter.
+- **Practice page.** From chapter 4 on, each chapter has its own practice page (a folder `kapNN` with an `index.html`, usually in a section *En sida att öva på*) containing every element the examples and exercises need. From chapter 5 on, a callout *Så provar du koden i det här kapitlet* says how to work with it.
 - ***Stanna upp* boxes** (`{.callout-note appearance="simple"}` with the heading `## Stanna upp`) after the heavier sections: a few short questions that check understanding, often asking the student to predict before testing.
 - **Notional machine.** Use the arrow model from chapter 2 (names point to values) and trace tables (one column per variable, one row per step) wherever beginners have known misconceptions.
 - **A worked example** with named steps, usually headed *Ett löst exempel: …*. Interactive examples use the five-step pattern from chapter 6: *hämta → lyssna → läs → bearbeta → visa*, marked with comments (`// 1. Hämta`).

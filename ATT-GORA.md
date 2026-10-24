@@ -17,6 +17,8 @@
 
 ## Del I
 
+- **Inline-skript i hela Del I** (se *Scripts in Del I* i CLAUDE.md). Kap. 1 och 5 är omskrivna. Kvar: övningssidorna och instruktionerna i kap. 4 och 6–11 (`script.js`, `type="module"`, Live Server, "Skapa sedan `script.js` …", "Töm `script.js`"), deras lösningsfiler och `del1-sammanfattning.qmd`. Kap. 4 rad 68 hänvisar till Live Server "som i kapitel 1". Görs i samband med att respektive kapitel kortas.
+- **Kap. 2: tilldelning utan deklaration.** Utan moduler körs skripten inte i strikt läge. En tilldelning till ett namn som inte är deklarerat, till exempel en felstavning som `poang = poäng + 1;`, skapar då tyst en ny global variabel i stället för att ge `ReferenceError`. Lägg till en kort anmärkning där kap. 2 lär ut `let` och `const`: deklarera alltid, för ett stavfel här ger inget felmeddelande. Inför inte `"use strict"`. Görs när kap. 2 kortas.
 - **Stanna upp-rutor saknas i kap. 4 och 6.**
 - **Kap. 4 saknar ett löst exempel med namngivna delmål.** Femstegsmönstret från kap. 6 kunde användas i en enklare form (*hämta → bearbeta → visa*).
 - **Övningen *Frågornas typer* i kap. 10** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.

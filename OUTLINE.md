@@ -173,16 +173,16 @@ Brödtext före övningarna, utan kodblock:
 
 | Kapitel | Ord | Status |
 |---|---|---|
-| 1 JavaScript och webbläsaren | ≈ 3 700 | |
+| 1 JavaScript och webbläsaren | ≈ 2 650 | Klart (från ≈ 3 700) |
 | 2 Värden och variabler | ≈ 3 350 | |
 | 3 Att använda funktioner | ≈ 1 700 | Klart (från ≈ 3 300) |
 | 4 Din kod möter webbsidan | ≈ 2 650 | |
-| 5 Att skriva egna funktioner | ≈ 3 800 | |
+| 5 Att skriva egna funktioner | ≈ 2 600 | Klart (från ≈ 3 800) |
 | 6 Händelser | ≈ 3 000 | |
-| 7 Tal och text | ≈ 4 000 | Nästa |
+| 7 Tal och text | ≈ 4 000 | |
 | 8 Sant och falskt | ≈ 2 400 | |
 | 9 Villkorssatser | ≈ 2 650 | |
 | 10 Loopar | ≈ 2 750 | |
 | 11 Arrayer | ≈ 2 950 | |
 
-Föreslagen ordning: kap. 7, 5 och 1 (mest text), sedan resten av Del I.
+Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare kapitel påverkar de senare. Kap. 3 och 5 gjordes först, som pilot. Råder det minsta tvekan om ett avsnitt ska flyttas eller strykas, avgör författaren.

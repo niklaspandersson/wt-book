@@ -26,13 +26,7 @@ Lösningar till övningarna i kapitel [-@sec-funktioner].
 
 **Scope**
 
-1. Ungefär: *En variabels scope är den del av koden där den finns. En variabel på översta nivån har hela filen som scope, och funktionen ligger i filen. En variabel inuti en funktion har bara funktionens klammerparenteser som scope, och koden på översta nivån ligger utanför dem.*
-2. Nej. Variabeln finns i modulen, men den syns bara i filen. Konsolen ligger utanför modulens scope och hittar därför inte namnet.
-
-**Funktioner är värden**
-
-1. `console.log(kostnad);` skriver ut själva funktionen, ungefär `ƒ biljettpris(antal) { return antal * 40; }`. Lägg märke till att den heter `biljettpris` – det finns bara en funktion, och det var under det namnet den skapades. `console.log(kostnad(2));` skriver ut `80`.
-2. `x` pekar på en funktion, eftersom parenteserna saknas. `y` pekar på talet `40`, eftersom funktionen anropas och anropet ersätts av sitt returvärde.
+1. Ungefär: *En variabels scope är den del av koden där den finns. En variabel på översta nivån har hela skriptet som scope, och funktionen ligger i skriptet. En variabel inuti en funktion har bara funktionens klammerparenteser som scope, och koden på översta nivån ligger utanför dem.*
 
 **Att tänka i funktioner**
 
@@ -282,11 +276,3 @@ sättText("#tredje", "Tredje stycket");
 Med bara tre korta rader är vinsten liten. Funktionen lönar sig när samma sak görs på många ställen, eller när det som görs är mer än en rad, till exempel om texten också ska markeras.
 
 Stavar du en selektor fel får du `TypeError: Cannot set properties of null (setting 'textContent')`. Felet pekar på raden *inne i funktionen*, eftersom det är där `null` används. Det felstavade värdet står däremot i anropet. Fäll ut felmeddelandet i konsolen för att se vilket anrop det kom från. Det är en nackdel med att gömma kod i en funktion: felet visar sig ett steg från där det orsakades.
-
-## Övning – Modulens scope
-
-1. Ja, konsolen visar `Hej från skriptfilen! Och hej, Ida!`. `hälsning` är deklarerad på modulens översta nivå, och dess scope är hela filen. Funktionen ligger i filen och kan därför läsa variabeln.
-2. `ReferenceError: hälsning is not defined`. Konsolen ligger utanför modulen, och variabeln syns inte utanför filen.
-3. Nu svarar konsolen `'Hej från skriptfilen!'`. Utan `type="module"` hamnar variabeln i det globala scopet, som delas av alla skript på sidan – och av konsolen.
-
-I en modul stannar variablerna i filen. I ett vanligt skript blir de gemensamma för hela sidan. Med tre vanliga skript som alla har en variabel som heter `hälsning` krockar de: deklareras den med `const` i två skript får du ett felmeddelande, och i värsta fall skriver det ena skriptet över det andras värde utan att någon märker det. Med moduler har varje fil sina egna namn, och du behöver inte hålla reda på vad som heter vad i alla andra filer.
