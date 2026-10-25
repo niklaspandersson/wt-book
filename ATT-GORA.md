@@ -33,7 +33,6 @@ Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - ***Vad säger felet?*** finns i kap. 3–9 och 11–17. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 10 saknar en.
 - **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 4 (en analogi, ingen situation), kap. 12 (betyg i en kurs).
-- **Småsaker:** kap. 7 har sin övningssida i en ruta i stället för avsnittet *En sida att öva på*.
 - **Exemplen styr i stället för språket och API:t** (se CLAUDE.md, *The language and the API come first*). Det gäller både rubriker och brödtext: avsnitt som lär ut en funktion genom ett längre scenario, och praktiska exempel som förklarar rad för rad det som redan är förklarat. Rubriker som tydligt bryter mot regeln: kap. 9 *Från konsol till sida* med *En räknare*, *Mörkt läge med en knapp* och *Funktioner som uppdaterar sidan*; kap. 10 *Ett formulär som svarar direkt*; kap. 12 *Utseende efter resultat*. Brödtexten behöver ses över i alla vanliga kapitel, också de lösta exemplen.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7 och 10 → 11 → 12 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
@@ -56,9 +55,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 7 Att skriva egna funktioner
 
-- **Var spårtabellen ska stå.** *Följ ett anrop steg för steg* ligger kvar i brödtexten. Enligt regeln om lösta exempel kunde den flyttas till övningen *Spåra exekveringen*. Författaren avgör.
 - **Konsolen som verktyg.** Nu när skriptets funktioner nås från konsolen kunde en övning låta studenten anropa sina funktioner där med olika argument, som ett sätt att testa dem.
-- **Inget löst exempel med namngivna delmål.** Spårtabellen fyller delvis den rollen.
 
 ### Kap. 9 Händelser
 

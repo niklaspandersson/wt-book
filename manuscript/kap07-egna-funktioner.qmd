@@ -7,30 +7,59 @@ Under en quizkväll ändras poängen hela tiden, och varje gång måste poängta
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 0 };
 
-lag.poäng = lag.poäng + 3;   // rätt svar på fråga 1
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+lag.poäng += 3;   // rätt svar på fråga 1
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 
-lag.poäng = lag.poäng + 5;   // rätt svar på fråga 2
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+lag.poäng += 5;   // rätt svar på fråga 2
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 
-lag.poäng = lag.poäng + 2;   // rätt svar på fråga 3
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+lag.poäng += 2;   // rätt svar på fråga 3
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 ```
 
 Det fungerar, men samma långa rad står tre gånger. Med tjugo frågor skulle den stå tjugo gånger. Och ska poängen visas som `Röda stjärnor: 10 poäng` i stället för `Poäng: 10` måste du hitta och ändra varje förekomst.
 
 Det du vill är att ge raden ett namn, `visaPoäng`, skriva den en gång och sedan anropa den varje gång poängen ändras. Det gör du genom att skriva en egen funktion. Att skriva en funktion kallas att **definiera** den. Allt du vet om anrop, argument och returvärden gäller också för funktioner du definierar själv.
 
+---
+
+## En sida att öva på
+
+Exemplen och övningarna använder samma övningssida som kapitel [-@sec-dom-intro]. Spara den som `index.html` i en ny mapp, `kap07`:
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizkväll</title>
+    <style>
+        .rätt {
+            color: darkgreen;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quizkväll</h1>
+    <p id="lagnamn">Lag: –</p>
+    <p id="poäng">Poäng: 0</p>
+    <p id="resultat">Resultat visas här.</p>
+    <p id="ledtråd">Ledtråd: tänk på huvudstäder i Norden.</p>
+
+    <script>
+        console.log("Skriptet körs!");
+    </script>
+</body>
+</html>
+```
+
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-En funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och ändra i den. Skriv därför exemplen och övningarna i `<script>`-elementet på en egen sida för det här kapitlet. Du kan skapa sidan på två sätt:
+En funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och ändra i den. Skriv därför exemplen och övningarna i `<script>`-elementet på övningssidan.
 
-- **Kopiera sidan från förra kapitlet.** Kopiera `index.html` från kapitel [-@sec-dom-intro] till en ny mapp, `kap07`, och töm `<script>`-elementet. Då har du kvar alla element från övningssidan, och koden från kapitel [-@sec-dom-intro] ligger orörd.
-- **Börja om.** Skapa mappen `kap07` med en fil `index.html`, med samma HTML som i avsnittet *En sida att öva på* i kapitel [-@sec-dom-intro] och ett tomt `<script>`-element sist i `<body>`. Exemplen använder elementen med id `lagnamn`, `poäng` och `resultat`.
-
-Det är den sidan som kallas *övningssidan* i resten av kapitlet. Ett felmeddelande i konsolen anger raden där felet uppstod, till exempel `index.html:31`.
-
+- Ett felmeddelande i konsolen anger raden där felet uppstod, till exempel `index.html:31`.
 - Ett returvärde syns inte av sig självt när anropet står i en fil. Vill du se vad en funktion returnerar skriver du ut det: `console.log(biljettpris(3));`.
 - När sidan har laddats kan du också anropa dina funktioner från konsolen, till exempel `biljettpris(3)`.
 - Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning, så att gammal kod inte stör.
@@ -45,7 +74,7 @@ Så här ser en definition av `visaPoäng` ut:
 
 ```javascript
 function visaPoäng() {
-    document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+    document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 }
 ```
 
@@ -62,16 +91,16 @@ En sådan definition kallas en **funktionsdeklaration**. Nu kan poängtavlan skr
 const lag = { namn: "Röda stjärnor", poäng: 0 };
 
 function visaPoäng() {
-    document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+    document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 }
 
-lag.poäng = lag.poäng + 3;
+lag.poäng += 3;
 visaPoäng();
 
-lag.poäng = lag.poäng + 5;
+lag.poäng += 5;
 visaPoäng();
 
-lag.poäng = lag.poäng + 2;
+lag.poäng += 2;
 visaPoäng();
 ```
 
@@ -113,7 +142,7 @@ Det liknar ett recept där det står "gör smeten enligt sidan 12": du bläddrar
 
 ```javascript
 function visaPoäng(poäng) {
-    document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+    document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
 }
 
 visaPoäng(10);   // sidan visar "Poäng: 10"
@@ -145,8 +174,8 @@ En funktion kan ha flera parametrar, åtskilda med kommatecken:
 
 ```javascript
 function visaLag(namn, poäng) {
-    document.querySelector("#lagnamn").textContent = "Lag: " + namn;
-    document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+    document.querySelector("#lagnamn").textContent = `Lag: ${namn}`;
+    document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
 }
 
 visaLag("Röda stjärnor", 12);
@@ -185,7 +214,7 @@ function biljettpris(antal) {
 }
 
 const pris = biljettpris(3);
-console.log("Tre biljetter kostar " + pris + " kr");   // Tre biljetter kostar 120 kr
+console.log(`Tre biljetter kostar ${pris} kr`);   // Tre biljetter kostar 120 kr
 ```
 
 `return` gör två saker:
@@ -221,8 +250,8 @@ Anropar du dem var för sig ser de ut att göra samma sak. Men försök använda
 ```javascript
 const prisA = biljettprisA(3);
 const prisB = biljettprisB(3);              // skriver ut 120
-console.log("Att betala: " + prisA + " kr");   // Att betala: 120 kr
-console.log("Att betala: " + prisB + " kr");   // Att betala: undefined kr
+console.log(`Att betala: ${prisA} kr`);   // Att betala: 120 kr
+console.log(`Att betala: ${prisB} kr`);   // Att betala: undefined kr
 ```
 
 `biljettprisB` skriver ut svaret men ger inte tillbaka något. Tumregeln: ska resultatet användas vidare – sparas, visas på sidan eller räknas med – måste funktionen *returnera* det.
@@ -237,9 +266,9 @@ console.log("Att betala: " + prisB + " kr");   // Att betala: undefined kr
 
 ---
 
-## Följ ett anrop steg för steg
+## Vad som händer vid ett anrop
 
-Så här går det till när ett program med en egen funktion körs. Här har funktionen en egen variabel i kroppen:
+Här har funktionen en egen variabel i kroppen, och den anropas två gånger:
 
 ```javascript
 function biljettpris(antal) {
@@ -252,25 +281,13 @@ const blå = biljettpris(3);
 const intäkt = röda + blå;
 ```
 
-I spårtabellen anger kolumnen *Rad* vilken rad som körs, och den sista kolumnen vilka namn som finns just då:
+Tre saker gäller för varje anrop:
 
-| Rad | Vad som händer | Namn och värden |
-|---|---|---|
-| 1–4 | Funktionen läses in, men körs inte | `biljettpris` → funktionen |
-| 6 | `biljettpris(4)` anropas. JavaScript hoppar in i funktionen | `antal` → 4 |
-| 2 | `total` räknas ut | `antal` → 4, `total` → 160 |
-| 3 | `return` skickar tillbaka 160. `antal` och `total` försvinner | – |
-| 6 | Anropet har ersatts av 160 | `röda` → 160 |
-| 7 | `biljettpris(3)` anropas. En *ny* omgång börjar | `röda` → 160, `antal` → 3 |
-| 2–3 | `total` blir 120 och returneras. `antal` och `total` försvinner igen | `röda` → 160 |
-| 7 | Anropet har ersatts av 120 | `röda` → 160, `blå` → 120 |
-| 8 | Summan räknas ut | `röda` → 160, `blå` → 120, `intäkt` → 280 |
+1. **Programmet hoppar.** Vid `biljettpris(4)` hoppar JavaScript in i funktionen, kör kroppen och hoppar tillbaka till raden med anropet, som ersätts av returvärdet 160. Raderna körs alltså inte i den ordning de står.
+2. **Varje anrop börjar från början.** Vid det andra anropet minns funktionen ingenting av det första. Parametern `antal` får värdet 3, och `total` skapas på nytt.
+3. **Parametern och variablerna i kroppen finns bara under anropet.** När funktionen returnerar försvinner `antal` och `total`. Kvar finns bara returvärdena: `röda` pekar på 160 och `blå` på 120.
 
-Tabellen visar tre saker:
-
-1. **Varje anrop börjar från början.** Vid det andra anropet minns funktionen ingenting av det första. Parametern `antal` får ett nytt värde, och `total` skapas på nytt.
-2. **Parametern och variablerna i kroppen finns bara under anropet.** När funktionen returnerar försvinner de. Det enda som finns kvar är returvärdet.
-3. **Programmet hoppar.** Raderna körs inte i den ordning de står, utan 1–4 (inläsning), 6, 2, 3, 6, 7, 2, 3, 7, 8.
+I övningen *Spåra exekveringen* följer du programmet rad för rad i en spårtabell.
 
 ---
 
@@ -318,17 +335,13 @@ Variabler på översta nivån kan läsas och ändras från var som helst i skrip
 
 ## Att tänka i funktioner
 
-En funktion tar bort upprepning, men den gör också något viktigare: den ger en idé ett namn. `visaPoäng()` säger *vad* som händer. Raden med `querySelector` och `textContent` visar *hur*, och den måste läsas noga för att man ska förstå den. När funktionen väl fungerar kan du tänka "visa poängen" och glömma hur det görs.
+En funktion har en *utsida* och en *insida*. Utsidan är namnet, parametrarna och returvärdet: det som den som anropar behöver känna till. Insidan är kroppen. Att gömma detaljerna bakom ett namn kallas **abstraktion**. `visaPoäng()` säger *vad* som händer, och när funktionen väl fungerar kan du glömma *hur*. Insidan kan då ändras utan att anropen märker det.
 
-En funktion har en *utsida* och en *insida*. Utsidan är namnet, parametrarna och returvärdet: det som den som anropar behöver känna till. Insidan är kroppen, som bara den som skriver funktionen behöver bry sig om. Att gömma detaljerna bakom ett namn på det sättet kallas **abstraktion**.
-
-Eftersom utsidan och insidan hålls isär kan insidan ändras utan att anropen märker det. I avsnittet om scope fick `biljettpris` hämta priset från variabeln `inträde` i stället för att ha `40` inskrivet. Ändringen gjordes bara i kroppen. Anropet `biljettpris(3)` ser likadant ut och ger samma svar som förut.
-
-Samma tanke ligger bakom tumregeln att en funktion bör göra *en* sak. Tänk dig en funktion `visaResultat` som både bygger texten `Röda stjärnor: 18 poäng` och visar den på sidan. Då går texten inte att använda någon annanstans, och den som vill ändra formatet måste leta i en funktion vars namn bara säger att den visar något. Dela upp den i en funktion som *bygger* texten och en som *visar* den:
+En funktion bör göra *en* sak. En funktion som både bygger texten `Röda stjärnor: 18 poäng` och visar den på sidan delas hellre i två:
 
 ```javascript
 function poängtext(namn, poäng) {
-    return namn + ": " + poäng + " poäng";
+    return `${namn}: ${poäng} poäng`;
 }
 
 function visaResultat(namn, poäng) {
@@ -338,7 +351,7 @@ function visaResultat(namn, poäng) {
 visaResultat("Röda stjärnor", 18);   // sidan visar "Röda stjärnor: 18 poäng"
 ```
 
-Nu bestäms formatet i `poängtext` och platsen på sidan i `visaResultat`, och de kan ändras var för sig. Ett bra test är om du kan beskriva vad funktionen gör i en mening utan ordet *och*. Behöver namnet ett *och*, som `byggTextOchVisa`, gör funktionen för mycket.
+Nu bestäms formatet i `poängtext` och platsen på sidan i `visaResultat`, och de kan ändras var för sig. Behöver namnet ett *och*, som `byggTextOchVisa`, gör funktionen för mycket.
 
 ### Bra namn
 
@@ -422,7 +435,21 @@ förklara();
 ::: {.callout-note}
 ## Övning – Spåra exekveringen
 
-Gå igenom koden för hand, rad för rad.
+En spårtabell visar vad som händer rad för rad. Så här ser den ut för programmet i avsnittet *Vad som händer vid ett anrop*. Kolumnen *Rad* anger vilken rad som körs, och den sista kolumnen vilka namn som finns just då:
+
+| Rad | Vad som händer | Namn och värden |
+|---|---|---|
+| 1–4 | Funktionen läses in, men körs inte | `biljettpris` → funktionen |
+| 6 | `biljettpris(4)` anropas. JavaScript hoppar in i funktionen | `antal` → 4 |
+| 2 | `total` räknas ut | `antal` → 4, `total` → 160 |
+| 3 | `return` skickar tillbaka 160. `antal` och `total` försvinner | – |
+| 6 | Anropet har ersatts av 160 | `röda` → 160 |
+| 7 | `biljettpris(3)` anropas. En *ny* omgång börjar | `röda` → 160, `antal` → 3 |
+| 2–3 | `total` blir 120 och returneras. `antal` och `total` försvinner igen | `röda` → 160 |
+| 7 | Anropet har ersatts av 120 | `röda` → 160, `blå` → 120 |
+| 8 | Summan räknas ut | `röda` → 160, `blå` → 120, `intäkt` → 280 |
+
+Gå nu igenom den här koden för hand, rad för rad.
 
 ```javascript
 function dubbla(antal) {
@@ -441,7 +468,7 @@ console.log(summa);
 console.log(dubbla(addera(2, 3)));
 ```
 
-1. Gör en spårtabell, som den i avsnittet *Följ ett anrop steg för steg*, för raderna fram till och med `console.log(summa);`. Skriv för varje steg vilka namn som finns och vilka värden de pekar på.
+1. Gör en spårtabell, som den ovan, för raderna fram till och med `console.log(summa);`. Skriv för varje steg vilka namn som finns och vilka värden de pekar på.
 2. Den sista raden har två nästlade anrop. Vilket anrop körs först, och vilket värde får parametern `antal` i `dubbla`?
 3. Vad skrivs ut? Kontrollera i konsolen.
 :::
@@ -489,8 +516,8 @@ Förklara med egna ord varför felet uppstår. Använd ordet *scope*. Skriv seda
 
 ```javascript
 function visaLag(namn, poäng) {
-    document.querySelector("#lagnamn").textContent = "Lag: " + namn;
-    document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+    document.querySelector("#lagnamn").textContent = `Lag: ${namn}`;
+    document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
 }
 
 const lag = { namn: "Gula gänget", poäng: 7 };
@@ -508,7 +535,7 @@ Läs funktionen nedan.
 ```javascript
 function visaLedare(lag1, lag2) {
     const högst = Math.max(lag1.poäng, lag2.poäng);
-    document.querySelector("#ledning").textContent = "Ledande poäng: " + högst;
+    document.querySelector("#ledning").textContent = `Ledande poäng: ${högst}`;
 }
 ```
 
@@ -529,7 +556,7 @@ function biljettpris(antal) {
 }
 
 function visaPris(antal) {
-    document.querySelector("#pris").textContent = "Att betala: " + biljettpris(antal) + " kr";
+    document.querySelector("#pris").textContent = `Att betala: ${biljettpris(antal)} kr`;
 }
 
 visaPris(3);
@@ -554,8 +581,8 @@ Du vill ha en funktion `poängtext` som returnerar en text som `Röda stjärnor:
 }
 function poängtext(namn, poäng) {
 document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 12);
-    return namn + ": " + poäng + " poäng";
-    console.log(namn + ": " + poäng + " poäng");
+    return `${namn}: ${poäng} poäng`;
+    console.log(`${namn}: ${poäng} poäng`);
 function poängtext("namn", "poäng") {
 ```
 

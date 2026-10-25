@@ -133,7 +133,7 @@ visaLag(lag.namn, lag.poäng);
 
     ```javascript
     function visaPris(antal) {
-        document.querySelector("#pris").textContent = antal + " biljetter: " + biljettpris(antal) + " kr";
+        document.querySelector("#pris").textContent = `${antal} biljetter: ${biljettpris(antal)} kr`;
     }
     ```
 
@@ -149,7 +149,7 @@ visaLag(lag.namn, lag.poäng);
     }
 
     function visaPris(antal, prisPerPerson) {             // ny parameter här också
-        document.querySelector("#pris").textContent = "Att betala: " + biljettpris(antal, prisPerPerson) + " kr";
+        document.querySelector("#pris").textContent = `Att betala: ${biljettpris(antal, prisPerPerson)} kr`;
     }
 
     visaPris(3, 40);   // alla anrop måste skicka med priset
@@ -163,15 +163,15 @@ visaLag(lag.namn, lag.poäng);
 
 ```javascript
 function poängtext(namn, poäng) {
-    return namn + ": " + poäng + " poäng";
+    return `${namn}: ${poäng} poäng`;
 }
 document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 12);
 ```
 
 1. Raderna som inte används:
    - `function poängtext("namn", "poäng") {` – parametrar ska vara *namn*, inte strängar. Det ger ett `SyntaxError` direkt, och inget i filen körs.
-   - `console.log(namn + ": " + poäng + " poäng");` – den ger inget felmeddelande, men gör fel sak: texten skrivs ut i stället för att returneras.
-2. Med `console.log` i stället för `return` skrivs `Röda stjärnor: 12 poäng` ut i konsolen, men elementet på sidan blir *tomt*. Funktionen returnerar ingenting, så anropet ersätts av `undefined`, och det är det värdet som tilldelas `textContent`. Många gissar att det ska stå *undefined* på sidan, men `textContent` behandlar `undefined` som "ingen text" och tömmer elementet. (Hade `undefined` slagits ihop med en annan text, som i `"Att betala: " + prisB`, hade ordet *undefined* däremot synts.)
+   - `` console.log(`${namn}: ${poäng} poäng`); `` – den ger inget felmeddelande, men gör fel sak: texten skrivs ut i stället för att returneras.
+2. Med `console.log` i stället för `return` skrivs `Röda stjärnor: 12 poäng` ut i konsolen, men elementet på sidan blir *tomt*. Funktionen returnerar ingenting, så anropet ersätts av `undefined`, och det är det värdet som tilldelas `textContent`. Många gissar att det ska stå *undefined* på sidan, men `textContent` behandlar `undefined` som "ingen text" och tömmer elementet. (Hade `undefined` slagits ihop med en annan text, som i `` `Att betala: ${prisB} kr` ``, hade ordet *undefined* däremot synts.)
 
 ## Övning – Poängtavlan med funktioner
 
@@ -179,14 +179,14 @@ document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 
 const lag = { namn: "Röda stjärnor", poäng: 15, runda: 2 };
 
 function visaLag(lag) {
-    document.querySelector("#lagnamn").textContent = "Lag: " + lag.namn;
-    document.querySelector("#poäng").textContent = lag.poäng + " p";
-    document.querySelector("#runda").textContent = "Runda: " + lag.runda;
+    document.querySelector("#lagnamn").textContent = `Lag: ${lag.namn}`;
+    document.querySelector("#poäng").textContent = `${lag.poäng} p`;
+    document.querySelector("#runda").textContent = `Runda: ${lag.runda}`;
 }
 
 visaLag(lag);
 
-lag.poäng = lag.poäng + 3;
+lag.poäng += 3;
 visaLag(lag);
 ```
 
@@ -198,7 +198,7 @@ Parametern heter här `lag`, precis som variabeln på översta nivån. Det funge
 
 ```javascript
 function resultattext(poäng, maxPoäng) {
-    return poäng + " av " + maxPoäng + " poäng";
+    return `${poäng} av ${maxPoäng} poäng`;
 }
 
 function visaResultat(namn, poäng, maxPoäng) {
@@ -233,11 +233,11 @@ För att kontrollera att de kördes kan du lägga till en rad med `console.log` 
 
     ```javascript
     function visaRunda(nummer) {
-        document.querySelector("#runda").textContent = "Runda " + nummer;
+        document.querySelector("#runda").textContent = `Runda ${nummer}`;
     }
 
     function visaPoäng(poäng) {
-        document.querySelector("#poäng").textContent = "Poäng: " + poäng;
+        document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
     }
 
     function visaMeddelande(text) {
