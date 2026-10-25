@@ -230,9 +230,9 @@ anmälKnapp.addEventListener("click", () => {
 
 1. `!lagnamn.includes(namn)` gör att namnet bara läggs till om det inte redan finns i den nya arrayen. Lägg märke till att det är `lagnamn` som söks i, inte `delar`. Dubbletter med olika stora bokstäver, som `Ugglorna` och `ugglorna`, räknas fortfarande som två lag. Vill du slå ihop dem kan du jämföra med `toLowerCase()`.
 2. En `for`-loop med index behövs, eftersom numret ska visas. `i + 1` ger numreringen 1, 2, 3 i stället för 0, 1, 2.
-3. Kontrollen hör till steg 4, *bearbeta*, och ska göras *efter* att dubbletterna har tagits bort. Skriver någon samma lag nio gånger är det bara ett lag, och det ska inte ge ett felmeddelande om att det är för många.
+3. Kontrollen hör till bearbetningen i callbacken, och ska göras *efter* att dubbletterna har tagits bort. Skriver någon samma lag nio gånger är det bara ett lag, och det ska inte ge ett felmeddelande om att det är för många.
 
-## Övning – Ord i en mening
+## Övning – Längsta ordet
 
 ```html
 <input type="text" id="mening" placeholder="Skriv en mening">
@@ -244,14 +244,7 @@ const meningsfält = document.querySelector("#mening");
 const ordresultat = document.querySelector("#ordresultat");
 
 meningsfält.addEventListener("input", () => {
-    const delar = meningsfält.value.split(" ");
-
-    const ord = [];
-    for (const del of delar) {
-        if (del !== "") {
-            ord.push(del);
-        }
-    }
+    const ord = meningsfält.value.split(" ");
 
     let längsta = "";
     for (const o of ord) {
@@ -260,13 +253,12 @@ meningsfält.addEventListener("input", () => {
         }
     }
 
-    ordresultat.textContent = `${ord.length} ord. Längsta ordet: ${längsta}`;
+    ordresultat.textContent = `Längsta ordet: ${längsta}`;
 });
 ```
 
-2. Med två mellanslag mellan två ord ger `split(" ")` en tom sträng mellan dem: `"hej  du".split(" ")` blir `["hej", "", "du"]`, och räkningen blir 3. Ett mellanslag sist ger en tom sträng sist. `split` delar vid *varje* mellanslag, och mellan två mellanslag i rad finns ingenting – men det ingentinget blir också ett element. Ett helt tomt fält ger `[""]`, som räknas som ett ord.
-3. Loopen samlar bara de delar som inte är tomma, samma mönster som i *Ett löst exempel: anmäl flera lag*.
-4. Mönstret från *Att leta efter det största*, men med ordens längd. Startvärdet är en tom sträng, som är kortare än alla riktiga ord. Det fungerar också när meningen är tom – då visas inget längsta ord. Är två ord lika långa vinner det första, eftersom `>` kräver att ett ord är *längre* för att det ska bytas ut.
+2. Mönstret från *Att leta efter det största*, men med ordens längd. Startvärdet är en tom sträng, som är kortare än alla riktiga ord. Tomma delar, som uppstår vid två mellanslag i rad, gör därför ingen skada: de är aldrig längre än det längsta ordet hittills.
+3. Är två ord lika långa visas det första, eftersom `>` kräver att ett ord är *längre* för att det ska bytas ut. Är fältet tomt ger `split` arrayen `[""]`, och sidan visar `Längsta ordet:` utan något ord.
 
 ## Övning – Vem leder nu?
 

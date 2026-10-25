@@ -63,6 +63,8 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
 Ett element ändras med tilldelning, på samma sätt som en variabel:
 
 ```javascript
+const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna", "Röda stjärnor", "Gula gänget"];
+
 lag[1] = "Räknenissarna 2.0";
 lag;   // ["Ugglorna", "Räknenissarna 2.0", "Blå blixtarna", "Röda stjärnor", "Gula gänget"]
 ```
@@ -214,54 +216,6 @@ Använd `includes` när du vill veta *om* något finns, och `indexOf` när du be
 
 ---
 
-## Ett löst exempel: anmäl flera lag
-
-Med `split` och `join` (kapitel [-@sec-split-join]), en loop och `push` kan sidan ta emot en lista från användaren. Domaren skriver flera lagnamn i ett fält, åtskilda med kommatecken, och klickar på *Anmäl*. Sidan ska visa hur många lag det blev och lista dem städade. Elementen finns på övningssidan:
-
-```html
-<label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
-<input type="text" id="lagfält">
-<button id="anmäl">Anmäl</button>
-<pre id="anmälda"></pre>
-```
-
-Koden följer de fem stegen från kapitel [-@sec-handelser]:
-
-```javascript
-// 1. Hämta elementen
-const lagfält = document.querySelector("#lagfält");
-const anmälKnapp = document.querySelector("#anmäl");
-const anmälda = document.querySelector("#anmälda");
-
-// 2. Lyssna efter en händelse
-anmälKnapp.addEventListener("click", () => {
-    // 3. Läs indata
-    const text = lagfält.value;
-
-    // 4. Bearbeta – dela upp, städa och samla ihop
-    const delar = text.split(",");
-    const lagnamn = [];
-
-    for (const del of delar) {
-        const namn = del.trim();
-        if (namn !== "") {
-            lagnamn.push(namn);
-        }
-    }
-
-    // 5. Visa resultatet
-    anmälda.textContent = `${lagnamn.length} lag: ${lagnamn.join(" · ")}`;
-});
-```
-
-Steg 4 har tre delar. `split` gör om texten till en array. Loopen går igenom delarna och städar var och en med `trim`. `if`-satsen hoppar över tomma delar, som uppstår om någon skriver två kommatecken i rad eller ett kommatecken sist. Det som blir kvar samlas i en ny array med `push` – samma mönster som i kapitel [-@sec-loopar], men nu är startvärdet en tom array i stället för en tom sträng.
-
-Prova med texten `Ugglorna,  Tigrarna ,,Räknenissarna,`. Hur många delar ger `split`, och hur många lag visas?
-
-Resultatet visas med `textContent`, inte med `innerHTML`, eftersom texten kommer från användaren och aldrig ska tolkas som HTML.
-
----
-
 ## Arrayer av objekt
 
 En quizfråga kan vara ett objekt med en array av alternativ (kapitel [-@sec-variabler]). Ett riktigt quiz har många frågor, och de kan i sin tur samlas i en array. Då får man en **array av objekt**, kanske det vanligaste sättet att lagra data i JavaScript:
@@ -297,6 +251,50 @@ for (const f of frågor) {
 1. Vad ger `frågor[0].alternativ[2]`? Läs uttrycket steg för steg.
 2. Vad ger `frågor[2]`, och vad händer om du skriver `frågor[2].text`? Förutsäg först och testa sedan.
 :::
+
+---
+
+## Ett löst exempel: anmäl flera lag
+
+Med `split` och `join` (kapitel [-@sec-split-join]), en loop och `push` kan sidan ta emot en lista från användaren. Domaren skriver flera lagnamn i ett fält, åtskilda med kommatecken, och klickar på *Anmäl*. Sidan ska visa hur många lag det blev och lista dem städade. Elementen finns på övningssidan:
+
+```html
+<label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
+<input type="text" id="lagfält">
+<button id="anmäl">Anmäl</button>
+<pre id="anmälda"></pre>
+```
+
+```javascript
+// 1. Hämta elementen
+const lagfält = document.querySelector("#lagfält");
+const anmälKnapp = document.querySelector("#anmäl");
+const anmälda = document.querySelector("#anmälda");
+
+// 2. Lyssna efter en händelse
+anmälKnapp.addEventListener("click", () => {
+    // 3. Läs indata
+    const text = lagfält.value;
+
+    // 4. Bearbeta – dela upp, städa och samla ihop
+    const delar = text.split(",");
+    const lagnamn = [];
+
+    for (const del of delar) {
+        const namn = del.trim();
+        if (namn !== "") {
+            lagnamn.push(namn);
+        }
+    }
+
+    // 5. Visa resultatet
+    anmälda.textContent = `${lagnamn.length} lag: ${lagnamn.join(" · ")}`;
+});
+```
+
+Loopen samlar de städade delarna i en ny array med `push` – samma mönster som i kapitel [-@sec-loopar], men med en tom array som startvärde. `if`-satsen hoppar över tomma delar, som uppstår vid två kommatecken i rad eller ett kommatecken sist.
+
+Resultatet visas med `textContent`, inte med `innerHTML`, eftersom texten kommer från användaren och aldrig ska tolkas som HTML.
 
 ---
 
@@ -483,7 +481,7 @@ Utgå från avsnittet *Ett löst exempel: anmäl flera lag* och övningssidan.
 
 1. Om samma lagnamn står två gånger i fältet ska det bara räknas en gång. Använd `includes` innan du gör `push`.
 2. Visa lagen som en numrerad lista, ett lag per rad, i stället för med `·` emellan. Använd en `for`-loop med index. Elementet med id `anmälda` är ett `<pre>`-element, så radbrytningar syns.
-3. Högst åtta lag får plats. Visa ett meddelande om fler än åtta lag skrivs in. I vilket av de fem stegen hör kontrollen hemma, och ska den göras före eller efter att dubbletterna har tagits bort?
+3. Högst åtta lag får plats. Visa ett meddelande om fler än åtta lag skrivs in. Var i koden hör kontrollen hemma, och ska den göras före eller efter att dubbletterna har tagits bort?
 :::
 
 ### Egna sidor
@@ -491,14 +489,13 @@ Utgå från avsnittet *Ett löst exempel: anmäl flera lag* och övningssidan.
 I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
 
 ::: {.callout-note}
-## Övning – Ord i en mening
+## Övning – Längsta ordet
 
-Skapa en sida med ett textfält och ett stycke för resultatet. Medan användaren skriver en mening ska sidan visa hur många ord meningen har.
+Skapa en sida med ett textfält och ett stycke för resultatet. Medan användaren skriver en mening ska sidan visa det längsta ordet i meningen.
 
-1. Använd `split(" ")` för att dela upp meningen i ord.
-2. Prova med två mellanslag mellan två ord, och med mellanslag i slutet av meningen. Stämmer antalet? Undersök arrayen i konsolen och förklara vad som händer.
-3. Rätta räkningen så att tomma "ord" inte räknas.
-4. Visa även det längsta ordet i meningen. Vilket mönster från kapitlet kan du använda?
+1. Dela upp meningen i ord med `split(" ")` (kapitel [-@sec-split-join]).
+2. Hitta det längsta ordet. Vilket mönster från kapitlet kan du använda, och vad ska startvärdet vara?
+3. Vad visas om två ord är lika långa? Och om fältet är tomt?
 :::
 
 ::: {.callout-note}

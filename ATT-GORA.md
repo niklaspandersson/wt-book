@@ -69,9 +69,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 16 Arrayer
 
-- **Grunderna flyttade till kap. 2.** Kapitlet börjar nu med *Ändra ett element*. Övningarna har kvar uppgifter om index och `length`, som nu repeterar kap. 2. Se över om de ska stå kvar, och om kapitlets övningssida och inledning håller ihop med det nya startläget.
 - **Tabellen `frågor[1].alternativ[0]`** är del B i övningen *Förutsäg värdena*. I texten finns en mening kvar.
-- **`querySelectorAll`, lyssnare i en loop och quizknapparna** har flyttat till kap. 17. *Arrayer av objekt* slutar nu med `for...of` över frågorna.
 
 ### Kap. 17 Händelser och många element
 
