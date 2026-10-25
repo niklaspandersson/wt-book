@@ -46,12 +46,19 @@ Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem p
 <head>
     <meta charset="UTF-8">
     <title>Quizkväll</title>
+    <style>
+        .rätt {
+            color: darkgreen;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h1>Quizkväll</h1>
     <p id="lagnamn">Lag: –</p>
     <p id="poäng">Poäng: 0</p>
     <p id="resultat">Resultat visas här.</p>
+    <p id="ledtråd">Ledtråd: tänk på huvudstäder i Norden.</p>
 
     <script>
         console.log("Skriptet körs!");
@@ -116,6 +123,15 @@ element.textContent = "Hej!";   // TypeError: Cannot set properties of null
 Det är ett av de vanligaste felen i webbutveckling. Ser du *"Cannot read properties of null"* eller *"Cannot set properties of null"*, kontrollera att selektorn stämmer och att elementet finns i HTML-koden.
 :::
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+En sida har elementet `<p class="tips">Läs frågan två gånger.</p>`.
+
+1. Vad returnerar `document.querySelector("#tips")`? Och `document.querySelector(".tips")`?
+2. Vad händer om du sätter `textContent` på det första av dem?
+:::
+
 ---
 
 ## Ändra text med `textContent`
@@ -146,19 +162,39 @@ Nu kan du visa laget på sidan:
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 15 };
 
-document.querySelector("#lagnamn").textContent = "Lag: " + lag.namn;
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+document.querySelector("#lagnamn").textContent = `Lag: ${lag.namn}`;
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 ```
 
-Raden `"Poäng: " + lag.poäng` räknas ut *en gång*, när raden körs, och det är den färdiga texten som hamnar på sidan. Ändrar du `lag.poäng` efteråt ändras inte sidan av sig själv:
+Templatesträngen `` `Poäng: ${lag.poäng}` `` räknas ut *en gång*, när raden körs, och det är den färdiga texten som hamnar på sidan. Ändrar du `lag.poäng` efteråt ändras inte sidan av sig själv:
 
 ```javascript
-lag.poäng = lag.poäng + 5;   // objektet har nu 20 poäng ...
-                             // ... men sidan visar fortfarande "Poäng: 15"
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;   // nu: "Poäng: 20"
+lag.poäng += 5;   // objektet har nu 20 poäng ...
+                  // ... men sidan visar fortfarande "Poäng: 15"
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;   // nu: "Poäng: 20"
 ```
 
 Sidan och dina variabler är två olika saker. Ska sidan visa ett nytt värde måste du själv skriva dit det.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+```javascript
+const spelare = { namn: "Omar", mål: 2 };
+const målElement = document.querySelector("#mål");
+
+målElement.textContent = `Mål: ${spelare.mål}`;
+spelare.mål += 1;
+```
+
+Vad visar elementet efter sista raden, och vad pekar `spelare.mål` på? Varför är de olika?
+:::
+
+::: {.callout-note}
+## `console.log()` lever kvar
+
+Att du kan visa resultat på sidan gör inte `console.log()` överflödigt. `console.log()` är för dig som programmerare – för att se värden och förstå vad koden gör – och besökaren ser det inte. Ändringar i DOM:en är för besökaren. Ofta använder du båda i samma program.
+:::
 
 ---
 
@@ -178,6 +214,12 @@ resultat.innerHTML = "Du fick <strong>15</strong> poäng";
 // Visar: Du fick **15** poäng (med fetstil)
 ```
 
+Med en templatesträng kan HTML-koden innehålla värden från dina variabler:
+
+```javascript
+resultat.innerHTML = `Du fick <strong>${lag.poäng}</strong> poäng`;
+```
+
 ### När ska du använda vilket?
 
 - **`textContent`** när du bara vill visa ren text. Det är snabbare och säkrare.
@@ -192,27 +234,8 @@ Sätt **aldrig** in ofiltrerad användardata med `innerHTML`. Skriver en använd
 
 Tänk dig att besökaren får skriva in sitt lagnamn, och att koden visar det med `innerHTML`. Skriver någon `<img src=x onerror=alert('hackad')>` som lagnamn, tolkar webbläsaren texten som en bild med JavaScript-kod i, och koden körs. Med `textContent` hade texten bara visats som den är.
 
-Så länge du bara använder `innerHTML` med text som *du själv* har skrivit i koden är det säkert. Problemet uppstår när du blandar in data som kommer utifrån.
+Så länge värdena i HTML-koden kommer från ditt eget program, som `lag.poäng` ovan, är det säkert. Problemet uppstår när du blandar in data som kommer utifrån.
 :::
-
----
-
-## `console.log()` lever kvar
-
-Att du kan visa resultat på sidan gör inte `console.log()` överflödigt. De två har olika roller:
-
-- **`console.log()`** är för *dig som programmerare*: för att se värden, felsöka och förstå vad koden gör. Användaren ser det inte.
-- **Ändringar i DOM:en** är för *användaren*: för att visa resultat och ge återkoppling.
-
-Ofta använder du båda i samma program:
-
-```javascript
-const lag = { namn: "Röda stjärnor", poäng: 12 };
-lag.poäng = lag.poäng + 3;                          // laget svarar rätt
-
-console.log(lag);                                   // för dig – stämmer objektet?
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;   // för besökaren
-```
 
 ---
 
@@ -315,8 +338,15 @@ Båda ändrar utseendet, men de passar i olika situationer. **Använd `classList
 ```javascript
 const stapel = document.querySelector("#stapel");
 const besvarade = 65;   // så många procent av frågorna är besvarade
-stapel.style.width = besvarade + "%";
+stapel.style.width = `${besvarade}%`;
 ```
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Ett kort på sidan har klassen `vald`. Användaren väljer ett annat kort. Vilket anrop behövs på det gamla kortet, och vilket på det nya?
+2. Vad har `kort.classList.toggle("vald")` gjort efter två anrop i rad?
+:::
 
 ---
 
@@ -366,6 +396,35 @@ Använd `hidden` när du bara vill visa eller dölja. Använd en CSS-klass om du
 
 Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `display: none`. Sätter din egen CSS `display` på elementet – till exempel `display: flex` – vinner din regel, och elementet syns trots `hidden`. Fungerar inte `hidden`, kontrollera elementets `display` i utvecklarverktygen.
 :::
+
+---
+
+## Ett löst exempel: poängtavlan
+
+Laget *Röda stjärnor* svarar rätt på en fråga värd 3 poäng. Poängtavlan på övningssidan ska visa lagets namn och nya poäng och ett grönt meddelande om det rätta svaret, och ledtråden ska försvinna.
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 12 };
+const frågansPoäng = 3;
+
+// Hämta elementen
+const lagnamn = document.querySelector("#lagnamn");
+const poäng = document.querySelector("#poäng");
+const resultat = document.querySelector("#resultat");
+const ledtråd = document.querySelector("#ledtråd");
+
+// Bearbeta: laget får poängen
+lag.poäng += frågansPoäng;
+
+// Visa resultatet
+lagnamn.textContent = `Lag: ${lag.namn}`;
+poäng.textContent = `Poäng: ${lag.poäng}`;
+resultat.textContent = `Rätt svar! +${frågansPoäng} poäng`;
+resultat.classList.add("rätt");
+ledtråd.hidden = true;
+```
+
+Poängen ändras i objektet innan texten byggs, eftersom sidan bara visar det du skriver dit.
 
 ---
 
@@ -425,8 +484,8 @@ Och det här skriptet körs:
 ```javascript
 const lag = { namn: "Gula gänget", poäng: 4 };
 document.querySelector("#lagnamn").textContent = lag.namn;
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
-lag.poäng = lag.poäng + 6;
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+lag.poäng += 6;
 document.querySelector("h1").innerHTML = "Quizkväll – <em>final</em>";
 document.querySelector("p").textContent = "<strong>Ledning!</strong>";
 ```
@@ -615,6 +674,10 @@ element.style.fontWeight = "bold";
 2. Vilka fördelar ser du med klassbaserade lösningen? Skriv ner minst två.
 3. Ge ett exempel på en situation där `.style` ändå vore det bättre valet.
 :::
+
+### Egna sidor
+
+I resten av övningarna gör du en egen sida för varje övning, med den HTML och CSS som behövs.
 
 ::: {.callout-note}
 ## Övning – Facit som döljs

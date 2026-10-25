@@ -6,6 +6,22 @@ losningar-till: kap06-dom.qmd
 
 Lösningar till övningarna i kapitel [-@sec-dom-intro].
 
+## Stanna upp-frågorna
+
+**Hämta ett element med `querySelector`**
+
+1. `document.querySelector("#tips")` returnerar `null`: `tips` är en klass, inte ett id. `document.querySelector(".tips")` returnerar stycket.
+2. Du får `TypeError: Cannot set properties of null (setting 'textContent')`. `null` är inget element och har ingen `textContent`.
+
+**Ändra text med `textContent`**
+
+Elementet visar `Mål: 2`, men `spelare.mål` pekar på `3`. Templatesträngen räknades ut när raden kördes, och det var den färdiga texten som hamnade på sidan. Att objektet ändras efteråt påverkar inte sidan.
+
+**`.style` eller `classList`?**
+
+1. `classList.remove("vald")` på det gamla kortet och `classList.add("vald")` på det nya.
+2. Ingenting. Det första anropet tar bort klassen och det andra lägger tillbaka den.
+
 ## Övning – Vad visas på sidan?
 
 När skriptet har körts visar sidan:
@@ -107,13 +123,13 @@ document.querySelector("h1").textContent = "Välkommen till quizet!";
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 15, runda: 2 };
 
-document.querySelector("#lagnamn").textContent = "Lag: " + lag.namn;
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
-document.querySelector("#runda").textContent = "Runda: " + lag.runda;
+document.querySelector("#lagnamn").textContent = `Lag: ${lag.namn}`;
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+document.querySelector("#runda").textContent = `Runda: ${lag.runda}`;
 
 // 2. Laget svarar rätt
-lag.poäng = lag.poäng + 3;
-document.querySelector("#poäng").textContent = "Poäng: " + lag.poäng;
+lag.poäng += 3;
+document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
 
 // 3. Rubriken
 document.querySelector("h1").innerHTML = "Quizkväll – <em>final</em>";
@@ -151,7 +167,7 @@ console.log(lag);
    - Utseendet ligger i CSS, där det hör hemma. Den som vill ändra färgen behöver inte leta i JavaScript-koden.
    - Klassen kan återanvändas på flera element utan att raderna upprepas.
    - Det är lätt att ta bort utseendet igen med `classList.remove`. Med `.style` måste du nollställa varje egenskap för sig.
-3. När värdet räknas ut i koden och inte kan förberedas i CSS. Kapitlets exempel är en stapel vars bredd beror på hur många procent av frågorna som är besvarade: `stapel.style.width = besvarade + "%";`. Det går inte att skriva en klass för varje tänkbar procentsats.
+3. När värdet räknas ut i koden och inte kan förberedas i CSS. Kapitlets exempel är en stapel vars bredd beror på hur många procent av frågorna som är besvarade: `` stapel.style.width = `${besvarade}%`; ``. Det går inte att skriva en klass för varje tänkbar procentsats.
 
 ## Övning – Facit som döljs
 
@@ -193,8 +209,8 @@ const fråga = {
 };
 
 document.querySelector("#frågetext").textContent = fråga.text;
-document.querySelector("#frågepoäng").textContent = "Frågan ger " + fråga.poäng + " poäng";
-document.querySelector("#ledtråd").textContent = "Ledtråd: " + fråga.ledtråd;
+document.querySelector("#frågepoäng").textContent = `Frågan ger ${fråga.poäng} poäng`;
+document.querySelector("#ledtråd").textContent = `Ledtråd: ${fråga.ledtråd}`;
 ```
 
 Frågetexten passar bra i en rubrik och poängen och ledtråden i var sitt stycke, men andra val fungerar också. Det rätta svaret ska förstås *inte* visas på sidan. Det kan ligga kvar i objektet tills programmet behöver det.
