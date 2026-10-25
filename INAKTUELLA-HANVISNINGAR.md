@@ -17,3 +17,15 @@ Kapitlet kortades i oktober 2026 enligt *Prose density* i CLAUDE.md.
 Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kostnad = biljettpris;`, två namn på samma funktion) är borttaget. Det behövs först för callbacks i kap. 9, som redan förklarar att ett namn utan parenteser är funktionen själv.
 
 - **kap-objekt.qmd, rad 200.** "samma sak som du såg med funktioner i kapitel 5, där två namn kunde peka på samma funktion". Exemplet finns inte längre i kap. 7.
+
+## Till kapitel 9, *Händelser* (`sec-handelser`)
+
+Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen" som en numrerad metod. Det lösta exemplet har kvar kommentarerna *hämta, lyssna, läs, bearbeta, visa*, så att studenten känner igen mönstret, men det ska inte framstå som ett recept (se CLAUDE.md, *A worked example*). Avsnittet *Ett mönster för interaktiva sidor* heter nu *Ett löst exempel: lagnamnet*.
+
+- **kap10-sant-och-falskt.qmd**, det lösta exemplet: "Koden följer de fem stegen från kapitel 9 …".
+- **kap12-villkor.qmd**, det lösta exemplet: "Koden följer de fem stegen från kapitel 9.", och övningen *Vem leder?* ("Planera innan …").
+- **kap14-loopar.qmd**, det lösta exemplet ("Koden följer de fem stegen …") och en övning ("Börja med att skriva de fem stegen som kommentarer").
+- **kap16-arrayer.qmd**, det lösta exemplet och övningen *Bygg vidare på anmälan* ("I vilket av de fem stegen …").
+- **kap17-manga-element.qmd**, det lösta exemplet: "Resten följer de fem stegen från kapitel 9 …".
+- **kap-objekt.qmd**, en övning: "Skriv de fem stegen som kommentarer först."
+

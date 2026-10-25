@@ -28,12 +28,11 @@
 
 Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6 och 7 skrevs före mallen och följer den bara delvis. Minikapitlen (kap. 3, 5, 8, 11, 13 och 15) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
-- ***Stanna upp*-rutor saknas i kap. 9.**
 - **Lösta exempel:** i kap. 10 används femstegsmönstret, men avsnittet har inte rubriken *Ett löst exempel*. Kap. 1, 2, 4 och 7 får inga lösta exempel (beslut i oktober 2026).
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - ***Vad säger felet?*** finns i kap. 3–9 och 11–17. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 10 saknar en.
 - **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 4 (en analogi, ingen situation), kap. 12 (betyg i en kurs).
-- **Exemplen styr i stället för språket och API:t** (se CLAUDE.md, *The language and the API come first*). Det gäller både rubriker och brödtext: avsnitt som lär ut en funktion genom ett längre scenario, och praktiska exempel som förklarar rad för rad det som redan är förklarat. Rubriker som tydligt bryter mot regeln: kap. 9 *Från konsol till sida* med *En räknare*, *Mörkt läge med en knapp* och *Funktioner som uppdaterar sidan*; kap. 10 *Ett formulär som svarar direkt*; kap. 12 *Utseende efter resultat*. Brödtexten behöver ses över i alla vanliga kapitel, också de lösta exemplen.
+- **Exemplen styr i stället för språket och API:t** (se CLAUDE.md, *The language and the API come first*). Det gäller både rubriker och brödtext: avsnitt som lär ut en funktion genom ett längre scenario, och praktiska exempel som förklarar rad för rad det som redan är förklarat. Kap. 1–9 är genomgångna (oktober 2026). Kvar: kap. 10, 12, 14, 16 och 17, se GRANSKNING.md.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7 och 10 → 11 → 12 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Innehåll att se över i nästa iteration
@@ -56,10 +55,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 ### Kap. 7 Att skriva egna funktioner
 
 - **Konsolen som verktyg.** Nu när skriptets funktioner nås från konsolen kunde en övning låta studenten anropa sina funktioner där med olika argument, som ett sätt att testa dem.
-
-### Kap. 9 Händelser
-
-- **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter *Callback-funktioner* (`hälsa` eller `hälsa()`?), efter räknaren (varför ligger `antal` utanför?) och efter det lösta exemplet (vilka steg körs när?).
 
 ### Kap. 10 Sant och falskt
 

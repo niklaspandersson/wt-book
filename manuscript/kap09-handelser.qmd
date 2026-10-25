@@ -125,7 +125,7 @@ Några vanliga händelser:
 | `input`      | Innehållet i ett textfält ändras     |
 | `change`     | Ett formulärelement ändrar värde     |
 
-Tangenthändelserna blir användbara först när programmet kan avgöra *vilken* tangent som trycktes, så de får vänta till kapitel [-@sec-villkor]. Vi börjar med den vanligaste händelsen: `click`.
+Tangenthändelserna tas upp i kapitel [-@sec-manga-element]. Vi börjar med den vanligaste händelsen: `click`.
 
 ---
 
@@ -156,6 +156,22 @@ knapp.addEventListener("click", hälsa);
 ```
 
 Koden hämtar knappen, definierar funktionen `hälsa` och anropar `addEventListener` med händelsetypen `"click"` och funktionen `hälsa`. Varje gång användaren klickar på knappen skrivs "Hej!" i konsolen. Funktionen körs inte när sidan laddas, utan *bara* när händelsen inträffar.
+
+Callbacken kan lika gärna ändra sidan:
+
+```html
+<p id="meddelande">Klicka på knappen!</p>
+```
+
+```javascript
+const meddelande = document.querySelector("#meddelande");
+
+function hälsa() {
+    meddelande.textContent = "Hej! Du klickade på knappen.";
+}
+
+knapp.addEventListener("click", hälsa);
+```
 
 ---
 
@@ -210,29 +226,18 @@ Pilfunktionen är den form du oftast möter i modern JavaScript, i dokumentation
 
 En namngiven funktion passar när samma funktion ska användas på flera ställen, eller när den är lång. En anonym pilfunktion passar för korta callbacks.
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Sidan har en funktion `visaTips`. Vad händer när sidan laddas, och vad händer vid ett klick, med `knapp.addEventListener("click", visaTips);`? Och med `knapp.addEventListener("click", visaTips());`?
+2. Skriv om `knapp.addEventListener("click", function() { console.log("Tips!"); });` med en pilfunktion.
+:::
+
 ---
 
-## Från konsol till sida
+## Variabler som minns mellan händelser
 
-Att skriva till konsolen vid ett klick är bra för att testa, men oftast vill du ändra *sidan*:
-
-```html
-<p id="meddelande">Klicka på knappen!</p>
-<button id="hälsa-knapp">Säg hej</button>
-```
-
-```javascript
-const knapp = document.querySelector("#hälsa-knapp");
-const meddelande = document.querySelector("#meddelande");
-
-knapp.addEventListener("click", () => {
-    meddelande.textContent = "Hej! Du klickade på knappen.";
-});
-```
-
-### En räknare
-
-Här samverkar en variabel, en händelse och en ändring av sidan:
+En callback kan läsa och ändra variabler som är deklarerade utanför den, enligt reglerna för **scope** (kapitel [-@sec-funktioner]). Det behövs när sidan ska minnas något mellan två händelser, som en räknare:
 
 ```html
 <p>Antal klick: <span id="antal">0</span></p>
@@ -242,46 +247,17 @@ Här samverkar en variabel, en händelse och en ändring av sidan:
 ```javascript
 let antal = 0;
 const antalElement = document.querySelector("#antal");
-const knapp = document.querySelector("#räkna-knapp");
+const räknaKnapp = document.querySelector("#räkna-knapp");
 
-knapp.addEventListener("click", () => {
-    antal = antal + 1;
+räknaKnapp.addEventListener("click", () => {
+    antal++;
     antalElement.textContent = antal;
 });
 ```
 
-Variabeln `antal` ligger utanför callbacken men nås inifrån den, enligt scope-reglerna i kapitel [-@sec-funktioner]. Den *måste* ligga utanför: annars skulle den skapas på nytt, med värdet 0, vid varje klick.
+`antal` är deklarerad på skriptets översta nivå. Dess scope är hela skriptet, och värdet finns kvar mellan klicken. Hade `let antal = 0;` stått inuti callbacken hade variabelns scope varit callbacken: den hade skapats på nytt med värdet 0 vid varje klick och försvunnit när callbacken var klar. Talet står i ett eget `<span>`-element, så att bara talet behöver bytas ut.
 
-Talet står i ett eget `<span>`-element, så att bara talet behöver bytas ut och inte hela stycket.
-
-### Mörkt läge med en knapp
-
-I kapitel [-@sec-dom-intro] slog du på mörkt läge med en variabel. Nu kan en knapp göra det:
-
-```html
-<button id="tema-knapp">Byt tema</button>
-```
-
-```css
-.dark {
-    background-color: #1a1a2e;
-    color: #e0e0e0;
-}
-```
-
-```javascript
-const temaKnapp = document.querySelector("#tema-knapp");
-
-temaKnapp.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-});
-```
-
-En enda rad i callbacken slår på och av mörkt läge vid varje klick.
-
-### Funktioner som uppdaterar sidan
-
-Funktioner som uppdaterar sidan, som `visaPoäng` i kapitel [-@sec-funktioner], passar bra ihop med händelser. Här har quizet två knappar som båda anropar samma funktion för att visa poängen:
+Flera callbacks kan ändra samma variabel. Här visar båda poängen med samma funktion:
 
 ```html
 <p id="poäng">Poäng: 0</p>
@@ -294,11 +270,11 @@ const poängElement = document.querySelector("#poäng");
 let poäng = 0;
 
 function visaPoäng(poäng) {
-    poängElement.textContent = "Poäng: " + poäng;
+    poängElement.textContent = `Poäng: ${poäng}`;
 }
 
 document.querySelector("#rätt-knapp").addEventListener("click", () => {
-    poäng = poäng + 10;
+    poäng += 10;
     visaPoäng(poäng);
 });
 
@@ -308,7 +284,24 @@ document.querySelector("#nollställ-knapp").addEventListener("click", () => {
 });
 ```
 
-Varje callback gör två saker: ändrar *data* (variabeln `poäng`) och visar den nya datan på sidan. När användaren klickar anropar webbläsaren callbacken, och callbacken anropar `visaPoäng`. Variabeln `poäng` ligger utanför callbackarna, av samma skäl som `antal` i räknaren: den ska minnas sitt värde mellan klicken. Mönstret – ändra data, uppdatera sidan – finns i nästan alla interaktiva program.
+Varje callback ändrar först variabeln och anropar sedan `visaPoäng`, så att sidan alltid visar det aktuella värdet.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+```javascript
+const plusKnapp = document.querySelector("#plus-knapp");
+
+plusKnapp.addEventListener("click", () => {
+    let mål = 0;
+    mål++;
+    console.log(mål);
+});
+```
+
+1. Vad skrivs ut efter tre klick? Förklara med ordet *scope*.
+2. Var ska raden `let mål = 0;` stå för att utskriften ska bli 1, 2 och 3?
+:::
 
 ---
 
@@ -354,7 +347,7 @@ Enkla hover-effekter kan göras helt i CSS med `:hover`. Använd JavaScript bara
 
 ---
 
-## Input-händelser
+## Händelserna `input` och `change`
 
 Textfält och andra formulärelement har egna händelser:
 
@@ -372,7 +365,7 @@ const hälsning = document.querySelector("#hälsning");
 
 namnfält.addEventListener("input", () => {
     const namn = namnfält.value;
-    hälsning.textContent = "Hej, " + namn + "!";
+    hälsning.textContent = `Hej, ${namn}!`;
 });
 ```
 
@@ -405,7 +398,7 @@ const valtElement = document.querySelector("#valt");
 
 språkMeny.addEventListener("change", () => {
     const val = språkMeny.value;
-    valtElement.textContent = "Du valde: " + val;
+    valtElement.textContent = `Du valde: ${val}`;
 });
 ```
 
@@ -417,19 +410,18 @@ För `<select>` och kryssrutor är `change` det naturliga valet. För textfält 
 Allt du läser med `.value` är text – även om användaren har skrivit en siffra, och även i ett `<input type="number">`. Vill du räkna med värdet måste du först göra om det med `Number()` (kapitel [-@sec-text-till-tal]).
 :::
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Ett sökfält ska visa förslag medan användaren skriver. Vilken händelse passar, `input` eller `change`?
+2. Användaren skriver `7` i ett `<input type="number">`. Vad ger `typeof fält.value`?
+:::
+
 ---
 
-## Ett mönster för interaktiva sidor
+## Ett löst exempel: lagnamnet
 
-Exemplen i kapitlet liknar varandra mer än man först tror. Nästan varje interaktiv del av en webbsida kan byggas i samma fem steg:
-
-1. **Hämta** de element du behöver, med `querySelector`.
-2. **Lyssna** efter en händelse, med `addEventListener`.
-3. **Läs** det användaren har skrivit eller valt, med `.value`.
-4. **Bearbeta** värdet – räkna, jämför eller bygg ihop en text.
-5. **Visa** resultatet, med `textContent`, `classList` eller `hidden`.
-
-Här är ett löst exempel med stegen utmärkta som kommentarer. Domaren skriver in lagets namn och klickar på en knapp, och namnet visas på poängtavlan:
+Domaren skriver in lagets namn och klickar på en knapp, och namnet visas på poängtavlan:
 
 ```html
 <input type="text" id="lagfält" placeholder="Lagets namn">
@@ -449,16 +441,14 @@ sparaKnapp.addEventListener("click", () => {
     const namn = lagfält.value;
 
     // 4. Bearbeta
-    const text = "Lag: " + namn;
+    const text = `Lag: ${namn}`;
 
     // 5. Visa resultatet
     lagnamnElement.textContent = text;
 });
 ```
 
-Steg 1 och 2 körs en gång, när sidan laddas. Steg 3–5 står *inuti* callbacken och körs vid varje klick. Hade raden `const namn = lagfält.value;` stått utanför callbacken hade fältet lästs när sidan laddades – när det ännu var tomt – och sedan aldrig mer. Det som ska hända *när* användaren gör något måste stå i callbacken.
-
-När du ska bygga något nytt kan du börja med att skriva de fem stegen som kommentarer och sedan fylla i koden under var och en.
+Kommentarerna delar koden i delar som återkommer i många interaktiva program. Att hämta elementen och lyssna görs en gång, när sidan laddas. Att läsa, bearbeta och visa står *inuti* callbacken och görs vid varje klick. Hade raden `const namn = lagfält.value;` stått utanför callbacken hade fältet lästs när sidan laddades – när det ännu var tomt – och sedan aldrig mer.
 
 ---
 
@@ -467,12 +457,12 @@ När du ska bygga något nytt kan du börja med att skriva de fem stegen som kom
 - **`addEventListener("typ", callback)`** registrerar en funktion som körs när en händelse inträffar.
 - **Callback-funktionen** skickas som ett värde och anropas av webbläsaren vid rätt tillfälle. Den kan vara namngiven eller anonym, och en anonym callback skrivs oftast som en pilfunktion.
 - **Parenteser spelar roll**: `hälsa` skickar funktionen, `hälsa()` anropar den.
-- Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken.
+- Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken. En variabel som deklareras inuti callbacken har callbackens **scope** och skapas på nytt vid varje händelse.
 - **`click`** är den vanligaste händelsen. Andra viktiga typer är `mouseenter`/`mouseleave` och `input`/`change`.
 - **`.value`** läser innehållet i formulärelement – inte `.textContent`. Värdet är alltid en sträng.
-- Interaktiva sidor kan byggas i fem steg: **hämta, lyssna, läs, bearbeta, visa**. Det som ska hända vid varje händelse står i callbacken.
+- Det som ska hända vid varje händelse – att läsa, bearbeta och visa – står i callbacken. Att hämta elementen och registrera lyssnaren görs en gång.
 
-Hittills händer samma sak varje gång användaren gör något. I de kommande kapitlen lär du dig att räkna med tal och text, och sedan att låta programmet reagera på *olika* sätt beroende på vad användaren gör.
+Hittills händer samma sak varje gång användaren gör något. I kapitel [-@sec-villkor] lär du dig att låta programmet reagera på *olika* sätt beroende på vad användaren gör.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -487,7 +477,7 @@ Bygg gärna programmet efteråt och kontrollera i webbläsaren – den har allti
 
 **Granska planen innan du bygger:**
 
-Innan du skriver kod för en interaktiv sida kan du beskriva den i ord – gärna som de fem stegen *hämta, lyssna, läs, bearbeta, visa* – och låta AI:n granska beskrivningen:
+Innan du skriver kod för en interaktiv sida kan du beskriva den i ord – vilka element, vilka händelser och vad som ska hända – och låta AI:n granska beskrivningen:
 
 > *"Jag vill bygga en sida där ett textfält visar hur många tecken man har skrivit, och en knapp tömmer fältet. Jag tänker använda händelserna `click` och `change`. Säg inte hur koden ska se ut, men säg om jag valt rätt händelser och vad som i så fall kommer att bete sig konstigt."*
 
@@ -537,12 +527,12 @@ function visaAntal(värde) {
 }
 
 knapp.addEventListener("click", () => {
-    antal = antal + 2;
+    antal += 2;
     visaAntal(antal);
 });
 
 knapp.addEventListener("click", () => {
-    antal = antal - 1;
+    antal--;
 });
 ```
 
@@ -599,13 +589,13 @@ const svarsfält = document.querySelector("#svar");
 const kvitto = document.querySelector("#kvitto");
 
 document.querySelector("button").addEventListener("click", () => {
-    kvitto.textContent = "Ditt svar: " + svarsfält.value;
+    kvitto.textContent = `Ditt svar: ${svarsfält.value}`;
     svarsfält.value = "";
 });
 ```
 
 1. Beskriv med en eller två meningar vad besökaren är med om när den använder sidan. Beskriv det som händer, inte vad varje rad gör.
-2. Vilka av de fem stegen – hämta, lyssna, läs, bearbeta, visa – kan du hitta i koden? Vilket steg gör något som inget av exemplen i kapitlet gjorde?
+2. Var i koden hämtas elementen, var läses värdet och var visas resultatet? Vilken rad gör något som inget av exemplen i kapitlet gjorde?
 :::
 
 ::: {.callout-note}
@@ -631,7 +621,17 @@ knapp.addEventListener("onclick", () => {
 ::: {.callout-note}
 ## Övning – Mörkt läge
 
-Utgå från exemplet *Mörkt läge med en knapp* i kapitlet, där en knapp slår av och på klassen `dark` på `<body>`. Bygg vidare på det:
+Övningssidan har en knapp med id `tema-knapp` och en CSS-klass `dark`. Den här koden slår av och på mörkt läge vid varje klick:
+
+```javascript
+const temaKnapp = document.querySelector("#tema-knapp");
+
+temaKnapp.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+});
+```
+
+Prova koden och bygg sedan vidare på den:
 
 1. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
 :::
@@ -653,7 +653,7 @@ Behöver sidan CSS lägger du ett `<style>`-element i `<head>`, som på övnings
 
 Gör en sida med en knapp och ett element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
 
-Sidan behöver två element: en knapp och något som visar talet. Titta på exemplet *En räknare*. Där står talet i ett `<span>` inuti ett stycke, så att bara talet behöver bytas ut. Gör likadant, eller låt hela stycket visa talet – men bestäm dig innan du börjar skriva koden, eftersom det påverkar vad callbacken ska skriva in i elementet.
+Sidan behöver två element: en knapp och något som visar talet. Titta på räknaren i avsnittet *Variabler som minns mellan händelser*. Där står talet i ett `<span>` inuti ett stycke, så att bara talet behöver bytas ut. Gör likadant, eller låt hela stycket visa talet – men bestäm dig innan du börjar skriva koden, eftersom det påverkar vad callbacken ska skriva in i elementet.
 
 Utöka sedan i två steg:
 
@@ -668,7 +668,7 @@ Gör en sida med ett textfält och en rubrik. Medan användaren skriver i fälte
 
 Sidan behöver ett textfält, `<input type="text">`, och en rubrik, till exempel `<h1>`. Låt rubriken vara tom från början, eller ge den en text som "Skriv något …" så att du ser var den finns på sidan.
 
-1. Skriv först de fem stegen som kommentarer i skriptet, som i avsnittet *Ett mönster för interaktiva sidor*. Fyll sedan i koden under varje kommentar. Vilket steg blir tomt här?
+1. Planera först med kommentarer i skriptet, som i det lösta exemplet: vad ska hämtas, vilken händelse ska lyssnas på, och vad ska läsas, bearbetas och visas? Fyll sedan i koden under varje kommentar. Behövs alla delar här?
 2. Lös uppgiften med `input`-händelsen.
 3. Byt till `change`-händelsen. Vad är skillnaden för användaren? Beskriv en situation där `change` vore det bättre valet.
 4. Lägg till en lyssnare till på samma fält, som skriver ut värdet i konsolen. Körs båda lyssnarna? I vilken ordning?

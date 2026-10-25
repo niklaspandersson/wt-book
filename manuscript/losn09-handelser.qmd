@@ -65,12 +65,7 @@ Knappen som `querySelector("button")` hittar är *Säg hej*, den första knappen
 ## Övning – Förklara koden
 
 1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.* (På övningssidan är knappen *Säg hej*, eftersom det är den första knappen.)
-2. Alla fem stegen finns:
-   - **Hämta:** de två första raderna, plus `document.querySelector("button")`.
-   - **Lyssna:** `addEventListener("click", …)`.
-   - **Läs:** `svarsfält.value`.
-   - **Bearbeta:** `"Ditt svar: " + svarsfält.value`.
-   - **Visa:** `kvitto.textContent = …`.
+2. Elementen hämtas på de två första raderna (och med `document.querySelector("button")`). Värdet läses med `svarsfält.value` och visas med `kvitto.textContent = …`, som också bygger texten med en templatesträng.
 
     Det nya är raden `svarsfält.value = "";`. I kapitlets exempel lästes `.value`, men här *skrivs* det: koden tömmer fältet. `.value` fungerar alltså åt båda hållen, precis som `textContent`.
 
@@ -160,12 +155,12 @@ function visaAntal(antal) {
 
 // Lyssna
 ökaKnapp.addEventListener("click", () => {
-    antal = antal + 1;
+    antal++;
     visaAntal(antal);
 });
 
 minskaKnapp.addEventListener("click", () => {
-    antal = antal - 1;
+    antal--;
     visaAntal(antal);
 });
 
@@ -201,7 +196,7 @@ textfält.addEventListener("input", () => {
 });
 ```
 
-1. Steg 4, *bearbeta*, blir tomt. Texten ska visas precis som den skrevs.
+1. Det finns inget att *bearbeta*: texten ska visas precis som den skrevs.
 2. Se koden ovan.
 3. Med `"change"` uppdateras rubriken först när användaren lämnar fältet eller trycker Enter, inte för varje bokstav. `change` är bättre när det som ska hända är för stort eller störande för att ske vid varje tangenttryckning, till exempel när ett namn ska sparas, en sökning göras eller en kontroll som visar ett felmeddelande köras. Ingen vill få "ogiltig e-postadress" efter första bokstaven.
 4. Ja, båda körs, i den ordning de registrerades:
@@ -310,7 +305,7 @@ const tavla = document.querySelector("#tavla");
 const lag = { namn: "–", poäng: 0 };
 
 function visaLag(lag) {
-    tavla.textContent = lag.namn + ": " + lag.poäng + " poäng";
+    tavla.textContent = `${lag.namn}: ${lag.poäng} poäng`;
 }
 
 // Lyssna
@@ -320,7 +315,7 @@ sparaKnapp.addEventListener("click", () => {
 });
 
 rättKnapp.addEventListener("click", () => {
-    lag.poäng = lag.poäng + 3;
+    lag.poäng += 3;
     visaLag(lag);
 });
 
