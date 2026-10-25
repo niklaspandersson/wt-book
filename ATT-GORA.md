@@ -16,7 +16,6 @@
 
 ## Del I
 
-- **Övningen *Frågornas typer* i kap. 14** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Se över dem i samband med kortningen av varje kapitel.
 - **En ordlista svenska–engelska** (PEDAGOGIK §6) saknas. Felmeddelanden och MDN är på engelska (*call, argument, return value, method* …).
@@ -67,7 +66,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Prislistans spårtabell** är nu ett löst exempel i övningen *Spåra summan*. Brödtexten har kvar spårtabellen för `while`, som är kapitlets modell. Fundera på om *Bygga upp ett resultat* behöver en bild av hur `text` växer (till exempel pilbilden) nu när tabellen är borta.
 - **`continue`, `do...while` och nästlade loopar** nämns inte längre alls. Studenterna möter dem i andras kod och på MDN.
-- **Övningen *Frågornas typer*** bygger på `%` (se punkten under Del I ovan).
 
 ### Kap. 16 Arrayer
 
@@ -83,7 +81,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Minikapitlen (kap. 3, 5, 8, 11, 13 och 15)
 
-- **`%` finns kvar** i *Räkna med tal*, fast CLAUDE.md säger att boken ska undvika modulo. Den används i övningen *Frågornas typer* i kap. 14 (se ovan). Fattas beslut om den övningen kan `%` kanske strykas.
 - **Stegtabellen för kedjade metoder** står kvar i brödtexten i *Skapa och ändra strängar*. Enligt formatet för minikapitel och regeln om lösta exempel kunde den flyttas till övningen *Spåra strängarna*. Författaren avgör.
 - **Flyttal.** Rutan om att `0.1 + 0.2` ger `0.30000000000000004` är borttagen. Kommer det upp i en övning behöver lösningen förklara det.
 - **Övningarna från gamla kap. 7 som behövde händelser** är strukna: *Ordna raderna* (svaret i stora bokstäver), *Bygg vidare på momsräknaren*, *Temperaturomvandlare*, *Teckenräknare* och *Poängtavlan räknar rätt*. Händelsekapitlet (kap. 9) kommer nu efter `Number()` och strängmetoderna och kunde ta upp någon av dem, till exempel teckenräknaren för `input`-händelsen.

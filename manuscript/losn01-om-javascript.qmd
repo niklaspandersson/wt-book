@@ -49,16 +49,6 @@ Lägg märke till mönstret: det som *finns* på sidan är HTML, hur det *ser ut
 
 Det som brukar överraska är den sista raden. JavaScript ger inte en jämn trea, utan ett decimaltal med många decimaler, och sista siffran är en femma i stället för en trea. Datorn kan inte spara oändligt många decimaler, så den avrundar någonstans. Decimaltecknet är en punkt och inte ett kommatecken, som i engelskspråkiga länder.
 
-**Gåtan:**
-
-```javascript
-10 % 3;    // 1
-7 % 2;     // 1
-135 % 60;  // 15
-```
-
-`%` ger det som *blir över* när man delar upp ett tal i lika stora delar. 135 minuter är 2 timmar och 15 minuter: 60 får plats två gånger i 135, och kvar blir 15. På samma sätt får 3 plats tre gånger i 10 med 1 över, och 2 får plats tre gånger i 7 med 1 över. Operatorn heter *modulo* eller *rest*.
-
 ## Övning – Uttryck eller sats?
 
 | Rad | Konsolen svarar | Vad det är |

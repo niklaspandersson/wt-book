@@ -309,15 +309,6 @@ Det du gör i DevTools är temporärt – sidan återgår till original vid omla
 
 Stämde dina gissningar? Om något svar överraskade dig: vad var det som var annorlunda än du väntade dig?
 
-**En gåta.** JavaScript har också operatorn `%`. Den har ingenting med procent att göra. Prova de här raderna:
-
-```javascript
-10 % 3;
-7 % 2;
-135 % 60;
-```
-
-Vad verkar `%` göra? En ledtråd: tänk på 135 minuter uttryckt i timmar och minuter. Testa med fler tal tills du kan beskriva operatorn med en egen mening.
 :::
 
 ::: {.callout-note}

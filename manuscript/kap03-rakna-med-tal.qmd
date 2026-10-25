@@ -12,9 +12,6 @@ Räknetecknen kallas **aritmetiska operatorer**:
 | `-`      | minus                | `10 - 3`    | `7`      |
 | `*`      | gånger               | `3 * 4`     | `12`     |
 | `/`      | delat med            | `15 / 4`    | `3.75`   |
-| `%`      | det som blir över    | `135 % 60`  | `15`     |
-
-`%` ger det som blir över när något delas upp i lika stora delar: 135 minuter är två hela timmar och 15 minuter till. Du kommer inte att behöva den ofta.
 
 ### Räkneordning och parenteser
 

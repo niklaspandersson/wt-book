@@ -22,7 +22,6 @@ Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kos
 
 Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen" som en numrerad metod. Det lösta exemplet har kvar kommentarerna *hämta, lyssna, läs, bearbeta, visa*, så att studenten känner igen mönstret, men det ska inte framstå som ett recept (se CLAUDE.md, *A worked example*). Avsnittet *Ett mönster för interaktiva sidor* heter nu *Ett löst exempel: lagnamnet*.
 
-- **kap14-loopar.qmd**, det lösta exemplet ("Koden följer de fem stegen …") och en övning ("Börja med att skriva de fem stegen som kommentarer").
 - **kap16-arrayer.qmd**, det lösta exemplet och övningen *Bygg vidare på anmälan* ("I vilket av de fem stegen …").
 - **kap17-manga-element.qmd**, det lösta exemplet: "Resten följer de fem stegen från kapitel 9 …".
 - **kap-objekt.qmd**, en övning: "Skriv de fem stegen som kommentarer först."

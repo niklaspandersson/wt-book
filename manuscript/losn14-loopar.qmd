@@ -10,17 +10,18 @@ Lösningar till övningarna i kapitel [-@sec-loopar].
 
 **`while`-loopen**
 
-1. Med villkoret `i < 3`:
+1. Med 10 poäng per runda:
 
-    | Varv | `i` före | Villkoret `i < 3` | Utskrift | `i` efter |
+    | Varv | `poäng` före | Villkoret `poäng < 30` | `poäng` efter | `rundor` efter |
     |---|---|---|---|---|
-    | 1 | 1 | `true` | `1` | 2 |
-    | 2 | 2 | `true` | `2` | 3 |
-    | – | 3 | `false` | `Klart!` (efter loopen) | 3 |
+    | 1 | 0 | `true` | 10 | 1 |
+    | 2 | 10 | `true` | 20 | 2 |
+    | 3 | 20 | `true` | 30 | 3 |
+    | – | 30 | `false` | – | – |
 
-    Blocket körs två gånger, och `i` pekar på 3 efter loopen.
+    Blocket körs tre gånger, och `poäng` pekar på 30 efter loopen. `30 < 30` är falskt, så loopen slutar precis när laget har nått gränsen.
 
-2. Bara `Klart!` skrivs ut. Villkoret `5 <= 3` är falskt redan första gången, så blocket körs aldrig. Villkoret prövas en gång.
+2. `0 rundor ger 40 poäng.` Villkoret `40 < 30` är falskt redan första gången, så blocket körs aldrig. Villkoret prövas en gång.
 
 **`for`-loopen**
 
@@ -50,6 +51,10 @@ Lösningar till övningarna i kapitel [-@sec-loopar].
 
 1. I teorin skulle tärningen kunna låta bli att visa en sexa hur länge som helst, men i praktiken händer det inte – varje kast har en chans på sex att bli en sexa, och loopen tar slut efter några kast. Med `tärning !== 7` blir det däremot en oändlig loop: tärningen visar aldrig 7, så villkoret är alltid sant.
 2. Det första klicket fungerar som vanligt. Men efter det pekar `tärning` redan på 6. Vid nästa klick är villkoret `tärning !== 6` falskt redan från början, loopen körs inte, och sidan visar samma antal kast som förra gången. Variablerna måste skapas på nytt för varje klick – därför står de i callbacken.
+
+**Ett löst exempel: nedräkningen**
+
+1. Utan en övre gräns kunde någon skriva `1000000`, och loopen skulle bygga en text med en miljon tal. Sidan skulle bli långsam eller sluta svara en stund, och texten vore oläslig. En gräns skyddar mot inmatning som är giltig men orimlig.
 
 ## Övning – Hur många varv?
 
@@ -313,21 +318,28 @@ document.querySelector("#visa").addEventListener("click", () => {
 ## Övning – Frågornas typer
 
 ```javascript
+let kategori = 1;
+
 for (let nr = 1; nr <= 15; nr++) {
-    if (nr % 3 === 0 && nr % 5 === 0) {
-        console.log(`Fråga ${nr}: bonus`);
-    } else if (nr % 3 === 0) {
+    if (nr === 15) {
+        console.log(`Fråga ${nr}: final`);
+    } else if (kategori === 1) {
         console.log(`Fråga ${nr}: musik`);
-    } else if (nr % 5 === 0) {
-        console.log(`Fråga ${nr}: bild`);
+    } else if (kategori === 2) {
+        console.log(`Fråga ${nr}: sport`);
     } else {
-        console.log(`Fråga ${nr}: vanlig`);
+        console.log(`Fråga ${nr}: geografi`);
+    }
+
+    kategori++;
+    if (kategori > 3) {
+        kategori = 1;
     }
 }
 ```
 
-1. `nr % 3 === 0` frågar om det blir något över när frågorna delas upp i grupper om tre. Blir det inget över – som för 3, 6, 9, 12 och 15 – är det var tredje fråga.
-2. Villkoret för bonusfrågan måste stå *först*. Fråga 15 är både var tredje och var femte. Står musikvillkoret först stämmer det för 15, kedjan väljer musik och hoppar över resten. Det mest specifika villkoret – det som kräver mest – ska stå överst, precis som den högsta gränsen i betygskedjan.
+1. `kategori` skapas före loopen, eftersom den ska komma ihåg sitt värde mellan varven. Sist i varje varv ökas den, och när den har blivit 4 börjar den om på 1. Den går alltså 1, 2, 3, 1, 2, 3 … medan `nr` går från 1 till 15.
+2. Villkoret för finalfrågan måste stå *först*. Fråga 15 har också en kategori. Står kategorivillkoren först stämmer ett av dem för fråga 15, kedjan väljer det och hoppar över resten. Det mest specifika villkoret ska stå överst, precis som den högsta gränsen i betygskedjan.
 3. Med ett fält:
 
     ```html
@@ -350,22 +362,29 @@ for (let nr = 1; nr <= 15; nr++) {
         }
 
         let text = "";
+        let kategori = 1;
+
         for (let nr = 1; nr <= antal; nr++) {
             let typ;
-            if (nr % 3 === 0 && nr % 5 === 0) {
-                typ = "bonus";
-            } else if (nr % 3 === 0) {
+            if (nr === antal) {
+                typ = "final";
+            } else if (kategori === 1) {
                 typ = "musik";
-            } else if (nr % 5 === 0) {
-                typ = "bild";
+            } else if (kategori === 2) {
+                typ = "sport";
             } else {
-                typ = "vanlig";
+                typ = "geografi";
             }
             text += `Fråga ${nr}: ${typ}\n`;
+
+            kategori++;
+            if (kategori > 3) {
+                kategori = 1;
+            }
         }
 
         frågorElement.textContent = text;
     });
     ```
 
-    Här väljer `if`-kedjan bara *typen*, och raden byggs på ett ställe. Det är kortare än att skriva hela raden i varje gren, och formatet kan ändras på ett ställe.
+    Här väljer `if`-kedjan bara *typen*, och raden byggs på ett ställe. `kategori` skapas i callbacken, så att varje klick börjar om från musik.

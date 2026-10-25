@@ -82,37 +82,38 @@ while (villkor) {
 
 Skillnaden är vad som händer efter blocket. En `if`-sats kör blocket högst en gång och går sedan vidare. En `while`-loop går *tillbaka* till villkoret och frågar igen. Är svaret fortfarande `true` körs blocket en gång till. Först när villkoret är `false` går programmet vidare till koden efter loopen. Läs det högt: "*så länge* villkoret är sant, kör blocket".
 
-Här är en loop som skriver ut talen 1, 2 och 3:
+Laget behöver minst 30 poäng för att gå till final, och varje vunnen runda ger 7 poäng. Hur många rundor behövs?
 
 ```javascript
-let i = 1;
+let poäng = 0;
+let rundor = 0;
 
-while (i <= 3) {
-    console.log(i);
-    i = i + 1;
+while (poäng < 30) {
+    poäng += 7;
+    rundor++;
 }
 
-console.log("Klart!");
+console.log(`${rundor} rundor ger ${poäng} poäng.`);
 ```
 
-Variabeln `i` håller reda på hur långt loopen har kommit. Den kallas loopens **räknare**. Namnet `i` är en vana bland programmerare, men du får gärna välja ett mer beskrivande namn.
+Villkoret handlar om poängen, inte om hur många varv loopen har gått: loopen fortsätter *så länge* laget har för få poäng. En **spårtabell** visar vad som händer. Varje rad i tabellen är ett **varv** – en körning av blocket:
 
-En **spårtabell** visar vad som händer. Varje rad i tabellen är ett **varv** – en körning av blocket:
-
-| Varv | `i` före | Villkoret `i <= 3` | Utskrift | `i` efter |
+| Varv | `poäng` före | Villkoret `poäng < 30` | `poäng` efter | `rundor` efter |
 |---|---|---|---|---|
-| 1 | 1 | `true` | `1` | 2 |
-| 2 | 2 | `true` | `2` | 3 |
-| 3 | 3 | `true` | `3` | 4 |
-| – | 4 | `false` | `Klart!` (efter loopen) | 4 |
+| 1 | 0 | `true` | 7 | 1 |
+| 2 | 7 | `true` | 14 | 2 |
+| 3 | 14 | `true` | 21 | 3 |
+| 4 | 21 | `true` | 28 | 4 |
+| 5 | 28 | `true` | 35 | 5 |
+| – | 35 | `false` | – | – |
 
-Tabellen visar tre saker:
+Efter loopen skrivs `5 rundor ger 35 poäng.` ut. Tabellen visar tre saker:
 
-1. **Villkoret prövas en gång mer än blocket körs.** Blocket körs tre gånger, men villkoret prövas fyra. Det fjärde svaret, `false`, är det som avslutar loopen.
-2. **Villkoret prövas bara i början av varje varv.** När `i` blir 4 på sista raden i blocket händer ingenting direkt. Loopen märker det först när den går tillbaka till villkoret.
-3. **Räknaren har ett värde även efter loopen.** När loopen är klar pekar `i` på 4, inte på 3. Det är just det värdet som fick villkoret att bli falskt.
+1. **Villkoret prövas en gång mer än blocket körs.** Blocket körs fem gånger, men villkoret prövas sex. Det sjätte svaret, `false`, är det som avslutar loopen.
+2. **Villkoret prövas bara i början av varje varv.** När `poäng` blir 35 i femte varvet händer ingenting direkt. Loopen märker det först när den går tillbaka till villkoret.
+3. **Variablerna har kvar sina värden efter loopen.** `poäng` pekar på 35, inte på 30. Det är just det värdet som fick villkoret att bli falskt.
 
-Raden `i = i + 1` betyder: räkna ut `i` plus ett, och låt `i` peka på det nya värdet. Med pilbilden flyttas pilen från namnet `i` ett steg för varje varv, och det finns aldrig mer än ett värde i `i` åt gången. Från och med nu skrivs raden med kortformen `i++`.
+Med pilbilden flyttas pilen från `poäng` till ett nytt värde varje varv, och det finns aldrig mer än ett värde i `poäng` åt gången.
 
 ### Den oändliga loopen
 
@@ -120,37 +121,48 @@ Vad händer om villkoret *aldrig* blir falskt?
 
 ```javascript
 // Kör INTE den här koden
-let i = 1;
+let poäng = 0;
 
-while (i <= 3) {
-    console.log(i);
+while (poäng < 30) {
+    console.log("En runda till!");
 }
 ```
 
-Raden som ökar `i` saknas. `i` pekar på 1 för alltid, villkoret är alltid `true`, och loopen tar aldrig slut. Det kallas en **oändlig loop** (*infinite loop*). Webbläsaren gör inget annat än att köra loopen, så sidan slutar svara. Efter en stund frågar webbläsaren om du vill avbryta sidan. Gör det, eller stäng fliken, och rätta koden innan du laddar om.
+Raden som ökar poängen saknas. `poäng` pekar på 0 för alltid, villkoret är alltid `true`, och loopen tar aldrig slut. Det kallas en **oändlig loop** (*infinite loop*). Webbläsaren gör inget annat än att köra loopen, så sidan slutar svara. Efter en stund frågar webbläsaren om du vill avbryta sidan. Gör det, eller stäng fliken, och rätta koden innan du laddar om.
 
 ::: {.callout-important}
 ## Fråga dig alltid: hur tar loopen slut?
 
 Innan du kör en `while`-loop, peka ut raden i blocket som gör att villkoret till slut blir falskt. Hittar du ingen sådan rad har du en oändlig loop. De vanligaste orsakerna är:
 
-- Raden som ändrar räknaren saknas.
-- Fel variabel ändras, till exempel `j++` när villkoret handlar om `i`.
-- Räknaren ändras åt fel håll, till exempel `i--` när villkoret är `i <= 3`.
+- Raden som ändrar variabeln i villkoret saknas.
+- Fel variabel ändras, till exempel bara `rundor++` när villkoret handlar om `poäng`.
+- Variabeln ändras åt fel håll, till exempel `poäng -= 7` när villkoret är `poäng < 30`.
 :::
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. Gör spårtabellen igen, men med villkoret `i < 3`. Hur många gånger körs blocket? Vad pekar `i` på efter loopen?
-2. Vad skrivs ut om första raden är `let i = 5;`? Hur många gånger prövas villkoret?
+1. Gör spårtabellen igen, men med 10 poäng per runda i stället för 7. Hur många gånger körs blocket? Vad pekar `poäng` på efter loopen?
+2. Vad skrivs ut om första raden är `let poäng = 40;`? Hur många gånger prövas villkoret?
 :::
 
 ---
 
 ## `for`-loopen
 
-En loop med en räknare har nästan alltid samma tre delar: räknaren skapas före loopen, villkoret står i parentesen och räknaren ändras sist i blocket. Delarna står på tre olika ställen, och det är lätt att glömma en av dem – som i den oändliga loopen. `for`-loopen samlar dem på en rad:
+Ofta ska en loop *räkna*: skriva ut talen 1 till 3, eller gå igenom fråga 1 till 15. Med `while` behövs då en räknare som skapas före loopen, prövas i villkoret och ökas sist i blocket:
+
+```javascript
+let i = 1;
+
+while (i <= 3) {
+    console.log(i);
+    i++;
+}
+```
+
+Delarna står på tre olika ställen, och det är lätt att glömma en av dem – som i den oändliga loopen. `for`-loopen samlar dem på en rad:
 
 ```javascript
 for (let i = 1; i <= 3; i++) {
@@ -158,7 +170,7 @@ for (let i = 1; i <= 3; i++) {
 }
 ```
 
-Loopen gör exakt samma sak som `while`-loopen i förra avsnittet, och spårtabellen blir likadan. Parentesen har tre delar, åtskilda av semikolon:
+Variabeln `i` kallas loopens **räknare**. Namnet `i` är en vana bland programmerare, men du får gärna välja ett mer beskrivande namn. Parentesen har tre delar, åtskilda av semikolon:
 
 | Del | I exemplet | När den körs |
 |---|---|---|
@@ -318,8 +330,6 @@ Nu kan vi bygga nedräkningen från kapitlets början. Domaren skriver in ett st
 <p id="nedräkning"></p>
 ```
 
-Koden följer de fem stegen från kapitel [-@sec-handelser]:
-
 ```javascript
 // 1. Hämta elementen
 const starttalFält = document.querySelector("#starttal");
@@ -348,13 +358,13 @@ startaKnapp.addEventListener("click", () => {
 });
 ```
 
-Steg 4 har två delar. Först kommer kontrollen, med early return: ett ogiltigt starttal ger ett meddelande, och funktionen avslutas. Sedan kommer loopen, som bygger upp texten med mönstret från avsnittet *Bygga upp ett resultat*: tom sträng före loopen, `+=` i loopen och användning efter loopen.
+Kontrollen avbryter med early return om starttalet är ogiltigt. Loopen bygger sedan texten med mönstret från avsnittet *Bygga upp ett resultat*, och `"Kör!"` läggs till *efter* loopen, eftersom det bara ska stå en gång.
 
-Tre detaljer:
+::: {.callout-note appearance="simple"}
+## Stanna upp
 
-- Loopen börjar på `starttal`, inte på ett fast tal. Det är användarens tal som avgör hur många varv det blir.
-- `"Kör!"` läggs till *efter* loopen, eftersom det bara ska stå en gång.
-- Kontrollen har en övre gräns. Utan den kunde någon skriva `1000000`, och sidan skulle visa en miljon tal.
+1. Varför har kontrollen en övre gräns? Vad hade hänt om någon skrev `1000000`?
+:::
 
 ---
 
@@ -592,7 +602,7 @@ Bygg vidare på koden i övningen *Förklara koden*. Gör en sida med två fält
 
 Gör en sida där användaren skriver in priset per person och det största antalet deltagare, och klickar på en knapp. Sidan ska visa en prislista, som den i avsnittet *Bygga upp ett resultat*, i ett `<pre>`-element.
 
-1. Börja med att skriva de fem stegen som kommentarer, och fyll sedan i koden under var och en.
+1. Planera först med kommentarer i skriptet: vad ska hämtas, vad ska hända vid klicket? Fyll sedan i koden under varje kommentar.
 2. Lägg till en sista rad som visar vad det kostar *totalt* om ett lag av varje storlek kommer. Behöver du en loop till, eller kan samma loop räkna ut summan?
 3. Vad bör hända om användaren skriver 1000 som största antal? Är det ett problem, och i så fall vilket?
 :::
@@ -600,9 +610,9 @@ Gör en sida där användaren skriver in priset per person och det största anta
 ::: {.callout-note}
 ## Övning – Frågornas typer
 
-Ett quiz har 15 frågor. Var tredje fråga (3, 6, 9 …) är en musikfråga, och var femte (5, 10, 15) är en bildfråga. En fråga som är både och är en *bonusfråga*. Övriga frågor är vanliga frågor.
+Ett quiz har 15 frågor i tre kategorier som turas om i en fast ordning: musik, sport, geografi, musik, sport, geografi … Den sista frågan är alltid en *finalfråga*, oavsett kategori.
 
-1. Skriv en loop som skriver ut en rad per fråga, till exempel `Fråga 3: musik`. Använd `%`: ett tal är "var tredje" om resten vid division med 3 är 0, precis som 135 minuter är 2 timmar och 15 minuter över.
-2. I vilken ordning måste villkoren i `else if`-kedjan stå för att fråga 15 ska bli en bonusfråga?
+1. Skriv en loop som skriver ut en rad per fråga, till exempel `Fråga 4: musik`. Använd en variabel `kategori` med värdet 1, 2 eller 3. Den ökar med ett i varje varv och börjar om på 1 när den har passerat 3.
+2. Var i `else if`-kedjan måste villkoret för finalfrågan stå för att fråga 15 ska bli `Fråga 15: final`?
 3. Låt användaren skriva in antalet frågor i ett fält, och visa listan på sidan i ett `<pre>`-element.
 :::
