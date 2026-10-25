@@ -25,6 +25,7 @@ book:
         - kap14-loopar.qmd
         - kap15-split-join.qmd
         - kap16-arrayer.qmd
+        - kap17-manga-element.qmd
         - del1-sammanfattning.qmd
     - part: "Del II - Webben som plattform"
       chapters:
@@ -60,6 +61,7 @@ book:
         - losn14-loopar.qmd
         - losn15-split-join.qmd
         - losn16-arrayer.qmd
+        - losn17-manga-element.qmd
     - summary.qmd
     - references.qmd
 

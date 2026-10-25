@@ -288,56 +288,6 @@ beräknaKnapp.addEventListener("click", () => {
 2. Se blocket `if (bokstav === "F")`. Hjälptexten visas bara där, och döljs annars.
 3. Nollställningen måste ske *innan* kontrollerna, högst upp i callbacken. Kontrollerna avslutar funktionen med `return`, så det som står efter dem körs inte när inmatningen är ogiltig. Alternativet är att skriva samma två rader i vart och ett av de tre `if`-blocken – men det är tre gånger så mycket kod och lätt att glömma ett.
 
-## Övning – Tangentbordsrörelser
-
-```css
-#ruta.blå {
-    background-color: steelblue;
-}
-```
-
-```javascript
-const ruta = document.querySelector("#ruta");
-const storlek = 50;
-let uppifrån = 100;
-let vänsterifrån = 100;
-
-document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp") {
-        uppifrån -= 10;
-    } else if (e.key === "ArrowDown") {
-        uppifrån += 10;
-    } else if (e.key === "ArrowLeft") {
-        vänsterifrån -= 10;
-    } else if (e.key === "ArrowRight") {
-        vänsterifrån += 10;
-    } else if (e.key === "c") {
-        ruta.classList.toggle("blå");
-    }
-
-    // Håll rutan inom fönstret
-    if (uppifrån < 0) {
-        uppifrån = 0;
-    }
-    if (uppifrån > window.innerHeight - storlek) {
-        uppifrån = window.innerHeight - storlek;
-    }
-    if (vänsterifrån < 0) {
-        vänsterifrån = 0;
-    }
-    if (vänsterifrån > window.innerWidth - storlek) {
-        vänsterifrån = window.innerWidth - storlek;
-    }
-
-    ruta.style.top = `${uppifrån}px`;
-    ruta.style.left = `${vänsterifrån}px`;
-});
-```
-
-1. Rutans `top` och `left` anger var dess *övre vänstra hörn* är. Därför får `top` vara högst fönstrets höjd minus rutans höjd – annars sticker rutan ut nedanför. Kontrollerna står efter förflyttningen och flyttar tillbaka rutan om den har hamnat utanför.
-2. Regeln måste skrivas `#ruta.blå`. En regel med bara `.blå` hade varit svagare än `#ruta`, och rutan hade förblivit röd.
-3. Håller du en tangent nedtryckt kommer det först en händelse, sedan en kort paus, och sedan nya `keydown`-händelser många gånger i sekunden – som när en bokstav upprepas i en textredigerare. Rutan glider därför över skärmen. (Event-objektet har en egenskap `e.repeat` som är `true` för de upprepade händelserna.)
-
 ## Övning – Formulera villkoren
 
 ```javascript
@@ -507,17 +457,11 @@ function kontrollera() {
 }
 
 svaraKnapp.addEventListener("click", kontrollera);
-
-svarsfält.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        kontrollera();
-    }
-});
 ```
 
 - `" stockholm "` räknas som rätt eftersom både svaret och det rätta svaret görs om till små bokstäver, och svaret städas med `trim()`. Det rätta svaret sparas med stor bokstav, så att det ser rätt ut i felmeddelandet.
 - Båda klasserna tas bort innan en ny läggs till. Annars får elementet både `rätt` och `fel` när användaren först svarar fel och sedan rätt.
-- Funktionen `kontrollera` anropas från två ställen. I klicklyssnaren lämnas den över utan parenteser. I tangentlyssnaren *anropas* den, med parenteser, men bara när tangenten är Enter.
+- Det som ska hända vid ett svar ligger i funktionen `kontrollera`, som lämnas över till klicklyssnaren utan parenteser.
 
 ## Övning – Temaknappen
 

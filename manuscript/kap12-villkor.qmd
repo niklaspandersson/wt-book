@@ -463,56 +463,6 @@ Två detaljer:
 
 ---
 
-## Tangentbordshändelser
-
-Med villkor kan programmet reagera på *vilken* tangent som trycktes. De viktigaste tangenthändelserna är:
-
-- `keydown` – en tangent trycks ned
-- `keyup` – en tangent släpps
-
-Event-objektet har egenskapen `key`, som innehåller tangentens namn som en sträng:
-
-```javascript
-document.addEventListener("keydown", (e) => {
-    console.log(`Tangent: ${e.key}`);
-});
-```
-
-Trycker du på "a" skrivs `Tangent: a`. Trycker du på Enter skrivs `Tangent: Enter`. Mellanslag blir `Tangent:  ` (med ett mellanslag på slutet).
-
-Lyssnaren är registrerad på `document`, inte på ett visst element. Då fångas tangenttryckningen oavsett var på sidan användaren befinner sig.
-
-### Reagera på vissa tangenter
-
-Med en `if`-sats kan du reagera på enskilda tangenter:
-
-```javascript
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        console.log("Enter-tangenten trycktes!");
-    }
-});
-```
-
-::: {.callout-note}
-## Vanliga tangentnamn
-
-Några tangenter har namn som inte är självklara:
-
-| Tangent       | `e.key`        |
-|---------------|----------------|
-| Enter         | `"Enter"`      |
-| Mellanslag    | `" "`          |
-| Escape        | `"Escape"`     |
-| Piltangenter  | `"ArrowUp"`, `"ArrowDown"`, `"ArrowLeft"`, `"ArrowRight"` |
-| Tab           | `"Tab"`        |
-| Backsteg      | `"Backspace"`  |
-
-En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values).
-:::
-
----
-
 ## Sammanfattning
 
 - **`if`** kör ett block om villkoret är sant, **`else`** om det är falskt, och **`else if`**-kedjor täcker flera utfall. Villkoren prövas uppifrån och ned, och bara det första blocket vars villkor är sant körs.
@@ -521,7 +471,6 @@ En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/
 - Villkor i **funktioner** kan returnera olika värden. **Early return** – att sluta så fort svaret är nej – gör att koden inte behöver nästlas.
 - På webbsidan låter villkorssatser olika saker hända beroende på data: olika texter, klasser och synlighet. Ta bort den klass som inte längre ska gälla.
 - **Kontrollera inmatning** innan du räknar med den: tomt fält, `Number.isNaN` och rimliga gränser. Kontrollerna hör till steg 4, *bearbeta*.
-- **Tangentbordshändelser** (`keydown`, `keyup`) och `e.key` låter programmet reagera på enskilda tangenter.
 
 I kapitel [-@sec-loopar] lär du dig loopar: att upprepa kod, så att programmet kan arbeta sig igenom många värden.
 
@@ -740,56 +689,6 @@ Utgå från avsnittet *Ett löst exempel: kontrollera inmatningen* och övningss
 3. Om fältet innehåller något som inte är giltigt ska *ingen* av klasserna finnas kvar, och hjälptexten ska vara dold. Var i koden behöver du lägga till något för det?
 :::
 
-::: {.callout-note}
-## Övning – Tangentbordsrörelser
-
-Lägg till en röd ruta på övningssidan, ovanför `<script>`-elementet, och en CSS-regel för den i `<style>`:
-
-```html
-<div id="ruta"></div>
-```
-
-```css
-#ruta {
-    width: 50px;
-    height: 50px;
-    background-color: tomato;
-    position: absolute;
-    top: 100px;
-    left: 100px;
-}
-```
-
-Rutans plats anges med `top` (avståndet från överkanten) och `left` (avståndet från vänsterkanten). Den här koden låter piltangenterna flytta rutan tio pixlar per tryck:
-
-```javascript
-const ruta = document.querySelector("#ruta");
-let uppifrån = 100;
-let vänsterifrån = 100;
-
-document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp") {
-        uppifrån -= 10;
-    } else if (e.key === "ArrowDown") {
-        uppifrån += 10;
-    } else if (e.key === "ArrowLeft") {
-        vänsterifrån -= 10;
-    } else if (e.key === "ArrowRight") {
-        vänsterifrån += 10;
-    }
-
-    ruta.style.top = `${uppifrån}px`;
-    ruta.style.left = `${vänsterifrån}px`;
-});
-```
-
-Uppåt betyder ett *mindre* avstånd från överkanten, därför `-=`. Här är `.style` rätt verktyg i stället för en CSS-klass, eftersom värdet ändras hela tiden. Prova koden och bygg sedan vidare på den:
-
-1. Lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att få fönstrets bredd och höjd i pixlar – och tänk på att rutan själv är 50 pixlar bred och hög.
-2. Låt tangenten `c` växla rutans färg mellan två färger med hjälp av en CSS-klass. Tänk på att rutans röda färg sätts med selektorn `#ruta` i CSS-koden, och att en regel för ett id väger tyngre än en regel för en klass. Skriv därför din regel som `#ruta.klassnamn`, annars syns ingen skillnad.
-3. *Fundera:* Håll en piltangent nedtryckt en stund. Vad verkar hända med `keydown`-händelserna när en tangent hålls nere?
-:::
-
 ### Egna sidor
 
 I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
@@ -835,8 +734,6 @@ Skriv CSS-klasserna `.rätt` (grön ram och bakgrund) och `.fel` (röd ram och b
 2. Om svaret är rätt: visa feedback-elementet med texten "Rätt svar!" och klassen `.rätt`.
 3. Om svaret är fel: visa texten "Fel! Rätt svar är ..." med det korrekta svaret, och klassen `.fel`.
 4. Se till att `" stockholm "` räknas som rätt.
-
-Låt också Enter-tangenten i textfältet fungera som ett klick på knappen. Tips: lyssna på `keydown` på textfältet, och samla det som ska hända i en funktion som båda lyssnarna anropar.
 :::
 
 ::: {.callout-note}

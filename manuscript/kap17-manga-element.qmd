@@ -1,0 +1,653 @@
+# Händelser och många element {#sec-manga-element}
+
+## Tre knappar, en fråga
+
+Quizsidan har tre svarsknappar. När någon klickar ska sidan visa om svaret var rätt, och färga just den knapp som klickades. Med det du kan hittills behövs en lyssnare per knapp, och varje callback måste själv veta vilken knapp den hör till. Det blir tre nästan likadana callbacks för tre knappar, och trettio för trettio.
+
+En enda callback räcker, om den får veta vad som hände. Det får den genom **event-objektet**: ett objekt som webbläsaren skapar varje gång en händelse inträffar, med information om händelsen – till exempel vilket element den gällde eller vilken tangent som trycktes.
+
+---
+
+## En sida att öva på
+
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap17`:
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Händelser och många element</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 40rem;
+            margin: 2rem auto;
+        }
+        #lag-lista, #svar {
+            border: 1px solid #ccc;
+            padding: 0.5rem 2rem;
+        }
+        #lag-lista li {
+            margin: 0.5rem 0;
+        }
+        .markerad {
+            background-color: lightyellow;
+        }
+        .rätt {
+            border: 3px solid green;
+        }
+        .fel {
+            border: 3px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quizkvällen</h1>
+
+    <h2>Anmälda lag</h2>
+    <ul id="lag-lista">
+        <li class="lag">Ugglorna</li>
+        <li class="lag">Räknenissarna</li>
+        <li class="lag">Blå blixtarna</li>
+        <li class="lag">Röda stjärnor</li>
+        <li class="lag">Gula gänget</li>
+    </ul>
+    <p id="valt-lag">Klicka på ett lag!</p>
+
+    <h2>Fråga</h2>
+    <p id="fråga">Vad heter Sveriges huvudstad?</p>
+    <div id="svar">
+        <button class="svar">Göteborg</button>
+        <button class="svar">Stockholm</button>
+        <button class="svar">Malmö</button>
+    </div>
+    <p id="svarsresultat"></p>
+
+    <h2>Tangenter</h2>
+    <p id="tangent">Tryck på en tangent!</p>
+
+    <script>
+        console.log("Skriptet körs!");
+    </script>
+</body>
+</html>
+```
+
+Listan och svarsknapparna har en ram, så att du ser var de börjar och slutar. Det behövs i avsnitten om bubbling och delegering.
+
+::: {.callout-note}
+## Så provar du koden i det här kapitlet
+
+- Exemplen skriver du i `<script>`-elementet. Alla element som exemplen och övningarna använder finns redan på sidan.
+- Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning, så att två lyssnare inte reagerar på samma klick.
+- Ha konsolen öppen. Många exempel skriver ut vad som händer med `console.log`.
+:::
+
+---
+
+## Event-objektet
+
+När en händelse inträffar anropar webbläsaren callbacken med event-objektet som argument. Ger du callbacken en parameter kan du ta emot det:
+
+```javascript
+const knapp = document.querySelector(".svar");
+
+knapp.addEventListener("click", (e) => {
+    console.log(e.type);   // "click"
+});
+```
+
+Parametern kan heta vad som helst, men `event` eller `e` är vanligast. `e.type` anger vilken sorts händelse det var. Skriver du ut hela objektet med `console.log(e)` ser du att det har dussintals egenskaper.
+
+### `e.target`
+
+Egenskapen `e.target` är det element som händelsen gällde:
+
+```javascript
+knapp.addEventListener("click", (e) => {
+    console.log(e.target.textContent);   // "Göteborg"
+    e.target.classList.add("markerad");
+});
+```
+
+Här är `e.target` samma knapp som `knapp`. Nyttan kommer när samma callback lyssnar på flera element, som längre fram i kapitlet. Då talar `e.target` om vilket av dem det gällde.
+
+---
+
+## `keydown` och `keyup`
+
+Tangenthändelserna är `keydown`, när en tangent trycks ned, och `keyup`, när den släpps. Lyssnaren registreras oftast på `document`, så att tangenttryckningen fångas var användaren än befinner sig på sidan:
+
+```javascript
+document.addEventListener("keydown", (e) => {
+    console.log(`Tangent: ${e.key}`);
+});
+```
+
+### `e.key`
+
+Event-objektet för en tangenthändelse har egenskapen `key`, med tangentens namn som en sträng. Trycker du på "a" skrivs `Tangent: a`, och trycker du på Enter skrivs `Tangent: Enter`. Med en `if`-sats reagerar programmet bara på vissa tangenter:
+
+```javascript
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        console.log("Enter-tangenten trycktes!");
+    }
+});
+```
+
+::: {.callout-note}
+## Vanliga tangentnamn
+
+| Tangent       | `e.key`        |
+|---------------|----------------|
+| Enter         | `"Enter"`      |
+| Mellanslag    | `" "`          |
+| Escape        | `"Escape"`     |
+| Piltangenter  | `"ArrowUp"`, `"ArrowDown"`, `"ArrowLeft"`, `"ArrowRight"` |
+| Tab           | `"Tab"`        |
+| Backsteg      | `"Backspace"`  |
+
+Namnen skiljer på stora och små bokstäver: `"enter"` matchar aldrig. En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values).
+:::
+
+---
+
+## `querySelectorAll`
+
+`querySelector` hämtar *ett* element. `querySelectorAll` hämtar *alla* som matchar selektorn, i den ordning de står på sidan:
+
+```javascript
+const lagElement = document.querySelectorAll(".lag");
+console.log(lagElement.length);   // 5
+```
+
+Samlingen fungerar nästan som en array: den har `length`, du når elementen med index (`lagElement[0]`), och du kan gå igenom den med en loop. Tekniskt sett är det inte en array utan en **NodeList**, som saknar en del arraymetoder, till exempel `push`.
+
+```javascript
+for (const element of lagElement) {
+    if (element.textContent.includes("Blå")) {
+        element.classList.add("markerad");
+    }
+}
+```
+
+Mönstret – hämta alla, gå igenom dem, gör något med dem som uppfyller ett villkor – är grundläggande när man arbetar med webbsidor.
+
+::: {.callout-warning}
+## En lista kan inte lyssna
+
+Ett av de vanligaste felen med `querySelectorAll` är att behandla listan som om den vore ett element:
+
+```javascript
+const lagElement = document.querySelectorAll(".lag");
+lagElement.classList.add("markerad");
+// TypeError: Cannot read properties of undefined (reading 'add')
+```
+
+Listan har ingen `classList` – det har bara elementen *i* listan. Samma sak gäller `textContent` och `addEventListener`. Använd en loop och gör det med ett element i taget.
+:::
+
+---
+
+## Lyssnare i en loop
+
+Med `querySelectorAll` och en loop registrerar du en lyssnare på vart och ett av elementen. `e.target` talar om vilket som klickades:
+
+```javascript
+const lagElement = document.querySelectorAll(".lag");
+const valtLag = document.querySelector("#valt-lag");
+
+for (const element of lagElement) {
+    element.addEventListener("click", (e) => {
+        valtLag.textContent = `Du valde: ${e.target.textContent}`;
+    });
+}
+```
+
+Loopen körs en gång, när sidan laddas, och registrerar fem lyssnare. Callbacken körs senare, varje gång någon klickar.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Hur många lyssnare finns det på sidan efter att koden har körts? Hur många gånger har loopen körts när du klickar på det tredje laget?
+:::
+
+---
+
+## Bubbling
+
+En händelse stannar inte vid elementet där den inträffade. Ett klick på ett lag är också ett klick på listan som laget står i, och på sidan som listan står på. Händelsen **bubblar** uppåt: först körs lyssnarna på det element som klickades, sedan lyssnarna på elementet utanför det, och så vidare ända ut till `document`.
+
+```javascript
+const ugglorna = document.querySelector(".lag");      // det första laget
+const lista = document.querySelector("#lag-lista");
+
+ugglorna.addEventListener("click", () => {
+    console.log("1. Laget");
+});
+
+lista.addEventListener("click", (e) => {
+    console.log(`2. Listan – target: ${e.target.textContent}`);
+});
+
+document.addEventListener("click", () => {
+    console.log("3. Dokumentet");
+});
+```
+
+Ett klick på *Ugglorna* skriver ut alla tre raderna, i den ordningen. `e.target` är fortfarande *Ugglorna* när händelsen når listan: det är elementet där klicket inträffade, inte elementet som lyssnar.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vad skrivs ut när du klickar på *Räknenissarna*? Förutsäg först och testa sedan.
+2. Vad skrivs ut när du klickar på rubriken *Anmälda lag*?
+:::
+
+---
+
+## Delegering
+
+Eftersom klicket bubblar räcker det med en lyssnare på listan. Den fångar klick på alla lag, och `e.target` talar om vilket:
+
+```javascript
+const lista = document.querySelector("#lag-lista");
+const valtLag = document.querySelector("#valt-lag");
+
+lista.addEventListener("click", (e) => {
+    if (e.target.classList.contains("lag")) {
+        valtLag.textContent = `Du valde: ${e.target.textContent}`;
+    }
+});
+```
+
+Det kallas **delegering** (*event delegation*): listan tar hand om klicken åt elementen i den. `if`-satsen behövs, eftersom ett klick i listans kant eller mellan två lag har listan själv som `e.target`.
+
+Jämfört med lyssnare i en loop behövs ingen loop och bara en lyssnare, oavsett om listan har fem lag eller femtio.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Ta bort `if`-satsen men behåll raden inuti den. Vad visas när du klickar mellan två lag? Förutsäg först och testa sedan.
+2. Hur många lyssnare finns det på sidan med delegering? Hur många fanns det med lyssnare i en loop?
+:::
+
+---
+
+## Ett löst exempel: quizknapparna
+
+Quizet från kapitlets början ska visa en fråga ur en array av objekt (kapitel [-@sec-arrayer]), fylla knapparna med frågans alternativ och svara rätt eller fel när någon klickar.
+
+**Data:** frågorna, och vilken fråga som visas.
+
+```javascript
+const frågor = [
+    {
+        text: "Vad heter Sveriges huvudstad?",
+        alternativ: ["Göteborg", "Stockholm", "Malmö"],
+        rätt: "Stockholm"
+    },
+    {
+        text: "Vilket är Sveriges största landskap?",
+        alternativ: ["Lappland", "Småland", "Dalarna"],
+        rätt: "Lappland"
+    }
+];
+
+const aktuell = frågor[0];
+```
+
+Resten följer de fem stegen från kapitel [-@sec-handelser], med ett steg före lyssnaren som fyller sidan:
+
+```javascript
+// 1. Hämta elementen
+const frågeElement = document.querySelector("#fråga");
+const svarsruta = document.querySelector("#svar");
+const knappar = document.querySelectorAll(".svar");
+const svarsresultat = document.querySelector("#svarsresultat");
+
+// Fyll sidan: frågan och ett alternativ per knapp
+frågeElement.textContent = aktuell.text;
+for (let i = 0; i < knappar.length; i++) {
+    knappar[i].textContent = aktuell.alternativ[i];
+}
+
+// 2. Lyssna – en lyssnare för alla knapparna
+svarsruta.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("svar")) {
+        return;
+    }
+
+    // 3. Läs vilket svar som klickades
+    const svar = e.target.textContent;
+
+    // 4. Bearbeta
+    const ärRätt = svar === aktuell.rätt;
+
+    // 5. Visa resultatet
+    if (ärRätt) {
+        svarsresultat.textContent = "Rätt!";
+        e.target.classList.add("rätt");
+    } else {
+        svarsresultat.textContent = `Fel! Rätt svar är ${aktuell.rätt}.`;
+        e.target.classList.add("fel");
+    }
+});
+```
+
+Loopen som fyller knapparna använder indexet `i` både för knappen och för alternativet, eftersom de hör ihop i samma ordning. Lyssnaren sitter på rutan runt knapparna, och early return (kapitel [-@sec-villkor]) avbryter callbacken direkt om klicket inte träffade en knapp. Byt `frågor[0]` mot `frågor[1]`, så visar samma sida nästa fråga.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Hur många varv går loopen som fyller knapparna? Vad händer om en fråga bara har två alternativ?
+:::
+
+---
+
+## Sammanfattning
+
+- Webbläsaren skickar ett **event-objekt** till callbacken. Ta emot det med en parameter: `(e) => { … }`.
+- **`e.target`** är det element som händelsen gällde, och **`e.type`** vilken sorts händelse det var.
+- **`keydown`** och **`keyup`** inträffar när en tangent trycks ned och släpps. **`e.key`** är tangentens namn, till exempel `"Enter"` eller `"ArrowUp"`.
+- **`querySelectorAll`** hämtar alla element som matchar en selektor. Listan själv har ingen `classList` eller `addEventListener` – gå igenom den med en loop.
+- Med en loop kan samma lyssnare registreras på många element.
+- En händelse **bubblar** uppåt, från elementet där den inträffade till elementen utanför det. `e.target` är hela tiden elementet där den inträffade.
+- Med **delegering** lyssnar ett yttre element åt alla element i det. Kontrollera `e.target` först, till exempel med `classList.contains`.
+
+I Del II fortsätter du med att skapa nya element med JavaScript – och då lyssnar en delegerad lyssnare också på dem, utan att någon ny lyssnare behöver registreras.
+
+::: {.callout-tip}
+## AI som studieverktyg
+
+**Loop eller delegering?** Be AI:n ge dig situationer att ta ställning till:
+
+> *"Beskriv tio olika webbsidor där flera element ska reagera på klick, till exempel en lista med lag, ett schackbräde eller en meny. Fråga mig för varje sida om jag skulle använda lyssnare i en loop eller delegering, och vilket element jag i så fall skulle lyssna på. Ge mig en kort kommentar på mitt svar, men visa ingen kod."*
+
+**Vad är `e.target`?** Låt AI:n hitta på HTML med nästlade element och fråga ut dig:
+
+> *"Visa mig en liten bit HTML med några nästlade element och en lyssnare på ett av de yttre elementen. Fråga mig sedan vad `e.target` och `e.target.textContent` blir när användaren klickar på olika ställen, och om lyssnaren körs alls. Rätta mig efter varje svar."*
+
+**Tangentnamn som minneskort:**
+
+> *"Gör tio minneskort om `e.key` i JavaScript. På framsidan står en tangent eller en kombination, till exempel Skift och a. På baksidan står vad `e.key` blir. Visa ett kort i taget och vänta på mitt svar."*
+
+Kontrollera AI:ns svar om tangentnamn i konsolen – det är snabbt gjort och du lär dig mer av det.
+:::
+
+---
+
+## Övningar
+
+Övningarna börjar med att du läser och följer kod. Gör dem utan att köra koden först, och kontrollera sedan på övningssidan från avsnittet *En sida att öva på*.
+
+::: {.callout-note}
+## Övning – Vad skrivs ut?
+
+```javascript
+const lista = document.querySelector("#lag-lista");
+
+lista.addEventListener("click", (e) => {
+    console.log(`${e.type}: ${e.target.textContent}`);
+});
+
+document.addEventListener("keydown", (e) => {
+    console.log(e.key);
+});
+```
+
+Vad skrivs ut i konsolen när användaren
+
+1. klickar på *Räknenissarna*?
+2. trycker på tangenten `a`?
+3. håller ned Skift och trycker på `a`? (Det blir två rader.)
+4. trycker på mellanslag?
+5. klickar på rubriken *Anmälda lag*?
+:::
+
+::: {.callout-note}
+## Övning – Spåra bubblingen
+
+```javascript
+const ugglorna = document.querySelector(".lag");
+const lista = document.querySelector("#lag-lista");
+
+ugglorna.addEventListener("click", () => {
+    console.log("A");
+});
+
+lista.addEventListener("click", (e) => {
+    console.log(`B ${e.target.textContent}`);
+});
+
+document.addEventListener("click", (e) => {
+    console.log(`C ${e.target.id}`);
+});
+```
+
+Gör en tabell med kolumnerna *Klick på*, *Lyssnare som körs, i ordning* och *Utskrift* för tre klick:
+
+1. på *Ugglorna*;
+2. på *Gula gänget*;
+3. på stycket med id `valt-lag`.
+
+Vilket värde har `e.target.id` i lyssnare C när du klickar på *Ugglorna*? Varför? (Elementet saknar `id`.)
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Skriv in snuttarna en i taget i `<script>`-elementet. Förutsäg för varje snutt om det blir ett felmeddelande, och i så fall när, eller om sidan gör fel utan felmeddelande.
+
+```javascript
+// A
+const knappar = document.querySelectorAll(".svar");
+knappar.addEventListener("click", () => {
+    console.log("Klick!");
+});
+```
+
+```javascript
+// B
+document.addEventListener("keydown", (e) => {
+    if (e.key === "enter") {
+        console.log("Skickat!");
+    }
+});
+```
+
+```javascript
+// C
+const lista = document.querySelector("#lag-lista");
+lista.addEventListener("click", () => {
+    e.target.classList.add("markerad");
+});
+```
+
+```javascript
+// D
+const lista = document.querySelector("#lag-lista");
+lista.addEventListener("click", (e) => {
+    e.target.classList.add("markerad");
+});
+```
+
+1. Vilka snuttar ger felmeddelanden? Kommer de när sidan laddas eller vid ett klick?
+2. B ger inget felmeddelande. Vad händer när du trycker på Enter, och varför?
+3. D fungerar när du klickar på ett lag. Klicka sedan mellan två lag. Vad händer, och varför?
+4. Rätta alla fyra.
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+```javascript
+const lista = document.querySelector("#lag-lista");
+
+lista.addEventListener("click", (e) => {
+    if (e.target.classList.contains("lag")) {
+        e.target.classList.toggle("markerad");
+    }
+});
+```
+
+1. Beskriv med en mening vad sidan gör för den som använder den.
+2. Skriv om koden med lyssnare i en loop i stället. Hur många lyssnare blir det i varje version?
+:::
+
+::: {.callout-note}
+## Övning – Ordna raderna
+
+Stycket med id `tangent` ska visa vilken tangent som trycktes, till exempel `Du tryckte på a`. Trycker användaren på Escape ska stycket i stället tömmas. Välj ut och ordna raderna. Två rader ska inte användas.
+
+```javascript
+    }
+document.addEventListener("keydown", (e) => {
+        tangent.textContent = "";
+});
+    if (e.key === "escape") {
+const tangent = document.querySelector("#tangent");
+    } else {
+        tangent.textContent = `Du tryckte på ${e.key}`;
+document.addEventListener("keydown", () => {
+    if (e.key === "Escape") {
+```
+
+1. Vilka två rader använde du inte? Vad hade hänt om du använt dem?
+2. Vad visas när användaren trycker på Skift?
+:::
+
+::: {.callout-note}
+## Övning – Bygg vidare på quizet
+
+Den här koden ger varje svarsknapp på övningssidan en egen lyssnare:
+
+```javascript
+const rättSvar = "Stockholm";
+const knappar = document.querySelectorAll(".svar");
+const svarsresultat = document.querySelector("#svarsresultat");
+
+for (const knapp of knappar) {
+    knapp.addEventListener("click", (e) => {
+        const svar = e.target.textContent;
+
+        if (svar === rättSvar) {
+            svarsresultat.textContent = "Rätt!";
+            e.target.classList.add("rätt");
+        } else {
+            svarsresultat.textContent = `Fel! Rätt svar är ${rättSvar}.`;
+            e.target.classList.add("fel");
+        }
+    });
+}
+```
+
+Prova koden: klicka på *Göteborg* och sedan på *Stockholm*. Vilka knappar har en färgad ram, och vad borde hända i ett riktigt quiz? Bygg sedan vidare:
+
+1. När användaren har svarat ska alla tre knapparna bli avstängda med `disabled`, så att det inte går att svara igen. Du behöver en loop till – var i koden ska den stå?
+2. Om svaret är fel ska den rätta knappen också få klassen `rätt`, så att användaren ser vilket som var rätt svar. Hur hittar du den rätta knappen?
+3. Lägg till en knapp *Nästa försök* som tar bort klasserna `rätt` och `fel` från alla svarsknappar, slår på dem igen och tömmer resultatet.
+4. Skriv om koden med delegering: en lyssnare på `#svar` i stället för en per knapp. Vilka rader i callbacken behöver ändras, och vilka loopar behövs fortfarande?
+:::
+
+::: {.callout-note}
+## Övning – Tangentbordsrörelser
+
+Lägg till en röd ruta på övningssidan, ovanför `<script>`-elementet, och en CSS-regel för den i `<style>`:
+
+```html
+<div id="ruta"></div>
+```
+
+```css
+#ruta {
+    width: 50px;
+    height: 50px;
+    background-color: tomato;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+```
+
+Rutans plats anges med `top` (avståndet från överkanten) och `left` (avståndet från vänsterkanten). Den här koden låter piltangenterna flytta rutan tio pixlar per tryck:
+
+```javascript
+const ruta = document.querySelector("#ruta");
+let uppifrån = 100;
+let vänsterifrån = 100;
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") {
+        uppifrån -= 10;
+    } else if (e.key === "ArrowDown") {
+        uppifrån += 10;
+    } else if (e.key === "ArrowLeft") {
+        vänsterifrån -= 10;
+    } else if (e.key === "ArrowRight") {
+        vänsterifrån += 10;
+    }
+
+    ruta.style.top = `${uppifrån}px`;
+    ruta.style.left = `${vänsterifrån}px`;
+});
+```
+
+Uppåt betyder ett *mindre* avstånd från överkanten, därför `-=`. Här är `.style` rätt verktyg i stället för en CSS-klass, eftersom värdet ändras hela tiden. Prova koden och bygg sedan vidare på den:
+
+1. Lägg till en kontroll så att rutan inte kan lämna fönstret. Använd `window.innerWidth` och `window.innerHeight` för att få fönstrets bredd och höjd i pixlar – och tänk på att rutan själv är 50 pixlar bred och hög.
+2. Låt tangenten `c` växla rutans färg mellan två färger med hjälp av en CSS-klass. Tänk på att rutans röda färg sätts med selektorn `#ruta` i CSS-koden, och att en regel för ett id väger tyngre än en regel för en klass. Skriv därför din regel som `#ruta.klassnamn`, annars syns ingen skillnad.
+3. *Fundera:* Håll en piltangent nedtryckt en stund. Vad verkar hända med `keydown`-händelserna när en tangent hålls nere?
+:::
+
+::: {.callout-note}
+## Övning – Svara med Enter
+
+Gå tillbaka till din lösning till övningen *Quiz med visuell feedback* i kapitel [-@sec-villkor]. Låt Enter-tangenten i textfältet fungera som ett klick på knappen *Svara*.
+
+1. Samla det som ska hända när användaren svarar i en funktion, och låt klicklyssnaren använda den.
+2. Lyssna på `keydown` på textfältet, och anropa funktionen när tangenten är Enter.
+3. Varför lyssnar du på textfältet och inte på `document`?
+:::
+
+### Egna sidor
+
+I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
+
+::: {.callout-note}
+## Övning – Live-sökning
+
+Skapa en sida med ett textfält och en `<ul>`-lista med minst åtta namn som `<li>`-element. Medan användaren skriver i fältet ska bara de namn som innehåller söktexten synas.
+
+1. Lyssna på `input`-händelsen på textfältet.
+2. Vid varje ändring: gå igenom alla `<li>`-element och dölj de element vars text *inte* innehåller söktexten. Använd `hidden` och ett booleskt uttryck.
+3. Gör sökningen okänslig för stora och små bokstäver.
+4. Vad händer när fältet töms? Förklara varför – du behöver troligen inte lägga till någon kod.
+:::
+
+::: {.callout-note}
+## Övning – Färgväljare med knappar
+
+Skapa en sida med fem knappar. Varje knapp har sin färg i attributet `value`, till exempel `<button class="färg-knapp" value="tomato">Tomat</button>`. Precis som för ett `<input>` når du attributet med `.value`.
+
+1. Hämta alla knappar med `querySelectorAll` och registrera en klicklyssnare på var och en.
+2. Vid klick: ändra sidans bakgrundsfärg till knappens färg med `document.body.style.backgroundColor`. Här passar `.style` bättre än en CSS-klass, eftersom färgen kommer från knappen.
+3. Ge den klickade knappen klassen `aktiv` och ta bort den från alla andra knappar, så att bara en knapp åt gången är markerad.
+
+*Tips:* Gå igenom alla knappar och ta bort `aktiv` innan du lägger till den på den klickade.
+:::
+
+::: {.callout-note}
+## Övning – Ett quiz med flera frågor
+
+Bygg vidare på din lösning till övningen *Bygg vidare på quizet*, och på avsnittet *Ett löst exempel: quizknapparna*.
+
+1. Skapa en array med minst tre frågor som objekt. Varje fråga ska ha en frågetext, tre alternativ och det rätta svaret.
+2. Skriv en funktion `visaFråga(nr)` som visar frågan med index `nr` och fyller de tre knapparna med dess alternativ.
+3. Lägg till en knapp *Nästa fråga* som visar nästa fråga i arrayen. Vad ska hända när den sista frågan är besvarad?
+4. Räkna antalet rätta svar och visa resultatet när quizet är slut, till exempel `Du fick 2 av 3 rätt.`
+
+Planera först: vilka variabler behöver finnas *utanför* callbackarna, så att de kommer ihåg vilken fråga som visas och hur många rätt det är?
+:::

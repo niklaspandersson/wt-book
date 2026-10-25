@@ -25,15 +25,10 @@ Lösningar till övningarna i kapitel [-@sec-arrayer].
 
 2. Byt `>` mot `<` i jämförelsen, och byt gärna namnet `högst` mot `lägst`. Startvärdet kan vara kvar: det första elementet är ett säkert startvärde också för det lägsta.
 
-**Händelser i en loop**
-
-1. Det finns fem lyssnare, en på varje lag. Loopen kördes fem varv när sidan laddades, och körs inte alls när du klickar – då är det bara callbacken som körs.
-
 **Arrayer av objekt**
 
 1. `frågor[0]` är den första frågan, `.alternativ` är dess array med alternativ, och `[2]` är det tredje alternativet: `"Malmö"`.
 2. `frågor[2]` är `undefined` – arrayen har bara två element. `frågor[2].text` ger `TypeError: Cannot read properties of undefined (reading 'text')`. Koden försöker läsa en egenskap på något som inte finns.
-3. Loopen går tre varv, ett för varje knapp. Har frågan bara två alternativ blir `aktuell.alternativ[2]` `undefined` i det tredje varvet, och den tredje knappen blir tom.
 
 ## Övning – Förutsäg värdena
 
@@ -121,11 +116,10 @@ I det sista uttrycket räknas indexet `frågor.length - 1` ut först. Det ger al
 |---|---|
 | A | `TypeError: Cannot read properties of undefined (reading 'toUpperCase')` |
 | B | `TypeError: Assignment to constant variable.` |
-| C | `TypeError: knappar.addEventListener is not a function` |
-| D | `TypeError: Cannot read properties of undefined (reading 'length')` |
+| C | `TypeError: Cannot read properties of undefined (reading 'length')` |
 
-1. A och D ger nästan samma meddelande. I båda fallen läser koden på ett index där det inte finns något element – `lag[2]` i en array med två element – och får `undefined`. Sedan försöker den läsa en egenskap på `undefined`, och det går inte. Det som skiljer är vilken egenskap: `toUpperCase` i A och `length` i D.
-2. I D skrivs `8` ut två gånger – längden på `"Ugglorna"` och på `"Tigrarna"`. I tredje varvet är `i` 2, och villkoret `2 <= 2` är sant, så loopen går ett varv för mycket. `lag[2]` finns inte.
+1. A och C ger nästan samma meddelande. I båda fallen läser koden på ett index där det inte finns något element – `lag[2]` i en array med två element – och får `undefined`. Sedan försöker den läsa en egenskap på `undefined`, och det går inte. Det som skiljer är vilken egenskap: `toUpperCase` i A och `length` i C.
+2. I C skrivs `8` ut två gånger – längden på `"Ugglorna"` och på `"Tigrarna"`. I tredje varvet är `i` 2, och villkoret `2 <= 2` är sant, så loopen går ett varv för mycket. `lag[2]` finns inte.
 3. Rättade:
 
     ```javascript
@@ -141,24 +135,14 @@ I det sista uttrycket räknas indexet `frågor.length - 1` ut först. Det ger al
     ```
 
     ```javascript
-    // C – en lyssnare per knapp
-    const knappar = document.querySelectorAll(".svar");
-    for (const knapp of knappar) {
-        knapp.addEventListener("click", () => {
-            console.log("Klick!");
-        });
-    }
-    ```
-
-    ```javascript
-    // D – < i stället för <=
+    // C – < i stället för <=
     const lag = ["Ugglorna", "Tigrarna"];
     for (let i = 0; i < lag.length; i++) {
         console.log(lag[i].length);
     }
     ```
 
-    B kan rättas på flera sätt. Med `let` får pilen flyttas till en ny, tom array. Ska arrayen i stället *tömmas* kan du behålla `const` och ta bort elementen med `pop` tills den är tom – det är samma array hela tiden, bara med nytt innehåll. Ett tredje sätt är att skapa en ny variabel med ett annat namn. Vilket som är rätt beror på vad koden ska göra. D kan också skrivas med `for...of`, och då försvinner risken helt.
+    B kan rättas på flera sätt. Med `let` får pilen flyttas till en ny, tom array. Ska arrayen i stället *tömmas* kan du behålla `const` och ta bort elementen med `pop` tills den är tom – det är samma array hela tiden, bara med nytt innehåll. Ett tredje sätt är att skapa en ny variabel med ett annat namn. Vilket som är rätt beror på vad koden ska göra. C kan också skrivas med `for...of`, och då försvinner risken helt.
 
 ## Övning – Förklara koden
 
@@ -248,66 +232,6 @@ anmälKnapp.addEventListener("click", () => {
 2. En `for`-loop med index behövs, eftersom numret ska visas. `i + 1` ger numreringen 1, 2, 3 i stället för 0, 1, 2.
 3. Kontrollen hör till steg 4, *bearbeta*, och ska göras *efter* att dubbletterna har tagits bort. Skriver någon samma lag nio gånger är det bara ett lag, och det ska inte ge ett felmeddelande om att det är för många.
 
-## Övning – Bygg vidare på quizet
-
-Efter klicket på *Göteborg* visas `Fel! Rätt svar är Stockholm.`, och Göteborg får röd ram. Efter klicket på *Stockholm* visas `Rätt!`, och Stockholm får grön ram. Båda knapparna har nu en färgad ram, och den som svarade fel har ändå fått "Rätt!". I ett riktigt quiz borde det bara gå att svara en gång – knapparna borde stängas av efter det första svaret. Det är vad fråga 1 handlar om.
-
-```html
-<p id="fråga">Vad heter Sveriges huvudstad?</p>
-<button class="svar">Göteborg</button>
-<button class="svar">Stockholm</button>
-<button class="svar">Malmö</button>
-<p id="svarsresultat"></p>
-<button id="nästa-försök">Nästa försök</button>
-```
-
-```javascript
-const rättSvar = "Stockholm";
-const knappar = document.querySelectorAll(".svar");
-const svarsresultat = document.querySelector("#svarsresultat");
-
-for (const knapp of knappar) {
-    knapp.addEventListener("click", (e) => {
-        const svar = e.target.textContent;
-
-        if (svar === rättSvar) {
-            svarsresultat.textContent = "Rätt!";
-            e.target.classList.add("rätt");
-        } else {
-            svarsresultat.textContent = `Fel! Rätt svar är ${rättSvar}.`;
-            e.target.classList.add("fel");
-
-            // 2. Visa vilken knapp som var rätt
-            for (const k of knappar) {
-                if (k.textContent === rättSvar) {
-                    k.classList.add("rätt");
-                }
-            }
-        }
-
-        // 1. Stäng av alla knappar
-        for (const k of knappar) {
-            k.disabled = true;
-        }
-    });
-}
-
-// 3. Nästa försök
-document.querySelector("#nästa-försök").addEventListener("click", () => {
-    for (const k of knappar) {
-        k.classList.remove("rätt", "fel");
-        k.disabled = false;
-    }
-    svarsresultat.textContent = "";
-});
-```
-
-1. Loopen som stänger av knapparna ska stå *i callbacken*, efter att svaret har bedömts. Den ska köras när någon har svarat, inte när sidan laddas. Den måste gå igenom *alla* knappar, inte bara `e.target`.
-2. Den rätta knappen är den vars text är det rätta svaret. Gå igenom alla knappar och jämför deras `textContent` med `rättSvar`.
-3. Knappen *Nästa försök* gör det omvända: tar bort båda klasserna och slår på knapparna igen.
-
-Loopvariabeln i de inre looparna heter `k`, för att inte förväxlas med `knapp` i den yttre loopen. Det hade fungerat med samma namn också, men varit förvirrande.
-
 ## Övning – Ord i en mening
 
 ```html
@@ -343,73 +267,6 @@ meningsfält.addEventListener("input", () => {
 2. Med två mellanslag mellan två ord ger `split(" ")` en tom sträng mellan dem: `"hej  du".split(" ")` blir `["hej", "", "du"]`, och räkningen blir 3. Ett mellanslag sist ger en tom sträng sist. `split` delar vid *varje* mellanslag, och mellan två mellanslag i rad finns ingenting – men det ingentinget blir också ett element. Ett helt tomt fält ger `[""]`, som räknas som ett ord.
 3. Loopen samlar bara de delar som inte är tomma, samma mönster som i *Ett löst exempel: anmäl flera lag*.
 4. Mönstret från *Att leta efter det största*, men med ordens längd. Startvärdet är en tom sträng, som är kortare än alla riktiga ord. Det fungerar också när meningen är tom – då visas inget längsta ord. Är två ord lika långa vinner det första, eftersom `>` kräver att ett ord är *längre* för att det ska bytas ut.
-
-## Övning – Live-sökning
-
-```html
-<input type="text" id="sök" placeholder="Sök">
-<ul>
-    <li class="namn">Anna</li>
-    <li class="namn">Björn</li>
-    <li class="namn">Cecilia</li>
-    <li class="namn">David</li>
-    <li class="namn">Elin</li>
-    <li class="namn">Fredrik</li>
-    <li class="namn">Gunilla</li>
-    <li class="namn">Hassan</li>
-</ul>
-```
-
-```javascript
-const sökfält = document.querySelector("#sök");
-const namnElement = document.querySelectorAll(".namn");
-
-sökfält.addEventListener("input", () => {
-    const sökt = sökfält.value.trim().toLowerCase();
-
-    for (const element of namnElement) {
-        const namn = element.textContent.toLowerCase();
-        element.hidden = !namn.includes(sökt);
-    }
-});
-```
-
-2. `hidden` ska vara sant när namnet *inte* innehåller söktexten – därav `!`.
-3. Både namnet och söktexten görs om till små bokstäver innan de jämförs.
-4. När fältet töms syns alla namn igen. Söktexten blir då en tom sträng, och varje sträng innehåller den tomma strängen – `"anna".includes("")` är `true`. Inget namn döljs, och ingen extra kod behövs.
-
-## Övning – Färgväljare med knappar
-
-```html
-<style>
-    .aktiv {
-        outline: 3px solid black;
-    }
-</style>
-
-<button class="färg-knapp" value="tomato">Tomat</button>
-<button class="färg-knapp" value="gold">Guld</button>
-<button class="färg-knapp" value="lightgreen">Ljusgrön</button>
-<button class="färg-knapp" value="skyblue">Himmelsblå</button>
-<button class="färg-knapp" value="plum">Plommon</button>
-```
-
-```javascript
-const knappar = document.querySelectorAll(".färg-knapp");
-
-for (const knapp of knappar) {
-    knapp.addEventListener("click", (e) => {
-        document.body.style.backgroundColor = e.target.value;
-
-        for (const k of knappar) {
-            k.classList.remove("aktiv");
-        }
-        e.target.classList.add("aktiv");
-    });
-}
-```
-
-Den inre loopen tar bort `aktiv` från *alla* knappar, också från den som just klickades, och sedan läggs klassen till på den klickade. Det är enklare än att försöka lista ut vilken knapp som var aktiv innan. I callbacken går det lika bra att skriva `knapp` som `e.target` – båda pekar på den klickade knappen.
 
 ## Övning – Vem leder nu?
 
@@ -458,98 +315,6 @@ Den inre loopen tar bort `aktiv` från *alla* knappar, också från den som just
     ```
 
     Indexet behövs inte längre. Loopen minns hela *objektet* för det ledande laget, och där finns både namn och poäng. Den här versionen är mycket lättare att lägga till ett lag i: en rad, `{ namn: "Tigrarna", poäng: 0 }`, och namn och poäng kan inte hamna isär.
-
-## Övning – Ett quiz med flera frågor
-
-Planeringen: två variabler måste finnas utanför callbackarna – vilken fråga som visas (`nr`) och hur många rätt det är (`antalRätt`). Båda ska minnas sitt värde mellan klicken. Dessutom behövs något som säger om den aktuella frågan redan är besvarad, så att man inte kan få poäng två gånger. I lösningen nedan sköts det genom att knapparna stängs av.
-
-```html
-<p id="fråga"></p>
-<button class="svar"></button>
-<button class="svar"></button>
-<button class="svar"></button>
-<p id="svarsresultat"></p>
-<button id="nästa">Nästa fråga</button>
-```
-
-```javascript
-const frågor = [
-    {
-        text: "Vad heter Sveriges huvudstad?",
-        alternativ: ["Göteborg", "Stockholm", "Malmö"],
-        rätt: "Stockholm"
-    },
-    {
-        text: "Vilket är Sveriges största landskap?",
-        alternativ: ["Lappland", "Småland", "Dalarna"],
-        rätt: "Lappland"
-    },
-    {
-        text: "Hur många ben har en spindel?",
-        alternativ: ["Sex", "Åtta", "Tio"],
-        rätt: "Åtta"
-    }
-];
-
-const frågeElement = document.querySelector("#fråga");
-const knappar = document.querySelectorAll(".svar");
-const svarsresultat = document.querySelector("#svarsresultat");
-const nästaKnapp = document.querySelector("#nästa");
-
-let nr = 0;
-let antalRätt = 0;
-
-function visaFråga(nr) {
-    const aktuell = frågor[nr];
-    frågeElement.textContent = aktuell.text;
-
-    for (let i = 0; i < knappar.length; i++) {
-        knappar[i].textContent = aktuell.alternativ[i];
-        knappar[i].disabled = false;
-        knappar[i].classList.remove("rätt", "fel");
-    }
-
-    svarsresultat.textContent = "";
-    nästaKnapp.disabled = true;
-}
-
-for (const knapp of knappar) {
-    knapp.addEventListener("click", (e) => {
-        const aktuell = frågor[nr];
-
-        if (e.target.textContent === aktuell.rätt) {
-            antalRätt++;
-            svarsresultat.textContent = "Rätt!";
-            e.target.classList.add("rätt");
-        } else {
-            svarsresultat.textContent = `Fel! Rätt svar är ${aktuell.rätt}.`;
-            e.target.classList.add("fel");
-        }
-
-        for (const k of knappar) {
-            k.disabled = true;
-        }
-
-        if (nr === frågor.length - 1) {
-            svarsresultat.textContent += ` Du fick ${antalRätt} av ${frågor.length} rätt.`;
-        } else {
-            nästaKnapp.disabled = false;
-        }
-    });
-}
-
-nästaKnapp.addEventListener("click", () => {
-    nr++;
-    visaFråga(nr);
-});
-
-visaFråga(nr);
-```
-
-3. När den sista frågan är besvarad ska resultatet visas, och knappen *Nästa fråga* ska förbli avstängd – det finns ingen nästa fråga. Utan den kontrollen hade ett klick gett `frågor[3]`, som är `undefined`, och felet från Stanna upp-frågorna om arrayer av objekt.
-4. `antalRätt` ökas i callbacken när svaret är rätt, och visas när den sista frågan är besvarad.
-
-Lägg märke till att `visaFråga` också nollställer knapparna: slår på dem och tar bort klasserna. Varje fråga börjar alltså från samma läge. Nollställ först, så ligger inget gammalt läge kvar.
 
 ## Övning – Vänd på listan
 

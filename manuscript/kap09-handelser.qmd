@@ -312,20 +312,6 @@ Varje callback gör två saker: ändrar *data* (variabeln `poäng`) och visar de
 
 ---
 
-## Event-objektet
-
-När en händelse inträffar skapar webbläsaren ett **event-objekt** med information om händelsen, och skickar det som argument när den anropar callbacken. Ger du callbacken en parameter kan du ta emot det:
-
-```javascript
-knapp.addEventListener("click", (e) => {
-    console.log(e.type);   // "click"
-});
-```
-
-Parametern kan heta vad som helst, men `event` eller `e` är vanligast. `e.type` anger vilken sorts händelse det var. Skriver du ut hela objektet med `console.log(e)` ser du att det har dussintals egenskaper, till exempel vilket element som utlöste händelsen och var muspekaren befann sig.
-
----
-
 ## Mushändelser
 
 `mouseenter` och `mouseleave` inträffar när muspekaren *går in i* respektive *lämnar* ett element:
@@ -482,7 +468,6 @@ När du ska bygga något nytt kan du börja med att skriva de fem stegen som kom
 - **Callback-funktionen** skickas som ett värde och anropas av webbläsaren vid rätt tillfälle. Den kan vara namngiven eller anonym, och en anonym callback skrivs oftast som en pilfunktion.
 - **Parenteser spelar roll**: `hälsa` skickar funktionen, `hälsa()` anropar den.
 - Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken.
-- **Event-objektet** (`e`) innehåller information om händelsen, till exempel `e.type`.
 - **`click`** är den vanligaste händelsen. Andra viktiga typer är `mouseenter`/`mouseleave` och `input`/`change`.
 - **`.value`** läser innehållet i formulärelement – inte `.textContent`. Värdet är alltid en sträng.
 - Interaktiva sidor kan byggas i fem steg: **hämta, lyssna, läs, bearbeta, visa**. Det som ska hända vid varje händelse står i callbacken.

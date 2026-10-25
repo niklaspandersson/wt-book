@@ -12,11 +12,12 @@
 * [X] Kap. 9 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, input, .value, change, mushändelser, mönstret hämta → lyssna → läs → bearbeta → visa)*
 * [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
 * [X] Kap. 11 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
-* [X] Kap. 12 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel, tangentbordshändelser)*
+* [X] Kap. 12 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
 * [X] Kap. 13 – *Söka och klippa i text* (minikapitel) *(positioner från 0, `indexOf` med `-1` som villkor, `substring`)*
 * [X] Kap. 14 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
 * [X] Kap. 15 – *`split` och `join`* (minikapitel) *(avgränsare, tomma delar, kedjning med `join`)*
-* [X] Kap. 16 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, anmälan med split/join som löst exempel, querySelectorAll, lyssnare i loopar, event.target, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
+* [X] Kap. 16 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, anmälan med split/join som löst exempel, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
+* [X] Kap. 17 – Händelser och många element *(event-objektet, `e.target`, `keydown`/`keyup` och `e.key`, `querySelectorAll`, lyssnare i en loop, bubbling, delegering, quizknapparna som löst exempel)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
@@ -194,7 +195,7 @@ Brödtext före övningarna, utan kodblock (numreringen före omstruktureringen)
 
 Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare kapitel påverkar de senare. Kap. 3 och 5 gjordes först, som pilot. Råder det minsta tvekan om ett avsnitt ska flyttas eller strykas, avgör författaren.
 
-## Nästa iteration: omstrukturering av Del I (pågår)
+## Nästa iteration: omstrukturering av Del I (ordningen genomförd)
 
 **Varför.** Webbteknik 2 blir för tung i veckorna med kap. 5–11 (i den gamla numreringen) om alla övningar görs (uppskattat ≈ 100 timmar bokarbete för Del I och *Tid och animationer*). Tiden går framför allt till övningarna, inte till läsningen. Målet är kapitel som tar 4–6 timmar var med kärnövningarna, och ett innehåll som kommer där det behövs.
 
@@ -213,7 +214,7 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 
    Beroendena: *Sant och falskt* använder `trim`, `length` och `Number()`, loopkapitlet `+=`, villkorskapitlet `Math.random`, och arraykapitlet `split`/`join`. Arraykapitlet kan hänvisa till `indexOf` för strängar i stället för att förklara det på nytt. *Från text till tal och tillbaka* kommer före *Händelser*, så konverteringen är känd när `.value` läses. Avsnittet *Text på webbsidan*, momsräknaren och övningarna som behövde händelser ströks vid delningen (se ATT-GORA.md).
 2. **Arrayernas grunder flyttas till kap. 2** (genomfört): arrayliteraler, index från 0, `length` och en array som egenskap i ett objekt (cirka 300 ord). Villkor för flytten: något måste använda arrayer före arraykapitlet, till exempel quizfrågan som objekt med en array av alternativ i kap. 2, `includes` och `split`/`join` i minikapitlen, och korta listor i exempel. Arraykapitlet behåller `push`/`pop`, loopar över arrayer, sökning, mönstret för det största och arrayer av objekt.
-3. **Ett nytt händelsekapitel efter arraykapitlet** (arbetsnamn *Händelser och många element*). Innehåll: event-objektet (flyttas från *Händelser*), tangenthändelser och `e.key` (flyttas från *Villkorssatser*), `querySelectorAll`, lyssnare i en loop, `e.target` och quizknapparna (flyttas från arraykapitlet), samt **bubbling och delegering**. Delegering – en lyssnare på listan i stället för en per element – passar ihop med `e.target` och är enklare än lyssnare i en loop. Det tillför uppskattningsvis 500–700 ord.
+3. **Ett nytt händelsekapitel efter arraykapitlet**, *Händelser och många element* (genomfört, kap. 17). Innehåll: event-objektet (flyttas från *Händelser*), tangenthändelser och `e.key` (flyttas från *Villkorssatser*), `querySelectorAll`, lyssnare i en loop, `e.target` och quizknapparna (flyttas från arraykapitlet), samt **bubbling och delegering**. Delegering – en lyssnare på listan i stället för en per element – passar ihop med `e.target` och är enklare än lyssnare i en loop. Det tillför uppskattningsvis 500–700 ord.
 4. **Funktionsuttryck ligger kvar** där de är (`function () { … }` som anonym callback i *Händelser*, sedan pilfunktioner).
 
 **Ordning** (≈ timmar med kärnövningar; minikapitel i kursiv stil):
@@ -247,7 +248,6 @@ Totalt cirka 70 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 
 **Följdändringar att komma ihåg:**
 
-- Filnamn, `_quarto.yml`, övningssidornas mappar, rubrikerna *Kapitel N:* i lösningsfilerna och handskrivna övningsnummer (ATT-GORA.md) följer nu numreringen med sex minikapitel. De förskjuts igen när det nya händelsekapitlet läggs in efter arraykapitlet.
-- Lösningsfilerna följer med det innehåll som flyttas. *Händelser och många element* behöver en egen (`losn…`), liksom inledning, sammanfattning och AI-ruta.
+- Filnamn, `_quarto.yml`, övningssidornas mappar, rubrikerna *Kapitel N:* i lösningsfilerna och handskrivna övningsnummer (ATT-GORA.md) följer nu den nya ordningen med sex minikapitel och 17 kapitel i Del I.
 - Kursplanen för Webbteknik 3 (avsnittet ovan) tar upp händelsebubbling och delegering i *Händelser och DOM-trädet*. Kapitlet `kap-handelser-djupet.qmd` behöver då bara propageringens faser, `preventDefault` och `removeEventListener`.
 - Punkterna under *Enhetlighet i Del I* och *Innehåll att se över i nästa iteration* i ATT-GORA.md bör tas med i omstruktureringen där de berör flyttat innehåll (till exempel event-objektet, `%`, arraykapitlet över budget).

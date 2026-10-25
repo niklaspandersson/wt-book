@@ -30,42 +30,16 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
             max-width: 40rem;
             margin: 2rem auto;
         }
-        .markerad {
-            background-color: lightyellow;
-        }
-        .rätt {
-            border: 3px solid green;
-        }
-        .fel {
-            border: 3px solid red;
-        }
     </style>
 </head>
 <body>
     <h1>Quizkvällen</h1>
-
-    <h2>Anmälda lag</h2>
-    <ul>
-        <li class="lag">Ugglorna</li>
-        <li class="lag">Räknenissarna</li>
-        <li class="lag">Blå blixtarna</li>
-        <li class="lag">Röda stjärnor</li>
-        <li class="lag">Gula gänget</li>
-    </ul>
-    <p id="valt-lag">Klicka på ett lag!</p>
 
     <h2>Anmäl flera lag</h2>
     <label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
     <input type="text" id="lagfält">
     <button id="anmäl">Anmäl</button>
     <pre id="anmälda"></pre>
-
-    <h2>Fråga 1</h2>
-    <p id="fråga">Vad heter Sveriges huvudstad?</p>
-    <button class="svar">Göteborg</button>
-    <button class="svar">Stockholm</button>
-    <button class="svar">Malmö</button>
-    <p id="svarsresultat"></p>
 
     <script>
         console.log("Skriptet körs!");
@@ -288,85 +262,9 @@ Resultatet visas med `textContent`, inte med `innerHTML`, eftersom texten kommer
 
 ---
 
-## Arrayer och webbsidan: `querySelectorAll`
-
-`querySelector` hämtar *ett* element. Övningssidan har fem `<li>`-element med klassen `lag`, och för att hämta *alla* används `querySelectorAll`:
-
-```javascript
-const lagElement = document.querySelectorAll(".lag");
-console.log(lagElement.length);   // 5
-```
-
-`querySelectorAll` returnerar alla element som matchar selektorn, i den ordning de står på sidan. Samlingen fungerar nästan som en array: den har `length`, du når elementen med index (`lagElement[0]`), och du kan gå igenom den med `for...of`. Tekniskt sett är det inte en array utan en **NodeList**, som saknar en del arraymetoder, till exempel `push`.
-
-Med en loop kan du nu göra samma sak med alla elementen:
-
-```javascript
-for (const element of lagElement) {
-    if (element.textContent.includes("Blå")) {
-        element.classList.add("markerad");
-    }
-}
-```
-
-Mönstret – hämta alla, gå igenom dem, gör något med dem som uppfyller ett villkor – är grundläggande när man arbetar med webbsidor.
-
-::: {.callout-warning}
-## En lista kan inte lyssna
-
-Ett av de vanligaste felen med `querySelectorAll` är att behandla listan som om den vore ett element:
-
-```javascript
-const lagElement = document.querySelectorAll(".lag");
-lagElement.classList.add("markerad");
-// TypeError: Cannot read properties of undefined (reading 'add')
-```
-
-Listan har ingen `classList` – det har bara elementen *i* listan. Samma sak gäller `textContent` och `addEventListener`. Använd en loop och gör det med ett element i taget.
-:::
-
----
-
-## Händelser i en loop
-
-Med `querySelectorAll` och en loop kan du registrera en lyssnare på många element med några få rader:
-
-```javascript
-const lagElement = document.querySelectorAll(".lag");
-const valtLag = document.querySelector("#valt-lag");
-
-for (const element of lagElement) {
-    element.addEventListener("click", (e) => {
-        valtLag.textContent = `Du valde: ${e.target.textContent}`;
-    });
-}
-```
-
-Loopen körs en gång, när sidan laddas, och registrerar en lyssnare på vart och ett av de fem lagen. Callbacken körs senare, varje gång någon klickar.
-
-Men hur vet callbacken *vilket* lag som klickades? Det berättar event-objektet `e` (kapitel [-@sec-handelser]). Egenskapen `e.target` är det element som händelsen gällde – här det `<li>`-element som användaren klickade på. Samma callback kan på så sätt reagera olika beroende på var användaren klickar.
-
-::: {.callout-note appearance="simple"}
-## Stanna upp
-
-1. Hur många lyssnare finns det på sidan efter att koden har körts? Hur många gånger har loopen körts när du klickar på det tredje laget?
-:::
-
----
-
 ## Arrayer av objekt
 
-Övningssidan har en quizfråga med tre svarsknappar. Ett riktigt quiz har många frågor, och varje fråga består av flera värden som hör ihop. Värden som hör ihop kan samlas i ett **objekt**:
-
-```javascript
-const fråga = {
-    text: "Vad heter Sveriges huvudstad?",
-    alternativ: ["Göteborg", "Stockholm", "Malmö"],
-    rätt: "Stockholm"
-};
-```
-
-En egenskap kan innehålla en array – `alternativ` är en lista med tre strängar. Flera sådana frågor kan i sin tur samlas i en array. Då får man en **array av objekt**, kanske det vanligaste sättet att lagra data i JavaScript:
+En quizfråga kan vara ett objekt med en array av alternativ (kapitel [-@sec-variabler]). Ett riktigt quiz har många frågor, och de kan i sin tur samlas i en array. Då får man en **array av objekt**, kanske det vanligaste sättet att lagra data i JavaScript:
 
 ```javascript
 const frågor = [
@@ -393,27 +291,11 @@ for (const f of frågor) {
 }
 ```
 
-Och med en vanlig `for`-loop kan du fylla knapparna på sidan med alternativen till en fråga. Indexet `i` används då både för knappen och för alternativet, eftersom de hör ihop i samma ordning:
-
-```javascript
-const knappar = document.querySelectorAll(".svar");
-const aktuell = frågor[0];
-
-document.querySelector("#fråga").textContent = aktuell.text;
-
-for (let i = 0; i < knappar.length; i++) {
-    knappar[i].textContent = aktuell.alternativ[i];
-}
-```
-
-Byt `frågor[0]` mot `frågor[1]`, så visar samma sida nästa fråga. Det är grunden till ett quiz med hur många frågor som helst: datan ligger i en array av objekt, och koden som visar en fråga är densamma för alla.
-
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
 1. Vad ger `frågor[0].alternativ[2]`? Läs uttrycket steg för steg.
 2. Vad ger `frågor[2]`, och vad händer om du skriver `frågor[2].text`? Förutsäg först och testa sedan.
-3. Hur många varv går loopen som fyller knapparna? Vad händer om en fråga bara har två alternativ?
 :::
 
 ---
@@ -425,11 +307,9 @@ Byt `frågor[0]` mot `frågor[1]`, så visar samma sida nästa fråga. Det är g
 - En **`for`-loop** med `i < lag.length` går igenom alla index. **`for...of`** går direkt igenom värdena och är oftast enklast.
 - Mönstret *före loopen – i loopen – efter loopen* fungerar för att summera, hitta det största och bygga en ny array med `push`.
 - **`includes`** och **`indexOf`** söker i en array, precis som i en sträng.
-- **`querySelectorAll`** hämtar alla element som matchar en selektor. Gå igenom dem med en loop – listan själv har ingen `classList` eller `addEventListener`.
-- Med en loop kan samma lyssnare registreras på många element, och **`e.target`** talar om vilket element som klickades.
 - En **array av objekt** samlar många poster med samma egenskaper, som frågorna i ett quiz. Läs uttryck som `frågor[1].alternativ[0]` steg för steg från vänster.
 
-Med arrayer har du nu alla grundläggande byggstenar: värden och variabler, funktioner, händelser, villkor, loopar och listor. Det är vad som krävs för att bygga sidor som reagerar på användaren och hanterar hur mycket data som helst.
+I kapitel [-@sec-manga-element] låter du många element på sidan reagera på klick med en enda lyssnare.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -541,14 +421,6 @@ lag = [];
 
 ```javascript
 // C
-const knappar = document.querySelectorAll(".svar");
-knappar.addEventListener("click", () => {
-    console.log("Klick!");
-});
-```
-
-```javascript
-// D
 const lag = ["Ugglorna", "Tigrarna"];
 for (let i = 0; i <= lag.length; i++) {
     console.log(lag[i].length);
@@ -556,8 +428,8 @@ for (let i = 0; i <= lag.length; i++) {
 ```
 
 1. Vilket felmeddelande ger varje snutt? Vilka två snuttar ger nästan samma meddelande, och varför?
-2. I D skrivs något ut innan felet kommer. Vad, och varför kommer felet först i tredje varvet?
-3. Rätta alla fyra. Finns det mer än ett sätt att rätta B?
+2. I C skrivs något ut innan felet kommer. Vad, och varför kommer felet först i tredje varvet?
+3. Rätta alla tre. Finns det mer än ett sätt att rätta B?
 :::
 
 ::: {.callout-note}
@@ -614,38 +486,6 @@ Utgå från avsnittet *Ett löst exempel: anmäl flera lag* och övningssidan.
 3. Högst åtta lag får plats. Visa ett meddelande om fler än åtta lag skrivs in. I vilket av de fem stegen hör kontrollen hemma, och ska den göras före eller efter att dubbletterna har tagits bort?
 :::
 
-::: {.callout-note}
-## Övning – Bygg vidare på quizet
-
-Övningssidan har en fråga med tre svarsknappar, alla med klassen `svar`. Den här koden ger varje knapp en lyssnare:
-
-```javascript
-const rättSvar = "Stockholm";
-const knappar = document.querySelectorAll(".svar");
-const svarsresultat = document.querySelector("#svarsresultat");
-
-for (const knapp of knappar) {
-    knapp.addEventListener("click", (e) => {
-        const svar = e.target.textContent;
-
-        if (svar === rättSvar) {
-            svarsresultat.textContent = "Rätt!";
-            e.target.classList.add("rätt");
-        } else {
-            svarsresultat.textContent = `Fel! Rätt svar är ${rättSvar}.`;
-            e.target.classList.add("fel");
-        }
-    });
-}
-```
-
-Loopen ser till att alla tre knapparna har en lyssnare. Callbacken är densamma för alla tre, men `e.target` gör att den alltid arbetar med den knapp som klickades. Prova koden: klicka på *Göteborg* och sedan på *Stockholm*. Vilka knappar har en färgad ram, och vad borde hända i ett riktigt quiz? Bygg sedan vidare:
-
-1. När användaren har svarat ska alla tre knapparna bli avstängda med `disabled`, så att det inte går att svara igen. Du behöver en loop till – var i koden ska den stå?
-2. Om svaret är fel ska den rätta knappen också få klassen `rätt`, så att användaren ser vilket som var rätt svar. Hur hittar du den rätta knappen?
-3. Lägg till en knapp *Nästa försök* som tar bort klasserna `rätt` och `fel` från alla svarsknappar, slår på dem igen och tömmer resultatet.
-:::
-
 ### Egna sidor
 
 I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
@@ -662,29 +502,6 @@ Skapa en sida med ett textfält och ett stycke för resultatet. Medan användare
 :::
 
 ::: {.callout-note}
-## Övning – Live-sökning
-
-Skapa en sida med ett textfält och en `<ul>`-lista med minst åtta namn som `<li>`-element. Medan användaren skriver i fältet ska bara de namn som innehåller söktexten synas.
-
-1. Lyssna på `input`-händelsen på textfältet.
-2. Vid varje ändring: gå igenom alla `<li>`-element och dölj de element vars text *inte* innehåller söktexten. Använd `hidden` och ett booleskt uttryck.
-3. Gör sökningen okänslig för stora och små bokstäver.
-4. Vad händer när fältet töms? Förklara varför – du behöver troligen inte lägga till någon kod.
-:::
-
-::: {.callout-note}
-## Övning – Färgväljare med knappar
-
-Skapa en sida med fem knappar. Varje knapp har sin färg i attributet `value`, till exempel `<button class="färg-knapp" value="tomato">Tomat</button>`. Precis som för ett `<input>` når du attributet med `.value`.
-
-1. Hämta alla knappar med `querySelectorAll` och registrera en klicklyssnare på var och en.
-2. Vid klick: ändra sidans bakgrundsfärg till knappens färg med `document.body.style.backgroundColor`. Här passar `.style` bättre än en CSS-klass, eftersom färgen kommer från knappen.
-3. Ge den klickade knappen klassen `aktiv` och ta bort den från alla andra knappar, så att bara en knapp åt gången är markerad.
-
-*Tips:* Gå igenom alla knappar och ta bort `aktiv` innan du lägger till den på den klickade.
-:::
-
-::: {.callout-note}
 ## Övning – Vem leder nu?
 
 1. Börja med lagen i två arrayer, där samma index hör ihop:
@@ -697,19 +514,6 @@ Skapa en sida med fem knappar. Varje knapp har sin färg i attributet `value`, t
     Ta reda på vilket lag som leder. Utgå från exemplet i avsnittet *Att leta efter det största*, men kom ihåg *indexet* för det största värdet i stället för bara värdet. Visa resultatet på en sida, till exempel `Räknenissarna leder med 19 poäng.`
 2. Ett nytt lag, *Tigrarna*, anmäler sig. Vad måste du komma ihåg att ändra? Vad händer om du bara lägger till namnet i `lagnamn`?
 3. Gör om lagen till en array av objekt, som i avsnittet *Arrayer av objekt*, med ett objekt per lag: `{ namn: "Ugglorna", poäng: 12 }`. Skriv om koden som hittar ledaren. Behöver du indexet nu? Vilken version är lättast att lägga till ett lag i?
-:::
-
-::: {.callout-note}
-## Övning – Ett quiz med flera frågor
-
-Bygg vidare på din lösning till övningen *Bygg vidare på quizet*, och på exemplet i avsnittet *Arrayer av objekt*.
-
-1. Skapa en array med minst tre frågor som objekt. Varje fråga ska ha en frågetext, tre alternativ och det rätta svaret.
-2. Skriv en funktion `visaFråga(nr)` som visar frågan med index `nr` och fyller de tre knapparna med dess alternativ.
-3. Lägg till en knapp *Nästa fråga* som visar nästa fråga i arrayen. Vad ska hända när den sista frågan är besvarad?
-4. Räkna antalet rätta svar och visa resultatet när quizet är slut, till exempel `Du fick 2 av 3 rätt.`
-
-Planera först: vilka variabler behöver finnas *utanför* callbackarna, så att de kommer ihåg vilken fråga som visas och hur många rätt det är?
 :::
 
 ::: {.callout-note}
