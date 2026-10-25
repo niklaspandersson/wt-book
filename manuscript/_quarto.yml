@@ -5,6 +5,9 @@ book:
   title: "Javascript på klientsidan"
   author: "Niklas P Andersson"
   date: "2/27/2026"
+  # Versionen i sidfoten skrivs in av .github/workflows/publish.yml vid bygget.
+  page-footer:
+    center: "Version: lokalt bygge"
   chapters:
     - index.qmd
     - part: "Del I - Grunden"

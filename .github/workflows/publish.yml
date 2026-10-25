@@ -28,6 +28,15 @@ jobs:
         with:
           version: 1.8.27
 
+      # Sidfoten visar vilken commit som är publicerad.
+      - name: Skriv in versionen i sidfoten
+        working-directory: manuscript
+        run: |
+          TID=$(TZ=Europe/Stockholm date '+%Y-%m-%d %H:%M')
+          VERSION="Version: [${GITHUB_SHA::7}](https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}) på ${GITHUB_REF_NAME}, byggd ${TID}"
+          sed -i "s|center: \"Version: lokalt bygge\"|center: \"${VERSION}\"|" _quarto.yml
+          grep -n "Version:" _quarto.yml
+
       # Bara HTML. PDF-bygget fungerar inte på GitHub just nu.
       - name: Bygg HTML
         working-directory: manuscript
