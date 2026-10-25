@@ -8,6 +8,16 @@ Lösningar till övningarna i kapitel [-@sec-variabler].
 
 ## Stanna upp-frågorna
 
+**Deklarera med `let`**
+
+1. `30`. Efter första raden pekar `tidKvar` på 60, efter andra på 45 och efter tredje på 30. Varje gång flyttas pilen till ett nytt värde, och det gamla värdet lämnas kvar.
+2. Variabeln är redan skapad. `let` används bara när variabeln deklareras. Hade det stått `let` igen hade konsolen svarat `SyntaxError: Identifier 'tidKvar' has already been declared`.
+
+**`const` och objekt**
+
+1. `spelare = { … };` ger `TypeError: Assignment to constant variable.`, eftersom pilen från `spelare` skulle flyttas till ett nytt objekt. `spelare.rundor = 3;` fungerar: det är samma objekt, med ändrat innehåll.
+2. `undefined`. Egenskapen finns inte, och det ger inget felmeddelande.
+
 **Arrayer – listor av värden**
 
 1. `lag[1]` är `"Räknenissarna"`. `lag.length` är 3, så `lag[lag.length - 2]` är `lag[1]`, alltså också `"Räknenissarna"`.
@@ -23,9 +33,12 @@ Lösningar till övningarna i kapitel [-@sec-variabler].
 let tid = 30;     // undefined
 tid;              // 30
 typeof tid;       // 'number'
+const lagen = ["Ugglorna", "Tigrarna"];   // undefined
+lagen[1];         // 'Tigrarna'
+lagen.length;     // 2
 ```
 
-Raden som ger `undefined` är `let tid = 30;`. En deklaration är en sats: den *gör* något – skapar variabeln `tid` – men ger inget värde. Konsolen har därför inget att visa. Raden efter, `tid;`, är ett uttryck, och dess värde är det värde som `tid` pekar på.
+Raderna som ger `undefined` är `let tid = 30;` och `const lagen = …;`. En deklaration är en sats: den *gör* något – skapar variabeln – men ger inget värde. Konsolen har därför inget att visa. Raden efter, `tid;`, är ett uttryck, och dess värde är det värde som `tid` pekar på. `lagen[1]` är det *andra* elementet, eftersom index börjar på 0.
 
 Jämför också rad 1 och rad 3. I båda slås en sträng ihop med ett tal, och talet görs om till text. I rad 1 är det just vad vi vill. I rad 3 blir det `'53'` och inte `8`, eftersom `"5"` är en sträng och inte ett tal.
 
@@ -83,6 +96,7 @@ flowchart LR
 | Rad | Resultat |
 |---|---|
 | `tidKvar;` | fungerar: `undefined`, eftersom variabeln aldrig har fått något värde |
+| `tidKvr = 30;` | fungerar – *utan* felmeddelande, fast namnet är felstavat. JavaScript skapar tyst en ny variabel `tidKvr`, och `tidKvar` är fortfarande `undefined` |
 | `lag.poäng = 10;` | fungerar: objektets poäng ändras till `10` |
 | `maxPoäng = 120;` | fel: `TypeError: Assignment to constant variable.` |
 | `lag = { namn: "Gula gänget", poäng: 0 };` | fel: samma `TypeError` |
@@ -96,6 +110,8 @@ Två rader brukar ställa till det:
 
 - **`lag.poäng = 10;` fungerar trots `const`.** `const` hindrar att variabeln `lag` får ett nytt värde, men inte att objektet ändras. Se rutan *`const` och objekt*.
 - **`lag = { … };` ger fel** av precis samma skäl: här får variabeln ett helt nytt objekt, och då måste pilen flyttas.
+
+Raden `tidKvr = 30;` är den farligaste, just för att den inte ger något fel (se rutan *Deklarera alltid*). Det syns först på sista raden: `tidKvar` har fortfarande inget värde.
 
 Lägg också märke till att `typeof tidKvar` ger *strängen* `'undefined'` – med citattecken – medan `tidKvar` ger själva *värdet* `undefined`.
 
@@ -206,9 +222,15 @@ fråga.ledtråd = "Staden ligger vid Mälaren.";
 
 // 4
 console.log(fråga.svårighetsgrad);   // undefined
+
+// 5
+fråga.ledtrådar = ["Staden ligger vid Mälaren.", "Riksdagen finns där.", "Den börjar på S."];
+console.log(fråga.ledtrådar[fråga.ledtrådar.length - 1]);   // Den börjar på S.
+console.log(fråga.ledtrådar[3]);                             // undefined
 ```
 
 1. Utskriften blir `Fråga (3 poäng): Vad heter Sveriges huvudstad?`. Det är lätt att glömma mellanslagen i textbitarna. Utan dem blir det `Fråga (3poäng):Vad heter …`.
 2. Raden räknar ut `fråga.poäng * 2` med det nuvarande värdet och låter sedan egenskapen peka på resultatet – samma mönster som `poäng = poäng + 10` i kapitlet.
 3. En ny egenskap skapas genom att man tilldelar den ett värde. Den behöver inte finnas i objektliteralen från början.
 4. Det skrivs ut `undefined`. Att läsa en egenskap som inte finns är inget fel i JavaScript. Svaret är bara att det inte finns något värde. Det är därför ett stavfel i ett egenskapsnamn kan vara svårt att hitta: programmet fortsätter, men med `undefined` där du väntade dig ett värde.
+5. Den sista ledtråden har index `length - 1`, alltså 2. Med `length - 1` i stället för talet 2 pekar uttrycket alltid på den sista, hur många ledtrådar det än blir. `fråga.ledtrådar[3]` ger `undefined`: det finns inget element på index 3.

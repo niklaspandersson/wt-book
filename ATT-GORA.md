@@ -28,7 +28,7 @@
 
 Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6 och 7 skrevs före mallen och följer den bara delvis. Minikapitlen (kap. 3, 5, 8, 11, 13 och 15) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
-- ***Stanna upp*-rutor saknas i kap. 2, 6 och 9.**
+- ***Stanna upp*-rutor saknas i kap. 6 och 9.**
 - **Lösta exempel med namngivna delmål** (PEDAGOGIK §4) börjar först i kap. 9. Kap. 1, 2, 4, 6 och 7 saknar dem; kap. 6 behöver det mest. I kap. 10 används femstegsmönstret, men avsnittet har inte rubriken *Ett löst exempel*.
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - ***Vad säger felet?*** finns i kap. 3–9 och 11–17. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 10 saknar en.
@@ -48,10 +48,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 2 Värden och variabler
 
-- **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter tilldelning med `let`, efter `const` och objekt.
-- **Rutan *Deklarera alltid* saknar övning.** Lägg till en rad med en felstavad, odeklarerad tilldelning i *Vilka rader ger fel?* eller *Spåra poängen*, där studenten ska upptäcka att inget felmeddelande kommer.
 - **Två namn, samma värde.** Pilbilden visar bara ett namn som pekas om. Ett exempel där `bonus = poäng;` följs av att `poäng` ändras (finns i övningen *Spåra poängen*) kunde stå i texten, som förberedelse för referenser i kapitlet *Objekt*.
-- **Inget löst exempel.** Poängtavlan som ett objekt som uppdateras steg för steg kunde fylla den rollen.
 
 ### Kap. 4 Att använda funktioner
 

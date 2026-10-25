@@ -158,6 +158,19 @@ När du tilldelar om skriver du *inte* `let` igen. `let` används bara när du s
 Glömmer du `let` när du skapar en variabel får du inget felmeddelande. JavaScript skapar variabeln ändå. Det låter bekvämt, men det är en fälla: stavar du fel på namnet, som i `poang = poäng + 10;`, skapas tyst en ny variabel `poang`, och `poäng` ändras inte. Deklarera därför alltid en variabel med `let` eller `const` innan du använder den.
 :::
 
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+```javascript
+let tidKvar = 60;
+tidKvar = tidKvar - 15;
+tidKvar = tidKvar - 15;
+```
+
+1. Vad pekar `tidKvar` på efter de tre raderna? Rita pilbilden efter varje rad.
+2. Varför står det inte `let` på andra och tredje raden?
+:::
+
 ### Konstanter med `const`
 
 Ibland ska ett värde aldrig ändras medan programmet körs. Då använder du `const` (kort för *constant*) i stället för `let`:
@@ -278,6 +291,17 @@ Tänk på pilbilden. `const` betyder att pilen från namnet `lag` inte kan flytt
 :::
 
 Mönstret `objekt.egenskap` finns överallt i JavaScript. Du har redan sett det: i `console.log()` är `console` ett objekt som webbläsaren tillhandahåller, och `log` en av dess egenskaper.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+```javascript
+const spelare = { namn: "Lisa", rundor: 2 };
+```
+
+1. Vilken av raderna `spelare.rundor = 3;` och `spelare = { namn: "Omar", rundor: 0 };` ger ett felmeddelande? Varför?
+2. Vad ger `spelare.mål`?
+:::
 
 ---
 
@@ -431,19 +455,17 @@ Namnet kommer av att versalerna sticker upp mitt i namnet som pucklarna på en k
 ::: {.callout-note}
 ## Ett helt zoo av namnkonventioner
 
-Ett namn som består av flera ord kan inte innehålla mellanslag, så programmerare har hittat på olika sätt att hålla isär orden:
+Ett namn med flera ord kan inte innehålla mellanslag. Olika språk håller isär orden på olika sätt:
 
 | Konvention | Exempel | Var den används |
 |---|---|---|
 | **camelCase** | `antalFrågor` | Variabler och funktioner i JavaScript |
 | **PascalCase** | `AntalFrågor` | Klasser i JavaScript (kapitel [-@sec-oop]) |
-| **kebab-case** | `antal-frågor` | CSS-egenskaper, klassnamn och filnamn – orden sitter uppträdda som på ett grillspett |
-| **snake_case** | `antal_frågor` | Variabler i bland annat Python – orden ringlar fram längs marken |
-| **SCREAMING_SNAKE_CASE** | `MAX_POÄNG` | Konstanter i många språk, ibland också i JavaScript – ormen som skriker |
+| **kebab-case** | `antal-frågor` | CSS-egenskaper, klassnamn och filnamn |
+| **snake_case** | `antal_frågor` | Variabler i bland annat Python |
+| **SCREAMING_SNAKE_CASE** | `MAX_POÄNG` | Konstanter i många språk, ibland också i JavaScript |
 
 kebab-case känner du igen från CSS, till exempel `font-size`. I JavaScript fungerar den inte, eftersom bindestrecket är ett minustecken: `antal-frågor` läses som "`antal` minus `frågor`".
-
-Ingen konvention är mer rätt än någon annan. Det viktiga är att följa den som gäller i det språk och det projekt du arbetar i, och i JavaScript är det camelCase.
 :::
 
 Ge variabler **meningsfulla namn** som beskriver vad de innehåller. Korta namn som `x`, `n` eller `temp` är frestande, men de gör koden svår att läsa – för andra, och för dig själv om en vecka:
@@ -516,9 +538,12 @@ Skriv ner vad du tror att konsolen svarar på varje rad. Skriv sedan in raderna 
 let tid = 30;
 tid;
 typeof tid;
+const lagen = ["Ugglorna", "Tigrarna"];
+lagen[1];
+lagen.length;
 ```
 
-En av raderna ger `undefined`. Vilken, och varför? (Tänk på skillnaden mellan uttryck och satser.)
+Två av raderna ger `undefined`. Vilka, och varför? (Tänk på skillnaden mellan uttryck och satser.)
 :::
 
 ::: {.callout-note}
@@ -584,6 +609,7 @@ let tidKvar;
 const lag = { namn: "Gröna gubbar", poäng: 0 };
 
 tidKvar;
+tidKvr = 30;
 lag.poäng = 10;
 maxPoäng = 120;
 lag = { namn: "Gula gänget", poäng: 0 };
@@ -676,4 +702,5 @@ Skapa ett objekt `fråga` som beskriver en fråga i quizet. Bestäm själv vilka
 2. Frågan visade sig vara svårare än väntat. Dubbla poängen genom att räkna med egenskapen och tilldela om den.
 3. Lägg till en egenskap som inte fanns från början, till exempel en ledtråd.
 4. Vad skrivs ut om du försöker läsa en egenskap som inte finns, till exempel `fråga.svårighetsgrad`? Varför ger det inget felmeddelande?
+5. Byt ut ledtråden mot en egenskap `ledtrådar`: en array med tre ledtrådar, från den svåraste till den lättaste. Skriv ut den lättaste ledtråden med ett index som räknas ut med `length`, så att det fungerar även om du lägger till en fjärde ledtråd. Vad ger `fråga.ledtrådar[3]` med tre ledtrådar?
 :::
