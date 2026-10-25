@@ -52,7 +52,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 4 Att använda funktioner
 
-- **`prompt` returnerar alltid text.** Kapitlet säger det inte. Det knyter an till kap. 2 ("allt användaren skriver kommer som text") och förbereder `Number()` i kap. 8. En mening och en rad i *Vad svarar konsolen?* skulle räcka.
 - **Nya möjligheter utan moduler:** övningar där studenten anropar funktioner från konsolen på en sida med eget skript blir möjliga från kap. 6.
 
 ### Kap. 6 Din kod möter webbsidan

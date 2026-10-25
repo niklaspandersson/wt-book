@@ -81,7 +81,7 @@ Funktionen `prompt` visar, precis som `alert`, en ruta. Men rutan har ett textf�
 const lagnamn = prompt("Vad heter ert lag?");
 ```
 
-Skriv ett lagnamn, klicka OK och skriv sedan `lagnamn` i konsolen. Variabeln pekar på texten du skrev, eftersom texten är `prompt`s returvärde. Returvärdet står alltså inte i koden. Det uppstår när funktionen körs, och det kan bli olika varje gång. Klickar du *Avbryt* returnerar `prompt` värdet `null` (kapitel [-@sec-variabler]). `prompt` både *gör* något och *ger tillbaka* något.
+Skriv ett lagnamn, klicka OK och skriv sedan `lagnamn` i konsolen. Variabeln pekar på texten du skrev, eftersom texten är `prompt`s returvärde. Returvärdet är alltid en sträng, även när besökaren skriver siffror: skriver hen `7` blir returvärdet `"7"`. Returvärdet står alltså inte i koden. Det uppstår när funktionen körs, och det kan bli olika varje gång. Klickar du *Avbryt* returnerar `prompt` värdet `null` (kapitel [-@sec-variabler]). `prompt` både *gör* något och *ger tillbaka* något.
 
 `prompt` kan också ta ett andra argument: en text som redan står ifylld i textfältet.
 
@@ -120,8 +120,6 @@ Från och med kapitel [-@sec-dom-intro] skriver du kod i filer. Då måste du sj
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
-
-I rutor som den här kontrollerar du att du har hängt med innan du läser vidare. Svara i huvudet eller skriv ner ett kort svar. Kan du inte svara, läs avsnittet igen.
 
 1. Tänk på en maskin du använder i vardagen, till exempel en tvättmaskin eller en biljettautomat. Vad skickar du med, och får du något tillbaka – eller gör maskinen bara något?
 2. Förklara med egna ord, utan att använda kod, vad det betyder att "anropet ersätts av sitt returvärde".
