@@ -103,6 +103,14 @@ if (poäng >= 50) {
 
 Läs det högt: "om poängen är minst 50, skriv ut *Godkänd*". `poäng >= 50` blir `true` om poängen är 50 eller mer, och `false` annars.
 
+Villkoret kan vara vilket booleskt uttryck som helst, också ett som kombinerar flera frågor med logiska operatorer (kapitel [-@sec-booleska]):
+
+```javascript
+if (poäng >= 50 && inlämnadITid) {
+    console.log("Godkänd");
+}
+```
+
 Klammerparenteserna avgränsar ett **kodblock**. Alla rader inuti blocket körs, eller hoppas över, tillsammans. Skriv alltid klammerparenteserna, även om blocket bara innehåller en enda rad. Det gör koden tydligare och förebygger misstag när du lägger till rader senare.
 
 ::: {.callout-note}
@@ -126,6 +134,30 @@ if (poäng >= 50) {
 ```
 
 Nu täcks alla möjliga poäng: antingen är man godkänd, eller så är man det inte. Exakt ett av de två blocken körs – aldrig båda, och aldrig inget av dem.
+
+Med `else` kan hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt, välja mellan två texter. Elementen finns på övningssidan:
+
+```html
+<input type="text" id="namnfält" placeholder="Skriv ditt namn">
+<p id="hälsning">Hej, främling!</p>
+```
+
+```javascript
+const namnfält = document.querySelector("#namnfält");
+const hälsning = document.querySelector("#hälsning");
+
+namnfält.addEventListener("input", () => {
+    const namn = namnfält.value.trim();
+
+    if (namn === "") {
+        hälsning.textContent = "Hej, främling!";
+    } else {
+        hälsning.textContent = `Hej, ${namn}!`;
+    }
+});
+```
+
+`trim()` gör att ett fält med bara mellanslag räknas som tomt.
 
 ---
 
@@ -190,43 +222,23 @@ Med gränser av typen "minst" skriver du den högsta gränsen först.
 
 ---
 
-## Sammansatta villkor
+## Nästlade villkor
 
-Villkoret i en `if`-sats kan vara vilket booleskt uttryck som helst – också ett som kombinerar flera frågor med logiska operatorer:
-
-```javascript
-if (poäng >= 50 && inlämnadITid) {
-    console.log("Godkänd");
-}
-
-if (!registrerad) {
-    console.log("Du måste registrera dig först.");
-}
-```
-
-Nu kan vi också laga hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt. Elementen finns på övningssidan:
-
-```html
-<input type="text" id="namnfält" placeholder="Skriv ditt namn">
-<p id="hälsning">Hej, främling!</p>
-```
+Ett block kan innehålla en ny `if`-sats. Det kallas **nästlade villkor**:
 
 ```javascript
-const namnfält = document.querySelector("#namnfält");
-const hälsning = document.querySelector("#hälsning");
-
-namnfält.addEventListener("input", () => {
-    const namn = namnfält.value.trim();
-
-    if (namn === "") {
-        hälsning.textContent = "Hej, främling!";
+if (poäng >= 50) {
+    if (inlämnadITid) {
+        console.log("Godkänd");
     } else {
-        hälsning.textContent = `Hej, ${namn}!`;
+        console.log("Godkänd, men inlämnad för sent");
     }
-});
+} else {
+    console.log("Underkänd");
+}
 ```
 
-Varje gång användaren skriver eller suddar körs callbacken, och `if`-satsen väljer vilken text som ska visas. `trim()` gör att ett fält med bara mellanslag räknas som tomt.
+Varje `if` och varje `else` har sitt eget block, och klammerparenteserna avgör vilket `else` som hör till vilket `if`. Här hör det första `else` till den inre `if`-satsen och det sista till den yttre. Indraget visar samma sak för den som läser, men det är klammerparenteserna som bestämmer. Redan vid två nivåer blir koden svårläst, och i en funktion finns ett bättre sätt (se avsnittet *Early return*).
 
 ---
 
@@ -275,53 +287,7 @@ Ternäroperatorn passar när ett av två värden ska väljas. Den passar *inte* 
 
 ---
 
-## Villkor i funktioner
-
-Villkorssatser passar bra i funktioner. En funktion kan ta emot ett värde, göra en bedömning och returnera resultatet:
-
-```javascript
-function betyg(poäng) {
-    if (poäng >= 90) {
-        return "A";
-    } else if (poäng >= 80) {
-        return "B";
-    } else if (poäng >= 70) {
-        return "C";
-    } else if (poäng >= 60) {
-        return "D";
-    } else if (poäng >= 50) {
-        return "E";
-    } else {
-        return "F";
-    }
-}
-
-console.log(betyg(92));   // A
-console.log(betyg(73));   // C
-console.log(betyg(41));   // F
-```
-
-Betygskedjan har nu ett namn, och `betyg(poäng)` kan användas var som helst i programmet. Funktionen *returnerar* betyget i stället för att skriva ut det, så att det kan användas både i konsolen och på en webbsida.
-
-### Villkor inuti villkor
-
-Ett block kan innehålla en ny `if`-sats. Det kallas **nästlade villkor**:
-
-```javascript
-if (poäng >= 50) {
-    if (inlämnadITid) {
-        console.log("Godkänd");
-    } else {
-        console.log("Godkänd, men inlämnad för sent");
-    }
-} else {
-    console.log("Underkänd");
-}
-```
-
-Det fungerar, men blir snabbt svårläst. Redan vid två nivåer måste man hålla reda på vilka villkor som gäller var, och vilken klammerparentes som hör till vilket block. I en funktion finns ett bättre sätt.
-
-### Early return – sluta tidigt
+## Early return – sluta tidigt
 
 `return` avslutar en funktion direkt. Det kan man utnyttja: kontrollera först de fall där svaret är nej, och avsluta funktionen direkt. Tekniken kallas **early return** ("tidig retur"). Jämför två versioner av samma funktion. Den första är nästlad:
 
@@ -364,49 +330,6 @@ Den andra versionen läses uppifrån och ned utan att man behöver hålla flera 
 
 ---
 
-## Villkor på webbsidan
-
-Med villkor kan sidan visa *olika* text och *olika* utseende beroende på situationen.
-
-### Utseende efter resultat
-
-Övningssidan har två CSS-klasser, `.godkänd` och `.underkänd`. Med en villkorssats väljs rätt klass. Kan samma element få olika klasser vid olika tillfällen måste du också ta bort den klass som inte längre ska gälla. Annars finns båda kvar efter en ny uträkning, och stilarna blandas ihop:
-
-```javascript
-const poäng = 73;
-const resultatElement = document.querySelector("#resultat");
-
-if (poäng >= 50) {
-    resultatElement.textContent = "Godkänd!";
-    resultatElement.classList.remove("underkänd");
-    resultatElement.classList.add("godkänd");
-} else {
-    resultatElement.textContent = "Underkänd";
-    resultatElement.classList.remove("godkänd");
-    resultatElement.classList.add("underkänd");
-}
-```
-
-Om det enda som skulle hända var att en klass slås av och på hade `toggle` med ett villkor som andra argument räckt. Men så fort vägarna gör olika *saker*, som att sätta olika texter, behövs `if`/`else`.
-
-Åt andra hållet kan man använda en klass *som* villkor. `classList.contains` returnerar ett booleskt värde, och passar därför direkt i en `if`-sats. Här byter temaknappen på övningssidan både tema och text:
-
-```javascript
-const temaKnapp = document.querySelector("#tema-knapp");
-
-temaKnapp.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-
-    if (document.body.classList.contains("dark")) {
-        temaKnapp.textContent = "Ljust läge";
-    } else {
-        temaKnapp.textContent = "Mörkt läge";
-    }
-});
-```
-
----
-
 ## Ett löst exempel: kontrollera inmatningen
 
 Nu kan vi lösa problemet från kapitlets början. Ett program som läser data från användaren bör alltid kontrollera att den är rimlig innan det räknar med den. Här är betygsprogrammet som en webbsida, med kontroller. Elementen finns på övningssidan:
@@ -418,9 +341,25 @@ Nu kan vi lösa problemet från kapitlets början. Ett program som läser data f
 <p id="resultat">Betyg visas här.</p>
 ```
 
-Koden följer de fem stegen från kapitel [-@sec-handelser]. Funktionen `betyg` från förra avsnittet behöver också stå i skriptet:
+Funktionen `betyg` gör om poängen till ett betyg. Varje gren returnerar, så funktionen avslutas så fort rätt betyg har hittats:
 
 ```javascript
+function betyg(poäng) {
+    if (poäng >= 90) {
+        return "A";
+    } else if (poäng >= 80) {
+        return "B";
+    } else if (poäng >= 70) {
+        return "C";
+    } else if (poäng >= 60) {
+        return "D";
+    } else if (poäng >= 50) {
+        return "E";
+    } else {
+        return "F";
+    }
+}
+
 // 1. Hämta elementen
 const poängfält = document.querySelector("#poängfält");
 const beräknaKnapp = document.querySelector("#beräkna");
@@ -454,12 +393,7 @@ beräknaKnapp.addEventListener("click", () => {
 });
 ```
 
-Jämfört med det lösta exemplet i kapitel [-@sec-handelser] är det steg 4 som har växt: först tre kontroller, sedan själva beräkningen. Kontrollerna använder early return. Callbacken är en funktion, och varje felfall visar ett meddelande och avslutar funktionen med `return`. Bara om alla kontroller har passerats når programmet den sista raden. Utan early return hade koden behövt tre nivåers nästling.
-
-Två detaljer:
-
-- Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`.
-- Funktionen `betyg` gör beräkningen. Kontrollen av inmatningen och betygsreglerna hålls isär, och var och en kan ändras utan att den andra påverkas.
+Kontrollerna använder early return: varje felfall visar ett meddelande och avslutar callbacken. Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`.
 
 ---
 
@@ -468,9 +402,9 @@ Två detaljer:
 - **`if`** kör ett block om villkoret är sant, **`else`** om det är falskt, och **`else if`**-kedjor täcker flera utfall. Villkoren prövas uppifrån och ned, och bara det första blocket vars villkor är sant körs.
 - Villkoret kan kombinera frågor med **logiska operatorer**.
 - **Ternäroperatorn** (`villkor ? a : b`) väljer ett av två värden. För flera saker eller fler än två utfall är `if`/`else` tydligare.
-- Villkor i **funktioner** kan returnera olika värden. **Early return** – att sluta så fort svaret är nej – gör att koden inte behöver nästlas.
-- På webbsidan låter villkorssatser olika saker hända beroende på data: olika texter, klasser och synlighet. Ta bort den klass som inte längre ska gälla.
-- **Kontrollera inmatning** innan du räknar med den: tomt fält, `Number.isNaN` och rimliga gränser. Kontrollerna hör till steg 4, *bearbeta*.
+- Ett block kan innehålla en ny `if`-sats, ett **nästlat villkor**. Klammerparenteserna avgör vilket `else` som hör till vilket `if`.
+- **Early return** – att avsluta en funktion så fort svaret är nej – gör att koden inte behöver nästlas.
+- **Kontrollera inmatning** innan du räknar med den: tomt fält, `Number.isNaN` och rimliga gränser.
 
 I kapitel [-@sec-loopar] lär du dig loopar: att upprepa kod, så att programmet kan arbeta sig igenom många värden.
 
@@ -739,7 +673,23 @@ Skriv CSS-klasserna `.rätt` (grön ram och bakgrund) och `.fel` (röd ram och b
 ::: {.callout-note}
 ## Övning – Temaknappen
 
-Gå tillbaka till övningen *Mörkt läge* i kapitel [-@sec-handelser]. I kapitlet såg du hur temaknappen kan byta text med `classList.contains` och en `if`/`else`-sats. Lös samma sak på din egen sida, på två andra sätt:
+Den här koden byter tema och knappens text vid varje klick. `classList.contains` returnerar ett booleskt värde och passar därför direkt som villkor:
+
+```javascript
+const temaKnapp = document.querySelector("#tema-knapp");
+
+temaKnapp.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+        temaKnapp.textContent = "Ljust läge";
+    } else {
+        temaKnapp.textContent = "Mörkt läge";
+    }
+});
+```
+
+Lös samma sak på din egen sida, på två andra sätt:
 
 1. Med returvärdet från `classList.toggle`, som är `true` om klassen lades till och `false` om den togs bort. Behöver du `classList.contains` då?
 2. Med ternäroperatorn, så att knappens text sätts på en enda rad.
@@ -758,6 +708,6 @@ const blå = { namn: "Blå blixtarna", poäng: 9 };
 ```
 
 1. Skriv en funktion `ledare(lag1, lag2)` som returnerar till exempel `"Röda stjärnor leder med 3 poäng."`, eller `"Det står lika!"` om lagen har lika många poäng. Skillnaden ska alltid vara ett positivt tal – räkna ut den på olika sätt beroende på vilket lag som leder. Testa med flera olika poäng, också när det andra laget leder.
-2. Nu ska du göra en sida med en knapp "Rätt svar" för varje lag och ett stycke som visar vem som leder. Varje klick ger laget 3 poäng och uppdaterar stycket. Planera innan du skriver: vilka av de fem stegen finns i varje callback? Vilket steg kan båda callbackarna dela på genom att anropa samma funktion?
+2. Nu ska du göra en sida med en knapp "Rätt svar" för varje lag och ett stycke som visar vem som leder. Varje klick ger laget 3 poäng och uppdaterar stycket. Planera innan du skriver: vad ska hända i varje callback? Vilken del kan båda callbackarna dela på genom att anropa samma funktion?
 3. Bygg sidan.
 :::

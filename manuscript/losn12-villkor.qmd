@@ -41,7 +41,7 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
 
     Här är ternäroperatorn kortare och lika lätt att läsa, eftersom det enda som skiljer vägarna är ett värde. Lägg märke till att `if`-versionen måste använda `let`: variabeln skapas utan värde och tilldelas senare.
 
-**Villkor i funktioner**
+**Early return – sluta tidigt**
 
 1. `return` avslutar funktionen. Kommer programmet förbi den första `if`-satsen vet vi att `poäng < 50` var falskt – annars hade funktionen redan returnerat. Ett `else` skulle inte tillföra något.
 2. `return poäng >= 50 && inlämnadITid;` – uttrycket är redan det booleska värde som ska returneras.
@@ -282,7 +282,7 @@ beräknaKnapp.addEventListener("click", () => {
 });
 ```
 
-(Funktionen `betyg` från avsnittet *Villkor i funktioner* måste också stå i filen.)
+(Funktionen `betyg` från det lösta exemplet måste också stå i filen.)
 
 1. Ja, eftersom båda klasserna tas bort innan den nya läggs till. Gör du *inte* det har elementet båda klasserna efter ett godkänt och ett underkänt försök, och stilarna blandas ihop. `classList.remove` kan ta emot flera klassnamn på en gång.
 2. Se blocket `if (bokstav === "F")`. Hjälptexten visas bara där, och döljs annars.
@@ -517,7 +517,7 @@ Det går inte att lösa med enbart en tilldelning av ett booleskt värde, efters
 
     Testa också med `blå` först i anropet, med blå i ledning, och med lika poäng. Skillnaden räknas alltid som det ledande lagets poäng minus det andras, så den blir aldrig negativ.
 
-2. Planeringen: varje callback har stegen *lyssna*, *bearbeta* (ge laget 3 poäng) och *visa*. Inget *läs*-steg, eftersom ingen skriver något. Steget *visa* är detsamma för båda knapparna – stycket ska visa vem som leder – så båda callbackarna kan anropa samma funktion.
+2. Planeringen: varje callback ger sitt lag 3 poäng och visar sedan vem som leder. Ingenting behöver läsas, eftersom ingen skriver något. Att visa ledaren är detsamma för båda knapparna, så båda callbackarna kan anropa samma funktion.
 
 3. Sidan:
 
