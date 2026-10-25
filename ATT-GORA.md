@@ -16,7 +16,7 @@
 
 ## Del I
 
-- **Övningen *Frågornas typer* i kap. 13** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
+- **Övningen *Frågornas typer* i kap. 14** bygger på `%` (resten vid division), som boken ska undvika. Byt till ett scenario utan `%`, till exempel kategorier som räknas upp i en fast ordning, eller räknare som nollställs.
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Se över dem i samband med kortningen av varje kapitel.
 - **En ordlista svenska–engelska** (PEDAGOGIK §6) saknas. Felmeddelanden och MDN är på engelska (*call, argument, return value, method* …).
@@ -26,12 +26,12 @@
 
 ## Enhetlighet i Del I
 
-Kap. 9, 10 och 12–14 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6 och 7 skrevs före mallen och följer den bara delvis. Minikapitlen (kap. 3, 5, 8 och 11) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
+Kap. 9, 10, 12, 14 och 16 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6 och 7 skrevs före mallen och följer den bara delvis. Minikapitlen (kap. 3, 5, 8, 11, 13 och 15) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
 - ***Stanna upp*-rutor saknas i kap. 1, 2, 6 och 9.** Kap. 4 introducerar rutorna som något återkommande, men nästa ruta kommer först i kap. 7.
 - **Lösta exempel med namngivna delmål** (PEDAGOGIK §4) börjar först i kap. 9. Kap. 1, 2, 4, 6 och 7 saknar dem; kap. 6 behöver det mest. I kap. 10 används femstegsmönstret, men avsnittet har inte rubriken *Ett löst exempel*.
-- **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–14, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 13 och för arrayen och `const` i kap. 14.
-- ***Vad säger felet?*** finns i kap. 3–9 och 11–14. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 10 saknar en.
+- **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–16, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
+- ***Vad säger felet?*** finns i kap. 3–9 och 11–16. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 10 saknar en.
 - **Kap. 1 har sex övningar** och varken *Förklara koden* eller *Ordna raderna*, medan de andra vanliga kapitlen har 8–14.
 - **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 4 (en analogi, ingen situation), kap. 12 (betyg i en kurs).
 - **Småsaker:** kap. 7 har sin övningssida i en ruta i stället för avsnittet *En sida att öva på*; kap. 6 har övningar på egna sidor utan rubriken *Egna sidor*.
@@ -50,6 +50,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 2 Värden och variabler
 
+- **Över budget.** Med arrayernas grunder är brödtexten cirka 2 750 ord. Kandidater att korta: avsnittet om `var`, *Ett helt zoo av namnkonventioner* och *När typer blandas*, som nu också tas upp i kap. 8.
 - **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter tilldelning med `let`, efter `const` och objekt.
 - **Rutan *Deklarera alltid* saknar övning.** Lägg till en rad med en felstavad, odeklarerad tilldelning i *Vilka rader ger fel?* eller *Spåra poängen*, där studenten ska upptäcka att inget felmeddelande kommer.
 - **Två namn, samma värde.** Pilbilden visar bara ett namn som pekas om. Ett exempel där `bonus = poäng;` följs av att `poäng` ändras (finns i övningen *Spåra poängen*) kunde stå i texten, som förberedelse för referenser i kapitlet *Objekt*.
@@ -75,7 +76,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 ### Kap. 9 Händelser
 
 - **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter *Callback-funktioner* (`hälsa` eller `hälsa()`?), efter räknaren (varför ligger `antal` utanför?) och efter det lösta exemplet (vilka steg körs när?).
-- **Event-objektet** har bara `e.type` och används inte i kapitlets exempel eller övningar. Det behövs först i kap. 12 (`e.key`) och kap. 14 (`e.target`). Överväg att flytta det dit det behövs.
+- **Event-objektet** har bara `e.type` och används inte i kapitlets exempel eller övningar. Det behövs först i kap. 12 (`e.key`) och kap. 16 (`e.target`). Överväg att flytta det dit det behövs.
 - **Ingen övning med pilfunktion som tar emot en parameter.** `(antal) => { … }` nämns men övas inte förrän event-objektet används.
 
 ### Kap. 10 Sant och falskt
@@ -89,22 +90,22 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 - **Tangenthändelserna** är det första ställe där event-objektet används på riktigt (`e.key`). Se punkten under kap. 9 om att flytta event-objektet hit.
 - **Piltangentsexemplet** är nu startpunkt i övningen *Tangentbordsrörelser*. Ingen övning i brödtexten visar `.style` med ett värde som ändras hela tiden, vilket kap. 6 nämner som skälet att välja `.style`.
 
-### Kap. 13 Loopar
+### Kap. 14 Loopar
 
 - **Prislistans spårtabell** är nu ett löst exempel i övningen *Spåra summan*. Brödtexten har kvar spårtabellen för `while`, som är kapitlets modell. Fundera på om *Bygga upp ett resultat* behöver en bild av hur `text` växer (till exempel pilbilden) nu när tabellen är borta.
 - **`continue`, `do...while` och nästlade loopar** nämns inte längre alls. Studenterna möter dem i andras kod och på MDN.
 - **Övningen *Frågornas typer*** bygger på `%` (se punkten under Del I ovan).
 
-### Kap. 14 Arrayer
+### Kap. 16 Arrayer
 
-- **Över budget.** Brödtexten är cirka 2 600 ord. Kandidater att se över: `indexOf` (behövs bara i övningen *Förklara koden*), *Bra att veta*-rutan om `unshift`/`shift`/`splice`, och avsnittet om NodeList.
+- **Grunderna flyttade till kap. 2.** Kapitlet börjar nu med *Ändra ett element*. Övningarna har kvar uppgifter om index och `length`, som nu repeterar kap. 2. Se över om de ska stå kvar, och om kapitlets övningssida och inledning håller ihop med det nya startläget.
 - **Det interaktiva quizet** är nu startpunkt i övningen *Bygg vidare på quizet*. Brödtexten visar `e.target` bara med lagen i listan. Avsnittet *Arrayer av objekt* börjar nu med övningssidans quizfråga utan att koden för den har visats i texten.
 - **Tabellen `frågor[1].alternativ[0]`** är del B i övningen *Förutsäg värdena*. I texten finns en mening kvar.
 - **Del I slutar här.** Kapitlets sista stycke sammanfattar byggstenarna. Inget pekar vidare till Del II, vilket hänger ihop med punkten om `del1-sammanfattning.qmd` under *Före kursstart*.
 
-### Minikapitlen (kap. 3, 5, 8 och 11)
+### Minikapitlen (kap. 3, 5, 8, 11, 13 och 15)
 
-- **`%` finns kvar** i *Räkna med tal*, fast CLAUDE.md säger att boken ska undvika modulo. Den används i övningen *Frågornas typer* i kap. 13 (se ovan). Fattas beslut om den övningen kan `%` kanske strykas.
+- **`%` finns kvar** i *Räkna med tal*, fast CLAUDE.md säger att boken ska undvika modulo. Den används i övningen *Frågornas typer* i kap. 14 (se ovan). Fattas beslut om den övningen kan `%` kanske strykas.
 - **Stegtabellen för kedjade metoder** står kvar i brödtexten i *Skapa och ändra strängar*. Enligt formatet för minikapitel och regeln om lösta exempel kunde den flyttas till övningen *Spåra strängarna*. Författaren avgör.
 - **Flyttal.** Rutan om att `0.1 + 0.2` ger `0.30000000000000004` är borttagen. Kommer det upp i en övning behöver lösningen förklara det.
 - **Övningarna från gamla kap. 7 som behövde händelser** är strukna: *Ordna raderna* (svaret i stora bokstäver), *Bygg vidare på momsräknaren*, *Temperaturomvandlare*, *Teckenräknare* och *Poängtavlan räknar rätt*. Händelsekapitlet (kap. 9) kommer nu efter `Number()` och strängmetoderna och kunde ta upp någon av dem, till exempel teckenräknaren för `input`-händelsen.

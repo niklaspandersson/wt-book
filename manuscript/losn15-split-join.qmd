@@ -1,0 +1,70 @@
+---
+losningar-till: kap15-split-join.qmd
+---
+
+# Kapitel 15: `split` och `join` {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-split-join].
+
+## Övning – Förutsäg resultaten
+
+```javascript
+"a,b,c".split(",");                 // ["a", "b", "c"]
+"a, b, c".split(",");               // ["a", " b", " c"]
+"kl 19.30".split(".").length;       // 2
+"Anna Berg".split(" ")[1];          // "Berg"
+["Ugglorna", "Tigrarna"].join();    // "Ugglorna,Tigrarna"
+["19", "30"].join(":");             // "19:30"
+```
+
+- På den andra raden följer mellanslagen med, eftersom strängen bara delas vid kommatecknen.
+- `"kl 19.30"` delas vid punkten i två delar, `"kl 19"` och `"30"`.
+- `"Anna Berg".split(" ")` är `["Anna", "Berg"]`, och index 1 är det andra elementet.
+- `join` utan argument sätter ett kommatecken mellan elementen, utan mellanslag.
+
+## Övning – Vad säger felet?
+
+1. A ger `TypeError: "Ugglorna,Tigrarna".join is not a function`. `join` är en arraymetod, och `"Ugglorna,Tigrarna"` är en sträng. Strängar har ingen metod `join`.
+2. De andra:
+   - B ger `3`, fast bara två lag är anmälda. Kommatecknet sist ger en tom del: `["Ugglorna", "Tigrarna", ""]`.
+   - C ger `"Tigrarna"`, men det första laget har index 0, inte 1. Avgränsaren `", "` med mellanslag fungerar här, eftersom texten har ett mellanslag efter kommatecknet.
+3. Rättade:
+
+    ```javascript
+    // A
+    "Ugglorna,Tigrarna".split(",").join(" och ");   // "Ugglorna och Tigrarna"
+    ```
+
+    ```javascript
+    // B – ta bort kommatecknet sist i texten, eller räkna bara delar som inte är tomma
+    "Ugglorna,Tigrarna".split(",").length;          // 2
+    ```
+
+    ```javascript
+    // C
+    "Ugglorna, Tigrarna".split(", ")[0];            // "Ugglorna"
+    ```
+
+    I B går det inte att rätta med enbart `split` och `length` om texten kommer från användaren. Programmet behöver gå igenom delarna och hoppa över de tomma. Det gör det lösta exemplet *Anmäl flera lag* i kapitel [-@sec-arrayer].
+
+## Övning – Förklara koden
+
+1. *Funktionen byter ut varje förekomst av en text mot en annan.*
+2. `"Röda stjärnor från Växjö"`. `split("-")` returnerar `["Röda", "stjärnor", "från", "Växjö"]`, och `join(" ")` sätter ihop dem med ett mellanslag emellan. Funktionen gör samma sak som strängmetoden `replaceAll` (övningen *Slå upp själv* i kapitel [-@sec-strangar]).
+3. `"Ugglorna"`. Det finns inget bindestreck, så `split` returnerar en array med ett enda element, och `join` har inget att sätta emellan.
+
+## Övning – Räkna orden
+
+```javascript
+function antalOrd(mening) {
+    const städad = mening.trim();
+    if (städad === "") {
+        return 0;
+    }
+    return städad.split(" ").length;
+}
+```
+
+1. `"Vad heter Sveriges huvudstad?".split(" ")` ger fyra delar.
+2. Utan `trim` blir det 8: mellanslagen före och efter ger tomma delar, två i varje ände. Med `trim` försvinner de, och svaret blir 4. Står det två mellanslag *mellan* två ord blir det ändå en tom del, som `trim` inte tar bort.
+3. Utan `if`-satsen ger `antalOrd("")` svaret 1. `"".split(" ")` returnerar `[""]`, en array med en tom sträng, eftersom en sträng utan avgränsare blir en enda del. Därför behöver den tomma meningen kontrolleras för sig.

@@ -1,0 +1,138 @@
+# Söka och klippa i text {#sec-soka-klippa}
+
+Tecknen i en sträng är numrerade från 0, precis som elementen i en array (kapitel [-@sec-variabler]). Numret kallas tecknets **position**. Med positioner kan ett program **söka** efter var något står i en text och **klippa** ut en del av den. Prova exemplen i konsolen.
+
+| Tecken | `A` | `n` | `n` | `a` | ` ` | `B` | `e` | `r` | `g` |
+|---|---|---|---|---|---|---|---|---|---|
+| **Position** | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+
+## `indexOf()`
+
+`indexOf` returnerar positionen där en text börjar första gången den förekommer. Finns texten inte returnerar den `-1`, eftersom `-1` aldrig kan vara en position:
+
+```javascript
+"Anna Berg".indexOf(" ");       // 4
+"Anna Berg".indexOf("n");       // 1 – den första förekomsten
+"Anna Berg".indexOf("Berg");    // 5 – där texten börjar
+"Anna Berg".indexOf("berg");    // -1 – stora och små bokstäver skiljer
+```
+
+Svaret `-1` kontrolleras med en jämförelse:
+
+```javascript
+const epost = "anna.berg@exempel.se";
+
+if (epost.indexOf("@") === -1) {
+    console.log("Adressen saknar @.");
+}
+```
+
+Behöver du bara veta *om* texten finns räcker `includes` (kapitel [-@sec-strangar]). `indexOf` använder du när du behöver veta *var*.
+
+## `substring()`
+
+`substring(start, slut)` returnerar delen av strängen från positionen `start` fram till, men *inte med*, positionen `slut`. Utan andra argument går delen till slutet:
+
+```javascript
+"Anna Berg".substring(0, 4);    // "Anna" – position 0, 1, 2 och 3
+"Anna Berg".substring(5);       // "Berg" – från position 5 till slutet
+```
+
+Precis som de andra strängmetoderna ändrar `substring` inte strängen, utan returnerar en ny.
+
+### Söka och klippa tillsammans
+
+Oftast vet du inte positionen i förväg. Då söker du först med `indexOf` och klipper sedan med `substring`:
+
+```javascript
+const namn = "Anna Berg";
+const mellanslag = namn.indexOf(" ");             // 4
+const förnamn = namn.substring(0, mellanslag);    // "Anna"
+const efternamn = namn.substring(mellanslag + 1); // "Berg"
+```
+
+Förnamnet slutar *före* mellanslaget, så `mellanslag` kan användas som slut direkt. Efternamnet börjar ett tecken *efter* mellanslaget, så där behövs `+ 1`.
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [`String.prototype.indexOf()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf) | `indexOf`, också med ett andra argument som anger var sökningen börjar |
+| [`String.prototype.substring()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring) | `substring` |
+| [`String.prototype.slice()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice) | `slice`, som liknar `substring` men också kan räkna bakifrån |
+
+---
+
+## Övningar
+
+Gör övningarna i konsolen. Förutsäg först, och kontrollera sedan.
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vilket värde ger varje rad?
+
+```javascript
+"Ugglorna".indexOf("g");
+"Ugglorna".indexOf("G");
+"Ugglorna".substring(0, 3);
+"Ugglorna".substring(3);
+"Ugglorna".substring(2, 2);
+"Ugglorna".indexOf("a") === "Ugglorna".length - 1;
+```
+:::
+
+::: {.callout-note}
+## Övning – Spåra adressen
+
+Gå igenom koden rad för rad utan att köra den.
+
+```javascript
+const epost = "anna.b@exempel.se";
+const snabel = epost.indexOf("@");
+const användare = epost.substring(0, snabel);
+const domän = epost.substring(snabel + 1);
+const punkt = domän.indexOf(".");
+const land = domän.substring(punkt + 1);
+```
+
+1. Gör en spårtabell med kolumnerna *Rad* och *Namn och värden*.
+2. Vad hade `användare` blivit om rad 3 hade varit `epost.substring(0, snabel + 1)`?
+3. Vad hade `snabel`, `användare` och `domän` blivit om adressen saknade `@`?
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Alla tre snuttarna ska plocka ut förnamnet ur `"Anna Berg"`. Skriv först `const namn = "Anna Berg";` i konsolen. Förutsäg sedan för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande.
+
+```javascript
+// A
+namn.subString(0, namn.indexOf(" "));
+```
+
+```javascript
+// B
+namn.substring(0, namn.indexOf(" ") + 1);
+```
+
+```javascript
+// C
+namn.substring(1, namn.indexOf(" "));
+```
+
+1. Vilken snutt ger ett felmeddelande? Vad betyder det?
+2. Vilka värden ger de två andra? Skriv ut mellanslagen tydligt.
+3. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Förnamnet
+
+Skriv en funktion `förnamn(heltNamn)` som returnerar delen före det första mellanslaget.
+
+1. Testa med `förnamn("Anna Berg")` och `förnamn("Karl Erik Lind")`.
+2. Vad returnerar din funktion för `förnamn("Cher")`, som saknar mellanslag? Förklara varför.
+3. Ändra funktionen så att den returnerar hela namnet när det saknas mellanslag.
+4. Vad händer med `förnamn("  Anna Berg")`? Vilken metod från kapitel [-@sec-strangar] löser det?
+:::

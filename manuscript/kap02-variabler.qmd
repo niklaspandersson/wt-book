@@ -281,6 +281,74 @@ Mönstret `objekt.egenskap` finns överallt i JavaScript. Du har redan sett det:
 
 ---
 
+## Arrayer – listor av värden
+
+En **array** är en ordnad lista av värden. Den skrivs med hakparenteser, och värdena – arrayens **element** – skiljs åt med kommatecken:
+
+```javascript
+const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna"];
+const poäng = [12, 19, 15];
+const svar = [];   // en tom array
+```
+
+Ge en array ett namn i plural, så syns det att namnet pekar på flera värden.
+
+### Index
+
+Elementen är numrerade, och numret kallas elementets **index**. Numreringen börjar på **0**:
+
+| Element | `"Ugglorna"` | `"Räknenissarna"` | `"Blå blixtarna"` |
+|---|---|---|---|
+| **Index** | 0 | 1 | 2 |
+
+Du når ett element med arrayens namn och indexet inom hakparenteser:
+
+```javascript
+lag[0];   // "Ugglorna"
+lag[2];   // "Blå blixtarna"
+lag[3];   // undefined – det finns inget element där
+```
+
+Läs `lag[2]` som "lag nummer 2" – och kom ihåg att det är det *tredje* laget. Indexet kan också vara en variabel: med `const nummer = 1;` ger `lag[nummer]` värdet `"Räknenissarna"`.
+
+### `length`
+
+Egenskapen `length` anger hur många element arrayen har:
+
+```javascript
+lag.length;              // 3
+lag[lag.length - 1];     // "Blå blixtarna" – det sista elementet
+```
+
+Eftersom numreringen börjar på 0 har det sista elementet index `length - 1`, inte `length`. Att skriva `lag[lag.length]` och få `undefined` är ett av de vanligaste felen med arrayer.
+
+### En array i ett objekt
+
+En egenskap i ett objekt kan vara en array. En quizfråga har en text, flera svarsalternativ och ett rätt svar:
+
+```javascript
+const fråga = {
+    text: "Vad heter Sveriges huvudstad?",
+    alternativ: ["Göteborg", "Stockholm", "Malmö"],
+    rättIndex: 1
+};
+
+fråga.alternativ[1];        // "Stockholm"
+fråga.alternativ.length;    // 3
+```
+
+Läs `fråga.alternativ[1]` från vänster till höger: `fråga.alternativ` är arrayen, och `[1]` är dess andra element.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Vad är `lag[1]` och vad är `lag[lag.length - 2]` i arrayen `lag` ovan?
+2. En array har 12 element. Vilket index har det första elementet, och vilket har det sista?
+3. Vad ger `fråga.alternativ[fråga.rättIndex]`?
+:::
+
+---
+
 ## Dynamisk typning
 
 I JavaScript har variabler ingen fast typ. *Värdet* har en typ, men samma variabel kan peka på värden av olika typer vid olika tillfällen. Det kallas **dynamisk typning**:
@@ -405,6 +473,7 @@ Kod läses många fler gånger än den skrivs.
 - `=` betyder *tilldela*, inte "lika med": högersidan räknas ut först, och resultatet lagras sedan i variabeln till vänster.
 - `undefined` betyder att inget värde har getts; `null` är ett avsiktligt tomt värde.
 - Ett **objekt** samlar värden som hör ihop, till exempel ett lags namn och poäng, i namngivna **egenskaper**. Man läser, ändrar och lägger till egenskaper med **punktnotation** (`lag.poäng`).
+- En **array** är en ordnad lista av värden: `["Ugglorna", "Räknenissarna"]`. Elementen nås med **index** från 0 (`lag[0]`), och `length` ger antalet element. Det sista har index `length - 1`.
 - Operatorn `typeof` ger ett värdes typ som en sträng.
 - JavaScript är **dynamiskt typat**: en variabel kan byta typ, och blandade typer kan ge oväntade resultat.
 - Namn på variabler bör vara **beskrivande** och skrivas i **camelCase**.

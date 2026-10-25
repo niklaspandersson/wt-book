@@ -16,7 +16,7 @@ Alla tre önskemålen handlar om att **upprepa** något. Det gör programmet med
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap13`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap14`:
 
 ```html
 <!DOCTYPE html>
@@ -369,7 +369,7 @@ Tre detaljer:
 - **`break`** avbryter loopen i förtid, oftast inuti en `if`-sats.
 - En **spårtabell** med en rad per varv visar vad loopen gör. Att kunna spåra en loop för hand är den viktigaste färdigheten i kapitlet.
 
-I nästa kapitel får loopen något att gå igenom: en **array**, en lista med värden.
+I kapitel [-@sec-arrayer] får loopen något att gå igenom: en **array**.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

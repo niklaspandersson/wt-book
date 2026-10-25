@@ -2,25 +2,21 @@
 
 ## En lista att hålla ordning på
 
-Anmälningarna till quizkvällen har börjat komma in. Hittills har fem lag anmält sig, och domaren vill att webbsidan ska visa dem, räkna dem och tala om ifall ett lagnamn redan är upptaget. Med det du kan hittills blir det ungefär så här:
+Anmälningarna till quizkvällen har börjat komma in, och lagen finns i en array (kapitel [-@sec-variabler]):
 
 ```javascript
-const lag1 = "Ugglorna";
-const lag2 = "Räknenissarna";
-const lag3 = "Blå blixtarna";
-const lag4 = "Röda stjärnor";
-const lag5 = "Gula gänget";
+const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna", "Röda stjärnor", "Gula gänget"];
 ```
 
-Fem variabler, och det fungerar så länge det är fem lag. Men när ett sjätte lag anmäler sig måste någon skriva en ny rad i koden. Och loopen från förra kapitlet hjälper inte: den kan räkna från 1 till 5, men det finns inget sätt att låta räknaren välja variabel. `lag1`, `lag2` och `lag3` är bara namn som råkar likna varandra. För JavaScript har de inget med varandra att göra.
+Domaren vill att webbsidan ska lägga till nya lag, visa alla och tala om ifall ett lagnamn redan är upptaget. Med index når du ett lag i taget, `lag[0]`, `lag[1]` och så vidare, men då behövs en ny rad kod för varje lag, och ett sjätte lag kommer inte med.
 
-Det vi behöver är *ett* namn för hela listan, och ett sätt att nå varje lag i den med ett nummer. Då kan en loop gå igenom listan, oavsett om den har fem lag eller femtio. En sådan lista kallas i JavaScript för en **array**.
+En loop löser det, om räknaren får vara indexet. Att **gå igenom** en array betyder att göra något med varje element i tur och ordning, oavsett om arrayen har fem element eller femtio. Arrayer går dessutom att ändra: element kan läggas till, tas bort och bytas ut.
 
 ---
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap14`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap16`:
 
 ```html
 <!DOCTYPE html>
@@ -88,64 +84,7 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
 
 ---
 
-## Skapa en array
-
-En **array** är en ordnad lista av värden. Den skrivs med hakparenteser `[ ]`, och värdena skiljs åt med kommatecken:
-
-```javascript
-const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna", "Röda stjärnor", "Gula gänget"];
-```
-
-Nu pekar ett enda namn, `lag`, på alla fem lagnamnen. Värdena i en array kallas arrayens **element**.
-
-En array kan innehålla värden av vilken typ som helst – tal, strängar, booleska värden. I praktiken innehåller en array nästan alltid värden av *samma* sort: lagnamn, poäng eller priser. Ge arrayen ett namn i plural, som `lag`, `poäng` eller `priser`, så syns det att namnet pekar på flera värden.
-
-En array kan också vara tom från början och fyllas på senare:
-
-```javascript
-const svar = [];
-```
-
----
-
-## Index – varje element har ett nummer
-
-Elementen i en array är numrerade. Numret kallas elementets **index**, och numreringen börjar på **0**. Du kan tänka på arrayen som en rad rutor där varje element har sin plats, och numret står under:
-
-| Element | `"Ugglorna"` | `"Räknenissarna"` | `"Blå blixtarna"` | `"Röda stjärnor"` | `"Gula gänget"` |
-|---|---|---|---|---|---|
-| **Index** | 0 | 1 | 2 | 3 | 4 |
-
-Du når ett element med arrayens namn och indexet inom hakparenteser:
-
-```javascript
-lag[0];   // "Ugglorna"
-lag[2];   // "Blå blixtarna"
-lag[4];   // "Gula gänget"
-lag[7];   // undefined – det finns inget element där
-```
-
-Läs `lag[2]` högt som "lag nummer 2" – och kom ihåg att det är det *tredje* laget. Finns det inget element på ett index blir svaret `undefined`, utan felmeddelande.
-
-Indexet behöver inte vara ett tal som står i koden. Det kan vara en variabel, och det är det som gör att en loop kan gå igenom arrayen:
-
-```javascript
-const nummer = 3;
-lag[nummer];       // "Röda stjärnor"
-```
-
-### Arrayens längd
-
-Egenskapen `length` anger hur många element arrayen har – precis som för en sträng:
-
-```javascript
-lag.length;               // 5
-lag[lag.length - 1];      // "Gula gänget" – det sista elementet
-```
-
-Eftersom numreringen börjar på 0 har det sista elementet index `length - 1`, inte `length`. Arrayen har fem element, men det sista har index 4. Att använda `lag[lag.length]` och få `undefined` är ett av de vanligaste felen med arrayer.
-
-### Ändra ett element
+## Ändra ett element
 
 Ett element ändras med tilldelning, på samma sätt som en variabel:
 
@@ -159,13 +98,6 @@ lag;   // ["Ugglorna", "Räknenissarna 2.0", "Blå blixtarna", "Röda stjärnor"
 ```javascript
 lag = ["Nya laget"];   // TypeError: Assignment to constant variable.
 ```
-
-::: {.callout-note appearance="simple"}
-## Stanna upp
-
-1. Vad är `lag[1]` och vad är `lag[lag.length - 2]` i den ursprungliga arrayen?
-2. En array har 12 element. Vilket index har det första elementet, och vilket har det sista?
-:::
 
 ---
 
@@ -242,7 +174,7 @@ Välj så här:
 
 ### Att leta efter det största
 
-Mönstret från förra kapitlet – en variabel före loopen, som uppdateras i loopen och används efter loopen – fungerar lika bra med arrayer. Här är lagens poäng efter första omgången, och vi vill veta den högsta:
+Mönstret från kapitel [-@sec-loopar] – en variabel före loopen, som uppdateras i loopen och används efter loopen – fungerar lika bra med arrayer. Här är lagens poäng efter första omgången, och vi vill veta den högsta:
 
 ```javascript
 const poäng = [12, 19, 15, 8];
@@ -281,7 +213,7 @@ Startvärdet är det första elementet, och inte till exempel `0`. Det är ett s
 
 ## Söka i en array
 
-Är ett lagnamn redan upptaget? Arrayer har metoden `includes`, som fungerar precis som strängmetoden med samma namn. Metoden `indexOf` talar dessutom om *var* värdet finns – eller svarar `-1` om det inte finns, eftersom `-1` aldrig kan vara ett index:
+Är ett lagnamn redan upptaget? Arrayer har metoderna `includes` och `indexOf`, som fungerar som strängmetoderna med samma namn (kapitel [-@sec-strangar] och [-@sec-soka-klippa]). `includes` svarar om värdet finns, och `indexOf` på vilket index – eller `-1` om det inte finns:
 
 ```javascript
 const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna"];
@@ -308,24 +240,9 @@ Använd `includes` när du vill veta *om* något finns, och `indexOf` när du be
 
 ---
 
-## Från text till lista: `split` och `join`
+## Ett löst exempel: anmäl flera lag
 
-Metoden `split` delar en sträng vid ett visst tecken och returnerar en array med delarna:
-
-```javascript
-"Anna Andersson".split(" ");                 // ["Anna", "Andersson"]
-"Ugglorna,Räknenissarna,Tigrarna".split(",");  // ["Ugglorna", "Räknenissarna", "Tigrarna"]
-```
-
-Metoden `join` gör det omvända. Den sätter ihop elementen i en array till en enda sträng, med en text emellan:
-
-```javascript
-["Ugglorna", "Räknenissarna", "Tigrarna"].join(" · ");   // "Ugglorna · Räknenissarna · Tigrarna"
-```
-
-### Ett löst exempel: anmäl flera lag
-
-Tillsammans gör `split` och `join` det enkelt att ta emot en lista från användaren. Domaren skriver flera lagnamn i ett fält, åtskilda med kommatecken, och klickar på *Anmäl*. Sidan ska visa hur många lag det blev och lista dem städade. Elementen finns på övningssidan:
+Med `split` och `join` (kapitel [-@sec-split-join]), en loop och `push` kan sidan ta emot en lista från användaren. Domaren skriver flera lagnamn i ett fält, åtskilda med kommatecken, och klickar på *Anmäl*. Sidan ska visa hur många lag det blev och lista dem städade. Elementen finns på övningssidan:
 
 ```html
 <label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
@@ -363,7 +280,7 @@ anmälKnapp.addEventListener("click", () => {
 });
 ```
 
-Steg 4 har tre delar. `split` gör om texten till en array. Loopen går igenom delarna och städar var och en med `trim`. `if`-satsen hoppar över tomma delar, som uppstår om någon skriver två kommatecken i rad eller ett kommatecken sist. Det som blir kvar samlas i en ny array med `push` – samma mönster som i förra kapitlet, men nu är startvärdet en tom array i stället för en tom sträng.
+Steg 4 har tre delar. `split` gör om texten till en array. Loopen går igenom delarna och städar var och en med `trim`. `if`-satsen hoppar över tomma delar, som uppstår om någon skriver två kommatecken i rad eller ett kommatecken sist. Det som blir kvar samlas i en ny array med `push` – samma mönster som i kapitel [-@sec-loopar], men nu är startvärdet en tom array i stället för en tom sträng.
 
 Prova med texten `Ugglorna,  Tigrarna ,,Räknenissarna,`. Hur många delar ger `split`, och hur många lag visas?
 
@@ -503,15 +420,11 @@ Byt `frågor[0]` mot `frågor[1]`, så visar samma sida nästa fråga. Det är g
 
 ## Sammanfattning
 
-- En **array** är en ordnad lista av värden: `["Ugglorna", "Tigrarna"]`. Ge den ett namn i plural.
-- Elementen nås med **index** som börjar på **0**: `lag[0]` är det första. Finns inget element på ett index blir svaret `undefined`.
-- **`length`** ger antalet element. Det sista elementet har index `length - 1`.
 - Ett element ändras med tilldelning: `lag[1] = "Nytt namn"`. Det fungerar även med `const`, eftersom det är samma array.
 - **`push`** lägger till sist och **`pop`** tar bort sist. Till skillnad från strängmetoderna ändrar de arrayen.
 - En **`for`-loop** med `i < lag.length` går igenom alla index. **`for...of`** går direkt igenom värdena och är oftast enklast.
 - Mönstret *före loopen – i loopen – efter loopen* fungerar för att summera, hitta det största och bygga en ny array med `push`.
 - **`includes`** och **`indexOf`** söker i en array, precis som i en sträng.
-- **`split`** delar en sträng till en array, och **`join`** sätter ihop en array till en sträng.
 - **`querySelectorAll`** hämtar alla element som matchar en selektor. Gå igenom dem med en loop – listan själv har ingen `classList` eller `addEventListener`.
 - Med en loop kan samma lyssnare registreras på många element, och **`e.target`** talar om vilket element som klickades.
 - En **array av objekt** samlar många poster med samma egenskaper, som frågorna i ett quiz. Läs uttryck som `frågor[1].alternativ[0]` steg för steg från vänster.

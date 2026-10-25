@@ -1,17 +1,12 @@
 ---
-losningar-till: kap14-arrayer.qmd
+losningar-till: kap16-arrayer.qmd
 ---
 
-# Kapitel 14: Arrayer {.unnumbered}
+# Kapitel 16: Arrayer {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-arrayer].
 
 ## Stanna upp-frågorna
-
-**Index**
-
-1. `lag[1]` är `"Räknenissarna"`. `lag.length` är 5, så `lag[lag.length - 2]` är `lag[3]`, alltså `"Röda stjärnor"`.
-2. Det första elementet har index 0 och det sista index 11.
 
 **Gå igenom en array**
 

@@ -6,6 +6,14 @@ losningar-till: kap02-variabler.qmd
 
 Lösningar till övningarna i kapitel [-@sec-variabler].
 
+## Stanna upp-frågorna
+
+**Arrayer – listor av värden**
+
+1. `lag[1]` är `"Räknenissarna"`. `lag.length` är 3, så `lag[lag.length - 2]` är `lag[1]`, alltså också `"Räknenissarna"`.
+2. Det första elementet har index 0 och det sista index 11.
+3. `fråga.rättIndex` är `1`, så uttrycket blir `fråga.alternativ[1]`, alltså `"Stockholm"`. Indexet kan vara vilket uttryck som helst som ger ett tal, också en egenskap.
+
 ## Övning – Förutsäg konsolens svar
 
 ```javascript

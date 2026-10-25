@@ -21,8 +21,10 @@ book:
         - kap10-sant-och-falskt.qmd
         - kap11-avrunda-slumpa.qmd
         - kap12-villkor.qmd
-        - kap13-loopar.qmd
-        - kap14-arrayer.qmd
+        - kap13-soka-klippa.qmd
+        - kap14-loopar.qmd
+        - kap15-split-join.qmd
+        - kap16-arrayer.qmd
         - del1-sammanfattning.qmd
     - part: "Del II - Webben som plattform"
       chapters:
@@ -54,8 +56,10 @@ book:
         - losn10-sant-och-falskt.qmd
         - losn11-avrunda-slumpa.qmd
         - losn12-villkor.qmd
-        - losn13-loopar.qmd
-        - losn14-arrayer.qmd
+        - losn13-soka-klippa.qmd
+        - losn14-loopar.qmd
+        - losn15-split-join.qmd
+        - losn16-arrayer.qmd
     - summary.qmd
     - references.qmd
 

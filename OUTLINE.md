@@ -2,7 +2,7 @@
 *(kronologisk progression)*
 
 * [X] Kap. 1 – JavaScript och webbläsaren *(webbens tre språk, vad är programmering, programmeringsspråk och syntax, konsolen, uttryck och satser, felmeddelanden, en första titt på script-elementet; laddningsordning, inline-skript och `defer` har flyttat till kap. 6)*
-* [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, konkatenering med `+`, let/const, tilldelning, objekt som samlar värden, punktnotation, typeof, dynamisk typning, namngivning)*
+* [X] Kap. 2 – Värden och variabler *(värden, datatyper i översikt, konkatenering med `+`, let/const, tilldelning, objekt som samlar värden, punktnotation, arrayer med index och length, typeof, dynamisk typning, namngivning)*
 * [X] Kap. 3 – *Räkna med tal* (minikapitel) *(räknesätt, räkneordning, kortformerna, NaN)*
 * [X] Kap. 4 – Att använda funktioner *(funktion som begrepp, anrop, argument, returvärden – "anropet ersätts av sitt returvärde", att göra eller ge tillbaka, fria funktioner och metoder, egenskap eller metod, nästlade anrop, vanliga fel, att läsa MDN)*
 * [X] Kap. 5 – *Skapa och ändra strängar* (minikapitel) *(templatesträngar, `length`, `trim`/`toUpperCase`/`toLowerCase`/`includes`, oföränderliga strängar, kedjning)*
@@ -13,8 +13,10 @@
 * [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
 * [X] Kap. 11 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
 * [X] Kap. 12 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel, tangentbordshändelser)*
-* [X] Kap. 13 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
-* [X] Kap. 14 – Arrayer *(index med rutbild, length, push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, split/join med anmälan som löst exempel, querySelectorAll, lyssnare i loopar, event.target, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
+* [X] Kap. 13 – *Söka och klippa i text* (minikapitel) *(positioner från 0, `indexOf` med `-1` som villkor, `substring`)*
+* [X] Kap. 14 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
+* [X] Kap. 15 – *`split` och `join`* (minikapitel) *(avgränsare, tomma delar, kedjning med `join`)*
+* [X] Kap. 16 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, anmälan med split/join som löst exempel, querySelectorAll, lyssnare i loopar, event.target, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
@@ -198,7 +200,7 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 
 **Beslutat:**
 
-1. **Gamla kap. 7 *Tal och text* delas i minikapitel** (genomfört för *Räkna med tal*, *Skapa och ändra strängar*, *Från text till tal och tillbaka* och *Avrunda och slumpa*) som placeras ut strax före det kapitel som först behöver dem. Grunderna om tal och strängar finns redan i kap. 2, så minikapitlen är mer referens än lärobok (formatet står i CLAUDE.md). Hur innehållet delas och var varje minikapitel hamnar kan justeras:
+1. **Gamla kap. 7 *Tal och text* delas i minikapitel** (genomfört) som placeras ut strax före det kapitel som först behöver dem. Grunderna om tal och strängar finns redan i kap. 2, så minikapitlen är mer referens än lärobok (formatet står i CLAUDE.md). Hur innehållet delas och var varje minikapitel hamnar kan justeras:
 
    | Minikapitel | Innehåll | Efter | ≈ |
    |---|---|---|---|
@@ -210,7 +212,7 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
    | *`split` och `join`* | från text till lista och tillbaka | Loopar | 1 h |
 
    Beroendena: *Sant och falskt* använder `trim`, `length` och `Number()`, loopkapitlet `+=`, villkorskapitlet `Math.random`, och arraykapitlet `split`/`join`. Arraykapitlet kan hänvisa till `indexOf` för strängar i stället för att förklara det på nytt. *Från text till tal och tillbaka* kommer före *Händelser*, så konverteringen är känd när `.value` läses. Avsnittet *Text på webbsidan*, momsräknaren och övningarna som behövde händelser ströks vid delningen (se ATT-GORA.md).
-2. **Arrayernas grunder flyttas till kap. 2:** arrayliteraler, index från 0, `length` och en array som egenskap i ett objekt (cirka 300 ord). Villkor för flytten: något måste använda arrayer före arraykapitlet, till exempel quizfrågan som objekt med en array av alternativ i kap. 2, `includes` och `split`/`join` i minikapitlen, och korta listor i exempel. Arraykapitlet behåller `push`/`pop`, loopar över arrayer, sökning, mönstret för det största och arrayer av objekt.
+2. **Arrayernas grunder flyttas till kap. 2** (genomfört): arrayliteraler, index från 0, `length` och en array som egenskap i ett objekt (cirka 300 ord). Villkor för flytten: något måste använda arrayer före arraykapitlet, till exempel quizfrågan som objekt med en array av alternativ i kap. 2, `includes` och `split`/`join` i minikapitlen, och korta listor i exempel. Arraykapitlet behåller `push`/`pop`, loopar över arrayer, sökning, mönstret för det största och arrayer av objekt.
 3. **Ett nytt händelsekapitel efter arraykapitlet** (arbetsnamn *Händelser och många element*). Innehåll: event-objektet (flyttas från *Händelser*), tangenthändelser och `e.key` (flyttas från *Villkorssatser*), `querySelectorAll`, lyssnare i en loop, `e.target` och quizknapparna (flyttas från arraykapitlet), samt **bubbling och delegering**. Delegering – en lyssnare på listan i stället för en per element – passar ihop med `e.target` och är enklare än lyssnare i en loop. Det tillför uppskattningsvis 500–700 ord.
 4. **Funktionsuttryck ligger kvar** där de är (`function () { … }` som anonym callback i *Händelser*, sedan pilfunktioner).
 
@@ -232,7 +234,7 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 | Villkorssatser | − tangenthändelser | 5 h |
 | *Söka och klippa i text* | nytt | 1,5 h |
 | Loopar | – | 5,5 h |
-| *`split` och `join`* | från gamla kap. 11 | 1 h |
+| *`split` och `join`* | från arraykapitlet | 1 h |
 | Arrayer | − grunderna, − `split`/`join`, − `querySelectorAll` och händelser i en loop | 5 h |
 | Händelser och många element | nytt (se punkt 3) | 5–6 h |
 | Tid och animationer (Del II) | – | 5 h |
@@ -245,7 +247,7 @@ Totalt cirka 70 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 
 **Följdändringar att komma ihåg:**
 
-- Filnamn, `_quarto.yml`, övningssidornas mappar, rubrikerna *Kapitel N:* i lösningsfilerna och handskrivna övningsnummer (ATT-GORA.md) följer nu numreringen med fyra minikapitel. De förskjuts igen när *Söka och klippa i text*, *`split` och `join`* och det nya händelsekapitlet läggs in.
-- Lösningsfilerna följer med det innehåll som flyttas. De återstående minikapitlen och *Händelser och många element* behöver egna (`losn…`), och det nya händelsekapitlet behöver dessutom inledning, sammanfattning och AI-ruta.
+- Filnamn, `_quarto.yml`, övningssidornas mappar, rubrikerna *Kapitel N:* i lösningsfilerna och handskrivna övningsnummer (ATT-GORA.md) följer nu numreringen med sex minikapitel. De förskjuts igen när det nya händelsekapitlet läggs in efter arraykapitlet.
+- Lösningsfilerna följer med det innehåll som flyttas. *Händelser och många element* behöver en egen (`losn…`), liksom inledning, sammanfattning och AI-ruta.
 - Kursplanen för Webbteknik 3 (avsnittet ovan) tar upp händelsebubbling och delegering i *Händelser och DOM-trädet*. Kapitlet `kap-handelser-djupet.qmd` behöver då bara propageringens faser, `preventDefault` och `removeEventListener`.
 - Punkterna under *Enhetlighet i Del I* och *Innehåll att se över i nästa iteration* i ATT-GORA.md bör tas med i omstruktureringen där de berör flyttat innehåll (till exempel event-objektet, `%`, arraykapitlet över budget).

@@ -1,0 +1,80 @@
+---
+losningar-till: kap13-soka-klippa.qmd
+---
+
+# Kapitel 13: Söka och klippa i text {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-soka-klippa].
+
+## Övning – Förutsäg resultaten
+
+```javascript
+"Ugglorna".indexOf("g");                              // 1
+"Ugglorna".indexOf("G");                              // -1
+"Ugglorna".substring(0, 3);                           // "Ugg"
+"Ugglorna".substring(3);                              // "lorna"
+"Ugglorna".substring(2, 2);                           // ""
+"Ugglorna".indexOf("a") === "Ugglorna".length - 1;    // true
+```
+
+- `indexOf` ger den *första* förekomsten. Det finns två g, på position 1 och 2.
+- `"G"` med stort G finns inte, eftersom `indexOf` skiljer på stora och små bokstäver.
+- `substring(2, 2)` börjar och slutar på samma position, och tecknet på slutpositionen kommer inte med. Det blir en tom sträng.
+- `a` är det sista tecknet, på position 7. Strängen har 8 tecken, och det sista har positionen `length - 1`, precis som i en array.
+
+## Övning – Spåra adressen
+
+1. Spårtabellen:
+
+    | Rad | Namn och värden |
+    |---|---|
+    | 1 | `epost` → `"anna.b@exempel.se"` |
+    | 2 | `snabel` → `6` |
+    | 3 | `användare` → `"anna.b"` |
+    | 4 | `domän` → `"exempel.se"` |
+    | 5 | `punkt` → `7` |
+    | 6 | `land` → `"se"` |
+
+    Rad 5 söker i `domän`, inte i `epost`. Positionen 7 gäller därför i `"exempel.se"`. I `epost` står den första punkten på position 4.
+2. `"anna.b@"`. Slutpositionen kommer inte med, så med `snabel + 1` kommer `@` med.
+3. `snabel` blir `-1`. `substring` behandlar en negativ position som 0, så `användare` blir `""`, en tom sträng, och `domän` blir `epost.substring(0)`, alltså hela adressen. Inget felmeddelande, men båda är fel. Därför behöver programmet kontrollera `-1` innan det klipper.
+
+## Övning – Vad säger felet?
+
+1. A ger `TypeError: namn.subString is not a function`. Metoden heter `substring` med litet s. En sträng har ingen egenskap `subString`, och `undefined` går inte att anropa.
+2. De andra:
+   - B ger `"Anna·"`, med mellanslaget sist. `+ 1` tar med tecknet på mellanslagets position.
+   - C ger `"nna"`. Positionerna börjar på 0, så `substring(1, …)` hoppar över det första tecknet.
+3. Alla tre rättade blir samma uttryck:
+
+    ```javascript
+    namn.substring(0, namn.indexOf(" "));
+    ```
+
+## Övning – Förnamnet
+
+```javascript
+function förnamn(heltNamn) {
+    const mellanslag = heltNamn.indexOf(" ");
+    if (mellanslag === -1) {
+        return heltNamn;
+    }
+    return heltNamn.substring(0, mellanslag);
+}
+```
+
+1. `förnamn("Anna Berg")` ger `"Anna"` och `förnamn("Karl Erik Lind")` ger `"Karl"`, eftersom `indexOf` hittar det första mellanslaget.
+2. Utan `if`-satsen returnerar funktionen `""`. `indexOf` ger `-1`, och `substring(0, -1)` behandlas som `substring(0, 0)`.
+3. Se koden ovan. Early return (kapitel [-@sec-villkor]) gör att det vanliga fallet kan stå sist, utan `else`.
+4. Det första mellanslaget står på position 0, så funktionen returnerar `""`. Med `trim` försvinner mellanslagen före namnet: `const mellanslag = heltNamn.trim().indexOf(" ");` räcker inte, eftersom `substring` då klipper i den ostädade strängen. Städa i stället hela namnet först:
+
+    ```javascript
+    function förnamn(heltNamn) {
+        const städat = heltNamn.trim();
+        const mellanslag = städat.indexOf(" ");
+        if (mellanslag === -1) {
+            return städat;
+        }
+        return städat.substring(0, mellanslag);
+    }
+    ```

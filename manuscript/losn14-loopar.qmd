@@ -1,8 +1,8 @@
 ---
-losningar-till: kap13-loopar.qmd
+losningar-till: kap14-loopar.qmd
 ---
 
-# Kapitel 13: Loopar {.unnumbered}
+# Kapitel 14: Loopar {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-loopar].
 

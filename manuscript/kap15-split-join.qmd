@@ -1,0 +1,122 @@
+# `split` och `join` {#sec-split-join}
+
+Metoden `split` delar en sträng i delar och returnerar en **array** med delarna (kapitel [-@sec-variabler]). Metoden `join` gör det omvända: den sätter ihop elementen i en array till en sträng. Med dem kan ett program ta emot en lista som text, till exempel flera lagnamn i ett och samma fält. Prova exemplen i konsolen.
+
+## `split()`
+
+Argumentet är **avgränsaren**, texten som strängen ska delas vid. Den kommer inte med i delarna:
+
+```javascript
+"Anna Berg".split(" ");                           // ["Anna", "Berg"]
+"Ugglorna,Räknenissarna,Tigrarna".split(",");     // ["Ugglorna", "Räknenissarna", "Tigrarna"]
+"Ugglorna".split(",");                            // ["Ugglorna"] – ingen avgränsare, en enda del
+```
+
+Resultatet är en vanlig array, så du kan läsa delarna med index och räkna dem med `length`:
+
+```javascript
+const lag = "Ugglorna,Räknenissarna,Tigrarna".split(",");
+lag[1];        // "Räknenissarna"
+lag.length;    // 3
+```
+
+### Tomma delar och mellanslag
+
+`split` delar exakt vid avgränsaren. Står två avgränsare i rad, eller en sist, blir det tomma delar. Mellanslag runt avgränsaren följer med delarna:
+
+```javascript
+"Ugglorna,,Tigrarna,".split(",");     // ["Ugglorna", "", "Tigrarna", ""]
+"Ugglorna, Tigrarna".split(",");      // ["Ugglorna", " Tigrarna"]
+```
+
+Text som användaren har skrivit behöver därför ofta städas med `trim` (kapitel [-@sec-strangar]), del för del.
+
+## `join()`
+
+`join` tar emot texten som ska stå mellan elementen och returnerar en ny sträng:
+
+```javascript
+["Ugglorna", "Räknenissarna", "Tigrarna"].join(" · ");   // "Ugglorna · Räknenissarna · Tigrarna"
+["Ugglorna", "Tigrarna"].join("");                        // "UgglornaTigrarna"
+```
+
+Utan argument sätts elementen ihop med kommatecken.
+
+`split` är en strängmetod och `join` en arraymetod. Därför kan de kedjas: `text.split("-").join(" ")` byter varje bindestreck mot ett mellanslag.
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [`String.prototype.split()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split) | `split`, också med en tom sträng som avgränsare |
+| [`Array.prototype.join()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) | `join` |
+
+---
+
+## Övningar
+
+Gör övningarna i konsolen. Förutsäg först, och kontrollera sedan.
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vilket värde ger varje rad?
+
+```javascript
+"a,b,c".split(",");
+"a, b, c".split(",");
+"kl 19.30".split(".").length;
+"Anna Berg".split(" ")[1];
+["Ugglorna", "Tigrarna"].join();
+["19", "30"].join(":");
+```
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande.
+
+```javascript
+// A – sätt ihop lagen med " och "
+"Ugglorna,Tigrarna".join(" och ");
+```
+
+```javascript
+// B – hur många lag är anmälda?
+"Ugglorna,Tigrarna,".split(",").length;
+```
+
+```javascript
+// C – vilket lag är anmält först?
+"Ugglorna, Tigrarna".split(", ")[1];
+```
+
+1. Vilken snutt ger ett felmeddelande? Vad är det som inte är en funktion, och varför?
+2. Vilka värden ger de två andra, och vad är det som blir fel?
+3. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+```javascript
+function byt(text, gammalt, nytt) {
+    return text.split(gammalt).join(nytt);
+}
+```
+
+1. Beskriv med en mening vad funktionen gör.
+2. Vad returnerar `byt("Röda-stjärnor-från-Växjö", "-", " ")`? Följ värdet steg för steg: vad returnerar `split`, och vad gör `join` med det?
+3. Vad returnerar `byt("Ugglorna", "-", " ")`?
+:::
+
+::: {.callout-note}
+## Övning – Räkna orden
+
+Skriv en funktion `antalOrd(mening)` som returnerar hur många ord meningen har, när orden skiljs åt med mellanslag.
+
+1. Testa med `antalOrd("Vad heter Sveriges huvudstad?")`, som ska ge 4.
+2. Vad ger `antalOrd("  Vad heter Sveriges huvudstad?  ")`? Ändra funktionen så att mellanslag före och efter inte räknas.
+3. Vad ger `antalOrd("")`? Förklara varför, och ändra funktionen så att den ger 0. (Använd en `if`-sats.)
+:::
