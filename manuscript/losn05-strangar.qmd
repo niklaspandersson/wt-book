@@ -1,0 +1,75 @@
+---
+losningar-till: kap05-strangar.qmd
+---
+
+# Kapitel 5: Skapa och ändra strängar {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-strangar].
+
+## Övning – Förutsäg resultaten
+
+```javascript
+`Fråga ${3 + 1} av 10`;                          // "Fråga 4 av 10"
+"Fråga ${3 + 1} av 10";                          // "Fråga ${3 + 1} av 10"
+" quiz ".length;                                 // 6
+"Quiz".toUpperCase().length;                     // 4
+"JavaScript".includes("Script");                 // true
+"JavaScript".toLowerCase().includes("Script");   // false
+```
+
+- `${ }` betyder bara något i en templatesträng. Med vanliga citattecken blir det bokstavligen den texten.
+- `length` räknar mellanslagen också: fyra bokstäver och två mellanslag.
+- `toUpperCase()` returnerar `"QUIZ"`, och `length` läses på den nya strängen. Antalet tecken är detsamma.
+- På den sista raden söker `includes` i `"javascript"`, med litet s. `includes` skiljer på stora och små bokstäver, så `"Script"` finns inte.
+
+## Övning – Spåra strängarna
+
+Mellanslag skrivs som `·`.
+
+1. Spårtabellen:
+
+    | Rad | Namn och värden |
+    |---|---|
+    | 1 | `rå` → `"··Blå·Blixtarna·"` |
+    | 2 | `steg1` → `"Blå·Blixtarna"` |
+    | 3 | `steg2` → `"blå·blixtarna"` |
+    | 4 | `finns` → `true` |
+    | 5 | inget nytt namn – `rå` är oförändrad |
+    | 6 | `längd` → `16` |
+
+2. `rå` pekar fortfarande på `"··Blå·Blixtarna·"`. `längd` blir `16`: 13 tecken i *Blå Blixtarna* (mellanslaget räknas) plus tre mellanslag runt.
+3. `rå.toUpperCase()` returnerar en ny sträng, men ingen tar hand om den. Strängen `rå` ändras inte – strängar går inte att ändra – och returvärdet försvinner.
+4. `false`. `steg1` är `"Blå Blixtarna"` med stort B, och `includes` skiljer på stora och små bokstäver. Det är därför rad 3 gör om texten till små bokstäver först.
+
+## Övning – Vad säger felet?
+
+1. A och B ger felmeddelanden.
+   - A: `TypeError: "Ugglorna".toUppercase is not a function`. Metoden heter `toUpperCase`, med stort C. En sträng har ingen egenskap `toUppercase`, så värdet blir `undefined`, och `undefined` går inte att anropa.
+   - B: `TypeError: "Ugglorna".length is not a function`. `length` är en egenskap, och dess värde är talet 8. Ett tal går inte att anropa.
+2. C ger `"Välkommen,   Ugglorna !"`, med tre mellanslag efter kommatecknet och ett före utropstecknet. `lagnamn.trim()` returnerar en ny sträng, men ingen tar hand om den. Templatesträngen använder `lagnamn`, som är oförändrad.
+3. Rättade:
+
+    ```javascript
+    // A
+    "Ugglorna".toUpperCase();
+    ```
+
+    ```javascript
+    // B
+    "Ugglorna".length;
+    ```
+
+    ```javascript
+    // C
+    const lagnamn = "  Ugglorna ";
+    `Välkommen, ${lagnamn.trim()}!`;
+    ```
+
+    I C går det också att spara resultatet, med `const städat = lagnamn.trim();`, och använda `städat` i templatesträngen.
+
+## Övning – Slå upp själv
+
+1. `endsWith` tar emot en text och returnerar `true` om strängen slutar med den texten, annars `false`. `"karta.png".endsWith(".png")` ger `true`.
+2. `replaceAll` tar emot texten som ska bytas ut och texten den ska bytas mot, och returnerar en ny sträng: `"Röda-stjärnor-från-Växjö".replaceAll("-", " ")` ger `"Röda stjärnor från Växjö"`.
+
+Det finns ofta mer än ett sätt. Det vanligaste alternativet till uppgift 2 är `replace`, men den byter bara ut den *första* förekomsten. `"Röda-stjärnor-från-Växjö".replace("-", " ")` ger `"Röda stjärnor-från-Växjö"`. Det är just den sortens skillnad som det lönar sig att läsa om på MDN.

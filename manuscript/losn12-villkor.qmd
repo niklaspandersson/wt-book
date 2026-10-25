@@ -1,8 +1,8 @@
 ---
-losningar-till: kap09-villkor.qmd
+losningar-till: kap12-villkor.qmd
 ---
 
-# Kapitel 9: Villkorssatser {.unnumbered}
+# Kapitel 12: Villkorssatser {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-villkor].
 

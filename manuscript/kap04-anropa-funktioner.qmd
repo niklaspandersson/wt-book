@@ -115,7 +115,7 @@ console.log(svar);                  // undefined
 
 Konsolen visar alltid värdet av det du skriver in. Skriver du `Math.max(12, 19, 7)` visas därför `19`. Står samma rad i en JavaScript-fil händer ingenting synligt. Funktionen returnerar `19`, men ingen tar hand om värdet, så det försvinner.
 
-Från och med nästa kapitel skriver du kod i filer. Då måste du själv ta hand om returvärdet: spara det i en variabel, skicka det vidare till en annan funktion eller skriva ut det med `console.log`.
+Från och med kapitel [-@sec-dom-intro] skriver du kod i filer. Då måste du själv ta hand om returvärdet: spara det i en variabel, skicka det vidare till en annan funktion eller skriva ut det med `console.log`.
 :::
 
 ::: {.callout-note appearance="simple"}
@@ -238,7 +238,7 @@ Läs alltid *Return value*: där står om funktionen ger tillbaka något du kan 
 - **Nästlade anrop** utvärderas inifrån och ut.
 - `ReferenceError: … is not defined` betyder att namnet inte finns. `TypeError: … is not a function` betyder att det du försöker köra inte är en funktion – ofta ett felstavat namn.
 
-I nästa kapitel tar du steget från konsolen till webbsidan och möter objektet `document` och dess metod `querySelector`. Med det här kapitlets ord kan du läsa vad den tar emot och vad den returnerar.
+I kapitel [-@sec-dom-intro] tar du steget från konsolen till webbsidan och möter objektet `document` och dess metod `querySelector`. Med det här kapitlets ord kan du läsa vad den tar emot och vad den returnerar.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

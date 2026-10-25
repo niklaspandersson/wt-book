@@ -1,8 +1,8 @@
 ---
-losningar-till: kap03-anropa-funktioner.qmd
+losningar-till: kap04-anropa-funktioner.qmd
 ---
 
-# Kapitel 3: Att använda funktioner {.unnumbered}
+# Kapitel 4: Att använda funktioner {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-anropa-funktioner].
 

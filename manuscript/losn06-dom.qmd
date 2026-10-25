@@ -1,8 +1,8 @@
 ---
-losningar-till: kap04-dom.qmd
+losningar-till: kap06-dom.qmd
 ---
 
-# Kapitel 4: Din kod möter webbsidan {.unnumbered}
+# Kapitel 6: Din kod möter webbsidan {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-dom-intro].
 

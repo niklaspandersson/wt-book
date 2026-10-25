@@ -1,0 +1,170 @@
+# Skapa och ändra strängar {#sec-strangar}
+
+En **templatesträng** är en sträng där värden kan bäddas in direkt i texten. En **strängmetod** är en metod som alla strängar har, till exempel för att ta bort mellanslag eller byta till stora bokstäver. Prova exemplen i konsolen.
+
+## Templatesträngar
+
+När en text byggs av många delar med `+` (kapitel [-@sec-variabler]) blir det ett pussel av citattecken, plustecken och mellanslag. En templatesträng skrivs med backticks (\`) i stället för citattecken, och värdena bäddas in med `${ }`:
+
+```javascript
+const lag = { namn: "Röda stjärnor", poäng: 23 };
+const max = 30;
+
+lag.namn + " har " + lag.poäng + " av " + max + " poäng";   // med konkatenering
+`${lag.namn} har ${lag.poäng} av ${max} poäng`;             // med templatesträng
+```
+
+Båda raderna ger `"Röda stjärnor har 23 av 30 poäng"`. Backticken skriver du på ett svenskt tangentbord med Skift och tangenten till vänster om backstegstangenten. Ibland behöver du trycka mellanslag efteråt för att tecknet ska synas.
+
+Inom `${ }` kan du skriva vilket uttryck som helst, också en uträkning eller ett funktionsanrop. JavaScript räknar först ut uttrycket och bäddar sedan in resultatet:
+
+```javascript
+`Dubbla poängen: ${lag.poäng * 2}`;          // "Dubbla poängen: 46"
+`Bästa rundan: ${Math.max(7, 9, 4)} poäng`;  // "Bästa rundan: 9 poäng"
+```
+
+Från och med nu använder boken templatesträngar när text ska byggas av flera delar.
+
+## `length`
+
+Egenskapen `length` anger hur många tecken en sträng innehåller. Den är en egenskap, inte en metod, och skrivs utan parenteser:
+
+```javascript
+"Röda stjärnor".length;   // 13 – mellanslaget räknas också
+"".length;                // 0 – tom sträng
+```
+
+## Strängmetoder
+
+De här metoderna har du mest nytta av när text kommer från användaren:
+
+```javascript
+"anna".toUpperCase();                    // "ANNA"
+"DE VISA UGGLORNA".toLowerCase();        // "de visa ugglorna"
+"  räknenissarna  ".trim();              // "räknenissarna"
+"Vad heter Sveriges huvudstad?".includes("Sverige");   // true
+```
+
+| Metod | Returnerar |
+|---|---|
+| `toUpperCase()` | texten med stora bokstäver, också å, ä och ö |
+| `toLowerCase()` | texten med små bokstäver |
+| `trim()` | texten utan mellanslag i början och slutet (men kvar inne i texten) |
+| `includes(text)` | `true` om `text` finns någonstans i strängen, annars `false` |
+
+`includes` skiljer på stora och små bokstäver: `"JavaScript".includes("java")` ger `false`. Mellanslag före och efter syns inte, men de räknas i `length`. Därför används `trim` nästan alltid på text som användaren har skrivit.
+
+### Metoderna ändrar inte strängen
+
+En sträng kan inte ändras – den är **oföränderlig** (*immutable*). Strängmetoderna lämnar originalet orört och *returnerar en ny sträng*. Vill du behålla resultatet måste du spara det:
+
+```javascript
+let namn = "  Ugglorna  ";
+namn.trim();          // returnerar "Ugglorna", men ingen tar hand om värdet
+namn = namn.trim();   // nu pekar namn på den nya strängen
+```
+
+### Kedja metoder
+
+Eftersom en strängmetod returnerar en sträng kan du anropa nästa metod direkt på returvärdet. Det kallas att **kedja** metoder:
+
+```javascript
+const inmatning = "  anna  ";
+inmatning.trim().toUpperCase();   // "ANNA"
+```
+
+| Steg | Vad som räknas ut | Uttrycket ser nu ut så här |
+|---|---|---|
+| 1 | `inmatning` pekar på `"  anna  "` | `"  anna  ".trim().toUpperCase();` |
+| 2 | `trim()` returnerar `"anna"` | `"anna".toUpperCase();` |
+| 3 | `toUpperCase()` returnerar `"ANNA"` | `"ANNA";` |
+
+En kedja läses från vänster till höger: varje metod arbetar på det som metoden före den returnerade.
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [Template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) | templatesträngar |
+| [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | alla strängmetoder, under rubriken *Instance methods* |
+| [`String.prototype.length`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length) | `length` |
+| [`String.prototype.trim()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim) | `trim`, med länkar till metoder som bara tar bort i ena änden |
+
+---
+
+## Övningar
+
+Gör övningarna i konsolen. Förutsäg först, och kontrollera sedan.
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vilket värde ger varje rad?
+
+```javascript
+`Fråga ${3 + 1} av 10`;
+"Fråga ${3 + 1} av 10";
+" quiz ".length;
+"Quiz".toUpperCase().length;
+"JavaScript".includes("Script");
+"JavaScript".toLowerCase().includes("Script");
+```
+:::
+
+::: {.callout-note}
+## Övning – Spåra strängarna
+
+Gå igenom koden rad för rad utan att köra den.
+
+```javascript
+const rå = "  Blå Blixtarna ";
+const steg1 = rå.trim();
+const steg2 = steg1.toLowerCase();
+const finns = steg2.includes("blå");
+rå.toUpperCase();
+const längd = rå.length;
+```
+
+1. Gör en spårtabell med kolumnerna *Rad* och *Namn och värden*. Skriv för varje rad vilket nytt namn som skapas och vilket värde det pekar på. Skriv ut mellanslagen tydligt, till exempel med en punkt för varje mellanslag.
+2. Vad pekar `rå` på efter den femte raden? Vilket värde får `längd`?
+3. Den femte raden gör ingen nytta. Varför inte?
+4. Vilket värde hade `finns` fått om rad 4 i stället hade använt `steg1`? Varför?
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Skriv in snuttarna en i taget. Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande.
+
+```javascript
+// A
+"Ugglorna".toUppercase();
+```
+
+```javascript
+// B
+"Ugglorna".length();
+```
+
+```javascript
+// C
+const lagnamn = "  Ugglorna ";
+lagnamn.trim();
+`Välkommen, ${lagnamn}!`;
+```
+
+1. Två av snuttarna ger `TypeError: … is not a function`. Vilka, och vad är det i var och en som inte är en funktion?
+2. Den tredje ger inget felmeddelande, men texten blir inte som tänkt. Vad blir den, och varför?
+3. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Slå upp själv
+
+Varje deluppgift kräver en strängmetod som kapitlet *inte* har visat. Leta på MDN-sidan för `String`, under *Instance methods*, och läs sedan metodens egen sida som i avsnittet *Att hitta och läsa om funktioner* i kapitel [-@sec-anropa-funktioner]. Skriv för varje metod ner vad den heter, vad den tar emot och vad den returnerar – innan du provar den i konsolen.
+
+1. Ett filnamn ska kontrolleras. Hitta en metod som svarar `true` eller `false` på om `"karta.png"` *slutar* med `".png"`.
+2. Lagnamnet `"Röda-stjärnor-från-Växjö"` ska visas med mellanslag i stället för bindestreck. Hitta en metod som byter ut *alla* bindestreck.
+
+Jämför med en kurskamrat: hittade ni samma metoder? Fanns det mer än ett sätt att lösa någon av uppgifterna?
+:::

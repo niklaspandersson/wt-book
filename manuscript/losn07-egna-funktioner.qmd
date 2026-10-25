@@ -1,8 +1,8 @@
 ---
-losningar-till: kap05-egna-funktioner.qmd
+losningar-till: kap07-egna-funktioner.qmd
 ---
 
-# Kapitel 5: Egna funktioner {.unnumbered}
+# Kapitel 7: Egna funktioner {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-funktioner].
 

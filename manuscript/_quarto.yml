@@ -11,15 +11,18 @@ book:
       chapters:
         - kap01-om-javascript.qmd
         - kap02-variabler.qmd
-        - kap03-anropa-funktioner.qmd
-        - kap04-dom.qmd
-        - kap05-egna-funktioner.qmd
-        - kap06-handelser.qmd
-        - kap07-tal-och-text.qmd
-        - kap08-sant-och-falskt.qmd
-        - kap09-villkor.qmd
-        - kap10-loopar.qmd
-        - kap11-arrayer.qmd
+        - kap03-rakna-med-tal.qmd
+        - kap04-anropa-funktioner.qmd
+        - kap05-strangar.qmd
+        - kap06-dom.qmd
+        - kap07-egna-funktioner.qmd
+        - kap08-text-till-tal.qmd
+        - kap09-handelser.qmd
+        - kap10-sant-och-falskt.qmd
+        - kap11-avrunda-slumpa.qmd
+        - kap12-villkor.qmd
+        - kap13-loopar.qmd
+        - kap14-arrayer.qmd
         - del1-sammanfattning.qmd
     - part: "Del II - Webben som plattform"
       chapters:
@@ -41,15 +44,18 @@ book:
       chapters:
         - losn01-om-javascript.qmd
         - losn02-variabler.qmd
-        - losn03-anropa-funktioner.qmd
-        - losn04-dom.qmd
-        - losn05-egna-funktioner.qmd
-        - losn06-handelser.qmd
-        - losn07-tal-och-text.qmd
-        - losn08-sant-och-falskt.qmd
-        - losn09-villkor.qmd
-        - losn10-loopar.qmd
-        - losn11-arrayer.qmd
+        - losn03-rakna-med-tal.qmd
+        - losn04-anropa-funktioner.qmd
+        - losn05-strangar.qmd
+        - losn06-dom.qmd
+        - losn07-egna-funktioner.qmd
+        - losn08-text-till-tal.qmd
+        - losn09-handelser.qmd
+        - losn10-sant-och-falskt.qmd
+        - losn11-avrunda-slumpa.qmd
+        - losn12-villkor.qmd
+        - losn13-loopar.qmd
+        - losn14-arrayer.qmd
     - summary.qmd
     - references.qmd
 

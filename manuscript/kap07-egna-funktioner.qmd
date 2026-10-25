@@ -26,8 +26,8 @@ Det du vill är att ge raden ett namn, `visaPoäng`, skriva den en gång och sed
 
 En funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och ändra i den. Skriv därför exemplen och övningarna i `<script>`-elementet på en egen sida för det här kapitlet. Du kan skapa sidan på två sätt:
 
-- **Kopiera sidan från förra kapitlet.** Kopiera `index.html` från kapitel [-@sec-dom-intro] till en ny mapp, `kap05`, och töm `<script>`-elementet. Då har du kvar alla element från övningssidan, och koden från kapitel [-@sec-dom-intro] ligger orörd.
-- **Börja om.** Skapa mappen `kap05` med en fil `index.html`, med samma HTML som i avsnittet *En sida att öva på* i kapitel [-@sec-dom-intro] och ett tomt `<script>`-element sist i `<body>`. Exemplen använder elementen med id `lagnamn`, `poäng` och `resultat`.
+- **Kopiera sidan från förra kapitlet.** Kopiera `index.html` från kapitel [-@sec-dom-intro] till en ny mapp, `kap07`, och töm `<script>`-elementet. Då har du kvar alla element från övningssidan, och koden från kapitel [-@sec-dom-intro] ligger orörd.
+- **Börja om.** Skapa mappen `kap07` med en fil `index.html`, med samma HTML som i avsnittet *En sida att öva på* i kapitel [-@sec-dom-intro] och ett tomt `<script>`-element sist i `<body>`. Exemplen använder elementen med id `lagnamn`, `poäng` och `resultat`.
 
 Det är den sidan som kallas *övningssidan* i resten av kapitlet. Ett felmeddelande i konsolen anger raden där felet uppstod, till exempel `index.html:31`.
 
@@ -371,7 +371,7 @@ Abstraktionen fungerar bara om namnet stämmer. Ett missvisande namn är värre 
 - En funktion har en **utsida** (namn, parametrar, returvärde) och en **insida** (kroppen). Att gömma detaljerna bakom ett namn kallas **abstraktion**. Insidan kan ändras utan att anropen behöver ändras.
 - En funktion bör göra **en sak** och ha ett namn som säger vilken.
 
-I nästa kapitel blir sidan interaktiv: du ber webbläsaren köra en funktion när användaren klickar, skriver eller rör musen.
+I kapitel [-@sec-handelser] blir sidan interaktiv: du ber webbläsaren köra en funktion när användaren klickar, skriver eller rör musen.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -397,7 +397,7 @@ Märker du att du börjar svara vagt – "det bara fungerar så" – har du hitt
 
 ## Övningar
 
-Övningarna börjar som vanligt med att du läser och följer kod. Gör de första utan att köra koden – det är att kunna följa hoppen mellan anrop och funktion som gör det möjligt att skriva egna funktioner. När du sedan ska kontrollera dina svar eller skriva egen kod gör du det på övningssidan i mappen `kap05`, som rutan *Så provar du koden i det här kapitlet* beskriver.
+Övningarna börjar som vanligt med att du läser och följer kod. Gör de första utan att köra koden – det är att kunna följa hoppen mellan anrop och funktion som gör det möjligt att skriva egna funktioner. När du sedan ska kontrollera dina svar eller skriva egen kod gör du det på övningssidan i mappen `kap07`, som rutan *Så provar du koden i det här kapitlet* beskriver.
 
 ::: {.callout-note}
 ## Övning – I vilken ordning?

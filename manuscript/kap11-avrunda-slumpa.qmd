@@ -1,0 +1,128 @@
+# Avrunda och slumpa {#sec-avrunda-slumpa}
+
+Att **avrunda** är att göra om ett decimaltal till ett heltal. Ett **slumptal** är ett tal som programmet väljer på måfå, som ett tärningskast. Båda görs med metoder i det inbyggda objektet `Math` (kapitel [-@sec-anropa-funktioner]). Prova exemplen i konsolen.
+
+## `Math.round()` och `Math.floor()`
+
+```javascript
+Math.round(3.7);    // 4 – avrundar till närmaste heltal
+Math.round(3.2);    // 3
+Math.floor(3.9);    // 3 – avrundar alltid nedåt
+```
+
+`Math.round` är vanlig avrundning. `Math.floor` ger hur många *hela* det blir, till exempel hur många biljetter à 40 kr som går att köpa för 150 kr: `Math.floor(150 / 40)` ger `3`.
+
+## `Math.random()`
+
+`Math.random()` returnerar ett slumpat decimaltal som är minst 0 och mindre än 1, till exempel `0.7291`. Varje anrop ger ett nytt tal.
+
+### Ett slumpat heltal
+
+Ett tärningskast mellan 1 och 6 får du så här:
+
+```javascript
+const tärning = Math.floor(Math.random() * 6) + 1;
+```
+
+Läs uttrycket inifrån och ut. `Math.random() * 6` ger ett tal från 0 till strax under 6. `Math.floor` stryker decimalerna, så det blir 0, 1, 2, 3, 4 eller 5. `+ 1` flyttar alla utfall ett steg uppåt, till 1–6.
+
+Byt `6` mot antalet möjliga utfall för att slumpa något annat. En funktion gör mönstret tydligt:
+
+```javascript
+function slumpaHeltal(max) {
+    return Math.floor(Math.random() * max) + 1;   // 1 till och med max
+}
+
+const frågaNr = slumpaHeltal(20);   // en slumpad fråga av 20
+```
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [`Math`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) | alla metoder i `Math`, under rubriken *Static methods* |
+| [`Math.round()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round) | `Math.round` |
+| [`Math.floor()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor) | `Math.floor` |
+| [`Math.random()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) | `Math.random`, med fler exempel på slumpade heltal |
+
+---
+
+## Övningar
+
+Gör övningarna i konsolen. Förutsäg först, och kontrollera sedan.
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vilket värde ger varje rad? På de två sista raderna: vilka värden *kan* det bli?
+
+```javascript
+Math.round(2.5);
+Math.round(2.49);
+Math.floor(9.99);
+Math.floor(150 / 40) * 40;
+Math.random() < 0.5;
+Math.floor(Math.random() * 2);
+```
+:::
+
+::: {.callout-note}
+## Övning – Tärningskast
+
+Uttrycket `Math.floor(Math.random() * 6) + 1` kan skrivas i fyra steg, ett per rad:
+
+```javascript
+const slump = Math.random();          // ett tal från 0 till strax under 1
+const skalat = slump * 6;             // ett tal från 0 till strax under 6
+const heltal = Math.floor(skalat);    // 0, 1, 2, 3, 4 eller 5
+const tärning = heltal + 1;           // 1, 2, 3, 4, 5 eller 6
+```
+
+Så här går ett kast, om `Math.random()` den här gången råkar ge `0.7291`:
+
+| Rad | Vad som räknas ut | Namnet pekar på |
+|---|---|---|
+| 1 | `Math.random()` returnerar ett slumptal | `slump` → 0.7291 |
+| 2 | `0.7291 * 6` | `skalat` → 4.3746 |
+| 3 | `Math.floor(4.3746)` – decimalerna stryks | `heltal` → 4 |
+| 4 | `4 + 1` | `tärning` → 5 |
+
+1. Gör en likadan spårtabell för slumptalen `0.05` och `0.95`. Varför kan tärningen aldrig visa 0 eller 7?
+2. Skriv ett uttryck som simulerar ett kast med en tärning med tio sidor (1–10).
+3. Vad hade hänt om du använt `Math.round` i stället för `Math.floor`? Vilka tal kan då komma upp? Gör en spårtabell som den ovan för slumptalen `0.05`, `0.5` och `0.95`.
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Alla tre snuttarna ska slumpa ett tärningskast. Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande. Kör de två sista flera gånger.
+
+```javascript
+// A
+Math.Floor(Math.random() * 6) + 1;
+```
+
+```javascript
+// B
+Math.floor(Math.random * 6) + 1;
+```
+
+```javascript
+// C
+Math.floor(Math.random()) * 6 + 1;
+```
+
+1. Vilken snutt ger ett felmeddelande? Vad betyder det?
+2. Vilka värden ger de två andra, och var i uttrycket går det fel?
+3. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Slå upp själv
+
+Ett quiz med 128 deltagare ska åka buss, och varje buss tar 50 personer. Hur många bussar behövs?
+
+1. Hitta en metod i `Math` som avrundar *uppåt*. Använd MDN-sidan för `Math`, under *Static methods*. Skriv ner vad metoden heter, vad den tar emot och vad den returnerar – innan du provar den.
+2. Skriv ett uttryck som ger antalet bussar.
+3. Hade `Math.round` gett rätt svar här? Hade den gjort det med 120 deltagare?
+:::

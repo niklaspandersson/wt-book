@@ -138,7 +138,7 @@ lag[1].namn;     // "Räknenissarna"
 lag[1].poäng;    // 19
 ```
 
-Läs uttrycket från vänster till höger: `lag[1]` är lag nummer 1, alltså det andra laget, och `.namn` är det lagets namn. Varje steg ger ett värde som nästa steg arbetar vidare med, precis som när du kedjade metoder i kapitel [-@sec-tal-och-text].
+Läs uttrycket från vänster till höger: `lag[1]` är lag nummer 1, alltså det andra laget, och `.namn` är det lagets namn. Varje steg ger ett värde som nästa steg arbetar vidare med, precis som när du kedjade metoder i kapitel [-@sec-strangar].
 
 Med `for...of` går du igenom lagen ett i taget. Variabeln i loopen pekar då på ett helt objekt i varje varv:
 

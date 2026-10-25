@@ -6,14 +6,14 @@ Hänvisningar från ett kapitel till ett annat som inte längre stämmer, efter 
 
 - **kap-moduler.qmd, rad 78.** Strikt läge beskrivs som något "som vi kort berört i tidigare kapitel". Det togs bort ur kap. 1, och inget annat kapitel tar upp det. Stryk hänvisningen och förklara strikt läge på plats.
 
-## Till kapitel 3, *Att använda funktioner* (`sec-anropa-funktioner`)
+## Till kapitel 4, *Att använda funktioner* (`sec-anropa-funktioner`)
 
 Kapitlet kortades i oktober 2026 enligt *Prose density* i CLAUDE.md.
 
-- **kap-objekt.qmd, rad 354.** "I kapitel 3 såg du att en metod är en funktion som ligger i ett objekt. Sedan dess har du anropat många: `"hej".toUpperCase()` …". Stämmer fortfarande, men `toUpperCase` nämns inte längre i kap. 3 (den kommer i kap. 7). Ingen åtgärd krävs om "sedan dess" får stå kvar.
+- **kap-objekt.qmd, rad 354.** "I kapitel 3 såg du att en metod är en funktion som ligger i ett objekt. Sedan dess har du anropat många: `"hej".toUpperCase()` …". Stämmer fortfarande, men `toUpperCase` nämns inte längre i kap. 4 (den kommer i kap. 5). Ingen åtgärd krävs om "sedan dess" får stå kvar.
 
-## Till kapitel 5, *Att skriva egna funktioner* (`sec-funktioner`)
+## Till kapitel 7, *Att skriva egna funktioner* (`sec-funktioner`)
 
-Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kostnad = biljettpris;`, två namn på samma funktion) är borttaget. Det behövs först för callbacks i kap. 6, som redan förklarar att ett namn utan parenteser är funktionen själv.
+Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kostnad = biljettpris;`, två namn på samma funktion) är borttaget. Det behövs först för callbacks i kap. 9, som redan förklarar att ett namn utan parenteser är funktionen själv.
 
-- **kap-objekt.qmd, rad 200.** "samma sak som du såg med funktioner i kapitel 5, där två namn kunde peka på samma funktion". Exemplet finns inte längre i kap. 5.
+- **kap-objekt.qmd, rad 200.** "samma sak som du såg med funktioner i kapitel 5, där två namn kunde peka på samma funktion". Exemplet finns inte längre i kap. 7.

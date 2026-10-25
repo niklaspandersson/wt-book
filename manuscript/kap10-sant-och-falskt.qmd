@@ -16,7 +16,7 @@ Svaren på sådana frågor kallas **booleska värden**: `true` (sant) eller `fal
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap08`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap10`:
 
 ```html
 <!DOCTYPE html>
@@ -359,7 +359,7 @@ Funktionen körs vid *varje* ändring, i båda fälten. Den tar inte reda på va
 - Booleska egenskaper som **`hidden`**, **`disabled`** och **`checked`** kan tilldelas svaret på en fråga, och `classList.toggle(klass, villkor)` slår av och på en klass.
 - **`Number.isNaN`** är det pålitliga sättet att upptäcka `NaN`.
 
-I nästa kapitel använder vi de booleska värdena för att låta programmet välja väg: att köra en kod om något är sant och en annan om det är falskt.
+I kapitel [-@sec-villkor] använder vi de booleska värdena för att låta programmet välja väg: att köra en kod om något är sant och en annan om det är falskt.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -541,9 +541,28 @@ Gör ett formulär med ett fält för e-postadress, en kryssruta med texten "Jag
 ::: {.callout-note}
 ## Övning – Lagnamnet får en varning
 
-Gå tillbaka till lagnamnet från kapitel [-@sec-tal-och-text] – antingen exemplet i avsnittet *Text på webbsidan* eller din poängtavla från övningen *Poängtavlan räknar rätt*.
+Den här sidan visar lagnamnet städat medan laget skriver:
+
+```html
+<input type="text" id="lagfält" placeholder="Lagets namn">
+<h3 id="förhandsvisning">–</h3>
+```
+
+```javascript
+function städaNamn(text) {
+    return text.trim().toUpperCase();
+}
+
+const lagfält = document.querySelector("#lagfält");
+const förhandsvisning = document.querySelector("#förhandsvisning");
+
+lagfält.addEventListener("input", () => {
+    const städat = städaNamn(lagfält.value);
+    förhandsvisning.textContent = `Lag: ${städat}`;
+});
+```
 
 1. Visa en varning när det städade namnet är längre än 20 tecken.
-2. Om din sida har en knapp för att spara namnet: gör den avstängd så länge namnet är tomt eller för långt.
+2. Lägg till en knapp för att spara namnet, och gör den avstängd så länge namnet är tomt eller för långt.
 3. Ska mellanslag före och efter räknas när du avgör om namnet är för långt? Vilket svar ger din kod, och vilket tycker du är rätt?
 :::

@@ -1,0 +1,72 @@
+---
+losningar-till: kap08-text-till-tal.qmd
+---
+
+# Kapitel 8: Från text till tal och tillbaka {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-text-till-tal].
+
+## Övning – Förutsäg resultaten
+
+```javascript
+console.log("10" + 5);              // 105
+console.log("10" - 5);              // 5
+console.log("hej" * 2);             // NaN
+console.log(Number("10") + 5);      // 15
+console.log("10" + 5 - 5);          // 100
+console.log(`10 + 5 = ${10 + 5}`);  // 10 + 5 = 15
+```
+
+- Rad 1: en sträng och `+` ger sammanslagning, texten `"105"`.
+- Rad 2: `-` gör om strängen till ett tal, `10 - 5`.
+- Rad 3: `"hej"` kan inte göras om till ett tal, och uträkningen ger `NaN`.
+- Rad 4: `Number("10")` ger talet `10`, och `10 + 5` är `15`.
+- Rad 5: från vänster till höger. Först `"10" + 5`, som blir texten `"105"`. Sedan `"105" - 5`: `-` gör om texten till talet `105`, och svaret blir `100`. Två operatorer som ser ut att ta ut varandra gör det inte, eftersom den första ändrade typen.
+- Rad 6: `${10 + 5}` räknas ut till `15`, men resten av templatesträngen, `10 + 5 =`, är bara text.
+
+## Övning – Vad säger felet?
+
+1. A ger `TypeError: poäng.toFixed is not a function`. `prompt` returnerar strängen `"5"`, och strängar har ingen metod `toFixed` – den finns bara för tal.
+2. De andra:
+   - B ger `"105"`. `prompt` returnerar en sträng, och `10 + "5"` blir sammanslagning.
+   - C ger `"76.710"`. `toFixed` returnerar strängen `"76.7"`, och `"76.7" + 10` blir sammanslagning.
+3. Rättade:
+
+    ```javascript
+    // A
+    const poäng = Number(prompt("Hur många poäng?"));
+    poäng.toFixed(1);
+    ```
+
+    ```javascript
+    // B
+    const total = 10 + Number(prompt("Hur många poäng?"));
+    total;
+    ```
+
+    ```javascript
+    // C
+    const andel = 23 / 30 * 100;
+    (andel + 10).toFixed(1);
+    ```
+
+    I C räknas allt med fullständiga tal, och `toFixed` används först när värdet ska visas.
+
+## Övning – Förklara koden
+
+1. *Funktionen tar emot lagets poäng och antalet frågor som text och returnerar hur många poäng laget fick i genomsnitt per fråga, med en decimal.*
+2. `"2.3"`, en sträng, eftersom `toFixed` returnerar en sträng.
+3. `"NaN"`. `Number("")` ger `0` för båda, och `0 / 0` går inte att räkna ut. `NaN.toFixed(1)` ger texten `"NaN"`. Här är den tomma texten alltså inte ofarlig, som i rutan *Två fällor*: att dela med noll ger ett ogiltigt resultat.
+
+## Övning – Poängtext
+
+```javascript
+function poängText(poäng, max) {
+    const andel = poäng / max * 100;
+    return `${poäng} av ${max} poäng (${andel.toFixed(1)} %)`;
+}
+```
+
+1. `poängText(23, 30)` ger `"23 av 30 poäng (76.7 %)"` och `poängText(30, 30)` ger `"30 av 30 poäng (100.0 %)"`.
+2. Inifrån och ut: först `prompt`, som returnerar texten. Sedan `Number`, som gör om den till ett tal. Sist `poängText`, som får talet som argument.
+3. Texten blir rätt. `poäng` används på två ställen. I `poäng / max` gör `/` om strängen till ett tal, och i templatesträngen blir det text oavsett. Hade funktionen lagt *till* något med `+`, till exempel bonuspoäng, hade det blivit sammanslagning. Gör därför om värdet med `Number()` direkt, så att funktionen inte behöver tänka på det.

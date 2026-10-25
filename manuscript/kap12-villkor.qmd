@@ -15,7 +15,7 @@ Det är fyra beslut, och vart och ett beror på vad som skrevs in. Inget av dem 
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap09`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap12`:
 
 ```html
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ if (villkor) {
 }
 ```
 
-`villkor` är ett uttryck som blir `true` eller `false`, som jämförelserna i förra kapitlet. Om det är `true` körs koden innanför klammerparenteserna `{ }`. Om det är `false` hoppas den koden över, och programmet fortsätter efter den avslutande klammerparentesen.
+`villkor` är ett uttryck som blir `true` eller `false`, som jämförelserna i kapitel [-@sec-booleska]. Om det är `true` körs koden innanför klammerparenteserna `{ }`. Om det är `false` hoppas den koden över, och programmet fortsätter efter den avslutande klammerparentesen.
 
 Ett första steg i betygsprogrammet:
 
@@ -807,13 +807,13 @@ Skriv villkorssatser för följande situationer. Du bestämmer själv variabelna
 ::: {.callout-note}
 ## Övning – Temperaturen
 
-Den här övningen bygger vidare på temperaturomvandlaren från kapitel [-@sec-tal-och-text]. Gör den i steg och kontrollera att varje steg fungerar innan du går vidare.
+Gör övningen i steg och kontrollera att varje steg fungerar innan du går vidare.
 
 1. Skriv en funktion `klassificera(temperatur)` som tar en temperatur i Celsius och returnerar `"kallt"` (under 5°C), `"lagom"` (5–20°C, inklusive) eller `"varmt"` (över 20°C). Testa den i konsolen med −10, 5, 15, 20 och 30. Vilka värden är viktigast att testa, och varför?
 2. Gör en sida med ett fält och en knapp. Visa kategorin och temperaturen, till exempel "Lagom (15°C)".
 3. Lägg till tre CSS-klasser, `.kallt`, `.lagom` och `.varmt`, med olika bakgrundsfärger, och ge resultatet rätt klass.
 4. Visa ett felmeddelande om fältet är tomt eller inte innehåller ett tal.
-5. Koppla ihop med omvandlaren: visa även temperaturen i Fahrenheit. Ska `klassificera` ändras för det? Varför inte?
+5. Visa även temperaturen i grader Fahrenheit, med en egen funktion `tillFahrenheit(celsius)`. Uträkningen är `celsius * 1.8 + 32`. Ska `klassificera` ändras för det? Varför inte?
 :::
 
 ::: {.callout-note}

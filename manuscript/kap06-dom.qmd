@@ -38,7 +38,7 @@ Varje element i trädet är ett objekt med egenskaper – text, stil, attribut �
 
 ## En sida att öva på
 
-Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem på. Skapa en ny mapp, till exempel `kap04`, och spara den här koden i den som `index.html`:
+Exemplen i kapitlet ändrar en webbsida, så du behöver en sida att prova dem på. Skapa en ny mapp, till exempel `kap06`, och spara den här koden i den som `index.html`:
 
 ```html
 <!DOCTYPE html>

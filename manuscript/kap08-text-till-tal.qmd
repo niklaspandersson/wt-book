@@ -1,0 +1,142 @@
+# Från text till tal och tillbaka {#sec-text-till-tal}
+
+**Typkonvertering** betyder att ett värde görs om från en datatyp till en annan, till exempel från texten `"42"` till talet `42`. Det behövs varje gång ett program ska räkna med något som användaren har skrivit, eftersom det alltid kommer som text. `prompt` returnerar till exempel en sträng, även när användaren skriver siffror. Prova exemplen i konsolen.
+
+## Implicit typkonvertering
+
+När typer blandas gör JavaScript själv om värdena (kapitel [-@sec-variabler]). Det kallas **implicit typkonvertering**, och resultatet beror på operatorn:
+
+```javascript
+"5" + 3;     // "53" – talet görs om till text, och texterna sätts ihop
+"5" - 3;     // 2    – texten görs om till ett tal, och talen subtraheras
+"5" * "2";   // 10
+```
+
+`+` betyder både plus och sammanslagning. Är något av värdena en sträng väljer JavaScript sammanslagning. `-`, `*` och `/` har bara en betydelse, så där görs strängen om till ett tal. Ett program som drar av poäng räknar alltså rätt, medan samma program räknar fel när det lägger till. Lita därför inte på att JavaScript gissar rätt, utan gör om värdet själv.
+
+## `Number()`
+
+Den fria funktionen `Number()` tar ett värde och returnerar det som ett tal:
+
+```javascript
+Number("42");       // 42
+Number("3.14");     // 3.14
+Number("hej");      // NaN – kan inte göras om till ett tal
+```
+
+Gör om texten direkt när du läser den:
+
+```javascript
+const svar = prompt("Hur många poäng fick laget?");   // till exempel "5"
+const rundpoäng = Number(svar);                        // 5
+let poäng = 10;
+poäng += rundpoäng;                                    // 15, inte "105"
+```
+
+::: {.callout-important}
+## Två fällor
+
+**Den tomma texten.** `Number("")` ger `0`, inte `NaN`. Klickar användaren *OK* utan att skriva något blir det alltså noll, utan felmeddelande. Ibland är det rimligt, ibland inte.
+
+**Decimalkommat.** JavaScript förstår bara decimal*punkt*, så `Number("12,5")` ger `NaN`.
+:::
+
+## `toFixed()`
+
+Åt andra hållet sker konverteringen oftast av sig själv: ett tal som sätts ihop med en sträng, med `+` eller i en templatesträng, blir text. Metoden `toFixed` gör om ett tal till text med ett bestämt antal decimaler:
+
+```javascript
+const andel = 23 / 30 * 100;   // 76.66666666666667
+andel.toFixed(1);              // "76.7"
+andel.toFixed(0);              // "77"
+`Andel rätt: ${andel.toFixed(1)} %`;   // "Andel rätt: 76.7 %"
+```
+
+Citattecknen i kommentarerna visar att `toFixed` returnerar en *sträng*. Den är till för visning, i slutet av en uträkning. Räkna med fullständiga tal hela vägen, och avrunda först när värdet ska visas.
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [Type coercion](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion) | implicit typkonvertering |
+| [`Number()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/Number) | `Number()`, och vilka texter som blir vilka tal |
+| [`Number.prototype.toFixed()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) | `toFixed` |
+
+---
+
+## Övningar
+
+Gör övningarna i konsolen. Förutsäg först, och kontrollera sedan.
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vad skriver följande rader ut? Resonera dig fram till svaret *innan* du testar i konsolen.
+
+```javascript
+console.log("10" + 5);
+console.log("10" - 5);
+console.log("hej" * 2);
+console.log(Number("10") + 5);
+console.log("10" + 5 - 5);
+console.log(`10 + 5 = ${10 + 5}`);
+```
+
+För varje rad: förklara *varför* du fick det resultatet. Den femte raden är lurig – räkna ut den från vänster till höger, ett steg i taget, och skriv ner vad varje steg ger.
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Skriv in snuttarna en i taget och svara `5` när `prompt` frågar. Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande.
+
+```javascript
+// A
+const poäng = prompt("Hur många poäng?");
+poäng.toFixed(1);
+```
+
+```javascript
+// B
+const total = 10 + prompt("Hur många poäng?");
+total;
+```
+
+```javascript
+// C
+const andel = (23 / 30 * 100).toFixed(1);
+andel + 10;
+```
+
+1. Vilken snutt ger ett felmeddelande? Varför finns ingen metod `toFixed` där?
+2. De två andra ger fel värde. Vilket, och vid vilken operator går det fel?
+3. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+Läs funktionen.
+
+```javascript
+function snittPerFråga(summaText, frågorText) {
+    const summa = Number(summaText);
+    const frågor = Number(frågorText);
+    return (summa / frågor).toFixed(1);
+}
+```
+
+1. Beskriv med en mening vad funktionen gör. Beskriv vad den är till för, inte vad varje rad gör.
+2. Vad returnerar `snittPerFråga("23", "10")`? Vilken typ har värdet?
+3. Vad returnerar `snittPerFråga("", "")`? Förutsäg först och testa sedan.
+:::
+
+::: {.callout-note}
+## Övning – Poängtext
+
+Skriv en funktion `poängText(poäng, max)` som returnerar en text som `"23 av 30 poäng (76.7 %)"`. Andelen räknas ut som poängen delat med det högsta möjliga, gånger 100, och visas med en decimal.
+
+1. Testa funktionen med `poängText(23, 30)` och `poängText(30, 30)`.
+2. Anropa den med ett värde från `prompt`: `poängText(Number(prompt("Poäng?")), 30)`. Vilken ordning körs de tre anropen i?
+3. Prova utan `Number()`, med `poängText(prompt("Poäng?"), 30)`. Blir texten fel? Förklara varför, eller varför inte.
+:::

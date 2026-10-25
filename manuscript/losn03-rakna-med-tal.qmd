@@ -1,0 +1,82 @@
+---
+losningar-till: kap03-rakna-med-tal.qmd
+---
+
+# Kapitel 3: Räkna med tal {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-rakna-med-tal].
+
+## Övning – Förutsäg resultaten
+
+```javascript
+3 + 4 * 2;          // 11 – gånger före plus
+(3 + 4) * 2;        // 14 – parentesen först
+20 - 5 - 5;         // 10
+20 / 4 * 2;         // 10
+"tre" * 3;          // NaN
+5 + "tre" * 3;      // NaN
+```
+
+Operatorer med samma rang räknas från vänster till höger. `20 / 4 * 2` är därför `5 * 2`, inte `20 / 8`. Samma regel gör att `20 - 5 - 5` blir `10` och inte `20`. På den sista raden räknas `"tre" * 3` först och blir `NaN`, och `5 + NaN` är också `NaN`.
+
+## Övning – Spåra kortformerna
+
+| Rad | Den långa formen | `poäng` pekar på |
+|---|---|---|
+| `let poäng = 5;` | – | 5 |
+| `poäng += 10;` | `poäng = poäng + 10` | 15 |
+| `poäng--;` | `poäng = poäng - 1` | 14 |
+| `poäng -= poäng;` | `poäng = poäng - poäng` | 0 |
+| `poäng++;` | `poäng = poäng + 1` | 1 |
+| `poäng += poäng + 1;` | `poäng = poäng + (poäng + 1)` | 3 |
+
+Den sista raden är lurig. Allt till höger om `+=` räknas ut först, med det nuvarande värdet: `poäng + 1` blir `2`. Sedan läggs det till `poäng`: `1 + 2` blir `3`. I det här fallet hade det blivit samma svar utan parentesen, men parentesen visar ordningen: högersidan räknas ut som en helhet innan den läggs till.
+
+## Övning – Vad säger felet?
+
+1. Snutt A ger `TypeError: Assignment to constant variable.`. `kvar--` är en tilldelning, och en variabel som deklarerats med `const` kan inte tilldelas om.
+2. De andra:
+   - B ger `NaN`. `antal` är deklarerad men har inget värde, så den pekar på `undefined`. `undefined + 1` går inte att räkna ut.
+   - C ger `10`, inte `20`. `=+` är inte samma sak som `+=`: `summa =+ 10` läses som `summa = +10`, alltså "låt `summa` peka på talet 10". Raden körs två gånger, men båda gångerna blir värdet 10.
+3. Rättade:
+
+    ```javascript
+    // A
+    let kvar = 5;
+    kvar--;
+    ```
+
+    ```javascript
+    // B
+    let antal = 0;
+    antal++;
+    antal;
+    ```
+
+    ```javascript
+    // C
+    let summa = 0;
+    summa += 10;
+    summa += 10;
+    summa;
+    ```
+
+## Övning – Biljettkassan
+
+1. Variablerna:
+
+    ```javascript
+    const pris = 40;
+    const antal = 4;
+    const avgift = 49;
+    let totalt = antal * pris + avgift;   // 209
+    ```
+
+    Gånger räknas före plus, så det behövs ingen parentes.
+2. Det nya köpet kostar `2 * pris + avgift`, alltså 129 kr:
+
+    ```javascript
+    totalt += 2 * pris + avgift;   // 338
+    ```
+
+3. `+=` är en tilldelning, så med `const` hade raden i uppgift 2 gett `TypeError: Assignment to constant variable.`. `pris`, `antal` och `avgift` ändras inte och kan vara `const`, men `totalt` måste vara `let`.

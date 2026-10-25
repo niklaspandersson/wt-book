@@ -16,7 +16,7 @@ Alla tre önskemålen handlar om att **upprepa** något. Det gör programmet med
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap10`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap13`:
 
 ```html
 <!DOCTYPE html>

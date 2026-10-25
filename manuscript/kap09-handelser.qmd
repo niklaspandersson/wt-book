@@ -16,7 +16,7 @@ Det som saknas är **händelser**. En händelse är något som *inträffar* i we
 
 ## En sida att öva på
 
-Exemplen i det här kapitlet behöver knappar, textfält och andra element att reagera på. Därför gör du en ny övningssida. Spara den här koden som `index.html` i en ny mapp, `kap06`:
+Exemplen i det här kapitlet behöver knappar, textfält och andra element att reagera på. Därför gör du en ny övningssida. Spara den här koden som `index.html` i en ny mapp, `kap09`:
 
 ```html
 <!DOCTYPE html>
@@ -428,7 +428,7 @@ För `<select>` och kryssrutor är `change` det naturliga valet. För textfält 
 ::: {.callout-note}
 ## `.value` är alltid en sträng
 
-Allt du läser med `.value` är text – även om användaren har skrivit en siffra, och även i ett `<input type="number">`. Vill du räkna med värdet måste du först göra om det till ett tal, vilket tas upp i kapitel [-@sec-tal-och-text].
+Allt du läser med `.value` är text – även om användaren har skrivit en siffra, och även i ett `<input type="number">`. Vill du räkna med värdet måste du först göra om det med `Number()` (kapitel [-@sec-text-till-tal]).
 :::
 
 ---

@@ -1,8 +1,8 @@
 ---
-losningar-till: kap06-handelser.qmd
+losningar-till: kap09-handelser.qmd
 ---
 
-# Kapitel 6: Händelser {.unnumbered}
+# Kapitel 9: Händelser {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-handelser].
 

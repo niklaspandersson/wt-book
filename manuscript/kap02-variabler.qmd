@@ -409,7 +409,7 @@ Kod läses många fler gånger än den skrivs.
 - JavaScript är **dynamiskt typat**: en variabel kan byta typ, och blandade typer kan ge oväntade resultat.
 - Namn på variabler bör vara **beskrivande** och skrivas i **camelCase**.
 
-I nästa kapitel lär du dig att använda de färdiga funktioner som JavaScript och webbläsaren erbjuder.
+I kapitel [-@sec-anropa-funktioner] lär du dig att använda de färdiga funktioner som JavaScript och webbläsaren erbjuder.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

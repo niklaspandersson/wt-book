@@ -1,0 +1,146 @@
+# Räkna med tal {#sec-rakna-med-tal}
+
+Ett **aritmetiskt uttryck** är ett uttryck som räknar med tal, till exempel `3 * 40 + 49`. Värdet det ger är också ett tal. Prova exemplen i konsolen.
+
+## Räknesätt
+
+Räknetecknen kallas **aritmetiska operatorer**:
+
+| Operator | Betydelse            | Exempel     | Resultat |
+|----------|----------------------|-------------|----------|
+| `+`      | plus                 | `3 + 4`     | `7`      |
+| `-`      | minus                | `10 - 3`    | `7`      |
+| `*`      | gånger               | `3 * 4`     | `12`     |
+| `/`      | delat med            | `15 / 4`    | `3.75`   |
+| `%`      | det som blir över    | `135 % 60`  | `15`     |
+
+`%` ger det som blir över när något delas upp i lika stora delar: 135 minuter är två hela timmar och 15 minuter till. Du kommer inte att behöva den ofta.
+
+### Räkneordning och parenteser
+
+Gånger och delat med räknas före plus och minus, som på en miniräknare. Parenteser räknas först:
+
+```javascript
+3 * 40 + 49;       // 169 – tre biljetter à 40 kr, plus 49 kr i avgift
+3 * (40 + 49);     // 267 – tre gånger summan av 40 och 49
+```
+
+## Kortformerna `+=`, `-=`, `++` och `--`
+
+Att ändra värdet i en variabel är så vanligt att det finns kortformer för det:
+
+```javascript
+let poäng = 0;
+poäng += 10;   // samma som poäng = poäng + 10   → 10
+poäng -= 3;    // samma som poäng = poäng - 3    → 7
+
+let antalKlick = 0;
+antalKlick++;  // samma som antalKlick = antalKlick + 1   → 1
+antalKlick--;  // samma som antalKlick = antalKlick - 1   → 0
+```
+
+På samma sätt finns `*=` och `/=`. Kortformerna är tilldelningar: räkna ut det nya värdet och låt variabeln peka på det. Därför fungerar de bara på variabler som deklarerats med `let`. Från och med nu använder boken kortformerna.
+
+## `NaN`
+
+**`NaN`** (*Not a Number*, "inte ett tal") är svaret när en uträkning inte kan ge något tal. Trots namnet är det ett värde av typen `number`:
+
+```javascript
+"hej" * 2;      // NaN – text kan inte tas gånger två
+let poäng;
+poäng + 1;      // NaN – poäng pekar på undefined
+```
+
+Varje uträkning där `NaN` ingår ger också `NaN`. Ett ogiltigt värde syns därför ofta först långt senare, när sidan visar "Poäng: NaN". Leta då bakåt efter var värdet kom ifrån.
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [Expressions and operators: Arithmetic operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators#arithmetic_operators) | alla räknetecken, också `++` och `--` |
+| [Operator precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence) | i vilken ordning operatorerna räknas |
+| [Addition assignment (`+=`)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition_assignment) | kortformerna, med länkar till `-=`, `*=` och `/=` |
+| [`NaN`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN) | när `NaN` uppstår |
+
+---
+
+## Övningar
+
+Gör övningarna i konsolen. Förutsäg först, och kontrollera sedan.
+
+::: {.callout-note}
+## Övning – Förutsäg resultaten
+
+Vilket värde ger varje rad?
+
+```javascript
+3 + 4 * 2;
+(3 + 4) * 2;
+20 - 5 - 5;
+20 / 4 * 2;
+"tre" * 3;
+5 + "tre" * 3;
+```
+
+Den fjärde raden har bara gånger och delat med. Vilket räknas först när två operatorer har samma rang? Testa och formulera regeln med egna ord.
+:::
+
+::: {.callout-note}
+## Övning – Spåra kortformerna
+
+Gå igenom följande kod rad för rad *utan* att köra den.
+
+```javascript
+let poäng = 5;
+poäng += 10;
+poäng--;
+poäng -= poäng;
+poäng++;
+poäng += poäng + 1;
+```
+
+Gör en spårtabell med tre kolumner: *Rad*, *Den långa formen* (till exempel `poäng = poäng + 10`) och *`poäng` pekar på*. Kontrollera sedan i konsolen.
+
+Den sista raden är lurig. Vad blir den långa formen – och stämmer ditt svar med vad konsolen säger?
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Skriv in snuttarna en i taget. Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande.
+
+```javascript
+// A
+const kvar = 5;
+kvar--;
+```
+
+```javascript
+// B
+let antal;
+antal++;
+antal;
+```
+
+```javascript
+// C
+let summa = 0;
+summa =+ 10;
+summa =+ 10;
+summa;
+```
+
+1. Vilken snutt ger ett felmeddelande? Vad betyder det?
+2. De två andra ger inget felmeddelande, men fel värde. Vilket värde, och varför?
+3. Rätta alla tre, så att `kvar` blir 4, `antal` blir 1 och `summa` blir 20.
+:::
+
+::: {.callout-note}
+## Övning – Biljettkassan
+
+Ett lag på fyra personer köper biljetter till quizkvällen. En biljett kostar 40 kr, och varje köp har en avgift på 49 kr.
+
+1. Skapa variablerna `pris`, `antal` och `avgift`, och en variabel `totalt` som räknas ut från dem. Kontrollera att `totalt` blir 209.
+2. Två personer till ansluter och köper biljetter i ett eget köp, med en egen avgift. Öka `totalt` med det nya köpet med hjälp av `+=`. Vilket värde får `totalt`?
+3. Vad händer om du hade deklarerat `totalt` med `const`?
+:::

@@ -20,7 +20,7 @@ Det vi behöver är *ett* namn för hela listan, och ett sätt att nå varje lag
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap11`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap14`:
 
 ```html
 <!DOCTYPE html>

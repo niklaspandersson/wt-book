@@ -1,8 +1,8 @@
 ---
-losningar-till: kap08-sant-och-falskt.qmd
+losningar-till: kap10-sant-och-falskt.qmd
 ---
 
-# Kapitel 8: Sant och falskt {.unnumbered}
+# Kapitel 10: Sant och falskt {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-booleska].
 
@@ -234,7 +234,7 @@ villkor.addEventListener("change", uppdatera);
 
 ## Övning – Lagnamnet får en varning
 
-Utgångspunkten är exemplet i avsnittet *Text på webbsidan* i kapitel [-@sec-tal-och-text], med ett tillagt stycke för varningen:
+Utgångspunkten är sidan i övningen, med ett stycke för varningen och en knapp:
 
 ```html
 <input type="text" id="lagfält" placeholder="Lagets namn">

@@ -46,7 +46,7 @@ Keep these documents current: strike items when they are done, and do not keep l
 
 See [OUTLINE.md](OUTLINE.md) for the full chapter plan. The book is organized into four parts:
 
-- **Del I** (Ch. 1–11): Foundational JavaScript — values and variables, using functions (calls, arguments, return values, methods), the DOM, writing your own functions, events, numbers and text, booleans, conditional statements, loops, arrays (including arrays of objects). Del I is sized to fit the course Webbteknik 2: teach the basics well and show students where to look up the rest, rather than covering every method. Web chapters (4 and 6) come early so later language chapters can use interactive examples. Language features are introduced only in language chapters, and web chapters only use what has already been explained.
+- **Del I** (Ch. 1–14): Foundational JavaScript — values and variables, using functions (calls, arguments, return values, methods), the DOM, writing your own functions, events, booleans, conditional statements, loops, arrays (including arrays of objects), with mini chapters on numbers and text in between (ch. 3, 5, 8 and 11). Del I is sized to fit the course Webbteknik 2: teach the basics well and show students where to look up the rest, rather than covering every method. Web chapters (6 and 9) come early so later language chapters can use interactive examples. Language features are introduced only in language chapters, and web chapters only use what has already been explained. Del I is being restructured (see *Nästa iteration* in OUTLINE.md): two more mini chapters and a new chapter on events and many elements are planned, so chapter numbers will shift again.
 - **Del II**: The web as a platform — DOM traversal, creating elements, events in depth, drag and drop, media, time and animations; planned: forms, storage, Fetch/JSON, HTTP/REST, security, performance
 - **Del III**: The language in depth — objects, modules, OOP, destructuring, inheritance; planned: closures, async/await, functional array transforms, error handling
 - **Del IV**: Craft and methodology — Git/GitHub, debugging
@@ -70,6 +70,7 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
 - Audience: University students, no prior technical background assumed
 - Style: Traditional textbook — flowing prose with integrated examples that introduce, explain, and deepen concepts
 - Code style: end every JavaScript statement with a semicolon, including lines that consist only of an expression (`42;`, `typeof x;`, `` `Hej ${namn}`; ``). Exceptions: lines that open or continue a block, object literal or array (`{`, `,`), and plain-text blocks listing values for students to classify. Always use braces with `if` and loops.
+- **Headings follow the language and the API, not the examples.** Sections and subsections are named and organised after what they teach: a language construct, an operator, a method or a property (`for`-loopen, `classList`, `Number()`). Examples, from a one-line illustration to a longer walkthrough, go under or after the section they belong to and are not the basis of the structure. A heading like *En räknare* or *Mörkt läge med en knapp* says what is built, not what is learned. Worked examples (*Ett löst exempel: …*) may have their own heading, but placed after the sections they apply. The motivating example in the chapter opening is the exception.
 - Exercises must avoid the "copy-paste trap"; students should reason and apply, not just transcribe
 - **Chapter openings.** Every chapter opens with two things, in whichever order reads best:
   - a **motivating example** that shows why the chapter's subject matters. It can be a problem to solve, but also a familiar situation or a short demonstration of what the student will be able to do.
@@ -86,18 +87,28 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
 
 ## Chapter conventions (Del I)
 
-Chapters 1–11 follow a common template, based on PEDAGOGIK.md:
+The ordinary chapters of Del I follow a common template, based on PEDAGOGIK.md:
 
 - **Scripts in Del I.** Code is written in a `<script>` element at the end of `<body>`, never in a separate file and never as a module (`type="module"`). Pages are opened directly from the file system; no web server or Live Server is needed. Do not explain how to create, save, open or reload pages (see *Target Audience*). Separate script files and modules are introduced in the modules chapter.
-- **Practice page.** From chapter 4 on, each chapter has its own practice page (a folder `kapNN` with an `index.html`, usually in a section *En sida att öva på*) containing every element the examples and exercises need. From chapter 5 on, a callout *Så provar du koden i det här kapitlet* says how to work with it.
+- **Practice page.** From chapter 6 on, each ordinary chapter has its own practice page (a folder `kapNN` with an `index.html`, usually in a section *En sida att öva på*) containing every element the examples and exercises need. From chapter 7 on, a callout *Så provar du koden i det här kapitlet* says how to work with it.
 - ***Stanna upp* boxes** (`{.callout-note appearance="simple"}` with the heading `## Stanna upp`) after the heavier sections: a few short questions that check understanding, often asking the student to predict before testing.
 - **Notional machine.** Use the arrow model from chapter 2 (names point to values) and trace tables (one column per variable, one row per step) wherever beginners have known misconceptions.
-- **A worked example** with named steps, usually headed *Ett löst exempel: …*. Interactive examples use the five-step pattern from chapter 6: *hämta → lyssna → läs → bearbeta → visa*, marked with comments (`// 1. Hämta`).
+- **A worked example** with named steps, usually headed *Ett löst exempel: …*. Interactive examples use the five-step pattern from chapter 9: *hämta → lyssna → läs → bearbeta → visa*, marked with comments (`// 1. Hämta`).
 - **"Minns du?" questions are optional and narrow.** Use them only for something the chapter builds on right away, at most two or three, and only about that. They must not turn into a review of earlier chapters or delay the chapter's own subject.
 - **Beyond the basics.** Put what Del I does not need in a short *Bra att veta* box with a link to MDN, or move it to the chapter where it is needed.
 - **Exercises** come after the summary and the AI box, under `## Övningar`. Each is a `{.callout-note}` with the heading `## Övning – Namn`. Order: predict → trace → find the error (*Vad säger felet?*) → explain (*Förklara koden*, one sentence about the whole) → Parsons problem (*Ordna raderna*, with distractor lines) → modify → write → a mixed exercise that uses earlier chapters. Aim for about half reading exercises. Exercises done on the student's own pages go under the subheading `### Egna sidor`.
 - **References in exercises.** Exercises, *Stanna upp* questions and solutions refer to other chapters or exercises only when the student needs the information, for example when an exercise builds on an earlier solution.
 - **Solutions.** Every exercise and *Stanna upp* question in Del I has a solution in `losnNN-….qmd`, linked to its chapter with `losningar-till:` in the front matter. The filter numbers the exercises in both files, so the headings in a solution file must be in the same order as the exercises in the chapter. When an exercise changes, change its solution too. The heading "Kapitel N:" in each solution file, and exercise numbers mentioned in running text ("övning 2.5"), are written by hand and do not update automatically.
+
+### Mini chapters (Del I)
+
+Del I also has mini chapters: short, reference-like chapters about a single tool (for example string methods or rounding), placed just before the first chapter that needs them. The basics they build on are already covered in an ordinary chapter, so they have even less prose. The list and placement are in [OUTLINE.md](OUTLINE.md). A mini chapter takes about 1–2.5 hours with its exercises and differs from the template above:
+
+- **Opening:** a sentence or two defining the topic, with no motivating example. The motivation comes from the chapter it precedes.
+- **Body:** short code examples, each followed by a comment of a sentence or two, and a table of the methods or operators with links to MDN. No trace tables or worked examples, unless the topic has a known misconception (PEDAGOGIK.md §5).
+- **No practice page** of its own: the console, or the practice page of the preceding chapter.
+- **No *Stanna upp* box, summary or AI box** (an exception to the AI box rule under *Writing Conventions*).
+- **Exercises:** 3–4, usually predict, find the error, and one that modifies or writes code. They have solutions like other exercises.
 
 ## Prose density (always applies)
 
