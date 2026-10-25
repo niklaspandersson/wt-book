@@ -18,7 +18,7 @@ Lösningar till övningarna i kapitel [-@sec-booleska].
 1. *Sant och inte falskt.* `!false` är `true`, och `true && true` är `true`.
 2. `||`. Biljetten är gratis om *minst en* av sakerna stämmer – och givetvis också om båda gör det.
 
-**Ett formulär som svarar direkt**
+**Ett löst exempel: anmälningsformuläret**
 
 1. Varningen ska vara dold när namnet *är* kort nog, och det är precis vad `kortNamn` säger – svaret kan användas som det är. Knappen ska vara avstängd när formuläret *inte* är rätt ifyllt. Frågan som ställs är om allt är rätt, och knappen behöver motsatsen. Därför `!`.
 2. `harNamn` är `true`, `kortNamn` är `true` och `giltigtAntal` är `true`. Då är `harNamn && kortNamn && giltigtAntal` sant, `!` gör det falskt, och knappen är *inte* avstängd.
@@ -86,6 +86,32 @@ Stockholm Stockholm
 1. `const ärRätt1 = svar === "Stockholm";` läses *låt `ärRätt1` peka på svaret på frågan: är `svar` lika med Stockholm?* `const ärRätt2 = svar = "Stockholm";` läses *låt `svar` peka på Stockholm, och låt sedan `ärRätt2` peka på samma värde.* Den andra raden frågar ingenting – den ändrar `svar`.
 2. En tilldelning ger själv ett värde: det värde som tilldelades. Raden ser ut som en fråga, men den ändrar svaret till rätt svar och ger dessutom ett värde som inte är `false`. Felet syns inte där det sker. Det märks först senare, när `svar` har fel värde och alla svar räknas som rätt.
 3. Nu får du `TypeError: Assignment to constant variable.` på raden med `ärRätt2`. Den första utskriften hinner köras, men sedan stoppar `const` försöket att tilldela om `svar`. Det är en fördel med `const`: misstaget ger ett felmeddelande i stället för att tyst ändra värdet.
+
+## Övning – Vad gick fel?
+
+1. A och D ger `SyntaxError`, så JavaScript kör inte raden alls. I A finns ingen operator `=<` – den heter `<=`, med likhetstecknet sist. I D står `<= 100` utan något till vänster: varje jämförelse behöver två sidor, också efter `&&`.
+2. B ger `6 6`: `antalDeltagare = 6` är en tilldelning. Den ändrar `antalDeltagare` till 6, och värdet 6 hamnar i `ärFulltLag`, som skulle ha blivit `false`. C ger `false`, fast 10 är större än 9: strängarna jämförs tecken för tecken, och `"1"` kommer före `"9"`.
+3. Rättade:
+
+    ```javascript
+    // A
+    const fårAnmäla = antalDeltagare <= 6;
+    ```
+
+    ```javascript
+    // B
+    const ärFulltLag = antalDeltagare === 6;
+    ```
+
+    ```javascript
+    // C
+    const rödaLeder = Number(rödaPoäng) > Number(blåPoäng);
+    ```
+
+    ```javascript
+    // D
+    const giltigPoäng = poäng >= 0 && poäng <= 100;
+    ```
 
 ## Övning – Förklara koden
 

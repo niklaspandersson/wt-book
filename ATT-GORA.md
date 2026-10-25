@@ -28,9 +28,7 @@
 
 Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6 och 7 skrevs före mallen och följer den bara delvis. Minikapitlen (kap. 3, 5, 8, 11, 13 och 15) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
-- **Lösta exempel:** i kap. 10 används femstegsmönstret, men avsnittet har inte rubriken *Ett löst exempel*. Kap. 1, 2, 4 och 7 får inga lösta exempel (beslut i oktober 2026).
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
-- ***Vad säger felet?*** finns i kap. 3–9 och 11–17. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 10 saknar en.
 - **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 4 (en analogi, ingen situation), kap. 12 (betyg i en kurs).
 - **Exemplen styr i stället för språket och API:t** (se CLAUDE.md, *The language and the API come first*). Det gäller både rubriker och brödtext: avsnitt som lär ut en funktion genom ett längre scenario, och praktiska exempel som förklarar rad för rad det som redan är förklarat. Kap. 1–9 är genomgångna (oktober 2026). Kvar: kap. 10, 12, 14, 16 och 17, se GRANSKNING.md.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7 och 10 → 11 → 12 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
@@ -58,7 +56,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 10 Sant och falskt
 
-- **Ingen *Vad säger felet?*-övning**, som de flesta andra kapitel har. Övningen *`=` eller `===`?* ligger närmast. Typiska fel att avkoda: `=>` i stället för `>=` (`SyntaxError`), `=` i ett uttryck som ska jämföra, och `"10" < "9"` som ger fel svar utan felmeddelande.
 - **Truthy och falsy** står kvar som *Bra att veta*-ruta, men ingen övning eller senare kapitel i Del I använder begreppen.
 
 ### Kap. 12 Villkorssatser

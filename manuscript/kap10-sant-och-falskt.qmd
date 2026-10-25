@@ -259,11 +259,9 @@ Det betyder att du i andras kod kan se ett namn, som `namn`, där du hade vänta
 
 ---
 
-## Sant och falskt på webbsidan
+## Booleska egenskaper på webbsidan
 
-Många egenskaper hos element på sidan är booleska, som `hidden`. Du kan tilldela dem *svaret på en fråga* i stället för ett fast värde, så anpassar sig sidan själv.
-
-### Egenskaper som tar booleska värden
+Många egenskaper hos element på sidan är booleska, som `hidden`. Du kan tilldela dem *svaret på en fråga* i stället för ett fast värde, så anpassar sig sidan själv:
 
 ```javascript
 hjälpElement.hidden = poäng >= 50;                   // dölj hjälpen för den som är godkänd
@@ -287,7 +285,9 @@ Number.isNaN(Number(fält.value));     // true om fältet inte innehåller ett t
 
 `checked` är egenskapen för `<input type="checkbox">`, och den kan både läsas och sättas. `Number.isNaN` frågar om ett värde är `NaN`.
 
-### Ett formulär som svarar direkt
+---
+
+## Ett löst exempel: anmälningsformuläret
 
 Nu kan vi bygga anmälningsformuläret från kapitlets början. Elementen finns på övningssidan:
 
@@ -303,7 +303,7 @@ Nu kan vi bygga anmälningsformuläret från kapitlets början. Elementen finns 
 <button id="anmäl" disabled>Anmäl</button>
 ```
 
-Koden följer de fem stegen från kapitel [-@sec-handelser]. Den här gången finns två fält att lyssna på, så steg 3–5 ligger i en namngiven funktion, `uppdatera`, som båda lyssnarna använder:
+Det finns två fält att lyssna på, så det som ska hända vid en ändring ligger i en namngiven funktion, `uppdatera`, som båda lyssnarna använder:
 
 ```javascript
 // 1. Hämta elementen
@@ -334,11 +334,7 @@ namnfält.addEventListener("input", uppdatera);
 antalfält.addEventListener("input", uppdatera);
 ```
 
-Läs funktionen `uppdatera` uppifrån och ned. Först läses värdena in och städas. Sedan ställs tre frågor, var och en i en variabel med ett namn som beskriver frågan. Till sist används svaren. Namnvarningen döljs så länge namnet är kort nog. Antalsvarningen döljs så länge antalet är högst sex. Och knappen är avstängd så länge det *inte* är sant att alla tre frågorna har svaret ja.
-
-Steg 2 står sist i koden, efter funktionen som lyssnarna använder. Stegen är desamma, bara ordningen i skriptet är en annan.
-
-Funktionen körs vid *varje* ändring, i båda fälten. Den tar inte reda på vad som har ändrats, utan beskriver hur sidan ska se ut med de värden som står i fälten just nu. Det är ett robust sätt att bygga gränssnitt: det finns inget gammalt läge som kan bli fel.
+Svaren på de tre frågorna sparas i variabler med namn som beskriver frågan. Funktionen körs vid varje ändring och beskriver hur sidan ska se ut med de värden som står i fälten just nu, så det finns inget gammalt läge som kan bli fel.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -428,7 +424,7 @@ Läs sedan varje rad högt med orden *och*, *eller* och *inte*. Vilka rader blev
 ::: {.callout-note}
 ## Övning – Spåra formuläret
 
-Utgå från anmälningsformuläret i avsnittet *Ett formulär som svarar direkt*. Gör en spårtabell för funktionen `uppdatera`, med en rad för vart och ett av fallen nedan och kolumnerna *`harNamn`*, *`kortNamn`*, *`giltigtAntal`*, *Namnvarningen syns?*, *Antalsvarningen syns?* och *Knappen avstängd?*.
+Utgå från anmälningsformuläret i avsnittet *Ett löst exempel: anmälningsformuläret*. Gör en spårtabell för funktionen `uppdatera`, med en rad för vart och ett av fallen nedan och kolumnerna *`harNamn`*, *`kortNamn`*, *`giltigtAntal`*, *Namnvarningen syns?*, *Antalsvarningen syns?* och *Knappen avstängd?*.
 
 | Fall | Namnfältet | Antalsfältet |
 |---|---|---|
@@ -460,6 +456,42 @@ console.log(ärRätt2, svar);
 1. Läs de två raderna som börjar med `const ärRätt` högt. Vad är skillnaden?
 2. Koden ger inget felmeddelande. Varför är det här felet ändå farligt?
 3. Ändra den första raden till `const svar = "Göteborg";` och kör igen. Vad händer nu, och varför?
+:::
+
+::: {.callout-note}
+## Övning – Vad gick fel?
+
+Varje snutt ska svara `true` eller `false` på en fråga, men ingen av dem gör det. Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande. Testa sedan i konsolen, en snutt i taget.
+
+```javascript
+// A – får laget anmäla sig (högst sex deltagare)?
+const antalDeltagare = 4;
+const fårAnmäla = antalDeltagare =< 6;
+```
+
+```javascript
+// B – har laget exakt sex deltagare?
+let antalDeltagare = 4;
+const ärFulltLag = antalDeltagare = 6;
+console.log(ärFulltLag, antalDeltagare);
+```
+
+```javascript
+// C – leder de röda? Poängen är lästa från två textfält
+const rödaPoäng = "10";
+const blåPoäng = "9";
+const rödaLeder = rödaPoäng > blåPoäng;
+```
+
+```javascript
+// D – ligger poängen mellan 0 och 100?
+const poäng = 75;
+const giltigPoäng = poäng >= 0 && <= 100;
+```
+
+1. Vilka snuttar ger ett felmeddelande? Vilken sorts fel är det, och varför?
+2. Vilka värden ger de andra, och vad borde de ha gett?
+3. Rätta alla fyra.
 :::
 
 ::: {.callout-note}
