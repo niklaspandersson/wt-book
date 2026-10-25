@@ -299,7 +299,7 @@ const frågor = [
 const aktuell = frågor[0];
 ```
 
-Resten följer de fem stegen från kapitel [-@sec-handelser], med ett steg före lyssnaren som fyller sidan:
+Koden är kommenterad som det lösta exemplet i kapitel [-@sec-handelser], med en del före lyssnaren som fyller sidan:
 
 ```javascript
 // 1. Hämta elementen

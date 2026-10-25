@@ -4,14 +4,14 @@ Du har kommit långt. I sjutton kapitel har du gått från att inte ha skrivit e
 
 Det första spåret handlar om **själva språket**. Du kan lagra värden i variabler, skilja på datatyper, fatta beslut med villkorssatser, upprepa saker med loopar, samla data i arrayer och objekt, och organisera din kod i funktioner. Det är JavaScripts grundläggande ordförråd — de byggstenar som all vidare programmering vilar på.
 
-Det andra spåret handlar om **mötet med webbsidan**. Du kan hämta element ur DOM:en med `querySelector`, ändra text och HTML, styra stil och CSS-klasser, och — kanske viktigast — reagera på vad användaren gör med händelser och `addEventListener`. Det är det som förvandlar ett skript till en interaktiv upplevelse.
+Det andra spåret handlar om **mötet med webbsidan**. Du kan hämta element ur DOM:en med `querySelector`, ändra text och HTML, styra stil och CSS-klasser, och — kanske viktigast — reagera på vad användaren gör med händelser och `addEventListener`, också på många element med en enda lyssnare tack vare bubbling och delegering. Det är det som förvandlar ett skript till en interaktiv upplevelse.
 
 De två spåren är oskiljaktiga i praktiken: du behöver språket för att kunna göra något meningsfullt med webbsidan, och du behöver webbsidan för att språket ska bli något mer än abstrakt logik. 
 
 ## Vad kommer härnäst?
 
-**Del II — Webben som plattform** fortsätter det andra spåret. Här utforskar vi vad webbläsaren kan erbjuda utöver det du redan sett: formulärhantering, webblagring, att hämta data från servrar, timers, ljud, drag-and-drop och mer.
+**Del II — Webben som plattform** fortsätter det andra spåret: att röra sig i DOM-trädet (kapitel [-@sec-dom-traversering]), att skapa och ta bort element (kapitel [-@sec-skapa-element]), händelser på djupet (kapitel [-@sec-events-deep]), drag and drop (kapitel [-@sec-drag-and-drop]), bilder, ljud och video (kapitel [-@sec-media]) och tid och animationer (kapitel [-@sec-tid-animationer]).
 
-**Del III — JavaScript på djupet** fortsätter det första spåret. Här fördjupar vi oss i själva språket: objekt på djupet, closures, asynkron programmering, moduler, objektorienterad programmering, funktionella arraymetoder och felhantering.
+**Del III — JavaScript på djupet** fortsätter det första spåret: objekt på djupet (kapitel [-@sec-objekt]), moduler (kapitel [-@sec-moduler]), objektorienterad programmering och arv (kapitel [-@sec-oop] och [-@sec-arv]) och destructuring (kapitel [-@sec-destructuring]).
 
 Till skillnad från Del I, där kapitlen byggde på varandra i en bestämd ordning, är kapitlen i Del II och Del III mer fristående. Du behöver inte läsa dem från början till slut — välj det som intresserar dig eller som din kurs kräver. Om ett kapitel förutsätter kunskap utöver det du lärt dig i Del I anges det tydligt i kapitlets inledning.

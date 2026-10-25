@@ -6,7 +6,6 @@
 
 - **`index.qmd`**: förordet är fortfarande Quartos platshållare ("This is a Quarto book.").
 - **`summary.qmd`**: platshållaren ("In summary, this book has no content whatsoever.") står i kapitellistan och publiceras.
-- **`del1-sammanfattning.qmd`**: lovar formulär, webblagring och hämtning av data i Del II. De kapitlen är inte skrivna än.
 - **Kontrollera i en riktig webbläsare.** Lösningarna är testkörda med Node.js och jsdom, men följande går inte att testa där:
   - övning 1.8: Chromes spärr mot inklistring i konsolen (`allow pasting`);
   - övning 1.5, 4.4 och 12.3: felmeddelandenas exakta formulering i Firefox och Safari;
@@ -29,7 +28,6 @@ Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6
 
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 4 (en analogi, ingen situation), kap. 12 (betyg i en kurs).
-- **Exemplen styr i stället för språket och API:t** (se CLAUDE.md, *The language and the API come first*). Det gäller både rubriker och brödtext: avsnitt som lär ut en funktion genom ett längre scenario, och praktiska exempel som förklarar rad för rad det som redan är förklarat. Kap. 1–9 är genomgångna (oktober 2026). Kvar: kap. 10, 12, 14, 16 och 17, se GRANSKNING.md.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7 och 10 → 11 → 12 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Innehåll att se över i nästa iteration
@@ -73,9 +71,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 17 Händelser och många element
 
-- **Del I slutar här.** Kapitlets sista stycke pekar vidare till Del II, men `del1-sammanfattning.qmd` (se *Före kursstart*) behöver ses över.
 - **Överlapp med `kap-handelser-djupet.qmd`.** Bubbling och delegering förklaras nu i Del I. Kapitlet i Del II har samma innehåll och behöver bara propageringens faser, `preventDefault` och `removeEventListener` (se OUTLINE.md).
-- **`Bygg vidare på quizet`** börjar med lyssnare i en loop och skrivs om med delegering i sista steget. Det lösta exemplet visar redan delegering. Överväg om ordningen ska vändas.
 
 ### Minikapitlen (kap. 3, 5, 8, 11, 13 och 15)
 
