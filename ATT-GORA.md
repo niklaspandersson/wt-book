@@ -35,7 +35,7 @@ Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6
 - **Kap. 1 har sex övningar** och varken *Förklara koden* eller *Ordna raderna*, medan de andra vanliga kapitlen har 8–14.
 - **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 4 (en analogi, ingen situation), kap. 12 (betyg i en kurs).
 - **Småsaker:** kap. 7 har sin övningssida i en ruta i stället för avsnittet *En sida att öva på*; kap. 6 har övningar på egna sidor utan rubriken *Egna sidor*.
-- **Rubriker efter exempel i stället för språk och API** (se CLAUDE.md). Kap. 9: *Från konsol till sida* med *En räknare*, *Mörkt läge med en knapp* och *Funktioner som uppdaterar sidan*. Kap. 10: *Ett formulär som svarar direkt*. Kap. 12: *Utseende efter resultat*. Ses över när kapitlen omstruktureras.
+- **Exemplen styr i stället för språket och API:t** (se CLAUDE.md, *The language and the API come first*). Det gäller både rubriker och brödtext: avsnitt som lär ut en funktion genom ett längre scenario, och praktiska exempel som förklarar rad för rad det som redan är förklarat. Rubriker som tydligt bryter mot regeln: kap. 9 *Från konsol till sida* med *En räknare*, *Mörkt läge med en knapp* och *Funktioner som uppdaterar sidan*; kap. 10 *Ett formulär som svarar direkt*; kap. 12 *Utseende efter resultat*. Brödtexten behöver ses över i alla vanliga kapitel, också de lösta exemplen.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7 och 10 → 11 → 12 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Innehåll att se över i nästa iteration
