@@ -69,7 +69,7 @@ För det första måste ett program kunna **komma ihåg saker**. En webbutik må
 
 För det andra måste ett program kunna **välja** och **upprepa**. Är varukorgen tom ska knappen *Till kassan* kanske vara gråmarkerad. Och för att räkna ut vad allt kostar måste programmet gå igenom varorna en i taget, oavsett om de är två eller tvåhundra. Val tas upp i kapitel [-@sec-villkor] och upprepning i kapitel [-@sec-loopar].
 
-Med värden, val och upprepning går det i princip att skriva vilket program som helst. Men ett verkligt program kan bestå av tusentals rader, och ingen kan hålla allt det i huvudet. Därför har programmeringsspråken också verktyg för att skapa **abstraktioner**. En abstraktion är en bit av lösningen som har samlats ihop och fått ett namn, så att du kan tänka på den som en enda sak. När du säger "jag kokar kaffe" tänker du inte på varje steg – fylla på vatten, mäta upp kaffe, sätta på bryggaren. Du har ett namn för helheten. På samma sätt kan en programmerare samla instruktionerna som räknar ut varukorgens summa under ett namn som *beräkna summa*, och sedan använda dem utan att tänka på hur de fungerar inuti. Det viktigaste sådana verktyget är **funktioner** (kapitel [-@sec-anropa-funktioner] och [-@sec-funktioner]).
+Med värden, val och upprepning går det i princip att skriva vilket program som helst. Men ett verkligt program kan bestå av tusentals rader, och ingen kan hålla allt det i huvudet. Därför har programmeringsspråken också verktyg för **abstraktion**: att samla en bit av lösningen under ett namn, som *beräkna summa*, och sedan använda den utan att tänka på hur den fungerar inuti. Det viktigaste sådana verktyget är **funktioner** (kapitel [-@sec-anropa-funktioner] och [-@sec-funktioner]).
 
 Minne, val, upprepning och abstraktion finns i alla programmeringsspråk. Det du lär dig i den här boken har du alltså nytta av även om du en dag byter språk.
 
@@ -117,7 +117,7 @@ Konsolen är också en miniräknare. Skriv in en rad i taget och tryck Enter eft
 3 * 49;
 ```
 
-JavaScript räknar ut varje rad och visar resultatet direkt. Multiplikation skrivs med en stjärna (`*`) och division med ett snedstreck (`/`), eftersom tangentbordet saknar tecknen × och ÷.
+JavaScript räknar ut varje rad och visar resultatet direkt.
 
 ### Uttryck och satser
 
@@ -130,6 +130,15 @@ En **sats** (*statement*) är en *instruktion* som *gör* något. `console.log("
 Ett program är en följd av satser som körs i tur och ordning, uppifrån och ned. I den här boken avslutas varje sats med ett semikolon (`;`). Det gäller även en rad som bara består av ett uttryck, som `2 + 2;` – en sådan rad räknas också som en sats. JavaScript klarar sig ofta utan semikolon, men reglerna för när det fungerar är krångliga, så skriv alltid ut det.
 
 En tumregel räcker långt: ett uttryck *är* något (ett värde), en sats *gör* något.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+I rutor som den här kontrollerar du att du har hängt med innan du läser vidare. Svara i huvudet eller skriv ner ett kort svar.
+
+1. Är `5 * 12;` ett uttryck eller en sats? Vad svarar konsolen?
+2. Konsolen svarar `undefined` efter `alert("Klart!");`. Betyder det att något gick fel?
+:::
 
 ### När något går fel
 
@@ -148,6 +157,12 @@ Uncaught TypeError: console.lg is not a function
 Ett felmeddelande är inget misslyckande, utan hjälp. Läs det bit för bit: `TypeError` säger vilken *sorts* fel det är, och `console.lg is not a function` pekar ut vad i din kod som inte fungerade. När koden ligger i en fil står det dessutom på vilken rad felet uppstod. Felmeddelandena är på engelska, men ofta räcker det att hitta namnet från din egen kod i meddelandet.
 
 Gör det till en vana: när koden inte gör vad du förväntar dig är konsolen det första stället du tittar.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Du ser meddelandet `Uncaught ReferenceError: alrt is not defined`. Vilken del säger vilken sorts fel det är, och vilken del pekar ut var i koden du ska leta?
+:::
 
 ---
 
@@ -338,6 +353,63 @@ För varje rad:
 2. Vilken del av meddelandet pekar ut vad som är fel? Stämmer det med det fel du själv hittade?
 
 Vilket av de tre felmeddelandena var lättast att förstå, och vilket var svårast? Varför tror du att det är så?
+:::
+
+::: {.callout-note}
+## Övning – Förklara koden
+
+Läs sidan. Kör den inte förrän du har svarat.
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizkväll</title>
+</head>
+<body>
+    <h1>Quizkväll</h1>
+    <p>Välkommen!</p>
+
+    <script>
+        // Visa kvällens program
+        console.log("Skriptet körs.");
+        document.querySelector("h1").textContent = "Quizkväll – fredag";
+        document.querySelector("p").textContent = "Första frågan kommer klockan sju.";
+    </script>
+</body>
+</html>
+```
+
+1. Beskriv med en mening vad besökaren ser när sidan har öppnats.
+2. Vad syns bara för den som har konsolen öppen?
+3. Vilken rad gör ingenting alls när sidan körs? Varför står den där?
+:::
+
+::: {.callout-note}
+## Övning – Ordna raderna
+
+Raderna nedan bildar en HTML-sida med ett skript som byter rubrikens text. Ordna dem. Två rader ska inte användas.
+
+```html
+</html>
+    <h1>Hej!</h1>
+<html lang="sv">
+    <script>
+</head>
+        document.querySelector("h1").textContent = "Hej, JavaScript!";
+<body>
+        console.lg("Skriptet körs!");
+    </script>
+<!DOCTYPE html>
+</body>
+    <title>Min sida</title>
+        document.querySelector("h1").textContent = Hej, JavaScript!;
+<head>
+```
+
+1. Vilka två rader använde du inte? Vad hade hänt om du använt dem?
+2. Varför står `<script>`-elementet sist i `<body>`?
 :::
 
 ::: {.callout-note}

@@ -6,6 +6,17 @@ losningar-till: kap01-om-javascript.qmd
 
 Lösningar till övningarna i kapitel [-@sec-om-javascript].
 
+## Stanna upp-frågorna
+
+**Uttryck och satser**
+
+1. Ett uttryck. Det ger ett värde, och konsolen svarar `60`.
+2. Nej. `alert` visar en ruta, men ger inget värde tillbaka. `undefined` är konsolens sätt att säga "inget värde".
+
+**När något går fel**
+
+1. `ReferenceError` säger vilken sorts fel det är. `alrt is not defined` pekar ut namnet `alrt` i din kod – leta efter det och rätta stavningen till `alert`.
+
 ## Övning – HTML, CSS eller JavaScript?
 
 1. **HTML.** Rubriken och dess text är innehåll, till exempel ett `<h1>`-element.
@@ -73,6 +84,34 @@ Utskriften från `console.log` och konsolens svar kan se likadana ut, men de är
 Den del av meddelandet som pekar ut felet är den som innehåller namnet från din egen kod: `console.lg` i det första fallet och `Console` i det andra. JavaScript skiljer på stora och små bokstäver, så `Console` och `console` är två olika namn, och bara det ena finns.
 
 Det tredje meddelandet är oftast svårast att förstå. Det säger inte vad som saknas, bara att något på raden inte går att tolka. Ordet *token* betyder ungefär "bit av koden". Felet är av en annan sort än de två första. Där kunde JavaScript läsa raden men inte hitta det du bad om. Här kan JavaScript inte ens läsa raden, eftersom texten aldrig tar slut. Exakt hur meddelandet är formulerat skiljer sig mellan webbläsare. Firefox skriver till exempel att en sträng innehåller en radbrytning som inte är tillåten.
+
+## Övning – Förklara koden
+
+1. *Besökaren ser rubriken "Quizkväll – fredag" och texten "Första frågan kommer klockan sju."* Texterna i HTML-koden, *Quizkväll* och *Välkommen!*, byts ut innan besökaren hinner se dem.
+2. Texten `Skriptet körs.` från `console.log`.
+3. Kommentaren `// Visa kvällens program`. JavaScript hoppar över den. Den står där för den som läser koden.
+
+## Övning – Ordna raderna
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <title>Min sida</title>
+</head>
+<body>
+    <h1>Hej!</h1>
+    <script>
+        document.querySelector("h1").textContent = "Hej, JavaScript!";
+    </script>
+</body>
+</html>
+```
+
+1. Raderna som inte används:
+   - `console.lg("Skriptet körs!");` – `lg` ska vara `log`. Raden hade gett `TypeError: console.lg is not a function`.
+   - Raden där `Hej, JavaScript!` saknar citattecken. Utan citattecken är det inte en text, och raden ger ett `SyntaxError`, så inget i skriptet körs.
+2. Webbläsaren läser sidan uppifrån och ned och kör skriptet när den kommer fram till det. Står skriptet sist finns `<h1>`-elementet redan när koden letar efter det.
 
 ## Övning – Läs koden innan du kör den
 

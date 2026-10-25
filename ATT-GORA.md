@@ -8,7 +8,7 @@
 - **`summary.qmd`**: platshållaren ("In summary, this book has no content whatsoever.") står i kapitellistan och publiceras.
 - **`del1-sammanfattning.qmd`**: lovar formulär, webblagring och hämtning av data i Del II. De kapitlen är inte skrivna än.
 - **Kontrollera i en riktig webbläsare.** Lösningarna är testkörda med Node.js och jsdom, men följande går inte att testa där:
-  - övning 1.6: Chromes spärr mot inklistring i konsolen (`allow pasting`);
+  - övning 1.8: Chromes spärr mot inklistring i konsolen (`allow pasting`);
   - övning 1.5, 4.4 och 12.3: felmeddelandenas exakta formulering i Firefox och Safari;
   - övning 6.7: vad *Visa sidkälla* visar för en sida som öppnats direkt från filsystemet;
   - övning 6.10 fråga 3: att `#facit { display: block; }` vinner över `hidden`;
@@ -28,11 +28,10 @@
 
 Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 6 och 7 skrevs före mallen och följer den bara delvis. Minikapitlen (kap. 3, 5, 8, 11, 13 och 15) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
-- ***Stanna upp*-rutor saknas i kap. 1, 2, 6 och 9.** Kap. 4 introducerar rutorna som något återkommande, men nästa ruta kommer först i kap. 7.
+- ***Stanna upp*-rutor saknas i kap. 2, 6 och 9.**
 - **Lösta exempel med namngivna delmål** (PEDAGOGIK §4) börjar först i kap. 9. Kap. 1, 2, 4, 6 och 7 saknar dem; kap. 6 behöver det mest. I kap. 10 används femstegsmönstret, men avsnittet har inte rubriken *Ett löst exempel*.
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - ***Vad säger felet?*** finns i kap. 3–9 och 11–17. Kap. 1 och 2 har motsvarigheter med andra namn (*Gör fel med flit*, *Vilka rader ger fel?*); kap. 10 saknar en.
-- **Kap. 1 har sex övningar** och varken *Förklara koden* eller *Ordna raderna*, medan de andra vanliga kapitlen har 8–14.
 - **Scenarier.** Quizkvällen bär de flesta kapitel. Avvikare: kap. 4 (en analogi, ingen situation), kap. 12 (betyg i en kurs).
 - **Småsaker:** kap. 7 har sin övningssida i en ruta i stället för avsnittet *En sida att öva på*; kap. 6 har övningar på egna sidor utan rubriken *Egna sidor*.
 - **Exemplen styr i stället för språket och API:t** (se CLAUDE.md, *The language and the API come first*). Det gäller både rubriker och brödtext: avsnitt som lär ut en funktion genom ett längre scenario, och praktiska exempel som förklarar rad för rad det som redan är förklarat. Rubriker som tydligt bryter mot regeln: kap. 9 *Från konsol till sida* med *En räknare*, *Mörkt läge med en knapp* och *Funktioner som uppdaterar sidan*; kap. 10 *Ett formulär som svarar direkt*; kap. 12 *Utseende efter resultat*. Brödtexten behöver ses över i alla vanliga kapitel, också de lösta exemplen.
@@ -44,7 +43,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 1 JavaScript och webbläsaren
 
-- **Inga *Stanna upp*-rutor.** Lämpliga ställen: efter *Uttryck och satser* och efter *När något går fel*.
 - **`console.log` och "inget värde".** Kap. 1 säger att `console.log("…")` är en sats som inte ger något värde. Kap. 4 säger att `console.log` returnerar `undefined`. Båda går att försvara, men bilderna bör stämma överens. Överväg att kap. 1 säger "ger värdet `undefined`, alltså inget värde".
 - **Första egna sidan.** Övningen *Läs koden innan du kör den* kunde avslutas med att studenten lägger raden i ett `<script>`-element sist i `<body>` och ser att ändringen nu finns kvar efter omladdning. Det övar avsnittet *Att koppla JavaScript till en HTML-sida*, som ingen övning använder i dag.
 
