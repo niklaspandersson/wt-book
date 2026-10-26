@@ -1,5 +1,7 @@
 # Händelser och interaktivitet {#sec-handelser}
 
+Här lär du dig hur ett program märker att besökaren har klickat, skrivit eller rört musen, och hur det svarar. En webbsida står still tills någon använder den, men då ska den reagera direkt.
+
 ## En knapp som inte reagerar
 
 Dina program körs uppifrån och ned när sidan laddas, och sedan är de klara. Användaren ser resultatet men kan inte påverka det. Det spelar ingen roll att du har en knapp på sidan:

@@ -1,5 +1,7 @@
 # Räkna med tal {#sec-rakna-med-tal}
 
+Det här kapitlet handlar om att räkna i JavaScript. Nästan alla program räknar med något, som summan i en kundkorg, poängen i ett spel eller hur många minuter som är kvar, och reglerna är i stort sett desamma som på en miniräknare.
+
 Ett **aritmetiskt uttryck** är ett uttryck som räknar med tal, till exempel `3 * 40 + 49`. Värdet det ger är också ett tal. Prova exemplen i konsolen.
 
 ## Räknesätt

@@ -76,7 +76,7 @@ When in doubt, ask: *Would a first-year student from a humanities or social scie
   - *Practical examples* come after the content they apply, under or after its section. Since the features are already explained, they need little commentary: the code, a sentence on how the parts work together, and what is new in the combination. Don't re-explain line by line what the sections above have covered; leave that to the exercises. This also applies to worked examples (*Ett löst exempel: …*), which may have their own heading after the sections they apply.
   - The motivating example in the chapter opening is the exception.
 - Exercises must avoid the "copy-paste trap"; students should reason and apply, not just transcribe
-- **Chapter openings.** Every chapter opens with two things, in whichever order reads best:
+- **Chapter openings.** Every chapter starts with a short **lead** directly under the chapter title, before the first section heading: two or three sentences that first say what the chapter is about and then place the subject in a wider context (why programs need it, with one or two everyday examples). Vary the wording of the first sentence between chapters ("Det här kapitlet handlar om…", "I det här kapitlet lär du dig…", "Här lär du dig…") so the leads don't read as a template. The model is the opening of MDN's [Conditionals](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Conditionals) article. It does not define terms or repeat the motivating example. After the lead come two things, in whichever order reads best:
   - a **motivating example** that shows why the chapter's subject matters. It can be a problem to solve, but also a familiar situation or a short demonstration of what the student will be able to do.
   - a **clear definition** of the main concept the chapter covers, where there is one, in a sentence or two. Define the concept, not the chapter's contents.
 
@@ -108,7 +108,7 @@ The ordinary chapters of Del I follow a common template, based on PEDAGOGIK.md:
 
 Del I also has mini chapters: short, reference-like chapters about a single tool (for example string methods or rounding), placed just before the first chapter that needs them. The basics they build on are already covered in an ordinary chapter, so they have even less prose. The list and placement are in [OUTLINE.md](OUTLINE.md). A mini chapter takes about 1–2.5 hours with its exercises and differs from the template above:
 
-- **Opening:** a sentence or two defining the topic, with no motivating example. The motivation comes from the chapter it precedes.
+- **Opening:** a lead (see *Chapter openings*), then a sentence or two defining the topic, with no motivating example. The motivation comes from the chapter it precedes.
 - **Body:** short code examples, each followed by a comment of a sentence or two, and a table of the methods or operators with links to MDN. No trace tables or worked examples, unless the topic has a known misconception (PEDAGOGIK.md §5).
 - **No practice page** of its own: the console, or the practice page of the preceding chapter.
 - **No *Stanna upp* box, summary or AI box** (an exception to the AI box rule under *Writing Conventions*).

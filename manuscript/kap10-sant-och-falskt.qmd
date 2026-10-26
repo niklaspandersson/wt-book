@@ -1,5 +1,7 @@
 # Sant och falskt {#sec-booleska}
 
+Det här kapitlet visar hur ett program ställer frågor – om ett tal är större än ett annat, om två texter är lika eller om ett fält är tomt – och vilka värden som blir svaret. Frågorna behövs innan programmet kan välja vad det ska göra.
+
 ## Frågor med två svar
 
 Tänk dig ett anmälningsformulär till quizkvällen. Laget skriver sitt namn och hur många deltagare det har, och klickar sedan på "Anmäl". Ett genomtänkt formulär hjälper användaren på vägen:

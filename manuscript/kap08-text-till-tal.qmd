@@ -1,5 +1,7 @@
 # Från text till tal och tillbaka {#sec-text-till-tal}
 
+Det här kapitlet tar upp hur text blir tal och tal blir text. Talet `42` och texten `"42"` ser likadana ut på skärmen, men JavaScript behandlar dem olika, och blandar man ihop dem kan en uträkning ge fel svar.
+
 **Typkonvertering** betyder att ett värde görs om från en datatyp till en annan, till exempel från texten `"42"` till talet `42`. Det behövs varje gång ett program ska räkna med något som användaren har skrivit, eftersom det alltid kommer som text. `prompt` returnerar till exempel en sträng, även när användaren skriver siffror. Prova exemplen i konsolen.
 
 ## Implicit typkonvertering

@@ -1,5 +1,7 @@
 # JavaScript och webbläsaren {#sec-om-javascript}
 
+Det här kapitlet handlar om vad JavaScript gör på en webbsida, vad ett program är och hur du skriver och kör ditt första. Webbsidor är inte bara text och bilder att läsa: de flesta sidor du använder reagerar på det du gör, och bakom det ligger ett program som körs i webbläsaren.
+
 ## Det händer något på sidan
 
 Du klickar på ett hjärta under ett inlägg. Hjärtat blir rött och siffran bredvid ökar från 41 till 42. Klickar du igen blir det grått och siffran går tillbaka. Du skriver i en sökruta, och redan efter två tecken dyker förslag upp. Du väljer ett nytt lösenord, och texten under rutan går från röd till grön när lösenordet är tillräckligt långt.

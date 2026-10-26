@@ -1,5 +1,7 @@
 # Skapa och ändra strängar {#sec-strangar}
 
+I det här kapitlet lär du dig att bygga ihop och göra om text. Program arbetar med text hela tiden, och ofta ska texten byggas av flera delar, som i *Välkommen, Anna!* eller *Du har 3 av 5 rätt*, eller snyggas till innan den visas.
+
 En **templatesträng** är en sträng där värden kan bäddas in direkt i texten. En **strängmetod** är en metod som alla strängar har, till exempel för att ta bort mellanslag eller byta till stora bokstäver. Prova exemplen i konsolen.
 
 ## Templatesträngar

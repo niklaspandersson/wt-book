@@ -1,5 +1,7 @@
 # Söka och klippa i text {#sec-soka-klippa}
 
+Det här kapitlet visar hur ett program hittar ord och tecken i en text och tar ut bitar av den. Det behövs till exempel för att dela upp ett fullständigt namn i förnamn och efternamn, eller för att kontrollera att en e-postadress innehåller ett @.
+
 Tecknen i en sträng är numrerade från 0, precis som elementen i en array (kapitel [-@sec-variabler]). Numret kallas tecknets **position**. Med positioner kan ett program **söka** efter var något står i en text och **klippa** ut en del av den. Prova exemplen i konsolen.
 
 | Tecken | `A` | `n` | `n` | `a` | ` ` | `B` | `e` | `r` | `g` |

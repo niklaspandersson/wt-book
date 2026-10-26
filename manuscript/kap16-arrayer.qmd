@@ -1,5 +1,7 @@
 # Arrayer {#sec-arrayer}
 
+Det här kapitlet tar upp hur du ändrar en array och hur du gör något med vart och ett av dess element. Mycket av det program arbetar med är listor som växer och krymper medan programmet körs: varorna i en kundkorg, inläggen i ett flöde, deltagarna i en tävling.
+
 ## En lista att hålla ordning på
 
 Anmälningarna till quizkvällen har börjat komma in, och lagen finns i en array (kapitel [-@sec-variabler]):

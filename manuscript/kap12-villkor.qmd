@@ -1,5 +1,7 @@
 # Villkorssatser {#sec-villkor}
 
+I det här kapitlet lär du dig hur ett program väljer vilken kod som ska köras, med hjälp av frågorna från kapitel [-@sec-booleska]. Ett program gör sällan exakt samma sak varje gång: ett formulär skickas bara om alla fält är ifyllda, och i ett spel är det slut när spelaren har förlorat sina liv.
+
 ## Programmet som fattar beslut
 
 Föreställ dig ett hjälpprogram för en kurs. Studenterna gör ett prov med 100 möjliga poäng. Läraren skriver in poängen i ett fält på en webbsida, och programmet ska:

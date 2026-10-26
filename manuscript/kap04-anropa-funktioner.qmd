@@ -1,5 +1,7 @@
 # Att använda funktioner {#sec-anropa-funktioner}
 
+I det här kapitlet använder du de färdiga verktyg som JavaScript och webbläsaren har för vanliga uppgifter: hur du startar dem, ger dem det de behöver och tar emot det de ger tillbaka. Verktygen finns för allt från att visa ett meddelande till att hitta det största av några tal, så ett program behöver sällan göra allt från grunden.
+
 ## Funktioner är färdiga maskiner
 
 En kaffebryggare har du inte byggt själv, och du behöver inte veta hur den fungerar inuti. Du häller i vatten och kaffe, trycker på knappen och får kaffe. Det är en **abstraktion** av samma slag som i kapitel [-@sec-om-javascript]: många steg samlade under ett enda namn.

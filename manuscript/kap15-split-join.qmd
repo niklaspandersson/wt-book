@@ -1,5 +1,7 @@
 # `split` och `join` {#sec-split-join}
 
+I det här kapitlet lär du dig att göra om text till en lista och en lista till text. Mycket information kommer som en enda lång text, till exempel en rad där värdena skiljs åt med kommatecken, men programmet vill arbeta med värdena ett i taget.
+
 Metoden `split` delar en sträng i delar och returnerar en **array** med delarna (kapitel [-@sec-variabler]). Metoden `join` gör det omvända: den sätter ihop elementen i en array till en sträng. Med dem kan ett program ta emot en lista som text, till exempel flera lagnamn i ett och samma fält. Prova exemplen i konsolen.
 
 ## `split()`

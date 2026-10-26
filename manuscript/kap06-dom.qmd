@@ -1,5 +1,7 @@
 # Din kod möter webbsidan {#sec-dom-intro}
 
+Det här kapitlet handlar om hur ett program hittar ett element på webbsidan och ändrar det medan besökaren tittar: byter en text, färgar en ruta, visar eller döljer ett meddelande. Det är framför allt därför JavaScript finns i webbläsaren.
+
 ## Poängtavlan som ingen ser
 
 Quizkvällens poängtavla finns nu i konsolen: lagens namn och poäng ligger i objekt, och du kan räkna upp poängen när ett lag svarar rätt. Men när kompisarna samlas runt datorn ser de ingenting av det. Konsolen är programmerarens verktyg – besökaren ser bara själva webbsidan.

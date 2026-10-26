@@ -1,5 +1,7 @@
 # Händelser och många element {#sec-manga-element}
 
+Det sista kapitlet i Del I handlar om händelser på många element på en gång, och om hur ett program får veta vad som hände. På en riktig webbsida finns sällan bara en knapp: rader i en tabell, kort i en lista och produkter i en webbutik ska alla reagera när någon klickar på dem.
+
 ## Tre knappar, en fråga
 
 Quizsidan har tre svarsknappar. När någon klickar ska sidan visa om svaret var rätt, och färga just den knapp som klickades. Med det du kan hittills behövs en lyssnare per knapp, och varje callback måste själv veta vilken knapp den hör till. Det blir tre nästan likadana callbacks för tre knappar, och trettio för trettio.

@@ -1,5 +1,7 @@
 # Loopar {#sec-loopar}
 
+Kapitlet handlar om att få ett program att upprepa kod i stället för att skriva samma kod många gånger. Datorer är bra på att göra samma sak om och om igen utan att tröttna eller slarva, vare sig det gäller att visa hundra rader i en tabell eller att pröva tusen möjligheter.
+
 ## Samma sak, många gånger
 
 Quizkvällen närmar sig, och domaren har tre önskemål till webbsidan:

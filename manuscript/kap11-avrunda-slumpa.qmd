@@ -1,5 +1,7 @@
 # Avrunda och slumpa {#sec-avrunda-slumpa}
 
+Här lär du dig två saker som ofta behövs när ett program räknar: att avrunda och att slumpa. Ett pris med tolv decimaler går inte att visa för en kund, och ett spel där tärningen alltid visar samma sak är inget spel.
+
 Att **avrunda** är att göra om ett decimaltal till ett heltal. Ett **slumptal** är ett tal som programmet väljer på måfå, som ett tärningskast. Båda görs med metoder i det inbyggda objektet `Math` (kapitel [-@sec-anropa-funktioner]). Prova exemplen i konsolen.
 
 ## `Math.round()` och `Math.floor()`

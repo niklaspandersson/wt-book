@@ -1,5 +1,7 @@
 # Att skriva egna funktioner {#sec-funktioner}
 
+I det här kapitlet skriver du dina egna funktioner: du ger en bit kod ett namn och kan sedan köra den var du vill i programmet, så ofta du vill. Egna funktioner är det viktigaste verktyget för att hålla ordning på ett program som växer.
+
 ## Poängtavlan som upprepar sig
 
 Under en quizkväll ändras poängen hela tiden, och varje gång måste poängtavlan på sidan uppdateras:

@@ -1,5 +1,7 @@
 # Värden och variabler {#sec-variabler}
 
+I det här kapitlet lär du dig hur ett program håller reda på information, och vilka olika sorters information det arbetar med. Alla program behöver det: ett namn, ett pris eller ett svar som är rätt eller fel måste finnas kvar tills programmet ska använda det.
+
 ## En quizkväll att programmera
 
 Du och tre studiekamrater ska ha quizkväll, och du vill göra en digital poängtavla i stället för ett papper med suddiga streck. Programmet behöver hålla reda på lagets namn, hur många poäng laget har, hur många sekunder som är kvar på rundan och om det senaste svaret var rätt. Det är fyra olika *sorters* information: ett namn är inte ett poängtal, och ett poängtal är inte ett ja eller nej. Dessutom hör namnet och poängen ihop – de tillhör samma lag.
