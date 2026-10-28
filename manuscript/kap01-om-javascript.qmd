@@ -1,12 +1,12 @@
 # JavaScript och webbläsaren {#sec-om-javascript}
 
-Det här kapitlet handlar om vad JavaScript gör på en webbsida, vad ett program är och hur du skriver och kör ditt första. Webbsidor är inte bara text och bilder att läsa: de flesta sidor du använder reagerar på det du gör, och bakom det ligger ett program som körs i webbläsaren.
+Det här kapitlet handlar om vad JavaScript gör på en webbsida, vad ett *program* är och hur du skriver och kör ditt första. Webbsidor är inte bara text och bilder att läsa: de flesta sidor du använder reagerar på det du gör, och bakom det ligger ett program som körs i webbläsaren.
 
 ## Det händer något på sidan
 
 Du klickar på ett hjärta under ett inlägg. Hjärtat blir rött och siffran bredvid ökar från 41 till 42. Klickar du igen blir det grått och siffran går tillbaka. Du skriver i en sökruta, och redan efter två tecken dyker förslag upp. Du väljer ett nytt lösenord, och texten under rutan går från röd till grön när lösenordet är tillräckligt långt.
 
-Ingen ny sida har laddats. Sidan reagerar på det du gör, minns det och kontrollerar det. Det som gör det möjligt är **JavaScript**: programmeringsspråket som styr hur en webbsida beter sig.
+Ingen ny sida har laddats. Sidan reagerar på det du gör, minns det och kontrollerar det. Det som gör det möjligt är **JavaScript**: programmeringsspråket som styr hur webbsidor *beter sig*.
 
 ---
 
@@ -18,7 +18,7 @@ En modern webbsida byggs av tre tekniker, var och en med sitt eget ansvar.
 
 **CSS** (*Cascading Style Sheets*) bestämmer sidans *utseende*: färger, typsnitt, avstånd, rundade hörn och skuggor.
 
-**JavaScript** styr sidans *beteende*. Det reagerar när du klickar, skriver eller scrollar, hämtar ny data från servern och ändrar sidan medan den visas. Om HTML är *vad* och CSS är *hur det ser ut*, är JavaScript vad som *händer*.
+**JavaScript** styr sidans *beteende*. Det reagerar när du klickar, skriver eller scrollar, hämtar ny data från servern och ändrar sidan medan den syns. Om HTML är *vad* och CSS är *hur det ser ut*, är JavaScript vad som *händer*.
 
 Ta gilla-knappen från början av kapitlet. Hjärtat och siffran är HTML, färgerna är CSS – men det som händer när du klickar är JavaScript:
 
@@ -43,21 +43,24 @@ Den här boken handlar om JavaScript. Den förutsätter att du vet vad ett eleme
 
 En dator gör ingenting av sig själv. Den gör exakt vad den instrueras att göra, varken mer eller mindre. Ett **program** är en följd av sådana instruktioner, skrivna i ett språk som datorn kan köra.
 
-Tänk på ett recept: *ta 300 gram mjöl*, *tillsätt ett ägg*, *blanda tills smeten är slät*. En kock kan tolka instruktionerna, improvisera om något saknas och avgöra när smeten "ser slät ut". En dator kan inte det. Den följer instruktionerna bokstavligt, och saknas en instruktion eller är den fel blir resultatet därefter.
+Tänk på ett recept: *ta 300 gram mjöl*, *tillsätt ett ägg*, *blanda tills smeten är slät*. En kock kan tolka instruktionerna, improvisera om något saknas, och avgöra när smeten "ser slät ut". En dator kan inte det, den följer instruktionerna bokstavligt. Saknas en instruktion, eller om den är fel, blir resultatet därefter.
 
-Som programmerare behöver du därför tänka mer precist och fullständigt än du brukar i vardagen. Det är inget du måste kunna från början. Det växer fram med övning.
+Som programmerare behöver du därför tänka mer precist och detaljerat än du brukar i vardagen. Det är inget du måste kunna från början, det växer fram med övning.
 
 Du behöver inte heller vara bra på matematik. I en studie av vuxna nybörjare var förmågan att lära sig nya språk den starkaste förklaringen till hur snabbt de lärde sig programmera, medan räknefärdigheten nästan inte spelade någon roll [@prat2020relating]. Att programmera liknar att lära sig ett språk: du lär dig nya ord och en ny grammatik, och du övar på att uttrycka dig precist. Beräkningarna i boken är vardagsräkning – priser, poäng och tider.
 
 Det är också normalt att det går trögt ibland. Att du kör fast säger ingenting om huruvida du "är en programmerare", bara att du lär dig något nytt. Begreppen bygger tätt på varandra, så ta det i lugn takt: läs om det som var oklart, prova exemplen själv och gör övningarna innan du går vidare.
 
-En instruktion i JavaScript kan se ut så här:
+Ett litet program i JavaScript kan se ut så här:
 
 ```javascript
-alert("Hej, världen!");
+let saldo = 1000;
+saldo = saldo - 250;
+saldo = saldo - 90;
+saldo = saldo + 500;
 ```
 
-Raden får webbläsaren att visa en ruta med texten `Hej, världen!` och en knapp för att stänga den. Det är ett komplett program, om än ett litet. Verkliga program är längre, men principen är densamma: en följd av precisa instruktioner.
+Programmet håller reda på saldot på ett konto: det börjar på 1 000 kronor, två köp dras av och en insättning läggs till. Verkliga program är längre, men principen är densamma: en följd av precisa instruktioner.
 
 ---
 
@@ -65,17 +68,17 @@ Raden får webbläsaren att visa en ruta med texten `Hej, världen!` och en knap
 
 Innerst inne förstår en dator bara mycket enkla instruktioner, uttryckta som ettor och nollor: *flytta det här talet dit*, *addera de här två talen*, *hoppa till instruktion nummer 4 711*. Den här **maskinkoden** är nästan omöjlig för människor att läsa och skriva. Ett **programmeringsspråk** är ett mellanting – tillräckligt likt mänskligt språk för att vi ska kunna läsa och skriva det, och tillräckligt exakt för att kunna översättas till maskinens instruktioner. I webbläsaren sköts översättningen av en **JavaScript-motor**, som läser din kod och utför den.
 
-Det finns hundratals programmeringsspråk: Python för dataanalys, Java och C# för större företagssystem, Swift och Kotlin för appar i mobilen – och JavaScript för webben. De ser olika ut, men grundidéerna är förvånansvärt lika, eftersom alla program måste lösa samma grundläggande problem.
+Det finns hundratals programmeringsspråk: Python för dataanalys, Java och C# för större företagssystem, Swift och Kotlin för appar i mobilen – och JavaScript för webben. De ser olika ut, men grundidéerna är förvånansvärt lika, eftersom alla program måste lösa samma grundläggande problem:
 
 För det första måste ett program kunna **komma ihåg saker**. En webbutik måste hålla reda på vilka varor som ligger i varukorgen, hur många av varje och vad de kostar. Därför har alla programmeringsspråk sätt att spara **värden** – tal, texter, listor – och ge dem namn. Sådana namngivna värden kallas **variabler** (kapitel [-@sec-variabler]).
 
 För det andra måste ett program kunna **välja** och **upprepa**. Är varukorgen tom ska knappen *Till kassan* kanske vara gråmarkerad. Och för att räkna ut vad allt kostar måste programmet gå igenom varorna en i taget, oavsett om de är två eller tvåhundra. Val tas upp i kapitel [-@sec-villkor] och upprepning i kapitel [-@sec-loopar].
 
-Med värden, val och upprepning går det i princip att skriva vilket program som helst. Men ett verkligt program kan bestå av tusentals rader, och ingen kan hålla allt det i huvudet. Därför har programmeringsspråken också verktyg för **abstraktion**: att samla en bit av lösningen under ett namn, som *beräkna summa*, och sedan använda den utan att tänka på hur den fungerar inuti. Det viktigaste sådana verktyget är **funktioner** (kapitel [-@sec-anropa-funktioner] och [-@sec-funktioner]).
+Med värden, val och upprepning går det i princip att skriva vilket program som helst. Men ett verkligt program kan bestå av tusentals rader, och ingen kan hålla allt det i huvudet. Därför har programmeringsspråken också verktyg för **abstraktion**: att samla detaljerna för en del av lösningen under ett namn, till exempel *beräkna summa*, och sedan använda den utan att behöva tänka på hur den fungerar varje gång. Det viktigaste sådana verktyget är **funktioner** (kapitel [-@sec-anropa-funktioner] och [-@sec-funktioner]).
 
 Minne, val, upprepning och abstraktion finns i alla programmeringsspråk. Det du lär dig i den här boken har du alltså nytta av även om du en dag byter språk.
 
-Varje programmeringsspråk har sina egna regler för hur koden ska skrivas – språkets **syntax**. Syntaxen motsvarar stavning och grammatik i ett vanligt språk, men med en viktig skillnad. En människa förstår vad du menar även om du stavar fel eller glömmer ett ord. En JavaScript-motor gör det inte. Ett enda saknat citattecken räcker för att den ska ge upp och visa ett felmeddelande. Fördelen är att koden alltid betyder exakt samma sak, oavsett vem som läser den.
+Varje programmeringsspråk har sina egna regler för hur koden ska skrivas – språkets **syntax**. Syntaxen motsvarar stavning och grammatik i ett vanligt språk, men med en viktig skillnad. En människa förstår vad du menar även om du stavar fel eller glömmer ett ord. En JavaScript-motor gör det inte. Ett enda saknat citattecken räcker för att den ska ge upp och visa ett felmeddelande. Fördelen är att koden alltid betyder exakt samma sak, oavsett vem som läser den, när inget utrymme lämnas för tolkning.
 
 ---
 
@@ -84,10 +87,10 @@ Varje programmeringsspråk har sina egna regler för hur koden ska skrivas – s
 ::: {.callout-note}
 ## En förhandsvarning om okänd syntax
 
-Exemplen i de första kapitlen innehåller ibland kod som förklaras först senare, eftersom meningsfulla exempel ofta kräver mer än ett begrepp. Fokusera på det som just introduceras. Vad funktionsanrop som `console.log()` egentligen är tas upp i kapitel [-@sec-anropa-funktioner], och hur du ändrar webbsidan i kapitel [-@sec-dom-intro].
+Exemplen i de första kapitlen innehåller ibland kod som förklaras först senare, eftersom meningsfulla exempel ofta kräver mer än ett begrepp. Fokusera på det som just introduceras. Det gäller till exempel `alert` och `console.log`, som du strax får prova. Vad de är och hur de fungerar tas upp i kapitel [-@sec-anropa-funktioner].
 :::
 
-Raden med `alert` kan du köra redan nu, utan att skapa en enda fil. Alla moderna webbläsare (Chrome, Firefox, Edge, Safari) har inbyggda **utvecklarverktyg** (*DevTools*). Du öppnar dem med `F12` (på Mac `Cmd+Option+I`; i Safari måste du först slå på menyn *Utveckla* i inställningarna).
+JavaScript kan du köra redan nu, utan att skapa en enda fil. Alla moderna webbläsare (Chrome, Firefox, Edge, Safari) har inbyggda **utvecklarverktyg** (*DevTools*). Du öppnar dem med `F12` (på Mac `Cmd+Option+I`; i Safari måste du först slå på menyn *Utveckla* i inställningarna).
 
 Utvecklarverktygen har flera flikar. De du kommer att använda mest är:
 
@@ -97,19 +100,19 @@ Utvecklarverktygen har flera flikar. De du kommer att använda mest är:
 
 ### Konsolen
 
-Välj fliken *Console*. Där kan du skriva JavaScript och få det kört direkt. Skriv in raden från förra avsnittet och tryck Enter:
+Välj fliken *Console*. Där kan du skriva JavaScript och få det kört direkt. Skriv in den här raden och tryck Enter:
 
 ```javascript
 alert("Hej, världen!");
 ```
 
-Rutan dyker upp på sidan du har öppen. Stäng den och prova sedan nästa rad:
+Webbläsaren visar en ruta med texten `Hej, världen!` på sidan du har öppen. Stäng den och prova sedan nästa rad:
 
 ```javascript
 console.log("Hej, världen!");
 ```
 
-Den här gången visas ingen ruta. Texten `Hej, världen!` skrivs i stället ut i konsolen. `alert` visar något för *besökaren*, medan `console.log()` visar något för *dig som programmerare*. Besökare tittar sällan i konsolen, och därför är `console.log()` ditt främsta verktyg för att se vad din kod gör.
+Den här gången visas ingen ruta. Texten `Hej, världen!` skrivs i stället ut direkt i konsolen. `alert` visar något för *besökaren*. Besökare tittar sällan i konsolen, därför är `console.log()` främst ett verktyg för *dig som programmerare*, för att se se vad din kod gör.
 
 Konsolen är också en miniräknare. Skriv in en rad i taget och tryck Enter efter varje:
 
@@ -123,11 +126,19 @@ JavaScript räknar ut varje rad och visar resultatet direkt.
 
 ### Uttryck och satser
 
-Konsolen svarar på två olika sätt. När du skriver `2 + 2` svarar den med `4`. Men när du skrev `console.log("Hej, världen!")` skrevs texten ut, och sedan svarade konsolen dessutom med ett grått `undefined`. Det beror på skillnaden mellan *uttryck* och *satser*, som finns i alla programmeringsspråk.
+Konsolen svarar på två olika sätt. När du skriver `2 + 2` svarar den med `4`. Skriv nu in den första raden från programmet om saldot:
 
-Ett **uttryck** (*expression*) är en bit kod som *ger ett värde*. `2 + 2` ger värdet `4`, och `3 * 49` – tre biljetter för 49 kronor styck – ger värdet `147`. Uttryck kan byggas ihop av mindre uttryck: i `2 + 3 * 4` är både `3 * 4` och hela raden uttryck.
+```javascript
+let saldo = 1000;
+```
 
-En **sats** (*statement*) är en *instruktion* som *gör* något. `console.log("Hej, världen!")` gör något – den skriver ut en text – men ger inget värde tillbaka. Konsolen visar alltid värdet av det du nyss skrev in, och när det inte finns något värde visar den `undefined`, som betyder just "inget värde". Det är alltså inget fel.
+Den här gången svarar konsolen med ett grått `undefined`. Det beror på skillnaden mellan *uttryck* och *satser*, som finns i alla programmeringsspråk.
+
+Ett **uttryck** (*expression*) är en bit kod som *ger ett värde*. `2 + 2` ger värdet `4`, och `3 * 49` ger värdet `147`. Uttryck kan byggas ihop av mindre uttryck: i `2 + 3 * 4` är både `3 * 4` och hela raden uttryck.
+
+En **sats** (*statement*) är en *instruktion* som *gör* något. `let saldo = 1000;` sparar värdet `1000` under namnet `saldo`, men raden som helhet ger inget värde. Konsolen visar alltid värdet av det du nyss skrev in, och när det inte finns något värde visar den `undefined`, som betyder just "inget värde". Det är inget fel.
+
+Samma `undefined` kom efter `console.log` och `alert` ovan. De raderna är faktiskt *uttryck*, men uttryck vars uppgift är att *göra* något – skriva ut en text. Värdet de ger tillbaka är `undefined`.
 
 Ett program är en följd av satser som körs i tur och ordning, uppifrån och ned. I den här boken avslutas varje sats med ett semikolon (`;`). Det gäller även en rad som bara består av ett uttryck, som `2 + 2;` – en sådan rad räknas också som en sats. JavaScript klarar sig ofta utan semikolon, men reglerna för när det fungerar är krångliga, så skriv alltid ut det.
 
@@ -144,7 +155,7 @@ I rutor som den här kontrollerar du att du har hängt med innan du läser vidar
 
 ### När något går fel
 
-Förr eller senare skriver du fel. Prova att stava fel på `log`:
+Förr eller senare skriver du fel. Prova att stava fel på `console.log`:
 
 ```javascript
 console.lg("Hej, världen!");
@@ -190,7 +201,9 @@ Det JavaScript *kan* göra är att ändra webbsidan, kommunicera med servern och
 
 ## Att koppla JavaScript till en HTML-sida
 
-Kod du skriver i konsolen försvinner när du laddar om sidan. I ett verkligt projekt står koden i stället i HTML-sidan, i ett `<script>`-element. De två närmaste kapitlen håller sig i konsolen, men från och med kapitel [-@sec-dom-intro] skriver du kod på det här sättet:
+Kod du skriver i konsolen försvinner när du laddar om sidan. I ett verkligt projekt kopplas JavaScript i stället ihop med HTML-sidan, på liknande sätt som CSS. Koden kan ligga i en egen fil som sidan pekar ut med `<script src="…">`, motsvarande `<link rel="stylesheet" href="…">` för stilmallar. Det är oftast att föredra, eftersom HTML och JavaScript då hålls isär och samma skript kan användas på flera sidor. Men koden kan också skrivas direkt i sidan, i ett `<script>`-element, precis som CSS kan stå i ett `<style>`-element.
+
+För att hålla det så enkelt som möjligt i början skriver vi koden direkt i sidan, och separata filer kommer längre fram i boken. De närmaste kapitlen håller sig i konsolen, men från och med kapitel [-@sec-dom-intro] ser sidorna ut så här:
 
 ```html
 <!DOCTYPE html>
@@ -211,9 +224,7 @@ Kod du skriver i konsolen försvinner när du laddar om sidan. I ett verkligt pr
 </html>
 ```
 
-Webbläsaren läser sidan uppifrån och ned och kör skriptet när den kommer fram till `<script>`-elementet. Därför står det sist i `<body>`: när koden körs finns `<h1>`-elementet redan.
-
-Precis som CSS kan JavaScript också ligga i en egen fil som sidan pekar ut. Det kommer vi till när skripten blir längre.
+Webbläsaren läser sidan uppifrån och ned, och kör skriptet så fort den kommer fram till `<script>`-elementet. Därför är det viktigt att `<script>`-elementet ligger sist i `<body>`: när koden körs finns då de andra elementet redan, och de går att manipulera med JavaScript.
 
 ::: {.callout-note}
 ## Kommentarer
@@ -225,6 +236,8 @@ document.querySelector("h1").textContent = "Hej, JavaScript!";   // ersätter "H
 ```
 
 Använd kommentarer för att förklara vad din kod gör – för andra, eller för dig själv nästa vecka.
+
+Kommentarer som behöver sträcka sig över flera rader kan skrivas med `/* … */`, precis som i css.
 :::
 
 ---
@@ -235,10 +248,10 @@ Använd kommentarer för att förklara vad din kod gör – för andra, eller f�
 - **Programmering** innebär att skriva precisa instruktioner som en dator kan följa. Datorn gör exakt vad den instrueras – varken mer eller mindre.
 - Ett **programmeringsspråk** är ett mellanting mellan mänskligt språk och maskinkod. Varje språk har en **syntax** – regler för hur koden ska skrivas – som måste följas exakt.
 - Webbläsarens **utvecklarverktyg** öppnas med `F12`. I **konsolen** kan du köra kod direkt, se utskrifter från `console.log()` och läsa felmeddelanden.
-- Ett **uttryck** ger ett värde (`2 + 2`); en **sats** är en instruktion som gör något (`console.log("Hej!");`). Ett program är en följd av satser, och i den här boken avslutas varje sats med semikolon.
+- Ett **uttryck** ger ett värde (`2 + 2`); en **sats** är en instruktion som gör något (`let saldo = 1000;`). Ett program är en följd av satser, och i den här boken avslutas varje sats med semikolon.
 - **Felmeddelanden** är hjälp, inte misslyckanden: de berättar vilken sorts fel det är och var i koden det uppstod.
 - JavaScript körs på **klientsidan** – i besökarens webbläsare – inuti en **sandlåda** som skyddar resten av datorn.
-- JavaScript kopplas till en HTML-sida med ett `<script>`-element sist i `<body>`, så att sidans element finns när koden körs.
+- JavaScript kopplas till en HTML-sida med ett `<script>`-element. Antingen sist i `<body>`, så att sidans element finns när koden körs, eller med ett `src`-attribut som pekar på en extern fil.
 
 Nästa kapitel handlar om hur JavaScript representerar information – de värden och variabler som allt annat byggs på.
 
@@ -314,13 +327,14 @@ Stämde dina gissningar? Om något svar överraskade dig: vad var det som var an
 :::
 
 ::: {.callout-note}
-## Övning – Uttryck eller sats?
+## Övning – Värde eller `undefined`?
 
-Titta på raderna nedan. Avgör för varje rad, *innan* du kör den, om konsolen kommer att svara med ett värde eller med `undefined`. Är raden ett uttryck som *ger* ett värde, eller en instruktion som *gör* något utan att ge ett värde tillbaka? Kör sedan raderna en i taget och jämför.
+Titta på raderna nedan. Avgör för varje rad, *innan* du kör den, om konsolen kommer att svara med ett värde eller med `undefined`. Kör sedan raderna en i taget och jämför.
 
 ```javascript
 7 * 6;
 console.log(7 * 6);
+let svar = 7 * 6;
 "Hej" + "!";
 alert("Hej");
 24 * 60;
@@ -346,6 +360,43 @@ För varje rad:
 2. Vilken del av meddelandet pekar ut vad som är fel? Stämmer det med det fel du själv hittade?
 
 Vilket av de tre felmeddelandena var lättast att förstå, och vilket var svårast? Varför tror du att det är så?
+:::
+
+::: {.callout-note}
+## Övning – Läs koden innan du kör den
+
+Tidigare i kapitlet förekommer raden:
+
+```javascript
+document.querySelector("h1").textContent = "Hej, JavaScript!";
+```
+
+Du har inte lärt dig vad den gör än – men titta på den och resonera: vad *tror* du att den gör? Bryt ner den del för del:
+
+* Vad kan `document.querySelector("h1")` syfta på?
+* Vad kan `textContent` betyda?
+* Vad är `= "Hej, JavaScript!"` för slags operation?
+
+Formulera din gissning i ord, och testa den sedan.
+
+1. Spara följande HTML-kod i en fil `index.html`:
+   ```html
+   <!DOCTYPE html>
+   <html lang="sv">
+   <head>
+      <meta charset="UTF-8">
+      <title>Min sida</title>
+   </head>
+   <body>
+      <h1>Hej!</h1>
+   </body>
+   </html>
+   ```
+1. Öppna sidan i en webbläsare.
+1. Öppna konsolen (`F12` → *Console*).
+1. Skriv in raden och tryck Enter. (Skriv den hellre än att klistra in den. Chrome stoppar inklistring i konsolen tills du har skrivit `allow pasting`, ett skydd mot bedragare som lurar folk att klistra in skadlig kod.)
+
+Stämde din gissning? Vad hände med sidan? Vad händer om du laddar om sidan efteråt – och varför?
 :::
 
 ::: {.callout-note}
@@ -402,42 +453,5 @@ Raderna nedan bildar en HTML-sida med ett skript som byter rubrikens text. Ordna
 ```
 
 1. Vilka två rader använde du inte? Vad hade hänt om du använt dem?
-2. Varför står `<script>`-elementet sist i `<body>`?
-:::
-
-::: {.callout-note}
-## Övning – Läs koden innan du kör den
-
-I exemplen ovan förekommer raden:
-
-```javascript
-document.querySelector("h1").textContent = "Hej, JavaScript!";
-```
-
-Du har inte lärt dig vad den gör än – men titta på den och resonera: vad *tror* du att den gör? Bryt ner den del för del:
-
-* Vad kan `document.querySelector("h1")` syfta på?
-* Vad kan `textContent` betyda?
-* Vad är `= "Hej, JavaScript!"` för slags operation?
-
-Formulera din gissning i ord, och testa den sedan.
-
-1. Spara följande HTML-kod i en fil `index.html`:
-   ```html
-   <!DOCTYPE html>
-   <html lang="sv">
-   <head>
-      <meta charset="UTF-8">
-      <title>Min sida</title>
-   </head>
-   <body>
-      <h1>Hej!</h1>
-   </body>
-   </html>
-   ```
-1. Öppna sidan i en webbläsare.
-1. Öppna konsolen (`F12` → *Console*).
-1. Skriv in raden och tryck Enter. (Skriv den hellre än att klistra in den. Chrome stoppar inklistring i konsolen tills du har skrivit `allow pasting`, ett skydd mot bedragare som lurar folk att klistra in skadlig kod.)
-
-Stämde din gissning? Vad hände med sidan? Vad händer om du laddar om sidan efteråt – och varför?
+2. Varför behöver du lägga `<script>`-elementet sist i `<body>`?
 :::

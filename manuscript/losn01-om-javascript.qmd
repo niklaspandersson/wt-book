@@ -49,17 +49,18 @@ Lägg märke till mönstret: det som *finns* på sidan är HTML, hur det *ser ut
 
 Det som brukar överraska är den sista raden. JavaScript ger inte en jämn trea, utan ett decimaltal med många decimaler, och sista siffran är en femma i stället för en trea. Datorn kan inte spara oändligt många decimaler, så den avrundar någonstans. Decimaltecknet är en punkt och inte ett kommatecken, som i engelskspråkiga länder.
 
-## Övning – Uttryck eller sats?
+## Övning – Värde eller `undefined`?
 
 | Rad | Konsolen svarar | Vad det är |
 |---|---|---|
 | `7 * 6;` | `42` | ett uttryck som ger ett värde |
-| `console.log(7 * 6);` | skriver ut `42`, svarar sedan `undefined` | en instruktion som gör något |
+| `console.log(7 * 6);` | skriver ut `42`, svarar sedan `undefined` | ett uttryck som gör något och ger `undefined` |
+| `let svar = 7 * 6;` | `undefined` | en sats som sparar ett värde men inte ger något |
 | `"Hej" + "!";` | `'Hej!'` | ett uttryck som ger ett värde |
-| `alert("Hej");` | visar en ruta, svarar sedan `undefined` | en instruktion som gör något |
+| `alert("Hej");` | visar en ruta, svarar sedan `undefined` | ett uttryck som gör något och ger `undefined` |
 | `24 * 60;` | `1440` | ett uttryck som ger ett värde |
 
-De två raderna med både något som syns och `undefined` är `console.log(7 * 6);` och `alert("Hej");`. Det som syns – utskriften `42` och rutan med `Hej` – är det instruktionen *gör*. `undefined` är konsolens svar på frågan om vilket värde raden gav, och svaret är "inget värde".
+De två raderna med både något som syns och `undefined` är `console.log(7 * 6);` och `alert("Hej");`. Det som syns – utskriften `42` och rutan med `Hej` – är det raden *gör*. `undefined` är konsolens svar på frågan om vilket värde raden gav, och svaret är "inget värde".
 
 Utskriften från `console.log` och konsolens svar kan se likadana ut, men de är olika saker. Utskriften är text som programmet har skrivit ut. Svaret är konsolens sätt att visa ett värde, och det visas bara när du skriver direkt i konsolen.
 
@@ -74,6 +75,18 @@ Utskriften från `console.log` och konsolens svar kan se likadana ut, men de är
 Den del av meddelandet som pekar ut felet är den som innehåller namnet från din egen kod: `console.lg` i det första fallet och `Console` i det andra. JavaScript skiljer på stora och små bokstäver, så `Console` och `console` är två olika namn, och bara det ena finns.
 
 Det tredje meddelandet är oftast svårast att förstå. Det säger inte vad som saknas, bara att något på raden inte går att tolka. Ordet *token* betyder ungefär "bit av koden". Felet är av en annan sort än de två första. Där kunde JavaScript läsa raden men inte hitta det du bad om. Här kan JavaScript inte ens läsa raden, eftersom texten aldrig tar slut. Exakt hur meddelandet är formulerat skiljer sig mellan webbläsare. Firefox skriver till exempel att en sträng innehåller en radbrytning som inte är tillåten.
+
+## Övning – Läs koden innan du kör den
+
+En rimlig gissning, del för del:
+
+- `document.querySelector("h1")` letar upp något i dokumentet, alltså sidan. `"h1"` pekar ut vad: `<h1>`-rubriken.
+- `textContent` är rubrikens textinnehåll, alltså texten mellan `<h1>` och `</h1>`.
+- `=` ger textinnehållet ett nytt värde: texten `Hej, JavaScript!`.
+
+Hela raden: *leta upp rubriken på sidan och byt ut dess text mot "Hej, JavaScript!"*.
+
+När du kör raden ändras rubriken från *Hej!* till *Hej, JavaScript!*. Laddar du om sidan står det *Hej!* igen. Raden ändrade bara webbläsarens kopia av sidan – filen `index.html` är oförändrad. Skulle ändringen göras varje gång sidan laddas måste raden stå i sidans eget `<script>`-element, som i avsnittet *Att koppla JavaScript till en HTML-sida*.
 
 ## Övning – Förklara koden
 
@@ -102,15 +115,3 @@ Det tredje meddelandet är oftast svårast att förstå. Det säger inte vad som
    - `console.lg("Skriptet körs!");` – `lg` ska vara `log`. Raden hade gett `TypeError: console.lg is not a function`.
    - Raden där `Hej, JavaScript!` saknar citattecken. Utan citattecken är det inte en text, och raden ger ett `SyntaxError`, så inget i skriptet körs.
 2. Webbläsaren läser sidan uppifrån och ned och kör skriptet när den kommer fram till det. Står skriptet sist finns `<h1>`-elementet redan när koden letar efter det.
-
-## Övning – Läs koden innan du kör den
-
-En rimlig gissning, del för del:
-
-- `document.querySelector("h1")` letar upp något i dokumentet, alltså sidan. `"h1"` pekar ut vad: `<h1>`-rubriken.
-- `textContent` är rubrikens textinnehåll, alltså texten mellan `<h1>` och `</h1>`.
-- `=` ger textinnehållet ett nytt värde: texten `Hej, JavaScript!`.
-
-Hela raden: *leta upp rubriken på sidan och byt ut dess text mot "Hej, JavaScript!"*.
-
-När du kör raden ändras rubriken från *Hej!* till *Hej, JavaScript!*. Laddar du om sidan står det *Hej!* igen. Raden ändrade bara webbläsarens kopia av sidan – filen `index.html` är oförändrad. Skulle ändringen göras varje gång sidan laddas måste raden stå i sidans eget `<script>`-element, som i avsnittet *Att koppla JavaScript till en HTML-sida*.
