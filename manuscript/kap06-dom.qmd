@@ -111,27 +111,12 @@ document.querySelector("#poäng");      // elementet med id="poäng"
 
 Prova raderna i konsolen, så ser du vilka element som returneras. Hittar `querySelector` inget element returnerar den `null`.
 
-::: {.callout-important}
-## Vad händer om elementet inte finns?
-
-Försöker du använda `null` som om det vore ett element – till exempel ändra `.textContent` – får du ett felmeddelande:
-
-```javascript
-const element = document.querySelector(".finns-inte");
-console.log(element);            // null
-element.textContent = "Hej!";   // TypeError: Cannot set properties of null
-```
-
-Det är ett av de vanligaste felen i webbutveckling. Ser du *"Cannot read properties of null"* eller *"Cannot set properties of null"*, kontrollera att selektorn stämmer och att elementet finns i HTML-koden.
-:::
-
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
 En sida har elementet `<p class="tips">Läs frågan två gånger.</p>`.
 
-1. Vad returnerar `document.querySelector("#tips")`? Och `document.querySelector(".tips")`?
-2. Vad händer om du sätter `textContent` på det första av dem?
+Vad returnerar `document.querySelector("#tips")`? Och `document.querySelector(".tips")`?
 :::
 
 ---
@@ -178,18 +163,34 @@ document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;   // nu
 
 Sidan och dina variabler är två olika saker. Ska sidan visa ett nytt värde måste du själv skriva dit det.
 
+::: {.callout-important}
+## Vad händer om elementet inte finns?
+
+Försöker du använda `null` som om det vore ett element – till exempel ändra `.textContent` – får du ett felmeddelande:
+
+```javascript
+const element = document.querySelector(".finns-inte");
+console.log(element);            // null
+element.textContent = "Hej!";   // TypeError: Cannot set properties of null
+```
+
+Det är ett av de vanligaste felen i webbutveckling. Ser du *"Cannot read properties of null"* eller *"Cannot set properties of null"*, kontrollera att selektorn stämmer och att elementet finns i HTML-koden.
+:::
+
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-```javascript
-const spelare = { namn: "Omar", mål: 2 };
-const målElement = document.querySelector("#mål");
+1. Vad visar elementet efter sista raden, och vad pekar `spelare.mål` på? Varför är de olika?
 
-målElement.textContent = `Mål: ${spelare.mål}`;
-spelare.mål += 1;
-```
+    ```javascript
+    const spelare = { namn: "Omar", mål: 2 };
+    const målElement = document.querySelector("#mål");
 
-Vad visar elementet efter sista raden, och vad pekar `spelare.mål` på? Varför är de olika?
+    målElement.textContent = `Mål: ${spelare.mål}`;
+    spelare.mål += 1;
+    ```
+
+2. En sida har elementet `<p class="hälsning">Hej!</p>`. Vad händer om du kör `document.querySelector("#hälsning").textContent = "Välkommen!";`?
 :::
 
 ::: {.callout-note}

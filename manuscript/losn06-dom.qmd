@@ -10,12 +10,12 @@ Lösningar till övningarna i kapitel [-@sec-dom-intro].
 
 **Hämta ett element med `querySelector`**
 
-1. `document.querySelector("#tips")` returnerar `null`: `tips` är en klass, inte ett id. `document.querySelector(".tips")` returnerar stycket.
-2. Du får `TypeError: Cannot set properties of null (setting 'textContent')`. `null` är inget element och har ingen `textContent`.
+`document.querySelector("#tips")` returnerar `null`: `tips` är en klass, inte ett id. `document.querySelector(".tips")` returnerar stycket.
 
 **Ändra text med `textContent`**
 
-Elementet visar `Mål: 2`, men `spelare.mål` pekar på `3`. Templatesträngen räknades ut när raden kördes, och det var den färdiga texten som hamnade på sidan. Att objektet ändras efteråt påverkar inte sidan.
+1. Elementet visar `Mål: 2`, men `spelare.mål` pekar på `3`. Templatesträngen räknades ut när raden kördes, och det var den färdiga texten som hamnade på sidan. Att objektet ändras efteråt påverkar inte sidan.
+2. Du får `TypeError: Cannot set properties of null (setting 'textContent')`. Sidan har inget element med id `hälsning`, så `querySelector` returnerar `null`, och `null` är inget element och har ingen `textContent`.
 
 **`.style` eller `classList`?**
 
