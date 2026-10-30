@@ -65,7 +65,6 @@ book:
         - losn15-split-join.qmd
         - losn16-arrayer.qmd
         - losn17-manga-element.qmd
-    - summary.qmd
     - references.qmd
 
 bibliography: references.bib

@@ -1,5 +1,9 @@
 # Förord {.unnumbered}
 
-This is a Quarto book.
+::: {.callout-important}
+## Boken är inte färdig
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Det här är ett pågående arbete. Kapitel kan ändras, och delar av boken saknas ännu.
+:::
+
+*Javascript på klientsidan* är kurslitteratur i kurserna Webbteknik 2 och Webbteknik 3 vid Linnéuniversitetet.

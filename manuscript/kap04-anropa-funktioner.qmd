@@ -1,12 +1,12 @@
 # Att använda funktioner {#sec-anropa-funktioner}
 
-I det här kapitlet använder du de färdiga verktyg som JavaScript och webbläsaren har för vanliga uppgifter: hur du startar dem, ger dem det de behöver och tar emot det de ger tillbaka. Verktygen finns för allt från att visa ett meddelande till att hitta det största av några tal, så ett program behöver sällan göra allt från grunden.
+De flesta vanliga uppgifter ett program behöver utföra är redan lösta, från att visa ett meddelande till att hitta det största av några tal, och allt däremellan. I stället för att uppfinna hjulet på nytt och göra allt från grunden använder ett program inbyggda _funktioner_, som antingen är en del av språket JavaScript eller finns i webbläsaren.
 
 ## Funktioner är färdiga maskiner
 
-En kaffebryggare har du inte byggt själv, och du behöver inte veta hur den fungerar inuti. Du häller i vatten och kaffe, trycker på knappen och får kaffe. Det är en **abstraktion** av samma slag som i kapitel [-@sec-om-javascript]: många steg samlade under ett enda namn.
+En kaffebryggare har du inte byggt själv, och du behöver inte veta hur den fungerar inuti. Du häller i vatten och kaffe, trycker på knappen och får kaffe. Det är en **abstraktion** (som vi tog upp i kapitel [-@sec-om-javascript]): många steg samlade under ett enda namn.
 
-Webbläsaren är full av sådana färdiga maskiner. De kallas **funktioner**: namngivna bitar kod som utför en uppgift. Du har redan använt två, `alert` och `console.log`. Att köra en funktion kallas att **anropa** den (på engelska *call*), och uttrycket där det sker kallas ett **funktionsanrop**.
+Webbläsaren är full av sådana färdiga maskiner. De kallas **funktioner**: namngivna bitar kod som utför en uppgift. Du har redan använt två, `alert` och `console.log`. Att köra en funktion kallas att **anropa** den (på engelska *call* eller *invoke*), och uttrycket där det sker kallas ett **funktionsanrop**.
 
 Prova allt i kapitlet i webbläsarens konsol.
 
@@ -38,7 +38,7 @@ console.log(lag.poäng + 3);               // räknar först ut 15, och skickar 
 console.log(lag.namn + ": " + lag.poäng); // skickar "Röda stjärnor: 12"
 ```
 
-Funktionen ser aldrig uttrycket `lag.poäng + 3`, bara talet `15`.
+Funktionen ser aldrig uttrycket `lag.poäng + 3`, bara talet `15`. 
 
 ---
 
@@ -67,13 +67,16 @@ flowchart TD
     end
 ```
 
-Eftersom anropet blir ett värde kan det stå var som helst där ett värde behövs, till exempel som argument till en annan funktion:
+
+Ett funktionsanrop är alltså *ett uttryck*, som utvärderas till sitt returvärde. Att **utvärdera** ett uttryck betyder att räkna ut vilket värde det ger. Därför kan ett anrop stå var som helst där ett värde behövs, till exempel som argument till en annan funktion:
 
 ```javascript
 console.log(Math.max(12, 19, 7));   // 19
 ```
 
 Ett sådant **nästlat** anrop körs *inifrån och ut*: först returnerar `Math.max` värdet `19`, och sedan får `console.log` det som argument.
+
+**Kom ihåg:** på alla platser där det förväntas ett värde kan du använda vilket uttryck som helst, och det kommer alltid att utvärderas till ett värde innan det används.
 
 ### Ett värde som kommer från användaren
 
@@ -113,9 +116,9 @@ console.log(svar);                  // undefined
 **Att skriva ut ett värde är inte samma sak som att returnera det.** Det som `console.log` skriver ut går inte att spara i en variabel eller räkna med. Det som `Math.max` returnerar går det.
 
 ::: {.callout-important}
-## I konsolen syns returvärdet – i en fil gör det inte det
+## I konsolen syns returvärdet – i ett script gör det inte det
 
-Konsolen visar alltid värdet av det du skriver in. Skriver du `Math.max(12, 19, 7)` visas därför `19`. Står samma rad i en JavaScript-fil händer ingenting synligt. Funktionen returnerar `19`, men ingen tar hand om värdet, så det försvinner.
+Konsolen visar alltid värdet av det du skriver in. Skriver du `Math.max(12, 19, 7)` visas därför `19`. Står samma rad i ett script händer ingenting synligt. Funktionen returnerar `19`, men ingen tar hand om värdet, så det försvinner.
 
 Från och med kapitel [-@sec-dom-intro] skriver du kod i filer. Då måste du själv ta hand om returvärdet: spara det i en variabel, skicka det vidare till en annan funktion eller skriva ut det med `console.log`.
 :::
@@ -126,14 +129,14 @@ Från och med kapitel [-@sec-dom-intro] skriver du kod i filer. Då måste du sj
 1. Tänk på en maskin du använder i vardagen, till exempel en tvättmaskin eller en biljettautomat. Vad skickar du med, och får du något tillbaka – eller gör maskinen bara något?
 2. Förklara med egna ord, utan att använda kod, vad det betyder att "anropet ersätts av sitt returvärde".
 3. Vad tror du att variabeln `svar` pekar på efter raden `const svar = alert("Hej!");`? Är `alert` mer lik kaffebryggaren eller dörrklockan? Förutsäg först och testa sedan i konsolen.
-4. Raden `Math.max(12, 19, 7);` visar `19` i konsolen. Varför visas ingenting när samma rad står i en fil?
+4. Raden `Math.max(12, 19, 7);` visar `19` i konsolen. Varför visas ingenting när samma rad står i en acript?
 :::
 
 ---
 
 ## Metoder – funktioner i objekt
 
-Nu kan vi förklara punkten i `Math.max` och `console.log`. Ett objekt samlar värden i egenskaper, som `lag.namn` och `lag.poäng` (kapitel [-@sec-variabler]). En egenskap kan också innehålla en funktion, och då kallas den en **metod**. `Math` är ett inbyggt objekt med metoder för att räkna med tal, och `console` är ett objekt med metoder för att skriva i konsolen:
+Punkten i `Math.max` och `console.log` är samma punkt som i `lag.namn` och `lag.poäng` (kapitel [-@sec-variabler]): den hämtar en egenskap ur ett objekt. En egenskap kan också innehålla en funktion, och då kallas den en **metod**.  `Math` är alltså ett inbyggt objekt med metoder för att räkna med tal, och `console` är ett objekt med metoder för att skriva i konsolen:
 
 ```javascript
 console.log("Hej!");     // metoden log i objektet console
@@ -155,13 +158,13 @@ Math.max(4, 9);        // 9 – en metod
 lag.namn;              // "Röda stjärnor" – en egenskap
 ```
 
-En egenskap *läser* du – värdet finns redan där. En metod *kör* du – värdet räknas fram när du anropar den.
+En egenskap *läser* du (eller *uppdaterar*) – värdet finns redan där. En metod *kör* du – värdet räknas fram när du anropar den.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
 1. Är `console.log` en fri funktion eller en metod? Hur ser du det?
-2. `Math.PI` är en egenskap. Vad tror du händer om du skriver `Math.PI()`, med parenteser? Förutsäg först och testa sedan. (Svaret förklaras i avsnittet *När anropet går fel*.)
+2. `Math.PI` är en egenskap. Vad tror du händer om du skriver `Math.PI()`, med parenteser? Förutsäg först och testa sedan. (Svaret förklaras i avsnittet *När anropet går fel* nedan.)
 :::
 
 ---
@@ -200,7 +203,7 @@ Raden följer inte språkets syntax, så JavaScript kör den inte alls. Räkna p
 alert;   // ƒ alert() { [native code] }
 ```
 
-Ingen ruta visas. Konsolen visar själva funktionen i stället för resultatet av att köra den. Att tala om en funktion utan att köra den är tillåtet, och därför är misstaget lätt att missa.
+Ingen ruta visas. Konsolen visar själva funktionen i stället för resultatet av att köra den. Att hänvisa till en funktion utan att köra den är tillåtet, och därför är misstaget lätt att missa.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -228,17 +231,15 @@ Läs alltid *Return value*: där står om funktionen ger tillbaka något du kan 
 ## Sammanfattning
 
 - En **funktion** är en namngiven bit kod som utför en uppgift. Att köra den kallas att **anropa** den, och det skrivs `namn(argument)`.
-- **Parenteserna** kör funktionen. Utan parenteser får du funktionen själv, inte resultatet.
-- **Argument** är de värden du skickar med, åtskilda med kommatecken. Ordningen har i regel betydelse. Ett argument kan vara ett uttryck – det är värdet som skickas.
+- **Parenteserna** kör funktionen. Utan parenteser får du tillbaka funktionen själv, inte resultatet.
+- **Argument** är de värden du skickar med, åtskilda med kommatecken. Ordningen har i regel betydelse.
 - **Returvärdet** är det funktionen ger tillbaka. Anropet *ersätts* av sitt returvärde och kan därför stå där ett värde behövs.
 - Att **skriva ut** är inte att **returnera**. `console.log` skriver ut, men returnerar `undefined`.
-- I konsolen visas returvärdet automatiskt. I en fil försvinner det om du inte tar hand om det.
+- I konsolen visas returvärdet automatiskt. I ett script försvinner det om du inte tar hand om det.
 - En **metod** är en funktion i ett objekt och anropas med punktnotation: `Math.max(4, 9)`. Funktioner som anropas direkt med namnet, som `alert`, kallas **fria funktioner**.
 - En **egenskap** läser du (`Math.PI`); en **metod** kör du (`Math.max(4, 9)`).
 - **Nästlade anrop** utvärderas inifrån och ut.
 - `ReferenceError: … is not defined` betyder att namnet inte finns. `TypeError: … is not a function` betyder att det du försöker köra inte är en funktion – ofta ett felstavat namn.
-
-I kapitel [-@sec-dom-intro] tar du steget från konsolen till webbsidan och möter objektet `document` och dess metod `querySelector`. Med det här kapitlets ord kan du läsa vad den tar emot och vad den returnerar.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -247,7 +248,7 @@ Kapitlets viktigaste färdighet är att titta på ett anrop och säga vad som h�
 
 **Returvärdesquiz:**
 
-> *"Visa mig en rad JavaScript i taget som anropar en inbyggd funktion eller metod, till exempel `alert`, `prompt`, `console.log`, `Math.max`, `Math.min` eller `Math.round`, ibland nästlade i varandra. För varje rad svarar jag på tre frågor: vilka argument skickas, vad returneras, och syns något för besökaren eller i konsolen? Rätta mig efter varje svar. Gör tio rader, gradvis svårare, och visa inte svaren innan jag har svarat."*
+> *"Visa mig en rad JavaScript i taget som anropar en inbyggd funktion eller metod, till exempel `alert`, `prompt`, `console.log`, `Math.max` eller `Math.min`, ibland nästlade i varandra. För varje rad svarar jag på tre frågor: vilka argument skickas, vad returneras, och syns något för besökaren eller i konsolen? Rätta mig efter varje svar. Gör tio rader, gradvis svårare, och visa inte svaren innan jag har svarat."*
 
 Kontrollera de svar du är osäker på i konsolen. Kom ihåg att konsolen visar returvärdet, och att det som skrivs ut är något annat.
 
@@ -319,7 +320,7 @@ Vad skrivs ut? Kontrollera dina svar i konsolen.
 
 Avgör för var och en av raderna om den anropar en fri funktion, anropar en metod eller läser en egenskap. Hur ser du det?
 
-```
+```javascript
 prompt("Ditt namn?")
 Math.PI
 console.log("Hej")

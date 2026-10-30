@@ -622,7 +622,7 @@ Testa med tre anrop efter varandra: `visaResultat("Karin", 15, 20)`, `visaResult
 ::: {.callout-note}
 ## Övning – Skriv anropen först
 
-När en ny runda börjar i quizet ska tre saker hända på sidan: rundans nummer ska visas, poängen ska visas som 0 och meddelandet `Lycka till!` ska visas. Övningssidan har redan ett element med id `poäng`. Lägg till två till:
+När en ny runda börjar i ett quiz ska tre saker hända på sidan: rundans nummer ska visas, poängen ska visas som 0 och meddelandet `Lycka till!` ska visas. Övningssidan har redan ett element med id `poäng`. Lägg till två till:
 
 ```html
 <p id="runda">–</p>

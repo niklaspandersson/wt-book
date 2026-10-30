@@ -112,7 +112,7 @@ Webbläsaren visar en ruta med texten `Hej, världen!` på sidan du har öppen. 
 console.log("Hej, världen!");
 ```
 
-Den här gången visas ingen ruta. Texten `Hej, världen!` skrivs i stället ut direkt i konsolen. `alert` visar något för *besökaren*. Besökare tittar sällan i konsolen, därför är `console.log()` främst ett verktyg för *dig som programmerare*, för att se se vad din kod gör.
+Den här gången visas ingen ruta. Texten `Hej, världen!` skrivs i stället ut direkt i konsolen. `alert` visar något för *besökaren*. Besökare tittar sällan i konsolen, därför är `console.log()` främst ett verktyg för *dig som programmerare*, för att se vad din kod gör.
 
 Konsolen är också en miniräknare. Skriv in en rad i taget och tryck Enter efter varje:
 
@@ -224,7 +224,7 @@ För att hålla det så enkelt som möjligt i början skriver vi koden direkt i 
 </html>
 ```
 
-Webbläsaren läser sidan uppifrån och ned, och kör skriptet så fort den kommer fram till `<script>`-elementet. Därför är det viktigt att `<script>`-elementet ligger sist i `<body>`: när koden körs finns då de andra elementet redan, och de går att manipulera med JavaScript.
+Webbläsaren läser sidan uppifrån och ned, och kör skriptet så fort den kommer fram till `<script>`-elementet. Därför är det viktigt att `<script>`-elementet ligger sist i `<body>`: när koden körs finns då de andra elementen redan, och de går att manipulera med JavaScript.
 
 ::: {.callout-note}
 ## Kommentarer

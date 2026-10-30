@@ -20,8 +20,8 @@ Räknetecknen kallas **aritmetiska operatorer**:
 Gånger och delat med räknas före plus och minus, som på en miniräknare. Parenteser räknas först:
 
 ```javascript
-3 * 40 + 49;       // 169 – tre biljetter à 40 kr, plus 49 kr i avgift
-3 * (40 + 49);     // 267 – tre gånger summan av 40 och 49
+2 * 4 + 3;       // 8 + 3 = 11
+2 * (4 + 3);     // 2 * 7 = 14
 ```
 
 ## Kortformerna `+=`, `-=`, `++` och `--`
@@ -30,15 +30,19 @@ Att ändra värdet i en variabel är så vanligt att det finns kortformer för d
 
 ```javascript
 let poäng = 0;
-poäng += 10;   // samma som poäng = poäng + 10   → 10
-poäng -= 3;    // samma som poäng = poäng - 3    → 7
+poäng += 10;   // samma som poäng = poäng + 10
+poäng -= 3;    // samma som poäng = poäng - 3
+```
+På samma sätt finns `*=` och `/=`. Kortformerna är tilldelningar: räkna ut det nya värdet och låt variabeln peka på det. Därför fungerar de bara på variabler som deklarerats med `let`. Från och med nu använder boken kortformerna. 
 
+För ökning och minskning med 1 finns ännu kortare former: `++` och `--`:
+
+```javascript
 let antalKlick = 0;
-antalKlick++;  // samma som antalKlick = antalKlick + 1   → 1
-antalKlick--;  // samma som antalKlick = antalKlick - 1   → 0
+antalKlick++;  // samma som antalKlick = antalKlick + 1
+antalKlick--;  // samma som antalKlick = antalKlick - 1
 ```
 
-På samma sätt finns `*=` och `/=`. Kortformerna är tilldelningar: räkna ut det nya värdet och låt variabeln peka på det. Därför fungerar de bara på variabler som deklarerats med `let`. Från och med nu använder boken kortformerna.
 
 ## `NaN`
 
@@ -81,7 +85,7 @@ Vilket värde ger varje rad?
 5 + "tre" * 3;
 ```
 
-Den fjärde raden har bara gånger och delat med. Vilket räknas först när två operatorer har samma rang? Testa och formulera regeln med egna ord.
+Den fjärde raden har bara gånger och delat med. Vilket räknas först när två operatorer har samma rang? Testa med några olika tal och formulera regeln med egna ord.
 :::
 
 ::: {.callout-note}
@@ -137,7 +141,7 @@ summa;
 ::: {.callout-note}
 ## Övning – Biljettkassan
 
-Ett lag på fyra personer köper biljetter till quizkvällen. En biljett kostar 40 kr, och varje köp har en avgift på 49 kr.
+Ett lag på fyra personer köper biljetter till en quizkväll. En biljett kostar 40 kr, och varje köp har en avgift på 49 kr.
 
 1. Skapa variablerna `pris`, `antal` och `avgift`, och en variabel `totalt` som räknas ut från dem. Kontrollera att `totalt` blir 209.
 2. Två personer till ansluter och köper biljetter i ett eget köp, med en egen avgift. Öka `totalt` med det nya köpet med hjälp av `+=`. Vilket värde får `totalt`?

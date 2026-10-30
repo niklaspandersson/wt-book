@@ -67,7 +67,7 @@ Strängar skrivs mellan citattecken. Enkla och dubbla citattecken fungerar likad
 "Det här är en textsträng med 42 tecken och ett tal!";
 ```
 
-Strängar kan innehålla siffror, men de är *text*, inte tal. `"42"` är en sträng och `42` är ett tal. Den skillnaden blir viktig, eftersom allt användaren skriver in på en webbsida kommer till ditt program som text och inte kan används som tal rakt av.
+Strängar kan innehålla siffror, men de är *text*, inte tal. `"42"` är en sträng och `42` är ett tal. Den skillnaden blir viktig, eftersom allt användaren skriver in på en webbsida kommer till ditt program som text och inte kan användas som tal rakt av.
 
 Strängar slås ihop med `+`-operatorn, vilket kallas **konkatenering**:
 
