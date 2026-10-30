@@ -404,11 +404,10 @@ Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `
 
 ## Ett löst exempel: poängtavlan
 
-Laget *Röda stjärnor* svarar rätt på en fråga värd 3 poäng. Poängtavlan på övningssidan ska visa lagets namn och nya poäng och ett grönt meddelande om det rätta svaret, och ledtråden ska försvinna.
+Laget *Röda stjärnor* har fått 4, 5 och 3 poäng i kvällens tre rundor. Poängtavlan på övningssidan ska visa lagets namn och totala poäng och ett grönt meddelande om att quizet är slut. Ledtråden behövs inte längre och ska försvinna.
 
 ```javascript
-const lag = { namn: "Röda stjärnor", poäng: 12 };
-const frågansPoäng = 3;
+const lag = { namn: "Röda stjärnor", runda1: 4, runda2: 5, runda3: 3 };
 
 // Hämta elementen
 const lagnamn = document.querySelector("#lagnamn");
@@ -416,18 +415,18 @@ const poäng = document.querySelector("#poäng");
 const resultat = document.querySelector("#resultat");
 const ledtråd = document.querySelector("#ledtråd");
 
-// Bearbeta: laget får poängen
-lag.poäng += frågansPoäng;
+// Bearbeta: räkna ihop poängen
+const summa = lag.runda1 + lag.runda2 + lag.runda3;
 
 // Visa resultatet
 lagnamn.textContent = `Lag: ${lag.namn}`;
-poäng.textContent = `Poäng: ${lag.poäng}`;
-resultat.textContent = `Rätt svar! +${frågansPoäng} poäng`;
+poäng.textContent = `Poäng: ${summa}`;
+resultat.textContent = "Quizet är slut!";
 resultat.classList.add("rätt");
 ledtråd.hidden = true;
 ```
 
-Poängen ändras i objektet innan texten byggs, eftersom sidan bara visar det du skriver dit.
+Uträkningen är densamma som i kapitlets början. Skillnaden är att summan skrivs till ett element på sidan i stället för till konsolen.
 
 ---
 
