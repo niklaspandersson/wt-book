@@ -1,6 +1,6 @@
 # Din kod möter webbsidan {#sec-dom-intro}
 
-Det här kapitlet handlar om hur ett program hittar ett element på webbsidan och ändrar det medan besökaren tittar: byter en text, färgar en ruta, visar eller döljer ett meddelande. Det är framför allt därför JavaScript finns i webbläsaren.
+Det här kapitlet handlar om hur ett program kan hitta ett element på webbsidan och ändra det medan besökaren tittar: byta en text, färga en ruta, visa eller dölja ett meddelande. Det är framför allt därför JavaScript finns i webbläsaren.
 
 ## Poängtavlan som ingen ser
 
