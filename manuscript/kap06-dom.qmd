@@ -4,7 +4,7 @@ Det här kapitlet handlar om hur ett program kan hitta ett element på webbsidan
 
 ## Poängtavlan som ingen ser
 
-Tänk dig en webbsida som visar poängen under en quizkväll. Programmet håller reda på varje lags poäng och skriver ut den nya ställningen med `console.log` varje gång ett lag svarar rätt. Men lagen framför skärmen ser ingenting av det, för konsolen är programmerarens verktyg. Besökaren ser bara själva webbsidan, och där står det fortfarande *Poäng: 0*.
+Tänk dig en webbsida som visar resultatet från en quizkväll. Programmet räknar ihop lagets poäng från alla rundor och skriver ut summan med `console.log`. Men den som öppnar sidan ser ingenting av det, för konsolen är programmerarens verktyg. Besökaren ser bara själva webbsidan, och där står det fortfarande *Poäng: 0*.
 
 För att ändra det besökaren ser behöver JavaScript komma åt sidan. Det gör det genom **DOM:en** (*Document Object Model*): en modell av sidan som webbläsaren bygger när sidan laddas, där varje element är ett objekt som JavaScript kan läsa och ändra.
 
