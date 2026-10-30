@@ -402,7 +402,7 @@ Se upp med en fallgrop: `hidden` fungerar genom att webbläsaren ger elementet `
 
 ---
 
-## Ett löst exempel: poängtavlan
+## Poängtavlan
 
 Laget *Röda stjärnor* har fått 4, 5 och 3 poäng i kvällens tre rundor. Poängtavlan på övningssidan ska visa lagets namn och totala poäng och ett grönt meddelande om att quizet är slut. Ledtråden behövs inte längre och ska försvinna.
 
