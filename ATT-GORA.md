@@ -24,6 +24,7 @@ Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2 och 4
 
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - **Scenarier.** Quizkvällen är inte ett genomgående exempel. Temat kan användas som vardagsexempel där det passar, vid sidan av andra scenarier som betyg, biljetter och moms, men varje kapitel eller övning som använder det ska förklara sammanhanget själv. Studenten ska inte behöva minnas quizet från ett tidigare kapitel. Det som återstår att rätta står under *Lösa hänvisningar till quizkvällen*.
+- **Rubriken *Ett löst exempel: …*** känns som en mall. Byt till bara exemplets namn (*Nedräkningen*, *Kiosken*), som i kap. 6. Gäller kap. 9, 10, 12, 14, 16, 17 och objektkapitlet, och hänvisningarna till rubrikerna i kapitlens övningar och i lösningsfilerna `losn10`, `losn12`, `losn14`, `losn15` och `losn17`. Uppdatera samtidigt rubrikerna i ATT-GORA.md och INAKTUELLA-HANVISNINGAR.md som nämner de gamla namnen.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7 och 10 → 11 → 12 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Lösa hänvisningar till quizkvällen
@@ -32,7 +33,6 @@ Genomgång av Del I och dess lösningar. Quizet introduceras bara i kap. 2, men 
 
 **Tydliga fall:**
 
-- **Kap. 6, öppningen** (*Poängtavlan som ingen ser*): "Quizkvällens poängtavla finns nu i konsolen … när kompisarna samlas runt datorn". Det värsta fallet: texten utgår från att studenten har byggt en poängtavla sedan kap. 2, vilket boken aldrig har bett om.
 - **Kap. 7, övningen *Förklara koden*:** "för den som leder quizet". Övningen handlar bara om två lags poäng, och inget quiz syns.
 - **Kap. 9, *Ett löst exempel: lagnamnet*:** "Domaren skriver in lagets namn … visas på poängtavlan". Bokens första domare, utan presentation. Poängtavlan är inte heller förklarad.
 - **Kap. 10, *Stanna upp* efter *Jämföra strängar*:** "Domaren skriver `12` och `9`." "Någon skriver" eller "Du skriver" räcker.
