@@ -4,24 +4,25 @@ I det här kapitlet skriver du dina egna funktioner: du ger en bit kod ett namn 
 
 ## Poängtavlan som upprepar sig
 
-Under en quizkväll ändras poängen hela tiden, och varje gång måste poängtavlan på sidan uppdateras:
+Under en quizkväll ändras poängen många gånger, och varje gång ska poängtavlan på sidan visa den nya summan. Med det du kan från kapitel [-@sec-dom-intro] hämtar du elementet en gång och skriver till det efter varje fråga:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 0 };
+const poängtavla = document.querySelector("#poäng");
 
 lag.poäng += 3;   // rätt svar på fråga 1
-document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+poängtavla.textContent = `Poäng: ${lag.poäng}`;
 
 lag.poäng += 5;   // rätt svar på fråga 2
-document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+poängtavla.textContent = `Poäng: ${lag.poäng}`;
 
 lag.poäng += 2;   // rätt svar på fråga 3
-document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+poängtavla.textContent = `Poäng: ${lag.poäng}`;
 ```
 
-Det fungerar, men samma långa rad står tre gånger. Med tjugo frågor skulle den stå tjugo gånger. Och ska poängen visas som `Röda stjärnor: 10 poäng` i stället för `Poäng: 10` måste du hitta och ändra varje förekomst.
+Raden som visar poängen står tre gånger, och ska poängen visas som `Röda stjärnor: 10 poäng` i stället för `Poäng: 10` måste du ändra varje förekomst. Dessutom vet du inte i förväg hur många frågor laget svarar rätt på. På en riktig poängtavla ska raden köras när den behövs, till exempel när någon klickar på en knapp, inte ett bestämt antal gånger uppifrån och ner.
 
-Det du vill är att ge raden ett namn, `visaPoäng`, skriva den en gång och sedan anropa den varje gång poängen ändras. Det gör du genom att skriva en egen funktion. Att skriva en funktion kallas att **definiera** den. Allt du vet om anrop, argument och returvärden gäller också för funktioner du definierar själv.
+Det du vill är att ge raden ett namn, `visaPoäng`, skriva den en gång och sedan köra den varje gång poängen ändras. Det gör du genom att skriva en egen funktion. Att skriva en funktion kallas att **definiera** den. Allt du vet om anrop, argument och returvärden gäller också för funktioner du definierar själv.
 
 ---
 
@@ -76,7 +77,7 @@ Så här ser en definition av `visaPoäng` ut:
 
 ```javascript
 function visaPoäng() {
-    document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+    poängtavla.textContent = `Poäng: ${lag.poäng}`;
 }
 ```
 
@@ -91,9 +92,10 @@ En sådan definition kallas en **funktionsdeklaration**. Nu kan poängtavlan skr
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 0 };
+const poängtavla = document.querySelector("#poäng");
 
 function visaPoäng() {
-    document.querySelector("#poäng").textContent = `Poäng: ${lag.poäng}`;
+    poängtavla.textContent = `Poäng: ${lag.poäng}`;
 }
 
 lag.poäng += 3;
@@ -143,8 +145,10 @@ Det liknar ett recept där det står "gör smeten enligt sidan 12": du bläddrar
 `visaPoäng` har en svaghet: den kan bara visa poängen i just objektet `lag`. Det vore bättre om den kunde visa vilken poäng som helst. Då behöver funktionen kunna ta emot ett värde, på samma sätt som `Math.max` tar emot tal. Det gör den med en **parameter**:
 
 ```javascript
+const poängtavla = document.querySelector("#poäng");
+
 function visaPoäng(poäng) {
-    document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
+    poängtavla.textContent = `Poäng: ${poäng}`;
 }
 
 visaPoäng(10);   // sidan visar "Poäng: 10"
@@ -319,7 +323,7 @@ function biljettpris(antal) {
 }
 ```
 
-Därför kunde den första versionen av `visaPoäng` använda objektet `lag`.
+Därför kunde den första versionen av `visaPoäng` använda objektet `lag` och variabeln `poängtavla`.
 
 ::: {.callout-important}
 ## Håll variabler lokala
