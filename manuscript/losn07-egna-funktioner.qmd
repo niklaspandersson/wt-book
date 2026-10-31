@@ -10,14 +10,14 @@ Lösningar till övningarna i kapitel [-@sec-funktioner].
 
 **Att definiera en funktion**
 
-1. Nyckelordet är `function`, namnet är `visaPoäng`, parenteserna `()` är tomma, och kroppen är raden mellan `{` och `}`.
+1. Nyckelordet är `function`, namnet är `visaRättSvar`, parenteserna `()` är tomma, och kroppen är de fyra raderna mellan `{` och `}`.
 2. Ingenting syns. JavaScript läser in funktionen och kommer ihåg den, men kroppen körs aldrig, eftersom ingen anropar funktionen.
-3. Med `visaPoäng` ändrar du en enda rad, den inne i funktionen. Utan funktionen måste du ändra alla tre raderna där texten skrivs – och missar du en visar sidan olika format.
+3. Med `visaRättSvar` ändrar du en enda rad, den inne i funktionen. Utan funktionen måste du ändra tjugo rader, en efter varje fråga – och missar du en visar sidan olika meddelanden.
 
 **Parametrar**
 
 1. Argumenten är `"Blå bläckfiskar"` och `9`. Det första argumentet går till den första parametern, så `namn` får `"Blå bläckfiskar"` och `poäng` får `9`.
-2. Den första versionen hämtar poängen direkt ur objektet `lag`, så den kan bara visa just det lagets poäng. Den nya versionen får poängen som ett argument. Den vet inte var talet kommer ifrån, och därför kan den visa vilket tal som helst.
+2. Om funktionen behöver ett värde som kan vara olika vid olika anrop. `visaRättSvar` gör exakt samma sak varje gång och behöver inget utifrån. `visaPoäng` ska visa en poäng som ändras under quizet, och den kan inte veta själv vilken – den måste få den som argument.
 
 **`return`**
 

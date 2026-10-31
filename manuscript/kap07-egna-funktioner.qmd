@@ -4,25 +4,30 @@ I det här kapitlet skriver du dina egna funktioner: du ger en bit kod ett namn 
 
 ## Poängtavlan som upprepar sig
 
-Under en quizkväll ändras poängen många gånger, och varje gång ska poängtavlan på sidan visa den nya summan. Med det du kan från kapitel [-@sec-dom-intro] hämtar du elementet en gång och skriver till det efter varje fråga:
+Under en quizkväll händer samma sak varje gång ett lag svarar rätt: sidan visar *Rätt svar!* i grönt, ledtråden döljs och poängtavlan visar den nya poängen. Med det du kan från kapitel [-@sec-dom-intro] blir det så här för två frågor:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 0 };
+const resultat = document.querySelector("#resultat");
+const ledtråd = document.querySelector("#ledtråd");
 const poängtavla = document.querySelector("#poäng");
 
 lag.poäng += 3;   // rätt svar på fråga 1
+resultat.textContent = "Rätt svar!";
+resultat.classList.add("rätt");
+ledtråd.hidden = true;
 poängtavla.textContent = `Poäng: ${lag.poäng}`;
 
 lag.poäng += 5;   // rätt svar på fråga 2
-poängtavla.textContent = `Poäng: ${lag.poäng}`;
-
-lag.poäng += 2;   // rätt svar på fråga 3
+resultat.textContent = "Rätt svar!";
+resultat.classList.add("rätt");
+ledtråd.hidden = true;
 poängtavla.textContent = `Poäng: ${lag.poäng}`;
 ```
 
-Raden som visar poängen står tre gånger, och ska poängen visas som `Röda stjärnor: 10 poäng` i stället för `Poäng: 10` måste du ändra varje förekomst. Dessutom vet du inte i förväg hur många frågor laget svarar rätt på. På en riktig poängtavla ska raden köras när den behövs, till exempel när någon klickar på en knapp, inte ett bestämt antal gånger uppifrån och ner.
+Samma fyra rader står efter varje fråga, och med tjugo frågor blir det tjugo kopior. Ska meddelandet ändras till *Rätt! Bra jobbat!* måste du hitta och ändra varje kopia. Dessutom vet du inte i förväg när laget svarar rätt. På en riktig poängtavla ska raderna köras när de behövs, till exempel när någon klickar på en knapp.
 
-Det du vill är att ge raden ett namn, `visaPoäng`, skriva den en gång och sedan köra den varje gång poängen ändras. Det gör du genom att skriva en egen funktion. Att skriva en funktion kallas att **definiera** den. Allt du vet om anrop, argument och returvärden gäller också för funktioner du definierar själv.
+Det du vill är att ge raderna ett namn, skriva dem en gång och köra dem varje gång laget svarar rätt. Det gör du genom att skriva en egen funktion. Att skriva en funktion kallas att **definiera** den. Allt du vet om anrop, argument och returvärden gäller också för funktioner du definierar själv.
 
 ---
 
@@ -73,42 +78,49 @@ En funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och 
 
 ## Att definiera en funktion
 
-Så här ser en definition av `visaPoäng` ut:
+Så här ser en funktion ut som visar att svaret var rätt:
 
 ```javascript
-function visaPoäng() {
-    poängtavla.textContent = `Poäng: ${lag.poäng}`;
+function visaRättSvar() {
+    const resultat = document.querySelector("#resultat");
+    resultat.textContent = "Rätt svar!";
+    resultat.classList.add("rätt");
+    document.querySelector("#ledtråd").hidden = true;
 }
 ```
 
 Definitionen består av fyra delar:
 
 - **`function`** är ett nyckelord som talar om att här kommer en funktionsdefinition.
-- **Namnet**, `visaPoäng`, väljer du själv. Samma regler gäller som för variabelnamn, och funktionsnamn skrivs också i camelCase. Välj ett namn som säger vad funktionen *gör*.
+- **Namnet**, `visaRättSvar`, väljer du själv. Samma regler gäller som för variabelnamn, och funktionsnamn skrivs också i camelCase. Välj ett namn som säger vad funktionen *gör*.
 - **Parenteserna** efter namnet är tomma här.
 - **Kroppen** är koden mellan klammerparenteserna `{` och `}`. Det är den som körs när funktionen anropas. Kroppen skrivs indragen, så att det syns vilka rader som hör till funktionen.
 
-En sådan definition kallas en **funktionsdeklaration**. Nu kan poängtavlan skrivas om:
+En sådan definition kallas en **funktionsdeklaration**. Funktionen hämtar själv de element den behöver. Den är inte beroende av några variabler utanför sig själv, och kan därför anropas var som helst i programmet:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 0 };
 const poängtavla = document.querySelector("#poäng");
 
-function visaPoäng() {
-    poängtavla.textContent = `Poäng: ${lag.poäng}`;
+function visaRättSvar() {
+    const resultat = document.querySelector("#resultat");
+    resultat.textContent = "Rätt svar!";
+    resultat.classList.add("rätt");
+    document.querySelector("#ledtråd").hidden = true;
 }
 
-lag.poäng += 3;
-visaPoäng();
+lag.poäng += 3;   // rätt svar på fråga 1
+visaRättSvar();
+poängtavla.textContent = `Poäng: ${lag.poäng}`;
 
-lag.poäng += 5;
-visaPoäng();
-
-lag.poäng += 2;
-visaPoäng();
+lag.poäng += 5;   // rätt svar på fråga 2
+visaRättSvar();
+poängtavla.textContent = `Poäng: ${lag.poäng}`;
 ```
 
-Du anropar din egen funktion precis som de inbyggda: namnet följt av parenteser. Ska formatet ändras behöver du bara ändra på ett ställe, inne i funktionen, och alla anrop följer med. Principen kallas **DRY**, *Don't Repeat Yourself* – upprepa dig inte.
+Du anropar din egen funktion precis som de inbyggda: namnet följt av parenteser. Ska meddelandet ändras behöver du bara ändra på ett ställe, inne i funktionen, och alla anrop följer med. Principen kallas **DRY**, *Don't Repeat Yourself* – upprepa dig inte.
+
+Raden med poängen står kvar utanför funktionen, eftersom den behöver ett värde som ändras mellan anropen: lagets poäng just nu.
 
 ### Definitionen körs inte – anropet gör det
 
@@ -133,22 +145,20 @@ Det liknar ett recept där det står "gör smeten enligt sidan 12": du bläddrar
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. Peka ut de fyra delarna i definitionen av `visaPoäng`: nyckelordet, namnet, parenteserna och kroppen.
+1. Peka ut de fyra delarna i definitionen av `visaRättSvar`: nyckelordet, namnet, parenteserna och kroppen.
 2. En fil innehåller bara en funktionsdefinition och inget anrop. Vad händer när sidan laddas?
-3. Formatet ska ändras från `Poäng: 10` till `10 poäng`. Hur många rader behöver du ändra i versionen med `visaPoäng`? Hur många i versionen utan?
+3. Meddelandet ska ändras från *Rätt svar!* till *Snyggt!*. Quizet har tjugo frågor. Hur många rader behöver du ändra i versionen med `visaRättSvar`? Hur många i versionen utan?
 :::
 
 ---
 
 ## Parametrar – att ta emot argument
 
-`visaPoäng` har en svaghet: den kan bara visa poängen i just objektet `lag`. Det vore bättre om den kunde visa vilken poäng som helst. Då behöver funktionen kunna ta emot ett värde, på samma sätt som `Math.max` tar emot tal. Det gör den med en **parameter**:
+En funktion som visar poängen behöver få veta vilken poäng den ska visa. Den tar emot värdet på samma sätt som `Math.max` tar emot tal, med en **parameter**:
 
 ```javascript
-const poängtavla = document.querySelector("#poäng");
-
 function visaPoäng(poäng) {
-    poängtavla.textContent = `Poäng: ${poäng}`;
+    document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
 }
 
 visaPoäng(10);   // sidan visar "Poäng: 10"
@@ -172,7 +182,13 @@ flowchart LR
     P --> V
 ```
 
-Argumentet och parametern behöver inte heta samma sak. Funktionen vet ingenting om objektet `lag`, den får bara talet 12. Därför kan den visa poängen för vilket lag som helst.
+Argumentet och parametern behöver inte heta samma sak. Funktionen vet ingenting om objektet `lag`, den får bara talet 12. Därför kan den visa poängen för vilket lag som helst. Med de två funktionerna blir ett rätt svar tre rader:
+
+```javascript
+lag.poäng += 3;   // rätt svar på fråga 1
+visaRättSvar();
+visaPoäng(lag.poäng);
+```
 
 ### Flera parametrar
 
@@ -203,7 +219,7 @@ visaLag("Röda stjärnor");   // sidan visar "Poäng: undefined"
 ## Stanna upp
 
 1. I raden `visaLag("Blå bläckfiskar", 9);` – vilka är argumenten? Vilka parametrar får de, och vilket värde får var och en?
-2. Varför kan `visaPoäng(poäng)` visa poängen för vilket lag som helst, medan den första versionen bara kunde visa poängen för `lag`?
+2. `visaRättSvar` har ingen parameter, men `visaPoäng` har en. Vad avgör om en funktion behöver en parameter?
 :::
 
 ---
@@ -323,8 +339,6 @@ function biljettpris(antal) {
 }
 ```
 
-Därför kunde den första versionen av `visaPoäng` använda objektet `lag` och variabeln `poängtavla`.
-
 ::: {.callout-important}
 ## Håll variabler lokala
 
@@ -341,9 +355,9 @@ Variabler på översta nivån kan läsas och ändras från var som helst i skrip
 
 ## Att tänka i funktioner
 
-En funktion har en *utsida* och en *insida*. Utsidan är namnet, parametrarna och returvärdet: det som den som anropar behöver känna till. Insidan är kroppen. Att gömma detaljerna bakom ett namn kallas **abstraktion**. `visaPoäng()` säger *vad* som händer, och när funktionen väl fungerar kan du glömma *hur*. Insidan kan då ändras utan att anropen märker det.
+En funktion har en *utsida* och en *insida*. Utsidan är namnet, parametrarna och returvärdet: det som den som anropar behöver känna till. Insidan är kroppen. Att gömma detaljerna bakom ett namn kallas **abstraktion**. `visaRättSvar()` säger *vad* som händer, och när funktionen väl fungerar kan du glömma *hur*. Insidan kan då ändras utan att anropen märker det.
 
-En funktion bör göra *en* sak. En funktion som både bygger texten `Röda stjärnor: 18 poäng` och visar den på sidan delas hellre i två:
+En funktion bör göra *en* sak. En sak kan ta flera rader: `visaRättSvar` ändrar tre saker på sidan, men för den som anropar gör den en sak, visar att svaret var rätt. En funktion som både bygger texten `Röda stjärnor: 18 poäng` och visar den på sidan delas hellre i två:
 
 ```javascript
 function poängtext(namn, poäng) {
