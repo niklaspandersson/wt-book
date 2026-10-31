@@ -440,9 +440,8 @@ Det här är programmet som beskrevs i kapitlets början, med en skillnad: summa
 - **`.style`** ändrar enskilda CSS-egenskaper, med namn i **camelCase** (`backgroundColor`, `fontSize`).
 - **`classList`** lägger till, tar bort och växlar CSS-klasser: `add()`, `remove()`, `toggle()`. **Föredra `classList`**, och använd `.style` för värden som räknas ut i koden.
 - **`hidden`** döljer (`true`) eller visar (`false`) ett element; en **CSS-klass** ger mer kontroll.
-- **`console.log()`** är för programmeraren; ändringar i DOM:en är för användaren.
 
-Du har säkert märkt att samma rader kommer tillbaka gång på gång: varje gång poängen ändras skriver du hela raden med `querySelector` och `textContent` igen. I nästa kapitel lär du dig skriva egna funktioner, så att sådana rader kan få ett namn och skrivas en enda gång.
+Poängtavlan i det här kapitlet visar bara det som räknades ut när sidan laddades. En riktig poängtavla ska ändras medan quizet pågår, till exempel när någon klickar på en knapp efter ett rätt svar. Då måste koden kunna köras senare, som svar på en händelse på sidan. Det första steget dit är att ge en bit kod ett namn, så att den kan köras när den behövs. Det gör du med egna funktioner i nästa kapitel.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
