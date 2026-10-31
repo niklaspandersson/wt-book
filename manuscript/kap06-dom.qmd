@@ -426,7 +426,7 @@ resultat.classList.add("rätt");
 ledtråd.hidden = true;
 ```
 
-Uträkningen är densamma som i kapitlets början. Skillnaden är att summan skrivs till ett element på sidan i stället för till konsolen.
+Det här är programmet som beskrevs i kapitlets början, med en skillnad: summan skrivs till ett element på sidan i stället för till konsolen.
 
 ---
 
