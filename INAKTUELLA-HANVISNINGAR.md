@@ -26,7 +26,7 @@ Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kos
 
 ## Till kapitel 9, *Händelser* (`sec-handelser`)
 
-Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen" som en numrerad metod. Det lösta exemplet har kvar kommentarerna *hämta, lyssna, läs, bearbeta, visa*, så att studenten känner igen mönstret, men det ska inte framstå som ett recept (se CLAUDE.md, *A worked example*). Avsnittet *Ett mönster för interaktiva sidor* heter nu *Ett löst exempel: lagnamnet*.
+Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen" som en numrerad metod. Det lösta exemplet har kvar kommentarerna *hämta, lyssna, läs, bearbeta, visa*, så att studenten känner igen mönstret, men det ska inte framstå som ett recept (se CLAUDE.md, *A worked example*). Avsnittet *Ett mönster för interaktiva sidor* heter nu *Lagnamnet*.
 
 - **kap-objekt.qmd**, en övning: "Skriv de fem stegen som kommentarer först."
 

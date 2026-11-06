@@ -49,7 +49,7 @@ Exemplen i det här kapitlet behöver knappar, textfält och andra element att r
     </style>
 </head>
 <body>
-    <h1>Quizkväll</h1>
+    <h1>Händelser</h1>
 
     <h2>Knappar</h2>
     <p id="meddelande">Klicka på knappen!</p>
@@ -166,10 +166,8 @@ Callbacken kan lika gärna ändra sidan:
 ```
 
 ```javascript
-const meddelande = document.querySelector("#meddelande");
-
 function hälsa() {
-    meddelande.textContent = "Hej! Du klickade på knappen.";
+    document.querySelector("#meddelande").textContent = "Hej! Du klickade på knappen.";
 }
 
 knapp.addEventListener("click", hälsa);
@@ -239,7 +237,7 @@ En namngiven funktion passar när samma funktion ska användas på flera ställe
 
 ## Variabler som minns mellan händelser
 
-En callback kan läsa och ändra variabler som är deklarerade utanför den, enligt reglerna för **scope** (kapitel [-@sec-funktioner]). Det behövs när sidan ska minnas något mellan två händelser, som en räknare:
+En callback kan läsa och ändra variabler som är deklarerade utanför den, enligt reglerna för **scope** (kapitel [-@sec-funktioner]). Det behövs när sidan ska minnas något mellan två händelser, som en räknare. Det är ett av få goda skäl att ha en variabel på översta nivån, trots rådet att hålla variabler lokala:
 
 ```html
 <p>Antal klick: <span id="antal">0</span></p>
@@ -268,11 +266,10 @@ Flera callbacks kan ändra samma variabel. Här visar båda poängen med samma f
 ```
 
 ```javascript
-const poängElement = document.querySelector("#poäng");
 let poäng = 0;
 
-function visaPoäng(poäng) {
-    poängElement.textContent = `Poäng: ${poäng}`;
+function visaPoäng(värde) {
+    document.querySelector("#poäng").textContent = `Poäng: ${värde}`;
 }
 
 document.querySelector("#rätt-knapp").addEventListener("click", () => {
@@ -421,9 +418,9 @@ Allt du läser med `.value` är text – även om användaren har skrivit en sif
 
 ---
 
-## Ett löst exempel: lagnamnet
+## Lagnamnet
 
-Domaren skriver in lagets namn och klickar på en knapp, och namnet visas på poängtavlan:
+När ett lag anmäler sig till en tävling skriver någon in lagets namn i ett textfält och klickar på *Spara*. Då ska namnet visas på sidan:
 
 ```html
 <input type="text" id="lagfält" placeholder="Lagets namn">
