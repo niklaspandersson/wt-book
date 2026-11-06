@@ -611,16 +611,6 @@ function poängtext("namn", "poäng") {
 :::
 
 ::: {.callout-note}
-## Övning – Poängtavlan med funktioner
-
-Ta fram din lösning på övningen *Bygg vidare på poängtavlan* i kapitel [-@sec-dom-intro], där sidan visar lagets namn, poäng och runda.
-
-1. Skriv en funktion `visaLag(lag)` som tar emot hela lagobjektet som argument och uppdaterar alla tre elementen på sidan.
-2. Ersätt alla rader i ditt program som uppdaterar sidan med anrop till `visaLag`.
-3. Ändra formatet så att poängen visas som `12 p` i stället för `Poäng: 12`. Hur många ställen behövde du ändra? Hur många hade det varit utan funktionen?
-:::
-
-::: {.callout-note}
 ## Övning – Funktioner som uppdaterar sidan
 
 Övningssidan har redan ett stycke med id `resultat`. Lägg till en rubrik ovanför det:
@@ -635,44 +625,4 @@ Skriv två funktioner:
 2. `visaResultat(namn, poäng, maxPoäng)` – anropar `resultattext` och uppdaterar sidan: `<h2>` ska visa namnet och `<p>` texten från `resultattext`.
 
 Testa med tre anrop efter varandra: `visaResultat("Karin", 15, 20)`, `visaResultat("Erik", 9, 20)` och `visaResultat("Lena", 18, 20)`. Bara det sista anropet syns på sidan. Varför? Hur kan du kontrollera att de två första anropen ändå kördes?
-:::
-
-::: {.callout-note}
-## Övning – Skriv anropen först
-
-När en ny runda börjar i ett quiz ska tre saker hända på sidan: rundans nummer ska visas, poängen ska visas som 0 och meddelandet `Lycka till!` ska visas. Övningssidan har redan ett element med id `poäng`. Lägg till två till:
-
-```html
-<p id="runda">–</p>
-<p id="meddelande">–</p>
-```
-
-1. Skriv *först*, i ett tomt `<script>`-element, de rader som startar runda 2, som om funktionerna redan fanns: en rad per sak, med ett anrop till en funktion med ett bra namn. Bestäm för varje funktion vilka argument den behöver, om några. Skriv inga funktioner än.
-2. Läs dina rader högt. Går det att förstå vad som händer utan att veta hur funktionerna fungerar?
-3. Spara och titta i konsolen. Du får ett `ReferenceError` – varför? Vilken funktion klagar JavaScript på, och varför inte på de andra?
-4. Skriv nu funktionerna ovanför anropen, en i taget. Spara efter varje funktion och kontrollera att den fungerar innan du skriver nästa. Hur ändras felmeddelandet efter hand?
-5. Byt rader med en kurskamrat och läs bara den andras anrop, inte funktionerna. Förstår du vad programmet gör? Valde ni samma namn och parametrar? Diskutera vilka som blev tydligast.
-:::
-
-::: {.callout-note}
-## Övning – En funktion för flera element
-
-**Del A.** En parameter kan få vilket värde som helst – också ett element från sidan. Läs koden och svara på frågorna utan att köra den.
-
-```javascript
-function markera(element) {
-    element.classList.add("markerad");
-}
-
-markera(document.querySelector("#lag-röda"));
-markera(document.querySelector("#fråga-3"));
-```
-
-1. Läs det första anropet inifrån och ut. Vilket anrop körs först, och vad returnerar det?
-2. Vad pekar parametern `element` på under det första anropet? Under det andra?
-3. Vad händer om det inte finns något element med id `fråga-3` på sidan? Vilket värde får `element` då, och på vilken rad tror du att felet visas?
-
-**Del B.** Lägg till tre stycken på övningssidan, vart och ett med ett eget id. Skriv en funktion `sättText(selektor, text)` som hämtar elementet som matchar selektorn och ger det den nya texten. Använd funktionen för att ändra alla tre stycken.
-
-Jämför sedan med att skriva tre `querySelector`-rader direkt. När lönar sig funktionen? Vad händer om du stavar en selektor fel – vilket felmeddelande får du, och på vilken rad pekar det? Är det raden med anropet eller en rad inne i funktionen?
 :::

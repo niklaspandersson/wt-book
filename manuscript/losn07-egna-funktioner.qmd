@@ -173,27 +173,6 @@ document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 
    - `` console.log(`${namn}: ${poäng} poäng`); `` – den ger inget felmeddelande, men gör fel sak: texten skrivs ut i stället för att returneras.
 2. Med `console.log` i stället för `return` skrivs `Röda stjärnor: 12 poäng` ut i konsolen, men elementet på sidan blir *tomt*. Funktionen returnerar ingenting, så anropet ersätts av `undefined`, och det är det värdet som tilldelas `textContent`. Många gissar att det ska stå *undefined* på sidan, men `textContent` behandlar `undefined` som "ingen text" och tömmer elementet. (Hade `undefined` slagits ihop med en annan text, som i `` `Att betala: ${prisB} kr` ``, hade ordet *undefined* däremot synts.)
 
-## Övning – Poängtavlan med funktioner
-
-```javascript
-const lag = { namn: "Röda stjärnor", poäng: 15, runda: 2 };
-
-function visaLag(lag) {
-    document.querySelector("#lagnamn").textContent = `Lag: ${lag.namn}`;
-    document.querySelector("#poäng").textContent = `${lag.poäng} p`;
-    document.querySelector("#runda").textContent = `Runda: ${lag.runda}`;
-}
-
-visaLag(lag);
-
-lag.poäng += 3;
-visaLag(lag);
-```
-
-Parametern heter här `lag`, precis som variabeln på översta nivån. Det fungerar: inne i funktionen är det parametern som gäller. Men det kan förvirra, och vill du vara tydlig kan du ge parametern ett annat namn.
-
-3. Med funktionen behövs en enda ändring, inne i `visaLag`. I lösningen från kapitel [-@sec-dom-intro] skrevs poängen på två ställen – en gång från början och en gång efter att laget svarat rätt – så där hade det varit två ändringar. Ju fler gånger poängen visas, desto större blir skillnaden.
-
 ## Övning – Funktioner som uppdaterar sidan
 
 ```javascript
@@ -214,65 +193,3 @@ visaResultat("Lena", 18, 20);
 Bara Lenas resultat syns, eftersom varje anrop skriver över det förra – i samma två element. Anropen körs så snabbt efter varandra att du aldrig hinner se de två första.
 
 För att kontrollera att de kördes kan du lägga till en rad med `console.log` i `visaResultat`, till exempel `console.log("visaResultat anropades med", namn);`. Då ser du tre utskrifter i konsolen. Du kan också anropa `resultattext` direkt och skriva ut returvärdet: `console.log(resultattext(15, 20));`.
-
-## Övning – Skriv anropen först
-
-1. Till exempel:
-
-    ```javascript
-    visaRunda(2);
-    visaPoäng(0);
-    visaMeddelande("Lycka till!");
-    ```
-
-    Alla tre funktionerna behöver ett argument: rundans nummer, poängen och texten. (`visaPoäng` skulle kunna sakna argument och alltid visa 0, men med ett argument kan den användas resten av quizet också.)
-
-2. Ja – raderna läses nästan som vanlig svenska: *visa runda 2, visa poäng 0, visa meddelandet "Lycka till!"*.
-3. Felet blir `ReferenceError: visaRunda is not defined`. JavaScript klagar bara på den första funktionen, eftersom programmet avbryts vid första felet. De andra raderna körs aldrig.
-4. När `visaRunda` finns pekar felet i stället på `visaPoäng`, och sedan på `visaMeddelande`. När alla tre finns försvinner felet. Felmeddelandet blir en att göra-lista. Funktionerna kan se ut så här:
-
-    ```javascript
-    function visaRunda(nummer) {
-        document.querySelector("#runda").textContent = `Runda ${nummer}`;
-    }
-
-    function visaPoäng(poäng) {
-        document.querySelector("#poäng").textContent = `Poäng: ${poäng}`;
-    }
-
-    function visaMeddelande(text) {
-        document.querySelector("#meddelande").textContent = text;
-    }
-    ```
-
-5. Här finns inget facit. Bra namn är sådana som gör att kurskamraten förstår programmet utan att läsa funktionerna.
-
-## Övning – En funktion för flera element
-
-**Del A.**
-
-1. `document.querySelector("#lag-röda")` körs först. Det returnerar elementet med id `lag-röda`, och det elementet blir argument till `markera`.
-2. Under det första anropet pekar `element` på elementet med id `lag-röda`, under det andra på elementet med id `fråga-3`.
-3. `querySelector` returnerar `null`, så `element` pekar på `null`. Felet visas på raden inne i funktionen, `element.classList.add("markerad");`: `TypeError: Cannot read properties of null (reading 'classList')`. Det är där `null` faktiskt används. Felmeddelandet i konsolen kan fällas ut, och då syns också raden med anropet som ledde dit.
-
-**Del B.**
-
-```html
-<p id="första">Ett</p>
-<p id="andra">Två</p>
-<p id="tredje">Tre</p>
-```
-
-```javascript
-function sättText(selektor, text) {
-    document.querySelector(selektor).textContent = text;
-}
-
-sättText("#första", "Första stycket");
-sättText("#andra", "Andra stycket");
-sättText("#tredje", "Tredje stycket");
-```
-
-Med bara tre korta rader är vinsten liten. Funktionen lönar sig när samma sak görs på många ställen, eller när det som görs är mer än en rad, till exempel om texten också ska markeras.
-
-Stavar du en selektor fel får du `TypeError: Cannot set properties of null (setting 'textContent')`. Felet pekar på raden *inne i funktionen*, eftersom det är där `null` används. Det felstavade värdet står däremot i anropet. Fäll ut felmeddelandet i konsolen för att se vilket anrop det kom från. Det är en nackdel med att gömma kod i en funktion: felet visar sig ett steg från där det orsakades.
