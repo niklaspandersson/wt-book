@@ -10,7 +10,7 @@ Lösningar till övningarna i kapitel [-@sec-funktioner].
 
 **Att definiera en funktion**
 
-1. Nyckelordet är `function`, namnet är `visaRättSvar`, parenteserna `()` är tomma, och kroppen är de fyra raderna mellan `{` och `}`.
+1. Nyckelordet är `function`, namnet är `nollställ`, parenteserna `()` är tomma, och kroppen är raden mellan `{` och `}`.
 2. Ingenting syns. JavaScript läser in funktionen och kommer ihåg den, men kroppen körs aldrig, eftersom ingen anropar funktionen.
 3. Med `visaRättSvar` ändrar du en enda rad, den inne i funktionen. Utan funktionen måste du ändra tjugo rader, en efter varje fråga – och missar du en visar sidan olika meddelanden.
 
@@ -22,7 +22,7 @@ Lösningar till övningarna i kapitel [-@sec-funktioner].
 **`return`**
 
 1. `visaPoäng` liknar dörrklockan: den *gör* något på sidan, men ger inget tillbaka. `biljettpris` liknar kaffebryggaren: den ger tillbaka ett pris som du kan använda.
-2. `console.log(Math.max(120, 200));` – och sedan `console.log(200);`.
+2. `const skillnad = 240 - 80;`, så `skillnad` får värdet `160`.
 
 **Scope**
 
@@ -73,7 +73,7 @@ B
 1. Parametrarna är `antal` och `styckpris`. Argumenten är `3` och `40` i det första anropet, `40` och `3` i det andra. På sista raden finns två anrop: det inre får `1` och `5`, det yttre får det inre anropets returvärde, `5`, och `10`.
 2. `a` blir `120` (3 gånger 40), `b` blir också `120` (40 gånger 3), och `c` blir `50`: det inre anropet ger 1 gånger 5, alltså 5, och det yttre 5 gånger 10, alltså 50.
 3. Att `a` och `b` blir lika är en slump. Det beror på att multiplikation ger samma svar oavsett ordning. Med `visaLag` syns att ordningen spelar roll: `visaLag(12, "Röda stjärnor")` gör att sidan visar `Lag: 12` och `Poäng: Röda stjärnor`. Funktionen vet inte vad du *menade*, bara på vilken plats argumenten står. Och även för `totalpris` är `b` egentligen fel: 40 personer som betalar 3 kronor var är något helt annat än 3 personer som betalar 40 kronor, även om summan råkar bli densamma.
-4. Utan `return` returnerar funktionen `undefined`. Både `a` och `b` blir `undefined`. Också `c` blir `undefined`, men det är värt att följa varför: det inre anropet returnerar `undefined`, så det yttre räknar ut `undefined * 10`, som blir `NaN` inne i funktionen – men det returneras inte heller, så `c` pekar på `undefined`.
+4. Utan `return` returnerar funktionen `undefined`. Både `a` och `b` blir `undefined`. Också `c` blir `undefined`: det inre anropet returnerar `undefined`, så det yttre räknar ut `undefined * 10`, som blir `NaN` inne i funktionen – men det returneras inte heller, så `c` pekar på `undefined`.
 
 ## Övning – Vad säger felet?
 
@@ -125,6 +125,20 @@ visaLag(lag.namn, lag.poäng);
 3. Nej. Kroppen saknar `return`, så funktionen returnerar `undefined`. Det den gör är att ändra sidan.
 4. Inte riktigt. Namnet lovar att funktionen visar *vilket lag* som leder, men den visar bara den högsta poängen. Den som litar på namnet blir lurad. Bättre namn är till exempel `visaHögstaPoäng` eller `visaLedandePoäng`.
 
+## Övning – Ordna raderna
+
+```javascript
+function poängtext(namn, poäng) {
+    return `${namn}: ${poäng} poäng`;
+}
+document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 12);
+```
+
+1. Raderna som inte används:
+   - `function poängtext("namn", "poäng") {` – parametrar ska vara *namn*, inte strängar. Det ger ett `SyntaxError` direkt, och inget i filen körs.
+   - `` console.log(`${namn}: ${poäng} poäng`); `` – den ger inget felmeddelande, men gör fel sak: texten skrivs ut i stället för att returneras.
+2. Med `console.log` i stället för `return` skrivs `Röda stjärnor: 12 poäng` ut i konsolen, men elementet på sidan blir *tomt*. Funktionen returnerar ingenting, så anropet ersätts av `undefined`, och det är det värdet som tilldelas `textContent`. Många gissar att det ska stå *undefined* på sidan, men `textContent` behandlar `undefined` som "ingen text" och tömmer elementet. (Hade `undefined` slagits ihop med en annan text, som i `` `Att betala: ${prisB} kr` ``, hade ordet *undefined* däremot synts.)
+
 ## Övning – Byt insidan
 
 1. `biljettpris` tar emot ett antal personer och *returnerar* vad de ska betala. `visaPris` tar emot ett antal personer och *visar* priset på sidan, men returnerar ingenting. Den som anropar behöver bara veta funktionernas namn och att de vill ha ett antal personer.
@@ -133,7 +147,7 @@ visaLag(lag.namn, lag.poäng);
 
     ```javascript
     function visaPris(antal) {
-        document.querySelector("#pris").textContent = `${antal} biljetter: ${biljettpris(antal)} kr`;
+        document.querySelector("#resultat").textContent = `${antal} biljetter: ${biljettpris(antal)} kr`;
     }
     ```
 
@@ -149,7 +163,7 @@ visaLag(lag.namn, lag.poäng);
     }
 
     function visaPris(antal, prisPerPerson) {             // ny parameter här också
-        document.querySelector("#pris").textContent = `Att betala: ${biljettpris(antal, prisPerPerson)} kr`;
+        document.querySelector("#resultat").textContent = `Att betala: ${biljettpris(antal, prisPerPerson)} kr`;
     }
 
     visaPris(3, 40);   // alla anrop måste skicka med priset
@@ -157,21 +171,7 @@ visaLag(lag.namn, lag.poäng);
     visaPris(2, 40);
     ```
 
-    `visaPris` anropar `biljettpris`, så den måste själv få veta priset för att kunna skicka det vidare. Ändringen sprider sig alltså utåt: först `biljettpris`, sedan anropet inne i `visaPris`, sedan `visaPris`s utsida och till sist alla tre anrop längst ned – sex rader, mot en enda i fråga 2. Det är därför det lönar sig att tänka igenom en funktions utsida noga innan den används på många ställen.
-
-## Övning – Ordna raderna
-
-```javascript
-function poängtext(namn, poäng) {
-    return `${namn}: ${poäng} poäng`;
-}
-document.querySelector("#resultat").textContent = poängtext("Röda stjärnor", 12);
-```
-
-1. Raderna som inte används:
-   - `function poängtext("namn", "poäng") {` – parametrar ska vara *namn*, inte strängar. Det ger ett `SyntaxError` direkt, och inget i filen körs.
-   - `` console.log(`${namn}: ${poäng} poäng`); `` – den ger inget felmeddelande, men gör fel sak: texten skrivs ut i stället för att returneras.
-2. Med `console.log` i stället för `return` skrivs `Röda stjärnor: 12 poäng` ut i konsolen, men elementet på sidan blir *tomt*. Funktionen returnerar ingenting, så anropet ersätts av `undefined`, och det är det värdet som tilldelas `textContent`. Många gissar att det ska stå *undefined* på sidan, men `textContent` behandlar `undefined` som "ingen text" och tömmer elementet. (Hade `undefined` slagits ihop med en annan text, som i `` `Att betala: ${prisB} kr` ``, hade ordet *undefined* däremot synts.)
+    `visaPris` anropar `biljettpris`, så den måste själv få veta priset för att kunna skicka det vidare. Ändringen sprider sig utåt: först `biljettpris`, sedan anropet inne i `visaPris`, sedan `visaPris`s utsida och till sist alla tre anrop längst ned – sex rader, mot en enda i fråga 2. Det är därför det lönar sig att tänka igenom en funktions utsida noga innan den används på många ställen.
 
 ## Övning – Funktioner som uppdaterar sidan
 
@@ -181,15 +181,15 @@ function resultattext(poäng, maxPoäng) {
 }
 
 function visaResultat(namn, poäng, maxPoäng) {
-    document.querySelector("#namn").textContent = namn;
+    document.querySelector("#lagnamn").textContent = namn;
     document.querySelector("#resultat").textContent = resultattext(poäng, maxPoäng);
 }
 
-visaResultat("Karin", 15, 20);
-visaResultat("Erik", 9, 20);
-visaResultat("Lena", 18, 20);
+visaResultat("Röda stjärnor", 15, 20);
+visaResultat("Blå bläckfiskar", 9, 20);
+visaResultat("Gula gänget", 18, 20);
 ```
 
-Bara Lenas resultat syns, eftersom varje anrop skriver över det förra – i samma två element. Anropen körs så snabbt efter varandra att du aldrig hinner se de två första.
+Bara resultatet för Gula gänget syns, eftersom varje anrop skriver över det förra – i samma två element. Anropen körs så snabbt efter varandra att du aldrig hinner se de två första.
 
 För att kontrollera att de kördes kan du lägga till en rad med `console.log` i `visaResultat`, till exempel `console.log("visaResultat anropades med", namn);`. Då ser du tre utskrifter i konsolen. Du kan också anropa `resultattext` direkt och skriva ut returvärdet: `console.log(resultattext(15, 20));`.

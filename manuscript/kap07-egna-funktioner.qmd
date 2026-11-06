@@ -1,6 +1,6 @@
 # Att skriva egna funktioner {#sec-funktioner}
 
-I det här kapitlet skriver du dina egna funktioner: du ger en bit kod ett namn och kan sedan köra den var du vill i programmet, så ofta du vill. Egna funktioner är det viktigaste verktyget för att hålla ordning på ett program som växer.
+I det här kapitlet skriver du dina egna funktioner: du ger en bit kod ett namn och kan sedan köra den var du vill i programmet, så ofta du vill. Program gör ofta samma sak många gånger. En webbshop räknar ut priset för varje vara i varukorgen, och ett spel visar poängen efter varje drag. Med egna funktioner skrivs sådan kod en gång, och programmet går att hålla ordning på även när det växer.
 
 ## Poängtavlan som upprepar sig
 
@@ -71,7 +71,6 @@ En funktion sträcker sig över flera rader, och du vill kunna gå tillbaka och 
 - Ett returvärde syns inte av sig självt när anropet står i en fil. Vill du se vad en funktion returnerar skriver du ut det: `console.log(biljettpris(3));`.
 - När sidan har laddats kan du också anropa dina funktioner från konsolen, till exempel `biljettpris(3)`.
 - Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning, så att gammal kod inte stör.
-- Behöver en övning element som inte finns på sidan, lägger du till dem i `<body>`, ovanför `<script>`-elementet.
 :::
 
 ---
@@ -96,7 +95,7 @@ Definitionen består av fyra delar:
 - **Parenteserna** efter namnet är tomma här.
 - **Kroppen** är koden mellan klammerparenteserna `{` och `}`. Det är den som körs när funktionen anropas. Kroppen skrivs indragen, så att det syns vilka rader som hör till funktionen.
 
-En sådan definition kallas en **funktionsdeklaration**. Funktionen hämtar själv de element den behöver. Den är inte beroende av några variabler utanför sig själv, och kan därför anropas var som helst i programmet:
+En sådan definition kallas en **funktionsdeklaration** ([`function` på MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)). Funktionen hämtar själv de element den behöver. Den är inte beroende av några variabler utanför sig själv, och kan därför anropas var som helst i programmet:
 
 ```javascript
 const lag = { namn: "Röda stjärnor", poäng: 0 };
@@ -145,7 +144,13 @@ Det liknar ett recept där det står "gör smeten enligt sidan 12": du bläddrar
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. Peka ut de fyra delarna i definitionen av `visaRättSvar`: nyckelordet, namnet, parenteserna och kroppen.
+1. Peka ut de fyra delarna i den här definitionen: nyckelordet, namnet, parenteserna och kroppen.
+
+    ```javascript
+    function nollställ() {
+        document.querySelector("#poäng").textContent = "Poäng: 0";
+    }
+    ```
 2. En fil innehåller bara en funktionsdefinition och inget anrop. Vad händer när sidan laddas?
 3. Meddelandet ska ändras från *Rätt svar!* till *Snyggt!*. Quizet har tjugo frågor. Hur många rader behöver du ändra i versionen med `visaRättSvar`? Hur många i versionen utan?
 :::
@@ -283,7 +288,7 @@ console.log(`Att betala: ${prisB} kr`);   // Att betala: undefined kr
 ## Stanna upp
 
 1. Ger `visaPoäng` något tillbaka, som en kaffebryggare, eller gör den bara något, som en dörrklocka? Och `biljettpris`?
-2. Vad står det i praktiken på raden `console.log(Math.max(biljettpris(3), biljettpris(5)));` efter att de två inre anropen har körts?
+2. Vad står det i praktiken på raden `const skillnad = biljettpris(6) - biljettpris(2);` efter att de två anropen har körts? Vilket värde får `skillnad`?
 :::
 
 ---
@@ -305,7 +310,7 @@ const intäkt = röda + blå;
 
 Tre saker gäller för varje anrop:
 
-1. **Programmet hoppar.** Vid `biljettpris(4)` hoppar JavaScript in i funktionen, kör kroppen och hoppar tillbaka till raden med anropet, som ersätts av returvärdet 160. Raderna körs alltså inte i den ordning de står.
+1. **Programmet hoppar.** Vid `biljettpris(4)` hoppar JavaScript in i funktionen, kör kroppen och hoppar tillbaka till raden med anropet, som ersätts av returvärdet 160. Raderna körs inte i den ordning de står.
 2. **Varje anrop börjar från början.** Vid det andra anropet minns funktionen ingenting av det första. Parametern `antal` får värdet 3, och `total` skapas på nytt.
 3. **Parametern och variablerna i kroppen finns bara under anropet.** När funktionen returnerar försvinner `antal` och `total`. Kvar finns bara returvärdena: `röda` pekar på 160 och `blå` på 120.
 
@@ -392,6 +397,37 @@ Abstraktionen fungerar bara om namnet stämmer. Ett missvisande namn är värre 
 
 ---
 
+## Kvällens kassa
+
+Tre lag med 4, 3 och 5 personer har betalat inträde till quizkvällen. Sidan ska visa vad kassan har tagit in, i stycket med id `resultat`.
+
+```javascript
+function biljettpris(antal) {
+    return antal * 40;
+}
+
+function kassatext(summa) {
+    return `Kvällens intäkt: ${summa} kr`;
+}
+
+const antalRöda = 4;
+const antalBlå = 3;
+const antalGula = 5;
+
+// 1. Hämta elementet
+const resultat = document.querySelector("#resultat");
+
+// 2. Bearbeta: räkna ihop vad lagen har betalat
+const summa = biljettpris(antalRöda) + biljettpris(antalBlå) + biljettpris(antalGula);
+
+// 3. Visa
+resultat.textContent = kassatext(summa);   // Kvällens intäkt: 480 kr
+```
+
+Båda funktionerna returnerar sina resultat, så det är programmet som bestämmer var de används: `biljettpris` anropas tre gånger i samma uträkning, och texten från `kassatext` hamnar i elementet. Höjs inträdet ändrar du en rad, i `biljettpris`.
+
+---
+
 ## Sammanfattning
 
 - En **funktionsdeklaration** definierar en egen funktion: `function namn(parametrar) { kropp }`. Funktioner ger kod ett namn och gör att den bara behöver skrivas en gång.
@@ -430,7 +466,7 @@ Märker du att du börjar svara vagt – "det bara fungerar så" – har du hitt
 
 ## Övningar
 
-Övningarna börjar som vanligt med att du läser och följer kod. Gör de första utan att köra koden – det är att kunna följa hoppen mellan anrop och funktion som gör det möjligt att skriva egna funktioner. När du sedan ska kontrollera dina svar eller skriva egen kod gör du det på övningssidan i mappen `kap07`, som rutan *Så provar du koden i det här kapitlet* beskriver.
+Övningarna börjar som vanligt med att du läser och följer kod. Gör de första utan att köra koden – det är att kunna följa hoppen mellan anrop och funktion som gör det möjligt att skriva egna funktioner. Kontrollera sedan dina svar på övningssidan.
 
 ::: {.callout-note}
 ## Övning – I vilken ordning?
@@ -559,37 +595,10 @@ function visaLedare(lag1, lag2) {
 }
 ```
 
-1. Beskriv med en mening vad funktionen gör *som helhet* – som om du förklarade det för den som leder quizet.
+1. Beskriv med en mening vad funktionen gör *som helhet* – som om du förklarade det för någon som inte programmerar.
 2. Vad måste man skicka in när man anropar funktionen? Skriv ett exempel på ett anrop.
 3. Returnerar funktionen något? Hur ser du det?
 4. Läs avsnittet *Bra namn* igen. Stämmer namnet `visaLedare` med vad funktionen gör? Föreslå ett bättre namn.
-:::
-
-::: {.callout-note}
-## Övning – Byt insidan
-
-Inträdet till quizkvällen kostar 40 kronor per person. Programmet nedan räknar ut vad ett lag ska betala och visar summan på sidan. (Vill du prova koden, lägg till `<p id="pris">–</p>` i `index.html`.)
-
-```javascript
-function biljettpris(antal) {
-    return antal * 40;
-}
-
-function visaPris(antal) {
-    document.querySelector("#pris").textContent = `Att betala: ${biljettpris(antal)} kr`;
-}
-
-visaPris(3);
-visaPris(5);
-visaPris(2);
-```
-
-Svara på frågorna innan du ändrar något i koden.
-
-1. Beskriv utsidan av var och en av de två funktionerna. Vad måste den som anropar dem veta?
-2. Inträdet höjs till 50 kronor. Vilken rad ändrar du? Behöver något av anropen ändras?
-3. Den som håller i quizet vill att sidan ska visa `3 biljetter: 150 kr`. Kan du ändra det genom att bara ändra *insidan* av en funktion? Vilken?
-4. Arrangörerna vill kunna ta olika pris olika kvällar. Därför ska `biljettpris` få priset per person som ett andra argument: `biljettpris(antal, prisPerPerson)`. Varför är det en ändring av funktionens *utsida*, till skillnad från ändringarna i fråga 2 och 3? Vilka rader i programmet måste ändras? Tänk på att `visaPris` också måste få veta priset per person från någon.
 :::
 
 ::: {.callout-note}
@@ -611,18 +620,39 @@ function poängtext("namn", "poäng") {
 :::
 
 ::: {.callout-note}
-## Övning – Funktioner som uppdaterar sidan
+## Övning – Byt insidan
 
-Övningssidan har redan ett stycke med id `resultat`. Lägg till en rubrik ovanför det:
+Inträdet till quizkvällen kostar 40 kronor per person. Programmet nedan räknar ut vad ett lag ska betala och visar summan på sidan.
 
-```html
-<h2 id="namn">–</h2>
+```javascript
+function biljettpris(antal) {
+    return antal * 40;
+}
+
+function visaPris(antal) {
+    document.querySelector("#resultat").textContent = `Att betala: ${biljettpris(antal)} kr`;
+}
+
+visaPris(3);
+visaPris(5);
+visaPris(2);
 ```
+
+Svara på frågorna innan du ändrar något i koden.
+
+1. Beskriv utsidan av var och en av de två funktionerna. Vad måste den som anropar dem veta?
+2. Inträdet höjs till 50 kronor. Vilken rad ändrar du? Behöver något av anropen ändras?
+3. Arrangörerna vill att sidan ska visa `3 biljetter: 150 kr`. Kan du ändra det genom att bara ändra *insidan* av en funktion? Vilken?
+4. Arrangörerna vill kunna ta olika pris olika kvällar. Därför ska `biljettpris` få priset per person som ett andra argument: `biljettpris(antal, prisPerPerson)`. Varför är det en ändring av funktionens *utsida*, till skillnad från ändringarna i fråga 2 och 3? Vilka rader i programmet måste ändras? Tänk på att `visaPris` också måste få veta priset per person från någon.
+:::
+
+::: {.callout-note}
+## Övning – Funktioner som uppdaterar sidan
 
 Skriv två funktioner:
 
 1. `resultattext(poäng, maxPoäng)` – *returnerar* en text som `15 av 20 poäng`.
-2. `visaResultat(namn, poäng, maxPoäng)` – anropar `resultattext` och uppdaterar sidan: `<h2>` ska visa namnet och `<p>` texten från `resultattext`.
+2. `visaResultat(namn, poäng, maxPoäng)` – anropar `resultattext` och uppdaterar sidan: stycket med id `lagnamn` ska visa namnet och stycket med id `resultat` texten från `resultattext`.
 
-Testa med tre anrop efter varandra: `visaResultat("Karin", 15, 20)`, `visaResultat("Erik", 9, 20)` och `visaResultat("Lena", 18, 20)`. Bara det sista anropet syns på sidan. Varför? Hur kan du kontrollera att de två första anropen ändå kördes?
+Testa med tre anrop efter varandra: `visaResultat("Röda stjärnor", 15, 20)`, `visaResultat("Blå bläckfiskar", 9, 20)` och `visaResultat("Gula gänget", 18, 20)`. Bara det sista anropet syns på sidan. Varför? Hur kan du kontrollera att de två första anropen ändå kördes?
 :::

@@ -7,7 +7,7 @@
 * [X] Kap. 4 – Att använda funktioner *(funktion som begrepp, anrop, argument, returvärden – "anropet ersätts av sitt returvärde", att göra eller ge tillbaka, fria funktioner och metoder, egenskap eller metod, nästlade anrop, vanliga fel, att läsa MDN)*
 * [X] Kap. 5 – *Skapa och ändra strängar* (minikapitel) *(templatesträngar, `length`, `trim`/`toUpperCase`/`toLowerCase`/`includes`, oföränderliga strängar, kedjning)*
 * [X] Kap. 6 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
-* [X] Kap. 7 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, funktioner som tar element, scope och modulscope, funktioner som värden)*
+* [X] Kap. 7 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, scope, att tänka i funktioner)*
 * [X] Kap. 8 – *Från text till tal och tillbaka* (minikapitel) *(implicit typkonvertering, `Number()`, den tomma texten och decimalkommat, `toFixed`)*
 * [X] Kap. 9 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, input, .value, change, mushändelser, mönstret hämta → lyssna → läs → bearbeta → visa)*
 * [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
@@ -185,7 +185,7 @@ Brödtext före övningarna, utan kodblock (numreringen före omstruktureringen)
 | 2 Värden och variabler | ≈ 2 450 | Klart (från ≈ 3 350) |
 | 3 Att använda funktioner | ≈ 1 700 | Klart (från ≈ 3 300) |
 | 4 Din kod möter webbsidan | ≈ 1 850 | Klart (från ≈ 2 650) |
-| 5 Att skriva egna funktioner | ≈ 2 600 | Klart (från ≈ 3 800) |
+| 5 Att skriva egna funktioner | ≈ 2 300 | Klart (från ≈ 3 800) |
 | 6 Händelser | ≈ 2 150 | Klart (från ≈ 3 000) |
 | 7 Tal och text | ≈ 2 900 | Klart (från ≈ 4 000) |
 | 8 Sant och falskt | ≈ 2 200 | Klart (från ≈ 2 400) |

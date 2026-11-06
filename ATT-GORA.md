@@ -20,7 +20,7 @@
 
 ## Enhetlighet i Del I
 
-Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2 och 4 är slutgranskade. Kap. 6 och 7 skrevs före mallen och följer den bara delvis. Minikapitlen (kap. 3, 5, 8, 11, 13 och 15) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
+Kap. 9, 10, 12, 14, 16 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2 och 4 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 11, 13 och 15) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - **Scenarier.** Quizkvällen är inte ett genomgående exempel. Temat kan användas som vardagsexempel där det passar, vid sidan av andra scenarier som betyg, biljetter och moms, men varje kapitel eller övning som använder det ska förklara sammanhanget själv. Studenten ska inte behöva minnas quizet från ett tidigare kapitel. Det som återstår att rätta står under *Lösa hänvisningar till quizkvällen*.
@@ -33,7 +33,6 @@ Genomgång av Del I och dess lösningar. Quizet introduceras bara i kap. 2, men 
 
 **Tydliga fall:**
 
-- **Kap. 7, övningen *Förklara koden*:** "för den som leder quizet". Övningen handlar bara om två lags poäng, och inget quiz syns.
 - **Kap. 9, *Ett löst exempel: lagnamnet*:** "Domaren skriver in lagets namn … visas på poängtavlan". Bokens första domare, utan presentation. Poängtavlan är inte heller förklarad.
 - **Kap. 10, *Stanna upp* efter *Jämföra strängar*:** "Domaren skriver `12` och `9`." "Någon skriver" eller "Du skriver" räcker.
 - **Kap. 14, öppningen:** "Quizkvällen närmar sig, och domaren har tre önskemål". Fortsätter en berättelse med en person studenten inte har mött. Rättas öppningen fungerar de senare "domaren" i kapitlet, och "quizlag" i lösningen till kapitlets prislisteövning.
@@ -46,7 +45,7 @@ Genomgång av Del I och dess lösningar. Quizet introduceras bara i kap. 2, men 
 - **Kap. 9, övningssidan:** rubriken `Quizkväll` står på en allmän sida med knappar, räknare och formulär.
 - **Kap. 11, övningen *Slå upp själv*:** "Ett quiz med 128 deltagare ska åka buss" hänger ihop i sig, men verkar vara en rest. Vilken grupp som helst fungerar bättre.
 - **Kap. 12, övningen *Förklara koden*:** strängen "Välkomna till quizet!" står utan sammanhang i ett kapitel om betyg, och återkommer i lösningsfilen.
-- **Olika namn på samma roll:** *domaren*, *den som leder quizet* och *den som håller i quizet* (kap. 7, övningen om biljettpriset). Välj ett, om rollen blir kvar.
+- **Olika namn på samma roll:** *domaren* (kap. 9, 10, 14 och 16) och *arrangörerna* (kap. 7). Välj ett, om rollen blir kvar.
 - **Kap. 16, *Arrayer av objekt*:** quizfrågan med en array av alternativ finns inte längre i kap. 2. Står också i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md).
 
 Inga ändringar behövs där sammanhanget ges på plats (scenariot i kap. 2, öppningen i kap. 7, fristående övningar som i kap. 12 och 14), i hänvisningar som namnger övningen (kap. 6 och 17), eller i kod med lagobjekt och exempeltexter, som fungerar utan ett quiz.
