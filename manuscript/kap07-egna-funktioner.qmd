@@ -1,6 +1,6 @@
 # Att skriva egna funktioner {#sec-funktioner}
 
-I det här kapitlet skriver du dina egna funktioner: du ger en bit kod ett namn och kan sedan köra den var du vill i programmet, så ofta du vill. Program gör ofta samma sak många gånger. En webbshop räknar ut priset för varje vara i varukorgen, och ett spel visar poängen efter varje drag. Med egna funktioner skrivs sådan kod en gång, och programmet går att hålla ordning på även när det växer.
+I det här kapitlet skriver du dina egna funktioner: du ger en bit kod ett namn och kan sedan köra den var du vill i programmet, så ofta du vill. Egna funktioner är det viktigaste verktyget för att hålla ordning på ett program som växer.
 
 ## Poängtavlan som upprepar sig
 
