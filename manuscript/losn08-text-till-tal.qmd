@@ -58,15 +58,17 @@ console.log(`10 + 5 = ${10 + 5}`);  // 10 + 5 = 15
 2. `"2.3"`, en sträng, eftersom `toFixed` returnerar en sträng.
 3. `"NaN"`. `Number("")` ger `0` för båda, och `0 / 0` går inte att räkna ut. `NaN.toFixed(1)` ger texten `"NaN"`. Här är den tomma texten alltså inte ofarlig, som i rutan *Två fällor*: att dela med noll ger ett ogiltigt resultat.
 
-## Övning – Poängtext
+## Övning – Rad för rad i konsolen
 
-```javascript
-function poängText(poäng, max) {
-    const andel = poäng / max * 100;
-    return `${poäng} av ${max} poäng (${andel.toFixed(1)} %)`;
-}
-```
+1. `typeof svar;` ger `"string"`. `prompt` returnerar alltid en sträng, även när svaret är siffror.
+2. – 4. Till exempel:
 
-1. `poängText(23, 30)` ger `"23 av 30 poäng (76.7 %)"` och `poängText(30, 30)` ger `"30 av 30 poäng (100.0 %)"`.
-2. Inifrån och ut: först `prompt`, som returnerar texten. Sedan `Number`, som gör om den till ett tal. Sist `poängText`, som får talet som argument.
-3. Texten blir rätt. `poäng` används på två ställen. I `poäng / max` gör `/` om strängen till ett tal, och i templatesträngen blir det text oavsett. Hade funktionen lagt *till* något med `+`, till exempel bonuspoäng, hade det blivit sammanslagning. Gör därför om värdet med `Number()` direkt, så att funktionen inte behöver tänka på det.
+    ```javascript
+    const poäng = Number(svar);
+    const andel = poäng / 24 * 100;
+    `${poäng} av 24 poäng (${andel.toFixed(1)} %)`;
+    ```
+
+    `andel` blir `79.16666666666667`, och `toFixed(1)` gör om det till texten `"79.2"`.
+
+5. Med `19,5` ger `Number` värdet `NaN`, eftersom JavaScript bara förstår decimalpunkt. Texten blir `"NaN av 24 poäng (NaN %)"`. Utan svar ger `Number("")` talet `0`, och texten blir `"0 av 24 poäng (0.0 %)"`. Det ser ut som ett riktigt resultat, och inget felmeddelande varnar. Det är de två fällorna i rutan *Två fällor*.

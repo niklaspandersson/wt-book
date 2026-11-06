@@ -14,7 +14,7 @@ När typer blandas gör JavaScript själv om värdena (kapitel [-@sec-variabler]
 "5" * "2";   // 10
 ```
 
-`+` betyder både plus och sammanslagning. Är något av värdena en sträng väljer JavaScript sammanslagning. `-`, `*` och `/` har bara en betydelse, så där görs strängen om till ett tal. Ett program som drar av poäng räknar alltså rätt, medan samma program räknar fel när det lägger till. Lita därför inte på att JavaScript gissar rätt, utan gör om värdet själv.
+`+` betyder både plus och sammanslagning. Är något av värdena en sträng väljer JavaScript sammanslagning. `-`, `*` och `/` har bara en betydelse, så där görs strängen om till ett tal. Ett program som drar av poäng räknar rätt, medan samma program räknar fel när det lägger till. Lita därför inte på att JavaScript gissar rätt, utan gör om värdet själv.
 
 ## `Number()`
 
@@ -38,7 +38,7 @@ poäng += rundpoäng;                                    // 15, inte "105"
 ::: {.callout-important}
 ## Två fällor
 
-**Den tomma texten.** `Number("")` ger `0`, inte `NaN`. Klickar användaren *OK* utan att skriva något blir det alltså noll, utan felmeddelande. Ibland är det rimligt, ibland inte.
+**Den tomma texten.** `Number("")` ger `0`, inte `NaN`. Klickar användaren *OK* utan att skriva något blir det noll, utan felmeddelande. Ibland är det rimligt, ibland inte.
 
 **Decimalkommat.** JavaScript förstår bara decimal*punkt*, så `Number("12,5")` ger `NaN`.
 :::
@@ -134,11 +134,17 @@ function snittPerFråga(summaText, frågorText) {
 :::
 
 ::: {.callout-note}
-## Övning – Poängtext
+## Övning – Rad för rad i konsolen
 
-Skriv en funktion `poängText(poäng, max)` som returnerar en text som `"23 av 30 poäng (76.7 %)"`. Andelen räknas ut som poängen delat med det högsta möjliga, gånger 100, och visas med en decimal.
+Skriv raderna själv i konsolen, en i taget. Börja med den här, och svara `19` när `prompt` frågar:
 
-1. Testa funktionen med `poängText(23, 30)` och `poängText(30, 30)`.
-2. Anropa den med ett värde från `prompt`: `poängText(Number(prompt("Poäng?")), 30)`. Vilken ordning körs de tre anropen i?
-3. Prova utan `Number()`, med `poängText(prompt("Poäng?"), 30)`. Blir texten fel? Förklara varför, eller varför inte.
+```javascript
+const svar = prompt("Hur många poäng av 24 fick laget?");
+```
+
+1. Vilken typ har `svar`? Kontrollera med `typeof`.
+2. Skriv en rad som skapar variabeln `poäng`, med samma värde som `svar` men som ett tal.
+3. Skriv en rad som skapar variabeln `andel`: poängen delat med 24, gånger 100.
+4. Skriv en rad som ger texten `"19 av 24 poäng (79.2 %)"`. Använd en templatesträng och `toFixed`.
+5. Förutsäg vad texten blir om laget svarar `19,5`, och om man klickar *OK* utan att skriva något. Ladda om sidan och kör raderna igen för att kontrollera.
 :::
