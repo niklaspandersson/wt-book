@@ -2,7 +2,7 @@
 losningar-till: kap10-tangenter.qmd
 ---
 
-# Kapitel 10: Tangenter {.unnumbered}
+# Kapitel 10: Tangenter och textfält {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-tangenter].
 
@@ -35,25 +35,12 @@ Lösningar till övningarna i kapitel [-@sec-tangenter].
     });
     ```
 
-## Övning – Tangenträknaren
+## Övning – Kvittot
 
-```html
-<p id="räknare">Inga tryck än.</p>
-```
-
-```javascript
-const räknare = document.querySelector("#räknare");
-let antalTryck = 0;
-
-document.addEventListener("keydown", (e) => {
-    antalTryck++;
-    räknare.textContent = `Tryck ${antalTryck}: ${e.key}`;
-});
-```
-
-1. `antalTryck` ska minnas antalet mellan händelserna. Stod den inuti callbacken skulle den skapas på nytt med värdet 0 vid varje tryck, och stycket skulle alltid visa `Tryck 1`.
-2. Räknaren rusar i väg. `keydown` upprepas många gånger i sekunden så länge tangenten hålls ned, och varje upprepning räknas.
-3. Med `keyup` ökar räknaren bara med 1, hur länge tangenten än hålls ned, och först när den släpps. `keyup` upprepas inte.
+1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.*
+2. En sträng, `"42"`. Allt som läses med `.value` är text.
+3. Bara `Ditt svar: `, utan något svar. `e.target` är knappen, eftersom det var den som klickades, och en knapp utan `value`-attribut har en tom sträng som `value`.
+4. Bara `Ditt svar: `. Fältet töms först, och när det sedan läses är det tomt. Raderna i en callback körs uppifrån och ned, precis som annan kod.
 
 ## Övning – Rutan flyttar sig
 

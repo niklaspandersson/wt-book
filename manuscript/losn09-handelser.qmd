@@ -23,11 +23,6 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 1. Ingenting i `visaVal`. Funktionen läser namnet från `e.target`, så den fungerar för vilken knapp som helst. Det som behövs är knappen i HTML-koden och en rad till: `document.querySelector("#choklad-knapp").addEventListener("click", visaVal);`.
 2. Parenteserna gör att `visaVal` anropas direkt när sidan laddas, med argumentet `e`. Det finns ingen variabel `e` där, så det blir `ReferenceError: e is not defined`, och resten av skriptet körs inte. `e` finns bara som parameter inne i funktionen, när webbläsaren anropar den.
 
-**`.value`**
-
-1. `"string"`. Allt som läses med `.value` är text, också i ett `<input type="number">`.
-2. Ingenting. Klicket inträffade på knappen, så `e.target` är knappen och inte fältet. En knapp utan `value`-attribut har en tom sträng som `value`, och stycket blir tomt. Fältet ska läsas genom en egen variabel.
-
 ## Övning – Spåra exekveringen
 
 1. När sidan laddas skrivs `A` och sedan `C` ut. Raden med `addEventListener` registrerar callbacken, men kör den inte.
@@ -99,10 +94,10 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 
 ## Övning – Förklara koden
 
-1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.*
-2. Elementen hämtas på de två första raderna (och med `document.querySelector("#förklara button")`). Värdet läses med `svarsfält.value` och visas med `kvitto.textContent = …`, som också bygger texten med en templatesträng.
+1. *Efter klicket på Plats 2 står det "Du har bokat Plats 2." under knapparna, och knappen försvinner, så att platsen inte kan bokas igen. Efter klicket på Plats 3 står det i stället "Du har bokat Plats 3.", och den knappen försvinner också.*
+2. Stycket hämtas på första raden, och knapparna på raderna med `addEventListener`. Vilken knapp som klickades läses med `e.target.textContent`, och resultatet visas med `bokning.textContent = …`.
 
-    Det nya är raden `svarsfält.value = "";`. I kapitlets exempel lästes `.value`, men här *skrivs* det: koden tömmer fältet. `.value` fungerar alltså åt båda hållen, precis som `textContent`.
+    Det nya är raden `e.target.hidden = true;`. I kapitlets exempel lästes `e.target`, men här *ändras* elementet: koden döljer just den knapp som klickades. `e.target` är ett element som vilket annat, och allt du kan göra med ett hämtat element kan du göra med det.
 
 ## Övning – Ordna raderna
 
@@ -253,56 +248,60 @@ document.querySelector("#töm-knapp").addEventListener("click", () => {
 
     | Typ | id | Hämtas av koden? |
     |---|---|---|
-    | `<input type="text">` | `lagfält` | ja – namnet ska läsas |
-    | `<button>` *Spara* | `spara-knapp` | ja – ska lyssnas på |
-    | `<button>` *Rätt svar* | `rätt-knapp` | ja |
+    | `<button>` *1* | `ett-knapp` | ja – ska lyssnas på |
+    | `<button>` *2* | `två-knapp` | ja |
+    | `<button>` *3* | `tre-knapp` | ja |
     | `<button>` *Börja om* | `nollställ-knapp` | ja |
     | `<p>` | `tavla` | ja – här visas resultatet |
 
-    Alla fem behöver hämtas. En rubrik eller etiketter till fältet kan också finnas på sidan, men dem behöver koden inte röra.
+    Alla fem behöver hämtas. En rubrik kan också finnas på sidan, men den behöver koden inte röra.
 
 2. Stegen per knapp:
 
     | Knapp | Läs | Bearbeta | Visa |
     |---|---|---|---|
-    | Spara | fältets `.value` | ge `lag.namn` det nya värdet | `visaLag(lag)` |
-    | Rätt svar | – | öka `lag.poäng` med 3 | `visaLag(lag)` |
+    | 1, 2 och 3 | knappens text, `e.target.textContent` | gör om texten till ett tal och lägg det till `lag.poäng` | `visaLag(lag)` |
     | Börja om | – | sätt `lag.poäng` till 0 | `visaLag(lag)` |
 
-    *Rätt svar* och *Börja om* behöver inget *läs*-steg. De tar inte emot något från användaren – det enda de behöver veta är *att* någon klickade, och det vet callbacken redan när den körs.
+    *Börja om* behöver inget *läs*-steg. Den gör samma sak varje gång, och det enda den behöver veta är *att* någon klickade. Poängknapparna läser en sträng, till exempel `"3"`. Den måste göras om med `Number()` (kapitel [-@sec-text-till-tal]), annars blir `0 + "3"` strängen `"03"`.
 
 ```html
-<input type="text" id="lagfält" placeholder="Lagets namn">
-<button id="spara-knapp">Spara</button>
-<p id="tavla">–: 0 poäng</p>
-<button id="rätt-knapp">Rätt svar</button>
+<p id="tavla">Röda stjärnor: 0 poäng</p>
+<button id="ett-knapp">1</button>
+<button id="två-knapp">2</button>
+<button id="tre-knapp">3</button>
 <button id="nollställ-knapp">Börja om</button>
 ```
 
 ```javascript
 // Hämta
-const lagfält = document.querySelector("#lagfält");
-const sparaKnapp = document.querySelector("#spara-knapp");
-const rättKnapp = document.querySelector("#rätt-knapp");
-const nollställKnapp = document.querySelector("#nollställ-knapp");
 const tavla = document.querySelector("#tavla");
+const ettKnapp = document.querySelector("#ett-knapp");
+const tvåKnapp = document.querySelector("#två-knapp");
+const treKnapp = document.querySelector("#tre-knapp");
+const nollställKnapp = document.querySelector("#nollställ-knapp");
 
-const lag = { namn: "–", poäng: 0 };
+const lag = { namn: "Röda stjärnor", poäng: 0 };
 
 function visaLag(lag) {
     tavla.textContent = `${lag.namn}: ${lag.poäng} poäng`;
 }
 
-// Lyssna
-sparaKnapp.addEventListener("click", () => {
-    lag.namn = lagfält.value;
-    visaLag(lag);
-});
+function gePoäng(e) {
+    // Läs
+    const nyaPoäng = Number(e.target.textContent);
 
-rättKnapp.addEventListener("click", () => {
-    lag.poäng += 3;
+    // Bearbeta
+    lag.poäng += nyaPoäng;
+
+    // Visa
     visaLag(lag);
-});
+}
+
+// Lyssna
+ettKnapp.addEventListener("click", gePoäng);
+tvåKnapp.addEventListener("click", gePoäng);
+treKnapp.addEventListener("click", gePoäng);
 
 nollställKnapp.addEventListener("click", () => {
     lag.poäng = 0;
@@ -310,4 +309,4 @@ nollställKnapp.addEventListener("click", () => {
 });
 ```
 
-`lag` kan vara `const` trots att både namn och poäng ändras. Det är objektets egenskaper som ändras, inte vilket objekt variabeln pekar på. Och objektet ligger på översta nivån, utanför callbackarna, så att det minns poängen mellan klicken.
+`lag` kan vara `const` trots att poängen ändras. Det är objektets egenskap som ändras, inte vilket objekt variabeln pekar på. Och objektet ligger på översta nivån, utanför callbackarna, så att det minns poängen mellan klicken.

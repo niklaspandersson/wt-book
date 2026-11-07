@@ -316,86 +316,45 @@ Klickar användaren på *Te* anropar webbläsaren `visaVal` med ett event-objekt
 
 ---
 
-## `.value` – det som står i ett textfält
+## Lagvalet
 
-Ett textfält, `<input>`, har ingen text mellan två taggar, så `textContent` ger ingenting. Det användaren har skrivit läser du med egenskapen **`value`**:
+Inför en tävling ska varje deltagare välja lag. Sidan har en knapp per lag, och när någon klickar ska det valda laget visas, tillsammans med hur många gånger valet har gjorts:
 
 ```html
-<section id="hälsning">
-    <h2>Hälsning</h2>
-    <input type="text" id="namnfält" placeholder="Skriv ditt namn">
-    <button id="hälsa-namn-knapp">Hälsa</button>
-    <p id="hälsningstext"></p>
+<section id="lagval">
+    <h2>Välj lag</h2>
+    <button id="röda-knapp">Röda stjärnor</button>
+    <button id="blå-knapp">Blå blixtarna</button>
+    <p id="valt-lag">Inget lag valt.</p>
 </section>
 ```
 
 ```javascript
-// Hämta
-const namnfält = document.querySelector("#namnfält");
-const hälsningstext = document.querySelector("#hälsningstext");
+let antalVal = 0;
 
-// Lyssna
-document.querySelector("#hälsa-namn-knapp").addEventListener("click", () => {
-    // Läs
-    const namn = namnfält.value;
-
-    // Visa
-    hälsningstext.textContent = `Hej, ${namn}!`;
-});
-```
-
-Callbacken läser fältet genom variabeln `namnfält`, inte genom event-objektet. Klicket inträffade på knappen, så `e.target` hade varit knappen och inte fältet.
-
-Lämna fältet tomt och klicka, så visas "Hej, !". Att i stället visa "Hej, främling!" när fältet är tomt kräver att programmet kan välja mellan två texter. Det lär du dig i kapitel [-@sec-villkor].
-
-::: {.callout-note}
-## `.value` är alltid en sträng
-
-Allt du läser med `.value` är text – även om användaren har skrivit en siffra, och även i ett `<input type="number">`. Vill du räkna med värdet måste du först göra om det med `Number()` (kapitel [-@sec-text-till-tal]).
-:::
-
-::: {.callout-note appearance="simple"}
-## Stanna upp
-
-1. Ett fält för ålder, `<input type="number" id="ålder">`, är hämtat i variabeln `åldersfält`. Användaren skriver `19`. Vad ger `typeof åldersfält.value`?
-2. En knapp har callbacken `(e) => { svar.textContent = e.target.value; }`, och bredvid knappen står ett textfält där användaren har skrivit "Ja". Vad visas när knappen klickas?
-:::
-
----
-
-## Lagnamnet
-
-När ett lag anmäler sig till en tävling skriver någon in lagets namn i ett textfält och klickar på *Spara*. Då ska namnet visas på sidan:
-
-```html
-<section id="anmälan">
-    <h2>Anmälan</h2>
-    <input type="text" id="lagfält" placeholder="Lagets namn">
-    <button id="spara-knapp">Spara</button>
-    <p id="lagnamn">Lag: –</p>
-</section>
-```
-
-```javascript
 // 1. Hämta elementen
-const lagfält = document.querySelector("#lagfält");
-const sparaKnapp = document.querySelector("#spara-knapp");
-const lagnamnElement = document.querySelector("#lagnamn");
+const valtLagElement = document.querySelector("#valt-lag");
+const rödaKnapp = document.querySelector("#röda-knapp");
+const blåKnapp = document.querySelector("#blå-knapp");
 
-// 2. Lyssna efter en händelse
-sparaKnapp.addEventListener("click", () => {
-    // 3. Läs indata
-    const namn = lagfält.value;
+function väljLag(e) {
+    // 3. Läs vilket lag som klickades
+    const lag = e.target.textContent;
 
     // 4. Bearbeta
-    const text = `Lag: ${namn}`;
+    antalVal++;
+    const text = `Valt lag: ${lag} (val nummer ${antalVal})`;
 
     // 5. Visa resultatet
-    lagnamnElement.textContent = text;
-});
+    valtLagElement.textContent = text;
+}
+
+// 2. Lyssna efter en händelse
+rödaKnapp.addEventListener("click", väljLag);
+blåKnapp.addEventListener("click", väljLag);
 ```
 
-Här finns alla fem delarna, numrerade i den ordning de står i koden. Hade raden `const namn = lagfält.value;` stått utanför callbacken hade fältet lästs när sidan laddades – när det ännu var tomt – och sedan aldrig mer.
+Här finns alla fem delarna. Numren följer den ordning de körs i: att hämta och lyssna görs en gång, när sidan laddas, och att läsa, bearbeta och visa görs vid varje klick, när webbläsaren anropar `väljLag`. Exemplet sätter ihop två saker från kapitlet: en variabel utanför callbacken som minns antalet val, och en namngiven callback som läser vilken knapp som klickades.
 
 ---
 
@@ -406,7 +365,6 @@ Här finns alla fem delarna, numrerade i den ordning de står i koden. Hade rade
 - **Parenteser spelar roll**: `hälsa` skickar funktionen, `hälsa()` anropar den.
 - Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken. En variabel som deklareras inuti callbacken har callbackens **scope** och skapas på nytt vid varje händelse.
 - Webbläsaren skickar ett **event-objekt** till callbacken. Ta emot det med en parameter: `(e) => { … }`. **`e.type`** är händelsens sort och **`e.target`** elementet den gällde, så att samma funktion kan lyssna på flera element.
-- **`.value`** läser det som står i ett textfält – inte `.textContent`. Värdet är alltid en sträng.
 - Det som ska hända vid varje händelse – att läsa, bearbeta och visa – står i callbacken. Att hämta elementen och registrera lyssnaren görs en gång.
 
 I kapitel [-@sec-tangenter] lyssnar programmet på tangentbordet, och event-objektet talar om vilken tangent som trycktes.
@@ -418,7 +376,7 @@ I händelsestyrda program bestäms ordningen av användaren, inte av koden. Det 
 
 **Spela upp ett användarscenario:**
 
-> *"Skriv ett kort JavaScript-program med två knappar, ett textfält och några `addEventListener` som skriver ut saker i konsolen. Beskriv sedan ett scenario – till exempel 'användaren klickar på knapp A två gånger, skriver hej i fältet och klickar på knapp B'. Jag skriver ner exakt vad som skrivs ut, i rätt ordning. Visa svaret först när jag har svarat."*
+> *"Skriv ett kort JavaScript-program med tre knappar och några `addEventListener` som skriver ut saker i konsolen. Beskriv sedan ett scenario – till exempel 'användaren klickar på knapp A två gånger och sedan på knapp C'. Jag skriver ner exakt vad som skrivs ut, i rätt ordning. Visa svaret först när jag har svarat."*
 
 Bygg gärna programmet efteråt och kontrollera i webbläsaren – den har alltid sista ordet.
 
@@ -426,7 +384,7 @@ Bygg gärna programmet efteråt och kontrollera i webbläsaren – den har allti
 
 Innan du skriver kod för en interaktiv sida kan du beskriva den i ord – vilka element, vilka händelser och vad som ska hända – och låta AI:n granska beskrivningen:
 
-> *"Jag vill bygga en sida där användaren skriver ett ord i ett textfält och klickar på en knapp, och då visas hur många tecken ordet har. Jag tänker läsa fältet med `e.target.value` i knappens callback. Säg inte hur koden ska se ut, men säg om min plan fungerar och vad som i så fall kommer att bete sig konstigt."*
+> *"Jag vill bygga en sida med fem knappar med var sin färg, och ett stycke som visar vilken färg man senast valde. Jag tänker skriva en enda funktion som läser knappens text med `e.target` och registrera den på alla fem knapparna. Säg inte hur koden ska se ut, men säg om min plan fungerar och vad som i så fall kommer att bete sig konstigt."*
 
 Har du redan stött på de klassiska felen – en räknare som aldrig kommer över 1, eller en funktion som körs direkt när sidan laddas – försök först förklara varför med hjälp av kapitlet. Be sedan AI:n bekräfta eller rätta din förklaring.
 :::
@@ -599,24 +557,28 @@ Läs koden. Sidan har den här delen:
 ```html
 <section id="förklara">
     <h2>Förklara koden</h2>
-    <input type="text" id="svar" placeholder="Ditt svar">
-    <button>Skicka</button>
-    <p id="kvitto"></p>
+    <button id="plats1-knapp">Plats 1</button>
+    <button id="plats2-knapp">Plats 2</button>
+    <button id="plats3-knapp">Plats 3</button>
+    <p id="bokning"></p>
 </section>
 ```
 
 ```javascript
-const svarsfält = document.querySelector("#svar");
-const kvitto = document.querySelector("#kvitto");
+const bokning = document.querySelector("#bokning");
 
-document.querySelector("#förklara button").addEventListener("click", () => {
-    kvitto.textContent = `Ditt svar: ${svarsfält.value}`;
-    svarsfält.value = "";
-});
+function boka(e) {
+    bokning.textContent = `Du har bokat ${e.target.textContent}.`;
+    e.target.hidden = true;
+}
+
+document.querySelector("#plats1-knapp").addEventListener("click", boka);
+document.querySelector("#plats2-knapp").addEventListener("click", boka);
+document.querySelector("#plats3-knapp").addEventListener("click", boka);
 ```
 
-1. Beskriv med en eller två meningar vad besökaren är med om när den använder sidan. Beskriv det som händer, inte vad varje rad gör.
-2. Var i koden hämtas elementen, var läses värdet och var visas resultatet? Vilken rad gör något som inget av exemplen i kapitlet gjorde?
+1. Beskriv med en eller två meningar vad besökaren är med om när den klickar på *Plats 2* och sedan på *Plats 3*. Beskriv det som händer, inte vad varje rad gör.
+2. Var i koden hämtas elementen, var läses vilken knapp som klickades och var visas resultatet? Vilken rad gör något som inget av exemplen i kapitlet gjorde?
 :::
 
 ::: {.callout-note}
@@ -688,7 +650,7 @@ Prova koden och bygg sedan vidare på den:
 I de återstående övningarna bygger du sidorna själv, både HTML och JavaScript. Det är så det ser ut när du gör något eget: ingen har förberett elementen åt dig, och du bestämmer själv vad de ska heta. Gör så här för varje övning:
 
 1. **Gör en ny sida** för övningen, med ett tomt `<script>`-element sist i `<body>`.
-2. **Planera elementen.** Skriv ner vilka element sidan behöver, vilken sorts element varje ska vara (`<button>`, `<p>`, `<input>` …) och vilket id det ska ha. Ge id till alla element som koden ska hämta, och välj namn som säger vad elementet är till för, till exempel `öka-knapp` hellre än `knapp2`.
+2. **Planera elementen.** Skriv ner vilka element sidan behöver, vilken sorts element varje ska vara (`<button>`, `<p>`, `<span>` …) och vilket id det ska ha. Ge id till alla element som koden ska hämta, och välj namn som säger vad elementet är till för, till exempel `öka-knapp` hellre än `knapp2`.
 3. **Skriv elementen i `<body>`**, ovanför `<script>`-elementet. Kontrollera att sidan *ser* rätt ut innan du skriver någon JavaScript.
 4. **Börja skriptet med steget *hämta*.** Hämta varje element med `querySelector` och skriv ut det med `console.log`. Står det `null` i konsolen stämmer selektorn inte med id:t i HTML-koden – rätta det innan du går vidare.
 5. **Skriv resten av koden**, ett steg i taget, och prova efter varje steg.
@@ -724,17 +686,16 @@ Gör en sida med tre knappar och ett stycke. Varje knapp har en emoji som text, 
 
 Bygg en poängtavla för *ett* lag:
 
-- Ett textfält och en knapp "Spara" för lagets namn.
-- En knapp "Rätt svar" som ger laget 3 poäng.
+- Tre knappar med texterna `1`, `2` och `3`, som ger laget så många poäng. Alla tre ska använda samma funktion.
 - En knapp "Börja om" som nollställer poängen.
 - Ett stycke som visar till exempel `Röda stjärnor: 9 poäng`.
 
-Låt laget vara ett objekt, `const lag = { namn: "–", poäng: 0 };`, och skriv en funktion `visaLag(lag)` som uppdaterar sidan utifrån objektet. Varje callback ska ändra objektet och sedan anropa `visaLag`.
+Låt laget vara ett objekt, `const lag = { namn: "Röda stjärnor", poäng: 0 };`, och skriv en funktion `visaLag(lag)` som uppdaterar sidan utifrån objektet. Varje callback ska ändra objektet och sedan anropa `visaLag`.
 
 Planera innan du skriver:
 
 1. Gör en lista över elementen på sidan, med typ och id för vart och ett. Hur många av dem behöver koden hämta?
-2. Skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilka knappar behöver inget *läs*-steg, och varför?
+2. Skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilken knapp behöver inget *läs*-steg, och varför? Vilken sorts värde är det som poängknapparna läser, och vad behöver göras med det innan det kan läggas till poängen?
 
 Bygg sedan sidan i samma ordning som i avsnittet *Egna sidor*: först HTML-koden, sedan *hämta*, och därefter en knapp i taget.
 :::

@@ -59,7 +59,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Konsolen som verktyg.** Nu när skriptets funktioner nås från konsolen kunde en övning låta studenten anropa sina funktioner där med olika argument, som ett sätt att testa dem.
 
-### Kap. 10 *Tangenter* (utkast)
+### Kap. 10 *Tangenter och textfält* (utkast)
 
 - **Granska utkastet** mot formatet för minikapitel i CLAUDE.md. Övningarna saknar en *Ordna raderna*, vilket är i sin ordning för ett minikapitel.
 
@@ -71,7 +71,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 13 Villkorssatser
 
-- **Formulärhändelserna ska bort.** Hälsningen med `if` och ternär lyssnar på `input`. Låt den läsa fältet vid klick, som i kap. 9, eller byt exempel. Hänvisningen till hälsningen i kap. 9 ("Hej, !") stämmer fortfarande.
+- **Formulärhändelserna ska bort.** Hälsningen med `if` och ternär lyssnar på `input`. Låt den läsa fältet vid klick, som i kap. 10, eller byt exempel. Hälsningen med "Hej, !" finns nu i kap. 10 (se INAKTUELLA-HANVISNINGAR.md).
 - **Tangenterna kan komma tillbaka hit.** En `else if`-kedja för piltangenterna passar som exempel. Övningarna *Tangentbordsrörelser*, *Svara med Enter* och *Ordna raderna* (Escape) i kap. 19 behöver `if` men handlar inte om kap. 19:s ämne, och kan flyttas hit.
 - **Ingen övning i brödtexten visar `.style` med ett värde som ändras hela tiden, vilket kap. 6 nämner som skälet att välja `.style`.** Övningen *Tangentbordsrörelser*, som gör det, ligger nu i kap. 19 (se punkten ovan).
 
@@ -101,7 +101,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Stegtabellen för kedjade metoder** står kvar i brödtexten i *Skapa och ändra strängar*. Enligt formatet för minikapitel och regeln om lösta exempel kunde den flyttas till övningen *Spåra strängarna*. Författaren avgör.
 - **Flyttal.** Rutan om att `0.1 + 0.2` ger `0.30000000000000004` är borttagen. Kommer det upp i en övning behöver lösningen förklara det.
-- **Övningarna från gamla kap. 7 som behövde händelser** är strukna: *Ordna raderna* (svaret i stora bokstäver), *Bygg vidare på momsräknaren*, *Temperaturomvandlare*, *Teckenräknare* och *Poängtavlan räknar rätt*. Händelsekapitlet (kap. 9) kommer nu efter `Number()` och strängmetoderna och kunde ta upp någon av dem, med en knapp i stället för `input`-händelsen. Teckenräknaren passar annars i formulärkapitlet.
+- **Övningarna från gamla kap. 7 som behövde händelser** är strukna: *Ordna raderna* (svaret i stora bokstäver), *Bygg vidare på momsräknaren*, *Temperaturomvandlare*, *Teckenräknare* och *Poängtavlan räknar rätt*. *Tangenter och textfält* (kap. 10) kommer efter `Number()` och strängmetoderna och kunde ta upp någon av dem, med en knapp i stället för `input`-händelsen. Teckenräknaren passar annars i formulärkapitlet.
 
 ## Del II–III
 

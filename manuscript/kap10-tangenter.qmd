@@ -1,8 +1,8 @@
-# Tangenter {#sec-tangenter}
+# Tangenter och textfält {#sec-tangenter}
 
-I det här kapitlet lyssnar programmet på tangentbordet. Många sidor reagerar på tangenter utan att någon klickar: Enter skickar ett meddelande, Escape stänger en ruta och piltangenterna styr ett spel.
+I det här kapitlet lyssnar programmet på tangentbordet och läser det som användaren har skrivit i ett textfält. Många sidor reagerar på tangenter utan att någon klickar: Enter skickar ett meddelande, Escape stänger en ruta och piltangenterna styr ett spel. Andra låter användaren skriva ett namn, ett svar eller ett antal.
 
-En **tangenthändelse** inträffar när en tangent trycks ned eller släpps. Event-objektet (kapitel [-@sec-handelser]) talar om vilken tangent det var. Prova exemplen på övningssidan från kapitel [-@sec-handelser], med konsolen öppen. Klicka på sidan innan du trycker på tangenterna, annars går tangenttrycken till konsolen och inte till sidan.
+En **tangenthändelse** inträffar när en tangent trycks ned eller släpps. Event-objektet (kapitel [-@sec-handelser]) talar om vilken tangent det var. Det användaren skriver i ett textfält läser programmet från fältet självt. Prova exemplen på övningssidan från kapitel [-@sec-handelser], med konsolen öppen. Klicka på sidan innan du trycker på tangenterna, annars går tangenttrycken till konsolen och inte till sidan.
 
 ## `keydown` och `keyup`
 
@@ -58,6 +58,37 @@ document.addEventListener("keydown", (e) => {
 
 Håll ned Skift och tryck på `s`. Det skrivs ut två rader: `Shift true` och `S true`. Skift är en egen tangent och ger en egen `keydown`.
 
+## Värdet i ett inputfält
+
+Ett textfält, `<input>`, har ingen text mellan två taggar, så `textContent` ger ingenting. Det användaren har skrivit finns istället i fältets egenskap **`value`**:
+
+```html
+<input type="text" id="namnfält" placeholder="Skriv ditt namn">
+<button id="hälsa-namn-knapp">Hälsa</button>
+<p id="hälsningstext"></p>
+```
+
+```javascript
+// Hämta
+const namnfält = document.querySelector("#namnfält");
+const hälsningstext = document.querySelector("#hälsningstext");
+
+// Lyssna
+document.querySelector("#hälsa-namn-knapp").addEventListener("click", () => {
+    // Läs
+    const namn = namnfält.value;
+
+    // Visa
+    hälsningstext.textContent = `Hej, ${namn}!`;
+});
+```
+
+Fältet läses i callbacken, när användaren klickar. Utanför callbacken hade det lästs en gång, när sidan laddades och fältet var tomt. Callbacken läser fältet genom variabeln `namnfält`, eftersom klicket inträffade på knappen: `e.target` är knappen och inte fältet.
+
+Lämna fältet tomt och klicka, så visas "Hej, !". Att i stället visa "Hej, främling!" när fältet är tomt kräver att programmet kan välja mellan två texter. Det lär du dig i kapitel [-@sec-villkor].
+
+Allt du läser med `.value` är en sträng, även om användaren har skrivit en siffra, och även i ett `<input type="number">`. Vill du räkna med värdet gör du först om det med `Number()` (kapitel [-@sec-text-till-tal]). Egenskapen kan också tilldelas: `namnfält.value = "";` tömmer fältet.
+
 ## På MDN
 
 | Sida | Innehåll |
@@ -65,6 +96,7 @@ Håll ned Skift och tryck på `s`. Det skrivs ut två rader: `Shift true` och `S
 | [`KeyboardEvent`](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent) | event-objektet för tangenthändelser och alla dess egenskaper, till exempel `repeat` |
 | [`keydown`](https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event) och [`keyup`](https://developer.mozilla.org/en-US/docs/Web/API/Element/keyup_event) | händelserna |
 | [Key values](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values) | alla tangentnamn som `e.key` kan ha |
+| [`<input>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input) | textfältet och dess egenskaper, bland annat `value` |
 
 ---
 
@@ -139,13 +171,30 @@ senaste.addEventListener("keydown", (e) => {
 :::
 
 ::: {.callout-note}
-## Övning – Tangenträknaren
+## Övning – Kvittot
 
-Lägg till ett stycke på sidan. Varje gång användaren trycker på en tangent ska stycket visa hur många tangenttryck det har blivit och vilken tangent som trycktes sist, till exempel `Tryck 12: k`.
+Läs koden. Sidan har de här elementen:
 
-1. Vilken variabel behöver finnas utanför callbacken, och varför?
-2. Håll ned en tangent en stund. Vad händer med räknaren?
-3. Byt `keydown` mot `keyup` och gör samma sak. Vad är skillnaden nu, och varför?
+```html
+<input type="text" id="svar" placeholder="Ditt svar">
+<button id="skicka-knapp">Skicka</button>
+<p id="kvitto"></p>
+```
+
+```javascript
+const svarsfält = document.querySelector("#svar");
+const kvitto = document.querySelector("#kvitto");
+
+document.querySelector("#skicka-knapp").addEventListener("click", () => {
+    kvitto.textContent = `Ditt svar: ${svarsfält.value}`;
+    svarsfält.value = "";
+});
+```
+
+1. Beskriv med en eller två meningar vad besökaren är med om när den använder sidan.
+2. Användaren skriver `42` och klickar. Vilken datatyp har `svarsfält.value` just då?
+3. Ge callbacken parametern `e`, och byt `svarsfält.value` i templatesträngen mot `e.target.value`. Vad visas nu, och varför?
+4. Byt plats på de två raderna i callbacken. Vad visas nu, och varför?
 :::
 
 ::: {.callout-note}

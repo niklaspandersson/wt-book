@@ -9,8 +9,8 @@
 * [X] Kap. 6 – Din kod möter webbsidan *(querySelector, textContent, innerHTML, .style, classList, hidden)*
 * [X] Kap. 7 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, scope, att tänka i funktioner)*
 * [X] Kap. 8 – *Från text till tal och tillbaka* (minikapitel) *(implicit typkonvertering, `Number()`, den tomma texten och decimalkommat, `toFixed`)*
-* [X] Kap. 9 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, variabler som minns mellan händelser, event-objektet med `e.type` och `e.target`, `.value` läst vid klick, mönstret hämta → lyssna → läs → bearbeta → visa)*
-* [X] Kap. 10 – *Tangenter* (minikapitel, utkast) *(`keydown`/`keyup`, `e.key` och tangentnamnen, `shiftKey`/`ctrlKey`/`altKey`, lyssna på `document` eller ett fält)*
+* [X] Kap. 9 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, variabler som minns mellan händelser, event-objektet med `e.type` och `e.target`, mönstret hämta → lyssna → läs → bearbeta → visa)*
+* [X] Kap. 10 – *Tangenter och textfält* (minikapitel, utkast) *(`keydown`/`keyup`, `e.key` och tangentnamnen, `shiftKey`/`ctrlKey`/`altKey`, lyssna på `document` eller ett fält, `.value` läst vid klick)*
 * [X] Kap. 11 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
 * [X] Kap. 12 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
 * [X] Kap. 13 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
@@ -83,15 +83,15 @@ Kapitlen följer den nya ordningen i Del I (se *Nästa iteration* nedan). Minika
 |---|---|---|---|
 | 1 | JavaScript och webbläsaren, Värden och variabler, *Räkna med tal* | 11 | |
 | 2 | Att använda funktioner, *Skapa och ändra strängar*, Din kod möter webbsidan | 12 | |
-| 3 | Att skriva egna funktioner, *Från text till tal och tillbaka*, Händelser | 12 | Uppgift 1 delas ut |
-| 4 | *Tangenter*, Sant och falskt, *Avrunda och slumpa*, Villkorssatser | 12,5 | **Uppgift 1:** en interaktiv sida (till och med Händelser) |
+| 3 | Att skriva egna funktioner, *Från text till tal och tillbaka*, Händelser | 11,5 | Uppgift 1 delas ut |
+| 4 | *Tangenter och textfält*, Sant och falskt, *Avrunda och slumpa*, Villkorssatser | 13 | **Uppgift 1:** en interaktiv sida (till och med Händelser) |
 | 5 | *Söka och klippa i text*, Loopar, *`split` och `join`*, Arrayer | 13 | Uppgift 2 delas ut |
-| 6 | *Musen*, Händelser och många element, Tid och animationer | 11,5 | **Uppgift 2** (*Tangenter* till och med Arrayer), slutuppgiften delas ut |
+| 6 | *Musen*, Händelser och många element, Tid och animationer | 11,5 | **Uppgift 2** (*Tangenter och textfält* till och med Arrayer), slutuppgiften delas ut |
 | 7–8 | *Jul och nyår – ingen undervisning.* Arbete med slutuppgiften, extraövningar | | |
 | 9 | Handledning, felsökning, repetition | | |
 | 10 | Examination | | **Slutuppgift** |
 
-Att använda funktioner och Din kod möter webbsidan läses samma vecka, liksom Att skriva egna funktioner och Händelser. Veckorna har var sitt tema: funktioner och händelser (3), beslut (4), text och listor (5) samt musen och många element (6). Timmarna är uppskattningar tills övningarna har delats i kärna och extra. Marginalen upp till 13–14 timmar är en buffert och ska inte fyllas i förväg. Slutuppgiften bygger på arrayer av objekt, delegering och timers, till exempel ett reaktionsspel, ett quiz med tidsgräns eller en nedräkning med animerad återkoppling. Den behöver tydliga delmål, så att studenterna inte kör fast under lovet utan handledning.
+Att använda funktioner och Din kod möter webbsidan läses samma vecka, liksom Att skriva egna funktioner och Händelser. Veckorna har var sitt tema: funktioner och händelser (3), inmatning och beslut (4), text och listor (5) samt musen och många element (6). Timmarna är uppskattningar tills övningarna har delats i kärna och extra. Marginalen upp till 13–14 timmar är en buffert och ska inte fyllas i förväg. Slutuppgiften bygger på arrayer av objekt, delegering och timers, till exempel ett reaktionsspel, ett quiz med tidsgräns eller en nedräkning med animerad återkoppling. Den behöver tydliga delmål, så att studenterna inte kör fast under lovet utan handledning.
 
 **Jämfört med förra kursomgången (2025/26):**
 
@@ -231,8 +231,8 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 | Din kod möter webbsidan | – | 5,5 h |
 | Att skriva egna funktioner | – | 6 h |
 | *Från text till tal och tillbaka* | från gamla kap. 7 | 1,5 h |
-| Händelser | + event-objektet, − mushändelser, − `input`/`change` | 4,5 h |
-| *Tangenter* | nytt (november 2026) | 1,5 h |
+| Händelser | + event-objektet, − mushändelser, − `input`/`change`, − `.value` | 4 h |
+| *Tangenter och textfält* | nytt (november 2026), + `.value` från *Händelser* | 2 h |
 | Sant och falskt | – | 5 h |
 | *Avrunda och slumpa* | från gamla kap. 7 | 1 h |
 | Villkorssatser | − tangenthändelser | 5 h |
@@ -262,8 +262,8 @@ Totalt cirka 72 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 
 **Beslutat:**
 
-1. **Event-objektet i kap. 9**, med `e.type` och `e.target`. `.value` får ett eget avsnitt och läses vid klick. Exemplen med `e.target` använder knappar som bara innehåller text, så att skillnaden mot `e.currentTarget` inte syns förrän i kap. 19.
-2. **Två nya minikapitel:** *Tangenter* (kap. 10) direkt före *Sant och falskt*, som kan använda `e.key === "Enter"` och `e.shiftKey`, och *Villkorssatser*, som kan använda piltangenterna. *Musen* (kap. 18) före *Händelser och många element*, som förklarar varför `mouseover` bubblar men inte `mouseenter`.
+1. **Event-objektet i kap. 9**, med `e.type` och `e.target`. Kap. 9 handlar bara om klick, och det lösta exemplet *Lagvalet* läser vilken knapp som klickades. Exemplen med `e.target` använder knappar som bara innehåller text, så att skillnaden mot `e.currentTarget` inte syns förrän i kap. 19.
+2. **Två nya minikapitel:** *Tangenter och textfält* (kap. 10, med `.value`, som läses vid klick) direkt före *Sant och falskt*, som kan använda `e.key === "Enter"` och `e.shiftKey`, och *Villkorssatser*, som kan använda piltangenterna. *Musen* (kap. 18) före *Händelser och många element*, som förklarar varför `mouseover` bubblar men inte `mouseenter`.
 3. **Formulären flyttas till Webbteknik 3**, till kapitlet *Formulär och validering*: `input`, `change`, `<select>`, kryssrutor och `checked`. I Del I läses textfält bara vid klick.
 4. **Kap. 19 handlar om många element:** `querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, och delegering.
 5. **Kap. 11 och 13 får nya exempel** i stället för formulärhändelserna, gärna med tangenter och event-objektet. Det görs när kapitlen granskas (ATT-GORA.md).
