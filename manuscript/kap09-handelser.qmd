@@ -18,7 +18,7 @@ Det som saknas är **händelser**. En händelse är något som *inträffar* i we
 
 ## En sida att öva på
 
-Kapitlets exempel är fristående från varandra. Övningssidan börjar därför nästan tom, och varje avsnitt visar den HTML som dess exempel behöver. Spara den här koden som `index.html` i en ny mapp, `kap09`:
+Övningssidan börjar nästan tom. Spara den här koden som `index.html` i en ny mapp, `kap09`:
 
 ```html
 <!DOCTYPE html>
@@ -40,10 +40,10 @@ Kapitlets exempel är fristående från varandra. Övningssidan börjar därför
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-- Lägg in HTML-koden från varje avsnitt och övning i `<body>`, ovanför `<script>`-elementet. Varje del ligger i ett eget `<section>`-element med ett eget id och en rubrik, så sidan växer avsnitt för avsnitt utan att delarna blandas ihop.
-- Skriv exemplen och övningarna efter varandra i `<script>`-elementet. Variablerna och funktionerna har olika namn i olika avsnitt, så koden kan ligga kvar, och hela sidan fungerar hela tiden.
-- Ger en ny snutt ett felmeddelande när sidan laddas, körs inte koden som står efter den. Rätta felet innan du går vidare.
-- Några övningar hämtar en knapp med en selektor som `"#spåra button"`. Den betyder, precis som i CSS, en `<button>` inuti elementet med id `spåra`. Så hittar koden rätt knapp, fast sidan har många.
+- Varje avsnitt och övning visar den HTML som dess kod behöver. Lägg in den i `<body>`, ovanför `<script>`-elementet.
+- Skriv koden efter varandra i `<script>`-elementet.
+- Om en ny snutt get ett felmeddelande när sidan laddas, så körs inte koden som står efter den. Rätta felet innan du går vidare.
+- Selektorn `"#spåra button"` betyder, precis som i CSS, en `<button>` inuti elementet med id `spåra`.
 :::
 
 ---
@@ -64,8 +64,6 @@ Några vanliga händelser:
 | `keyup`      | En tangent släpps                    |
 | `input`      | Innehållet i ett textfält ändras     |
 | `change`     | Ett formulärelement ändrar värde     |
-
-Det här kapitlet använder den vanligaste händelsen, `click`.
 
 ---
 
@@ -185,16 +183,24 @@ En callback kan läsa och ändra variabler som är deklarerade utanför den, enl
 
 ```javascript
 let antal = 0;
+
+// Hämta
 const antalElement = document.querySelector("#antal");
 const räknaKnapp = document.querySelector("#räkna-knapp");
 
+// Lyssna
 räknaKnapp.addEventListener("click", () => {
+    // Bearbeta
     antal++;
+
+    // Visa
     antalElement.textContent = antal;
 });
 ```
 
 `antal` är deklarerad på skriptets översta nivå. Dess scope är hela skriptet, och värdet finns kvar mellan klicken. Hade `let antal = 0;` stått inuti callbacken hade variabelns scope varit callbacken: den hade skapats på nytt med värdet 0 vid varje klick och försvunnit när callbacken var klar. Talet står i ett eget `<span>`-element, så att bara talet behöver bytas ut.
+
+Kommentarerna namnger delar som återkommer i många interaktiva program: att *hämta* elementen, att *lyssna* efter en händelse och, inuti callbacken, att *bearbeta* och *visa*. Att hämta och lyssna görs en gång, när sidan laddas. Det som står i callbacken görs vid varje klick.
 
 Flera callbacks kan ändra samma variabel. Här visar båda poängen med samma funktion:
 
@@ -283,12 +289,18 @@ Egenskapen `target` är elementet som händelsen gällde, vid ett klick den knap
 ```
 
 ```javascript
+// Hämta
 const valtElement = document.querySelector("#valt");
 
 function visaVal(e) {
-    valtElement.textContent = `Du valde: ${e.target.textContent}`;
+    // Läs vilken knapp som klickades
+    const val = e.target.textContent;
+
+    // Visa
+    valtElement.textContent = `Du valde: ${val}`;
 }
 
+// Lyssna
 document.querySelector("#kaffe-knapp").addEventListener("click", visaVal);
 document.querySelector("#te-knapp").addEventListener("click", visaVal);
 ```
@@ -318,11 +330,17 @@ Ett textfält, `<input>`, har ingen text mellan två taggar, så `textContent` g
 ```
 
 ```javascript
+// Hämta
 const namnfält = document.querySelector("#namnfält");
 const hälsningstext = document.querySelector("#hälsningstext");
 
+// Lyssna
 document.querySelector("#hälsa-namn-knapp").addEventListener("click", () => {
-    hälsningstext.textContent = `Hej, ${namnfält.value}!`;
+    // Läs
+    const namn = namnfält.value;
+
+    // Visa
+    hälsningstext.textContent = `Hej, ${namn}!`;
 });
 ```
 
@@ -377,7 +395,7 @@ sparaKnapp.addEventListener("click", () => {
 });
 ```
 
-Kommentarerna delar koden i delar som återkommer i många interaktiva program. Att hämta elementen och lyssna görs en gång, när sidan laddas. Att läsa, bearbeta och visa står *inuti* callbacken och görs vid varje klick. Hade raden `const namn = lagfält.value;` stått utanför callbacken hade fältet lästs när sidan laddades – när det ännu var tomt – och sedan aldrig mer.
+Här finns alla fem delarna, numrerade i den ordning de står i koden. Hade raden `const namn = lagfält.value;` stått utanför callbacken hade fältet lästs när sidan laddades – när det ännu var tomt – och sedan aldrig mer.
 
 ---
 
@@ -417,7 +435,7 @@ Har du redan stött på de klassiska felen – en räknare som aldrig kommer öv
 
 ## Övningar
 
-Övningarna börjar med att du följer och förklarar kod med händelser. Det är svårare än det låter, eftersom det är användaren och inte koden som bestämmer i vilken ordning saker händer. Gör dem först utan att köra koden. Kontrollera sedan dina svar på övningssidan. Varje övning visar den HTML som behövs för att prova koden.
+Övningarna börjar med att du följer och förklarar kod med händelser. Det är svårare än det låter, eftersom det är användaren och inte koden som bestämmer i vilken ordning saker händer. Gör dem först utan att köra koden. Kontrollera sedan dina svar på övningssidan.
 
 ::: {.callout-note}
 ## Övning – Spåra exekveringen
