@@ -18,7 +18,7 @@ Det som saknas är **händelser**. En händelse är något som *inträffar* i we
 
 ## En sida att öva på
 
-Exemplen i det här kapitlet behöver knappar, textfält och andra element att reagera på. Därför gör du en ny övningssida. Spara den här koden som `index.html` i en ny mapp, `kap09`:
+Kapitlets exempel är fristående från varandra. Övningssidan börjar därför nästan tom, och varje avsnitt visar den HTML som dess exempel behöver. Spara den här koden som `index.html` i en ny mapp, `kap09`:
 
 ```html
 <!DOCTYPE html>
@@ -26,69 +26,9 @@ Exemplen i det här kapitlet behöver knappar, textfält och andra element att r
 <head>
     <meta charset="UTF-8">
     <title>Händelser</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 40rem;
-            margin: 2rem auto;
-        }
-        .dark {
-            background-color: #1a1a2e;
-            color: #e0e0e0;
-        }
-        .kort {
-            padding: 2rem;
-            border: 2px solid #ccc;
-            transition: background-color 0.3s;
-        }
-        .kort.aktiv {
-            background-color: lightyellow;
-            border-color: gold;
-            color: black;
-        }
-    </style>
 </head>
 <body>
     <h1>Händelser</h1>
-
-    <h2>Knappar</h2>
-    <p id="meddelande">Klicka på knappen!</p>
-    <button id="hälsa-knapp">Säg hej</button>
-    <button id="tema-knapp">Byt tema</button>
-
-    <h2>Räknare</h2>
-    <p>Antal klick: <span id="antal">0</span></p>
-    <button id="räkna-knapp">Klicka!</button>
-
-    <h2>Poäng</h2>
-    <p id="poäng">Poäng: 0</p>
-    <button id="rätt-knapp">Rätt svar (+10)</button>
-    <button id="nollställ-knapp">Börja om</button>
-
-    <h2>Mus</h2>
-    <div id="kort" class="kort">Håll musen över mig!</div>
-
-    <h2>Formulär</h2>
-    <input type="text" id="namnfält" placeholder="Skriv ditt namn">
-    <p id="hälsning">Hej, främling!</p>
-
-    <select id="språk">
-        <option value="sv">Svenska</option>
-        <option value="en">English</option>
-        <option value="de">Deutsch</option>
-    </select>
-    <p id="valt">Du valde: Svenska</p>
-
-    <input type="text" id="lagfält" placeholder="Lagets namn">
-    <button id="spara-knapp">Spara</button>
-    <p id="lagnamn">Lag: –</p>
-
-    <h2>Övningar</h2>
-    <input type="text" id="svar" placeholder="Ditt svar">
-    <p id="kvitto"></p>
-
-    <button id="ledtråd-knapp">Visa ledtråd</button>
-    <p id="ledtråd" hidden>Svaret börjar på S.</p>
 
     <script>
         console.log("Skriptet körs!");
@@ -97,15 +37,12 @@ Exemplen i det här kapitlet behöver knappar, textfält och andra element att r
 </html>
 ```
 
-Står det `Skriptet körs!` i konsolen är allt på plats. Ingenting händer när du klickar. HTML-koden och CSS:en är färdiga, och allt som får sidan att *reagera* skriver du själv i `<script>`-elementet under kapitlets gång.
-
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-- Alla element i kapitlets exempel finns redan på sidan, med samma id. HTML-snuttarna i exemplen visar vilka element koden arbetar med.
+- Lägg in HTML-koden från varje avsnitt i `<body>`, ovanför `<script>`-elementet. Elementen från förra avsnittet kan du ta bort.
 - Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning. Flera exempel använder samma variabelnamn, till exempel `knapp`, och två `const` med samma namn i samma skript ger ett fel.
-- Några exempel och övningar hämtar knappen med `document.querySelector("button")`. Det ger det *första* elementet som matchar – på den här sidan knappen *Säg hej*.
-- Behöver en övning fler element än sidan har, lägger du till dem i `<body>`, ovanför `<script>`-elementet.
+- Några exempel och övningar hämtar knappen med `document.querySelector("button")`. Det ger den *första* knappen på sidan, så ha bara de knappar på sidan som exemplet visar.
 :::
 
 ---
@@ -312,6 +249,8 @@ plusKnapp.addEventListener("click", () => {
 <div id="kort" class="kort">Håll musen över mig!</div>
 ```
 
+CSS-koden lägger du i ett `<style>`-element i `<head>`.
+
 ```css
 .kort {
     padding: 2rem;
@@ -487,7 +426,7 @@ Har du redan stött på de klassiska felen – en räknare som aldrig kommer öv
 
 ## Övningar
 
-Övningarna börjar med att du följer och förklarar kod med händelser. Det är svårare än det låter, eftersom det är användaren och inte koden som bestämmer i vilken ordning saker händer. Gör dem först utan att köra koden. När du sedan kontrollerar dina svar gör du det på övningssidan från avsnittet *En sida att öva på*, som redan har de element övningarna nämner.
+Övningarna börjar med att du följer och förklarar kod med händelser. Det är svårare än det låter, eftersom det är användaren och inte koden som bestämmer i vilken ordning saker händer. Gör dem först utan att köra koden. Kontrollera sedan dina svar på övningssidan. Varje övning visar den HTML som behövs för att prova koden.
 
 ::: {.callout-note}
 ## Övning – Spåra exekveringen
@@ -509,12 +448,21 @@ console.log("C");
 1. Vad skrivs ut direkt när sidan laddas?
 2. Vad händer när användaren klickar på knappen en gång? Två gånger?
 3. Varför skrivs "B" inte ut direkt? Var i koden står anropet av callbacken, och vem är det som anropar den?
+
+För att prova koden behöver sidan en knapp: `<button>Klicka</button>`.
 :::
 
 ::: {.callout-note}
 ## Övning – Vad händer vid klicket?
 
-Sidan har en knapp och ett element med id `antal`, som visar `0`. Koden registrerar *två* lyssnare för klick på samma knapp – något som kapitlet inte har visat. Läs koden.
+Sidan har en knapp och ett element med id `antal`:
+
+```html
+<button>Klicka</button>
+<p>Antal: <span id="antal">0</span></p>
+```
+
+Koden registrerar *två* lyssnare för klick på samma knapp – något som kapitlet inte har visat. Läs koden.
 
 ```javascript
 let antal = 0;
@@ -543,14 +491,14 @@ knapp.addEventListener("click", () => {
 ::: {.callout-note}
 ## Övning – Vad säger felet?
 
-Var och en av kodsnuttarna nedan är tänkt att skriva `Hej!` i konsolen när knappen klickas, men ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, skrivs `Hej!` ut vid fel tillfälle, eller händer ingenting alls? Testa sedan.
+Var och en av kodsnuttarna nedan är tänkt att skriva `Hej!` i konsolen när knappen klickas, men ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, skrivs `Hej!` ut vid fel tillfälle, eller händer ingenting alls?
 
-När du testar en snutt behöver variabeln `knapp` finnas. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
+Testa sedan en snutt i taget. Sidan behöver en knapp, `<button>Säg hej</button>`, och snutten behöver variabeln `knapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
 
 ```javascript
 const knapp = document.querySelector("button");
 ```
- Testa en snutt i taget.
+
 ```javascript
 // A
 function hälsa() {
@@ -581,7 +529,13 @@ knapp.addEventlistener("click", () => {
 ::: {.callout-note}
 ## Övning – Förklara koden
 
-Läs koden. Sidan har ett textfält med id `svar`, en knapp och ett stycke med id `kvitto`.
+Läs koden. Sidan har ett textfält, en knapp och ett stycke:
+
+```html
+<input type="text" id="svar" placeholder="Ditt svar">
+<button>Skicka</button>
+<p id="kvitto"></p>
+```
 
 ```javascript
 const svarsfält = document.querySelector("#svar");
@@ -600,7 +554,14 @@ document.querySelector("button").addEventListener("click", () => {
 ::: {.callout-note}
 ## Övning – Ordna raderna
 
-Sidan har en knapp med id `ledtråd-knapp` och ett dolt stycke med id `ledtråd`. När knappen klickas ska ledtråden visas. Välj ut och ordna raderna. Två av raderna ska inte användas.
+Sidan har en knapp och ett dolt stycke:
+
+```html
+<button id="ledtråd-knapp">Visa ledtråd</button>
+<p id="ledtråd" hidden>Svaret börjar på S.</p>
+```
+
+När knappen klickas ska ledtråden visas. Välj ut och ordna raderna. Två av raderna ska inte användas.
 
 ```javascript
 });
@@ -620,7 +581,20 @@ knapp.addEventListener("onclick", () => {
 ::: {.callout-note}
 ## Övning – Mörkt läge
 
-Övningssidan har en knapp med id `tema-knapp` och en CSS-klass `dark`. Den här koden slår av och på mörkt läge vid varje klick:
+Sidan har en knapp, och en CSS-klass `dark` i ett `<style>`-element i `<head>`:
+
+```html
+<button id="tema-knapp">Byt tema</button>
+```
+
+```css
+.dark {
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+}
+```
+
+Den här koden slår av och på mörkt läge vid varje klick:
 
 ```javascript
 const temaKnapp = document.querySelector("#tema-knapp");
@@ -645,7 +619,7 @@ I de återstående övningarna bygger du sidorna själv, både HTML och JavaScri
 4. **Börja skriptet med steget *hämta*.** Hämta varje element med `querySelector` och skriv ut det med `console.log`. Står det `null` i konsolen stämmer selektorn inte med id:t i HTML-koden – rätta det innan du går vidare.
 5. **Skriv resten av koden**, ett steg i taget, och prova efter varje steg.
 
-Behöver sidan CSS lägger du ett `<style>`-element i `<head>`, som på övningssidan.
+Behöver sidan CSS lägger du ett `<style>`-element i `<head>`.
 
 ::: {.callout-note}
 ## Övning – Knappräknare

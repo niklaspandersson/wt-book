@@ -14,8 +14,6 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 
 ## Övning – Vad händer vid klicket?
 
-Knappen som `querySelector("button")` hittar är *Säg hej*, den första knappen på sidan.
-
 1. Båda lyssnarna körs vid varje klick, i den ordning de registrerades. Ett element kan ha hur många lyssnare som helst, även för samma händelse.
 2. Efter tre klick visar sidan `4`, men `antal` pekar på `3`.
 3. Spårtabellen:
@@ -64,7 +62,7 @@ Knappen som `querySelector("button")` hittar är *Säg hej*, den första knappen
 
 ## Övning – Förklara koden
 
-1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.* (På övningssidan är knappen *Säg hej*, eftersom det är den första knappen.)
+1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.*
 2. Elementen hämtas på de två första raderna (och med `document.querySelector("button")`). Värdet läses med `svarsfält.value` och visas med `kvitto.textContent = …`, som också bygger texten med en templatesträng.
 
     Det nya är raden `svarsfält.value = "";`. I kapitlets exempel lästes `.value`, men här *skrivs* det: koden tömmer fältet. `.value` fungerar alltså åt båda hållen, precis som `textContent`.
