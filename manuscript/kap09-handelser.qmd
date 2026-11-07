@@ -41,7 +41,8 @@ Kapitlets exempel är fristående från varandra. Övningssidan börjar därför
 ## Så provar du koden i det här kapitlet
 
 - Lägg in HTML-koden från varje avsnitt och övning i `<body>`, ovanför `<script>`-elementet. Varje del ligger i ett eget `<section>`-element med ett eget id och en rubrik, så sidan växer avsnitt för avsnitt utan att delarna blandas ihop.
-- Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning. Flera exempel använder samma variabelnamn, till exempel `knapp`, och två `const` med samma namn i samma skript ger ett fel.
+- Skriv exemplen och övningarna efter varandra i `<script>`-elementet. Variablerna och funktionerna har olika namn i olika avsnitt, så koden kan ligga kvar, och hela sidan fungerar hela tiden.
+- Ger en ny snutt ett felmeddelande när sidan laddas, körs inte koden som står efter den. Rätta felet innan du går vidare.
 - Några övningar hämtar en knapp med en selektor som `"#spåra button"`. Den betyder, precis som i CSS, en `<button>` inuti elementet med id `spåra`. Så hittar koden rätt knapp, fast sidan har många.
 :::
 
@@ -89,25 +90,23 @@ Här är en knapp som skriver ut ett meddelande i konsolen när den klickas:
 ```
 
 ```javascript
-const knapp = document.querySelector("#hälsa-knapp");
+const hälsaKnapp = document.querySelector("#hälsa-knapp");
 
 function hälsa() {
     console.log("Hej!");
 }
 
-knapp.addEventListener("click", hälsa);
+hälsaKnapp.addEventListener("click", hälsa);
 ```
 
 Koden hämtar knappen, definierar funktionen `hälsa` och anropar `addEventListener` med händelsetypen `"click"` och funktionen `hälsa`. Varje gång användaren klickar på knappen skrivs "Hej!" i konsolen. Funktionen körs inte när sidan laddas, utan *bara* när händelsen inträffar.
 
-Callbacken kan lika gärna ändra sidan, till exempel stycket ovanför knappen:
+Callbacken kan lika gärna ändra sidan. Byt ut raden med `console.log` i `hälsa`, så att funktionen ändrar stycket ovanför knappen:
 
 ```javascript
 function hälsa() {
     document.querySelector("#meddelande").textContent = "Hej! Du klickade på knappen.";
 }
-
-knapp.addEventListener("click", hälsa);
 ```
 
 ---
@@ -124,10 +123,10 @@ Att du kan skicka `hälsa` som argument beror på att en funktion i JavaScript �
 
 ```javascript
 // Rätt: skicka funktionen
-knapp.addEventListener("click", hälsa);
+hälsaKnapp.addEventListener("click", hälsa);
 
 // Fel: anropar funktionen direkt, skickar returvärdet (undefined)
-knapp.addEventListener("click", hälsa());
+hälsaKnapp.addEventListener("click", hälsa());
 ```
 
 Körs din funktion en gång när sidan laddas och sedan aldrig mer, kontrollera om du har skrivit parenteser.
@@ -138,7 +137,7 @@ Körs din funktion en gång när sidan laddas och sedan aldrig mer, kontrollera 
 Behövs funktionen bara på ett ställe kan du skriva den direkt i anropet i stället för att först definiera den med ett namn. Ta funktionen `hälsa`, ta bort namnet och flytta in hela definitionen där namnet stod:
 
 ```javascript
-knapp.addEventListener("click", function() {
+hälsaKnapp.addEventListener("click", function() {
     console.log("Klickad!");
 });
 ```
@@ -152,7 +151,7 @@ Det andra argumentet till `addEventListener` är hela funktionen, från `functio
 Anonyma callbacks är så vanliga att JavaScript har en kortare skrivform för dem. Den kallas **pilfunktion** (*arrow function*) efter tecknen `=>`:
 
 ```javascript
-knapp.addEventListener("click", () => {
+hälsaKnapp.addEventListener("click", () => {
     console.log("Klickad!");
 });
 ```
@@ -461,9 +460,9 @@ Utan att köra koden – gå igenom följande och ange vad som skrivs ut och i v
 ```javascript
 console.log("A");
 
-const knapp = document.querySelector("#spåra button");
+const spåraKnapp = document.querySelector("#spåra button");
 
-knapp.addEventListener("click", () => {
+spåraKnapp.addEventListener("click", () => {
     console.log("B");
 });
 
@@ -491,27 +490,27 @@ Sidan har den här delen:
 Koden registrerar *två* lyssnare för klick på samma knapp – något som kapitlet inte har visat. Läs koden.
 
 ```javascript
-let antal = 0;
-const knapp = document.querySelector("#två-lyssnare button");
-const antalElement = document.querySelector("#två-lyssnare span");
+let tal = 0;
+const talKnapp = document.querySelector("#två-lyssnare button");
+const talElement = document.querySelector("#två-lyssnare span");
 
-function visaAntal(värde) {
-    antalElement.textContent = värde;
+function visaTal(värde) {
+    talElement.textContent = värde;
 }
 
-knapp.addEventListener("click", () => {
-    antal += 2;
-    visaAntal(antal);
+talKnapp.addEventListener("click", () => {
+    tal += 2;
+    visaTal(tal);
 });
 
-knapp.addEventListener("click", () => {
-    antal--;
+talKnapp.addEventListener("click", () => {
+    tal--;
 });
 ```
 
 1. **Förutsäg.** Körs båda lyssnarna när knappen klickas, eller bara en av dem? Om båda: i vilken ordning? Skriv ner din gissning och varför.
-2. **Testa.** Skriv in koden på övningssidan och klicka tre gånger. Titta på sidan, och skriv `antal` i konsolen efter varje klick. Stämde din gissning?
-3. **Förklara.** Gör en spårtabell med kolumnerna *Klick*, *`antal` efter klicket* och *Sidan visar*, för de tre klicken. Varför visar sidan inte samma tal som variabeln? Vad behöver ändras för att de ska stämma överens?
+2. **Testa.** Skriv in koden på övningssidan och klicka tre gånger. Titta på sidan, och skriv `tal` i konsolen efter varje klick. Stämde din gissning?
+3. **Förklara.** Gör en spårtabell med kolumnerna *Klick*, *`tal` efter klicket* och *Sidan visar*, för de tre klicken. Varför visar sidan inte samma tal som variabeln? Vad behöver ändras för att de ska stämma överens?
 :::
 
 ::: {.callout-note}
@@ -531,27 +530,27 @@ Testa sedan en snutt i taget. Sidan behöver den här delen:
 Snutten behöver variabeln `knapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
 
 ```javascript
-const knapp = document.querySelector("#fel button");
+const felKnapp = document.querySelector("#fel button");
 ```
 
 ```javascript
 // A
-function hälsa() {
+function sägHej() {
     console.log("Hej!");
 }
-knapp.addEventListener("click", hälsa());
+felKnapp.addEventListener("click", sägHej());
 ```
 
 ```javascript
 // B
-knapp.addEventListener("klick", () => {
+felKnapp.addEventListener("klick", () => {
     console.log("Hej!");
 });
 ```
 
 ```javascript
 // C
-knapp.addEventlistener("click", () => {
+felKnapp.addEventlistener("click", () => {
     console.log("Hej!");
 });
 ```
@@ -607,11 +606,11 @@ När knappen klickas ska ledtråden visas. Välj ut och ordna raderna. Två av r
 ```javascript
 });
 const ledtråd = document.querySelector("#ledtråd");
-knapp.addEventListener("click", visaLedtråd());
+ledtrådKnapp.addEventListener("click", visaLedtråd());
     ledtråd.hidden = false;
-knapp.addEventListener("click", () => {
-const knapp = document.querySelector("#ledtråd-knapp");
-knapp.addEventListener("onclick", () => {
+ledtrådKnapp.addEventListener("click", () => {
+const ledtrådKnapp = document.querySelector("#ledtråd-knapp");
+ledtrådKnapp.addEventListener("onclick", () => {
 ```
 
 1. Vilka två rader använde du inte, och vad är fel med dem?

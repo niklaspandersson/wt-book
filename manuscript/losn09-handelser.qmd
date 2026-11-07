@@ -15,16 +15,16 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 ## Övning – Vad händer vid klicket?
 
 1. Båda lyssnarna körs vid varje klick, i den ordning de registrerades. Ett element kan ha hur många lyssnare som helst, även för samma händelse.
-2. Efter tre klick visar sidan `4`, men `antal` pekar på `3`.
+2. Efter tre klick visar sidan `4`, men `tal` pekar på `3`.
 3. Spårtabellen:
 
-    | Klick | `antal` efter klicket | Sidan visar |
+    | Klick | `tal` efter klicket | Sidan visar |
     |---|---|---|
     | 1 | 1 | 2 |
     | 2 | 2 | 3 |
     | 3 | 3 | 4 |
 
-    Vid första klicket ökar den första lyssnaren `antal` till 2 och visar det. Sedan minskar den andra lyssnaren `antal` till 1 – men visar det inte. Den andra lyssnaren ändrar variabeln men uppdaterar inte sidan. Sidan visar alltså alltid värdet *mitt i* klicket, efter den första lyssnaren men före den andra. Det finns två sätt att få dem att stämma: anropa `visaAntal(antal)` också i den andra lyssnaren, eller – enklare – slå ihop allt i en enda lyssnare som först räknar ut det nya värdet och sedan visar det. Lärdomen är att sidan bara ändras när du skriver till den.
+    Vid första klicket ökar den första lyssnaren `tal` till 2 och visar det. Sedan minskar den andra lyssnaren `tal` till 1 – men visar det inte. Den andra lyssnaren ändrar variabeln men uppdaterar inte sidan. Sidan visar alltså alltid värdet *mitt i* klicket, efter den första lyssnaren men före den andra. Det finns två sätt att få dem att stämma: anropa `visaTal(tal)` också i den andra lyssnaren, eller – enklare – slå ihop allt i en enda lyssnare som först räknar ut det nya värdet och sedan visar det. Lärdomen är att sidan bara ändras när du skriver till den.
 
 ## Övning – Vad säger felet?
 
@@ -32,30 +32,30 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 |---|---|---|
 | A | `Hej!` skrivs ut en gång när sidan laddas, men aldrig vid klick | inget felmeddelande |
 | B | ingenting händer, varken vid laddning eller klick | inget felmeddelande |
-| C | felmeddelande när sidan laddas | `TypeError: knapp.addEventlistener is not a function` |
+| C | felmeddelande när sidan laddas | `TypeError: felKnapp.addEventlistener is not a function` |
 
 1. Snutt C ger ett felmeddelande, ett `TypeError`. Ordet som pekar ut felet är `addEventlistener`: det ska vara stort L. Knappen finns, men den har ingen metod med det namnet.
-2. A och B ger inga fel. I A anropas `hälsa` direkt, eftersom parenteserna finns, och `addEventListener` får funktionens returvärde, `undefined`. Webbläsaren tar emot `undefined` som callback utan att klaga, och gör ingenting vid klick. I B finns ingen händelse som heter `"klick"`, men webbläsaren kontrollerar inte namnet – den väntar bara på en händelse som aldrig kommer. Fel utan felmeddelande är svårast att hitta, eftersom ingenting pekar ut var du ska leta. Du märker bara att något inte händer.
+2. A och B ger inga fel. I A anropas `sägHej` direkt, eftersom parenteserna finns, och `addEventListener` får funktionens returvärde, `undefined`. Webbläsaren tar emot `undefined` som callback utan att klaga, och gör ingenting vid klick. I B finns ingen händelse som heter `"klick"`, men webbläsaren kontrollerar inte namnet – den väntar bara på en händelse som aldrig kommer. Fel utan felmeddelande är svårast att hitta, eftersom ingenting pekar ut var du ska leta. Du märker bara att något inte händer.
 3. Rättade:
 
     ```javascript
     // A
-    function hälsa() {
+    function sägHej() {
         console.log("Hej!");
     }
-    knapp.addEventListener("click", hälsa);
+    felKnapp.addEventListener("click", sägHej);
     ```
 
     ```javascript
     // B
-    knapp.addEventListener("click", () => {
+    felKnapp.addEventListener("click", () => {
         console.log("Hej!");
     });
     ```
 
     ```javascript
     // C
-    knapp.addEventListener("click", () => {
+    felKnapp.addEventListener("click", () => {
         console.log("Hej!");
     });
     ```
@@ -70,9 +70,9 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 ## Övning – Ordna raderna
 
 ```javascript
-const knapp = document.querySelector("#ledtråd-knapp");
+const ledtrådKnapp = document.querySelector("#ledtråd-knapp");
 const ledtråd = document.querySelector("#ledtråd");
-knapp.addEventListener("click", () => {
+ledtrådKnapp.addEventListener("click", () => {
     ledtråd.hidden = false;
 });
 ```
@@ -80,20 +80,20 @@ knapp.addEventListener("click", () => {
 (De två första raderna kan byta plats.)
 
 1. Raderna som inte används:
-   - `knapp.addEventListener("click", visaLedtråd());` – parenteserna gör att funktionen anropas direkt, och det är dess returvärde som skickas. Här finns dessutom ingen funktion som heter `visaLedtråd`, så raden ger `ReferenceError: visaLedtråd is not defined`.
-   - `knapp.addEventListener("onclick", () => {` – händelsen heter `"click"`, inte `"onclick"`. Inget felmeddelande, men ingenting händer vid klick.
+   - `ledtrådKnapp.addEventListener("click", visaLedtråd());` – parenteserna gör att funktionen anropas direkt, och det är dess returvärde som skickas. Här finns dessutom ingen funktion som heter `visaLedtråd`, så raden ger `ReferenceError: visaLedtråd is not defined`.
+   - `ledtrådKnapp.addEventListener("onclick", () => {` – händelsen heter `"click"`, inte `"onclick"`. Inget felmeddelande, men ingenting händer vid klick.
 2. De två `const`-raderna och raden med `addEventListener` körs när sidan laddas. Raden `ledtråd.hidden = false;` körs vid varje klick.
 3. Med en namngiven funktion:
 
     ```javascript
-    const knapp = document.querySelector("#ledtråd-knapp");
+    const ledtrådKnapp = document.querySelector("#ledtråd-knapp");
     const ledtråd = document.querySelector("#ledtråd");
 
     function visaLedtråd() {
         ledtråd.hidden = false;
     }
 
-    knapp.addEventListener("click", visaLedtråd);
+    ledtrådKnapp.addEventListener("click", visaLedtråd);
     ```
 
     Raden med `addEventListener` har `visaLedtråd` *utan* parenteser – det är funktionen som lämnas över, inte ett anrop.
