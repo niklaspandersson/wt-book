@@ -63,7 +63,7 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 ## Övning – Förklara koden
 
 1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.*
-2. Elementen hämtas på de två första raderna (och med `document.querySelector("button")`). Värdet läses med `svarsfält.value` och visas med `kvitto.textContent = …`, som också bygger texten med en templatesträng.
+2. Elementen hämtas på de två första raderna (och med `document.querySelector("#förklara button")`). Värdet läses med `svarsfält.value` och visas med `kvitto.textContent = …`, som också bygger texten med en templatesträng.
 
     Det nya är raden `svarsfält.value = "";`. I kapitlets exempel lästes `.value`, men här *skrivs* det: koden tömmer fältet. `.value` fungerar alltså åt båda hållen, precis som `textContent`.
 

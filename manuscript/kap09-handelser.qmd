@@ -40,9 +40,9 @@ Kapitlets exempel är fristående från varandra. Övningssidan börjar därför
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-- Lägg in HTML-koden från varje avsnitt i `<body>`, ovanför `<script>`-elementet. Elementen från förra avsnittet kan du ta bort.
+- Lägg in HTML-koden från varje avsnitt och övning i `<body>`, ovanför `<script>`-elementet. Varje del ligger i ett eget `<section>`-element med ett eget id och en rubrik, så sidan växer avsnitt för avsnitt utan att delarna blandas ihop.
 - Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning. Flera exempel använder samma variabelnamn, till exempel `knapp`, och två `const` med samma namn i samma skript ger ett fel.
-- Några exempel och övningar hämtar knappen med `document.querySelector("button")`. Det ger den *första* knappen på sidan, så ha bara de knappar på sidan som exemplet visar.
+- Några övningar hämtar en knapp med en selektor som `"#spåra button"`. Den betyder, precis som i CSS, en `<button>` inuti elementet med id `spåra`. Så hittar koden rätt knapp, fast sidan har många.
 :::
 
 ---
@@ -81,7 +81,11 @@ Det första argumentet är en sträng med händelsens namn. Det andra är funkti
 Här är en knapp som skriver ut ett meddelande i konsolen när den klickas:
 
 ```html
-<button id="hälsa-knapp">Säg hej</button>
+<section id="klick">
+    <h2>Klick</h2>
+    <p id="meddelande">Klicka på knappen!</p>
+    <button id="hälsa-knapp">Säg hej</button>
+</section>
 ```
 
 ```javascript
@@ -96,11 +100,7 @@ knapp.addEventListener("click", hälsa);
 
 Koden hämtar knappen, definierar funktionen `hälsa` och anropar `addEventListener` med händelsetypen `"click"` och funktionen `hälsa`. Varje gång användaren klickar på knappen skrivs "Hej!" i konsolen. Funktionen körs inte när sidan laddas, utan *bara* när händelsen inträffar.
 
-Callbacken kan lika gärna ändra sidan:
-
-```html
-<p id="meddelande">Klicka på knappen!</p>
-```
+Callbacken kan lika gärna ändra sidan, till exempel stycket ovanför knappen:
 
 ```javascript
 function hälsa() {
@@ -177,8 +177,11 @@ En namngiven funktion passar när samma funktion ska användas på flera ställe
 En callback kan läsa och ändra variabler som är deklarerade utanför den, enligt reglerna för **scope** (kapitel [-@sec-funktioner]). Det behövs när sidan ska minnas något mellan två händelser, som en räknare. Det är ett av få goda skäl att ha en variabel på översta nivån, trots rådet att hålla variabler lokala:
 
 ```html
-<p>Antal klick: <span id="antal">0</span></p>
-<button id="räkna-knapp">Klicka!</button>
+<section id="räknare">
+    <h2>Räknare</h2>
+    <p>Antal klick: <span id="antal">0</span></p>
+    <button id="räkna-knapp">Klicka!</button>
+</section>
 ```
 
 ```javascript
@@ -197,9 +200,12 @@ räknaKnapp.addEventListener("click", () => {
 Flera callbacks kan ändra samma variabel. Här visar båda poängen med samma funktion:
 
 ```html
-<p id="poäng">Poäng: 0</p>
-<button id="rätt-knapp">Rätt svar (+10)</button>
-<button id="nollställ-knapp">Börja om</button>
+<section id="poängräkning">
+    <h2>Poäng</h2>
+    <p id="poäng">Poäng: 0</p>
+    <button id="rätt-knapp">Rätt svar (+10)</button>
+    <button id="nollställ-knapp">Börja om</button>
+</section>
 ```
 
 ```javascript
@@ -246,7 +252,10 @@ plusKnapp.addEventListener("click", () => {
 `mouseenter` och `mouseleave` inträffar när muspekaren *går in i* respektive *lämnar* ett element:
 
 ```html
-<div id="kort" class="kort">Håll musen över mig!</div>
+<section id="mus">
+    <h2>Mus</h2>
+    <div id="kort" class="kort">Håll musen över mig!</div>
+</section>
 ```
 
 CSS-koden lägger du i ett `<style>`-element i `<head>`.
@@ -293,8 +302,11 @@ Textfält och andra formulärelement har egna händelser:
 - `change` inträffar när användaren är *klar* med ändringen – lämnar fältet eller trycker Enter.
 
 ```html
-<input type="text" id="namnfält" placeholder="Skriv ditt namn">
-<p id="hälsning">Hej, främling!</p>
+<section id="textfält">
+    <h2>Textfält</h2>
+    <input type="text" id="namnfält" placeholder="Skriv ditt namn">
+    <p id="hälsning">Hej, främling!</p>
+</section>
 ```
 
 ```javascript
@@ -322,12 +334,15 @@ För `<input>`, `<textarea>` och `<select>` läser du innehållet med `.value`, 
 `change` inträffar mer sällan än `input`, typiskt när användaren lämnar fältet eller gör ett val:
 
 ```html
-<select id="språk">
-    <option value="sv">Svenska</option>
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
-</select>
-<p id="valt">Du valde: Svenska</p>
+<section id="meny">
+    <h2>Meny</h2>
+    <select id="språk">
+        <option value="sv">Svenska</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+    </select>
+    <p id="valt">Du valde: Svenska</p>
+</section>
 ```
 
 ```javascript
@@ -362,9 +377,12 @@ Allt du läser med `.value` är text – även om användaren har skrivit en sif
 När ett lag anmäler sig till en tävling skriver någon in lagets namn i ett textfält och klickar på *Spara*. Då ska namnet visas på sidan:
 
 ```html
-<input type="text" id="lagfält" placeholder="Lagets namn">
-<button id="spara-knapp">Spara</button>
-<p id="lagnamn">Lag: –</p>
+<section id="anmälan">
+    <h2>Anmälan</h2>
+    <input type="text" id="lagfält" placeholder="Lagets namn">
+    <button id="spara-knapp">Spara</button>
+    <p id="lagnamn">Lag: –</p>
+</section>
 ```
 
 ```javascript
@@ -431,12 +449,19 @@ Har du redan stött på de klassiska felen – en räknare som aldrig kommer öv
 ::: {.callout-note}
 ## Övning – Spåra exekveringen
 
-Utan att köra koden – gå igenom följande och ange vad som skrivs ut och i vilken ordning:
+Utan att köra koden – gå igenom följande och ange vad som skrivs ut och i vilken ordning. Sidan har den här delen:
+
+```html
+<section id="spåra">
+    <h2>Spåra exekveringen</h2>
+    <button>Klicka</button>
+</section>
+```
 
 ```javascript
 console.log("A");
 
-const knapp = document.querySelector("button");
+const knapp = document.querySelector("#spåra button");
 
 knapp.addEventListener("click", () => {
     console.log("B");
@@ -448,26 +473,27 @@ console.log("C");
 1. Vad skrivs ut direkt när sidan laddas?
 2. Vad händer när användaren klickar på knappen en gång? Två gånger?
 3. Varför skrivs "B" inte ut direkt? Var i koden står anropet av callbacken, och vem är det som anropar den?
-
-För att prova koden behöver sidan en knapp: `<button>Klicka</button>`.
 :::
 
 ::: {.callout-note}
 ## Övning – Vad händer vid klicket?
 
-Sidan har en knapp och ett element med id `antal`:
+Sidan har den här delen:
 
 ```html
-<button>Klicka</button>
-<p>Antal: <span id="antal">0</span></p>
+<section id="två-lyssnare">
+    <h2>Två lyssnare</h2>
+    <button>Klicka</button>
+    <p>Antal: <span>0</span></p>
+</section>
 ```
 
 Koden registrerar *två* lyssnare för klick på samma knapp – något som kapitlet inte har visat. Läs koden.
 
 ```javascript
 let antal = 0;
-const knapp = document.querySelector("button");
-const antalElement = document.querySelector("#antal");
+const knapp = document.querySelector("#två-lyssnare button");
+const antalElement = document.querySelector("#två-lyssnare span");
 
 function visaAntal(värde) {
     antalElement.textContent = värde;
@@ -493,10 +519,19 @@ knapp.addEventListener("click", () => {
 
 Var och en av kodsnuttarna nedan är tänkt att skriva `Hej!` i konsolen när knappen klickas, men ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, skrivs `Hej!` ut vid fel tillfälle, eller händer ingenting alls?
 
-Testa sedan en snutt i taget. Sidan behöver en knapp, `<button>Säg hej</button>`, och snutten behöver variabeln `knapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
+Testa sedan en snutt i taget. Sidan behöver den här delen:
+
+```html
+<section id="fel">
+    <h2>Vad säger felet?</h2>
+    <button>Säg hej</button>
+</section>
+```
+
+Snutten behöver variabeln `knapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
 
 ```javascript
-const knapp = document.querySelector("button");
+const knapp = document.querySelector("#fel button");
 ```
 
 ```javascript
@@ -529,19 +564,22 @@ knapp.addEventlistener("click", () => {
 ::: {.callout-note}
 ## Övning – Förklara koden
 
-Läs koden. Sidan har ett textfält, en knapp och ett stycke:
+Läs koden. Sidan har den här delen:
 
 ```html
-<input type="text" id="svar" placeholder="Ditt svar">
-<button>Skicka</button>
-<p id="kvitto"></p>
+<section id="förklara">
+    <h2>Förklara koden</h2>
+    <input type="text" id="svar" placeholder="Ditt svar">
+    <button>Skicka</button>
+    <p id="kvitto"></p>
+</section>
 ```
 
 ```javascript
 const svarsfält = document.querySelector("#svar");
 const kvitto = document.querySelector("#kvitto");
 
-document.querySelector("button").addEventListener("click", () => {
+document.querySelector("#förklara button").addEventListener("click", () => {
     kvitto.textContent = `Ditt svar: ${svarsfält.value}`;
     svarsfält.value = "";
 });
@@ -557,8 +595,11 @@ document.querySelector("button").addEventListener("click", () => {
 Sidan har en knapp och ett dolt stycke:
 
 ```html
-<button id="ledtråd-knapp">Visa ledtråd</button>
-<p id="ledtråd" hidden>Svaret börjar på S.</p>
+<section id="ordna">
+    <h2>Ordna raderna</h2>
+    <button id="ledtråd-knapp">Visa ledtråd</button>
+    <p id="ledtråd" hidden>Svaret börjar på S.</p>
+</section>
 ```
 
 När knappen klickas ska ledtråden visas. Välj ut och ordna raderna. Två av raderna ska inte användas.
@@ -584,7 +625,10 @@ knapp.addEventListener("onclick", () => {
 Sidan har en knapp, och en CSS-klass `dark` i ett `<style>`-element i `<head>`:
 
 ```html
-<button id="tema-knapp">Byt tema</button>
+<section id="tema">
+    <h2>Mörkt läge</h2>
+    <button id="tema-knapp">Byt tema</button>
+</section>
 ```
 
 ```css
