@@ -1,0 +1,210 @@
+# Musen {#sec-musen}
+
+Det här kapitlet visar hur en sida kan reagera på musen, inte bara på klick. Menyer som fälls ut när pekaren förs över dem, bilder som förstoras och spel där något följer pekaren bygger alla på mushändelser.
+
+En **mushändelse** inträffar när användaren rör musen eller trycker på någon av dess knappar. `click` från kapitel [-@sec-handelser] är en av dem. Event-objektet talar om var på sidan pekaren var. Prova exemplen på övningssidan från kapitel [-@sec-handelser].
+
+## `mouseenter` och `mouseleave`
+
+`mouseenter` inträffar när pekaren går in i ett element och `mouseleave` när den lämnar det:
+
+```html
+<div id="kort" class="kort">Håll musen över mig!</div>
+```
+
+```css
+.kort {
+    padding: 2rem;
+    border: 2px solid #ccc;
+    transition: background-color 0.3s;
+}
+.kort.aktiv {
+    background-color: lightyellow;
+    border-color: gold;
+}
+```
+
+```javascript
+const kort = document.querySelector("#kort");
+
+kort.addEventListener("mouseenter", () => {
+    kort.classList.add("aktiv");
+});
+
+kort.addEventListener("mouseleave", () => {
+    kort.classList.remove("aktiv");
+});
+```
+
+Kortet har klassen `aktiv` så länge pekaren är över det. Just den här effekten går också att göra helt i CSS med `:hover`. JavaScript behövs när något ska räknas ut eller kommas ihåg, till exempel hur många gånger pekaren har varit över kortet.
+
+## `mousemove`
+
+`mousemove` inträffar hela tiden medan pekaren rör sig över elementet, många gånger i sekunden:
+
+```javascript
+let antalRörelser = 0;
+
+kort.addEventListener("mousemove", () => {
+    antalRörelser++;
+    kort.textContent = `${antalRörelser} rörelser`;
+});
+```
+
+Räknaren ökar snabbt. En callback till `mousemove` ska därför vara kort och bara göra det som behövs.
+
+## `clientX` och `clientY`
+
+Event-objektet för en mushändelse har egenskaperna `clientX` och `clientY`: pekarens avstånd i pixlar från fönstrets vänsterkant och överkant.
+
+```javascript
+document.addEventListener("click", (e) => {
+    console.log(e.clientX, e.clientY);
+});
+```
+
+Ett klick nära fönstrets övre vänstra hörn ger små tal. Längre åt höger växer `clientX`, och längre ned växer `clientY`.
+
+Med koordinaterna kan ett element flyttas dit pekaren är. Elementet behöver `position: fixed`, som placerar det räknat från fönstrets hörn, precis som `clientX` och `clientY` räknar:
+
+```html
+<div id="prick"></div>
+```
+
+```css
+#prick {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: tomato;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+}
+```
+
+```javascript
+const prick = document.querySelector("#prick");
+
+document.addEventListener("click", (e) => {
+    prick.style.left = `${e.clientX}px`;
+    prick.style.top = `${e.clientY}px`;
+});
+```
+
+Pricken hoppar dit användaren klickar. Värdet till `style.left` och `style.top` måste ha en enhet, `px`, annars ignorerar webbläsaren det.
+
+## Fler mushändelser
+
+| Händelse | Inträffar när … |
+|---|---|
+| `click` | en knapp trycks ned och släpps på elementet |
+| `dblclick` | användaren dubbelklickar |
+| `mousedown` | en musknapp trycks ned |
+| `mouseup` | en musknapp släpps |
+| `mousemove` | pekaren rör sig över elementet |
+| `mouseenter`, `mouseleave` | pekaren går in i eller lämnar elementet |
+| `mouseover`, `mouseout` | som `mouseenter` och `mouseleave`, men skillnaden märks när elementet har andra element i sig |
+
+Varför `mouseover` och `mouseenter` beter sig olika förklaras i kapitel [-@sec-manga-element].
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [`MouseEvent`](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) | event-objektet för mushändelser och alla dess egenskaper |
+| [`MouseEvent.clientX`](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX) | koordinaterna, med en jämförelse av `clientX`, `pageX` och `screenX` |
+| [`mouseenter`](https://developer.mozilla.org/en-US/docs/Web/API/Element/mouseenter_event) och [`mousemove`](https://developer.mozilla.org/en-US/docs/Web/API/Element/mousemove_event) | händelserna |
+
+---
+
+## Övningar
+
+Gör övningarna på övningssidan från kapitel [-@sec-handelser]. Lägg till de element och den CSS som övningen visar.
+
+::: {.callout-note}
+## Övning – I vilken ordning?
+
+Kortet från kapitlets början har de här lyssnarna:
+
+```javascript
+const kort = document.querySelector("#kort");
+
+kort.addEventListener("mouseenter", () => {
+    console.log("in");
+});
+
+kort.addEventListener("mousemove", (e) => {
+    console.log(`rör ${e.clientX}`);
+});
+
+kort.addEventListener("click", (e) => {
+    console.log(`klick ${e.clientX} ${e.clientY}`);
+});
+
+kort.addEventListener("mouseleave", () => {
+    console.log("ut");
+});
+```
+
+Användaren för in pekaren i kortet från vänster, rör den åt höger, klickar och för ut pekaren genom kortets högra kant.
+
+1. Förutsäg ungefär vad som skrivs ut, i vilken ordning. Vilka rader kommer många gånger?
+2. Blir talen efter `rör` större eller mindre ju längre pekaren kommer?
+3. Pröva och jämför med din förutsägelse.
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Alla tre snuttarna är tänkta att låta pricken från avsnittet om `clientX` följa pekaren när den rör sig över sidan. Ingen av dem fungerar som tänkt, och ingen ger ett felmeddelande. Förutsäg vad som händer med varje snutt, och prova sedan en i taget.
+
+```javascript
+// A
+document.addEventListener("mousemove", (e) => {
+    prick.style.left = e.clientX;
+    prick.style.top = e.clientY;
+});
+```
+
+```javascript
+// B
+document.addEventListener("mouseMove", (e) => {
+    prick.style.left = `${e.clientX}px`;
+    prick.style.top = `${e.clientY}px`;
+});
+```
+
+```javascript
+// C
+prick.addEventListener("mousemove", (e) => {
+    prick.style.left = `${e.clientX}px`;
+    prick.style.top = `${e.clientY}px`;
+});
+```
+
+1. Vad händer med varje snutt, och varför?
+2. Rätta alla tre.
+:::
+
+::: {.callout-note}
+## Övning – Markera kort
+
+Gör en sida med tre "kort". När muspekaren är över ett kort ska det få klassen `aktiv`, och när muspekaren lämnar det ska klassen tas bort.
+
+Ett kort kan vara ett `<div>`-element med lite text. Ge alla tre korten klassen `kort`, som bestämmer hur de ser ut, och var sitt id, så att koden kan hämta dem ett i taget. Utgå från CSS:en i avsnittet om `mouseenter`, men ändra gärna färgerna – då ser du att det är din egen CSS som syns.
+
+1. Lös uppgiften för ett kort.
+2. Skriv en funktion `görMarkerbar(kort)` som tar ett element och registrerar båda lyssnarna på det. Använd funktionen för alla tre korten.
+3. Lägg de tre korten i en array och anropa `görMarkerbar` i en `for...of`-loop. Vad behöver ändras i skriptet för ett fjärde kort?
+:::
+
+::: {.callout-note}
+## Övning – Vänster eller höger
+
+Gör en sida där pricken följer pekaren när den rör sig, och ett stycke visar `Vänster halva` eller `Höger halva` beroende på var pekaren är.
+
+1. Låt pricken följa pekaren med `mousemove` på `document`.
+2. Fönstrets bredd i pixlar är `window.innerWidth`. Hur avgör du om pekaren är i den vänstra eller den högra halvan?
+3. Ge pricken en annan färg i den högra halvan, med en CSS-klass. Tänk på att färgen sätts med selektorn `#prick`, som väger tyngre än en klass. Skriv därför regeln som `#prick.höger`.
+:::

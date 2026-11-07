@@ -18,7 +18,7 @@ En loop löser det, om räknaren får vara indexet. Att **gå igenom** en array 
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap16`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap17`:
 
 ```html
 <!DOCTYPE html>

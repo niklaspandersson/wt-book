@@ -1,6 +1,6 @@
 # Händelser och interaktivitet {#sec-handelser}
 
-Här lär du dig hur ett program märker att besökaren har klickat, skrivit eller rört musen, och hur det svarar. En webbsida står still tills någon använder den, men då ska den reagera direkt.
+Här lär du dig hur ett program märker att besökaren har klickat på något, och hur det svarar. En webbsida står still tills någon använder den, men då ska den reagera direkt.
 
 ## En knapp som inte reagerar
 
@@ -65,7 +65,7 @@ Några vanliga händelser:
 | `input`      | Innehållet i ett textfält ändras     |
 | `change`     | Ett formulärelement ändrar värde     |
 
-Tangenthändelserna tas upp i kapitel [-@sec-manga-element]. Vi börjar med den vanligaste händelsen: `click`.
+Det här kapitlet använder den vanligaste händelsen, `click`.
 
 ---
 
@@ -246,115 +246,89 @@ plusKnapp.addEventListener("click", () => {
 
 ---
 
-## Mushändelser
+## Event-objektet
 
-`mouseenter` och `mouseleave` inträffar när muspekaren *går in i* respektive *lämnar* ett element:
+När webbläsaren anropar en callback skickar den med ett argument: ett **event-objekt** med information om händelsen. Ger du callbacken en parameter tar du emot det, som med vilken parameter som helst (kapitel [-@sec-funktioner]):
 
 ```html
-<section id="mus">
-    <h2>Mus</h2>
-    <div id="kort" class="kort">Håll musen över mig!</div>
+<section id="händelseinfo">
+    <h2>Event-objektet</h2>
+    <button id="info-knapp">Vad hände?</button>
 </section>
 ```
 
-CSS-koden lägger du i ett `<style>`-element i `<head>`.
+```javascript
+const infoKnapp = document.querySelector("#info-knapp");
 
-```css
-.kort {
-    padding: 2rem;
-    border: 2px solid #ccc;
-    transition: background-color 0.3s;
-}
-.kort.aktiv {
-    background-color: lightyellow;
-    border-color: gold;
-}
+infoKnapp.addEventListener("click", (e) => {
+    console.log(e.type);   // "click"
+});
+```
+
+Parametern kan heta vad som helst, men `event` eller `e` är vanligast. Egenskapen `type` anger vilken sorts händelse det var. Skriv `console.log(e);` i callbacken, så ser du att objektet har dussintals egenskaper.
+
+Callbackarna tidigare i kapitlet fick också ett event-objekt. De saknade bara en parameter att ta emot det i, och då används det inte.
+
+### `e.target`
+
+Egenskapen `target` är elementet som händelsen gällde, vid ett klick den knapp som klickades. Därför kan samma funktion lyssna på flera knappar:
+
+```html
+<section id="val">
+    <h2>Välj</h2>
+    <button id="kaffe-knapp">Kaffe</button>
+    <button id="te-knapp">Te</button>
+    <p id="valt">Inget valt än.</p>
+</section>
 ```
 
 ```javascript
-const kort = document.querySelector("#kort");
+const valtElement = document.querySelector("#valt");
 
-kort.addEventListener("mouseenter", () => {
-    kort.classList.add("aktiv");
-});
+function visaVal(e) {
+    valtElement.textContent = `Du valde: ${e.target.textContent}`;
+}
 
-kort.addEventListener("mouseleave", () => {
-    kort.classList.remove("aktiv");
-});
+document.querySelector("#kaffe-knapp").addEventListener("click", visaVal);
+document.querySelector("#te-knapp").addEventListener("click", visaVal);
 ```
 
-När musen är över kortet får det klassen `aktiv`, och när musen lämnar tas klassen bort. CSS-övergången (`transition`) gör växlingen mjuk.
+Klickar användaren på *Te* anropar webbläsaren `visaVal` med ett event-objekt vars `target` är te-knappen, och stycket visar "Du valde: Te". Funktionen behöver inte veta i förväg vilken knapp den hör till.
 
-::: {.callout-note}
-## Hover-effekter: CSS eller JavaScript?
+::: {.callout-note appearance="simple"}
+## Stanna upp
 
-Enkla hover-effekter kan göras helt i CSS med `:hover`. Använd JavaScript bara när du behöver *logik*, till exempel för att visa en text som räknas ut i koden.
+1. En tredje knapp, *Choklad*, ska också visa sitt namn i stycket. Vad behöver ändras i `visaVal`, och vad behöver läggas till?
+2. Vad händer när sidan laddas om den sista raden i stället är `document.querySelector("#te-knapp").addEventListener("click", visaVal(e));`?
 :::
 
 ---
 
-## Händelserna `input` och `change`
+## `.value` – det som står i ett textfält
 
-Textfält och andra formulärelement har egna händelser:
-
-- `input` inträffar varje gång fältets värde ändras – vid varje bokstav som skrivs.
-- `change` inträffar när användaren är *klar* med ändringen – lämnar fältet eller trycker Enter.
+Ett textfält, `<input>`, har ingen text mellan två taggar, så `textContent` ger ingenting. Det användaren har skrivit läser du med egenskapen **`value`**:
 
 ```html
-<section id="textfält">
-    <h2>Textfält</h2>
+<section id="hälsning">
+    <h2>Hälsning</h2>
     <input type="text" id="namnfält" placeholder="Skriv ditt namn">
-    <p id="hälsning">Hej, främling!</p>
+    <button id="hälsa-namn-knapp">Hälsa</button>
+    <p id="hälsningstext"></p>
 </section>
 ```
 
 ```javascript
 const namnfält = document.querySelector("#namnfält");
-const hälsning = document.querySelector("#hälsning");
+const hälsningstext = document.querySelector("#hälsningstext");
 
-namnfält.addEventListener("input", () => {
-    const namn = namnfält.value;
-    hälsning.textContent = `Hej, ${namn}!`;
+document.querySelector("#hälsa-namn-knapp").addEventListener("click", () => {
+    hälsningstext.textContent = `Hej, ${namnfält.value}!`;
 });
 ```
 
-Texten uppdateras medan användaren skriver. Egenskapen `.value` innehåller textfältets aktuella innehåll.
+Callbacken läser fältet genom variabeln `namnfält`, inte genom event-objektet. Klicket inträffade på knappen, så `e.target` hade varit knappen och inte fältet.
 
-Sudda ut allt i fältet, så visas "Hej, !". Att i stället visa "Hej, främling!" när fältet är tomt kräver att programmet kan välja mellan två texter. Det lär du dig i kapitel [-@sec-villkor].
-
-::: {.callout-note}
-## `.value`, inte `.textContent`
-
-För `<input>`, `<textarea>` och `<select>` läser du innehållet med `.value`, inte `.textContent`.
-:::
-
-### `change`-händelsen
-
-`change` inträffar mer sällan än `input`, typiskt när användaren lämnar fältet eller gör ett val:
-
-```html
-<section id="meny">
-    <h2>Meny</h2>
-    <select id="språk">
-        <option value="sv">Svenska</option>
-        <option value="en">English</option>
-        <option value="de">Deutsch</option>
-    </select>
-    <p id="valt">Du valde: Svenska</p>
-</section>
-```
-
-```javascript
-const språkMeny = document.querySelector("#språk");
-const valtElement = document.querySelector("#valt");
-
-språkMeny.addEventListener("change", () => {
-    const val = språkMeny.value;
-    valtElement.textContent = `Du valde: ${val}`;
-});
-```
-
-För `<select>` och kryssrutor är `change` det naturliga valet. För textfält beror det på om du vill reagera medan användaren skriver (`input`) eller när den är klar (`change`).
+Lämna fältet tomt och klicka, så visas "Hej, !". Att i stället visa "Hej, främling!" när fältet är tomt kräver att programmet kan välja mellan två texter. Det lär du dig i kapitel [-@sec-villkor].
 
 ::: {.callout-note}
 ## `.value` är alltid en sträng
@@ -365,8 +339,8 @@ Allt du läser med `.value` är text – även om användaren har skrivit en sif
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. Ett sökfält ska visa förslag medan användaren skriver. Vilken händelse passar, `input` eller `change`?
-2. Användaren skriver `7` i ett `<input type="number">`. Vad ger `typeof fält.value`?
+1. Ett fält för ålder, `<input type="number" id="ålder">`, är hämtat i variabeln `åldersfält`. Användaren skriver `19`. Vad ger `typeof åldersfält.value`?
+2. En knapp har callbacken `(e) => { svar.textContent = e.target.value; }`, och bredvid knappen står ett textfält där användaren har skrivit "Ja". Vad visas när knappen klickas?
 :::
 
 ---
@@ -413,11 +387,11 @@ Kommentarerna delar koden i delar som återkommer i många interaktiva program. 
 - **Callback-funktionen** skickas som ett värde och anropas av webbläsaren vid rätt tillfälle. Den kan vara namngiven eller anonym, och en anonym callback skrivs oftast som en pilfunktion.
 - **Parenteser spelar roll**: `hälsa` skickar funktionen, `hälsa()` anropar den.
 - Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken. En variabel som deklareras inuti callbacken har callbackens **scope** och skapas på nytt vid varje händelse.
-- **`click`** är den vanligaste händelsen. Andra viktiga typer är `mouseenter`/`mouseleave` och `input`/`change`.
-- **`.value`** läser innehållet i formulärelement – inte `.textContent`. Värdet är alltid en sträng.
+- Webbläsaren skickar ett **event-objekt** till callbacken. Ta emot det med en parameter: `(e) => { … }`. **`e.type`** är händelsens sort och **`e.target`** elementet den gällde, så att samma funktion kan lyssna på flera element.
+- **`.value`** läser det som står i ett textfält – inte `.textContent`. Värdet är alltid en sträng.
 - Det som ska hända vid varje händelse – att läsa, bearbeta och visa – står i callbacken. Att hämta elementen och registrera lyssnaren görs en gång.
 
-Hittills händer samma sak varje gång användaren gör något. I kapitel [-@sec-villkor] lär du dig att låta programmet reagera på *olika* sätt beroende på vad användaren gör.
+I kapitel [-@sec-tangenter] lyssnar programmet på tangentbordet, och event-objektet talar om vilken tangent som trycktes.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -434,7 +408,7 @@ Bygg gärna programmet efteråt och kontrollera i webbläsaren – den har allti
 
 Innan du skriver kod för en interaktiv sida kan du beskriva den i ord – vilka element, vilka händelser och vad som ska hända – och låta AI:n granska beskrivningen:
 
-> *"Jag vill bygga en sida där ett textfält visar hur många tecken man har skrivit, och en knapp tömmer fältet. Jag tänker använda händelserna `click` och `change`. Säg inte hur koden ska se ut, men säg om jag valt rätt händelser och vad som i så fall kommer att bete sig konstigt."*
+> *"Jag vill bygga en sida där användaren skriver ett ord i ett textfält och klickar på en knapp, och då visas hur många tecken ordet har. Jag tänker läsa fältet med `e.target.value` i knappens callback. Säg inte hur koden ska se ut, men säg om min plan fungerar och vad som i så fall kommer att bete sig konstigt."*
 
 Har du redan stött på de klassiska felen – en räknare som aldrig kommer över 1, eller en funktion som körs direkt när sidan laddas – försök först förklara varför med hjälp av kapitlet. Be sedan AI:n bekräfta eller rätta din förklaring.
 :::
@@ -514,9 +488,41 @@ talKnapp.addEventListener("click", () => {
 :::
 
 ::: {.callout-note}
+## Övning – Vilken knapp?
+
+Sidan har den här delen:
+
+```html
+<section id="vilken">
+    <h2>Vilken knapp?</h2>
+    <button id="ja-knapp">Ja</button>
+    <button id="nej-knapp">Nej</button>
+    <button id="kanske-knapp">Kanske</button>
+</section>
+```
+
+```javascript
+function svara(e) {
+    console.log(`${e.type}: ${e.target.textContent}`);
+}
+
+document.querySelector("#ja-knapp").addEventListener("click", svara);
+document.querySelector("#nej-knapp").addEventListener("dblclick", svara);
+document.querySelector("#kanske-knapp").addEventListener("click", () => {
+    console.log("Kanske?");
+});
+```
+
+1. Vad skrivs ut när användaren klickar en gång på *Ja*? En gång på *Nej*?
+2. Vad skrivs ut när användaren dubbelklickar på *Nej*? Och på *Ja*?
+3. Callbacken för *Kanske* har ingen parameter. Får den något event-objekt när knappen klickas?
+4. Någon vill att *Kanske* också ska använda `svara`. Skriv om den sista lyssnaren. Vad skrivs då ut vid ett klick?
+:::
+
+::: {.callout-note}
 ## Övning – Vad säger felet?
 
-Var och en av kodsnuttarna nedan är tänkt att skriva `Hej!` i konsolen när knappen klickas, men ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, skrivs `Hej!` ut vid fel tillfälle, eller händer ingenting alls?
+Snuttarna A–C är tänkta att skriva `Hej!` i konsolen när knappen klickas, och D att skriva knappens text. Ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, och i så fall när, skrivs något ut vid fel tillfälle, eller händer ingenting alls?
 
 Testa sedan en snutt i taget. Sidan behöver den här delen:
 
@@ -527,7 +533,7 @@ Testa sedan en snutt i taget. Sidan behöver den här delen:
 </section>
 ```
 
-Snutten behöver variabeln `knapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
+Snutten behöver variabeln `felKnapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
 
 ```javascript
 const felKnapp = document.querySelector("#fel button");
@@ -555,9 +561,16 @@ felKnapp.addEventlistener("click", () => {
 });
 ```
 
-1. Vilken av snuttarna ger ett felmeddelande? Vilken sorts fel är det, och vilket ord i meddelandet pekar ut felet?
+```javascript
+// D
+felKnapp.addEventListener("click", () => {
+    console.log(e.target.textContent);
+});
+```
+
+1. Vilka av snuttarna ger ett felmeddelande? Kommer det när sidan laddas eller vid klicket, och vilket ord i meddelandet pekar ut felet?
 2. Två av snuttarna ger inget felmeddelande alls. Varför är just den sortens fel svårast att hitta?
-3. Rätta alla tre.
+3. Rätta alla fyra.
 :::
 
 ::: {.callout-note}
@@ -678,28 +691,14 @@ Utöka sedan i två steg:
 :::
 
 ::: {.callout-note}
-## Övning – Spegla texten
+## Övning – Emojiraden
 
-Gör en sida med ett textfält och en rubrik. Medan användaren skriver i fältet ska rubriken visa samma text.
+Gör en sida med tre knappar och ett stycke. Varje knapp har en emoji som text, till exempel 🎉, 🐱 och 🍕. När användaren klickar på en knapp ska knappens emoji läggas till sist i stycket, så att raden växer för varje klick.
 
-Sidan behöver ett textfält, `<input type="text">`, och en rubrik, till exempel `<h1>`. Låt rubriken vara tom från början, eller ge den en text som "Skriv något …" så att du ser var den finns på sidan.
-
-1. Planera först med kommentarer i skriptet, som i det lösta exemplet: vad ska hämtas, vilken händelse ska lyssnas på, och vad ska läsas, bearbetas och visas? Fyll sedan i koden under varje kommentar. Behövs alla delar här?
-2. Lös uppgiften med `input`-händelsen.
-3. Byt till `change`-händelsen. Vad är skillnaden för användaren? Beskriv en situation där `change` vore det bättre valet.
-4. Lägg till en lyssnare till på samma fält, som skriver ut värdet i konsolen. Körs båda lyssnarna? I vilken ordning?
-:::
-
-::: {.callout-note}
-## Övning – Markera kort
-
-Gör en sida med tre "kort". När muspekaren är över ett kort ska det få klassen `aktiv`; när muspekaren lämnar ska klassen tas bort.
-
-Ett kort kan vara ett `<div>`-element med lite text. Ge alla tre korten klassen `kort`, som bestämmer hur de ser ut, och var sitt id, så att koden kan hämta dem ett i taget. Sidan behöver också CSS för klasserna `kort` och `aktiv` i ett `<style>`-element. Utgå från CSS:en i avsnittet *Mushändelser*, men ändra gärna färgerna – då ser du att det är din egen CSS som syns.
-
-1. Lös uppgiften för ett kort.
-2. Skriv en funktion `görMarkerbar(kort)` som tar ett element och registrerar båda lyssnarna på det. Använd funktionen för alla tre korten.
-3. Hur mycket kod hade det blivit för tjugo kort?
+1. Planera först med kommentarer i skriptet, som i det lösta exemplet: vad ska hämtas, vilken händelse ska lyssnas på, och vad ska läsas, bearbetas och visas? Fyll sedan i koden under varje kommentar.
+2. Skriv *en* namngiven funktion, `läggTill(e)`, och låt alla tre knapparna använda den.
+3. Lägg till en knapp *Töm* som tömmer stycket. Kan den också använda `läggTill`? Varför inte?
+4. Lägg till en fjärde emojiknapp. Vilka rader i skriptet behövde du ändra eller lägga till?
 :::
 
 ::: {.callout-note}

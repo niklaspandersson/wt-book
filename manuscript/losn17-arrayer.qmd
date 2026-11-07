@@ -1,8 +1,8 @@
 ---
-losningar-till: kap16-arrayer.qmd
+losningar-till: kap17-arrayer.qmd
 ---
 
-# Kapitel 16: Arrayer {.unnumbered}
+# Kapitel 17: Arrayer {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-arrayer].
 

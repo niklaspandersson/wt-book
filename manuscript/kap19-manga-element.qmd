@@ -1,18 +1,18 @@
 # Händelser och många element {#sec-manga-element}
 
-Det sista kapitlet i Del I handlar om händelser på många element på en gång, och om hur ett program får veta vad som hände. På en riktig webbsida finns sällan bara en knapp: rader i en tabell, kort i en lista och produkter i en webbutik ska alla reagera när någon klickar på dem.
+Det sista kapitlet i Del I handlar om händelser på många element på en gång. På en riktig webbsida finns sällan bara en knapp: rader i en tabell, kort i en lista och produkter i en webbutik ska alla reagera när någon klickar på dem.
 
 ## Tre knappar, en fråga
 
-Quizsidan har tre svarsknappar. När någon klickar ska sidan visa om svaret var rätt, och färga just den knapp som klickades. Med det du kan hittills behövs en lyssnare per knapp, och varje callback måste själv veta vilken knapp den hör till. Det blir tre nästan likadana callbacks för tre knappar, och trettio för trettio.
+Quizsidan har tre svarsknappar. När någon klickar ska sidan visa om svaret var rätt, och färga just den knapp som klickades. Med `e.target` (kapitel [-@sec-handelser]) räcker en enda callback, men varje knapp måste ändå hämtas och få en egen rad med `addEventListener`. Det blir tre rader för tre knappar, och trettio för trettio.
 
-En enda callback räcker, om den får veta vad som hände. Det får den genom **event-objektet**: ett objekt som webbläsaren skapar varje gång en händelse inträffar, med information om händelsen – till exempel vilket element den gällde eller vilken tangent som trycktes.
+Det finns två sätt att slippa det. Det ena är en loop över alla knapparna. Det andra är **delegering**: en enda lyssnare på ett element som omsluter dem alla, till exempel rutan runt knapparna. Det fungerar eftersom en händelse inte stannar vid elementet där den inträffade, utan också når elementen utanför det.
 
 ---
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap17`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap19`:
 
 ```html
 <!DOCTYPE html>
@@ -84,74 +84,6 @@ Listan och svarsknapparna har en ram, så att du ser var de börjar och slutar. 
 - Exemplen skriver du i `<script>`-elementet. Alla element som exemplen och övningarna använder finns redan på sidan.
 - Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning, så att två lyssnare inte reagerar på samma klick.
 - Ha konsolen öppen. Många exempel skriver ut vad som händer med `console.log`.
-:::
-
----
-
-## Event-objektet
-
-När en händelse inträffar anropar webbläsaren callbacken med event-objektet som argument. Ger du callbacken en parameter kan du ta emot det:
-
-```javascript
-const knapp = document.querySelector(".svar");
-
-knapp.addEventListener("click", (e) => {
-    console.log(e.type);   // "click"
-});
-```
-
-Parametern kan heta vad som helst, men `event` eller `e` är vanligast. `e.type` anger vilken sorts händelse det var. Skriver du ut hela objektet med `console.log(e)` ser du att det har dussintals egenskaper.
-
-### `e.target`
-
-Egenskapen `e.target` är det element som händelsen gällde:
-
-```javascript
-knapp.addEventListener("click", (e) => {
-    console.log(e.target.textContent);   // "Göteborg"
-    e.target.classList.add("markerad");
-});
-```
-
-Här är `e.target` samma knapp som `knapp`. Nyttan kommer när samma callback lyssnar på flera element, som längre fram i kapitlet. Då talar `e.target` om vilket av dem det gällde.
-
----
-
-## `keydown` och `keyup`
-
-Tangenthändelserna är `keydown`, när en tangent trycks ned, och `keyup`, när den släpps. Lyssnaren registreras oftast på `document`, så att tangenttryckningen fångas var användaren än befinner sig på sidan:
-
-```javascript
-document.addEventListener("keydown", (e) => {
-    console.log(`Tangent: ${e.key}`);
-});
-```
-
-### `e.key`
-
-Event-objektet för en tangenthändelse har egenskapen `key`, med tangentens namn som en sträng. Trycker du på "a" skrivs `Tangent: a`, och trycker du på Enter skrivs `Tangent: Enter`. Med en `if`-sats reagerar programmet bara på vissa tangenter:
-
-```javascript
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        console.log("Enter-tangenten trycktes!");
-    }
-});
-```
-
-::: {.callout-note}
-## Vanliga tangentnamn
-
-| Tangent       | `e.key`        |
-|---------------|----------------|
-| Enter         | `"Enter"`      |
-| Mellanslag    | `" "`          |
-| Escape        | `"Escape"`     |
-| Piltangenter  | `"ArrowUp"`, `"ArrowDown"`, `"ArrowLeft"`, `"ArrowRight"` |
-| Tab           | `"Tab"`        |
-| Backsteg      | `"Backspace"`  |
-
-Namnen skiljer på stora och små bokstäver: `"enter"` matchar aldrig. En fullständig lista finns på [MDN: Key values](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values).
 :::
 
 ---
@@ -241,11 +173,27 @@ document.addEventListener("click", () => {
 
 Ett klick på *Ugglorna* skriver ut alla tre raderna, i den ordningen. `e.target` är fortfarande *Ugglorna* när händelsen når listan: det är elementet där klicket inträffade, inte elementet som lyssnar.
 
+Nästan alla händelser bubblar. Undantagen är bland andra `mouseenter` och `mouseleave` (kapitel [-@sec-musen]). `mouseover` och `mouseout` bubblar, och därför når de ett element också när pekaren rör sig mellan elementen inuti det.
+
+### `e.target` och `e.currentTarget`
+
+Elementet som lyssnaren sitter på finns i `e.currentTarget`:
+
+```javascript
+lista.addEventListener("click", (e) => {
+    console.log(e.target.textContent);   // "Ugglorna"
+    console.log(e.currentTarget.id);     // "lag-lista"
+});
+```
+
+`e.target` är där händelsen började, och det ändras inte medan händelsen bubblar. `e.currentTarget` är elementet vars lyssnare körs just nu. När lyssnaren sitter på en knapp som bara innehåller text är de två samma element. Därför märks skillnaden först när ett element har andra element i sig.
+
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
 1. Vad skrivs ut när du klickar på *Räknenissarna*? Förutsäg först och testa sedan.
 2. Vad skrivs ut när du klickar på rubriken *Anmälda lag*?
+3. Listans lyssnare skriver ut både `e.target.textContent` och `e.currentTarget.id`. Vad skrivs ut när du klickar på *Gula gänget*?
 :::
 
 ---
@@ -351,12 +299,9 @@ Loopen som fyller knapparna använder indexet `i` både för knappen och för al
 
 ## Sammanfattning
 
-- Webbläsaren skickar ett **event-objekt** till callbacken. Ta emot det med en parameter: `(e) => { … }`.
-- **`e.target`** är det element som händelsen gällde, och **`e.type`** vilken sorts händelse det var.
-- **`keydown`** och **`keyup`** inträffar när en tangent trycks ned och släpps. **`e.key`** är tangentens namn, till exempel `"Enter"` eller `"ArrowUp"`.
 - **`querySelectorAll`** hämtar alla element som matchar en selektor. Listan själv har ingen `classList` eller `addEventListener` – gå igenom den med en loop.
 - Med en loop kan samma lyssnare registreras på många element.
-- En händelse **bubblar** uppåt, från elementet där den inträffade till elementen utanför det. `e.target` är hela tiden elementet där den inträffade.
+- En händelse **bubblar** uppåt, från elementet där den inträffade till elementen utanför det. **`e.target`** är hela tiden elementet där den inträffade, och **`e.currentTarget`** elementet vars lyssnare körs.
 - Med **delegering** lyssnar ett yttre element åt alla element i det. Kontrollera `e.target` först, till exempel med `classList.contains`.
 
 I Del II fortsätter du med att skapa nya element med JavaScript – och då lyssnar en delegerad lyssnare också på dem, utan att någon ny lyssnare behöver registreras.
@@ -371,12 +316,6 @@ I Del II fortsätter du med att skapa nya element med JavaScript – och då lys
 **Vad är `e.target`?** Låt AI:n hitta på HTML med nästlade element och fråga ut dig:
 
 > *"Visa mig en liten bit HTML med några nästlade element och en lyssnare på ett av de yttre elementen. Fråga mig sedan vad `e.target` och `e.target.textContent` blir när användaren klickar på olika ställen, och om lyssnaren körs alls. Rätta mig efter varje svar."*
-
-**Tangentnamn som minneskort:**
-
-> *"Gör tio minneskort om `e.key` i JavaScript. På framsidan står en tangent eller en kombination, till exempel Skift och a. På baksidan står vad `e.key` blir. Visa ett kort i taget och vänta på mitt svar."*
-
-Kontrollera AI:ns svar om tangentnamn i konsolen – det är snabbt gjort och du lär dig mer av det.
 :::
 
 ---
@@ -617,17 +556,6 @@ Gå tillbaka till din lösning till övningen *Quiz med visuell feedback* i kapi
 ### Egna sidor
 
 I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
-
-::: {.callout-note}
-## Övning – Live-sökning
-
-Skapa en sida med ett textfält och en `<ul>`-lista med minst åtta namn som `<li>`-element. Medan användaren skriver i fältet ska bara de namn som innehåller söktexten synas.
-
-1. Lyssna på `input`-händelsen på textfältet.
-2. Vid varje ändring: gå igenom alla `<li>`-element och dölj de element vars text *inte* innehåller söktexten. Använd `hidden` och ett booleskt uttryck.
-3. Gör sökningen okänslig för stora och små bokstäver.
-4. Vad händer när fältet töms? Förklara varför – du behöver troligen inte lägga till någon kod.
-:::
 
 ::: {.callout-note}
 ## Övning – Färgväljare med knappar

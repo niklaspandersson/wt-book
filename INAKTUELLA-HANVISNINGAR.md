@@ -10,7 +10,7 @@ Hänvisningar från ett kapitel till ett annat som inte längre stämmer, efter 
 
 Avsnittet *En array i ett objekt* (`fråga` med `alternativ` och `rättIndex`) är borttaget. En array som egenskap förekommer nu bara i övningen *En quizfråga som objekt* (`ledtrådar`).
 
-- **kap16-arrayer.qmd, rad 223.** "En quizfråga kan vara ett objekt med en array av alternativ (kapitel 2)." Exemplet med alternativ finns inte längre i kap. 2. Visa i stället att en egenskap kan vara en array, eller hänvisa till övningen.
+- **kap17-arrayer.qmd, rad 223.** "En quizfråga kan vara ett objekt med en array av alternativ (kapitel 2)." Exemplet med alternativ finns inte längre i kap. 2. Visa i stället att en egenskap kan vara en array, eller hänvisa till övningen.
 
 ## Till kapitel 4, *Att använda funktioner* (`sec-anropa-funktioner`)
 
@@ -29,4 +29,8 @@ Kapitlet kortades i oktober 2026. Avsnittet *Funktioner är värden* (`const kos
 Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen" som en numrerad metod. Det lösta exemplet har kvar kommentarerna *hämta, lyssna, läs, bearbeta, visa*, så att studenten känner igen mönstret, men det ska inte framstå som ett recept (se CLAUDE.md, *A worked example*). Avsnittet *Ett mönster för interaktiva sidor* heter nu *Lagnamnet*.
 
 - **kap-objekt.qmd**, en övning: "Skriv de fem stegen som kommentarer först."
+
+Kapitlet gjordes om igen i november 2026 (OUTLINE.md, *Iteration: händelser i Del I*). Avsnitten *Mushändelser* och *Händelserna `input` och `change`* är borttagna, och kapitlet tar bara upp `click`.
+
+- **kap07-egna-funktioner.qmd, rad 443.** "du ber webbläsaren köra en funktion när användaren klickar, skriver eller rör musen." Kap. 9 tar bara upp klick.
 

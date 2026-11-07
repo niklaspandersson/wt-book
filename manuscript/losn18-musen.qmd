@@ -1,0 +1,153 @@
+---
+losningar-till: kap18-musen.qmd
+---
+
+# Kapitel 18: Musen {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-musen].
+
+## Övning – I vilken ordning?
+
+1. Ungefär så här:
+
+    ```
+    in
+    rör 12
+    rör 15
+    rör 19
+    …
+    klick 140 85
+    rör 143
+    …
+    rör 310
+    ut
+    ```
+
+    `in` kommer en gång först och `ut` en gång sist. `rör` kommer många gånger, både före och efter klicket, eftersom `mousemove` inträffar hela tiden medan pekaren rör sig. Talen beror på var kortet står och hur pekaren förs.
+2. Större. `clientX` är avståndet från fönstrets vänsterkant, och pekaren rör sig åt höger.
+
+## Övning – Vad säger felet?
+
+1. A: pricken står stilla. Talen saknar enheten `px`, och webbläsaren ignorerar ett värde för `left` och `top` utan enhet. B: pricken står stilla. Händelsen heter `"mousemove"` med bara små bokstäver, och någon `"mouseMove"` inträffar aldrig. C: pricken rör sig nästan inte. Lyssnaren sitter på pricken, så händelsen inträffar bara när pekaren är över just pricken. Pricken flyttas då så att dess övre vänstra hörn hamnar vid pekaren, och oftast är pekaren inte längre över den.
+2. Alla tre blir likadana:
+
+    ```javascript
+    document.addEventListener("mousemove", (e) => {
+        prick.style.left = `${e.clientX}px`;
+        prick.style.top = `${e.clientY}px`;
+    });
+    ```
+
+## Övning – Markera kort
+
+```html
+<style>
+    .kort {
+        padding: 2rem;
+        border: 2px solid #ccc;
+        margin-bottom: 1rem;
+    }
+    .kort.aktiv {
+        background-color: lavender;
+        border-color: rebeccapurple;
+    }
+</style>
+
+<div id="kort1" class="kort">Första kortet</div>
+<div id="kort2" class="kort">Andra kortet</div>
+<div id="kort3" class="kort">Tredje kortet</div>
+```
+
+1. För ett kort:
+
+    ```javascript
+    const kort1 = document.querySelector("#kort1");
+
+    kort1.addEventListener("mouseenter", () => {
+        kort1.classList.add("aktiv");
+    });
+
+    kort1.addEventListener("mouseleave", () => {
+        kort1.classList.remove("aktiv");
+    });
+    ```
+
+2. Med en funktion:
+
+    ```javascript
+    function görMarkerbar(kort) {
+        kort.addEventListener("mouseenter", () => {
+            kort.classList.add("aktiv");
+        });
+        kort.addEventListener("mouseleave", () => {
+            kort.classList.remove("aktiv");
+        });
+    }
+
+    görMarkerbar(document.querySelector("#kort1"));
+    görMarkerbar(document.querySelector("#kort2"));
+    görMarkerbar(document.querySelector("#kort3"));
+    ```
+
+    Varje anrop får ett eget element som argument, och lyssnarna som registreras inne i funktionen arbetar med just det elementet.
+
+3. Med en array och en loop:
+
+    ```javascript
+    const allaKort = [
+        document.querySelector("#kort1"),
+        document.querySelector("#kort2"),
+        document.querySelector("#kort3")
+    ];
+
+    for (const kort of allaKort) {
+        görMarkerbar(kort);
+    }
+    ```
+
+    Ett fjärde kort behöver ett id i HTML-koden och en rad till i arrayen. Loopen och funktionen ändras inte.
+
+## Övning – Vänster eller höger
+
+```html
+<style>
+    #prick {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: tomato;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+    }
+    #prick.höger {
+        background-color: steelblue;
+    }
+</style>
+
+<p id="halva">Rör på musen!</p>
+<div id="prick"></div>
+```
+
+```javascript
+const prick = document.querySelector("#prick");
+const halva = document.querySelector("#halva");
+
+document.addEventListener("mousemove", (e) => {
+    prick.style.left = `${e.clientX}px`;
+    prick.style.top = `${e.clientY}px`;
+
+    const tillHöger = e.clientX > window.innerWidth / 2;
+
+    if (tillHöger) {
+        halva.textContent = "Höger halva";
+    } else {
+        halva.textContent = "Vänster halva";
+    }
+
+    prick.classList.toggle("höger", tillHöger);
+});
+```
+
+2. Pekaren är i den högra halvan när dess avstånd från vänsterkanten är större än halva fönstrets bredd, `window.innerWidth / 2`.
+3. `classList.toggle` med ett villkor som andra argument lägger till klassen när villkoret är sant och tar bort den annars (kapitel [-@sec-booleska]). En `if`-sats med `add` och `remove` fungerar lika bra.

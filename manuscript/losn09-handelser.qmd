@@ -6,6 +6,28 @@ losningar-till: kap09-handelser.qmd
 
 Lösningar till övningarna i kapitel [-@sec-handelser].
 
+## Stanna upp-frågorna
+
+**Callback-funktioner**
+
+1. Med `visaTips` händer ingenting när sidan laddas, och funktionen körs vid varje klick. Med `visaTips()` körs funktionen en gång när sidan laddas, och det är dess returvärde, `undefined`, som blir callback. Vid klick händer sedan ingenting.
+2. `knapp.addEventListener("click", () => { console.log("Tips!"); });`
+
+**Variabler som minns mellan händelser**
+
+1. `1`, `1` och `1`. Variabeln `mål` har callbacken som scope. Den skapas på nytt med värdet 0 vid varje klick, ökas till 1 och försvinner när callbacken är klar.
+2. Utanför callbacken, på översta nivån, till exempel direkt före raden med `addEventListener`.
+
+**Event-objektet**
+
+1. Ingenting i `visaVal`. Funktionen läser namnet från `e.target`, så den fungerar för vilken knapp som helst. Det som behövs är knappen i HTML-koden och en rad till: `document.querySelector("#choklad-knapp").addEventListener("click", visaVal);`.
+2. Parenteserna gör att `visaVal` anropas direkt när sidan laddas, med argumentet `e`. Det finns ingen variabel `e` där, så det blir `ReferenceError: e is not defined`, och resten av skriptet körs inte. `e` finns bara som parameter inne i funktionen, när webbläsaren anropar den.
+
+**`.value`**
+
+1. `"string"`. Allt som läses med `.value` är text, också i ett `<input type="number">`.
+2. Ingenting. Klicket inträffade på knappen, så `e.target` är knappen och inte fältet. En knapp utan `value`-attribut har en tom sträng som `value`, och stycket blir tomt. Fältet ska läsas genom en egen variabel.
+
 ## Övning – Spåra exekveringen
 
 1. När sidan laddas skrivs `A` och sedan `C` ut. Raden med `addEventListener` registrerar callbacken, men kör den inte.
@@ -26,6 +48,13 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 
     Vid första klicket ökar den första lyssnaren `tal` till 2 och visar det. Sedan minskar den andra lyssnaren `tal` till 1 – men visar det inte. Den andra lyssnaren ändrar variabeln men uppdaterar inte sidan. Sidan visar alltså alltid värdet *mitt i* klicket, efter den första lyssnaren men före den andra. Det finns två sätt att få dem att stämma: anropa `visaTal(tal)` också i den andra lyssnaren, eller – enklare – slå ihop allt i en enda lyssnare som först räknar ut det nya värdet och sedan visar det. Lärdomen är att sidan bara ändras när du skriver till den.
 
+## Övning – Vilken knapp?
+
+1. Ett klick på *Ja* skriver `click: Ja`. Ett klick på *Nej* skriver ingenting, eftersom knappen bara lyssnar på `dblclick`.
+2. En dubbelklickning på *Nej* skriver `dblclick: Nej`. En dubbelklickning på *Ja* skriver `click: Ja` två gånger: en dubbelklickning består av två klick, och *Ja* lyssnar bara på `click`.
+3. Ja. Webbläsaren skickar alltid med ett event-objekt, men callbacken har ingen parameter som tar emot det, så det används inte.
+4. `document.querySelector("#kanske-knapp").addEventListener("click", svara);` Ett klick skriver då `click: Kanske`.
+
 ## Övning – Vad säger felet?
 
 | Snutt | Vad händer | Fel |
@@ -33,8 +62,9 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 | A | `Hej!` skrivs ut en gång när sidan laddas, men aldrig vid klick | inget felmeddelande |
 | B | ingenting händer, varken vid laddning eller klick | inget felmeddelande |
 | C | felmeddelande när sidan laddas | `TypeError: felKnapp.addEventlistener is not a function` |
+| D | felmeddelande vid varje klick | `ReferenceError: e is not defined` |
 
-1. Snutt C ger ett felmeddelande, ett `TypeError`. Ordet som pekar ut felet är `addEventlistener`: det ska vara stort L. Knappen finns, men den har ingen metod med det namnet.
+1. Snutt C ger ett `TypeError` när sidan laddas. Ordet som pekar ut felet är `addEventlistener`: det ska vara stort L. Knappen finns, men den har ingen metod med det namnet. Snutt D laddas utan fel, men ger ett `ReferenceError` vid varje klick, när callbacken körs. Ordet som pekar ut felet är `e`: callbacken använder event-objektet men har ingen parameter som tar emot det.
 2. A och B ger inga fel. I A anropas `sägHej` direkt, eftersom parenteserna finns, och `addEventListener` får funktionens returvärde, `undefined`. Webbläsaren tar emot `undefined` som callback utan att klaga, och gör ingenting vid klick. I B finns ingen händelse som heter `"klick"`, men webbläsaren kontrollerar inte namnet – den väntar bara på en händelse som aldrig kommer. Fel utan felmeddelande är svårast att hitta, eftersom ingenting pekar ut var du ska leta. Du märker bara att något inte händer.
 3. Rättade:
 
@@ -57,6 +87,13 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
     // C
     felKnapp.addEventListener("click", () => {
         console.log("Hej!");
+    });
+    ```
+
+    ```javascript
+    // D
+    felKnapp.addEventListener("click", (e) => {
+        console.log(e.target.textContent);
     });
     ```
 
@@ -170,95 +207,45 @@ nollställKnapp.addEventListener("click", () => {
 
 2. Ska texten vara `Antal: 5` behöver du bara ändra ett ställe, inne i `visaAntal`. (Med ett `<span>` som ovan står ordet *Antal* redan i HTML-koden, så där behövs ingen ändring alls. Låter du hela stycket visa talet är det `visaAntal` som ändras.)
 
-## Övning – Spegla texten
+## Övning – Emojiraden
 
 ```html
-<input type="text" id="textfält">
-<h1 id="spegel">Skriv något …</h1>
+<button id="fest-knapp">🎉</button>
+<button id="katt-knapp">🐱</button>
+<button id="pizza-knapp">🍕</button>
+<button id="töm-knapp">Töm</button>
+<p id="emojirad"></p>
 ```
 
 ```javascript
 // 1. Hämta
-const textfält = document.querySelector("#textfält");
-const spegel = document.querySelector("#spegel");
+const emojirad = document.querySelector("#emojirad");
 
-// 2. Lyssna
-textfält.addEventListener("input", () => {
-    // 3. Läs
-    const text = textfält.value;
+function läggTill(e) {
+    // 3. Läs vilken emoji som klickades
+    const emoji = e.target.textContent;
 
-    // 4. Bearbeta – inget att göra här
+    // 4. Bearbeta: den gamla raden med emojin sist
+    const nyRad = emojirad.textContent + emoji;
 
     // 5. Visa
-    spegel.textContent = text;
+    emojirad.textContent = nyRad;
+}
+
+// 2. Lyssna
+document.querySelector("#fest-knapp").addEventListener("click", läggTill);
+document.querySelector("#katt-knapp").addEventListener("click", läggTill);
+document.querySelector("#pizza-knapp").addEventListener("click", läggTill);
+
+document.querySelector("#töm-knapp").addEventListener("click", () => {
+    emojirad.textContent = "";
 });
 ```
 
-1. Det finns inget att *bearbeta*: texten ska visas precis som den skrevs.
-2. Se koden ovan.
-3. Med `"change"` uppdateras rubriken först när användaren lämnar fältet eller trycker Enter, inte för varje bokstav. `change` är bättre när det som ska hända är för stort eller störande för att ske vid varje tangenttryckning, till exempel när ett namn ska sparas, en sökning göras eller en kontroll som visar ett felmeddelande köras. Ingen vill få "ogiltig e-postadress" efter första bokstaven.
-4. Ja, båda körs, i den ordning de registrerades:
-
-    ```javascript
-    textfält.addEventListener("input", () => {
-        console.log(textfält.value);
-    });
-    ```
-
-## Övning – Markera kort
-
-```html
-<style>
-    .kort {
-        padding: 2rem;
-        border: 2px solid #ccc;
-        margin-bottom: 1rem;
-    }
-    .kort.aktiv {
-        background-color: lavender;
-        border-color: rebeccapurple;
-    }
-</style>
-
-<div id="kort1" class="kort">Första kortet</div>
-<div id="kort2" class="kort">Andra kortet</div>
-<div id="kort3" class="kort">Tredje kortet</div>
-```
-
-1. För ett kort:
-
-    ```javascript
-    const kort1 = document.querySelector("#kort1");
-
-    kort1.addEventListener("mouseenter", () => {
-        kort1.classList.add("aktiv");
-    });
-
-    kort1.addEventListener("mouseleave", () => {
-        kort1.classList.remove("aktiv");
-    });
-    ```
-
-2. Med en funktion:
-
-    ```javascript
-    function görMarkerbar(kort) {
-        kort.addEventListener("mouseenter", () => {
-            kort.classList.add("aktiv");
-        });
-        kort.addEventListener("mouseleave", () => {
-            kort.classList.remove("aktiv");
-        });
-    }
-
-    görMarkerbar(document.querySelector("#kort1"));
-    görMarkerbar(document.querySelector("#kort2"));
-    görMarkerbar(document.querySelector("#kort3"));
-    ```
-
-    Varje anrop får ett eget element som argument, och lyssnarna som registreras inne i funktionen arbetar med just det elementet.
-
-3. Med funktionen blir det en rad per kort – tjugo rader för tjugo kort, och tjugo id:n att hålla reda på i HTML-koden. Utan funktionen hade det blivit sju rader per kort, alltså 140 rader. Med arrayer och loopar räcker några få rader, oavsett antal kort.
+1. Kommentarerna står i koden ovan. *Läs* är knappens text, `e.target.textContent`, och *bearbeta* är att sätta ihop den gamla raden med den nya emojin.
+2. Se koden ovan. Alla tre knapparna registrerar samma funktion, utan parenteser.
+3. Nej. `läggTill` lägger till texten på den knapp som klickades, och för *Töm* hade det varit ordet "Töm". Knappen gör något annat och behöver en egen callback.
+4. En ny knapp i HTML-koden och en ny rad med `addEventListener`. Funktionen `läggTill` behöver inte ändras.
 
 ## Övning – Poängtavlan blir interaktiv
 

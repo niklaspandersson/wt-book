@@ -1,0 +1,186 @@
+# Tangenter {#sec-tangenter}
+
+I det här kapitlet lyssnar programmet på tangentbordet. Många sidor reagerar på tangenter utan att någon klickar: Enter skickar ett meddelande, Escape stänger en ruta och piltangenterna styr ett spel.
+
+En **tangenthändelse** inträffar när en tangent trycks ned eller släpps. Event-objektet (kapitel [-@sec-handelser]) talar om vilken tangent det var. Prova exemplen på övningssidan från kapitel [-@sec-handelser], med konsolen öppen. Klicka på sidan innan du trycker på tangenterna, annars går tangenttrycken till konsolen och inte till sidan.
+
+## `keydown` och `keyup`
+
+`keydown` inträffar när en tangent trycks ned och `keyup` när den släpps:
+
+```javascript
+document.addEventListener("keydown", (e) => {
+    console.log(`Ned: ${e.key}`);
+});
+
+document.addEventListener("keyup", (e) => {
+    console.log(`Upp: ${e.key}`);
+});
+```
+
+Lyssnaren sitter på `document`, så att tangenttrycken fångas var på sidan användaren än är. Lyssnar du på ett textfält i stället kommer bara de tangenttryck som görs medan markören står i fältet. Håller användaren ned en tangent upprepas `keydown` många gånger i sekunden, men `keyup` kommer bara en gång.
+
+## `e.key`
+
+Egenskapen `key` är tangentens namn, som en sträng. Lägg till ett stycke på sidan, `<p id="senaste"></p>`, och prova:
+
+```javascript
+const senaste = document.querySelector("#senaste");
+
+document.addEventListener("keydown", (e) => {
+    senaste.textContent = `Du tryckte på ${e.key}`;
+});
+```
+
+För bokstäver och siffror är namnet tecknet själv: `"a"`, och `"A"` om Skift hålls ned. Andra tangenter har namn som skrivs ut:
+
+| Tangent       | `e.key`        |
+|---------------|----------------|
+| Enter         | `"Enter"`      |
+| Mellanslag    | `" "`          |
+| Escape        | `"Escape"`     |
+| Piltangenter  | `"ArrowUp"`, `"ArrowDown"`, `"ArrowLeft"`, `"ArrowRight"` |
+| Tab           | `"Tab"`        |
+| Backsteg      | `"Backspace"`  |
+| Skift         | `"Shift"`      |
+
+Namnen skiljer på stora och små bokstäver: tangenten heter `"Enter"`, aldrig `"enter"`.
+
+## Skift, Ctrl och Alt
+
+Egenskaperna `shiftKey`, `ctrlKey` och `altKey` är sanningsvärden (kapitel [-@sec-variabler]): `true` om tangenten hålls ned när händelsen inträffar, annars `false`.
+
+```javascript
+document.addEventListener("keydown", (e) => {
+    console.log(e.key, e.shiftKey);
+});
+```
+
+Håll ned Skift och tryck på `s`. Det skrivs ut två rader: `Shift true` och `S true`. Skift är en egen tangent och ger en egen `keydown`.
+
+## På MDN
+
+| Sida | Innehåll |
+|---|---|
+| [`KeyboardEvent`](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent) | event-objektet för tangenthändelser och alla dess egenskaper, till exempel `repeat` |
+| [`keydown`](https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event) och [`keyup`](https://developer.mozilla.org/en-US/docs/Web/API/Element/keyup_event) | händelserna |
+| [Key values](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values) | alla tangentnamn som `e.key` kan ha |
+
+---
+
+## Övningar
+
+Gör övningarna på övningssidan från kapitel [-@sec-handelser]. Lägg till de element som övningen visar.
+
+::: {.callout-note}
+## Övning – Vad skrivs ut?
+
+```javascript
+document.addEventListener("keydown", (e) => {
+    console.log(`ned ${e.key} ${e.shiftKey}`);
+});
+
+document.addEventListener("keyup", (e) => {
+    console.log(`upp ${e.key}`);
+});
+```
+
+Förutsäg vad som skrivs ut i konsolen när användaren
+
+1. trycker på `b` och släpper den;
+2. håller ned Skift, trycker på `b`, släpper `b` och sist släpper Skift;
+3. trycker på Enter;
+4. trycker på mellanslag;
+5. håller ned `a` en sekund och sedan släpper den.
+
+Prova sedan på sidan.
+:::
+
+::: {.callout-note}
+## Övning – Vad säger felet?
+
+Alla fyra snuttarna ska visa den senaste tangenten i stycket `<p id="senaste">Tryck på en tangent!</p>`. Skriv den här raden överst i skriptet och prova snuttarna en i taget under den:
+
+```javascript
+const senaste = document.querySelector("#senaste");
+```
+
+```javascript
+// A
+document.addEventListener("keyDown", (e) => {
+    senaste.textContent = `Du tryckte på ${e.key}`;
+});
+```
+
+```javascript
+// B
+document.addEventListener("keydown", () => {
+    senaste.textContent = `Du tryckte på ${e.key}`;
+});
+```
+
+```javascript
+// C
+document.addEventListener("keydown", (e) => {
+    senaste.textContent = `Du tryckte på ${e.Key}`;
+});
+```
+
+```javascript
+// D
+senaste.addEventListener("keydown", (e) => {
+    senaste.textContent = `Du tryckte på ${e.key}`;
+});
+```
+
+1. Vilken snutt ger ett felmeddelande, och när kommer det?
+2. Vad händer på sidan med de tre andra snuttarna?
+3. Rätta alla fyra.
+:::
+
+::: {.callout-note}
+## Övning – Tangenträknaren
+
+Lägg till ett stycke på sidan. Varje gång användaren trycker på en tangent ska stycket visa hur många tangenttryck det har blivit och vilken tangent som trycktes sist, till exempel `Tryck 12: k`.
+
+1. Vilken variabel behöver finnas utanför callbacken, och varför?
+2. Håll ned en tangent en stund. Vad händer med räknaren?
+3. Byt `keydown` mot `keyup` och gör samma sak. Vad är skillnaden nu, och varför?
+:::
+
+::: {.callout-note}
+## Övning – Rutan flyttar sig
+
+Lägg till en ruta på sidan, och en CSS-regel för den i `<style>`:
+
+```html
+<div id="ruta"></div>
+```
+
+```css
+#ruta {
+    width: 50px;
+    height: 50px;
+    background-color: tomato;
+    position: absolute;
+    top: 200px;
+    left: 0px;
+}
+```
+
+Rutans plats anges med `top` (avståndet från överkanten) och `left` (avståndet från vänsterkanten). Den här koden flyttar rutan tio pixlar åt höger vid varje tangenttryck:
+
+```javascript
+const ruta = document.querySelector("#ruta");
+let vänsterifrån = 0;
+
+document.addEventListener("keydown", () => {
+    vänsterifrån += 10;
+    ruta.style.left = `${vänsterifrån}px`;
+});
+```
+
+1. Varför står `let vänsterifrån = 0;` utanför callbacken?
+2. Ändra koden så att rutan flyttar sig nedåt i stället.
+3. Lägg till ett textfält, `<input type="text" id="styrfält">`, och låt lyssnaren sitta på fältet i stället för på `document`. Vad händer när du trycker på tangenter medan markören står i fältet? Och när du har klickat någon annanstans på sidan?
+:::

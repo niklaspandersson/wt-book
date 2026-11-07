@@ -1,0 +1,81 @@
+---
+losningar-till: kap10-tangenter.qmd
+---
+
+# Kapitel 10: Tangenter {.unnumbered}
+
+Lösningar till övningarna i kapitel [-@sec-tangenter].
+
+## Övning – Vad skrivs ut?
+
+1. `ned b false` och sedan `upp b`.
+2. Fyra rader:
+
+    ```
+    ned Shift true
+    ned B true
+    upp B
+    upp Shift
+    ```
+
+    Skift ger en egen `keydown`, och medan den hålls ned är `e.shiftKey` `true` och `e.key` den stora bokstaven.
+3. `ned Enter false` och sedan `upp Enter`.
+4. `ned`, mellanslaget och `false`, alltså `ned   false` med tre mellanslag, och sedan `upp` med två mellanslag efter. `e.key` för mellanslag är `" "`.
+5. Först `ned a false`, efter en kort paus samma rad många gånger, och sist en enda `upp a`. `keydown` upprepas när tangenten hålls ned, men `keyup` kommer bara när den släpps.
+
+## Övning – Vad säger felet?
+
+1. B ger `ReferenceError: e is not defined`, men först när en tangent trycks: callbacken har ingen parameter `e`, och felet uppstår när callbacken körs.
+2. A: ingenting händer. Händelsen heter `"keydown"` med litet d, och webbläsaren väntar på en händelse som aldrig kommer. C: stycket visar `Du tryckte på undefined`. Egenskapen heter `key` med litet k, och en egenskap som inte finns ger `undefined`. D: ingenting händer. Ett stycke kan inte ha markören i sig, så det får aldrig några tangenthändelser.
+3. Alla fyra blir likadana:
+
+    ```javascript
+    document.addEventListener("keydown", (e) => {
+        senaste.textContent = `Du tryckte på ${e.key}`;
+    });
+    ```
+
+## Övning – Tangenträknaren
+
+```html
+<p id="räknare">Inga tryck än.</p>
+```
+
+```javascript
+const räknare = document.querySelector("#räknare");
+let antalTryck = 0;
+
+document.addEventListener("keydown", (e) => {
+    antalTryck++;
+    räknare.textContent = `Tryck ${antalTryck}: ${e.key}`;
+});
+```
+
+1. `antalTryck` ska minnas antalet mellan händelserna. Stod den inuti callbacken skulle den skapas på nytt med värdet 0 vid varje tryck, och stycket skulle alltid visa `Tryck 1`.
+2. Räknaren rusar i väg. `keydown` upprepas många gånger i sekunden så länge tangenten hålls ned, och varje upprepning räknas.
+3. Med `keyup` ökar räknaren bara med 1, hur länge tangenten än hålls ned, och först när den släpps. `keyup` upprepas inte.
+
+## Övning – Rutan flyttar sig
+
+1. Variabeln ska minnas rutans plats mellan tangenttrycken. Inuti callbacken hade den börjat om på 0 vid varje tryck, och rutan hade stått stilla på 10 pixlar.
+2. Byt `left` mot `top` och låt variabeln börja på rutans avstånd från överkanten:
+
+    ```javascript
+    const ruta = document.querySelector("#ruta");
+    let uppifrån = 200;
+
+    document.addEventListener("keydown", () => {
+        uppifrån += 10;
+        ruta.style.top = `${uppifrån}px`;
+    });
+    ```
+
+    Nedåt betyder ett *större* avstånd från överkanten, därför `+=`.
+3. Med lyssnaren på fältet flyttar sig rutan bara när du skriver i fältet. Klickar du någon annanstans på sidan har fältet inte längre markören, och tangenttrycken når aldrig dess lyssnare.
+
+    ```javascript
+    document.querySelector("#styrfält").addEventListener("keydown", () => {
+        vänsterifrån += 10;
+        ruta.style.left = `${vänsterifrån}px`;
+    });
+    ```

@@ -1,8 +1,8 @@
 ---
-losningar-till: kap17-manga-element.qmd
+losningar-till: kap19-manga-element.qmd
 ---
 
-# Kapitel 17: Händelser och många element {.unnumbered}
+# Kapitel 19: Händelser och många element {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-manga-element].
 
@@ -16,6 +16,7 @@ Lösningar till övningarna i kapitel [-@sec-manga-element].
 
 1. `2. Listan – target: Räknenissarna` och `3. Dokumentet`. Lyssnaren på *Ugglorna* körs inte, eftersom klicket inte inträffade där. Händelsen bubblar uppåt från *Räknenissarna*, inte åt sidan till andra lag.
 2. Bara `3. Dokumentet`. Rubriken står inte i listan, så händelsen bubblar från rubriken direkt till `<body>` och `document`.
+3. `Gula gänget` och `lag-lista`. Klicket började på laget, men lyssnaren som körs sitter på listan.
 
 **Delegering**
 
@@ -305,40 +306,6 @@ svarsfält.addEventListener("keydown", (e) => {
 1. Funktionen `kontrollera` innehåller allt som ska hända när användaren svarar. I klicklyssnaren lämnas den över utan parenteser.
 2. I tangentlyssnaren *anropas* den, med parenteser, men bara när tangenten är Enter.
 3. En lyssnare på `document` hade reagerat på Enter var som helst på sidan, också när användaren skriver i ett annat fält. Lyssnaren på textfältet reagerar bara när fältet har fokus, alltså när användaren skriver sitt svar.
-
-## Övning – Live-sökning
-
-```html
-<input type="text" id="sök" placeholder="Sök">
-<ul>
-    <li class="namn">Anna</li>
-    <li class="namn">Björn</li>
-    <li class="namn">Cecilia</li>
-    <li class="namn">David</li>
-    <li class="namn">Elin</li>
-    <li class="namn">Fredrik</li>
-    <li class="namn">Gunilla</li>
-    <li class="namn">Hassan</li>
-</ul>
-```
-
-```javascript
-const sökfält = document.querySelector("#sök");
-const namnElement = document.querySelectorAll(".namn");
-
-sökfält.addEventListener("input", () => {
-    const sökt = sökfält.value.trim().toLowerCase();
-
-    for (const element of namnElement) {
-        const namn = element.textContent.toLowerCase();
-        element.hidden = !namn.includes(sökt);
-    }
-});
-```
-
-2. `hidden` ska vara sant när namnet *inte* innehåller söktexten – därav `!`.
-3. Både namnet och söktexten görs om till små bokstäver innan de jämförs.
-4. När fältet töms syns alla namn igen. Söktexten blir då en tom sträng, och varje sträng innehåller den tomma strängen – `"anna".includes("")` är `true`. Inget namn döljs, och ingen extra kod behövs.
 
 ## Övning – Färgväljare med knappar
 
