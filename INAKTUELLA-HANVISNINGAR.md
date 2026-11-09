@@ -33,5 +33,4 @@ Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen"
 Kapitlet gjordes om igen i november 2026 (OUTLINE.md, *Iteration: händelser i Del I*). Avsnitten *Mushändelser* och *Händelserna `input` och `change`* är borttagna, och kapitlet tar bara upp `click`. `.value` och hälsningen ("Hej, !") har flyttat till kap. 10, *Tangenter och textfält* (`sec-tangenter`). Det lösta exemplet *Lagnamnet* heter nu *Lagvalet* och läser ingen text från ett fält.
 
 - **kap13-villkor.qmd, rad 140.** "hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt". Hälsningen står nu i kap. 10. Byt till `sec-tangenter`.
-- **kap07-egna-funktioner.qmd, rad 443.** "du ber webbläsaren köra en funktion när användaren klickar, skriver eller rör musen." Kap. 9 tar bara upp klick.
 

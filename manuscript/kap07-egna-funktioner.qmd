@@ -440,7 +440,7 @@ Båda funktionerna returnerar sina resultat, så det är programmet som bestämm
 - En funktion har en **utsida** (namn, parametrar, returvärde) och en **insida** (kroppen). Att gömma detaljerna bakom ett namn kallas **abstraktion**. Insidan kan ändras utan att anropen behöver ändras.
 - En funktion bör göra **en sak** och ha ett namn som säger vilken.
 
-I kapitel [-@sec-handelser] blir sidan interaktiv: du ber webbläsaren köra en funktion när användaren klickar, skriver eller rör musen.
+I kapitel [-@sec-handelser] blir sidan interaktiv: du ber webbläsaren köra en funktion när användaren klickar.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
