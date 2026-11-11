@@ -368,7 +368,7 @@ Här finns alla fem delarna. Numren följer den ordning de körs i: att hämta o
 - Webbläsaren skickar ett **event-objekt** till callbacken. Ta emot det med en parameter: `(e) => { … }`. **`e.type`** är händelsens sort och **`e.target`** elementet den gällde, så att samma funktion kan lyssna på flera element.
 - Det som ska hända vid varje händelse – att läsa, bearbeta och visa – står i callbacken. Att hämta elementen och registrera lyssnaren görs en gång.
 
-I kapitel [-@sec-tangenter] lyssnar programmet på tangentbordet, och event-objektet talar om vilken tangent som trycktes.
+I kapitel [-@sec-booleska] lär du dig hur ett program ställer frågor som har svaret sant eller falskt.
 
 ::: {.callout-tip}
 ## AI som studieverktyg

@@ -4,7 +4,7 @@ Det här kapitlet visar hur ett program ställer frågor – om ett tal är stö
 
 ## Frågor med två svar
 
-Tänk dig ett anmälningsformulär till quizkvällen. Laget skriver sitt namn och hur många deltagare det har, och klickar sedan på "Anmäl". Ett genomtänkt formulär hjälper användaren på vägen:
+Tänk dig ett anmälningsformulär till en quizkväll. Laget skriver sitt namn och hur många deltagare det har, och klickar sedan på "Anmäl". Ett genomtänkt formulär hjälper användaren på vägen:
 
 - Knappen "Anmäl" är grå och går inte att klicka på förrän laget har skrivit ett namn.
 - Ett varningsmeddelande dyker upp om laget har fler än sex deltagare.
@@ -18,7 +18,7 @@ Svaren på sådana frågor kallas **booleska värden**: `true` (sant) eller `fal
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap11`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap10`:
 
 ```html
 <!DOCTYPE html>
@@ -160,7 +160,9 @@ Operatorerna `<` och `>` fungerar också på strängar, och jämför då tecken 
 Number("10") < Number("9");   // false – talet 10 är inte mindre än 9
 ```
 
-Som strängar jämförs bara första tecknet först, och `"1"` kommer före `"9"`. Gör därför om värden från formulärfält till tal med `Number()` innan du jämför dem.
+Som strängar jämförs bara första tecknet först, och `"1"` kommer före `"9"`.
+
+Det användaren har skrivit i ett textfält läser du med fältets egenskap `value`, till exempel `antalfält.value`. Det motsvarar attributet `value` i HTML, men följer med när användaren skriver. Värdet är alltid en sträng, även när användaren har skrivit siffror. Gör därför om det till ett tal med `Number()` innan du jämför (kapitel [-@sec-text-till-tal]).
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp

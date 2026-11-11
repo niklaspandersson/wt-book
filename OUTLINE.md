@@ -10,14 +10,14 @@
 * [X] Kap. 7 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, scope, att tänka i funktioner)*
 * [X] Kap. 8 – *Från text till tal och tillbaka* (minikapitel) *(implicit typkonvertering, `Number()`, den tomma texten och decimalkommat, `toFixed`)*
 * [X] Kap. 9 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, variabler som minns mellan händelser, event-objektet med `e.type` och `e.target`, mönstret hämta → lyssna → läs → bearbeta → visa)*
-* [X] Kap. 10 – *Tangenter och textfält* (minikapitel, utkast) *(`keydown`/`keyup`, `e.key` och tangentnamnen, `shiftKey`/`ctrlKey`/`altKey`, lyssna på `document` eller ett fält, `.value` läst vid klick)*
-* [X] Kap. 11 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
-* [X] Kap. 12 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
-* [X] Kap. 13 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
-* [X] Kap. 14 – *Söka och klippa i text* (minikapitel) *(positioner från 0, `indexOf` med `-1` som villkor, `substring`)*
-* [X] Kap. 15 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
-* [X] Kap. 16 – *`split` och `join`* (minikapitel) *(avgränsare, tomma delar, kedjning med `join`)*
-* [X] Kap. 17 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, anmälan med split/join som löst exempel, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
+* [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, en kort introduktion av `.value`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
+* [X] Kap. 11 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
+* [X] Kap. 12 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
+* [X] Kap. 13 – *Söka och klippa i text* (minikapitel) *(positioner från 0, `indexOf` med `-1` som villkor, `substring`)*
+* [X] Kap. 14 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
+* [X] Kap. 15 – *`split` och `join`* (minikapitel) *(avgränsare, tomma delar, kedjning med `join`)*
+* [X] Kap. 16 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, anmälan med split/join som löst exempel, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
+* [X] Kap. 17 – *Tangentbordet* (minikapitel) *(`keydown`/`keyup`, `e.key` och tangentnamnen, `shiftKey`/`ctrlKey`/`altKey`, lyssna på `document` eller ett fält)*
 * [X] Kap. 18 – *Musen* (minikapitel, utkast) *(`mouseenter`/`mouseleave`, `mousemove`, `clientX`/`clientY`, flytta ett element dit pekaren är, översikt över mushändelserna)*
 * [X] Kap. 19 – Händelser och många element *(`querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, delegering, quizknapparna som löst exempel)*
 
@@ -90,14 +90,14 @@ Kapitlen följer den nya ordningen i Del I (se *Nästa iteration* nedan). Minika
 | 1 | JavaScript och webbläsaren, Värden och variabler, *Räkna med tal* | 11 | |
 | 2 | Att använda funktioner, *Skapa och ändra strängar*, Din kod möter webbsidan | 12 | |
 | 3 | Att skriva egna funktioner, *Från text till tal och tillbaka*, Händelser | 11,5 | |
-| 4 | *Tangenter och textfält*, Sant och falskt, *Avrunda och slumpa*, Villkorssatser | 13 | |
+| 4 | Sant och falskt, *Avrunda och slumpa*, Villkorssatser | 11 | |
 | 5 | *Söka och klippa i text*, Loopar, *`split` och `join`*, Arrayer | 13 | |
-| 6 | *Musen*, Händelser och många element, Tid och animationer | 11,5 | **Deadline 1:** inlämning 1 |
+| 6 | *Tangentbordet*, *Musen*, Händelser och många element, Tid och animationer | 13 | **Deadline 1:** inlämning 1 |
 | 7–8 | *Jul och nyår – ingen undervisning.* Arbete med inlämning 2, extraövningar | | |
 | 9 | Eget arbete med inlämning 2: handledning, felsökning, repetition | | |
 | 10 | Eget arbete med inlämning 2 | | **Deadline 2:** inlämning 2, skriftlig tentamen |
 
-Att använda funktioner och Din kod möter webbsidan läses samma vecka, liksom Att skriva egna funktioner och Händelser. Veckorna har var sitt tema: funktioner och händelser (3), inmatning och beslut (4), text och listor (5) samt musen och många element (6). Timmarna är uppskattningar tills övningarna har delats i kärna och extra. Marginalen upp till 13–14 timmar är en buffert och ska inte fyllas i förväg. Inlämning 2 bygger på arrayer av objekt, delegering och timers, till exempel ett reaktionsspel, ett quiz med tidsgräns eller en nedräkning med animerad återkoppling. Den behöver tydliga delmål, så att studenterna inte kör fast under lovet utan handledning.
+Att använda funktioner och Din kod möter webbsidan läses samma vecka, liksom Att skriva egna funktioner och Händelser. Veckorna har var sitt tema: funktioner och händelser (3), frågor och beslut (4), text och listor (5) samt tangentbordet, musen och många element (6). Timmarna är uppskattningar tills övningarna har delats i kärna och extra. Marginalen upp till 13–14 timmar är en buffert och ska inte fyllas i förväg. Inlämning 2 bygger på arrayer av objekt, delegering och timers, till exempel ett reaktionsspel, ett quiz med tidsgräns eller en nedräkning med animerad återkoppling. Den behöver tydliga delmål, så att studenterna inte kör fast under lovet utan handledning.
 
 **Jämfört med förra kursomgången (2025/26):**
 
@@ -238,7 +238,6 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 | Att skriva egna funktioner | – | 6 h |
 | *Från text till tal och tillbaka* | från gamla kap. 7 | 1,5 h |
 | Händelser | + event-objektet, − mushändelser, − `input`/`change`, − `.value` | 4 h |
-| *Tangenter och textfält* | nytt (november 2026), + `.value` från *Händelser* | 2 h |
 | Sant och falskt | – | 5 h |
 | *Avrunda och slumpa* | från gamla kap. 7 | 1 h |
 | Villkorssatser | − tangenthändelser | 5 h |
@@ -246,6 +245,7 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 | Loopar | – | 5,5 h |
 | *`split` och `join`* | från arraykapitlet | 1 h |
 | Arrayer | − grunderna, − `split`/`join`, − `querySelectorAll` och händelser i en loop | 5 h |
+| *Tangentbordet* | nytt (november 2026) | 1,5 h |
 | *Musen* | nytt (november 2026) | 2 h |
 | Händelser och många element | nytt (se punkt 3), − event-objektet och tangenterna, + `e.currentTarget` | 4,5 h |
 | Tid och animationer (Del II) | – | 5 h |
@@ -254,7 +254,7 @@ Totalt cirka 72 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 
 **Väntar tills ordningen är genomförd:**
 
-- **Kärn- och extraövningar.** Varje kapitels övningar ska delas i kärna och extra. En möjlig regel: läsövningarna (förutsäg, spåra, felet, förklara, Parsons) plus en övning som ändrar eller bygger är kärna, resten extra. Övningstrådarna som bygger på varandra (poängtavlan kap. 6 → 7 → 9, mörkt läge 6 → 9 → 12, knappräknaren 9 → 10) kan helt eller delvis bli extra. En kärnövning får aldrig kräva en extraövning.
+- **Kärn- och extraövningar.** Varje kapitels övningar ska delas i kärna och extra. En möjlig regel: läsövningarna (förutsäg, spåra, felet, förklara, Parsons) plus en övning som ändrar eller bygger är kärna, resten extra. Övningstrådarna som bygger på varandra (poängtavlan kap. 6 → 7 → 9, mörkt läge 6 → 9 → 12) kan helt eller delvis bli extra. En kärnövning får aldrig kräva en extraövning.
 
 **Följdändringar att komma ihåg:**
 
@@ -269,9 +269,9 @@ Totalt cirka 72 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 **Beslutat:**
 
 1. **Event-objektet i kap. 9**, med `e.type` och `e.target`. Kap. 9 handlar bara om klick, och det lösta exemplet *Lagvalet* läser vilken knapp som klickades. Exemplen med `e.target` använder knappar som bara innehåller text, så att skillnaden mot `e.currentTarget` inte syns förrän i kap. 19.
-2. **Två nya minikapitel:** *Tangenter och textfält* (kap. 10, med `.value`, som läses vid klick) direkt före *Sant och falskt*, som kan använda `e.key === "Enter"` och `e.shiftKey`, och *Villkorssatser*, som kan använda piltangenterna. *Musen* (kap. 18) före *Händelser och många element*, som förklarar varför `mouseover` bubblar men inte `mouseenter`.
+2. **Två nya minikapitel:** *Tangentbordet* (kap. 17) och *Musen* (kap. 18), direkt före *Händelser och många element*. Tangentbordet låg först som *Tangenter och textfält* direkt efter *Händelser*, men flyttades för att jämna ut arbetsbördan mellan vecka 4 och 6. `.value` introduceras i stället kort i *Sant och falskt*, där det först används, eftersom studenterna känner till `value`-attributet från Webbteknik 1. *Musen* förklarar varför `mouseover` bubblar men inte `mouseenter`.
 3. **Formulären flyttas till Webbteknik 3**, till kapitlet *Formulär och validering*: `input`, `change`, `<select>`, kryssrutor och `checked`. I Del I läses textfält bara vid klick.
 4. **Kap. 19 handlar om många element:** `querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, och delegering.
-5. **Kap. 11 och 13 får nya exempel** i stället för formulärhändelserna, gärna med tangenter och event-objektet. Det görs när kapitlen granskas (ATT-GORA.md).
+5. **Kap. 10 och 12 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Det görs när kapitlen granskas (ATT-GORA.md).
 
-**Status.** Kap. 9 är omskrivet. Kap. 10 och 18 är utkast, och kap. 19 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.
+**Status.** Kap. 9 är omskrivet och slutgranskat, och kap. 17 är granskat mot formatet för minikapitel. Kap. 18 är utkast, och kap. 19 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.

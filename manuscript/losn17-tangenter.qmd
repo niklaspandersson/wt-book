@@ -1,8 +1,8 @@
 ---
-losningar-till: kap10-tangenter.qmd
+losningar-till: kap17-tangenter.qmd
 ---
 
-# Kapitel 10: Tangenter och textfält {.unnumbered}
+# Kapitel 17: Tangentbordet {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-tangenter].
 
@@ -25,22 +25,15 @@ Lösningar till övningarna i kapitel [-@sec-tangenter].
 
 ## Övning – Vad säger felet?
 
-1. B ger `ReferenceError: e is not defined`, men först när en tangent trycks: callbacken har ingen parameter `e`, och felet uppstår när callbacken körs.
-2. A: ingenting händer. Händelsen heter `"keydown"` med litet d, och webbläsaren väntar på en händelse som aldrig kommer. C: stycket visar `Du tryckte på undefined`. Egenskapen heter `key` med litet k, och en egenskap som inte finns ger `undefined`. D: ingenting händer. Ett stycke kan inte ha markören i sig, så det får aldrig några tangenthändelser.
-3. Alla fyra blir likadana:
+1. B ger `ReferenceError: key is not defined`, men först när en tangent trycks: felet uppstår när callbacken körs. Tangentens namn är en egenskap i event-objektet och skrivs `e.key`. Det finns ingen variabel som heter `key`.
+2. A: ingenting händer. Händelsen heter `"keydown"` med litet d, och webbläsaren väntar på en händelse som aldrig kommer. C: konsolen visar `Du tryckte på undefined`. Egenskapen heter `key` med litet k, och en egenskap som inte finns ger `undefined`.
+3. Alla tre blir likadana:
 
     ```javascript
     document.addEventListener("keydown", (e) => {
-        senaste.textContent = `Du tryckte på ${e.key}`;
+        console.log(`Du tryckte på ${e.key}`);
     });
     ```
-
-## Övning – Kvittot
-
-1. *Besökaren skriver ett svar i fältet och klickar på knappen. Svaret visas då under fältet som "Ditt svar: …", och fältet töms så att det går att skriva ett nytt svar.*
-2. En sträng, `"42"`. Allt som läses med `.value` är text.
-3. Bara `Ditt svar: `, utan något svar. `e.target` är knappen, eftersom det var den som klickades, och en knapp utan `value`-attribut har en tom sträng som `value`.
-4. Bara `Ditt svar: `. Fältet töms först, och när det sedan läses är det tomt. Raderna i en callback körs uppifrån och ned, precis som annan kod.
 
 ## Övning – Rutan flyttar sig
 

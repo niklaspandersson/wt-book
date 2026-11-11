@@ -1,8 +1,8 @@
 ---
-losningar-till: kap14-soka-klippa.qmd
+losningar-till: kap13-soka-klippa.qmd
 ---
 
-# Kapitel 14: Söka och klippa i text {.unnumbered}
+# Kapitel 13: Söka och klippa i text {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-soka-klippa].
 

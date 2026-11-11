@@ -1,8 +1,8 @@
 ---
-losningar-till: kap12-avrunda-slumpa.qmd
+losningar-till: kap11-avrunda-slumpa.qmd
 ---
 
-# Kapitel 12: Avrunda och slumpa {.unnumbered}
+# Kapitel 11: Avrunda och slumpa {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-avrunda-slumpa].
 

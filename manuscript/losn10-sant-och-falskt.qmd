@@ -1,8 +1,8 @@
 ---
-losningar-till: kap11-sant-och-falskt.qmd
+losningar-till: kap10-sant-och-falskt.qmd
 ---
 
-# Kapitel 11: Sant och falskt {.unnumbered}
+# Kapitel 10: Sant och falskt {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-booleska].
 

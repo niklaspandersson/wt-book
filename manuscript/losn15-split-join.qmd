@@ -1,8 +1,8 @@
 ---
-losningar-till: kap16-split-join.qmd
+losningar-till: kap15-split-join.qmd
 ---
 
-# Kapitel 16: `split` och `join` {.unnumbered}
+# Kapitel 15: `split` och `join` {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-split-join].
 

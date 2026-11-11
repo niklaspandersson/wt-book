@@ -6,11 +6,11 @@
 
 - **Kontrollera i en riktig webbläsare.** Lösningarna är testkörda med Node.js och jsdom, men följande går inte att testa där:
   - övning 1.6: Chromes spärr mot inklistring i konsolen (`allow pasting`);
-  - övning 1.5, 4.4 och 13.3: felmeddelandenas exakta formulering i Firefox och Safari;
+  - övning 1.5, 4.4 och 12.3: felmeddelandenas exakta formulering i Firefox och Safari;
   - övning 6.7: vad *Visa sidkälla* visar för en sida som öppnats direkt från filsystemet;
   - övning 6.10 fråga 3: att `#facit { display: block; }` vinner över `hidden`;
   - övning 19.7: att `#ruta.blå` behövs för att färgen ska synas, och hur `keydown` upprepas när en tangent hålls nere;
-  - övning 10.1 och 10.2: utskriften för Skift och mellanslag, att `e.shiftKey` är `true` redan i Skift-tangentens egen `keydown`, och att ett `<p>` inte får några tangenthändelser;
+  - övning 17.1: utskriften för Skift och mellanslag, och att `e.shiftKey` är `true` redan i Skift-tangentens egen `keydown`;
   - övning 18.2: att `style.left` utan enhet ignoreras, och hur pricken beter sig med lyssnaren på sig själv.
 
 ## Del I
@@ -22,13 +22,13 @@
 
 ## Enhetlighet i Del I
 
-Kap. 11, 13, 15, 17 och 19 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4 och 9 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 10, 12, 14, 16 och 18) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
+Kap. 10, 12, 14, 16 och 19 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4 och 9 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 11, 13, 15, 17 och 18) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
-- **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–19, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 15 och för arrayen och `const` i kap. 17.
+- **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–19, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - **Scenarier.** Quizkvällen är inte ett genomgående exempel. Temat kan användas som vardagsexempel där det passar, vid sidan av andra scenarier som betyg, biljetter och moms, men varje kapitel eller övning som använder det ska förklara sammanhanget själv. Studenten ska inte behöva minnas quizet från ett tidigare kapitel. Det som återstår att rätta står under *Lösa hänvisningar till quizkvällen*.
-- **Rubriken *Ett löst exempel: …*** känns som en mall. Byt till bara exemplets namn (*Nedräkningen*, *Kiosken*), som i kap. 6. Gäller kap. 11, 13, 15, 17, 19 och objektkapitlet, och hänvisningarna till rubrikerna i kapitlens övningar och i lösningsfilerna `losn11`, `losn13`, `losn15`, `losn16` och `losn19`. Uppdatera samtidigt rubrikerna i ATT-GORA.md och INAKTUELLA-HANVISNINGAR.md som nämner de gamla namnen.
-- **Övningssidor.** Kap. 9 har nu en skelettsida, och varje avsnitt och övning visar sin HTML (se *Practice page* i CLAUDE.md). Avgör för kap. 11 (43 rader), 13 (49) och 19 (59) om exemplen bygger en sammanhängande sida eller är fristående. Är de fristående, gör om dem på samma sätt.
-- **Läs i följd.** Läs kap. 4 → 5 → 6 → 7, 9 → 10 → 11 och 11 → 12 → 13 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
+- **Rubriken *Ett löst exempel: …*** känns som en mall. Byt till bara exemplets namn (*Nedräkningen*, *Kiosken*), som i kap. 6. Gäller kap. 10, 12, 14, 16, 19 och objektkapitlet, och hänvisningarna till rubrikerna i kapitlens övningar och i lösningsfilerna `losn10`, `losn12`, `losn14`, `losn15` och `losn19`. Uppdatera samtidigt rubrikerna i ATT-GORA.md och INAKTUELLA-HANVISNINGAR.md som nämner de gamla namnen.
+- **Övningssidor.** Kap. 9 har nu en skelettsida, och varje avsnitt och övning visar sin HTML (se *Practice page* i CLAUDE.md). Avgör för kap. 10 (43 rader), 12 (49) och 19 (59) om exemplen bygger en sammanhängande sida eller är fristående. Är de fristående, gör om dem på samma sätt.
+- **Läs i följd.** Läs kap. 4 → 5 → 6 → 7, 9 → 10 → 11 → 12 och 16 → 17 → 18 → 19 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Lösa hänvisningar till quizkvällen
 
@@ -36,20 +36,20 @@ Genomgång av Del I och dess lösningar. Quizet introduceras bara i kap. 2, men 
 
 **Tydliga fall:**
 
-- **Kap. 11, *Stanna upp* efter *Jämföra strängar*:** "Domaren skriver `12` och `9`." "Någon skriver" eller "Du skriver" räcker.
-- **Kap. 15, öppningen:** "Quizkvällen närmar sig, och domaren har tre önskemål". Fortsätter en berättelse med en person studenten inte har mött. Rättas öppningen fungerar de senare "domaren" i kapitlet, och "quizlag" i lösningen till kapitlets prislisteövning.
-- **Kap. 17, öppningen:** "Anmälningarna till quizkvällen har börjat komma in" och "Domaren vill …". Samma mönster som kap. 15, och samma sak gäller "domaren" i *Ett löst exempel: anmäl flera lag*.
+- **Kap. 10, *Stanna upp* efter *Jämföra strängar*:** "Domaren skriver `12` och `9`." "Någon skriver" eller "Du skriver" räcker.
+- **Kap. 14, öppningen:** "Quizkvällen närmar sig, och domaren har tre önskemål". Fortsätter en berättelse med en person studenten inte har mött. Rättas öppningen fungerar de senare "domaren" i kapitlet, och "quizlag" i lösningen till kapitlets prislisteövning.
+- **Kap. 16, öppningen:** "Anmälningarna till quizkvällen har börjat komma in" och "Domaren vill …". Samma mönster som kap. 14, och samma sak gäller "domaren" i *Ett löst exempel: anmäl flera lag*.
 - **Kap. 19, öppningen:** "Quizsidan har tre svarsknappar." Sidan har inte visats ännu, eftersom övningssidan kommer efter meningen. Rättas öppningen fungerar "Quizet från kapitlets början" i *Ett löst exempel: quizknapparna*.
 
 **Mindre fall:**
 
-- **Bestämd form utan sammanhang:** "quizkvällen" i kap. 11 (öppningen). "En quizkväll" räcker.
-- **Kap. 12, övningen *Slå upp själv*:** "Ett quiz med 128 deltagare ska åka buss" hänger ihop i sig, men verkar vara en rest. Vilken grupp som helst fungerar bättre.
-- **Kap. 13, övningen *Förklara koden*:** strängen "Välkomna till quizet!" står utan sammanhang i ett kapitel om betyg, och återkommer i lösningsfilen.
-- **Olika namn på samma roll:** *domaren* (kap. 11, 15 och 17) och *arrangörerna* (kap. 7). Välj ett, om rollen blir kvar.
-- **Kap. 17, *Arrayer av objekt*:** quizfrågan med en array av alternativ finns inte längre i kap. 2. Står också i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md).
+- **Bestämd form utan sammanhang:** "quizkvällen" i kap. 10 (öppningen). "En quizkväll" räcker.
+- **Kap. 11, övningen *Slå upp själv*:** "Ett quiz med 128 deltagare ska åka buss" hänger ihop i sig, men verkar vara en rest. Vilken grupp som helst fungerar bättre.
+- **Kap. 12, övningen *Förklara koden*:** strängen "Välkomna till quizet!" står utan sammanhang i ett kapitel om betyg, och återkommer i lösningsfilen.
+- **Olika namn på samma roll:** *domaren* (kap. 10, 14 och 16) och *arrangörerna* (kap. 7). Välj ett, om rollen blir kvar.
+- **Kap. 16, *Arrayer av objekt*:** quizfrågan med en array av alternativ finns inte längre i kap. 2. Står också i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md).
 
-Inga ändringar behövs där sammanhanget ges på plats (scenariot i kap. 2, öppningen i kap. 7, fristående övningar som i kap. 13 och 15), i hänvisningar som namnger övningen (kap. 6 och 19), eller i kod med lagobjekt och exempeltexter, som fungerar utan ett quiz.
+Inga ändringar behövs där sammanhanget ges på plats (scenariot i kap. 2, öppningen i kap. 7, fristående övningar som i kap. 12 och 14), i hänvisningar som namnger övningen (kap. 6 och 19), eller i kod med lagobjekt och exempeltexter, som fungerar utan ett quiz.
 
 ## Innehåll att se över i nästa iteration
 
@@ -59,49 +59,50 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Konsolen som verktyg.** Nu när skriptets funktioner nås från konsolen kunde en övning låta studenten anropa sina funktioner där med olika argument, som ett sätt att testa dem.
 
-### Kap. 10 *Tangenter och textfält* (utkast)
+### Kap. 10 Sant och falskt
 
-- **Granska utkastet** mot formatet för minikapitel i CLAUDE.md. Övningarna saknar en *Ordna raderna*, vilket är i sin ordning för ett minikapitel.
-
-### Kap. 11 Sant och falskt
-
-- **Formulärhändelserna ska bort** (OUTLINE.md, *Iteration: händelser i Del I*). Det lösta exemplet *anmälningsformuläret* och tre övningar lyssnar på `input`. Byt till exempel med klick, tangenter (`e.key === "Enter"`, `e.shiftKey`) eller muskoordinater från event-objektet, och läs textfält bara vid klick.
+- **Formulärhändelserna ska bort** (OUTLINE.md, *Iteration: händelser i Del I*). Det lösta exemplet *anmälningsformuläret* och tre övningar lyssnar på `input`. Byt till exempel med klick, och läs textfält bara vid klick. Tangenterna och musen kommer först i kap. 17 och 18.
+- **`.value`** introduceras nu kort i avsnittet om att jämföra strängar, eftersom kap. 17 inte längre tar upp textfält. Se till att introduktionen står där `.value` först används när kapitlet skrivs om.
 - **`checked` och kryssrutor** flyttas till formulärkapitlet. `hidden` och `disabled` stannar.
 - **Truthy och falsy** står kvar som *Bra att veta*-ruta, men ingen övning eller senare kapitel i Del I använder begreppen.
 
-### Kap. 13 Villkorssatser
+### Kap. 12 Villkorssatser
 
-- **Formulärhändelserna ska bort.** Hälsningen med `if` och ternär lyssnar på `input`. Låt den läsa fältet vid klick, som i kap. 10, eller byt exempel. Hälsningen med "Hej, !" finns nu i kap. 10 (se INAKTUELLA-HANVISNINGAR.md).
-- **Tangenterna kan komma tillbaka hit.** En `else if`-kedja för piltangenterna passar som exempel. Övningarna *Tangentbordsrörelser*, *Svara med Enter* och *Ordna raderna* (Escape) i kap. 19 behöver `if` men handlar inte om kap. 19:s ämne, och kan flyttas hit.
-- **Ingen övning i brödtexten visar `.style` med ett värde som ändras hela tiden, vilket kap. 6 nämner som skälet att välja `.style`.** Övningen *Tangentbordsrörelser*, som gör det, ligger nu i kap. 19 (se punkten ovan).
+- **Formulärhändelserna ska bort.** Hälsningen med `if` och ternär lyssnar på `input`. Låt den läsa fältet vid klick, eller byt exempel. Hälsningen med "Hej, !" finns inte längre i något tidigare kapitel (se INAKTUELLA-HANVISNINGAR.md).
+- **Ingen övning i brödtexten visar `.style` med ett värde som ändras hela tiden, vilket kap. 6 nämner som skälet att välja `.style`.** Övningen *Tangentbordsrörelser*, som gör det, ligger i kap. 19 och kan flytta till kap. 17 (se kap. 19 nedan).
 
-### Kap. 15 Loopar
+### Kap. 14 Loopar
 
 - **Prislistans spårtabell** är nu ett löst exempel i övningen *Spåra summan*. Brödtexten har kvar spårtabellen för `while`, som är kapitlets modell. Fundera på om *Bygga upp ett resultat* behöver en bild av hur `text` växer (till exempel pilbilden) nu när tabellen är borta.
 - **`continue`, `do...while` och nästlade loopar** nämns inte längre alls. Studenterna möter dem i andras kod och på MDN.
 
-### Kap. 17 Arrayer
+### Kap. 16 Arrayer
 
 - **Tabellen `frågor[1].alternativ[0]`** är del B i övningen *Förutsäg värdena*. I texten finns en mening kvar.
 
+### Kap. 17 *Tangentbordet*
+
+- **Tangentövningarna från kap. 19** (se nedan) kan flyttas hit, nu när kapitlet kommer efter villkorssatserna och kan använda `if` med `e.key`. Minikapitlet har plats för 3–4 övningar, så välj bland dem.
+
 ### Kap. 18 *Musen* (utkast)
 
-- **Granska utkastet** mot formatet för minikapitel. Övningen *Vänster eller höger* använder `classList.toggle` med villkor från kap. 11, kontrollera att det står så där.
+- **Övningssidan.** Kapitlet skickar studenten till övningssidan från kap. 9, men minikapitel ska använda konsolen eller en egen liten sida, som kap. 17. Lyssnarna från tidigare exempel ligger dessutom kvar på sidan och kan skymma det som exemplet visar.
+- **Granska utkastet** mot formatet för minikapitel. Övningen *Vänster eller höger* använder `classList.toggle` med villkor från kap. 10, kontrollera att det står så där.
 
 ### Kap. 19 Händelser och många element
 
 - **Följdändringarna efter flytten är gjorda**: event-objektet och tangenterna är borta ur brödtexten, öppningen motiverar loop och delegering, `e.currentTarget` har ett eget avsnitt, och *Live-sökning* är struken. Kvar att göra i granskningen:
-  - Övningarna om tangenter (*Ordna raderna*, *Tangentbordsrörelser*, *Svara med Enter*, delar av *Vad skrivs ut?* och snutt B i *Vad säger felet?*) handlar inte om kapitlets ämne. Flytta dem till kap. 13 och ersätt dem med övningar om bubbling, delegering och `e.currentTarget`. *Ordna raderna* bör handla om delegering. Då kan stycket `#tangent` tas bort från övningssidan.
+  - Övningarna om tangenter (*Ordna raderna*, *Tangentbordsrörelser*, *Svara med Enter*, delar av *Vad skrivs ut?* och snutt B i *Vad säger felet?*) handlar inte om kapitlets ämne. Flytta dem till kap. 17 och ersätt dem med övningar om bubbling, delegering och `e.currentTarget`. *Ordna raderna* bör handla om delegering. Då kan stycket `#tangent` tas bort från övningssidan.
   - `e.currentTarget` har ingen övning.
-  - Snutt C i *Vad säger felet?* (`e` utan parameter) finns nu också i kap. 9 och 10. Byt till ett fel som hör till kapitlet, till exempel `e.target` som blir ett element inuti knappen.
+  - Snutt C i *Vad säger felet?* (`e` utan parameter) finns nu också i kap. 9. Byt till ett fel som hör till kapitlet, till exempel `e.target` som blir ett element inuti knappen.
 
 - **Överlapp med `kap-handelser-djupet.qmd`.** Bubbling och delegering förklaras nu i Del I. Kapitlet i Del II har samma innehåll och behöver bara propageringens faser, `preventDefault` och `removeEventListener` (se OUTLINE.md).
 
-### Minikapitlen (kap. 3, 5, 8, 10, 12, 14, 16 och 18)
+### Minikapitlen (kap. 3, 5, 8, 11, 13, 15, 17 och 18)
 
 - **Stegtabellen för kedjade metoder** står kvar i brödtexten i *Skapa och ändra strängar*. Enligt formatet för minikapitel och regeln om lösta exempel kunde den flyttas till övningen *Spåra strängarna*. Författaren avgör.
 - **Flyttal.** Rutan om att `0.1 + 0.2` ger `0.30000000000000004` är borttagen. Kommer det upp i en övning behöver lösningen förklara det.
-- **Övningarna från gamla kap. 7 som behövde händelser** är strukna: *Ordna raderna* (svaret i stora bokstäver), *Bygg vidare på momsräknaren*, *Temperaturomvandlare*, *Teckenräknare* och *Poängtavlan räknar rätt*. *Tangenter och textfält* (kap. 10) kommer efter `Number()` och strängmetoderna och kunde ta upp någon av dem, med en knapp i stället för `input`-händelsen. Teckenräknaren passar annars i formulärkapitlet.
+- **Övningarna från gamla kap. 7 som behövde händelser** är strukna: *Ordna raderna* (svaret i stora bokstäver), *Bygg vidare på momsräknaren*, *Temperaturomvandlare*, *Teckenräknare* och *Poängtavlan räknar rätt*. Ingen av dem har fått någon ny plats. Teckenräknaren passar i formulärkapitlet.
 
 ## Del II–III
 

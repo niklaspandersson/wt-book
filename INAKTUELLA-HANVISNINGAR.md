@@ -10,7 +10,7 @@ Hänvisningar från ett kapitel till ett annat som inte längre stämmer, efter 
 
 Avsnittet *En array i ett objekt* (`fråga` med `alternativ` och `rättIndex`) är borttaget. En array som egenskap förekommer nu bara i övningen *En quizfråga som objekt* (`ledtrådar`).
 
-- **kap17-arrayer.qmd, rad 223.** "En quizfråga kan vara ett objekt med en array av alternativ (kapitel 2)." Exemplet med alternativ finns inte längre i kap. 2. Visa i stället att en egenskap kan vara en array, eller hänvisa till övningen.
+- **kap16-arrayer.qmd, rad 223.** "En quizfråga kan vara ett objekt med en array av alternativ (kapitel 2)." Exemplet med alternativ finns inte längre i kap. 2. Visa i stället att en egenskap kan vara en array, eller hänvisa till övningen.
 
 ## Till kapitel 4, *Att använda funktioner* (`sec-anropa-funktioner`)
 
@@ -30,8 +30,8 @@ Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen"
 
 - **kap-objekt.qmd**, en övning: "Skriv de fem stegen som kommentarer först."
 
-Kapitlet gjordes om igen i november 2026 (OUTLINE.md, *Iteration: händelser i Del I*). Avsnitten *Mushändelser* och *Händelserna `input` och `change`* är borttagna, och kapitlet tar bara upp `click`. `.value` och hälsningen ("Hej, !") har flyttat till kap. 10, *Tangenter och textfält* (`sec-tangenter`). Det lösta exemplet *Lagnamnet* heter nu *Lagvalet* och läser ingen text från ett fält.
+Kapitlet gjordes om igen i november 2026 (OUTLINE.md, *Iteration: händelser i Del I*). Avsnitten *Mushändelser* och *Händelserna `input` och `change`* är borttagna, och kapitlet tar bara upp `click`. Hälsningen ("Hej, !") finns inte längre i något kapitel i Del I, och `.value` introduceras kort i kap. 10, *Sant och falskt*. Det lösta exemplet *Lagnamnet* heter nu *Lagvalet* och läser ingen text från ett fält.
 
 - **kap-objekt.qmd, rad 626.** "jämför med *Poängtavlan blir interaktiv* i kapitel [-@sec-handelser]". Övningen är borttagen ur kap. 9. Stryk jämförelsen.
-- **kap13-villkor.qmd, rad 140.** "hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt". Hälsningen står nu i kap. 10. Byt till `sec-tangenter`.
+- **kap12-villkor.qmd, rad 140.** "hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt". Hälsningen finns inte längre. Visa problemet med det tomma fältet på plats i stället för att hänvisa bakåt.
 
