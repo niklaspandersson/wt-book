@@ -27,7 +27,6 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 
 1. När sidan laddas skrivs `A` och sedan `C` ut. Raden med `addEventListener` registrerar callbacken, men kör den inte.
 2. Vid ett klick skrivs `B` ut. Vid två klick skrivs `B` ut två gånger – en gång per klick. Callbacken körs varje gång händelsen inträffar.
-3. `B` skrivs inte ut direkt eftersom callbacken bara lämnas över till webbläsaren. Det finns inget anrop av den någonstans i koden. Det är webbläsaren som anropar den, när användaren klickar – och klickar ingen körs den aldrig.
 
 ## Övning – Vad händer vid klicket?
 
@@ -161,47 +160,6 @@ storlekKnapp.addEventListener("click", () => {
 
 Knapparna fungerar oberoende av varandra. Varje knapp slår av och på sin egen klass, och `toggle` påverkar bara den klass den får som argument. Sidan kan alltså vara mörk med stor text, ljus med stor text, och så vidare – alla fyra kombinationerna.
 
-## Övning – Knappräknare
-
-```html
-<p>Antal: <span id="antal">0</span></p>
-<button id="öka-knapp">+1</button>
-<button id="minska-knapp">−1</button>
-<button id="nollställ-knapp">Nollställ</button>
-```
-
-```javascript
-// Hämta
-const antalElement = document.querySelector("#antal");
-const ökaKnapp = document.querySelector("#öka-knapp");
-const minskaKnapp = document.querySelector("#minska-knapp");
-const nollställKnapp = document.querySelector("#nollställ-knapp");
-
-let antal = 0;
-
-function visaAntal(antal) {
-    antalElement.textContent = antal;
-}
-
-// Lyssna
-ökaKnapp.addEventListener("click", () => {
-    antal++;
-    visaAntal(antal);
-});
-
-minskaKnapp.addEventListener("click", () => {
-    antal--;
-    visaAntal(antal);
-});
-
-nollställKnapp.addEventListener("click", () => {
-    antal = 0;
-    visaAntal(antal);
-});
-```
-
-2. Ska texten vara `Antal: 5` behöver du bara ändra ett ställe, inne i `visaAntal`. (Med ett `<span>` som ovan står ordet *Antal* redan i HTML-koden, så där behövs ingen ändring alls. Låter du hela stycket visa talet är det `visaAntal` som ändras.)
-
 ## Övning – Emojiraden
 
 ```html
@@ -213,6 +171,8 @@ nollställKnapp.addEventListener("click", () => {
 ```
 
 ```javascript
+let emojier = "";
+
 // 1. Hämta
 const emojirad = document.querySelector("#emojirad");
 
@@ -220,11 +180,11 @@ function läggTill(e) {
     // 3. Läs vilken emoji som klickades
     const emoji = e.target.textContent;
 
-    // 4. Bearbeta: den gamla raden med emojin sist
-    const nyRad = emojirad.textContent + emoji;
+    // 4. Bearbeta: lägg till emojin sist i raden
+    emojier = emojier + emoji;
 
     // 5. Visa
-    emojirad.textContent = nyRad;
+    emojirad.textContent = emojier;
 }
 
 // 2. Lyssna
@@ -233,80 +193,16 @@ document.querySelector("#katt-knapp").addEventListener("click", läggTill);
 document.querySelector("#pizza-knapp").addEventListener("click", läggTill);
 
 document.querySelector("#töm-knapp").addEventListener("click", () => {
-    emojirad.textContent = "";
+    emojier = "";
+    emojirad.textContent = emojier;
 });
 ```
 
-1. Kommentarerna står i koden ovan. *Läs* är knappens text, `e.target.textContent`, och *bearbeta* är att sätta ihop den gamla raden med den nya emojin.
+`emojier` deklareras utanför callbackarna, på skriptets översta nivå, så att raden finns kvar mellan klicken. Hade den deklarerats inuti `läggTill` hade den varit tom vid varje klick, och stycket hade bara visat den senaste emojin.
+
+1. Kommentarerna står i koden ovan. *Läs* är knappens text, `e.target.textContent`, och *bearbeta* är att lägga till emojin sist i `emojier`.
 2. Se koden ovan. Alla tre knapparna registrerar samma funktion, utan parenteser.
-3. Nej. `läggTill` lägger till texten på den knapp som klickades, och för *Töm* hade det varit ordet "Töm". Knappen gör något annat och behöver en egen callback.
-4. En ny knapp i HTML-koden och en ny rad med `addEventListener`. Funktionen `läggTill` behöver inte ändras.
+3. Om callbacken för *Töm* bara tömmer stycket (`emojirad.textContent = "";`) kommer de gamla emojierna tillbaka vid nästa klick. Variabeln `emojier` har kvar hela raden, och `läggTill` visar variabeln, inte det som står i stycket. Callbacken behöver också tömma variabeln: `emojier = "";`. Sidan visar bara det du skriver till den, och variabeln ändras bara när koden ändrar den.
+4. Nej. `läggTill` lägger till texten på den knapp som klickades, och för *Töm* hade det varit ordet "Töm". Knappen gör något annat och behöver en egen callback.
+5. En ny knapp i HTML-koden och en ny rad med `addEventListener`. Funktionen `läggTill` behöver inte ändras.
 
-## Övning – Poängtavlan blir interaktiv
-
-1. Elementen:
-
-    | Typ | id | Hämtas av koden? |
-    |---|---|---|
-    | `<button>` *1* | `ett-knapp` | ja – ska lyssnas på |
-    | `<button>` *2* | `två-knapp` | ja |
-    | `<button>` *3* | `tre-knapp` | ja |
-    | `<button>` *Börja om* | `nollställ-knapp` | ja |
-    | `<p>` | `tavla` | ja – här visas resultatet |
-
-    Alla fem behöver hämtas. En rubrik kan också finnas på sidan, men den behöver koden inte röra.
-
-2. Stegen per knapp:
-
-    | Knapp | Läs | Bearbeta | Visa |
-    |---|---|---|---|
-    | 1, 2 och 3 | knappens text, `e.target.textContent` | gör om texten till ett tal och lägg det till `lag.poäng` | `visaLag(lag)` |
-    | Börja om | – | sätt `lag.poäng` till 0 | `visaLag(lag)` |
-
-    *Börja om* behöver inget *läs*-steg. Den gör samma sak varje gång, och det enda den behöver veta är *att* någon klickade. Poängknapparna läser en sträng, till exempel `"3"`. Den måste göras om med `Number()` (kapitel [-@sec-text-till-tal]), annars blir `0 + "3"` strängen `"03"`.
-
-```html
-<p id="tavla">Röda stjärnor: 0 poäng</p>
-<button id="ett-knapp">1</button>
-<button id="två-knapp">2</button>
-<button id="tre-knapp">3</button>
-<button id="nollställ-knapp">Börja om</button>
-```
-
-```javascript
-// Hämta
-const tavla = document.querySelector("#tavla");
-const ettKnapp = document.querySelector("#ett-knapp");
-const tvåKnapp = document.querySelector("#två-knapp");
-const treKnapp = document.querySelector("#tre-knapp");
-const nollställKnapp = document.querySelector("#nollställ-knapp");
-
-const lag = { namn: "Röda stjärnor", poäng: 0 };
-
-function visaLag(lag) {
-    tavla.textContent = `${lag.namn}: ${lag.poäng} poäng`;
-}
-
-function gePoäng(e) {
-    // Läs
-    const nyaPoäng = Number(e.target.textContent);
-
-    // Bearbeta
-    lag.poäng += nyaPoäng;
-
-    // Visa
-    visaLag(lag);
-}
-
-// Lyssna
-ettKnapp.addEventListener("click", gePoäng);
-tvåKnapp.addEventListener("click", gePoäng);
-treKnapp.addEventListener("click", gePoäng);
-
-nollställKnapp.addEventListener("click", () => {
-    lag.poäng = 0;
-    visaLag(lag);
-});
-```
-
-`lag` kan vara `const` trots att poängen ändras. Det är objektets egenskap som ändras, inte vilket objekt variabeln pekar på. Och objektet ligger på översta nivån, utanför callbackarna, så att det minns poängen mellan klicken.

@@ -42,8 +42,7 @@ Det som saknas är **händelser**. En händelse är något som *inträffar* i we
 
 - Varje avsnitt och övning visar den HTML som dess kod behöver. Lägg in den i `<body>`, ovanför `<script>`-elementet.
 - Skriv koden efter varandra i `<script>`-elementet.
-- Om en ny snutt get ett felmeddelande när sidan laddas, så körs inte koden som står efter den. Rätta felet innan du går vidare.
-- Selektorn `"#spåra button"` betyder, precis som i CSS, en `<button>` inuti elementet med id `spåra`.
+- Om en ny snutt ger ett felmeddelande när sidan laddas, så körs inte koden som står efter den. Rätta felet innan du går vidare.
 :::
 
 ---
@@ -77,7 +76,7 @@ element.addEventListener("händelsetyp", funktion);
 
 Det första argumentet är en sträng med händelsens namn. Det andra är funktionen som ska köras. Den kallas en **callback-funktion**, efter engelskans *call back*, "ringa tillbaka": du lämnar över funktionen till webbläsaren ungefär som när du lämnar ditt nummer hos en kundtjänst. I stället för att du själv anropar den blir den anropad senare, när händelsen inträffar.
 
-Här är en knapp som skriver ut ett meddelande i konsolen när den klickas:
+Här är en knapp som skriver ut ett meddelande i konsolen när den klickas, lägg in koden i HTML-dokumentet:
 
 ```html
 <section id="klick">
@@ -99,7 +98,7 @@ hälsaKnapp.addEventListener("click", hälsa);
 
 Koden hämtar knappen, definierar funktionen `hälsa` och anropar `addEventListener` med händelsetypen `"click"` och funktionen `hälsa`. Varje gång användaren klickar på knappen skrivs "Hej!" i konsolen. Funktionen körs inte när sidan laddas, utan *bara* när händelsen inträffar.
 
-Callbacken kan lika gärna ändra sidan. Byt ut raden med `console.log` i `hälsa`, så att funktionen ändrar stycket ovanför knappen:
+Callbacken kan lika gärna ändra i sidan. Byt ut raden med `console.log` i `hälsa`, så att funktionen ändrar stycket ovanför knappen:
 
 ```javascript
 function hälsa() {
@@ -111,7 +110,7 @@ function hälsa() {
 
 ## Callback-funktioner
 
-Att du kan skicka `hälsa` som argument beror på att en funktion i JavaScript är ett **värde**, precis som ett tal eller en sträng. Namnet utan parenteser är funktionen själv, och den kan skickas som argument som vilket annat värde som helst. I kapitel [-@sec-anropa-funktioner] var det ett misstag att glömma parenteserna. Här är det precis vad du vill: du lämnar över *funktionen själv*, och *webbläsaren* anropar den senare.
+Att du kan skicka `hälsa` som argument beror på att en funktion i JavaScript är ett **värde**, precis som ett tal eller en sträng. Funktionsnamnet utan parenteser är *funktionen själv*, och den kan skickas som argument som vilket annat värde som helst. I kapitel [-@sec-anropa-funktioner] var det ett misstag att glömma parenteserna. Här är det precis vad du vill: du lämnar över funktionen själv, och *webbläsaren* anropar den senare.
 
 ::: {.callout-important}
 ## Parenteser eller inte?
@@ -171,7 +170,7 @@ En namngiven funktion passar när samma funktion ska användas på flera ställe
 
 ## Variabler som minns mellan händelser
 
-En callback kan läsa och ändra variabler som är deklarerade utanför den, enligt reglerna för **scope** (kapitel [-@sec-funktioner]). Det behövs när sidan ska minnas något mellan två händelser, som en räknare. Det är ett av få goda skäl att ha en variabel på översta nivån, trots rådet att hålla variabler lokala:
+En callback kan läsa och ändra variabler som är deklarerade utanför den, enligt reglerna för **scope** (kapitel [-@sec-funktioner]). Det behövs när sidan ska minnas något mellan två händelser, som en räknare.
 
 ```html
 <section id="räknare">
@@ -198,11 +197,11 @@ räknaKnapp.addEventListener("click", () => {
 });
 ```
 
-`antal` är deklarerad på skriptets översta nivå. Dess scope är hela skriptet, och värdet finns kvar mellan klicken. Hade `let antal = 0;` stått inuti callbacken hade variabelns scope varit callbacken: den hade skapats på nytt med värdet 0 vid varje klick och försvunnit när callbacken var klar. Talet står i ett eget `<span>`-element, så att bara talet behöver bytas ut.
+`antal` är deklarerad på skriptets översta nivå. Dess scope är hela skriptet, och värdet finns kvar mellan klicken. Hade `let antal = 0;` stått inuti callbacken hade variabelns scope varit callbacken: den hade skapats på nytt med värdet 0 vid varje klick och försvunnit när callbacken var klar.
 
 Kommentarerna namnger delar som återkommer i många interaktiva program: att *hämta* elementen, att *lyssna* efter en händelse och, inuti callbacken, att *bearbeta* och *visa*. Att hämta och lyssna görs en gång, när sidan laddas. Det som står i callbacken görs vid varje klick.
 
-Flera callbacks kan ändra samma variabel. Här visar båda poängen med samma funktion:
+Flera callbacks kan ändra samma variabel. Här uppdaterar båda knapparna samma poäng. En hjälpfunktion (`visaPoäng`) används för att visa det aktuella värdet på samma sätt i båda callbackarna:
 
 ```html
 <section id="poängräkning">
@@ -254,7 +253,7 @@ plusKnapp.addEventListener("click", () => {
 
 ## Event-objektet
 
-När webbläsaren anropar en callback skickar den med ett argument: ett **event-objekt** med information om händelsen. Ger du callbacken en parameter tar du emot det, som med vilken parameter som helst (kapitel [-@sec-funktioner]):
+När webbläsaren anropar en callback skickar den med ett argument: ett **event-objekt** med information om händelsen. Ger du callbacken en parameter så kan du ta emot det, som vilket argument som helst (kapitel [-@sec-funktioner]):
 
 ```html
 <section id="händelseinfo">
@@ -305,7 +304,7 @@ document.querySelector("#kaffe-knapp").addEventListener("click", visaVal);
 document.querySelector("#te-knapp").addEventListener("click", visaVal);
 ```
 
-Klickar användaren på *Te* anropar webbläsaren `visaVal` med ett event-objekt vars `target` är te-knappen, och stycket visar "Du valde: Te". Funktionen behöver inte veta i förväg vilken knapp den hör till.
+Klickar användaren på *Te* anropar webbläsaren `visaVal` med ett event-objekt vars `target` är te-knappen, och stycket visar "Du valde: Te". Motsvarande för kaffe-knappen. Funktionen behöver inte veta i förväg vilken knapp den hör till.
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -318,7 +317,7 @@ Klickar användaren på *Te* anropar webbläsaren `visaVal` med ett event-objekt
 
 ## Lagvalet
 
-Inför en tävling ska varje deltagare välja lag. Sidan har en knapp per lag, och när någon klickar ska det valda laget visas, tillsammans med hur många gånger valet har gjorts:
+Inför en tävling ska varje deltagare välja lag. Sidan har en knapp per lag, och när någon klickar ska det valda laget visas, tillsammans med hur många deltagare som gjort sitt val:
 
 ```html
 <section id="lagval">
@@ -330,7 +329,7 @@ Inför en tävling ska varje deltagare välja lag. Sidan har en knapp per lag, o
 ```
 
 ```javascript
-let antalVal = 0;
+let antalDeltagare = 0;
 
 // 1. Hämta elementen
 const valtLagElement = document.querySelector("#valt-lag");
@@ -342,8 +341,8 @@ function väljLag(e) {
     const lag = e.target.textContent;
 
     // 4. Bearbeta
-    antalVal++;
-    const text = `Valt lag: ${lag} (val nummer ${antalVal})`;
+    antalDeltagare++;
+    const text = `Valt lag: ${lag} (deltagare nummer ${antalDeltagare})`;
 
     // 5. Visa resultatet
     valtLagElement.textContent = text;
@@ -354,14 +353,16 @@ rödaKnapp.addEventListener("click", väljLag);
 blåKnapp.addEventListener("click", väljLag);
 ```
 
-Här finns alla fem delarna. Numren följer den ordning de körs i: att hämta och lyssna görs en gång, när sidan laddas, och att läsa, bearbeta och visa görs vid varje klick, när webbläsaren anropar `väljLag`. Exemplet sätter ihop två saker från kapitlet: en variabel utanför callbacken som minns antalet val, och en namngiven callback som läser vilken knapp som klickades.
+Här finns alla fem delarna. Numren följer den ordning de körs i: att hämta och lyssna görs en gång, när sidan laddas, och att läsa, bearbeta och visa görs vid varje klick, när webbläsaren anropar `väljLag`. Exemplet sätter ihop två saker från kapitlet: en variabel utanför callbacken som minns antalet deltagare, och en namngiven callback som läser vilken knapp som klickades.
 
 ---
 
 ## Sammanfattning
 
 - **`addEventListener("typ", callback)`** registrerar en funktion som körs när en händelse inträffar.
-- **Callback-funktionen** skickas som ett värde och anropas av webbläsaren vid rätt tillfälle. Den kan vara namngiven eller anonym, och en anonym callback skrivs oftast som en pilfunktion.
+- **Callback-funktionen** skickas som ett värde och anropas av webbläsaren vid rätt tillfälle.
+- En **anonym funktion** saknar namn: `function() { … }`. Den passar när funktionen bara ska lämnas över som callback och inte anropas någon annanstans. En namngiven funktion passar när samma funktion används på flera ställen eller är lång.
+- En **pilfunktion** är en kortare skrivform för en anonym funktion: `() => { … }`. Den används för anonyma callbacks i resten av boken.
 - **Parenteser spelar roll**: `hälsa` skickar funktionen, `hälsa()` anropar den.
 - Variabler som ska *minnas* något mellan händelser, som en räknare, deklareras utanför callbacken. En variabel som deklareras inuti callbacken har callbackens **scope** och skapas på nytt vid varje händelse.
 - Webbläsaren skickar ett **event-objekt** till callbacken. Ta emot det med en parameter: `(e) => { … }`. **`e.type`** är händelsens sort och **`e.target`** elementet den gällde, så att samma funktion kan lyssna på flera element.
@@ -419,9 +420,8 @@ spåraKnapp.addEventListener("click", () => {
 console.log("C");
 ```
 
-1. Vad skrivs ut direkt när sidan laddas?
+1. Vad skrivs ut direkt när sidan laddas? Motivera för dig själv.
 2. Vad händer när användaren klickar på knappen en gång? Två gånger?
-3. Varför skrivs "B" inte ut direkt? Var i koden står anropet av callbacken, och vem är det som anropar den?
 :::
 
 ::: {.callout-note}
@@ -459,8 +459,8 @@ talKnapp.addEventListener("click", () => {
 ```
 
 1. **Förutsäg.** Körs båda lyssnarna när knappen klickas, eller bara en av dem? Om båda: i vilken ordning? Skriv ner din gissning och varför.
-2. **Testa.** Skriv in koden på övningssidan och klicka tre gånger. Titta på sidan, och skriv `tal` i konsolen efter varje klick. Stämde din gissning?
-3. **Förklara.** Gör en spårtabell med kolumnerna *Klick*, *`tal` efter klicket* och *Sidan visar*, för de tre klicken. Varför visar sidan inte samma tal som variabeln? Vad behöver ändras för att de ska stämma överens?
+2. **Testa.** Skriv in koden på övningssidan och klicka tre gånger. Titta på sidan, och skriv `tal` i konsolen efter varje klick för att se vilket värde variabeln har. Stämde din gissning?
+3. **Förklara.** Gör en spårtabell med kolumnerna *Klick*, *tal efter klicket* och *Sidan visar*, för de tre klicken. Varför visar sidan inte samma tal som variabeln? Vad behöver ändras för att de ska stämma överens?
 :::
 
 ::: {.callout-note}
@@ -489,6 +489,8 @@ document.querySelector("#kanske-knapp").addEventListener("click", () => {
 });
 ```
 
+Försök först att förutsäga vad som händer innan du testar koden.
+
 1. Vad skrivs ut när användaren klickar en gång på *Ja*? En gång på *Nej*?
 2. Vad skrivs ut när användaren dubbelklickar på *Nej*? Och på *Ja*?
 3. Callbacken för *Kanske* har ingen parameter. Får den något event-objekt när knappen klickas?
@@ -509,7 +511,7 @@ Testa sedan en snutt i taget. Sidan behöver den här delen:
 </section>
 ```
 
-Snutten behöver variabeln `felKnapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg snutten under den:
+Alla kodsnuttar behöver variabeln `felKnapp`. Skriv därför den här raden överst i `<script>`-elementet, och lägg en snutt i taget under den:
 
 ```javascript
 const felKnapp = document.querySelector("#fel button");
@@ -642,12 +644,13 @@ temaKnapp.addEventListener("click", () => {
 
 Prova koden och bygg sedan vidare på den:
 
-1. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. Fungerar de två knapparna oberoende av varandra? Varför?
+1. Lägg till en andra knapp, "Större text", som slår av och på en klass som ökar textstorleken på sidan. 
+2. Fungerar de två knapparna oberoende av varandra? Varför?
 :::
 
 ### Egna sidor
 
-I de återstående övningarna bygger du sidorna själv, både HTML och JavaScript. Det är så det ser ut när du gör något eget: ingen har förberett elementen åt dig, och du bestämmer själv vad de ska heta. Gör så här för varje övning:
+I den återstående övningen bygger du en sida själv, både HTML och JavaScript. Det är så det ser ut när du gör något eget: ingen har förberett elementen åt dig, och du bestämmer själv vad de ska heta. Gör så här:
 
 1. **Gör en ny sida** för övningen, med ett tomt `<script>`-element sist i `<body>`.
 2. **Planera elementen.** Skriv ner vilka element sidan behöver, vilken sorts element varje ska vara (`<button>`, `<p>`, `<span>` …) och vilket id det ska ha. Ge id till alla element som koden ska hämta, och välj namn som säger vad elementet är till för, till exempel `öka-knapp` hellre än `knapp2`.
@@ -658,44 +661,13 @@ I de återstående övningarna bygger du sidorna själv, både HTML och JavaScri
 Behöver sidan CSS lägger du ett `<style>`-element i `<head>`.
 
 ::: {.callout-note}
-## Övning – Knappräknare
-
-Gör en sida med en knapp och ett element som visar ett tal som börjar på 0. Varje gång knappen klickas ska talet öka med 1.
-
-Sidan behöver två element: en knapp och något som visar talet. Titta på räknaren i avsnittet *Variabler som minns mellan händelser*. Där står talet i ett `<span>` inuti ett stycke, så att bara talet behöver bytas ut. Gör likadant, eller låt hela stycket visa talet – men bestäm dig innan du börjar skriva koden, eftersom det påverkar vad callbacken ska skriva in i elementet.
-
-Utöka sedan i två steg:
-
-1. Lägg till två knappar på sidan: en som *minskar* talet med 1 och en som nollställer det. Ge dem id och skriv en lyssnare för var och en.
-2. Låt alla tre knapparna använda *samma* funktion, `visaAntal(antal)`, för att visa talet på sidan. Hur många ställen i koden behöver du ändra om texten i stället ska vara "Antal: 5"?
-:::
-
-::: {.callout-note}
 ## Övning – Emojiraden
 
-Gör en sida med tre knappar och ett stycke. Varje knapp har en emoji som text, till exempel 🎉, 🐱 och 🍕. När användaren klickar på en knapp ska knappens emoji läggas till sist i stycket, så att raden växer för varje klick.
+Gör en sida med tre knappar och ett stycke. Varje knapp har en emoji som text, till exempel 🎉, 🐱 och 🍕. När användaren klickar på en knapp ska knappens emoji läggas till sist i stycket, så att raden växer för varje klick. Raden ska sparas i en variabel, `emojier`, som börjar som en tom sträng. Vid varje klick läggs emojin till i variabeln, och sedan visas variabeln i stycket.
 
-1. Planera först med kommentarer i skriptet, som i det lösta exemplet: vad ska hämtas, vilken händelse ska lyssnas på, och vad ska läsas, bearbetas och visas? Fyll sedan i koden under varje kommentar.
+1. Planera först med kommentarer i skriptet, som i "Lagvalet" ovan: vad ska hämtas, vilken händelse ska lyssnas på, och vad ska läsas, bearbetas och visas? Fyll sedan i koden under varje kommentar.
 2. Skriv *en* namngiven funktion, `läggTill(e)`, och låt alla tre knapparna använda den.
-3. Lägg till en knapp *Töm* som tömmer stycket. Kan den också använda `läggTill`? Varför inte?
-4. Lägg till en fjärde emojiknapp. Vilka rader i skriptet behövde du ändra eller lägga till?
-:::
-
-::: {.callout-note}
-## Övning – Poängtavlan blir interaktiv
-
-Bygg en poängtavla för *ett* lag:
-
-- Tre knappar med texterna `1`, `2` och `3`, som ger laget så många poäng. Alla tre ska använda samma funktion.
-- En knapp "Börja om" som nollställer poängen.
-- Ett stycke som visar till exempel `Röda stjärnor: 9 poäng`.
-
-Låt laget vara ett objekt, `const lag = { namn: "Röda stjärnor", poäng: 0 };`, och skriv en funktion `visaLag(lag)` som uppdaterar sidan utifrån objektet. Varje callback ska ändra objektet och sedan anropa `visaLag`.
-
-Planera innan du skriver:
-
-1. Gör en lista över elementen på sidan, med typ och id för vart och ett. Hur många av dem behöver koden hämta?
-2. Skriv för varje knapp ner vad som händer i stegen *läs*, *bearbeta* och *visa*. Vilken knapp behöver inget *läs*-steg, och varför? Vilken sorts värde är det som poängknapparna läser, och vad behöver göras med det innan det kan läggas till poängen?
-
-Bygg sedan sidan i samma ordning som i avsnittet *Egna sidor*: först HTML-koden, sedan *hämta*, och därefter en knapp i taget.
+3. Lägg till en knapp *Töm* som tömmer raden. Klicka på *Töm* och sedan på en emojiknapp. Kommer de gamla emojierna tillbaka? I så fall: varför, och vad saknas i callbacken för *Töm*?
+4. Kan *Töm* också använda `läggTill`? Varför inte?
+5. Lägg till en fjärde emojiknapp. Vilka rader i skriptet behövde du ändra eller lägga till?
 :::

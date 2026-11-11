@@ -32,5 +32,6 @@ Kapitlet gjordes om i oktober 2026. Det presenterar inte längre "de fem stegen"
 
 Kapitlet gjordes om igen i november 2026 (OUTLINE.md, *Iteration: händelser i Del I*). Avsnitten *Mushändelser* och *Händelserna `input` och `change`* är borttagna, och kapitlet tar bara upp `click`. `.value` och hälsningen ("Hej, !") har flyttat till kap. 10, *Tangenter och textfält* (`sec-tangenter`). Det lösta exemplet *Lagnamnet* heter nu *Lagvalet* och läser ingen text från ett fält.
 
+- **kap-objekt.qmd, rad 626.** "jämför med *Poängtavlan blir interaktiv* i kapitel [-@sec-handelser]". Övningen är borttagen ur kap. 9. Stryk jämförelsen.
 - **kap13-villkor.qmd, rad 140.** "hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt". Hälsningen står nu i kap. 10. Byt till `sec-tangenter`.
 

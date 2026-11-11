@@ -22,7 +22,7 @@
 
 ## Enhetlighet i Del I
 
-Kap. 9, 11, 13, 15, 17 och 19 följer kapitelmallen i CLAUDE.md. Kap. 1, 2 och 4 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 10, 12, 14, 16 och 18) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
+Kap. 11, 13, 15, 17 och 19 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4 och 9 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 10, 12, 14, 16 och 18) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–19, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 15 och för arrayen och `const` i kap. 17.
 - **Scenarier.** Quizkvällen är inte ett genomgående exempel. Temat kan användas som vardagsexempel där det passar, vid sidan av andra scenarier som betyg, biljetter och moms, men varje kapitel eller övning som använder det ska förklara sammanhanget själv. Studenten ska inte behöva minnas quizet från ett tidigare kapitel. Det som återstår att rätta står under *Lösa hänvisningar till quizkvällen*.

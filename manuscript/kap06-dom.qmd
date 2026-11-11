@@ -327,10 +327,10 @@ Med ett andra argument, ett booleskt värde, bestämmer du riktningen: `true` l�
 
 ```javascript
 const mörktLäge = true;
-document.querySelector("body").classList.toggle("dark", mörktLäge);
+document.body.classList.toggle("dark", mörktLäge);
 ```
 
-Här styr variabeln `mörktLäge` om sidan visas mörk eller ljus. Ändra variabeln till `false` och ladda om, så försvinner klassen.
+`document.body` är `<body>`-elementet. Objektet `document` har det som en egenskap, så du behöver inte hämta det med `querySelector`. Här styr variabeln `mörktLäge` om sidan visas mörk eller ljus. Ändra variabeln till `false` och ladda om, så försvinner klassen.
 
 ### `.style` eller `classList`?
 

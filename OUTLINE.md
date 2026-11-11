@@ -75,23 +75,29 @@ Boken ska användas i två kurser vid Linnéuniversitetet: **Webbteknik 2** (1ME
 
 ## Webbteknik 2
 
-**Förutsättningar:** vecka 7–8 är jul- och nyårslov utan undervisning. Studietiden räknas ändå, så de används till en uppgift. Vecka 10 är examinationsvecka. Fokus ligger på JavaScript och interaktivitet.
+**Förutsättningar:** vecka 7–8 är jul- och nyårslov utan undervisning. Studietiden räknas ändå, så de används till inlämning 2. Vecka 10 är examinationsvecka. Fokus ligger på JavaScript och interaktivitet.
+
+**Examination:** tre moduler som alla måste vara godkända.
+
+- *Inlämningsuppgifter* (3,5 hp, U/G/VG): två inlämningar som publiceras på webben och lämnas in som en länk i Moodle. Betyget vägs samman från båda. Deadline 1 (inlämning 1) ligger på fredagen i vecka 6, före jul. Deadline 2 (inlämning 2) ligger på fredagen i vecka 10. Deadline 3, några veckor efter kursen, är för omredovisning. Alla deadlines är kl. 23:59.
+- *Laborationer* (2 hp, U/G): redovisas löpande för läraren under laborationspassen.
+- *Skriftlig tentamen* (2 hp, U/G/VG): i vecka 10, i egna salar.
 
 Kapitlen följer den nya ordningen i Del I (se *Nästa iteration* nedan). Minikapitel står i kursiv stil.
 
-| Vecka | Kapitel | ≈ h | Inlämning |
+| Vecka | Kapitel | ≈ h | Examination |
 |---|---|---|---|
 | 1 | JavaScript och webbläsaren, Värden och variabler, *Räkna med tal* | 11 | |
 | 2 | Att använda funktioner, *Skapa och ändra strängar*, Din kod möter webbsidan | 12 | |
-| 3 | Att skriva egna funktioner, *Från text till tal och tillbaka*, Händelser | 11,5 | Uppgift 1 delas ut |
-| 4 | *Tangenter och textfält*, Sant och falskt, *Avrunda och slumpa*, Villkorssatser | 13 | **Uppgift 1:** en interaktiv sida (till och med Händelser) |
-| 5 | *Söka och klippa i text*, Loopar, *`split` och `join`*, Arrayer | 13 | Uppgift 2 delas ut |
-| 6 | *Musen*, Händelser och många element, Tid och animationer | 11,5 | **Uppgift 2** (*Tangenter och textfält* till och med Arrayer), slutuppgiften delas ut |
-| 7–8 | *Jul och nyår – ingen undervisning.* Arbete med slutuppgiften, extraövningar | | |
-| 9 | Handledning, felsökning, repetition | | |
-| 10 | Examination | | **Slutuppgift** |
+| 3 | Att skriva egna funktioner, *Från text till tal och tillbaka*, Händelser | 11,5 | |
+| 4 | *Tangenter och textfält*, Sant och falskt, *Avrunda och slumpa*, Villkorssatser | 13 | |
+| 5 | *Söka och klippa i text*, Loopar, *`split` och `join`*, Arrayer | 13 | |
+| 6 | *Musen*, Händelser och många element, Tid och animationer | 11,5 | **Deadline 1:** inlämning 1 |
+| 7–8 | *Jul och nyår – ingen undervisning.* Arbete med inlämning 2, extraövningar | | |
+| 9 | Eget arbete med inlämning 2: handledning, felsökning, repetition | | |
+| 10 | Eget arbete med inlämning 2 | | **Deadline 2:** inlämning 2, skriftlig tentamen |
 
-Att använda funktioner och Din kod möter webbsidan läses samma vecka, liksom Att skriva egna funktioner och Händelser. Veckorna har var sitt tema: funktioner och händelser (3), inmatning och beslut (4), text och listor (5) samt musen och många element (6). Timmarna är uppskattningar tills övningarna har delats i kärna och extra. Marginalen upp till 13–14 timmar är en buffert och ska inte fyllas i förväg. Slutuppgiften bygger på arrayer av objekt, delegering och timers, till exempel ett reaktionsspel, ett quiz med tidsgräns eller en nedräkning med animerad återkoppling. Den behöver tydliga delmål, så att studenterna inte kör fast under lovet utan handledning.
+Att använda funktioner och Din kod möter webbsidan läses samma vecka, liksom Att skriva egna funktioner och Händelser. Veckorna har var sitt tema: funktioner och händelser (3), inmatning och beslut (4), text och listor (5) samt musen och många element (6). Timmarna är uppskattningar tills övningarna har delats i kärna och extra. Marginalen upp till 13–14 timmar är en buffert och ska inte fyllas i förväg. Inlämning 2 bygger på arrayer av objekt, delegering och timers, till exempel ett reaktionsspel, ett quiz med tidsgräns eller en nedräkning med animerad återkoppling. Den behöver tydliga delmål, så att studenterna inte kör fast under lovet utan handledning.
 
 **Jämfört med förra kursomgången (2025/26):**
 

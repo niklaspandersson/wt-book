@@ -240,7 +240,7 @@ Frågetexten passar bra i en rubrik och poängen och ledtråden i var sitt styck
 
     <script>
         const mörktLäge = true;
-        document.querySelector("body").classList.toggle("dark", mörktLäge);
+        document.body.classList.toggle("dark", mörktLäge);
     </script>
 </body>
 </html>
