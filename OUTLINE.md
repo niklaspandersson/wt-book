@@ -10,7 +10,7 @@
 * [X] Kap. 7 – Att skriva egna funktioner *(definiera, definition vs anrop, parametrar, return, spårtabell för ett anrop, scope, att tänka i funktioner)*
 * [X] Kap. 8 – *Från text till tal och tillbaka* (minikapitel) *(implicit typkonvertering, `Number()`, den tomma texten och decimalkommat, `toFixed`)*
 * [X] Kap. 9 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, variabler som minns mellan händelser, event-objektet med `e.type` och `e.target`, mönstret hämta → lyssna → läs → bearbeta → visa)*
-* [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, en kort introduktion av `.value`, logiska operatorer, hidden/disabled/checked, anmälningsformuläret som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
+* [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, en kort introduktion av `.value`, logiska operatorer, hidden/disabled, anmälningsformuläret med klick som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
 * [X] Kap. 11 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
 * [X] Kap. 12 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
 * [X] Kap. 13 – *Söka och klippa i text* (minikapitel) *(positioner från 0, `indexOf` med `-1` som villkor, `substring`)*
@@ -272,6 +272,6 @@ Totalt cirka 72 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 2. **Två nya minikapitel:** *Tangentbordet* (kap. 17) och *Musen* (kap. 18), direkt före *Händelser och många element*. Tangentbordet låg först som *Tangenter och textfält* direkt efter *Händelser*, men flyttades för att jämna ut arbetsbördan mellan vecka 4 och 6. `.value` introduceras i stället kort i *Sant och falskt*, där det först används, eftersom studenterna känner till `value`-attributet från Webbteknik 1. *Musen* förklarar varför `mouseover` bubblar men inte `mouseenter`.
 3. **Formulären flyttas till Webbteknik 3**, till kapitlet *Formulär och validering*: `input`, `change`, `<select>`, kryssrutor och `checked`. I Del I läses textfält bara vid klick.
 4. **Kap. 19 handlar om många element:** `querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, och delegering.
-5. **Kap. 10 och 12 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Det görs när kapitlen granskas (ATT-GORA.md).
+5. **Kap. 10 och 12 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Kap. 10 är klart. Kap. 12 görs när det granskas (ATT-GORA.md).
 
-**Status.** Kap. 9 är omskrivet och slutgranskat, och kap. 17 är granskat mot formatet för minikapitel. Kap. 18 är utkast, och kap. 19 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.
+**Status.** Kap. 9 och 10 är omskrivna och slutgranskade, och kap. 17 är granskat mot formatet för minikapitel. Kap. 18 är utkast, och kap. 19 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.

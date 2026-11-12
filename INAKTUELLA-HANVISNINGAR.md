@@ -35,3 +35,8 @@ Kapitlet gjordes om igen i november 2026 (OUTLINE.md, *Iteration: händelser i D
 - **kap-objekt.qmd, rad 626.** "jämför med *Poängtavlan blir interaktiv* i kapitel [-@sec-handelser]". Övningen är borttagen ur kap. 9. Stryk jämförelsen.
 - **kap12-villkor.qmd, rad 140.** "hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt". Hälsningen finns inte längre. Visa problemet med det tomma fältet på plats i stället för att hänvisa bakåt.
 
+## Till kapitel 10, *Sant och falskt* (`sec-booleska`)
+
+Kapitlet gjordes om i november 2026. Formulärhändelserna och kryssrutorna är borta, och anmälningsformuläret kontrolleras vid klick på *Anmäl*, utan funktionen `uppdatera`.
+
+- **kap-objekt.qmd, rad 442.** "Det är samma upplägg som funktionen `uppdatera` i kapitel [-@sec-booleska]." Funktionen finns inte längre. Stryk jämförelsen.
