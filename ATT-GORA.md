@@ -6,7 +6,7 @@
 
 - **Kontrollera i en riktig webbläsare.** Lösningarna är testkörda med Node.js och jsdom, men följande går inte att testa där:
   - övning 1.6: Chromes spärr mot inklistring i konsolen (`allow pasting`);
-  - övning 1.5, 4.4 och 12.3: felmeddelandenas exakta formulering i Firefox och Safari;
+  - övning 1.5, 4.4 och 11.3: felmeddelandenas exakta formulering i Firefox och Safari;
   - övning 6.7: vad *Visa sidkälla* visar för en sida som öppnats direkt från filsystemet;
   - övning 6.10 fråga 3: att `#facit { display: block; }` vinner över `hidden`;
   - övning 19.7: att `#ruta.blå` behövs för att färgen ska synas, och hur `keydown` upprepas när en tangent hålls nere;
@@ -22,12 +22,12 @@
 
 ## Enhetlighet i Del I
 
-Kap. 12, 14, 16 och 19 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 9 och 10 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 11, 13, 15, 17 och 18) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
+Kap. 11, 14, 16 och 19 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 9 och 10 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 12, 13, 15, 17 och 18) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
 - **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–19, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 14 och för arrayen och `const` i kap. 16.
 - **Scenarier.** Quizkvällen är inte ett genomgående exempel. Temat kan användas som vardagsexempel där det passar, vid sidan av andra scenarier som betyg, biljetter och moms, men varje kapitel eller övning som använder det ska förklara sammanhanget själv. Studenten ska inte behöva minnas quizet från ett tidigare kapitel. Det som återstår att rätta står under *Lösa hänvisningar till quizkvällen*.
-- **Rubriken *Ett löst exempel: …*** känns som en mall. Byt till bara exemplets namn (*Nedräkningen*, *Kiosken*), som i kap. 6. Gäller kap. 12, 14, 16, 19 och objektkapitlet, och hänvisningarna till rubrikerna i kapitlens övningar och i lösningsfilerna `losn12`, `losn14`, `losn15` och `losn19`. Uppdatera samtidigt rubrikerna i ATT-GORA.md och INAKTUELLA-HANVISNINGAR.md som nämner de gamla namnen.
-- **Övningssidor.** Kap. 9 har nu en skelettsida, och varje avsnitt och övning visar sin HTML (se *Practice page* i CLAUDE.md). Avgör för kap. 12 (49 rader) och 19 (59) om exemplen bygger en sammanhängande sida eller är fristående. Är de fristående, gör om dem på samma sätt.
+- **Rubriken *Ett löst exempel: …*** känns som en mall. Byt till bara exemplets namn (*Nedräkningen*, *Kiosken*), som i kap. 6. Gäller kap. 11, 14, 16, 19 och objektkapitlet, och hänvisningarna till rubrikerna i kapitlens övningar och i lösningsfilerna `losn11`, `losn14`, `losn15` och `losn19`. Uppdatera samtidigt rubrikerna i ATT-GORA.md och INAKTUELLA-HANVISNINGAR.md som nämner de gamla namnen.
+- **Övningssidor.** Kap. 9 har nu en skelettsida, och varje avsnitt och övning visar sin HTML (se *Practice page* i CLAUDE.md). Avgör för kap. 11 (49 rader) och 19 (59) om exemplen bygger en sammanhängande sida eller är fristående. Är de fristående, gör om dem på samma sätt.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7, 9 → 10 → 11 → 12 och 16 → 17 → 18 → 19 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Lösa hänvisningar till quizkvällen
@@ -42,12 +42,12 @@ Genomgång av Del I och dess lösningar. Quizet introduceras bara i kap. 2, men 
 
 **Mindre fall:**
 
-- **Kap. 11, övningen *Slå upp själv*:** "Ett quiz med 128 deltagare ska åka buss" hänger ihop i sig, men verkar vara en rest. Vilken grupp som helst fungerar bättre.
-- **Kap. 12, övningen *Förklara koden*:** strängen "Välkomna till quizet!" står utan sammanhang i ett kapitel om betyg, och återkommer i lösningsfilen.
+- **Kap. 12, övningen *Slå upp själv*:** "Ett quiz med 128 deltagare ska åka buss" hänger ihop i sig, men verkar vara en rest. Vilken grupp som helst fungerar bättre.
+- **Kap. 11, övningen *Förklara koden*:** strängen "Välkomna till quizet!" står utan sammanhang i ett kapitel om betyg, och återkommer i lösningsfilen.
 - **Olika namn på samma roll:** *domaren* (kap. 14 och 16) och *arrangörerna* (kap. 7). Välj ett, om rollen blir kvar.
 - **Kap. 16, *Arrayer av objekt*:** quizfrågan med en array av alternativ finns inte längre i kap. 2. Står också i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md).
 
-Inga ändringar behövs där sammanhanget ges på plats (scenariot i kap. 2, öppningen i kap. 7, fristående övningar som i kap. 12 och 14), i hänvisningar som namnger övningen (kap. 6 och 19), eller i kod med lagobjekt och exempeltexter, som fungerar utan ett quiz.
+Inga ändringar behövs där sammanhanget ges på plats (scenariot i kap. 2, öppningen i kap. 7, fristående övningar som i kap. 11 och 14), i hänvisningar som namnger övningen (kap. 6 och 19), eller i kod med lagobjekt och exempeltexter, som fungerar utan ett quiz.
 
 ## Innehåll att se över i nästa iteration
 
@@ -61,7 +61,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Truthy och falsy** står kvar som *Bra att veta*-ruta, men ingen övning eller senare kapitel i Del I använder begreppen.
 
-### Kap. 12 Villkorssatser
+### Kap. 11 Villkorssatser
 
 - **Formulärhändelserna ska bort.** Hälsningen med `if` och ternär lyssnar på `input`. Låt den läsa fältet vid klick, eller byt exempel. Hälsningen med "Hej, !" finns inte längre i något tidigare kapitel (se INAKTUELLA-HANVISNINGAR.md).
 - **Ingen övning i brödtexten visar `.style` med ett värde som ändras hela tiden, vilket kap. 6 nämner som skälet att välja `.style`.** Övningen *Tangentbordsrörelser*, som gör det, ligger i kap. 19 och kan flytta till kap. 17 (se kap. 19 nedan).
@@ -93,7 +93,11 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Överlapp med `kap-handelser-djupet.qmd`.** Bubbling och delegering förklaras nu i Del I. Kapitlet i Del II har samma innehåll och behöver bara propageringens faser, `preventDefault` och `removeEventListener` (se OUTLINE.md).
 
-### Minikapitlen (kap. 3, 5, 8, 11, 13, 15, 17 och 18)
+### Kap. 12 *Avrunda och slumpa*
+
+- **Villkorssatser kan användas** nu när kapitlet kommer efter kap. 11. Se över om någon övning blir bättre med `if`, till exempel en tärning som säger till vid en sexa eller en avrundning som jämförs med ett gränsvärde.
+
+### Minikapitlen (kap. 3, 5, 8, 12, 13, 15, 17 och 18)
 
 - **Stegtabellen för kedjade metoder** står kvar i brödtexten i *Skapa och ändra strängar*. Enligt formatet för minikapitel och regeln om lösta exempel kunde den flyttas till övningen *Spåra strängarna*. Författaren avgör.
 - **Flyttal.** Rutan om att `0.1 + 0.2` ger `0.30000000000000004` är borttagen. Kommer det upp i en övning behöver lösningen förklara det.

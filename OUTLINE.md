@@ -11,8 +11,8 @@
 * [X] Kap. 8 – *Från text till tal och tillbaka* (minikapitel) *(implicit typkonvertering, `Number()`, den tomma texten och decimalkommat, `toFixed`)*
 * [X] Kap. 9 – Händelser *(addEventListener, callbacks, anonyma funktioner, pilfunktioner, click, variabler som minns mellan händelser, event-objektet med `e.type` och `e.target`, mönstret hämta → lyssna → läs → bearbeta → visa)*
 * [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, en kort introduktion av `.value`, logiska operatorer, hidden/disabled, anmälningsformuläret med klick som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
-* [X] Kap. 11 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
-* [X] Kap. 12 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
+* [X] Kap. 11 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
+* [X] Kap. 12 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
 * [X] Kap. 13 – *Söka och klippa i text* (minikapitel) *(positioner från 0, `indexOf` med `-1` som villkor, `substring`)*
 * [X] Kap. 14 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
 * [X] Kap. 15 – *`split` och `join`* (minikapitel) *(avgränsare, tomma delar, kedjning med `join`)*
@@ -90,7 +90,7 @@ Kapitlen följer den nya ordningen i Del I (se *Nästa iteration* nedan). Minika
 | 1 | JavaScript och webbläsaren, Värden och variabler, *Räkna med tal* | 11 | |
 | 2 | Att använda funktioner, *Skapa och ändra strängar*, Din kod möter webbsidan | 12 | |
 | 3 | Att skriva egna funktioner, *Från text till tal och tillbaka*, Händelser | 11,5 | |
-| 4 | Sant och falskt, *Avrunda och slumpa*, Villkorssatser | 11 | |
+| 4 | Sant och falskt, Villkorssatser, *Avrunda och slumpa* | 11 | |
 | 5 | *Söka och klippa i text*, Loopar, *`split` och `join`*, Arrayer | 13 | |
 | 6 | *Tangentbordet*, *Musen*, Händelser och många element, Tid och animationer | 13 | **Deadline 1:** inlämning 1 |
 | 7–8 | *Jul och nyår – ingen undervisning.* Arbete med inlämning 2, extraövningar | | |
@@ -216,8 +216,8 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
    | *Räkna med tal* | räknesätt, `+=`, `++`, `NaN` | Värden och variabler | 1,5 h |
    | *Skapa och ändra strängar* | templatesträngar, `length`, `trim`, `toUpperCase`/`toLowerCase`, `includes`, oföränderliga strängar, kedjning | Att använda funktioner | 2,5 h |
    | *Från text till tal och tillbaka* | implicit typkonvertering (`"5" + 3`), `Number()`, det tomma fältet och decimalkommat, `toFixed` | Att skriva egna funktioner | 1,5 h |
-   | *Avrunda och slumpa* | `Math.round`/`floor`/`random` | Sant och falskt | 1 h |
-   | *Söka och klippa i text* | `indexOf` (med `-1` som villkor), `substring` (nytt innehåll) | Villkorssatser | 1,5 h |
+   | *Avrunda och slumpa* | `Math.round`/`floor`/`random` | Villkorssatser | 1 h |
+   | *Söka och klippa i text* | `indexOf` (med `-1` som villkor), `substring` (nytt innehåll) | *Avrunda och slumpa* | 1,5 h |
    | *`split` och `join`* | från text till lista och tillbaka | Loopar | 1 h |
 
    Beroendena: *Sant och falskt* använder `trim`, `length` och `Number()`, loopkapitlet `+=`, villkorskapitlet `Math.random`, och arraykapitlet `split`/`join`. Arraykapitlet kan hänvisa till `indexOf` för strängar i stället för att förklara det på nytt. *Från text till tal och tillbaka* kommer före *Händelser*, så konverteringen är känd när `.value` läses. Avsnittet *Text på webbsidan*, momsräknaren och övningarna som behövde händelser ströks vid delningen (se ATT-GORA.md).
@@ -239,8 +239,8 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 | *Från text till tal och tillbaka* | från gamla kap. 7 | 1,5 h |
 | Händelser | + event-objektet, − mushändelser, − `input`/`change`, − `.value` | 4 h |
 | Sant och falskt | – | 5 h |
-| *Avrunda och slumpa* | från gamla kap. 7 | 1 h |
 | Villkorssatser | − tangenthändelser | 5 h |
+| *Avrunda och slumpa* | från gamla kap. 7 | 1 h |
 | *Söka och klippa i text* | nytt | 1,5 h |
 | Loopar | – | 5,5 h |
 | *`split` och `join`* | från arraykapitlet | 1 h |
@@ -272,6 +272,6 @@ Totalt cirka 72 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 2. **Två nya minikapitel:** *Tangentbordet* (kap. 17) och *Musen* (kap. 18), direkt före *Händelser och många element*. Tangentbordet låg först som *Tangenter och textfält* direkt efter *Händelser*, men flyttades för att jämna ut arbetsbördan mellan vecka 4 och 6. `.value` introduceras i stället kort i *Sant och falskt*, där det först används, eftersom studenterna känner till `value`-attributet från Webbteknik 1. *Musen* förklarar varför `mouseover` bubblar men inte `mouseenter`.
 3. **Formulären flyttas till Webbteknik 3**, till kapitlet *Formulär och validering*: `input`, `change`, `<select>`, kryssrutor och `checked`. I Del I läses textfält bara vid klick.
 4. **Kap. 19 handlar om många element:** `querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, och delegering.
-5. **Kap. 10 och 12 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Kap. 10 är klart. Kap. 12 görs när det granskas (ATT-GORA.md).
+5. **Kap. 10 och 11 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Kap. 10 är klart. Kap. 11 görs när det granskas (ATT-GORA.md).
 
 **Status.** Kap. 9 och 10 är omskrivna och slutgranskade, och kap. 17 är granskat mot formatet för minikapitel. Kap. 18 är utkast, och kap. 19 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.

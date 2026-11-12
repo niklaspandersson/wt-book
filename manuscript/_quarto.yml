@@ -22,8 +22,8 @@ book:
         - kap08-text-till-tal.qmd
         - kap09-handelser.qmd
         - kap10-sant-och-falskt.qmd
-        - kap11-avrunda-slumpa.qmd
-        - kap12-villkor.qmd
+        - kap11-villkor.qmd
+        - kap12-avrunda-slumpa.qmd
         - kap13-soka-klippa.qmd
         - kap14-loopar.qmd
         - kap15-split-join.qmd
@@ -60,8 +60,8 @@ book:
         - losn08-text-till-tal.qmd
         - losn09-handelser.qmd
         - losn10-sant-och-falskt.qmd
-        - losn11-avrunda-slumpa.qmd
-        - losn12-villkor.qmd
+        - losn11-villkor.qmd
+        - losn12-avrunda-slumpa.qmd
         - losn13-soka-klippa.qmd
         - losn14-loopar.qmd
         - losn15-split-join.qmd
