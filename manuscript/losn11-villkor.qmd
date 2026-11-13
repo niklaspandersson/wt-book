@@ -39,14 +39,14 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
     }
     ```
 
-    Här är ternäroperatorn kortare och lika lätt att läsa, eftersom det enda som skiljer vägarna är ett värde. Lägg märke till att `if`-versionen måste använda `let`: variabeln skapas utan värde och tilldelas senare.
+    Här är ternäroperatorn kortare och lika lätt att läsa, eftersom det enda som skiljer vägarna är ett värde. `if`-versionen måste använda `let`, eftersom variabeln skapas utan värde och tilldelas senare.
 
 **Early return – sluta tidigt**
 
 1. `return` avslutar funktionen. Kommer programmet förbi den första `if`-satsen vet vi att `poäng < 50` var falskt – annars hade funktionen redan returnerat. Ett `else` skulle inte tillföra något.
 2. `return poäng >= 50 && inlämnadITid;` – uttrycket är redan det booleska värde som ska returneras.
 
-## Övning – Spåra exekveringen
+## Övning – Vilken väg?
 
 1. Med `antal` 15:
 
@@ -62,7 +62,7 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
 2. 25 ger `A`, 10 ger `C` och 3 ger `D`. Lättast att gissa fel på är 10: `antal > 10` är falskt, eftersom 10 inte är *större* än 10. Det är först `antal > 5` som stämmer.
 3. Med `antal > 5` överst skulle alla tal större än 5 hamna i det första blocket. 25, 15 och 10 skulle alla ge samma utskrift, och de två villkoren efter skulle aldrig nås för något tal. Bara 3 skulle ge något annat (`D`). Det är fallgropen från rutan *Ordningen spelar roll*.
 
-## Övning – Hitta felet
+## Övning – Biobiljetten
 
 1. Utskrifterna blir `80`, `120` och `120`. Den sista är fel – en pensionär på 70 år ska betala 90 kr.
 2. Blocket med `return 90` kan aldrig köras. För att JavaScript ska komma fram till villkoret `ålder >= 65` måste `ålder >= 12` ha varit falskt, alltså måste åldern vara under 12. Och ingen som är under 12 är samtidigt 65 eller äldre.
@@ -103,7 +103,7 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
 
     Den andra versionen använder early return. Barn och pensionärer är undantagen, och vanligt pris står sist.
 
-## Övning – Vad säger felet?
+## Övning – Fyra trasiga villkor
 
 | Snutt | Vad händer |
 |---|---|
@@ -112,20 +112,20 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
 | C | inget felmeddelande, men `Full pott!` skrivs ut |
 | D | `SyntaxError` – den avslutande klammerparentesen saknas |
 
-1. A, B och D ger `SyntaxError`. Raden `console.log("Start");` skrivs *inte* ut när filen innehåller ett sådant fel. JavaScript läser igenom hela filen innan något körs, och hittar den ett syntaxfel körs ingenting alls – inte ens raderna före felet. (Felmeddelandet för D brukar vara *Unexpected end of input*: filen tog slut medan blocket fortfarande var öppet.)
-2. C. `poäng = 100` är en tilldelning, inte en jämförelse. Den ändrar `poäng` till 100, och tilldelningen ger själv värdet 100, som räknas som sant. Efteråt pekar `poäng` på `100`, och *Full pott!* skrivs ut oavsett vad poängen var.
+1. A, B och D ger `SyntaxError`. Varken "Skriptet körs!" eller något från din tidigare kod skrivs ut när skriptet innehåller ett sådant fel. JavaScript läser igenom hela filen innan något körs, och hittar den ett syntaxfel körs ingenting alls – inte ens raderna före felet. (Felmeddelandet för D brukar vara *Unexpected end of input*: filen tog slut medan blocket fortfarande var öppet.)
+2. C. `quizpoäng = 100` är en tilldelning, inte en jämförelse. Den ändrar `quizpoäng` till 100, och tilldelningen ger själv värdet 100, som räknas som sant. Efteråt pekar `quizpoäng` på `100`, och *Full pott!* skrivs ut oavsett vad poängen var.
 3. Rättade:
 
     ```javascript
     // A
-    if (poäng >= 50) {
+    if (quizpoäng >= 50) {
         console.log("Godkänd");
     }
     ```
 
     ```javascript
     // B
-    if (poäng >= 50) {
+    if (quizpoäng >= 50) {
         console.log("Godkänd");
     } else {
         console.log("Underkänd");
@@ -134,25 +134,25 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
 
     ```javascript
     // C
-    if (poäng === 100) {
+    if (quizpoäng === 100) {
         console.log("Full pott!");
     }
     ```
 
     ```javascript
     // D
-    if (poäng >= 50) {
+    if (quizpoäng >= 50) {
         console.log("Godkänd");
     }
     ```
 
-    I B går det också att skriva `else if (poäng < 50)`, men det villkoret är onödigt: kommer programmet dit vet vi redan att poängen är under 50.
+    I B går det också att skriva `else if (quizpoäng < 50)`, men det villkoret är onödigt: kommer programmet dit vet vi redan att poängen är under 50.
 
-## Övning – Förklara koden
+## Övning – Med en mening
 
-1. *Funktionen kontrollerar en anmälan till quizet och returnerar ett meddelande: antingen vad som är fel, eller att laget är välkommet.*
+1. *Funktionen kontrollerar en anmälan av ett lag och returnerar ett meddelande: antingen vad som är fel, eller att laget är anmält.*
 2. `anmälan("", 8)` returnerar `"Laget behöver ett namn."`. Den första kontrollen stämmer, och `return` avslutar funktionen direkt. Den andra kontrollen körs aldrig. Det är priset för early return: funktionen säger bara till om det första felet den hittar.
-3. `anmälan("Ugglorna", 0)` returnerar `"Välkomna till quizet!"` – fast laget inte har några deltagare. En kontroll till:
+3. `anmälan("Ugglorna", 0)` returnerar `"Laget är anmält!"` – fast laget inte har några deltagare. En kontroll till:
 
     ```javascript
     function anmälan(lagnamn, antal) {
@@ -165,40 +165,36 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
         if (antal > 6) {
             return "Högst sex deltagare per lag.";
         }
-        return "Välkomna till quizet!";
+        return "Laget är anmält!";
     }
     ```
 
-    Kontrollen ska stå bland de andra kontrollerna, före det sista `return`. Där spelar ordningen mellan kontrollerna ingen större roll, men den måste stå före `return "Välkomna till quizet!"` – annars nås den aldrig.
+    Kontrollen ska stå bland de andra kontrollerna, före det sista `return`. Där spelar ordningen mellan kontrollerna ingen större roll, men den måste stå före `return "Laget är anmält!"` – annars nås den aldrig.
 
-## Övning – Ordna raderna
+## Övning – Tre hälsningar
 
 ```javascript
-const namnfält = document.querySelector("#namnfält");
-const hälsning = document.querySelector("#hälsning");
-namnfält.addEventListener("input", () => {
-    const namn = namnfält.value.trim();
-    if (namn === "") {
-        hälsning.textContent = "Hej, främling!";
+const gästfält = document.querySelector("#gästfält");
+const gästhälsning = document.querySelector("#gästhälsning");
+const gästknapp = document.querySelector("#gästknapp");
+gästknapp.addEventListener("click", () => {
+    const gästnamn = gästfält.value.trim();
+    if (gästnamn === "") {
+        gästhälsning.textContent = "Hej, främling!";
+    } else if (gästnamn.length > 20) {
+        gästhälsning.textContent = "Namnet är för långt.";
     } else {
-        hälsning.textContent = `Hej, ${namn}!`;
+        gästhälsning.textContent = `Hej, ${gästnamn}!`;
     }
 });
 ```
 
+De tre `const`-raderna överst kan stå i vilken ordning som helst, men `gästknapp` måste finnas innan `addEventListener` anropas. Också de två första grenarna kan byta plats, eftersom ett namn inte kan vara både tomt och för långt. `else` måste stå sist.
+
 1. Raderna som inte används:
    - `} else if {` – ett `else if` måste ha ett villkor inom parentes. Det är ett `SyntaxError`, och det upptäcks redan när sidan laddas, eftersom JavaScript läser hela filen innan något körs.
-   - `if (namn = "") {` – en tilldelning i stället för en jämförelse. Syntaxen är giltig, så sidan laddas utan fel. Men när användaren skriver något körs callbacken, och raden försöker tilldela om `namn`, som är deklarerad med `const`. Det ger `TypeError: Assignment to constant variable.` – först då.
-2. Med ternäroperatorn:
-
-    ```javascript
-    namnfält.addEventListener("input", () => {
-        const namn = namnfält.value.trim();
-        hälsning.textContent = namn === "" ? "Hej, främling!" : `Hej, ${namn}!`;
-    });
-    ```
-
-    Här är ternäroperatorn lätt att läsa, eftersom det enda som skiljer vägarna är vilken text som visas. Många tycker ändå att `if`/`else` är tydligare när värdena är långa.
+   - `if (gästnamn = "") {` – en tilldelning i stället för en jämförelse. Syntaxen är giltig, så sidan laddas utan fel. Men när någon klickar på *Skriv in* körs callbacken, och raden försöker tilldela om `gästnamn`, som är deklarerad med `const`. Det ger `TypeError: Assignment to constant variable.` – först då.
+2. Lösningen har tre utfall, och ternäroperatorn väljer mellan två värden. Det går att lägga en ternär i en annan, men den blir svår att läsa. I hälsningen i avsnittet *Ternäroperatorn* fanns bara två utfall.
 
 ## Övning – Refaktorera med funktioner
 
@@ -218,17 +214,17 @@ bedöm("Erik", 43);
 bedöm("Lena", 91);
 ```
 
-Koden blir 12 rader i stället för 29, och de tre sista raderna säger direkt vad som händer. Vill du ändra gränsen eller formatet gör du det på ett ställe.
+Koden blir 13 rader i stället för 29, och de tre sista raderna säger direkt vad som händer. Vill du ändra gränsen eller formatet gör du det på ett ställe.
 
 Uppdelad i två funktioner:
 
 ```javascript
-function status(poäng) {
+function statusFör(poäng) {
     return poäng >= 50 ? "Godkänd" : "Underkänd";
 }
 
 function skrivUtBedömning(namn, poäng) {
-    console.log(`${namn}: ${status(poäng)}`);
+    console.log(`${namn}: ${statusFör(poäng)}`);
 }
 
 skrivUtBedömning("Karin", 78);
@@ -236,9 +232,11 @@ skrivUtBedömning("Erik", 43);
 skrivUtBedömning("Lena", 91);
 ```
 
-`status` går att återanvända på en webbsida, eftersom den bara *returnerar* statusen och inte bryr sig om var den ska visas: `resultat.textContent = status(78);`. `skrivUtBedömning` är bunden till konsolen. Och ja, `status` kan skrivas med ternäroperatorn, eftersom den bara väljer ett av två värden.
+`statusFör` går att återanvända på en webbsida, eftersom den bara *returnerar* statusen och inte bryr sig om var den ska visas: `resultat.textContent = statusFör(78);`. `skrivUtBedömning` är bunden till konsolen. Och ja, `statusFör` kan skrivas med ternäroperatorn, eftersom den bara väljer ett av två värden.
 
 ## Övning – Betyg på sidan
+
+Koden från avsnittet *Betygsprogrammet*, med ändringarna:
 
 ```javascript
 const poängfält = document.querySelector("#poängfält");
@@ -282,11 +280,44 @@ beräknaKnapp.addEventListener("click", () => {
 });
 ```
 
-(Funktionen `betyg` från det lösta exemplet måste också stå i filen.)
+(Funktionen `betyg` från avsnittet *Betygsprogrammet* måste också stå i filen.)
 
 1. Ja, eftersom båda klasserna tas bort innan den nya läggs till. Gör du *inte* det har elementet båda klasserna efter ett godkänt och ett underkänt försök, och stilarna blandas ihop. `classList.remove` kan ta emot flera klassnamn på en gång.
 2. Se blocket `if (bokstav === "F")`. Hjälptexten visas bara där, och döljs annars.
 3. Nollställningen måste ske *innan* kontrollerna, högst upp i callbacken. Kontrollerna avslutar funktionen med `return`, så det som står efter dem körs inte när inmatningen är ogiltig. Alternativet är att skriva samma två rader i vart och ett av de tre `if`-blocken – men det är tre gånger så mycket kod och lätt att glömma ett.
+
+## Övning – Temaknappen
+
+Varje version ersätter den förra callbacken. Låter du flera av dem ligga kvar får knappen flera lyssnare, och två `toggle` i rad tar ut varandra.
+
+```javascript
+const temaKnapp = document.querySelector("#tema-knapp");
+
+// 1. Med returvärdet från toggle
+temaKnapp.addEventListener("click", () => {
+    const ärMörkt = document.body.classList.toggle("dark");
+    if (ärMörkt) {
+        temaKnapp.textContent = "Ljust läge";
+    } else {
+        temaKnapp.textContent = "Mörkt läge";
+    }
+});
+```
+
+```javascript
+// 2. Med ternäroperatorn
+temaKnapp.addEventListener("click", () => {
+    const ärMörkt = document.body.classList.toggle("dark");
+    temaKnapp.textContent = ärMörkt ? "Ljust läge" : "Mörkt läge";
+});
+```
+
+1. Nej. `toggle` säger själv om klassen lades till, så `classList.contains` behövs inte. Det booleska svaret finns redan.
+2. Se ovan.
+
+Vilket sätt som är tydligast är en smaksak, men version 2 är kortast och säger precis vad som händer: knappens text blir en av två texter.
+
+Det går inte att lösa med enbart en tilldelning av ett booleskt värde, eftersom `textContent` inte är en boolesk egenskap. `hidden` och `disabled` vill ha `true` eller `false`, och då kan svaret på en fråga tilldelas direkt. Knappens text ska vara en av två *strängar*, och då måste programmet välja – med `if`/`else` eller ternäroperatorn.
 
 ## Övning – Formulera villkoren
 
@@ -414,10 +445,8 @@ document.querySelector("#visa").addEventListener("click", () => {
 ```
 
 3. Funktionen returnerar kategorin med små bokstäver, och klasserna heter likadant. Därför kan returvärdet användas direkt som klassnamn.
-4. Felmeddelandena följer samma mönster som i avsnittet *Ett löst exempel: kontrollera inmatningen*: tomt fält först, sedan `Number.isNaN`.
+4. Felmeddelandena följer samma mönster som i avsnittet *Betygsprogrammet*: tomt fält först, sedan `Number.isNaN`.
 5. Nej, `klassificera` behöver inte ändras. Den bedömer en temperatur i Celsius, och det gör den lika bra oavsett hur resultatet sedan visas. Omvandlingen till Fahrenheit är en annan uppgift och ligger i en egen funktion. Det är principen "en funktion bör göra en sak".
-
-Sidan visar *lagom (15°C, 59.0°F)* med liten bokstav, eftersom det är så `klassificera` returnerar kategorin. Vill du ha stor bokstav, som i uppgiften, kan du låta `klassificera` returnera `"Lagom"` och så vidare – men då måste klasserna i CSS:en heta likadant, eller väljas med en egen `if`-sats.
 
 ## Övning – Quiz med visuell feedback
 
@@ -462,37 +491,6 @@ svaraKnapp.addEventListener("click", kontrollera);
 - `" stockholm "` räknas som rätt eftersom både svaret och det rätta svaret görs om till små bokstäver, och svaret städas med `trim()`. Det rätta svaret sparas med stor bokstav, så att det ser rätt ut i felmeddelandet.
 - Båda klasserna tas bort innan en ny läggs till. Annars får elementet både `rätt` och `fel` när användaren först svarar fel och sedan rätt.
 - Det som ska hända vid ett svar ligger i funktionen `kontrollera`, som lämnas över till klicklyssnaren utan parenteser.
-
-## Övning – Temaknappen
-
-```javascript
-const temaKnapp = document.querySelector("#tema-knapp");
-
-// 1. Med returvärdet från toggle
-temaKnapp.addEventListener("click", () => {
-    const ärMörkt = document.body.classList.toggle("dark");
-    if (ärMörkt) {
-        temaKnapp.textContent = "Ljust läge";
-    } else {
-        temaKnapp.textContent = "Mörkt läge";
-    }
-});
-```
-
-```javascript
-// 2. Med ternäroperatorn
-temaKnapp.addEventListener("click", () => {
-    const ärMörkt = document.body.classList.toggle("dark");
-    temaKnapp.textContent = ärMörkt ? "Ljust läge" : "Mörkt läge";
-});
-```
-
-1. Nej. `toggle` säger själv om klassen lades till, så `classList.contains` behövs inte. Det booleska svaret finns redan.
-2. Se ovan.
-
-Vilket sätt som är tydligast är en smaksak, men version 2 är kortast och säger precis vad som händer: knappens text blir en av två texter.
-
-Det går inte att lösa med enbart en tilldelning av ett booleskt värde, eftersom `textContent` inte är en boolesk egenskap. `hidden` och `disabled` vill ha `true` eller `false`, och då kan svaret på en fråga tilldelas direkt. Knappens text ska vara en av två *strängar*, och då måste programmet välja – med `if`/`else` eller ternäroperatorn.
 
 ## Övning – Vem leder?
 

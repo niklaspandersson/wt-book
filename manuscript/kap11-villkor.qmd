@@ -1,6 +1,6 @@
 # Villkorssatser {#sec-villkor}
 
-I det här kapitlet lär du dig hur ett program väljer vilken kod som ska köras, med hjälp av frågorna från kapitel [-@sec-booleska]. Ett program gör sällan exakt samma sak varje gång: ett formulär skickas bara om alla fält är ifyllda, och i ett spel är det slut när spelaren har förlorat sina liv.
+I det här kapitlet lär du dig hur ett program väljer vilken kod som ska köras, med hjälp av frågorna från kapitel [-@sec-booleska]. Ett program gör sällan exakt samma sak varje gång: en webbshop ger fri frakt först över en viss summa, och en app hälsar god morgon på morgonen men god kväll på kvällen.
 
 ## Programmet som fattar beslut
 
@@ -41,10 +41,6 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
             background-color: #ffebee;
             padding: 0.5rem;
         }
-        .dark {
-            background-color: #1a1a2e;
-            color: #e0e0e0;
-        }
     </style>
 </head>
 <body>
@@ -52,6 +48,7 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
 
     <h2>Hälsning</h2>
     <input type="text" id="namnfält" placeholder="Skriv ditt namn">
+    <button id="hälsa">Hälsa</button>
     <p id="hälsning">Hej, främling!</p>
 
     <h2>Betyg</h2>
@@ -60,9 +57,6 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
     <button id="beräkna">Visa betyg</button>
     <p id="resultat">Betyg visas här.</p>
     <p id="hjälp" hidden>Tips: repetera materialet och försök igen.</p>
-
-    <h2>Tema</h2>
-    <button id="tema-knapp">Mörkt läge</button>
 
     <script>
         console.log("Skriptet körs!");
@@ -74,9 +68,11 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-- Skriv exemplen i `<script>`-elementet. En `if`-sats sträcker sig över flera rader, och då är det lättare att skriva och ändra i en fil än i konsolen.
+- Skriv exemplen i `<script>`-elementet. 
 - De första exemplen skriver bara ut text med `console.log`. Ändra värdet på variabeln `poäng` och ladda om sidan, så ser du hur utskriften ändras.
-- Alla element som exemplen och övningarna använder finns redan på övningssidan. Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning.
+- Skriv koden efter varandra i `<script>`-elementet, så har du kvar allt du har provat. Mallar som `if (villkor) { … }` visar bara hur något skrivs och ska inte skrivas av.
+- Alla element som exemplen använder finns redan på övningssidan. Behöver en övning fler element visar den dem. Lägg in dem ovanför `<script>`-elementet.
+- Om en ny snutt ger ett felmeddelande när sidan laddas kan resten av skriptet sluta fungera. Rätta felet innan du går vidare.
 :::
 
 ---
@@ -108,6 +104,8 @@ Läs det högt: "om poängen är minst 50, skriv ut *Godkänd*". `poäng >= 50` 
 Villkoret kan vara vilket booleskt uttryck som helst, också ett som kombinerar flera frågor med logiska operatorer (kapitel [-@sec-booleska]):
 
 ```javascript
+const inlämnadITid = true;
+
 if (poäng >= 50 && inlämnadITid) {
     console.log("Godkänd");
 }
@@ -137,18 +135,20 @@ if (poäng >= 50) {
 
 Nu täcks alla möjliga poäng: antingen är man godkänd, eller så är man det inte. Exakt ett av de två blocken körs – aldrig båda, och aldrig inget av dem.
 
-Med `else` kan hälsningen från kapitel [-@sec-handelser], som visade "Hej, !" när fältet var tomt, välja mellan två texter. Elementen finns på övningssidan:
+Med `else` kan en hälsning på sidan välja mellan två texter. Utan villkor blir `` `Hej, ${namn}!` `` bara "Hej, !" när fältet är tomt. Elementen finns på övningssidan:
 
 ```html
 <input type="text" id="namnfält" placeholder="Skriv ditt namn">
+<button id="hälsa">Hälsa</button>
 <p id="hälsning">Hej, främling!</p>
 ```
 
 ```javascript
 const namnfält = document.querySelector("#namnfält");
+const hälsaKnapp = document.querySelector("#hälsa");
 const hälsning = document.querySelector("#hälsning");
 
-namnfält.addEventListener("input", () => {
+hälsaKnapp.addEventListener("click", () => {
     const namn = namnfält.value.trim();
 
     if (namn === "") {
@@ -224,26 +224,6 @@ Med gränser av typen "minst" skriver du den högsta gränsen först.
 
 ---
 
-## Nästlade villkor
-
-Ett block kan innehålla en ny `if`-sats. Det kallas **nästlade villkor**:
-
-```javascript
-if (poäng >= 50) {
-    if (inlämnadITid) {
-        console.log("Godkänd");
-    } else {
-        console.log("Godkänd, men inlämnad för sent");
-    }
-} else {
-    console.log("Underkänd");
-}
-```
-
-Varje `if` och varje `else` har sitt eget block, och klammerparenteserna avgör vilket `else` som hör till vilket `if`. Här hör det första `else` till den inre `if`-satsen och det sista till den yttre. Indraget visar samma sak för den som läser, men det är klammerparenteserna som bestämmer. Redan vid två nivåer blir koden svårläst, och i en funktion finns ett bättre sätt (se avsnittet *Early return*).
-
----
-
 ## Ternäroperatorn
 
 När det enda som skiljer de två vägarna är *vilket värde* något ska få finns en kortare skrivform: **ternäroperatorn**. Den har tre delar – ett villkor, ett värde om villkoret är sant och ett värde om det är falskt – och skrivs med `?` och `:`:
@@ -266,12 +246,12 @@ if (poäng >= 50) {
 kan man skriva:
 
 ```javascript
-const status = poäng >= 50 ? "Godkänd" : "Underkänd";
+const kortStatus = poäng >= 50 ? "Godkänd" : "Underkänd";
 ```
 
-Läs det högt: "är poängen minst 50? I så fall *Godkänd*, annars *Underkänd*". Hela uttrycket till höger om `=` blir ett av de två värdena, och det är det värdet `status` får peka på.
+Läs det högt: "är poängen minst 50? I så fall *Godkänd*, annars *Underkänd*". Hela uttrycket till höger om `=` blir ett av de två värdena, och det är det värdet `kortStatus` får peka på.
 
-Med ternäroperatorn blir hälsningen en enda rad i callbacken:
+I hälsningen är det bara namnet som skiljer de två texterna åt. Med ternäroperatorn kan `if`-satsen i hälsningens callback bytas mot två rader, där namnet väljs först och texten byggs en gång:
 
 ```javascript
 const visatNamn = namn === "" ? "främling" : namn;
@@ -289,12 +269,32 @@ Ternäroperatorn passar när ett av två värden ska väljas. Den passar *inte* 
 
 ---
 
-## Early return – sluta tidigt
+## Nästlade villkor
 
-`return` avslutar en funktion direkt. Det kan man utnyttja: kontrollera först de fall där svaret är nej, och avsluta funktionen direkt. Tekniken kallas **early return** ("tidig retur"). Jämför två versioner av samma funktion. Den första är nästlad:
+Ett block kan innehålla en ny `if`-sats. Det kallas **nästlade villkor**:
 
 ```javascript
-function godkänd(poäng, inlämnadITid) {
+if (poäng >= 50) {
+    if (inlämnadITid) {
+        console.log("Godkänd");
+    } else {
+        console.log("Godkänd, men inlämnad för sent");
+    }
+} else {
+    console.log("Underkänd");
+}
+```
+
+Varje `if` och varje `else` har sitt eget block, och klammerparenteserna avgör vilket `else` som hör till vilket `if`. Här hör det första `else` till den inre `if`-satsen och det sista till den yttre. Indraget visar samma sak för den som läser, men det är klammerparenteserna som bestämmer. Redan vid två nivåer blir koden svårläst.
+
+---
+
+## Early return – sluta tidigt
+
+I en funktion går nästlingen ofta att undvika. `return` avslutar funktionen direkt, så de fall där svaret är nej kan kontrolleras först. Tekniken kallas **early return** ("tidig retur"). Jämför två versioner av samma funktion. Den första är nästlad:
+
+```javascript
+function godkändNästlad(poäng, inlämnadITid) {
     if (poäng >= 50) {
         if (inlämnadITid) {
             return true;
@@ -321,7 +321,18 @@ function godkänd(poäng, inlämnadITid) {
 }
 ```
 
-Den andra versionen läses uppifrån och ned utan att man behöver hålla flera öppna villkor i huvudet. Varje `return false` tar hand om ett felfall, och det sista `return true` är det vanliga fallet. Principen är: sluta så fort du vet att svaret är nej, och låt det vanliga fallet stå sist.
+Den andra versionen läses uppifrån och ned utan att man behöver hålla flera öppna villkor i huvudet. Varje `return false` tar hand om ett felfall, och det sista `return true` är det vanliga fallet.
+
+Ett `return` utan värde avslutar funktionen utan att lämna tillbaka något. Det passar i en funktion som visar något i stället för att returnera det:
+
+```javascript
+function hälsa(namn) {
+    if (namn === "") {
+        return;
+    }
+    console.log(`Hej, ${namn}!`);
+}
+```
 
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
@@ -332,9 +343,9 @@ Den andra versionen läses uppifrån och ned utan att man behöver hålla flera 
 
 ---
 
-## Ett löst exempel: kontrollera inmatningen
+## Betygsprogrammet
 
-Nu kan vi lösa problemet från kapitlets början. Ett program som läser data från användaren bör alltid kontrollera att den är rimlig innan det räknar med den. Här är betygsprogrammet som en webbsida, med kontroller. Elementen finns på övningssidan:
+Nu kan programmet från kapitlets början byggas, med kontroller av det som läraren skriver in. Elementen finns på övningssidan:
 
 ```html
 <label for="poängfält">Poäng (0–100):</label>
@@ -395,7 +406,7 @@ beräknaKnapp.addEventListener("click", () => {
 });
 ```
 
-Kontrollerna använder early return: varje felfall visar ett meddelande och avslutar callbacken. Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`.
+Kontrollerna använder early return: varje felfall visar ett meddelande och avslutar callbacken. Den tomma strängen kontrolleras *innan* texten görs om till ett tal, eftersom `Number("")` ger `0` och inte `NaN`. Färgerna lägger du till själv i övningen *Betyg på sidan*.
 
 ---
 
@@ -439,7 +450,7 @@ Att låta AI:n hitta *testfall* i stället för att skriva koden tränar precis 
 Övningarna börjar med att du förutsäger och följer kod. Gör dem utan att köra koden först, och kontrollera sedan på övningssidan från avsnittet *En sida att öva på*.
 
 ::: {.callout-note}
-## Övning – Spåra exekveringen
+## Övning – Vilken väg?
 
 Gå igenom koden för hand.
 
@@ -463,7 +474,7 @@ if (antal > 20) {
 :::
 
 ::: {.callout-note}
-## Övning – Hitta felet
+## Övning – Biobiljetten
 
 En biobiljett kostar 120 kr. Barn under 12 år betalar 80 kr, och pensionärer, 65 år eller äldre, betalar 90 kr. Funktionen nedan ska räkna ut priset:
 
@@ -489,46 +500,46 @@ console.log(biljettpris(70));
 :::
 
 ::: {.callout-note}
-## Övning – Vad säger felet?
+## Övning – Fyra trasiga villkor
 
-Var och en av snuttarna nedan innehåller ett fel. Skriv `let poäng = 73;` överst i `<script>`-elementet och prova en snutt i taget under den. Förutsäg först: kommer det ett felmeddelande, eller körs koden men gör fel?
+Var och en av snuttarna nedan innehåller ett fel. Skriv `let quizpoäng = 73;` sist i `<script>`-elementet och prova snuttarna en i taget under den. Förutsäg först: kommer det ett felmeddelande, eller körs koden men gör fel? Rätta varje snutt (fråga 3) innan du lägger till nästa.
 
 ```javascript
 // A
-if poäng >= 50 {
+if quizpoäng >= 50 {
     console.log("Godkänd");
 }
 ```
 
 ```javascript
 // B
-if (poäng >= 50) {
+if (quizpoäng >= 50) {
     console.log("Godkänd");
-} else (poäng < 50) {
+} else (quizpoäng < 50) {
     console.log("Underkänd");
 }
 ```
 
 ```javascript
 // C
-if (poäng = 100) {
+if (quizpoäng = 100) {
     console.log("Full pott!");
 }
 ```
 
 ```javascript
 // D
-if (poäng >= 50) {
+if (quizpoäng >= 50) {
     console.log("Godkänd");
 ```
 
-1. Tre av snuttarna ger ett `SyntaxError`. Vilka? Lägg till en rad `console.log("Start");` överst i skriptet. Skrivs den ut när skriptet innehåller ett `SyntaxError`? Vad säger det om när JavaScript upptäcker den sortens fel?
-2. En snutt ger inget felmeddelande, men gör fel. Vilken, och vilket värde har `poäng` efteråt?
+1. Tre av snuttarna ger ett `SyntaxError`. Vilka? Skrivs "Skriptet körs!" ut, eller något från din tidigare kod, när skriptet innehåller ett `SyntaxError`? Vad säger det om när JavaScript upptäcker den sortens fel?
+2. En snutt ger inget felmeddelande, men gör fel. Vilken, och vilket värde har `quizpoäng` efteråt?
 3. Rätta alla fyra.
 :::
 
 ::: {.callout-note}
-## Övning – Förklara koden
+## Övning – Med en mening
 
 Läs funktionen.
 
@@ -540,7 +551,7 @@ function anmälan(lagnamn, antal) {
     if (antal > 6) {
         return "Högst sex deltagare per lag.";
     }
-    return "Välkomna till quizet!";
+    return "Laget är anmält!";
 }
 ```
 
@@ -550,27 +561,39 @@ function anmälan(lagnamn, antal) {
 :::
 
 ::: {.callout-note}
-## Övning – Ordna raderna
+## Övning – Tre hälsningar
 
-Hälsningen på övningssidan ska visa "Hej, främling!" när namnfältet är tomt, och annars hälsa med namnet. Välj ut och ordna raderna. Två rader ska inte användas.
+Lägg till de här elementen på övningssidan:
+
+```html
+<h2>Gästboken</h2>
+<input type="text" id="gästfält" placeholder="Skriv ditt namn">
+<button id="gästknapp">Skriv in</button>
+<p id="gästhälsning"></p>
+```
+
+Vid klick på knappen ska stycket visa "Hej, främling!" när fältet är tomt och "Namnet är för långt." när namnet har fler än 20 tecken. Annars ska det hälsa med namnet. Välj ut och ordna raderna. Två rader ska inte användas.
 
 ```javascript
     } else {
     }
-        hälsning.textContent = "Hej, främling!";
-    if (namn = "") {
-const hälsning = document.querySelector("#hälsning");
-    const namn = namnfält.value.trim();
+        gästhälsning.textContent = "Hej, främling!";
+    if (gästnamn = "") {
+const gästhälsning = document.querySelector("#gästhälsning");
+    } else if (gästnamn.length > 20) {
+    const gästnamn = gästfält.value.trim();
 });
-        hälsning.textContent = `Hej, ${namn}!`;
-namnfält.addEventListener("input", () => {
+        gästhälsning.textContent = `Hej, ${gästnamn}!`;
+gästknapp.addEventListener("click", () => {
     } else if {
-    if (namn === "") {
-const namnfält = document.querySelector("#namnfält");
+        gästhälsning.textContent = "Namnet är för långt.";
+    if (gästnamn === "") {
+const gästfält = document.querySelector("#gästfält");
+const gästknapp = document.querySelector("#gästknapp");
 ```
 
-1. Vilka två rader använde du inte, och vad är fel med dem? Båda ger felmeddelanden, men vid olika tillfällen: den ena redan när sidan laddas, den andra först när användaren skriver i fältet. Vilken är vilken, och varför? (Tänk på att `namn` är deklarerad med `const`.)
-2. Skriv om `if`-satsen i din lösning med ternäroperatorn, som i avsnittet *Ternäroperatorn*. Vilken version är lättast att läsa?
+1. Vilka två rader använde du inte, och vad är fel med dem? Båda ger felmeddelanden, men vid olika tillfällen: den ena redan när sidan laddas, den andra först när någon klickar på *Skriv in*. Vilken är vilken, och varför? (Tänk på att `gästnamn` är deklarerad med `const`.)
+2. I avsnittet *Ternäroperatorn* blev hälsningen kortare med ternäroperatorn. Varför passar den sämre för din lösning?
 :::
 
 ::: {.callout-note}
@@ -618,11 +641,52 @@ Funktionen `bedöm` gör nu två saker: den avgör om resultatet är godkänt *o
 ::: {.callout-note}
 ## Övning – Betyg på sidan
 
-Utgå från avsnittet *Ett löst exempel: kontrollera inmatningen* och övningssidan. Bygg vidare på det:
+Utgå från avsnittet *Betygsprogrammet* och övningssidan. Bygg vidare på det:
 
 1. Ge resultatet klassen `godkänd` eller `underkänd` beroende på betyget. Klicka flera gånger med olika poäng. Försvinner den gamla klassen som den ska?
 2. Visa hjälptexten med id `hjälp` bara när betyget är F.
 3. Om fältet innehåller något som inte är giltigt ska *ingen* av klasserna finnas kvar, och hjälptexten ska vara dold. Var i koden behöver du lägga till något för det?
+:::
+
+::: {.callout-note}
+## Övning – Temaknappen
+
+Lägg till knappen på övningssidan, ovanför `<script>`-elementet, och klassen `dark` i `<style>`-elementet:
+
+```html
+<h2>Tema</h2>
+<button id="tema-knapp">Mörkt läge</button>
+```
+
+```css
+.dark {
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+}
+```
+
+Den här koden byter tema och knappens text vid varje klick. `classList.contains` returnerar ett booleskt värde och passar därför direkt som villkor:
+
+```javascript
+const temaKnapp = document.querySelector("#tema-knapp");
+
+temaKnapp.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+        temaKnapp.textContent = "Ljust läge";
+    } else {
+        temaKnapp.textContent = "Mörkt läge";
+    }
+});
+```
+
+Prova koden. Ändra sedan callbacken, så att den gör samma sak på två andra sätt:
+
+1. Med returvärdet från `classList.toggle`, som är `true` om klassen lades till och `false` om den togs bort. Behöver du `classList.contains` då?
+2. Med ternäroperatorn, så att knappens text sätts på en enda rad.
+
+Vilket av de tre sätten tycker du är tydligast? Varför går det inte att lösa enbart med en tilldelning av ett booleskt värde, som för `hidden` och `disabled`?
 :::
 
 ### Egna sidor
@@ -645,7 +709,7 @@ Skriv villkorssatser för följande situationer. Du bestämmer själv variabelna
 Gör övningen i steg och kontrollera att varje steg fungerar innan du går vidare.
 
 1. Skriv en funktion `klassificera(temperatur)` som tar en temperatur i Celsius och returnerar `"kallt"` (under 5°C), `"lagom"` (5–20°C, inklusive) eller `"varmt"` (över 20°C). Testa den i konsolen med −10, 5, 15, 20 och 30. Vilka värden är viktigast att testa, och varför?
-2. Gör en sida med ett fält och en knapp. Visa kategorin och temperaturen, till exempel "Lagom (15°C)".
+2. Gör en sida med ett fält och en knapp. Visa kategorin och temperaturen, till exempel "lagom (15°C)".
 3. Lägg till tre CSS-klasser, `.kallt`, `.lagom` och `.varmt`, med olika bakgrundsfärger, och ge resultatet rätt klass.
 4. Visa ett felmeddelande om fältet är tomt eller inte innehåller ett tal.
 5. Visa även temperaturen i grader Fahrenheit, med en egen funktion `tillFahrenheit(celsius)`. Uträkningen är `celsius * 1.8 + 32`. Ska `klassificera` ändras för det? Varför inte?
@@ -670,33 +734,6 @@ Skriv CSS-klasserna `.rätt` (grön ram och bakgrund) och `.fel` (röd ram och b
 2. Om svaret är rätt: visa feedback-elementet med texten "Rätt svar!" och klassen `.rätt`.
 3. Om svaret är fel: visa texten "Fel! Rätt svar är ..." med det korrekta svaret, och klassen `.fel`.
 4. Se till att `" stockholm "` räknas som rätt.
-:::
-
-::: {.callout-note}
-## Övning – Temaknappen
-
-Den här koden byter tema och knappens text vid varje klick. `classList.contains` returnerar ett booleskt värde och passar därför direkt som villkor:
-
-```javascript
-const temaKnapp = document.querySelector("#tema-knapp");
-
-temaKnapp.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-
-    if (document.body.classList.contains("dark")) {
-        temaKnapp.textContent = "Ljust läge";
-    } else {
-        temaKnapp.textContent = "Mörkt läge";
-    }
-});
-```
-
-Lös samma sak på din egen sida, på två andra sätt:
-
-1. Med returvärdet från `classList.toggle`, som är `true` om klassen lades till och `false` om den togs bort. Behöver du `classList.contains` då?
-2. Med ternäroperatorn, så att knappens text sätts på en enda rad.
-
-Vilket av de tre sätten tycker du är tydligast? Varför går det inte att lösa enbart med en tilldelning av ett booleskt värde, som för `hidden` och `disabled`?
 :::
 
 ::: {.callout-note}

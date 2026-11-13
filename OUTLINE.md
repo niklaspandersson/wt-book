@@ -266,6 +266,6 @@ Totalt cirka 70 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 2. **Två nya minikapitel:** *Tangentbordet* (kap. 15) och *Musen* (kap. 16), direkt före *Händelser och många element*. Tangentbordet låg först som *Tangenter och textfält* direkt efter *Händelser*, men flyttades för att jämna ut arbetsbördan mellan vecka 4 och 6. `.value` introduceras i stället kort i *Sant och falskt*, där det först används, eftersom studenterna känner till `value`-attributet från Webbteknik 1. *Musen* förklarar varför `mouseover` bubblar men inte `mouseenter`.
 3. **Formulären flyttas till Webbteknik 3**, till kapitlet *Formulär och validering*: `input`, `change`, `<select>`, kryssrutor och `checked`. I Del I läses textfält bara vid klick.
 4. **Kap. 17 handlar om många element:** `querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, och delegering.
-5. **Kap. 10 och 11 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Kap. 10 är klart. Kap. 11 görs när det granskas (ATT-GORA.md).
+5. **Kap. 10 och 11 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Kap. 10 och 11 är klara.
 
 **Status.** Kap. 9 och 10 är omskrivna och slutgranskade, och kap. 15 är granskat mot formatet för minikapitel. Kap. 16 är utkast, och kap. 17 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.
