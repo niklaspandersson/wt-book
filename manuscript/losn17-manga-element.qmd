@@ -1,8 +1,8 @@
 ---
-losningar-till: kap19-manga-element.qmd
+losningar-till: kap17-manga-element.qmd
 ---
 
-# Kapitel 19: Händelser och många element {.unnumbered}
+# Kapitel 17: Händelser och många element {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-manga-element].
 

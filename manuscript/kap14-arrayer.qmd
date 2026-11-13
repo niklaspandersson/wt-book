@@ -18,7 +18,7 @@ En loop löser det, om räknaren får vara indexet. Att **gå igenom** en array 
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap16`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap14`:
 
 ```html
 <!DOCTYPE html>
@@ -191,7 +191,7 @@ Startvärdet är det första elementet, och inte till exempel `0`. Det är ett s
 
 ## Söka i en array
 
-Är ett lagnamn redan upptaget? Arrayer har metoderna `includes` och `indexOf`, som fungerar som strängmetoderna med samma namn (kapitel [-@sec-strangar] och [-@sec-soka-klippa]). `includes` svarar om värdet finns, och `indexOf` på vilket index – eller `-1` om det inte finns:
+Är ett lagnamn redan upptaget? Arrayer har metoden `includes`, precis som strängar (kapitel [-@sec-strangar]), och metoden `indexOf`. `includes` svarar om värdet finns, och `indexOf` på vilket index – eller `-1` om det inte finns, eftersom `-1` aldrig kan vara ett index:
 
 ```javascript
 const lag = ["Ugglorna", "Räknenissarna", "Blå blixtarna"];
@@ -215,6 +215,35 @@ if (lag.includes(nyttLag)) {
 ```
 
 Använd `includes` när du vill veta *om* något finns, och `indexOf` när du behöver veta *var*.
+
+---
+
+## `split` och `join`
+
+Text som användaren skriver kommer som en enda sträng, även när den är en lista, till exempel flera lagnamn åtskilda med kommatecken. Strängmetoden [`split`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split) delar strängen och returnerar en array med delarna. Argumentet är **avgränsaren**, texten som strängen ska delas vid. Den kommer inte med i delarna:
+
+```javascript
+"Ugglorna,Räknenissarna,Tigrarna".split(",");   // ["Ugglorna", "Räknenissarna", "Tigrarna"]
+"Anna Berg".split(" ");                          // ["Anna", "Berg"]
+"Ugglorna".split(",");                           // ["Ugglorna"] – ingen avgränsare, en enda del
+```
+
+`split` delar exakt vid avgränsaren. Står två avgränsare i rad, eller en sist, blir det tomma delar. Mellanslag runt avgränsaren följer med delarna:
+
+```javascript
+"Ugglorna,,Tigrarna,".split(",");   // ["Ugglorna", "", "Tigrarna", ""]
+"Ugglorna, Tigrarna".split(",");    // ["Ugglorna", " Tigrarna"]
+```
+
+Text som användaren har skrivit behöver därför städas med `trim`, del för del.
+
+Arraymetoden [`join`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) gör det omvända: den sätter ihop elementen till en sträng, med argumentet mellan elementen. Utan argument blir det kommatecken:
+
+```javascript
+["Ugglorna", "Räknenissarna", "Tigrarna"].join(" · ");   // "Ugglorna · Räknenissarna · Tigrarna"
+["19", "30"].join(":");                                   // "19:30"
+["Ugglorna", "Tigrarna"].join();                          // "Ugglorna,Tigrarna"
+```
 
 ---
 
@@ -258,7 +287,7 @@ for (const f of frågor) {
 
 ## Ett löst exempel: anmäl flera lag
 
-Med `split` och `join` (kapitel [-@sec-split-join]), en loop och `push` kan sidan ta emot en lista från användaren. Domaren skriver flera lagnamn i ett fält, åtskilda med kommatecken, och klickar på *Anmäl*. Sidan ska visa hur många lag det blev och lista dem städade. Elementen finns på övningssidan:
+Med `split`, `join`, en loop och `push` kan sidan ta emot en lista från användaren. Domaren skriver flera lagnamn i ett fält, åtskilda med kommatecken, och klickar på *Anmäl*. Sidan ska visa hur många lag det blev och lista dem städade. Elementen finns på övningssidan:
 
 ```html
 <label for="lagfält">Lagnamn, åtskilda med kommatecken:</label>
@@ -306,7 +335,8 @@ Resultatet visas med `textContent`, inte med `innerHTML`, eftersom texten kommer
 - **`push`** lägger till sist och **`pop`** tar bort sist. Till skillnad från strängmetoderna ändrar de arrayen.
 - En **`for`-loop** med `i < lag.length` går igenom alla index. **`for...of`** går direkt igenom värdena och är oftast enklast.
 - Mönstret *före loopen – i loopen – efter loopen* fungerar för att summera, hitta det största och bygga en ny array med `push`.
-- **`includes`** och **`indexOf`** söker i en array, precis som i en sträng.
+- **`includes`** svarar om ett värde finns i arrayen, och **`indexOf`** på vilket index. Finns värdet inte ger `indexOf` `-1`.
+- **`split`** delar en sträng till en array, och **`join`** sätter ihop en array till en sträng. Delar från användaren städas med `trim`.
 - En **array av objekt** samlar många poster med samma egenskaper, som frågorna i ett quiz. Läs uttryck som `frågor[1].alternativ[0]` steg för steg från vänster.
 
 I kapitel [-@sec-manga-element] låter du många element på sidan reagera på klick med en enda lyssnare.
@@ -357,6 +387,7 @@ frukter[frukter.length - 1];
 frukter.pop();
 frukter.length;
 frukter.join("-");
+"äpple, banan".split(",");
 ```
 
 Vilken av raderna var svårast? Rita arrayen som rutor med index efter de rader som ändrar den.
@@ -427,9 +458,15 @@ for (let i = 0; i <= lag.length; i++) {
 }
 ```
 
+```javascript
+// D – sätt ihop lagen med " och "
+"Ugglorna,Tigrarna".join(" och ");
+```
+
 1. Vilket felmeddelande ger varje snutt? Vilka två snuttar ger nästan samma meddelande, och varför?
 2. I C skrivs något ut innan felet kommer. Vad, och varför kommer felet först i tredje varvet?
-3. Rätta alla tre. Finns det mer än ett sätt att rätta B?
+3. I D: vad är det som inte är en funktion, och varför?
+4. Rätta alla fyra. Finns det mer än ett sätt att rätta B?
 :::
 
 ::: {.callout-note}
@@ -495,7 +532,7 @@ I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sid
 
 Skapa en sida med ett textfält och ett stycke för resultatet. Medan användaren skriver en mening ska sidan visa det längsta ordet i meningen.
 
-1. Dela upp meningen i ord med `split(" ")` (kapitel [-@sec-split-join]).
+1. Dela upp meningen i ord med `split(" ")`.
 2. Hitta det längsta ordet. Vilket mönster från kapitlet kan du använda, och vad ska startvärdet vara?
 3. Vad visas om två ord är lika långa? Och om fältet är tomt?
 :::

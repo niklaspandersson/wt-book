@@ -13,13 +13,11 @@
 * [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, en kort introduktion av `.value`, logiska operatorer, hidden/disabled, anmälningsformuläret med klick som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
 * [X] Kap. 11 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
 * [X] Kap. 12 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
-* [X] Kap. 13 – *Söka och klippa i text* (minikapitel) *(positioner från 0, `indexOf` med `-1` som villkor, `substring`)*
-* [X] Kap. 14 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
-* [X] Kap. 15 – *`split` och `join`* (minikapitel) *(avgränsare, tomma delar, kedjning med `join`)*
-* [X] Kap. 16 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, anmälan med split/join som löst exempel, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
-* [X] Kap. 17 – *Tangentbordet* (minikapitel) *(`keydown`/`keyup`, `e.key` och tangentnamnen, `shiftKey`/`ctrlKey`/`altKey`, lyssna på `document` eller ett fält)*
-* [X] Kap. 18 – *Musen* (minikapitel, utkast) *(`mouseenter`/`mouseleave`, `mousemove`, `clientX`/`clientY`, flytta ett element dit pekaren är, översikt över mushändelserna)*
-* [X] Kap. 19 – Händelser och många element *(`querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, delegering, quizknapparna som löst exempel)*
+* [X] Kap. 13 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
+* [X] Kap. 14 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, split/join med tomma delar och trim, anmälan som löst exempel, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
+* [X] Kap. 15 – *Tangentbordet* (minikapitel) *(`keydown`/`keyup`, `e.key` och tangentnamnen, `shiftKey`/`ctrlKey`/`altKey`, lyssna på `document` eller ett fält)*
+* [X] Kap. 16 – *Musen* (minikapitel, utkast) *(`mouseenter`/`mouseleave`, `mousemove`, `clientX`/`clientY`, flytta ett element dit pekaren är, översikt över mushändelserna)*
+* [X] Kap. 17 – Händelser och många element *(`querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, delegering, quizknapparna som löst exempel)*
 
 **Del II – Fördjupning: webben som plattform**
 *(tematisk, ordning öppen)*
@@ -91,7 +89,7 @@ Kapitlen följer den nya ordningen i Del I (se *Nästa iteration* nedan). Minika
 | 2 | Att använda funktioner, *Skapa och ändra strängar*, Din kod möter webbsidan | 12 | |
 | 3 | Att skriva egna funktioner, *Från text till tal och tillbaka*, Händelser | 11,5 | |
 | 4 | Sant och falskt, Villkorssatser, *Avrunda och slumpa* | 11 | |
-| 5 | *Söka och klippa i text*, Loopar, *`split` och `join`*, Arrayer | 13 | |
+| 5 | Loopar, Arrayer | 11 | |
 | 6 | *Tangentbordet*, *Musen*, Händelser och många element, Tid och animationer | 13 | **Deadline 1:** inlämning 1 |
 | 7–8 | *Jul och nyår – ingen undervisning.* Arbete med inlämning 2, extraövningar | | |
 | 9 | Eget arbete med inlämning 2: handledning, felsökning, repetition | | |
@@ -217,12 +215,10 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
    | *Skapa och ändra strängar* | templatesträngar, `length`, `trim`, `toUpperCase`/`toLowerCase`, `includes`, oföränderliga strängar, kedjning | Att använda funktioner | 2,5 h |
    | *Från text till tal och tillbaka* | implicit typkonvertering (`"5" + 3`), `Number()`, det tomma fältet och decimalkommat, `toFixed` | Att skriva egna funktioner | 1,5 h |
    | *Avrunda och slumpa* | `Math.round`/`floor`/`random` | Villkorssatser | 1 h |
-   | *Söka och klippa i text* | `indexOf` (med `-1` som villkor), `substring` (nytt innehåll) | *Avrunda och slumpa* | 1,5 h |
-   | *`split` och `join`* | från text till lista och tillbaka | Loopar | 1 h |
 
-   Beroendena: *Sant och falskt* använder `trim`, `length` och `Number()`, loopkapitlet `+=`, villkorskapitlet `Math.random`, och arraykapitlet `split`/`join`. Arraykapitlet kan hänvisa till `indexOf` för strängar i stället för att förklara det på nytt. *Från text till tal och tillbaka* kommer före *Händelser*, så konverteringen är känd när `.value` läses. Avsnittet *Text på webbsidan*, momsräknaren och övningarna som behövde händelser ströks vid delningen (se ATT-GORA.md).
-2. **Arrayernas grunder flyttas till kap. 2** (genomfört): arrayliteraler, index från 0, `length` och en array som egenskap i ett objekt (cirka 300 ord). Villkor för flytten: något måste använda arrayer före arraykapitlet, till exempel quizfrågan som objekt med en array av alternativ i kap. 2, `includes` och `split`/`join` i minikapitlen, och korta listor i exempel. Arraykapitlet behåller `push`/`pop`, loopar över arrayer, sökning, mönstret för det största och arrayer av objekt.
-3. **Ett nytt händelsekapitel efter arraykapitlet**, *Händelser och många element* (genomfört, kap. 17, nu kap. 19; event-objektet och tangenterna flyttade igen i november 2026, se *Iteration: händelser i Del I* nedan). Innehåll: event-objektet (flyttas från *Händelser*), tangenthändelser och `e.key` (flyttas från *Villkorssatser*), `querySelectorAll`, lyssnare i en loop, `e.target` och quizknapparna (flyttas från arraykapitlet), samt **bubbling och delegering**. Delegering – en lyssnare på listan i stället för en per element – passar ihop med `e.target` och är enklare än lyssnare i en loop. Det tillför uppskattningsvis 500–700 ord.
+   Beroendena: *Sant och falskt* använder `trim`, `length` och `Number()`, loopkapitlet `+=` och villkorskapitlet `Math.random`. Minikapitlen *Söka och klippa i text* (`indexOf`, `substring`) och *`split` och `join`* ströks i november 2026, eftersom inget senare kapitel i Del I använde dem. `split` och `join` står nu i arraykapitlet, som är det enda som använder dem. *Från text till tal och tillbaka* kommer före *Händelser*, så konverteringen är känd när `.value` läses. Avsnittet *Text på webbsidan*, momsräknaren och övningarna som behövde händelser ströks vid delningen (se ATT-GORA.md).
+2. **Arrayernas grunder flyttas till kap. 2** (genomfört): arrayliteraler, index från 0, `length` och en array som egenskap i ett objekt (cirka 300 ord). Villkor för flytten: något måste använda arrayer före arraykapitlet, till exempel quizfrågan som objekt med en array av alternativ i kap. 2, `includes` i *Skapa och ändra strängar*, och korta listor i exempel. Arraykapitlet behåller `push`/`pop`, loopar över arrayer, sökning, mönstret för det största och arrayer av objekt.
+3. **Ett nytt händelsekapitel efter arraykapitlet**, *Händelser och många element* (genomfört, nu kap. 17; event-objektet och tangenterna flyttade igen i november 2026, se *Iteration: händelser i Del I* nedan). Innehåll: event-objektet (flyttas från *Händelser*), tangenthändelser och `e.key` (flyttas från *Villkorssatser*), `querySelectorAll`, lyssnare i en loop, `e.target` och quizknapparna (flyttas från arraykapitlet), samt **bubbling och delegering**. Delegering – en lyssnare på listan i stället för en per element – passar ihop med `e.target` och är enklare än lyssnare i en loop. Det tillför uppskattningsvis 500–700 ord.
 4. **Funktionsuttryck ligger kvar** där de är (`function () { … }` som anonym callback i *Händelser*, sedan pilfunktioner).
 
 **Ordning** (≈ timmar med kärnövningar; minikapitel i kursiv stil):
@@ -241,16 +237,14 @@ Kapitlen tas i läsordning (1, 2, 4, 6, 7 …), eftersom ändringar i tidigare k
 | Sant och falskt | – | 5 h |
 | Villkorssatser | − tangenthändelser | 5 h |
 | *Avrunda och slumpa* | från gamla kap. 7 | 1 h |
-| *Söka och klippa i text* | nytt | 1,5 h |
 | Loopar | – | 5,5 h |
-| *`split` och `join`* | från arraykapitlet | 1 h |
-| Arrayer | − grunderna, − `split`/`join`, − `querySelectorAll` och händelser i en loop | 5 h |
+| Arrayer | − grunderna, − `querySelectorAll` och händelser i en loop | 5,5 h |
 | *Tangentbordet* | nytt (november 2026) | 1,5 h |
 | *Musen* | nytt (november 2026) | 2 h |
 | Händelser och många element | nytt (se punkt 3), − event-objektet och tangenterna, + `e.currentTarget` | 4,5 h |
 | Tid och animationer (Del II) | – | 5 h |
 
-Totalt cirka 72 timmar med kärnövningar, plus cirka 30 timmar extraövningar som kan göras till exempel under lovveckorna. Veckoplanen står under *Webbteknik 2* ovan. Minikapitlen numreras som vanliga kapitel.
+Totalt cirka 70 timmar med kärnövningar, plus cirka 30 timmar extraövningar som kan göras till exempel under lovveckorna. Veckoplanen står under *Webbteknik 2* ovan. Minikapitlen numreras som vanliga kapitel.
 
 **Väntar tills ordningen är genomförd:**
 
@@ -258,20 +252,20 @@ Totalt cirka 72 timmar med kärnövningar, plus cirka 30 timmar extraövningar s
 
 **Följdändringar att komma ihåg:**
 
-- Filnamn, `_quarto.yml`, övningssidornas mappar, rubrikerna *Kapitel N:* i lösningsfilerna och handskrivna övningsnummer (ATT-GORA.md) följer nu den nya ordningen med åtta minikapitel och 19 kapitel i Del I.
+- Filnamn, `_quarto.yml`, övningssidornas mappar, rubrikerna *Kapitel N:* i lösningsfilerna och handskrivna övningsnummer (ATT-GORA.md) följer nu den nya ordningen med sex minikapitel och 17 kapitel i Del I.
 - Kursplanen för Webbteknik 3 (avsnittet ovan) tar upp händelsebubbling och delegering i *Händelser och DOM-trädet*. Kapitlet `kap-handelser-djupet.qmd` behöver då bara propageringens faser, `preventDefault` och `removeEventListener`.
 - Punkterna under *Enhetlighet i Del I* och *Innehåll att se över i nästa iteration* i ATT-GORA.md bör tas med i omstruktureringen där de berör flyttat innehåll (till exempel event-objektet, `%`, arraykapitlet över budget).
 
 ## Iteration: händelser i Del I (november 2026)
 
-**Varför.** När event-objektet kom först i sista kapitlet i Del I gick kap. 10–17 miste om tangenter, muskoordinater och en callback som tjänar flera knappar. Kap. 9 hade samtidigt avsnitt om mus- och formulärhändelser som inget senare kapitel behövde.
+**Varför.** När event-objektet kom först i sista kapitlet i Del I gick kapitlen däremellan miste om tangenter, muskoordinater och en callback som tjänar flera knappar. Kap. 9 hade samtidigt avsnitt om mus- och formulärhändelser som inget senare kapitel behövde.
 
 **Beslutat:**
 
-1. **Event-objektet i kap. 9**, med `e.type` och `e.target`. Kap. 9 handlar bara om klick, och det lösta exemplet *Lagvalet* läser vilken knapp som klickades. Exemplen med `e.target` använder knappar som bara innehåller text, så att skillnaden mot `e.currentTarget` inte syns förrän i kap. 19.
-2. **Två nya minikapitel:** *Tangentbordet* (kap. 17) och *Musen* (kap. 18), direkt före *Händelser och många element*. Tangentbordet låg först som *Tangenter och textfält* direkt efter *Händelser*, men flyttades för att jämna ut arbetsbördan mellan vecka 4 och 6. `.value` introduceras i stället kort i *Sant och falskt*, där det först används, eftersom studenterna känner till `value`-attributet från Webbteknik 1. *Musen* förklarar varför `mouseover` bubblar men inte `mouseenter`.
+1. **Event-objektet i kap. 9**, med `e.type` och `e.target`. Kap. 9 handlar bara om klick, och det lösta exemplet *Lagvalet* läser vilken knapp som klickades. Exemplen med `e.target` använder knappar som bara innehåller text, så att skillnaden mot `e.currentTarget` inte syns förrän i kap. 17.
+2. **Två nya minikapitel:** *Tangentbordet* (kap. 15) och *Musen* (kap. 16), direkt före *Händelser och många element*. Tangentbordet låg först som *Tangenter och textfält* direkt efter *Händelser*, men flyttades för att jämna ut arbetsbördan mellan vecka 4 och 6. `.value` introduceras i stället kort i *Sant och falskt*, där det först används, eftersom studenterna känner till `value`-attributet från Webbteknik 1. *Musen* förklarar varför `mouseover` bubblar men inte `mouseenter`.
 3. **Formulären flyttas till Webbteknik 3**, till kapitlet *Formulär och validering*: `input`, `change`, `<select>`, kryssrutor och `checked`. I Del I läses textfält bara vid klick.
-4. **Kap. 19 handlar om många element:** `querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, och delegering.
+4. **Kap. 17 handlar om många element:** `querySelectorAll`, lyssnare i en loop, bubbling, `e.target` och `e.currentTarget`, och delegering.
 5. **Kap. 10 och 11 får nya exempel** i stället för formulärhändelserna, med klick och event-objektet. Kap. 10 är klart. Kap. 11 görs när det granskas (ATT-GORA.md).
 
-**Status.** Kap. 9 och 10 är omskrivna och slutgranskade, och kap. 17 är granskat mot formatet för minikapitel. Kap. 18 är utkast, och kap. 19 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.
+**Status.** Kap. 9 och 10 är omskrivna och slutgranskade, och kap. 15 är granskat mot formatet för minikapitel. Kap. 16 är utkast, och kap. 17 har fått de ändringar som flytten krävde. De görs färdiga i slutgranskningen. Resten står i ATT-GORA.md under respektive kapitel.

@@ -1,8 +1,8 @@
 ---
-losningar-till: kap18-musen.qmd
+losningar-till: kap16-musen.qmd
 ---
 
-# Kapitel 18: Musen {.unnumbered}
+# Kapitel 16: Musen {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-musen].
 

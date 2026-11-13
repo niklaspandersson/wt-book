@@ -10,7 +10,7 @@ Hänvisningar från ett kapitel till ett annat som inte längre stämmer, efter 
 
 Avsnittet *En array i ett objekt* (`fråga` med `alternativ` och `rättIndex`) är borttaget. En array som egenskap förekommer nu bara i övningen *En quizfråga som objekt* (`ledtrådar`).
 
-- **kap16-arrayer.qmd, rad 223.** "En quizfråga kan vara ett objekt med en array av alternativ (kapitel 2)." Exemplet med alternativ finns inte längre i kap. 2. Visa i stället att en egenskap kan vara en array, eller hänvisa till övningen.
+- **kap14-arrayer.qmd, rad 252.** "En quizfråga kan vara ett objekt med en array av alternativ (kapitel 2)." Exemplet med alternativ finns inte längre i kap. 2. Visa i stället att en egenskap kan vara en array, eller hänvisa till övningen.
 
 ## Till kapitel 4, *Att använda funktioner* (`sec-anropa-funktioner`)
 

@@ -1,8 +1,8 @@
 ---
-losningar-till: kap17-tangenter.qmd
+losningar-till: kap15-tangenter.qmd
 ---
 
-# Kapitel 17: Tangentbordet {.unnumbered}
+# Kapitel 15: Tangentbordet {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-tangenter].
 

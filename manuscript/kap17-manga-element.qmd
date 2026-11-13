@@ -12,7 +12,7 @@ Det finns två sätt att slippa det. Det ena är en loop över alla knapparna. D
 
 ## En sida att öva på
 
-Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap19`:
+Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i en ny mapp, `kap17`:
 
 ```html
 <!DOCTYPE html>

@@ -1,8 +1,8 @@
 ---
-losningar-till: kap16-arrayer.qmd
+losningar-till: kap14-arrayer.qmd
 ---
 
-# Kapitel 16: Arrayer {.unnumbered}
+# Kapitel 14: Arrayer {.unnumbered}
 
 Lösningar till övningarna i kapitel [-@sec-arrayer].
 
@@ -43,6 +43,7 @@ frukter[frukter.length - 1];   // "fikon"
 frukter.pop();                 // "fikon"
 frukter.length;                // 4
 frukter.join("-");             // "äpple-banan-citron-dadel"
+"äpple, banan".split(",");     // ["äpple", " banan"]
 ```
 
 Efter `push`:
@@ -58,6 +59,7 @@ De rader som brukar vara svårast:
 - `frukter[frukter.length]` är `frukter[4]`. Det sista elementet har index 3, så på index 4 finns inget.
 - `frukter.includes("Äpple")` är `false` på grund av det stora Ä:et.
 - `frukter[frukter.length - 1]` efter `push`: `length` är nu 5, så det är `frukter[4]` – det nya sista elementet.
+- `"äpple, banan".split(",")` delar bara vid kommatecknet. Mellanslaget efter det följer med den andra delen, `" banan"`.
 
 (I konsolen svarar `push` med arrayens nya längd, `5`. Det behöver du inte kunna.)
 
@@ -117,10 +119,12 @@ I det sista uttrycket räknas indexet `frågor.length - 1` ut först. Det ger al
 | A | `TypeError: Cannot read properties of undefined (reading 'toUpperCase')` |
 | B | `TypeError: Assignment to constant variable.` |
 | C | `TypeError: Cannot read properties of undefined (reading 'length')` |
+| D | `TypeError: "Ugglorna,Tigrarna".join is not a function` |
 
 1. A och C ger nästan samma meddelande. I båda fallen läser koden på ett index där det inte finns något element – `lag[2]` i en array med två element – och får `undefined`. Sedan försöker den läsa en egenskap på `undefined`, och det går inte. Det som skiljer är vilken egenskap: `toUpperCase` i A och `length` i C.
 2. I C skrivs `8` ut två gånger – längden på `"Ugglorna"` och på `"Tigrarna"`. I tredje varvet är `i` 2, och villkoret `2 <= 2` är sant, så loopen går ett varv för mycket. `lag[2]` finns inte.
-3. Rättade:
+3. `join` är en arraymetod, men `"Ugglorna,Tigrarna"` är en sträng. Strängen har ingen egenskap `join`, så `.join` ger `undefined`, och `undefined` går inte att anropa.
+4. Rättade:
 
     ```javascript
     // A – det sista elementet har index length - 1
@@ -140,6 +144,11 @@ I det sista uttrycket räknas indexet `frågor.length - 1` ut först. Det ger al
     for (let i = 0; i < lag.length; i++) {
         console.log(lag[i].length);
     }
+    ```
+
+    ```javascript
+    // D – gör först om strängen till en array
+    "Ugglorna,Tigrarna".split(",").join(" och ");   // "Ugglorna och Tigrarna"
     ```
 
     B kan rättas på flera sätt. Med `let` får pilen flyttas till en ny, tom array. Ska arrayen i stället *tömmas* kan du behålla `const` och ta bort elementen med `pop` tills den är tom – det är samma array hela tiden, bara med nytt innehåll. Ett tredje sätt är att skapa en ny variabel med ett annat namn. Vilket som är rätt beror på vad koden ska göra. C kan också skrivas med `for...of`, och då försvinner risken helt.
