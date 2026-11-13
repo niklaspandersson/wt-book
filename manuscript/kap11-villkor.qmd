@@ -31,16 +31,6 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
             max-width: 40rem;
             margin: 2rem auto;
         }
-        .godkänd {
-            color: green;
-            background-color: #e8f5e9;
-            padding: 0.5rem;
-        }
-        .underkänd {
-            color: red;
-            background-color: #ffebee;
-            padding: 0.5rem;
-        }
     </style>
 </head>
 <body>
@@ -56,7 +46,6 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
     <input type="text" id="poängfält">
     <button id="beräkna">Visa betyg</button>
     <p id="resultat">Betyg visas här.</p>
-    <p id="hjälp" hidden>Tips: repetera materialet och försök igen.</p>
 
     <script>
         console.log("Skriptet körs!");
@@ -641,7 +630,26 @@ Funktionen `bedöm` gör nu två saker: den avgör om resultatet är godkänt *o
 ::: {.callout-note}
 ## Övning – Betyg på sidan
 
-Utgå från avsnittet *Betygsprogrammet* och övningssidan. Bygg vidare på det:
+Utgå från avsnittet *Betygsprogrammet* och övningssidan. Lägg till en hjälptext direkt under stycket med id `resultat`, och två klasser i `<style>`-elementet:
+
+```html
+<p id="hjälp" hidden>Tips: repetera materialet och försök igen.</p>
+```
+
+```css
+.godkänd {
+    color: green;
+    background-color: #e8f5e9;
+    padding: 0.5rem;
+}
+.underkänd {
+    color: red;
+    background-color: #ffebee;
+    padding: 0.5rem;
+}
+```
+
+Bygg sedan vidare på koden:
 
 1. Ge resultatet klassen `godkänd` eller `underkänd` beroende på betyget. Klicka flera gånger med olika poäng. Försvinner den gamla klassen som den ska?
 2. Visa hjälptexten med id `hjälp` bara när betyget är F.

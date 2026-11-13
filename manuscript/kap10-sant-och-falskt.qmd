@@ -55,11 +55,6 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
     <button id="anmäl">Anmäl</button>
     <p id="bekräftelse" hidden>Tack! Laget är anmält.</p>
 
-    <h2>Övningar</h2>
-    <input type="text" id="svar" placeholder="Ditt svar">
-    <p id="svarsvarning" class="varning" hidden>Svaret är för långt.</p>
-    <button id="skicka">Skicka</button>
-
     <script>
         console.log("Skriptet körs!");
     </script>
@@ -503,9 +498,10 @@ console.log(giltigPoäng);
 ::: {.callout-note}
 ## Övning – Förklara koden
 
-Läs koden. Den använder de här elementen:
+Läs koden. Den använder de här elementen, som du lägger till på övningssidan när du vill prova den:
 
 ```html
+<h2>Kommentar</h2>
 <input type="text" id="kommentar" placeholder="Din kommentar">
 <button id="spara">Spara</button>
 ```
@@ -528,7 +524,16 @@ sparaKnapp.addEventListener("click", () => {
 ::: {.callout-note}
 ## Övning – Ordna raderna
 
-När användaren klickar på knappen med id `skicka` på övningssidan ska stycket med id `svarsvarning` synas om svaret i fältet med id `svar` är längre än 10 tecken, och annars vara dolt. Välj ut och ordna raderna. Två rader ska inte användas.
+Lägg till de här elementen på övningssidan:
+
+```html
+<h2>Svaret</h2>
+<input type="text" id="svar" placeholder="Ditt svar">
+<p id="svarsvarning" class="varning" hidden>Svaret är för långt.</p>
+<button id="skicka">Skicka</button>
+```
+
+När användaren klickar på knappen ska stycket med id `svarsvarning` synas om svaret i fältet är längre än 10 tecken, och annars vara dolt. Välj ut och ordna raderna. Två rader ska inte användas.
 
 ```javascript
     varning.hidden = !förLångt;
