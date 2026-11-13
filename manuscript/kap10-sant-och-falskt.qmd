@@ -567,7 +567,12 @@ Vilket av påståendena var svårast att översätta? Fanns det något "eller" s
 
 ### Egna sidor
 
-I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
+I resten av övningarna gör du en ny sida för varje övning. Arbeta i samma ordning som i kapitel [-@sec-handelser]:
+
+1. Gör sidan med ett tomt `<script>`-element sist i `<body>`, och ett `<style>`-element i `<head>` om sidan behöver CSS.
+2. Skriv elementen och kontrollera att sidan ser rätt ut innan du skriver någon JavaScript.
+3. Hämta elementen och skriv ut dem med `console.log`. Står det `null` stämmer selektorn inte med id:t.
+4. Skriv resten av koden ett steg i taget, och prova efter varje steg.
 
 ::: {.callout-note}
 ## Övning – Knappar som vet sitt tillstånd
