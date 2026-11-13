@@ -329,12 +329,12 @@ Det går inte att lösa med enbart en tilldelning av ett booleskt värde, efters
 
 ```javascript
 // 1
-function rundmeddelande(rätt) {
-    if (rätt === 10) {
+function rundmeddelande(antalRätt) {
+    if (antalRätt === 10) {
         return "Full pott!";
-    } else if (rätt >= 7) {
+    } else if (antalRätt >= 7) {
         return "Mycket bra!";
-    } else if (rätt >= 4) {
+    } else if (antalRätt >= 4) {
         return "Bra kämpat!";
     } else {
         return "Bättre lycka nästa gång!";
@@ -342,161 +342,31 @@ function rundmeddelande(rätt) {
 }
 
 console.log(rundmeddelande(10));   // Full pott!
+console.log(rundmeddelande(9));    // Mycket bra!
 console.log(rundmeddelande(7));    // Mycket bra!
+console.log(rundmeddelande(6));    // Bra kämpat!
+console.log(rundmeddelande(4));    // Bra kämpat!
 console.log(rundmeddelande(3));    // Bättre lycka nästa gång!
 ```
 
 ```javascript
 // 2
-function frakt(ordervärde, ärMedlem) {
-    if (ordervärde >= 500 || ärMedlem) {
-        return 0;
+function tillFinalen(poäng, harVunnitOmgång) {
+    if (poäng >= 30 || harVunnitOmgång) {
+        return "Till finalen!";
     }
-    return 49;
+    return "Ingen final den här gången.";
 }
 
-console.log(frakt(450, false));   // 49
-console.log(frakt(450, true));    // 0
-console.log(frakt(500, false));   // 0
+console.log(tillFinalen(30, false));   // Till finalen!
+console.log(tillFinalen(29, false));   // Ingen final den här gången.
+console.log(tillFinalen(12, true));    // Till finalen!
+console.log(tillFinalen(35, true));    // Till finalen!
 ```
 
-```javascript
-// 3
-function inloggning(ärInloggad, harBekräftatEpost, ärAvstängd) {
-    if (!ärInloggad) {
-        return "Du måste logga in.";
-    }
-    if (!harBekräftatEpost) {
-        return "Du måste bekräfta din e-postadress.";
-    }
-    if (ärAvstängd) {
-        return "Ditt konto är avstängt.";
-    }
-    return "Välkommen!";
-}
+I uppgift 1 räcker `antalRätt >= 7` för "Mycket bra!", eftersom 10 redan är taget om hand. Viktigast att testa är gränsvärdena – 10, 9, 7, 6, 4 och 3 – eftersom det är där det är lätt att välja fel mellan `>` och `>=`. Ett värde mitt i ett intervall, som 5, visar inte om gränserna stämmer.
 
-console.log(inloggning(true, true, false));    // Välkommen!
-console.log(inloggning(true, false, false));   // Du måste bekräfta din e-postadress.
-```
-
-I uppgift 1 räcker `rätt >= 7` för "Mycket bra!", eftersom 10 redan är taget om hand. Testa gränsvärdena – 10, 7, 6, 4 och 3 – där det är lätt att välja fel mellan `>` och `>=`.
-
-## Övning – Temperaturen
-
-```javascript
-function klassificera(temperatur) {
-    if (temperatur < 5) {
-        return "kallt";
-    } else if (temperatur <= 20) {
-        return "lagom";
-    } else {
-        return "varmt";
-    }
-}
-
-console.log(klassificera(-10));   // kallt
-console.log(klassificera(5));     // lagom
-console.log(klassificera(15));    // lagom
-console.log(klassificera(20));    // lagom
-console.log(klassificera(30));    // varmt
-```
-
-1. De viktigaste värdena att testa är gränserna, 5 och 20. Där avgör valet mellan `<` och `<=` vilken kategori det blir, och det är där felen brukar sitta. −10, 15 och 30 hamnar mitt i sina kategorier och avslöjar sällan något.
-
-2–5. En hel sida:
-
-```html
-<style>
-    .kallt { background-color: lightblue; }
-    .lagom { background-color: lightgreen; }
-    .varmt { background-color: lightsalmon; }
-</style>
-
-<label for="celsius">Grader Celsius:</label>
-<input type="text" id="celsius">
-<button id="visa">Visa</button>
-<p id="temperatur"></p>
-```
-
-```javascript
-function tillFahrenheit(celsius) {
-    return celsius * 1.8 + 32;
-}
-
-const celsiusFält = document.querySelector("#celsius");
-const temperaturElement = document.querySelector("#temperatur");
-
-document.querySelector("#visa").addEventListener("click", () => {
-    const text = celsiusFält.value.trim();
-    temperaturElement.classList.remove("kallt", "lagom", "varmt");
-
-    if (text === "") {
-        temperaturElement.textContent = "Skriv in en temperatur.";
-        return;
-    }
-
-    const celsius = Number(text);
-
-    if (Number.isNaN(celsius)) {
-        temperaturElement.textContent = `"${text}" är inte ett tal.`;
-        return;
-    }
-
-    const kategori = klassificera(celsius);
-    const fahrenheit = tillFahrenheit(celsius).toFixed(1);
-
-    temperaturElement.textContent = `${kategori} (${celsius}°C, ${fahrenheit}°F)`;
-    temperaturElement.classList.add(kategori);
-});
-```
-
-3. Funktionen returnerar kategorin med små bokstäver, och klasserna heter likadant. Därför kan returvärdet användas direkt som klassnamn.
-4. Felmeddelandena följer samma mönster som i avsnittet *Betygsprogrammet*: tomt fält först, sedan `Number.isNaN`.
-5. Nej, `klassificera` behöver inte ändras. Den bedömer en temperatur i Celsius, och det gör den lika bra oavsett hur resultatet sedan visas. Omvandlingen till Fahrenheit är en annan uppgift och ligger i en egen funktion. Det är principen "en funktion bör göra en sak".
-
-## Övning – Quiz med visuell feedback
-
-```html
-<style>
-    .rätt {
-        border: 2px solid green;
-        background-color: #e8f5e9;
-    }
-    .fel {
-        border: 2px solid red;
-        background-color: #ffebee;
-    }
-</style>
-```
-
-```javascript
-const rättSvar = "Stockholm";
-
-const svarsfält = document.querySelector("#svar");
-const svaraKnapp = document.querySelector("#svara");
-const feedback = document.querySelector("#feedback");
-
-function kontrollera() {
-    const svar = svarsfält.value.trim().toLowerCase();
-
-    feedback.hidden = false;
-    feedback.classList.remove("rätt", "fel");
-
-    if (svar === rättSvar.toLowerCase()) {
-        feedback.textContent = "Rätt svar!";
-        feedback.classList.add("rätt");
-    } else {
-        feedback.textContent = `Fel! Rätt svar är ${rättSvar}.`;
-        feedback.classList.add("fel");
-    }
-}
-
-svaraKnapp.addEventListener("click", kontrollera);
-```
-
-- `" stockholm "` räknas som rätt eftersom både svaret och det rätta svaret görs om till små bokstäver, och svaret städas med `trim()`. Det rätta svaret sparas med stor bokstav, så att det ser rätt ut i felmeddelandet.
-- Båda klasserna tas bort innan en ny läggs till. Annars får elementet både `rätt` och `fel` när användaren först svarar fel och sedan rätt.
-- Det som ska hända vid ett svar ligger i funktionen `kontrollera`, som lämnas över till klicklyssnaren utan parenteser.
+I uppgift 2 behöver båda delarna av villkoret testas för sig: ett lag med låg poäng som har vunnit en omgång, och ett lag med minst 30 poäng som inte har det. 29 och 30 visar att gränsen är rätt. Ett `else` behövs inte, eftersom `return` avslutar funktionen.
 
 ## Övning – Vem leder?
 
@@ -552,4 +422,4 @@ svaraKnapp.addEventListener("click", kontrollera);
     });
     ```
 
-    (Funktionen `ledare` från uppgift 1 måste också stå i filen.) `ledare` returnerar texten och `visaLedning` visar den: en funktion bygger texten, en annan visar den.
+    Funktionen `ledare` från uppgift 1 måste också stå i filen. Ändra lagens poäng till 0 i objekten från uppgift 1 i stället för att deklarera `röda` och `blå` en gång till, annars blir det ett `SyntaxError`. `ledare` returnerar texten och `visaLedning` visar den: en funktion bygger texten, en annan visar den.

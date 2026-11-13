@@ -112,7 +112,7 @@ if (poäng >= 50) {
 console.log(besked);   // ReferenceError: besked is not defined
 ```
 
-Ska värdet användas efter blocket deklarerar du variabeln före blocket, med `let`, och ändrar den inuti:
+Ska värdet användas efter blocket deklarerar du variabeln före blocket, med `let`, och ändrar den inuti. Rätta exemplet ovan så här:
 
 ```javascript
 let besked = "Underkänd";
@@ -206,7 +206,7 @@ JavaScript prövar villkoren uppifrån och ned och kör det *första* blocket va
 | `poäng >= 50` | – | Prövas inte |
 | `else` | – | Körs inte |
 
-Det är därför det räcker att skriva `poäng >= 80` för B, utan att också skriva `poäng < 90`. Om JavaScript har kommit fram till det villkoret vet vi redan att det första inte stämde – poängen är alltså under 90.
+Det är därför det räcker att skriva `poäng >= 80` för B, utan att också skriva `poäng < 90`. Om JavaScript har kommit fram till det villkoret vet vi redan att det första inte stämde: poängen är under 90.
 
 Det sista `else` är ett "i alla andra fall"-block och har inget villkor. Det får utelämnas, men är ofta viktigt: det tar hand om allt som de andra vägarna inte täcker.
 
@@ -303,7 +303,7 @@ Varje `if` och varje `else` har sitt eget block, och klammerparenteserna avgör 
 
 ## Early return – sluta tidigt
 
-I en funktion går nästlingen ofta att undvika. `return` avslutar funktionen direkt, så de fall där svaret är nej kan kontrolleras först. Tekniken kallas **early return** ("tidig retur"). Jämför två versioner av samma funktion. Den första är nästlad:
+När ett nästlat villkor står i en funktion går nästlingen ofta att undvika. `return` avslutar funktionen direkt, så funktionen kan börja med att pröva de fall där den ska avbryta, till exempel ett ogiltigt värde eller ett villkor som inte är uppfyllt, och returnera på en gång. Resten av funktionen behöver då inte ligga i ett `else`-block. Tekniken kallas **early return** ("tidig retur"). Jämför två versioner av samma funktion. Den första är nästlad:
 
 ```javascript
 function godkändNästlad(poäng, inlämnadITid) {
@@ -349,7 +349,7 @@ function hälsa(namn) {
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
-1. I den andra versionen av `godkänd` saknas `else`. Varför behövs det inte?
+1. I `godkänd` finns inget `else`. Varför behövs det inte?
 2. Funktionen `godkänd` returnerar ett booleskt värde. Kan du skriva hela kroppen som en enda rad med `return` och `&&`?
 :::
 
@@ -429,10 +429,10 @@ Kontrollerna använder early return: varje felfall visar ett meddelande och avsl
 - Ett **kodblock** har eget scope: en variabel som deklareras inuti blocket finns inte efter det.
 - **Ternäroperatorn** (`villkor ? a : b`) väljer ett av två värden. För flera saker eller fler än två utfall är `if`/`else` tydligare.
 - Ett block kan innehålla en ny `if`-sats, ett **nästlat villkor**. Klammerparenteserna avgör vilket `else` som hör till vilket `if`.
-- **Early return** – att avsluta en funktion så fort svaret är nej – gör att koden inte behöver nästlas.
+- **Early return** – att pröva de fall där funktionen ska avbryta först, och avsluta med `return` – gör att koden inte behöver nästlas.
 - **Kontrollera inmatning** innan du räknar med den: tomt fält, `Number.isNaN` och rimliga gränser.
 
-I kapitel [-@sec-loopar] lär du dig loopar: att upprepa kod, så att programmet kan arbeta sig igenom många värden.
+I nästa kapitel lär du dig att avrunda tal och att slumpa fram dem, så att ett villkor kan bero på till exempel ett tärningskast.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -441,7 +441,7 @@ En `if`/`else if`-kedja är en karta med vägskäl. Ibland är det lättare att 
 
 **Rita flödet:**
 
-> *"Här är min funktion: [klistra in din kod från temperatur- eller betygsövningen]. Rita den som ett flödesschema i text, med en ruta för varje villkor och pilar märkta ja och nej. Lägg inte till något som inte finns i koden."*
+> *"Här är min funktion: [klistra in din kod från någon övning eller uppgift]. Rita den som ett flödesschema i text, med en ruta för varje villkor och pilar märkta ja och nej. Lägg inte till något som inte finns i koden."*
 
 Jämför schemat med vad du *tänkt* att koden ska göra. Finns det en väg som leder fel, eller ett fall som ingen pil tar hand om? Rita gärna ditt eget schema först, och jämför sedan.
 
@@ -588,7 +588,7 @@ Lägg till de här elementen på övningssidan:
 <p id="gästhälsning"></p>
 ```
 
-Vid klick på knappen ska stycket visa "Hej, främling!" när fältet är tomt och "Namnet är för långt." när namnet har fler än 20 tecken. Annars ska det hälsa med namnet. Välj ut och ordna raderna. Två rader ska inte användas.
+Vid klick på knappen ska stycket visa "Hej, främling!" när fältet är tomt och "Namnet är för långt." när namnet har fler än 20 tecken. Annars ska det hälsa med namnet. Välj ut och ordna raderna efter stegen hämta, lyssna, läs, bearbeta och visa. Två rader ska inte användas.
 
 ```javascript
     } else {
@@ -686,6 +686,8 @@ Bygg sedan vidare på koden:
 ::: {.callout-note}
 ## Övning – Temaknappen
 
+Mörkt läge har du byggt förut: med en boolesk variabel i kapitel [-@sec-dom-intro] och med en knapp i kapitel [-@sec-handelser]. Där var det bara klassen som växlade. Nu ska också knappens text visa vilket läge du kommer till, och det kräver ett val mellan två texter, inte bara sant eller falskt.
+
 Lägg till knappen på övningssidan, ovanför `<script>`-elementet, och klassen `dark` i `<style>`-elementet:
 
 ```html
@@ -726,49 +728,20 @@ Vilket av de tre sätten tycker du är tydligast? Varför går det inte att lös
 
 ### Egna sidor
 
-I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
+I resten av övningarna gör du en ny sida för varje övning och bestämmer själv elementen och deras id. Arbeta i samma ordning som tidigare:
+
+1. Gör sidan med ett tomt `<script>`-element sist i `<body>`, och ett `<style>`-element i `<head>` om sidan behöver CSS.
+2. Skriv elementen och kontrollera att sidan ser rätt ut innan du skriver någon JavaScript.
+3. Hämta elementen och skriv ut dem med `console.log`. Står det `null` stämmer selektorn inte med id:t.
+4. Skriv resten av koden ett steg i taget, och prova efter varje steg.
 
 ::: {.callout-note}
 ## Övning – Formulera villkoren
 
-Skriv villkorssatser för följande situationer. Du bestämmer själv variabelnamn och värden att testa med. Skriv koden i en funktion som returnerar resultatet, och testa den med `console.log`.
+Skriv villkorssatser för följande situationer. Skriv varje lösning som en funktion som returnerar resultatet, och testa den med `console.log`.
 
-1. Efter en quizrunda med tio frågor ska laget få ett meddelande: 10 rätt ger "Full pott!", 7–9 rätt "Mycket bra!", 4–6 rätt "Bra kämpat!" och färre än 4 "Bättre lycka nästa gång!".
-2. En webbshop ger fri frakt om ordervärdet är minst 500 kr, *eller* om kunden är medlem. Annars kostar frakten 49 kr. Funktionen ska returnera fraktkostnaden.
-3. En tjänst kräver att användaren är inloggad *och* har bekräftat sin e-postadress *och* inte är avstängd för att få komma in. Funktionen ska returnera ett meddelande som säger vad som saknas, eller "Välkommen!". Använd early return.
-:::
-
-::: {.callout-note}
-## Övning – Temperaturen
-
-Gör övningen i steg och kontrollera att varje steg fungerar innan du går vidare.
-
-1. Skriv en funktion `klassificera(temperatur)` som tar en temperatur i Celsius och returnerar `"kallt"` (under 5°C), `"lagom"` (5–20°C, inklusive) eller `"varmt"` (över 20°C). Testa den i konsolen med −10, 5, 15, 20 och 30. Vilka värden är viktigast att testa, och varför?
-2. Gör en sida med ett fält och en knapp. Visa kategorin och temperaturen, till exempel "lagom (15°C)".
-3. Lägg till tre CSS-klasser, `.kallt`, `.lagom` och `.varmt`, med olika bakgrundsfärger, och ge resultatet rätt klass.
-4. Visa ett felmeddelande om fältet är tomt eller inte innehåller ett tal.
-5. Visa även temperaturen i grader Fahrenheit, med en egen funktion `tillFahrenheit(celsius)`. Uträkningen är `celsius * 1.8 + 32`. Ska `klassificera` ändras för det? Varför inte?
-:::
-
-::: {.callout-note}
-## Övning – Quiz med visuell feedback
-
-Bygg en enkel quizsida med följande HTML:
-
-```html
-<h1>Geografiquiz</h1>
-<p id="fråga">Vad heter Sveriges huvudstad?</p>
-<input type="text" id="svar">
-<button id="svara">Svara</button>
-<p id="feedback" hidden></p>
-```
-
-Skriv CSS-klasserna `.rätt` (grön ram och bakgrund) och `.fel` (röd ram och bakgrund). När användaren klickar på "Svara":
-
-1. Jämför svaret med det korrekta svaret, som du sparar i en variabel.
-2. Om svaret är rätt: visa feedback-elementet med texten "Rätt svar!" och klassen `.rätt`.
-3. Om svaret är fel: visa texten "Fel! Rätt svar är ..." med det korrekta svaret, och klassen `.fel`.
-4. Se till att `" stockholm "` räknas som rätt.
+1. Efter en quizrunda med tio frågor ska laget få ett meddelande: 10 rätt ger "Full pott!", 7–9 rätt "Mycket bra!", 4–6 rätt "Bra kämpat!" och färre än 4 "Bättre lycka nästa gång!". Skriv funktionen `rundmeddelande(antalRätt)`. Vilka antal rätt är viktigast att testa med, och varför?
+2. Ett lag går till finalen om det har minst 30 poäng *eller* om det har vunnit någon av omgångarna. Skriv funktionen `tillFinalen(poäng, harVunnitOmgång)`, som returnerar "Till finalen!" eller "Ingen final den här gången." beroende på svaret. Testa med minst fyra kombinationer av argument.
 :::
 
 ::: {.callout-note}

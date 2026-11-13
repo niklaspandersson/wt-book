@@ -39,3 +39,9 @@ Kapitlet gjordes om igen i november 2026 (OUTLINE.md, *Iteration: händelser i D
 Kapitlet gjordes om i november 2026. Formulärhändelserna och kryssrutorna är borta, och anmälningsformuläret kontrolleras vid klick på *Anmäl*, utan funktionen `uppdatera`.
 
 - **kap-objekt.qmd, rad 442.** "Det är samma upplägg som funktionen `uppdatera` i kapitel [-@sec-booleska]." Funktionen finns inte längre. Stryk jämförelsen.
+
+## Till kapitel 11, *Villkorssatser* (`sec-villkor`)
+
+Övningarna *Temperaturen* och *Quiz med visuell feedback* är borttagna i november 2026, så att kapitlet bara har två övningar under *Egna sidor*.
+
+- **kap17-manga-element.qmd, övningen *Svara med Enter*.** Bygger vidare på studentens lösning till *Quiz med visuell feedback*, som inte finns längre. Ge övningen den HTML och kod den behöver, eller bygg den på en sida från ett befintligt kapitel 11-avsnitt.

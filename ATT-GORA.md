@@ -18,6 +18,8 @@
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
 - **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Kap. 1–4, 9 och 10 är klara. Se över de övriga i samband med kortningen av varje kapitel.
 - **En ordlista svenska–engelska** (PEDAGOGIK §6) saknas. Felmeddelanden och MDN är på engelska (*call, argument, return value, method* …).
+- **Alla övningar ska göras.** Kapitlen ska ha så få övningar att studenten kan göra alla, utan undantag. Kap. 11 har därför två övningar under *Egna sidor*. Se över antalet i de andra kapitlen när de granskas.
+- **Ett projektkapitel sist i Del I** med förslag på små projekt att öva på, för den som vill ha mer. Varje projekt anger vilka kapitel det förutsätter.
 - **Del I-sammanfattningen** är bara en kort text. Den kunde bli ett repetitionskapitel med blandade övningar från hela Del I (PEDAGOGIK §8).
 
 ## Enhetlighet i Del I
@@ -30,6 +32,7 @@ Kap. 11, 13, 14 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 9 och 10
 - **Övningssidor.** Kap. 9 har nu en skelettsida, och varje avsnitt och övning visar sin HTML (se *Practice page* i CLAUDE.md). Avgör för kap. 17 (59 rader) om exemplen bygger en sammanhängande sida eller är fristående. Är de fristående, gör om dem på samma sätt.
 - **"Töm `<script>`-elementet".** Kap. 13 och 14 ber studenten tömma skriptet mellan exemplen. Studenten ska i stället ha kvar all kod: namn som krockar byts, jämförelser mellan två versioner får olika namn eller sägs vara till för läsning, och övningar som bygger om tidigare kod säger "ändra" (se *Practice page* i CLAUDE.md). Kap. 10 och 11 är gjorda.
 - **Övningarnas element på övningssidan.** Övningssidan ska bara innehålla det som exemplen behöver. Element och CSS som bara övningar använder visas i övningen, så att sidan inte börjar som en vägg av kod (se *Practice page* i CLAUDE.md). Se över kap. 6, 7, 13, 14 och 17. Kap. 10 och 11 är gjorda.
+- **Stegen för egna sidor står i kapitlet.** Avsnittet *Egna sidor* ska ge stegen på plats, i kortform (se kap. 10 och 11), i stället för att hänvisa till kap. 9. Gäller kap. 13, 14, 17 och objektkapitlet. Gör det när kapitlet granskas.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7, 9 → 10 → 11 → 12 och 14 → 15 → 16 → 17 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Lösa hänvisningar till quizkvällen
