@@ -60,7 +60,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 10 Sant och falskt
 
-- **Truthy och falsy** står kvar som *Bra att veta*-ruta, men ingen övning eller senare kapitel i Del I använder begreppen.
+- **Truthy och falsy blir ett eget avsnitt** i stället för *Bra att veta*-rutan. Studenterna möter `if (namn)` och `if (!namn)` ofta i andras kod, så de ska kunna läsa det, även om boken själv fortsätter att skriva ut frågan (`namn === ""`) så länge värdet är en sträng från `.value`. Avsnittet tar upp vilka värden som är falsy, fällan att `0` är falsy (`if (!poäng)` underkänner 0 poäng) och att `" "` och `"0"` är truthy (så `trim()` behövs ändå). Det bör också få en *Stanna upp*-fråga och en läsövning med lösning. Senare, där `null` och `undefined` dyker upp i Del II (`getAttribute`, `localStorage`, `querySelector` som inte hittar något), kan kortformen användas och `??` introduceras.
 
 ### Kap. 11 Villkorssatser
 

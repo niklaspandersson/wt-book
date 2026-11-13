@@ -97,10 +97,30 @@ const inlämnadITid = true;
 
 if (poäng >= 50 && inlämnadITid) {
     console.log("Godkänd");
+    console.log("Kursen är klar!");
 }
 ```
 
-Klammerparenteserna avgränsar ett **kodblock**. Alla rader inuti blocket körs, eller hoppas över, tillsammans. Skriv alltid klammerparenteserna, även om blocket bara innehåller en enda rad. Det gör koden tydligare och förebygger misstag när du lägger till rader senare.
+Klammerparenteserna avgränsar ett **kodblock**. Ett block kan innehålla hur många satser som helst, och alla körs, eller hoppas över, tillsammans. Skriv alltid klammerparenteserna, även om blocket bara innehåller en enda rad. Det gör koden tydligare och förebygger misstag när du lägger till rader senare.
+
+Ett kodblock har också sitt eget scope, precis som en funktion (kapitel [-@sec-funktioner]). En variabel som deklareras med `let` eller `const` inuti blocket finns bara där:
+
+```javascript
+if (poäng >= 50) {
+    const besked = "Godkänd";
+}
+console.log(besked);   // ReferenceError: besked is not defined
+```
+
+Ska värdet användas efter blocket deklarerar du variabeln före blocket, med `let`, och ändrar den inuti:
+
+```javascript
+let besked = "Underkänd";
+if (poäng >= 50) {
+    besked = "Godkänd";
+}
+console.log(besked);   // Godkänd
+```
 
 ::: {.callout-note}
 ## Indentering
@@ -119,6 +139,7 @@ if (poäng >= 50) {
     console.log("Godkänd");
 } else {
     console.log("Underkänd");
+    console.log("Du kan anmäla dig till omprov.");
 }
 ```
 
@@ -159,6 +180,7 @@ Ibland räcker det inte med två utfall. Betygsskalan har sex steg: F, E, D, C, 
 ```javascript
 if (poäng >= 90) {
     console.log("Betyg: A");
+    console.log("Bra jobbat!");
 } else if (poäng >= 80) {
     console.log("Betyg: B");
 } else if (poäng >= 70) {
@@ -169,6 +191,7 @@ if (poäng >= 90) {
     console.log("Betyg: E");
 } else {
     console.log("Betyg: F – underkänd");
+    console.log("Nästa omprov är i augusti.");
 }
 ```
 
@@ -260,7 +283,7 @@ Ternäroperatorn passar när ett av två värden ska väljas. Den passar *inte* 
 
 ## Nästlade villkor
 
-Ett block kan innehålla en ny `if`-sats. Det kallas **nästlade villkor**:
+Ett block kan innehålla vilken kod som helst: variabeldeklarationer, funktionsanrop och även en ny `if`-sats. En `if`-sats inuti en annan kallas ett **nästlat villkor**:
 
 ```javascript
 if (poäng >= 50) {
@@ -403,6 +426,7 @@ Kontrollerna använder early return: varje felfall visar ett meddelande och avsl
 
 - **`if`** kör ett block om villkoret är sant, **`else`** om det är falskt, och **`else if`**-kedjor täcker flera utfall. Villkoren prövas uppifrån och ned, och bara det första blocket vars villkor är sant körs.
 - Villkoret kan kombinera frågor med **logiska operatorer**.
+- Ett **kodblock** har eget scope: en variabel som deklareras inuti blocket finns inte efter det.
 - **Ternäroperatorn** (`villkor ? a : b`) väljer ett av två värden. För flera saker eller fler än två utfall är `if`/`else` tydligare.
 - Ett block kan innehålla en ny `if`-sats, ett **nästlat villkor**. Klammerparenteserna avgör vilket `else` som hör till vilket `if`.
 - **Early return** – att avsluta en funktion så fort svaret är nej – gör att koden inte behöver nästlas.
@@ -491,7 +515,7 @@ console.log(biljettpris(70));
 ::: {.callout-note}
 ## Övning – Fyra trasiga villkor
 
-Var och en av snuttarna nedan innehåller ett fel. Skriv `let quizpoäng = 73;` sist i `<script>`-elementet och prova snuttarna en i taget under den. Förutsäg först: kommer det ett felmeddelande, eller körs koden men gör fel? Rätta varje snutt (fråga 3) innan du lägger till nästa.
+Var och en av snuttarna nedan innehåller ett fel. Skriv `let quizpoäng = 73;` sist i `<script>`-elementet och prova snuttarna en i taget under den. Förutsäg först vad som händer. Rätta varje snutt (fråga 3) innan du lägger till nästa.
 
 ```javascript
 // A
@@ -511,9 +535,12 @@ if (quizpoäng >= 50) {
 
 ```javascript
 // C
-if (quizpoäng = 100) {
-    console.log("Full pott!");
+if (quizpoäng >= 50) {
+    let quizbesked = "Godkänd";
+} else {
+    let quizbesked = "Underkänd";
 }
+console.log(quizbesked);
 ```
 
 ```javascript
@@ -523,7 +550,7 @@ if (quizpoäng >= 50) {
 ```
 
 1. Tre av snuttarna ger ett `SyntaxError`. Vilka? Skrivs "Skriptet körs!" ut, eller något från din tidigare kod, när skriptet innehåller ett `SyntaxError`? Vad säger det om när JavaScript upptäcker den sortens fel?
-2. En snutt ger inget felmeddelande, men gör fel. Vilken, och vilket värde har `quizpoäng` efteråt?
+2. Den fjärde snutten ger ett annat fel. Vilket? Körs din tidigare kod den här gången? Förklara felet med ordet *scope*.
 3. Rätta alla fyra.
 :::
 

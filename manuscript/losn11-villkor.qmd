@@ -21,7 +21,7 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
     | `poäng >= 50` | `true` | `Betyg: E` skrivs ut |
     | `else` | – | körs inte |
 
-    Fem villkor prövas. Med `poäng` 12 blir alla fem villkoren `false`, och `else`-blocket körs: `Betyg: F – underkänd`. Också där prövas fem villkor, men inget av dem stämmer.
+    Fem villkor prövas. Med `poäng` 12 blir alla fem villkoren `false`, och `else`-blocket körs: `Betyg: F – underkänd` och `Nästa omprov är i augusti.` skrivs ut. Också där prövas fem villkor, men inget av dem stämmer.
 
 2. Nej. Kedjan kör bara det *första* blocket vars villkor är sant, och hoppar sedan över resten. Även om 95 poäng också är minst 80, prövas det villkoret aldrig.
 
@@ -109,11 +109,11 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
 |---|---|
 | A | `SyntaxError` – parenteserna runt villkoret saknas |
 | B | `SyntaxError` – `else` kan inte ha ett villkor |
-| C | inget felmeddelande, men `Full pott!` skrivs ut |
+| C | `ReferenceError` – `quizbesked` finns inte efter blocken |
 | D | `SyntaxError` – den avslutande klammerparentesen saknas |
 
 1. A, B och D ger `SyntaxError`. Varken "Skriptet körs!" eller något från din tidigare kod skrivs ut när skriptet innehåller ett sådant fel. JavaScript läser igenom hela filen innan något körs, och hittar den ett syntaxfel körs ingenting alls – inte ens raderna före felet. (Felmeddelandet för D brukar vara *Unexpected end of input*: filen tog slut medan blocket fortfarande var öppet.)
-2. C. `quizpoäng = 100` är en tilldelning, inte en jämförelse. Den ändrar `quizpoäng` till 100, och tilldelningen ger själv värdet 100, som räknas som sant. Efteråt pekar `quizpoäng` på `100`, och *Full pott!* skrivs ut oavsett vad poängen var.
+2. C ger `ReferenceError: quizbesked is not defined`. Det är inget syntaxfel, så skriptet körs: din tidigare kod körs, och felet uppstår först när JavaScript kommer till raden med `console.log`. De två variablerna `quizbesked` är deklarerade inuti varsitt block, och deras scope är det blocket. När blocket är klart finns variabeln inte längre, så på raden efter blocken finns ingen `quizbesked` att läsa.
 3. Rättade:
 
     ```javascript
@@ -134,9 +134,13 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
 
     ```javascript
     // C
-    if (quizpoäng === 100) {
-        console.log("Full pott!");
+    let quizbesked;
+    if (quizpoäng >= 50) {
+        quizbesked = "Godkänd";
+    } else {
+        quizbesked = "Underkänd";
     }
+    console.log(quizbesked);
     ```
 
     ```javascript
@@ -145,6 +149,8 @@ Lösningar till övningarna i kapitel [-@sec-villkor].
         console.log("Godkänd");
     }
     ```
+
+    I C kan hela `if`/`else`-satsen också bytas mot ternäroperatorn: `const quizbesked = quizpoäng >= 50 ? "Godkänd" : "Underkänd";`.
 
     I B går det också att skriva `else if (quizpoäng < 50)`, men det villkoret är onödigt: kommer programmet dit vet vi redan att poängen är under 50.
 
