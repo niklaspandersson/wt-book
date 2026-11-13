@@ -71,8 +71,9 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
 ## Så provar du koden i det här kapitlet
 
 - Korta jämförelser som `10 > 5;` provar du enklast direkt i konsolen, där svaret syns direkt.
-- Exempel och övningar som hämtar element från sidan skriver du i `<script>`-elementet. Alla element de använder finns redan på övningssidan.
-- Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning.
+- Exempel och övningar som hämtar element från sidan skriver du i `<script>`-elementet. Alla element som exemplen använder finns redan på övningssidan. Behöver en övning fler element visar den dem. Lägg in dem ovanför `<script>`-elementet.
+- Skriv koden efter varandra i `<script>`-elementet, så har du kvar allt du har provat. Ge variablerna i dina egna lösningar namn som inte redan finns i skriptet.
+- Om en ny snutt ger ett felmeddelande när sidan laddas kan resten av skriptet sluta fungera. Rätta felet innan du går vidare.
 :::
 
 ---
@@ -170,7 +171,7 @@ Gör därför om sådana strängar till tal med `Number()` innan du jämför (ka
 
 ## Logiska operatorer
 
-Ibland beror svaret på en fråga på *flera* saker samtidigt. Får laget anmäla sig? Det kräver kanske både att laget har ett namn *och* att antalet deltagare är rimligt. **Logiska operatorer** kombinerar booleska värden till ett nytt booleskt värde.
+Ibland beror svaret på en fråga på *flera* saker samtidigt. Får laget anmäla sig? Det kräver kanske både att laget har ett namn *och* att det har betalat avgiften. **Logiska operatorer** kombinerar booleska värden till ett nytt booleskt värde.
 
 ### `&&` – och
 
@@ -178,12 +179,12 @@ Ibland beror svaret på en fråga på *flera* saker samtidigt. Får laget anmäl
 
 ```javascript
 const harNamn = true;
-const giltigtAntal = false;
+const harBetalt = false;
 
-const kanAnmäla = harNamn && giltigtAntal;   // false
+const kanAnmäla = harNamn && harBetalt;   // false
 ```
 
-Laget får anmäla sig bara om det har ett namn *och* antalet är giltigt. Här är antalet inte giltigt, så hela uttrycket blir `false`, även om laget har ett namn.
+Laget får anmäla sig bara om det har ett namn *och* har betalat. Här har laget inte betalat, så hela uttrycket blir `false`, även om laget har ett namn.
 
 | `a`     | `b`     | `a && b` |
 |---------|---------|----------|
@@ -234,7 +235,11 @@ const måsteAnmäla = !harAnmält;   // true
 Operatorerna kan kombineras till längre uttryck. Använd parenteser för att visa vilka delar som hör ihop, på samma sätt som i en uträkning:
 
 ```javascript
-const fårKomma = harBiljett && (ärÖver18 || harMålsman);
+const harBiljett = true;
+const ärÖver18 = false;
+const harMålsman = true;
+
+const fårKomma = harBiljett && (ärÖver18 || harMålsman);   // true
 ```
 
 Läs uttrycket högt: "har biljett, *och* antingen över 18 eller har målsman med sig". Parenteserna gör att `||` räknas ut först. Utan dem räknar JavaScript `&&` före `||`, och uttrycket betyder något annat. Sätt därför ut parenteserna när du blandar `&&` och `||`, även när du tror att de inte behövs.
@@ -260,7 +265,7 @@ Det betyder att du i andras kod kan se ett namn, som `namn`, där du hade vänta
 
 ## Booleska egenskaper på webbsidan
 
-Många egenskaper hos element på sidan är booleska, som `hidden`. Du kan tilldela dem *svaret på en fråga* i stället för ett fast värde, så anpassar sig sidan själv:
+Många egenskaper hos element på sidan är booleska, som `hidden`. Du kan tilldela dem *svaret på en fråga* i stället för ett fast värde, så anpassar sig sidan själv. Elementen i avsnittets exempel finns inte på övningssidan, så exemplen är bara till för att läsas:
 
 ```javascript
 hjälpElement.hidden = poäng >= 50;                   // dölj hjälpen för den som är godkänd
@@ -425,18 +430,18 @@ Läs sedan varje rad högt med orden *och*, *eller* och *inte*. Vilka rader blev
 Förutsäg vad som skrivs ut, innan du kör koden.
 
 ```javascript
-let svar = "Göteborg";
+let gissning = "Göteborg";
 
-const ärRätt1 = svar === "Stockholm";
-console.log(ärRätt1, svar);
+const ärRätt1 = gissning === "Stockholm";
+console.log(ärRätt1, gissning);
 
-const ärRätt2 = svar = "Stockholm";
-console.log(ärRätt2, svar);
+const ärRätt2 = gissning = "Stockholm";
+console.log(ärRätt2, gissning);
 ```
 
 1. Läs de två raderna som börjar med `const ärRätt` högt. Vad är skillnaden?
 2. Koden ger inget felmeddelande. Varför är det här felet ändå farligt?
-3. Ändra den första raden till `const svar = "Göteborg";` och kör igen. Vad händer nu, och varför?
+3. Ändra den första raden till `const gissning = "Göteborg";` och kör igen. Vad händer nu, och varför? Ändra sedan tillbaka till `let`.
 :::
 
 ::: {.callout-note}
@@ -459,7 +464,7 @@ Utgå från avsnittet *Anmälningsformuläret*. I varje fall nedan skriver anvä
 ::: {.callout-note}
 ## Övning – Vad gick fel?
 
-Varje snutt ska svara `true` eller `false` på en fråga, men ingen av dem gör det. Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande. Testa sedan en snutt i taget i `<script>`-elementet på övningssidan.
+Varje snutt ska svara `true` eller `false` på en fråga, men ingen av dem gör det. Förutsäg för varje snutt om det blir ett felmeddelande eller ett felaktigt värde utan felmeddelande. Testa sedan en snutt i taget i `<script>`-elementet på övningssidan, och rätta varje snutt (fråga 3) innan du lägger till nästa.
 
 ```javascript
 // A – får laget anmäla sig (högst sex deltagare)?
@@ -470,9 +475,9 @@ console.log(fårAnmäla);
 
 ```javascript
 // B – har laget exakt sex deltagare?
-let antalDeltagare = 4;
-const ärFulltLag = antalDeltagare = 6;
-console.log(ärFulltLag, antalDeltagare);
+let lagstorlek = 4;
+const harSexDeltagare = lagstorlek = 6;
+console.log(harSexDeltagare, lagstorlek);
 ```
 
 ```javascript
@@ -498,16 +503,21 @@ console.log(giltigPoäng);
 ::: {.callout-note}
 ## Övning – Förklara koden
 
-Läs koden. Den använder textfältet med id `svar` och knappen med id `skicka` på övningssidan.
+Läs koden. Den använder de här elementen:
+
+```html
+<input type="text" id="kommentar" placeholder="Din kommentar">
+<button id="spara">Spara</button>
+```
 
 ```javascript
-const fält = document.querySelector("#svar");
-const knapp = document.querySelector("#skicka");
+const kommentarfält = document.querySelector("#kommentar");
+const sparaKnapp = document.querySelector("#spara");
 
-knapp.addEventListener("click", () => {
-    const harSvarat = fält.value.trim() !== "";
-    fält.disabled = harSvarat;
-    knapp.disabled = harSvarat;
+sparaKnapp.addEventListener("click", () => {
+    const harSkrivit = kommentarfält.value.trim() !== "";
+    kommentarfält.disabled = harSkrivit;
+    sparaKnapp.disabled = harSkrivit;
 });
 ```
 

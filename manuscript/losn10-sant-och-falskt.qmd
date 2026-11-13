@@ -64,9 +64,9 @@ false Göteborg
 Stockholm Stockholm
 ```
 
-1. `const ärRätt1 = svar === "Stockholm";` läses *låt `ärRätt1` peka på svaret på frågan: är `svar` lika med Stockholm?* `const ärRätt2 = svar = "Stockholm";` läses *låt `svar` peka på Stockholm, och låt sedan `ärRätt2` peka på samma värde.* Den andra raden frågar ingenting – den ändrar `svar`.
-2. En tilldelning ger själv ett värde: det värde som tilldelades. Raden ser ut som en fråga, men den ändrar svaret till rätt svar och ger dessutom ett värde som inte är `false`. Felet syns inte där det sker. Det märks först senare, när `svar` har fel värde och alla svar räknas som rätt.
-3. Nu får du `TypeError: Assignment to constant variable.` på raden med `ärRätt2`. Den första utskriften hinner köras, men sedan stoppar `const` försöket att tilldela om `svar`. Det är en fördel med `const`: misstaget ger ett felmeddelande i stället för att tyst ändra värdet.
+1. `const ärRätt1 = gissning === "Stockholm";` läses *låt `ärRätt1` peka på svaret på frågan: är `gissning` lika med Stockholm?* `const ärRätt2 = gissning = "Stockholm";` läses *låt `gissning` peka på Stockholm, och låt sedan `ärRätt2` peka på samma värde.* Den andra raden frågar ingenting – den ändrar `gissning`.
+2. En tilldelning ger själv ett värde: det värde som tilldelades. Raden ser ut som en fråga, men den ändrar gissningen till rätt svar och ger dessutom ett värde som inte är `false`. Felet syns inte där det sker. Det märks först senare, när `gissning` har fel värde och alla gissningar räknas som rätt.
+3. Nu får du `TypeError: Assignment to constant variable.` på raden med `ärRätt2`. Den första utskriften hinner köras, men sedan stoppar `const` försöket att tilldela om `gissning`. Det är en fördel med `const`: misstaget ger ett felmeddelande i stället för att tyst ändra värdet.
 
 ## Övning – Spåra formuläret
 
@@ -90,7 +90,7 @@ Några fall att titta närmare på:
 ## Övning – Vad gick fel?
 
 1. A och D ger `SyntaxError` när sidan laddas, så inget i skriptet körs, inte heller `console.log`. I A finns ingen operator `=<` – den heter `<=`, med likhetstecknet sist. I D står `<= 100` utan något till vänster: varje jämförelse behöver två sidor, också efter `&&`.
-2. B ger `6 6`: `antalDeltagare = 6` är en tilldelning. Den ändrar `antalDeltagare` till 6, och värdet 6 hamnar i `ärFulltLag`, som skulle ha blivit `false`. C ger `false`, fast 10 är större än 9: strängarna jämförs tecken för tecken, och `"1"` kommer före `"9"`.
+2. B ger `6 6`: `lagstorlek = 6` är en tilldelning. Den ändrar `lagstorlek` till 6, och värdet 6 hamnar i `harSexDeltagare`, som skulle ha blivit `false`. C ger `false`, fast 10 är större än 9: strängarna jämförs tecken för tecken, och `"1"` kommer före `"9"`.
 3. Rättade:
 
     ```javascript
@@ -100,7 +100,7 @@ Några fall att titta närmare på:
 
     ```javascript
     // B
-    const ärFulltLag = antalDeltagare === 6;
+    const harSexDeltagare = lagstorlek === 6;
     ```
 
     ```javascript
@@ -115,8 +115,8 @@ Några fall att titta närmare på:
 
 ## Övning – Förklara koden
 
-1. *När användaren har skrivit ett svar och klickar på knappen låses både fältet och knappen, så att svaret inte går att ändra eller skicka igen.*
-2. Ingenting händer. `trim()` tar bort mellanslagen, så `fält.value.trim()` blir den tomma strängen, och `harSvarat` blir `false`. Fältet och knappen får `disabled` satt till `false`, alltså påslagna, precis som de redan var.
+1. *När användaren har skrivit en kommentar och klickar på Spara låses både fältet och knappen, så att kommentaren inte går att ändra eller spara igen.*
+2. Ingenting händer. `trim()` tar bort mellanslagen, så `kommentarfält.value.trim()` blir den tomma strängen, och `harSkrivit` blir `false`. Fältet och knappen får `disabled` satt till `false`, alltså påslagna, precis som de redan var.
 
 ## Övning – Ordna raderna
 
