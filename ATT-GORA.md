@@ -98,10 +98,6 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 - **Överlapp med `kap-handelser-djupet.qmd`.** Bubbling och delegering förklaras nu i Del I. Kapitlet i Del II har samma innehåll och behöver bara propageringens faser, `preventDefault` och `removeEventListener` (se OUTLINE.md).
 
-### Kap. 12 *Avrunda och slumpa*
-
-- **Villkorssatser kan användas** nu när kapitlet kommer efter kap. 11. Se över om någon övning blir bättre med `if`, till exempel en tärning som säger till vid en sexa eller en avrundning som jämförs med ett gränsvärde.
-
 ### Minikapitlen (kap. 3, 5, 8, 12, 15 och 16)
 
 - **Stegtabellen för kedjade metoder** står kvar i brödtexten i *Skapa och ändra strängar*. Enligt formatet för minikapitel och regeln om lösta exempel kunde den flyttas till övningen *Spåra strängarna*. Författaren avgör.

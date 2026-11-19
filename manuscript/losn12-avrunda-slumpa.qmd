@@ -12,7 +12,7 @@ Lösningar till övningarna i kapitel [-@sec-avrunda-slumpa].
 Math.round(2.5);                  // 3 – ett halvt avrundas uppåt
 Math.round(2.49);                 // 2
 Math.floor(9.99);                 // 9
-Math.floor(150 / 40) * 40;        // 120 – tre hela biljetter à 40 kr
+Math.floor(50 / 20) * 20;         // 40 – två hela biljetter à 20 kr
 Math.random() < 0.5;              // true eller false
 Math.floor(Math.random() * 2);    // 0 eller 1
 ```
@@ -34,8 +34,13 @@ De två sista raderna ger varje utfall ungefär varannan gång. Båda kan använ
 2. En tärning med tio sidor:
 
     ```javascript
-    Math.floor(Math.random() * 10) + 1;
+    const tiosidig = Math.floor(Math.random() * 10) + 1;
+    if (tiosidig === 10) {
+        console.log("Tio!");
+    }
     ```
+
+    Kör koden flera gånger. `Tio!` kommer upp ungefär var tionde gång.
 
 3. Med `Math.round` i stället:
 
@@ -45,14 +50,14 @@ De två sista raderna ger varje utfall ungefär varannan gång. Båda kan använ
     | 0.5 | 3 | 3 | 4 |
     | 0.95 | 5.7 | 6 | 7 |
 
-    Med `Math.round` kan tärningen visa `7`, eftersom tal från 5.5 och uppåt avrundas till 6. Talen 1 till 7 kan alltså komma upp. Dessutom blir de inte lika vanliga: 1 kommer bara upp när slumptalet gånger 6 är under 0.5, och 7 bara när det är minst 5.5 – ett halvt så stort område som för de andra talen. En sådan tärning är både felaktig och orättvis.
+    Med `Math.round` kan tärningen visa `7`, eftersom tal från 5.5 och uppåt avrundas till 6. Talen 1 till 7 kan alltså komma upp. Dessutom kommer 1 och 7 upp bara hälften så ofta som de andra talen. En sådan tärning är både felaktig och orättvis.
 
 ## Övning – Vad säger felet?
 
 1. A ger `TypeError: Math.Floor is not a function`. Metoden heter `floor` med litet f. `Math` har ingen egenskap `Floor`, så värdet blir `undefined`, som inte går att anropa.
 2. De andra:
    - B ger alltid `NaN`. `Math.random` utan parenteser är funktionen själv, inte ett slumptal, och en funktion gånger 6 går inte att räkna ut.
-   - C ger alltid `1`. `Math.floor(Math.random())` avrundar slumptalet nedåt innan det skalas, och ett tal under 1 avrundat nedåt är alltid 0. `0 * 6 + 1` är 1.
+   - C ger alltid `1`. `Math.floor(Math.random())` ger närmaste heltal nedåt från slumptalet innan det skalas, och för ett tal under 1 är det alltid 0. `0 * 6 + 1` är 1.
 3. Alla tre rättade blir samma uttryck:
 
     ```javascript
@@ -61,6 +66,6 @@ De två sista raderna ger varje utfall ungefär varannan gång. Båda kan använ
 
 ## Övning – Slå upp själv
 
-1. `Math.ceil` avrundar uppåt. Den tar emot ett tal och returnerar det minsta heltalet som är lika med eller större än talet.
-2. `Math.ceil(128 / 50)` ger `3`: 128 delat med 50 är 2.56, och 2.56 avrundat uppåt är 3.
-3. Med 128 deltagare hade `Math.round` också gett 3. Med 120 deltagare (2.4) hade `Math.round` gett 2 bussar – och 20 personer hade fått stå kvar. `Math.ceil` ger 3 i båda fallen.
+1. `Math.ceil` tar emot ett tal och returnerar närmaste heltal uppåt.
+2. `Math.ceil(26 / 10)` ger `3`: 26 delat med 10 är 2.6, och närmaste heltal uppåt från 2.6 är 3.
+3. Med 26 bullar hade `Math.round` också gett 3. Med 24 bullar (2.4) hade `Math.round` gett 2 påsar – och 4 bullar hade blivit utan påse. `Math.ceil` ger 3 i båda fallen.
