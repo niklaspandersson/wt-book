@@ -77,7 +77,7 @@ Elementet förblir dolt på rad 7, eftersom inget har ändrat `hidden` tillbaka.
 
 **Del B.** JavaScript skiljer på stora och små bokstäver, så `textcontent` och `textContent` är två olika namn. Elementobjektet har ingen egenskap `textcontent`, men precis som med andra objekt skapas en ny egenskap när du tilldelar den. Objektet får alltså en ny egenskap som ingen bryr sig om, och den riktiga `textContent` är oförändrad. Därför syns ingen ändring, och det blir inget fel.
 
-**Del C.** `TypeError: document.querySelektor is not a function`. Det är ett `TypeError`, inte ett `ReferenceError`. Objektet `document` finns, men det har ingen egenskap `querySelektor`, så värdet blir `undefined`, och `undefined` går inte att köra. Det är samma fel som `Math.Max(4, 9)`. Ett `ReferenceError` hade det blivit om själva objektnamnet var fel, till exempel `dokument.querySelector(…)`.
+**Del C.** `classList.add` tar emot klassens *namn*, utan punkt. Punkten hör till CSS-selektorer, där den betyder "klassen". Elementet får därför klassen `.markerad`, med punkten som en del av namnet: i *Elements* står `class=".markerad"`. CSS-regeln letar efter klassen `markerad` och hittar den inte. Rätta raden till `element.classList.add("markerad");`.
 
 ## Övning – Förklara koden
 

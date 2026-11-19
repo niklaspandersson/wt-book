@@ -33,6 +33,12 @@ Kap. 11, 13, 14 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 9 och 10
 - **"Töm `<script>`-elementet".** Kap. 13 och 14 ber studenten tömma skriptet mellan exemplen. Studenten ska i stället ha kvar all kod: namn som krockar byts, jämförelser mellan två versioner får olika namn eller sägs vara till för läsning, och övningar som bygger om tidigare kod säger "ändra" (se *Practice page* i CLAUDE.md). Kap. 10 och 11 är gjorda.
 - **Övningarnas element på övningssidan.** Övningssidan ska bara innehålla det som exemplen behöver. Element och CSS som bara övningar använder visas i övningen, så att sidan inte börjar som en vägg av kod (se *Practice page* i CLAUDE.md). Se över kap. 6, 7, 13, 14 och 17. Kap. 10 och 11 är gjorda.
 - **Stegen för egna sidor står i kapitlet.** Avsnittet *Egna sidor* ska ge stegen på plats, i kortform (se kap. 10 och 11), i stället för att hänvisa till kap. 9. Gäller kap. 13, 14, 17 och objektkapitlet. Gör det när kapitlet granskas.
+- **Felövningarna** (*Vad säger felet?*) ska bara visa fel som hör till kapitlets ämne (se *Find-the-error exercises* i CLAUDE.md). Kap. 1–12 är gjorda. Kvar, när kapitlen granskas:
+  - Kap. 15: alla tre snuttarna upprepar fel från kap. 6 och 9 (händelsenamnet, `e` som saknas, fel skiftläge i en egenskap). Stryk övningen, eller ersätt den med fel som hör till tangenterna, till exempel `e.key === "a"` när Skift är nedtryckt eller `"Space"` i stället för `" "`.
+  - Kap. 16: snutt B (`mouseMove`) upprepar kap. 9. Stryk den; A och C hör till kapitlet.
+  - Kap. 17: snutt C, se kap. 17 nedan.
+  - Objektkapitlet: snutt B (`pong`) är ett stavfel, och A (`lag[2]` utanför arrayen) upprepar kap. 14. Byt mot fel som hör till objekt.
+  - Ingen felövning varierar formen ännu. Överväg i kap. 13 eller 14 en övning där studenten lägger till `console.log` för att hitta var ett värde blir fel.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7, 9 → 10 → 11 → 12 och 14 → 15 → 16 → 17 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Lösa hänvisningar till quizkvällen

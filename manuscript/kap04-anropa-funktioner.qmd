@@ -339,7 +339,7 @@ Några av namnen har du inte sett förut. Kan du ändå avgöra vad raderna är?
 Var och en av raderna innehåller ett fel. Läs dem *utan* att köra dem och förutsäg för varje rad: blir det ett `ReferenceError`, ett `TypeError`, ett `SyntaxError` – eller inget fel alls? Kör sedan raderna en i taget och jämför med felmeddelandena.
 
 ```javascript
-Console.log("Hej!");
+max(4, 9);
 Math.mx(4, 9);
 alert "Hej!";
 Math.max(4, 9;

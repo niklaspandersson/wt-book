@@ -86,7 +86,7 @@ Regeln: parenteser betyder att något körs, och en punkt framför betyder att d
 
 | Rad | Fel | Det som pekar ut felet |
 |---|---|---|
-| `Console.log("Hej!");` | `ReferenceError: Console is not defined` | namnet `Console`, med stort C |
+| `max(4, 9);` | `ReferenceError: max is not defined` | namnet `max` |
 | `Math.mx(4, 9);` | `TypeError: Math.mx is not a function` | `Math.mx` – namnet före parenteserna |
 | `alert "Hej!";` | `SyntaxError: Unexpected string` | *string*: en sträng står där JavaScript inte väntade sig en |
 | `Math.max(4, 9;` | `SyntaxError: missing ) after argument list` | *missing )* – en parentes saknas |
@@ -94,7 +94,7 @@ Regeln: parenteser betyder att något körs, och en punkt framför betyder att d
 
 Raden utan felmeddelande är `prompt;`. Parenteserna saknas, så funktionen körs aldrig. Konsolen visar bara själva funktionen, och ingen ruta dyker upp.
 
-Lägg märke till skillnaden mellan de två första. `Console` finns inte alls, och det ger ett `ReferenceError`. `Math` finns, men det saknar egenskapen `mx`, och försöket att köra `undefined` ger ett `TypeError`. Exakt hur meddelandena är formulerade kan skilja sig lite mellan webbläsare.
+De två första raderna ger olika sorters fel. `max` är en metod i `Math`, inte en fri funktion, så utan `Math.` finns namnet inte alls, och det ger ett `ReferenceError`. `Math` finns, men det saknar egenskapen `mx`, och försöket att köra `undefined` ger ett `TypeError`. Exakt hur meddelandena är formulerade kan skilja sig lite mellan webbläsare.
 
 ## Övning – Förklara koden
 

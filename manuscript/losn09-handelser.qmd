@@ -55,10 +55,9 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 |---|---|---|
 | A | `Hej!` skrivs ut en gång när sidan laddas, men aldrig vid klick | inget felmeddelande |
 | B | ingenting händer, varken vid laddning eller klick | inget felmeddelande |
-| C | felmeddelande när sidan laddas | `TypeError: felKnapp.addEventlistener is not a function` |
-| D | felmeddelande vid varje klick | `ReferenceError: e is not defined` |
+| C | felmeddelande vid varje klick | `ReferenceError: e is not defined` |
 
-1. Snutt C ger ett `TypeError` när sidan laddas. Ordet som pekar ut felet är `addEventlistener`: det ska vara stort L. Knappen finns, men den har ingen metod med det namnet. Snutt D laddas utan fel, men ger ett `ReferenceError` vid varje klick, när callbacken körs. Ordet som pekar ut felet är `e`: callbacken använder event-objektet men har ingen parameter som tar emot det.
+1. Snutt C laddas utan fel, men ger ett `ReferenceError` vid varje klick, när callbacken körs. Ordet som pekar ut felet är `e`: callbacken använder event-objektet men har ingen parameter som tar emot det.
 2. A och B ger inga fel. I A anropas `sägHej` direkt, eftersom parenteserna finns, och `addEventListener` får funktionens returvärde, `undefined`. Webbläsaren tar emot `undefined` som callback utan att klaga, och gör ingenting vid klick. I B finns ingen händelse som heter `"klick"`, men webbläsaren kontrollerar inte namnet – den väntar bara på en händelse som aldrig kommer. Fel utan felmeddelande är svårast att hitta, eftersom ingenting pekar ut var du ska leta. Du märker bara att något inte händer.
 3. Rättade:
 
@@ -79,13 +78,6 @@ Lösningar till övningarna i kapitel [-@sec-handelser].
 
     ```javascript
     // C
-    felKnapp.addEventListener("click", () => {
-        console.log("Hej!");
-    });
-    ```
-
-    ```javascript
-    // D
     felKnapp.addEventListener("click", (e) => {
         console.log(e.target.textContent);
     });

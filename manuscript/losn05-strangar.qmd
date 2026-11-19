@@ -43,15 +43,16 @@ Mellanslag skrivs som `·`.
 
 ## Övning – Vad säger felet?
 
-1. A och B ger felmeddelanden.
-   - A: `TypeError: "Ugglorna".toUppercase is not a function`. Metoden heter `toUpperCase`, med stort C. En sträng har ingen egenskap `toUppercase`, så värdet blir `undefined`, och `undefined` går inte att anropa.
-   - B: `TypeError: "Ugglorna".length is not a function`. `length` är en egenskap, och dess värde är talet 8. Ett tal går inte att anropa.
-2. C ger `"Välkommen,   Ugglorna !"`, med tre mellanslag efter kommatecknet och ett före utropstecknet. `lagnamn.trim()` returnerar en ny sträng, men ingen tar hand om den. Templatesträngen använder `lagnamn`, som är oförändrad.
+1. B ger `TypeError: "Ugglorna".length is not a function`. `length` är en egenskap, och dess värde är talet 8. Ett tal går inte att anropa.
+2. De andra:
+   - A ger `"Du har {rätt} rätt"`. Dollartecknet saknas, så `{rätt}` är vanlig text och inget värde bäddas in.
+   - C ger `"Välkommen,   Ugglorna !"`, med tre mellanslag efter kommatecknet och ett före utropstecknet. `lagnamn.trim()` returnerar en ny sträng, men ingen tar hand om den. Templatesträngen använder `lagnamn`, som är oförändrad.
 3. Rättade:
 
     ```javascript
     // A
-    "Ugglorna".toUpperCase();
+    const rätt = 4;
+    `Du har ${rätt} rätt`;
     ```
 
     ```javascript

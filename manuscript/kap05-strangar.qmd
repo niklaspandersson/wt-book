@@ -140,7 +140,8 @@ Skriv in snuttarna en i taget. Förutsäg för varje snutt om det blir ett felme
 
 ```javascript
 // A
-"Ugglorna".toUppercase();
+const rätt = 4;
+`Du har {rätt} rätt`;
 ```
 
 ```javascript
@@ -155,8 +156,8 @@ lagnamn.trim();
 `Välkommen, ${lagnamn}!`;
 ```
 
-1. Två av snuttarna ger `TypeError: … is not a function`. Vilka, och vad är det i var och en som inte är en funktion?
-2. Den tredje ger inget felmeddelande, men texten blir inte som tänkt. Vad blir den, och varför?
+1. En av snuttarna ger `TypeError: … is not a function`. Vilken, och vad är det som inte är en funktion?
+2. De två andra ger inget felmeddelande, men texten blir inte som tänkt. Vad blir den, och varför?
 3. Rätta alla tre.
 :::
 

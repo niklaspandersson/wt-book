@@ -583,13 +583,13 @@ element.textcontent = "Ny text!";   // efter
 
 Den här gången kommer inget felmeddelande alls, men texten på sidan ändras inte. Varför? Ledtråd: vad händer när du ger ett objekt en egenskap som det inte har?
 
-**Del C.** Någon skriver i stället den första raden så här:
+**Del C.** Sidans CSS har regeln `.markerad { background: yellow; }`. För att markera stycket lägger någon till raden:
 
 ```javascript
-const element = document.querySelektor("#meddelande");
+element.classList.add(".markerad");
 ```
 
-Vilket felmeddelande får du nu? Är det ett `ReferenceError` eller ett `TypeError`, och varför?
+Inget felmeddelande kommer, men stycket blir inte gult. Varför inte? Ledtråd: titta på elementets `class` i fliken *Elements*.
 :::
 
 ::: {.callout-note}

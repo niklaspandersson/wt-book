@@ -500,7 +500,7 @@ Försök först att förutsäga vad som händer innan du testar koden.
 ::: {.callout-note}
 ## Övning – Vad säger felet?
 
-Snuttarna A–C är tänkta att skriva `Hej!` i konsolen när knappen klickas, och D att skriva knappens text. Ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, och i så fall när, skrivs något ut vid fel tillfälle, eller händer ingenting alls?
+Snuttarna A och B är tänkta att skriva `Hej!` i konsolen när knappen klickas, och C att skriva knappens text. Ingen av dem fungerar. Förutsäg för varje snutt vad som händer: kommer det ett felmeddelande, och i så fall när, skrivs något ut vid fel tillfälle, eller händer ingenting alls?
 
 Testa sedan en snutt i taget. Sidan behöver den här delen:
 
@@ -534,21 +534,14 @@ felKnapp.addEventListener("klick", () => {
 
 ```javascript
 // C
-felKnapp.addEventlistener("click", () => {
-    console.log("Hej!");
-});
-```
-
-```javascript
-// D
 felKnapp.addEventListener("click", () => {
     console.log(e.target.textContent);
 });
 ```
 
-1. Vilka av snuttarna ger ett felmeddelande? Kommer det när sidan laddas eller vid klicket, och vilket ord i meddelandet pekar ut felet?
+1. Vilken av snuttarna ger ett felmeddelande? Kommer det när sidan laddas eller vid klicket, och vilket ord i meddelandet pekar ut felet?
 2. Två av snuttarna ger inget felmeddelande alls. Varför är just den sortens fel svårast att hitta?
-3. Rätta alla fyra.
+3. Rätta alla tre.
 :::
 
 ::: {.callout-note}

@@ -52,13 +52,7 @@ De två sista raderna ger varje utfall ungefär varannan gång. Båda kan använ
 
     Med `Math.round` kan tärningen visa `7`, eftersom tal från 5.5 och uppåt avrundas till 6. Talen 1 till 7 kan alltså komma upp. Dessutom kommer 1 och 7 upp bara hälften så ofta som de andra talen. En sådan tärning är både felaktig och orättvis.
 
-## Övning – Vad säger felet?
-
-1. A ger `TypeError: Math.Floor is not a function`. Metoden heter `floor` med litet f. `Math` har ingen egenskap `Floor`, så värdet blir `undefined`, som inte går att anropa.
-2. De andra:
-   - B ger alltid `NaN`. `Math.random` utan parenteser är funktionen själv, inte ett slumptal, och en funktion gånger 6 går inte att räkna ut.
-   - C ger alltid `1`. `Math.floor(Math.random())` ger närmaste heltal nedåt från slumptalet innan det skalas, och för ett tal under 1 är det alltid 0. `0 * 6 + 1` är 1.
-3. Alla tre rättade blir samma uttryck:
+4. Uttrycket ger alltid `1`. `Math.floor(Math.random())` avrundar slumptalet nedåt *innan* det skalas, och ett tal under 1 avrundas alltid nedåt till 0. `0 * 6 + 1` är 1. Gångertecknet ska stå inne i parentesen, så att talet skalas först:
 
     ```javascript
     Math.floor(Math.random() * 6) + 1;
