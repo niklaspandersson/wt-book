@@ -13,7 +13,7 @@
 * [X] Kap. 10 – Sant och falskt *(booleska värden, jämförelser, `=` kontra `===`, en kort introduktion av `.value`, logiska operatorer, hidden/disabled, anmälningsformuläret med klick som löst exempel; truthy/falsy bara som Bra att veta-ruta)*
 * [X] Kap. 11 – Villkorssatser *(if/else, else if med spårtabell, sammansatta villkor, hälsningen med if och ternär, villkor i funktioner, early return, kontrollera inmatning som löst exempel)*
 * [X] Kap. 12 – *Avrunda och slumpa* (minikapitel) *(`Math.round`/`floor`/`random`, slumpade heltal)*
-* [X] Kap. 13 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, nedräkningen som löst exempel; continue, do...while och nästlade loopar bara som Bra att veta-ruta)*
+* [X] Kap. 13 – Loopar *(while med spårtabell, oändliga loopar, for, bygga upp ett resultat, while när antalet varv inte är känt, break, continue, nedräkningen som löst exempel; do...while och nästlade loopar tas inte upp i Del I)*
 * [X] Kap. 14 – Arrayer *(push/pop, for och for...of, hitta det största med spårtabell, includes/indexOf, split/join med tomma delar och trim, anmälan som löst exempel, arrayer av objekt; unshift/shift/splice bara som Bra att veta-ruta)*
 * [X] Kap. 15 – *Tangentbordet* (minikapitel) *(`keydown`/`keyup`, `e.key` och tangentnamnen, `shiftKey`/`ctrlKey`/`altKey`, lyssna på `document` eller ett fält)*
 * [X] Kap. 16 – *Musen* (minikapitel, utkast) *(`mouseenter`/`mouseleave`, `mousemove`, `clientX`/`clientY`, flytta ett element dit pekaren är, översikt över mushändelserna)*

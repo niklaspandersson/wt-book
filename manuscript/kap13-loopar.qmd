@@ -4,15 +4,15 @@ Kapitlet handlar om att få ett program att upprepa kod i stället för att skri
 
 ## Samma sak, många gånger
 
-Quizkvällen närmar sig, och domaren har tre önskemål till webbsidan:
+Tänk dig tre små uppgifter för en webbsida:
 
-- Innan första frågan ska skärmen visa en nedräkning: *10 9 8 7 6 5 4 3 2 1 Kör!*
-- Sidan ska visa en prislista: vad det kostar för ett lag med 1, 2, 3, 4, 5 eller 6 deltagare, när varje deltagare betalar 40 kr.
-- Det lag som först slår en sexa med tärningen får börja. Sidan ska kasta tärningen tills det blir en sexa och visa hur många kast det tog.
+- Innan ett spel börjar ska sidan räkna ned: *10 9 8 7 6 5 4 3 2 1 Kör!*
+- En prislista ska visa vad det kostar för en grupp med 1, 2, 3, 4, 5 eller 6 personer, när varje biljett kostar 40 kr.
+- Den som först slår en sexa får börja spelet. Sidan ska kasta tärningen tills det blir en sexa och visa hur många kast det tog.
 
-Med det du kan hittills går det första att lösa, men inte snyggt. Nedräkningen blir tio nästan likadana rader kod, och prislistan sex. Vill domaren räkna ned från 30 blir det trettio rader. Och tärningen går inte att lösa alls: ingen vet i förväg hur många kast det kommer att ta, så det går inte att skriva rätt antal rader.
+Med det du kan hittills blir nedräkningen tio nästan likadana rader kod, och prislistan sex. Ska nedräkningen börja på 30 blir det trettio rader. Tärningen går inte att lösa alls: ingen vet i förväg hur många kast det tar, så det går inte att skriva rätt antal rader.
 
-Alla tre önskemålen handlar om att **upprepa** något. Det gör programmet med **loopar**: kod som körs om och om igen, antingen ett bestämt antal gånger eller så länge ett villkor är sant.
+Alla tre uppgifterna handlar om att **upprepa** något. En **loop** är kod som körs om och om igen, antingen ett bestämt antal gånger eller så länge ett villkor är sant.
 
 ---
 
@@ -38,7 +38,7 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
     </style>
 </head>
 <body>
-    <h1>Quizkvällen</h1>
+    <h1>Loopar</h1>
 
     <h2>Nedräkning</h2>
     <label for="starttal">Räkna ned från:</label>
@@ -60,14 +60,14 @@ Gör en ny övningssida för kapitlet. Spara den här koden som `index.html` i e
 </html>
 ```
 
-Elementet `<pre>` är nytt. Det visar text precis som den är skriven, med radbrytningar. I JavaScript skriver man en radbrytning i en sträng som `\n` – ett omvänt snedstreck följt av bokstaven n. Står `\n` i texten i ett `<pre>`-element syns det som en ny rad på sidan. I ett vanligt `<p>` hade alla rader hamnat på samma rad.
-
 ::: {.callout-note}
 ## Så provar du koden i det här kapitlet
 
-- Skriv exemplen i `<script>`-elementet. En loop sträcker sig över flera rader, och då är det lättare att skriva och ändra i en fil än i konsolen.
+- Skriv exemplen efter varandra i `<script>`-elementet, så har du kvar allt du har provat.
 - De första exemplen skriver ut med `console.log`. Ändra talen i loopen och ladda om sidan, så ser du hur utskriften ändras.
-- Alla element som exemplen och övningarna använder finns redan på övningssidan. Töm `<script>`-elementet innan du börjar på ett nytt exempel eller en ny övning.
+- Mallar som `while (villkor) { … }` visar bara hur något skrivs och ska inte skrivas av.
+- Alla element som exemplen använder finns redan på övningssidan. Behöver en övning fler element visar den dem. Lägg in dem ovanför `<script>`-elementet.
+- Om en ny snutt ger ett felmeddelande när sidan laddas kan resten av skriptet sluta fungera. Rätta felet innan du går vidare.
 :::
 
 ---
@@ -115,8 +115,6 @@ Efter loopen skrivs `5 rundor ger 35 poäng.` ut. Tabellen visar tre saker:
 2. **Villkoret prövas bara i början av varje varv.** När `poäng` blir 35 i femte varvet händer ingenting direkt. Loopen märker det först när den går tillbaka till villkoret.
 3. **Variablerna har kvar sina värden efter loopen.** `poäng` pekar på 35, inte på 30. Det är just det värdet som fick villkoret att bli falskt.
 
-Med pilbilden flyttas pilen från `poäng` till ett nytt värde varje varv, och det finns aldrig mer än ett värde i `poäng` åt gången.
-
 ### Den oändliga loopen
 
 Vad händer om villkoret *aldrig* blir falskt?
@@ -156,11 +154,11 @@ Innan du kör en `while`-loop, peka ut raden i blocket som gör att villkoret ti
 Ofta ska en loop *räkna*: skriva ut talen 1 till 3, eller gå igenom fråga 1 till 15. Med `while` behövs då en räknare som skapas före loopen, prövas i villkoret och ökas sist i blocket:
 
 ```javascript
-let i = 1;
+let varv = 1;
 
-while (i <= 3) {
-    console.log(i);
-    i++;
+while (varv <= 3) {
+    console.log(varv);
+    varv++;
 }
 ```
 
@@ -172,7 +170,7 @@ for (let i = 1; i <= 3; i++) {
 }
 ```
 
-Variabeln `i` kallas loopens **räknare**. Namnet `i` är en vana bland programmerare, men du får gärna välja ett mer beskrivande namn. Parentesen har tre delar, åtskilda av semikolon:
+Variabeln `i` kallas loopens **räknare**, eller **index**. Namnet `i` är en vana bland programmerare, men du får gärna välja ett mer beskrivande namn. Parentesen har tre delar, åtskilda av semikolon:
 
 | Del | I exemplet | När den körs |
 |---|---|---|
@@ -216,7 +214,9 @@ Här har räknaren fått ett beskrivande namn, `minut`.
 
 ## Bygga upp ett resultat
 
-Nu kan vi göra prislistan från kapitlets början. Varje varv räknar ut priset för ett visst antal deltagare och lägger till en rad i en text. När loopen är klar visas hela texten i `<pre>`-elementet på övningssidan:
+Nu kan vi göra prislistan från kapitlets början. Varje varv räknar ut priset för ett visst antal personer och lägger till en rad i en text. När loopen är klar visas hela texten i `<pre>`-elementet på övningssidan.
+
+Elementet `<pre>` visar text precis som den är skriven, med radbrytningar. En radbrytning skrivs i en sträng som `\n`, ett omvänt snedstreck följt av bokstaven n. I ett vanligt `<p>` hade alla rader hamnat på samma rad.
 
 ```javascript
 const prislista = document.querySelector("#prislista");
@@ -229,7 +229,27 @@ for (let antal = 1; antal <= 6; antal++) {
 prislista.textContent = text;
 ```
 
-Raden `text += …` betyder "räkna ut den gamla texten plus den nya raden, och låt `text` peka på resultatet". Efter sex varv innehåller `text` alla sex raderna, och först då visas den på sidan.
+Raden `text += …` sätter ihop den gamla texten och den nya raden till en ny, längre sträng, och låter `text` peka på den:
+
+```{mermaid}
+%%| fig-alt: "Tre lägen efter varandra. Före loopen pekar namnet text på en tom sträng. Efter varv 1 pekar text på en sträng med en rad, 1 st: 40 kr. Efter varv 2 pekar text på en sträng med två rader, 1 st: 40 kr och 2 st: 80 kr."
+flowchart LR
+    subgraph före["Före loopen"]
+        direction LR
+        A[text] --> B(("#quot;#quot;"))
+    end
+    subgraph v1["Efter varv 1"]
+        direction LR
+        C[text] --> D(("1 st: 40 kr"))
+    end
+    subgraph v2["Efter varv 2"]
+        direction LR
+        E[text] --> F(("1 st: 40 kr<br>2 st: 80 kr"))
+    end
+    före -.-> v1 -.-> v2
+```
+
+Efter sex varv pekar `text` på en sträng innehållande alla sex raderna, och först då visas texten på sidan.
 
 Det här är ett av de vanligaste mönstren med loopar, och det har tre delar:
 
@@ -237,7 +257,7 @@ Det här är ett av de vanligaste mönstren med loopar, och det har tre delar:
 2. **I loopen:** lägg till något i variabeln varje varv.
 3. **Efter loopen:** använd resultatet.
 
-Samma mönster räknar ut en summa. Anta att det kommer ett lag av varje storlek: ett lag med en deltagare, ett med två, och så vidare upp till sex. Hur mycket betalar de tillsammans? Startvärdet är nu `0`, och varje varv lägger till ett lags pris:
+Samma mönster räknar ut en summa. Anta att det kommer en grupp av varje storlek: en med en person, en med två, och så vidare upp till sex. Hur mycket betalar de tillsammans? Startvärdet är nu `0`, och varje varv lägger till en grupps pris:
 
 ```javascript
 let summa = 0;
@@ -266,7 +286,7 @@ En vanlig miss är att skriva `let text = "";` *inuti* loopen. Då skapas variab
 
 ## När antalet varv inte är känt
 
-En `for`-loop passar när du vet hur många varv det ska bli: tio steg i nedräkningen, sex rader i prislistan. Men tärningen från kapitlets början går inte att räkna ut i förväg. Det kan ta ett kast, eller tjugo. Loopen ska fortsätta *så länge* det inte har blivit en sexa – och det är precis vad `while` säger:
+I nedräkningen och prislistan styrs loopen av en räknare, och villkoret jämför den med ett slutvärde som är känt från början. Hur många kast det tar att få en sexa går däremot inte att veta i förväg. Det finns inget slutvärde att räkna mot, så villkoret får handla om tärningen själv: kasta *så länge* det inte är en sexa. Ett sådant villkor, som inte beror på en räknare, passar för `while`:
 
 ```javascript
 const kastKnapp = document.querySelector("#kasta");
@@ -294,24 +314,6 @@ En tumregel för att välja:
 - **`for`** när du kan säga hur många varv det blir, eller från vad till vad räknaren ska gå.
 - **`while`** när loopen ska fortsätta tills något händer, och du inte vet när.
 
-### `break` – avbryt i förtid
-
-Ibland vill man avbryta en loop innan villkoret har blivit falskt. Anta att ett lag bara får kasta tre gånger för att försöka få en sexa:
-
-```javascript
-for (let kast = 1; kast <= 3; kast++) {
-    const tärning = Math.floor(Math.random() * 6) + 1;
-    console.log(`Kast ${kast}: ${tärning}`);
-
-    if (tärning === 6) {
-        console.log("Sexa! Laget börjar.");
-        break;
-    }
-}
-```
-
-`break` avslutar loopen direkt, och programmet fortsätter efter den. Kommer sexan i första kastet görs inga fler kast. Kommer ingen sexa alls slutar loopen efter tre varv, som vanligt. Loopen upprepar, och `if`-satsen avgör om det är dags att sluta.
-
 ::: {.callout-note appearance="simple"}
 ## Stanna upp
 
@@ -321,16 +323,65 @@ for (let kast = 1; kast <= 3; kast++) {
 
 ---
 
-## Ett löst exempel: nedräkningen
+## `break` – avbryt i förtid
 
-Nu kan vi bygga nedräkningen från kapitlets början. Domaren skriver in ett starttal och klickar, och sidan visar alla tal ned till 1 följt av *Kör!*. Elementen finns på övningssidan:
+Ibland vill man avbryta en loop innan villkoret har blivit falskt. Anta att en spelare bara får kasta tre gånger för att försöka få en sexa:
 
-```html
-<label for="starttal">Räkna ned från:</label>
-<input type="text" id="starttal">
-<button id="starta">Starta</button>
-<p id="nedräkning"></p>
+```javascript
+for (let kast = 1; kast <= 3; kast++) {
+    const tärning = Math.floor(Math.random() * 6) + 1;
+    console.log(`Kast ${kast}: ${tärning}`);
+
+    if (tärning === 6) {
+        console.log("Sexa! Du börjar.");
+        break;
+    }
+}
 ```
+
+`break` avslutar loopen direkt, och programmet fortsätter efter den. Kommer sexan i första kastet görs inga fler kast. Kommer ingen sexa alls slutar loopen efter de tre varv som `for`-loopen anger. Loopen upprepar, och `if`-satsen avgör om det är dags att sluta.
+
+---
+
+## `continue` – hoppa över resten av varvet
+
+`continue` avslutar bara det varv som pågår. Resten av blocket hoppas över, men till skillnad från `break` fortsätter loopen med nästa varv:
+
+```javascript
+// Träning varje vecka, utom under höstlovet vecka 44
+for (let vecka = 40; vecka <= 46; vecka++) {
+    if (vecka === 44) {
+        continue;
+    }
+    console.log(`Vecka ${vecka}: träning`);
+}
+```
+
+Vecka 44 skrivs inte ut, men loopen går vidare med vecka 45.
+
+::: {.callout-note appearance="simple"}
+## Stanna upp
+
+1. Skriv om träningsexemplet utan `continue`, med bara en `if`-sats. Vilket villkor behöver den?
+2. Kör *inte* den här koden. Vad skrivs ut, och varför tar loopen aldrig slut?
+
+    ```javascript
+    let nr = 1;
+    while (nr <= 5) {
+        if (nr === 3) {
+            continue;
+        }
+        console.log(nr);
+        nr++;
+    }
+    ```
+:::
+
+---
+
+## Nedräkningen
+
+I nedräkningen från kapitlets början väljer användaren själv var den ska börja. Starttalet läses från ett fält vid klick, och sidan visar alla tal ned till 1 följt av *Kör!*. Elementen finns på övningssidan.
 
 ```javascript
 // 1. Hämta elementen
@@ -378,10 +429,8 @@ Kontrollen avbryter med early return om starttalet är ogiltigt. Loopen bygger s
 - Välj `for` när du vet hur många varv det blir, och `while` när loopen ska fortsätta tills något händer.
 - En **oändlig loop** uppstår när villkoret aldrig blir falskt. Fråga dig alltid vilken rad som gör att loopen tar slut.
 - För att **bygga upp ett resultat** skapar du en variabel *före* loopen, lägger till i den *i* loopen och använder den *efter* loopen.
-- **`break`** avbryter loopen i förtid, oftast inuti en `if`-sats.
+- **`break`** avbryter hela loopen i förtid, och **`continue`** hoppar över resten av det varv som pågår. Båda står oftast inuti en `if`-sats.
 - En **spårtabell** med en rad per varv visar vad loopen gör. Att kunna spåra en loop för hand är den viktigaste färdigheten i kapitlet.
-
-I kapitel [-@sec-arrayer] får loopen något att gå igenom: en **array**.
 
 ::: {.callout-tip}
 ## AI som studieverktyg
@@ -458,38 +507,46 @@ Prislistan i avsnittet *Bygga upp ett resultat* växer så här under de tre fö
 Gå på samma sätt igenom den här koden för hand:
 
 ```javascript
-let summa = 0;
+let totalt = 0;
 for (let i = 1; i <= 5; i++) {
-    summa += i;
+    totalt += i;
 }
-console.log(summa);
+console.log(totalt);
 ```
 
-1. Gör en spårtabell med kolumnerna *Varv*, *`i`*, *Villkoret `i <= 5`*, *`summa` före* och *`summa` efter*. Glöm inte raden där villkoret blir `false`.
+1. Gör en spårtabell med kolumnerna *Varv*, *`i`*, *Villkoret `i <= 5`*, *`totalt` före* och *`totalt` efter*. Glöm inte raden där villkoret blir `false`.
 2. Vad skrivs ut?
-3. Flytta raden `console.log(summa);` in i loopen. Vad skrivs ut nu, och hur många rader blir det?
+3. Flytta raden `console.log(totalt);` in i loopen. Vad skrivs ut nu, och hur många rader blir det?
 :::
 
 ::: {.callout-note}
-## Övning – Hitta felet
+## Övning – Fel start, fel slut
 
-Följande kod ska skriva ut de udda talen 1, 3, 5, 7 och 9, men den gör inte det.
+1. Följande kod ska skriva ut de udda talen 1, 3, 5, 7 och 9, men den gör inte det. Vad skrivs ut i stället? Rätta koden genom att bara ändra en siffra.
 
-```javascript
-for (let i = 0; i <= 9; i += 2) {
-    console.log(i);
-}
-```
+    ```javascript
+    for (let i = 0; i <= 9; i += 2) {
+        console.log(i);
+    }
+    ```
 
-1. Vad skrivs ut i stället? Gör en spårtabell om du är osäker.
-2. Rätta koden genom att bara ändra en siffra.
-3. Prislistan i kapitlet ska visa 1–6 deltagare. En kurskamrat har skrivit `for (let antal = 0; antal < 6; antal++)`. Hur många rader blir det, och vilken rad är konstig?
+2. Följande kod ska räkna ut vad en grupp av varje storlek, från 1 till 6 personer, betalar tillsammans när en biljett kostar 40 kr. Svaret ska bli 840, men koden skriver ut 600.
+
+    ```javascript
+    let tillsammans = 0;
+    for (let antal = 1; antal < 6; antal++) {
+        tillsammans += antal * 40;
+    }
+    console.log(tillsammans);
+    ```
+
+    Lägg till en rad i loopen som skriver ut `antal` och `tillsammans` i varje varv, till exempel `console.log(antal, tillsammans);`. Vilken grupp saknas i utskriften? Rätta koden och ta sedan bort raden du lade till.
 :::
 
 ::: {.callout-note}
 ## Övning – Vad säger felet?
 
-Var och en av snuttarna nedan innehåller ett fel. Förutsäg först: kommer det ett felmeddelande, körs koden men gör fel, eller hänger sig sidan? Prova sedan snuttarna A–C i `<script>`-elementet, en i taget. Kör *inte* D.
+Var och en av snuttarna nedan innehåller ett fel. Förutsäg först: kommer det ett felmeddelande, körs koden men gör fel, eller hänger sig sidan? Prova sedan snuttarna A–C i `<script>`-elementet, en i taget, och rätta varje snutt innan du lägger till nästa. Kör *inte* D.
 
 ```javascript
 // A
@@ -527,7 +584,7 @@ while (antal > 0) {
 1. Vilken snutt ger ett `SyntaxError`, och vilken ger ett `ReferenceError`? Vad säger meddelandena, och vilken rad pekar de på?
 2. Vilken snutt körs utan felmeddelande men gör något annat än programmeraren troligen tänkt? Vad var tanken?
 3. Varför hänger sig sidan av D? Peka ut raden som är fel.
-4. Rätta alla fyra.
+4. Hur rättade du A–C? Rätta också D.
 :::
 
 ::: {.callout-note}
@@ -558,36 +615,59 @@ console.log(veckor);
 ::: {.callout-note}
 ## Övning – Ordna raderna
 
-Prislistan på övningssidan ska visa priset för 1–6 deltagare, en rad per antal, när varje deltagare betalar 40 kr. Välj ut och ordna raderna. Två rader ska inte användas.
+Sidan ska kasta en tärning högst fem gånger och visa varje kast på en egen rad. Blir det en sexa ska den sluta kasta. Lägg in det här elementet ovanför `<script>`-elementet:
 
-```javascript
-prislista.textContent = text;
-}
-const prislista = document.querySelector("#prislista");
-    text += `${antal} st: ${antal * 40} kr\n`;
-for (let antal = 1; antal < 6; antal++) {
-let text = "";
-    text = `${antal} st: ${antal * 40} kr\n`;
-for (let antal = 1; antal <= 6; antal++) {
+```html
+<pre id="fem-kast"></pre>
 ```
 
-1. Vilka två rader använde du inte? Beskriv för var och en vad som hade visats på sidan om du använt den.
-2. Ändra din lösning så att prislistan också visar en sista rad med *Max 6 deltagare per lag*. Ska raden stå före, i eller efter loopen?
+Välj ut och ordna raderna. Indraget visar hur djupt en rad ligger. Två rader ska inte användas.
+
+```javascript
+    rader = `Kast ${kast}: ${tärning}\n`;
+femKast.textContent = rader;
+        break;
+for (let kast = 1; kast <= 5; kast++) {
+    }
+const femKast = document.querySelector("#fem-kast");
+    rader += `Kast ${kast}: ${tärning}\n`;
+}
+    if (tärning === 6) {
+for (let kast = 1; kast < 5; kast++) {
+let rader = "";
+    const tärning = Math.floor(Math.random() * 6) + 1;
+```
+
+1. Vilka två rader använde du inte? Beskriv för var och en vad sidan hade visat om du använt den.
+2. Ska `if`-satsen stå före eller efter raden som lägger till kastet i `rader`? Vad visar sidan när sexan kommer, om du byter ordning på dem?
+3. Ladda om sidan några gånger. Hur många rader visas som mest, och som minst?
 :::
 
 ::: {.callout-note}
 ## Övning – Bygg vidare på nedräkningen
 
-Utgå från avsnittet *Ett löst exempel: nedräkningen* och övningssidan.
+Ändra koden från avsnittet *Nedräkningen* på övningssidan, i stället för att skriva en ny version.
 
-1. Lägg till ett andra fält för steget, så att domaren kan räkna ned två eller fem i taget. Vad händer med starttalet 10 och steget 4 – kommer 1 med? Ska det göra det?
+1. Lägg till ett andra fält för steget, så att användaren kan räkna ned två eller fem i taget. Lägg in fältet efter fältet för starttalet:
+
+    ```html
+    <label for="steg">Steg:</label>
+    <input type="text" id="steg">
+    ```
+
+    Vad händer med starttalet 10 och steget 4 – kommer 1 med? Ska det göra det?
 2. Steget måste vara minst 1. Varför? Lägg till en kontroll. (Tänk på vad som hade hänt i loopen med steget 0.)
 3. Visa nedräkningen med ett tal per rad i stället för med mellanslag. Vad behöver ändras, både i koden och i HTML-koden?
 :::
 
 ### Egna sidor
 
-I resten av övningarna bygger du sidorna själv. Gör som i avsnittet *Egna sidor* i kapitel [-@sec-handelser].
+I den sista övningen skapar du en helt ny sida. Arbeta i samma ordning som i tidigare kapitel:
+
+1. Gör sidan med ett tomt `<script>`-element sist i `<body>`, och ett `<style>`-element i `<head>` om sidan behöver CSS.
+2. Skriv elementen och kontrollera att sidan ser rätt ut innan du skriver någon JavaScript.
+3. Hämta elementen och skriv ut dem med `console.log`. Står det `null` stämmer selektorn inte med id:t.
+4. Skriv resten av koden ett steg i taget, och prova efter varje steg.
 
 ::: {.callout-note}
 ## Övning – Spargrisen
@@ -599,22 +679,3 @@ Bygg vidare på koden i övningen *Förklara koden*. Gör en sida med två fält
 3. Vad händer om man skriver `0` i fältet för veckobeloppet? Lägg till de kontroller du behöver innan du provar.
 :::
 
-::: {.callout-note}
-## Övning – Biljettpriser
-
-Gör en sida där användaren skriver in priset per person och det största antalet deltagare, och klickar på en knapp. Sidan ska visa en prislista, som den i avsnittet *Bygga upp ett resultat*, i ett `<pre>`-element.
-
-1. Planera först med kommentarer i skriptet: vad ska hämtas, vad ska hända vid klicket? Fyll sedan i koden under varje kommentar.
-2. Lägg till en sista rad som visar vad det kostar *totalt* om ett lag av varje storlek kommer. Behöver du en loop till, eller kan samma loop räkna ut summan?
-3. Vad bör hända om användaren skriver 1000 som största antal? Är det ett problem, och i så fall vilket?
-:::
-
-::: {.callout-note}
-## Övning – Frågornas typer
-
-Ett quiz har 15 frågor i tre kategorier som turas om i en fast ordning: musik, sport, geografi, musik, sport, geografi … Den sista frågan är alltid en *finalfråga*, oavsett kategori.
-
-1. Skriv en loop som skriver ut en rad per fråga, till exempel `Fråga 4: musik`. Använd en variabel `kategori` med värdet 1, 2 eller 3. Den ökar med ett i varje varv och börjar om på 1 när den har passerat 3.
-2. Var i `else if`-kedjan måste villkoret för finalfrågan stå för att fråga 15 ska bli `Fråga 15: final`?
-3. Låt användaren skriva in antalet frågor i ett fält, och visa listan på sidan i ett `<pre>`-element.
-:::

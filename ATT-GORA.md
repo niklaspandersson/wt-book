@@ -16,29 +16,28 @@
 ## Del I
 
 - **"Minns du?"-frågor** (PEDAGOGIK §8) är inte införda. De är valfria. Inför dem bara där kapitlet bygger direkt på något tidigare, och håll dem snäva (se *Chapter conventions* i CLAUDE.md).
-- **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Kap. 1–4, 9 och 10 är klara. Se över de övriga i samband med kortningen av varje kapitel.
+- **Kapitelinledningarna** ska ha ett motiverande exempel och en tydlig definition av kapitlets huvudbegrepp (se *Chapter openings* i CLAUDE.md). Kap. 1–4, 9, 10 och 13 är klara. Se över de övriga i samband med kortningen av varje kapitel.
 - **En ordlista svenska–engelska** (PEDAGOGIK §6) saknas. Felmeddelanden och MDN är på engelska (*call, argument, return value, method* …).
-- **Alla övningar ska göras.** Kapitlen ska ha så få övningar att studenten kan göra alla, utan undantag. Kap. 11 har därför två övningar under *Egna sidor*. Se över antalet i de andra kapitlen när de granskas.
+- **Alla övningar ska göras.** Kapitlen ska ha så få övningar att studenten kan göra alla, utan undantag. Kap. 11 har därför två övningar under *Egna sidor*, och kap. 13 en. Se över antalet i de andra kapitlen när de granskas.
 - **Ett projektkapitel sist i Del I** med förslag på små projekt att öva på, för den som vill ha mer. Varje projekt anger vilka kapitel det förutsätter.
 - **Del I-sammanfattningen** är bara en kort text. Den kunde bli ett repetitionskapitel med blandade övningar från hela Del I (PEDAGOGIK §8).
 
 ## Enhetlighet i Del I
 
-Kap. 11, 13, 14 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 9 och 10 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 12, 15 och 16) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
+Kap. 11, 13, 14 och 17 följer kapitelmallen i CLAUDE.md. Kap. 1, 2, 4, 9, 10 och 13 är slutgranskade. Kap. 6 skrevs före mallen och följer den bara delvis. Kap. 7 är granskat mot mallen. Minikapitlen (kap. 3, 5, 8, 12, 15 och 16) har ett eget, kortare format. De punkter nedan som också står under respektive kapitel samlas här, så att de kan göras i ett svep.
 
-- **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 men inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för `text +=` i kap. 13 och för arrayen och `const` i kap. 14.
+- **Pilbilden** (PEDAGOGIK §5) används i kap. 2, 4, 6 och 7 och för `text +=` i kap. 13, men annars inte i kap. 9–17, där spårtabeller tar över. Överväg en pilbild för arrayen och `const` i kap. 14.
 - **Scenarier.** Quizkvällen är inte ett genomgående exempel. Temat kan användas som vardagsexempel där det passar, vid sidan av andra scenarier som betyg, biljetter och moms, men varje kapitel eller övning som använder det ska förklara sammanhanget själv. Studenten ska inte behöva minnas quizet från ett tidigare kapitel. Det som återstår att rätta står under *Lösa hänvisningar till quizkvällen*.
-- **Rubriken *Ett löst exempel: …*** känns som en mall. Byt till bara exemplets namn (*Nedräkningen*, *Kiosken*), som i kap. 6. Gäller kap. 13, 14, 17 och objektkapitlet, och hänvisningarna till rubrikerna i kapitlens övningar och i lösningsfilerna `losn13` och `losn17`. Uppdatera samtidigt rubrikerna i ATT-GORA.md och INAKTUELLA-HANVISNINGAR.md som nämner de gamla namnen.
+- **Rubriken *Ett löst exempel: …*** känns som en mall. Byt till bara exemplets namn (*Nedräkningen*, *Kiosken*), som i kap. 6. Gäller kap. 14, 17 och objektkapitlet, och hänvisningarna till rubrikerna i kapitlens övningar och i lösningsfilen `losn17`. Kap. 13 är gjort. Uppdatera samtidigt rubrikerna i ATT-GORA.md och INAKTUELLA-HANVISNINGAR.md som nämner de gamla namnen.
 - **Övningssidor.** Kap. 9 har nu en skelettsida, och varje avsnitt och övning visar sin HTML (se *Practice page* i CLAUDE.md). Avgör för kap. 17 (59 rader) om exemplen bygger en sammanhängande sida eller är fristående. Är de fristående, gör om dem på samma sätt.
-- **"Töm `<script>`-elementet".** Kap. 13 och 14 ber studenten tömma skriptet mellan exemplen. Studenten ska i stället ha kvar all kod: namn som krockar byts, jämförelser mellan två versioner får olika namn eller sägs vara till för läsning, och övningar som bygger om tidigare kod säger "ändra" (se *Practice page* i CLAUDE.md). Kap. 10 och 11 är gjorda.
-- **Övningarnas element på övningssidan.** Övningssidan ska bara innehålla det som exemplen behöver. Element och CSS som bara övningar använder visas i övningen, så att sidan inte börjar som en vägg av kod (se *Practice page* i CLAUDE.md). Se över kap. 6, 7, 13, 14 och 17. Kap. 10 och 11 är gjorda.
-- **Stegen för egna sidor står i kapitlet.** Avsnittet *Egna sidor* ska ge stegen på plats, i kortform (se kap. 10 och 11), i stället för att hänvisa till kap. 9. Gäller kap. 13, 14, 17 och objektkapitlet. Gör det när kapitlet granskas.
+- **"Töm `<script>`-elementet".** Kap. 14 ber studenten tömma skriptet mellan exemplen. Studenten ska i stället ha kvar all kod: namn som krockar byts, jämförelser mellan två versioner får olika namn eller sägs vara till för läsning, och övningar som bygger om tidigare kod säger "ändra" (se *Practice page* i CLAUDE.md). Kap. 10, 11 och 13 är gjorda.
+- **Övningarnas element på övningssidan.** Övningssidan ska bara innehålla det som exemplen behöver. Element och CSS som bara övningar använder visas i övningen, så att sidan inte börjar som en vägg av kod (se *Practice page* i CLAUDE.md). Se över kap. 6, 7, 14 och 17. Kap. 10, 11 och 13 är gjorda.
+- **Stegen för egna sidor står i kapitlet.** Avsnittet *Egna sidor* ska ge stegen på plats, i kortform (se kap. 10 och 11), i stället för att hänvisa till kap. 9. Gäller kap. 14, 17 och objektkapitlet. Gör det när kapitlet granskas.
 - **Felövningarna** (*Vad säger felet?*) ska bara visa fel som hör till kapitlets ämne (se *Find-the-error exercises* i CLAUDE.md). Kap. 1–12 är gjorda. Kvar, när kapitlen granskas:
   - Kap. 15: alla tre snuttarna upprepar fel från kap. 6 och 9 (händelsenamnet, `e` som saknas, fel skiftläge i en egenskap). Stryk övningen, eller ersätt den med fel som hör till tangenterna, till exempel `e.key === "a"` när Skift är nedtryckt eller `"Space"` i stället för `" "`.
   - Kap. 16: snutt B (`mouseMove`) upprepar kap. 9. Stryk den; A och C hör till kapitlet.
   - Kap. 17: snutt C, se kap. 17 nedan.
   - Objektkapitlet: snutt B (`pong`) är ett stavfel, och A (`lag[2]` utanför arrayen) upprepar kap. 14. Byt mot fel som hör till objekt.
-  - Ingen felövning varierar formen ännu. Överväg i kap. 13 eller 14 en övning där studenten lägger till `console.log` för att hitta var ett värde blir fel.
 - **Läs i följd.** Läs kap. 4 → 5 → 6 → 7, 9 → 10 → 11 → 12 och 14 → 15 → 16 → 17 i ett svep för att se om övergångar och ton håller ihop, nu också med minikapitlen emellan. Kap. 4 är kortast (≈ 1 700 ord) efter kortningen.
 
 ## Lösa hänvisningar till quizkvällen
@@ -47,17 +46,16 @@ Genomgång av Del I och dess lösningar. Quizet introduceras bara i kap. 2, men 
 
 **Tydliga fall:**
 
-- **Kap. 13, öppningen:** "Quizkvällen närmar sig, och domaren har tre önskemål". Fortsätter en berättelse med en person studenten inte har mött. Rättas öppningen fungerar de senare "domaren" i kapitlet, och "quizlag" i lösningen till kapitlets prislisteövning.
-- **Kap. 14, öppningen:** "Anmälningarna till quizkvällen har börjat komma in" och "Domaren vill …". Samma mönster som kap. 13, och samma sak gäller "domaren" i *Ett löst exempel: anmäl flera lag*.
+- **Kap. 14, öppningen:** "Anmälningarna till quizkvällen har börjat komma in" och "Domaren vill …". Fortsätter en berättelse med en person studenten inte har mött, och samma sak gäller "domaren" i *Ett löst exempel: anmäl flera lag*.
 - **Kap. 17, öppningen:** "Quizsidan har tre svarsknappar." Sidan har inte visats ännu, eftersom övningssidan kommer efter meningen. Rättas öppningen fungerar "Quizet från kapitlets början" i *Ett löst exempel: quizknapparna*.
 
 **Mindre fall:**
 
 - **Kap. 12, övningen *Slå upp själv*:** "Ett quiz med 128 deltagare ska åka buss" hänger ihop i sig, men verkar vara en rest. Vilken grupp som helst fungerar bättre.
-- **Olika namn på samma roll:** *domaren* (kap. 13 och 14) och *arrangörerna* (kap. 7). Välj ett, om rollen blir kvar.
+- **Olika namn på samma roll:** *domaren* (kap. 14) och *arrangörerna* (kap. 7). Välj ett, om rollen blir kvar.
 - **Kap. 14, *Arrayer av objekt*:** quizfrågan med en array av alternativ finns inte längre i kap. 2. Står också i [INAKTUELLA-HANVISNINGAR.md](INAKTUELLA-HANVISNINGAR.md).
 
-Inga ändringar behövs där sammanhanget ges på plats (scenariot i kap. 2, öppningen i kap. 7, fristående övningar som i kap. 11 och 13), i hänvisningar som namnger övningen (kap. 6 och 17), eller i kod med lagobjekt och exempeltexter, som fungerar utan ett quiz.
+Inga ändringar behövs där sammanhanget ges på plats (scenariot i kap. 2, öppningen i kap. 7, fristående övningar som i kap. 11), i hänvisningar som namnger övningen (kap. 6 och 17), eller i kod med lagobjekt och exempeltexter, som fungerar utan ett quiz.
 
 ## Innehåll att se över i nästa iteration
 
@@ -77,8 +75,7 @@ Medan brödtexten kortas noteras här var ett kapitel kunde ändras eller byggas
 
 ### Kap. 13 Loopar
 
-- **Prislistans spårtabell** är nu ett löst exempel i övningen *Spåra summan*. Brödtexten har kvar spårtabellen för `while`, som är kapitlets modell. Fundera på om *Bygga upp ett resultat* behöver en bild av hur `text` växer (till exempel pilbilden) nu när tabellen är borta.
-- **`continue`, `do...while` och nästlade loopar** nämns inte längre alls. Studenterna möter dem i andras kod och på MDN.
+- **`do...while` och nästlade loopar** nämns inte längre alls. Studenterna möter dem i andras kod och på MDN.
 
 ### Kap. 14 Arrayer
 
@@ -131,4 +128,4 @@ Det här togs bort ur Del I och ska tas upp om och när kapitlet skrivs. Ingen d
   - kortslutning, att `&&` och `||` returnerar operander, och `värde || standard` med fallgropen `0 || 10`;
   - `??` och `?.`, som löser samma problem utan fallgropen;
   - `delete` och operatorn `in`, om de behövs.
-- **Finns inte i Del I:** `switch`, `continue`, `do...while` och nästlade loopar. Om ett senare kapitel behöver dem förklaras de där.
+- **Finns inte i Del I:** `switch`, `do...while` och nästlade loopar. Om ett senare kapitel behöver dem förklaras de där.
