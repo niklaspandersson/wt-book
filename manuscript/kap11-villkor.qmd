@@ -613,77 +613,6 @@ const gästknapp = document.querySelector("#gästknapp");
 :::
 
 ::: {.callout-note}
-## Övning – Refaktorera med funktioner
-
-Följande kod fungerar men innehåller upprepning:
-
-```javascript
-const namn1 = "Karin";
-const poäng1 = 78;
-let status1;
-if (poäng1 >= 50) {
-    status1 = "Godkänd";
-} else {
-    status1 = "Underkänd";
-}
-console.log(`${namn1}: ${status1}`);
-
-const namn2 = "Erik";
-const poäng2 = 43;
-let status2;
-if (poäng2 >= 50) {
-    status2 = "Godkänd";
-} else {
-    status2 = "Underkänd";
-}
-console.log(`${namn2}: ${status2}`);
-
-const namn3 = "Lena";
-const poäng3 = 91;
-let status3;
-if (poäng3 >= 50) {
-    status3 = "Godkänd";
-} else {
-    status3 = "Underkänd";
-}
-console.log(`${namn3}: ${status3}`);
-```
-
-Skriv en funktion `bedöm(namn, poäng)` som innehåller logiken och skriver ut resultatet. Ersätt sedan de tre upprepade blocken med tre anrop till funktionen. Hur mycket kortare och tydligare blir koden?
-
-Funktionen `bedöm` gör nu två saker: den avgör om resultatet är godkänt *och* skriver ut det. Dela upp den i två funktioner enligt principen att en funktion bör göra en sak: en som *returnerar* statusen och en som skriver ut. Vilken av dem skulle du kunna återanvända om resultatet i stället skulle visas på en webbsida? Kan den som returnerar statusen skrivas med ternäroperatorn?
-:::
-
-::: {.callout-note}
-## Övning – Betyg på sidan
-
-Utgå från avsnittet *Betygsprogrammet* och övningssidan. Lägg till en hjälptext direkt under stycket med id `resultat`, och två klasser i `<style>`-elementet:
-
-```html
-<p id="hjälp" hidden>Tips: repetera materialet och försök igen.</p>
-```
-
-```css
-.godkänd {
-    color: green;
-    background-color: #e8f5e9;
-    padding: 0.5rem;
-}
-.underkänd {
-    color: red;
-    background-color: #ffebee;
-    padding: 0.5rem;
-}
-```
-
-Bygg sedan vidare på koden:
-
-1. Ge resultatet klassen `godkänd` eller `underkänd` beroende på betyget. Klicka flera gånger med olika poäng. Försvinner den gamla klassen som den ska?
-2. Visa hjälptexten med id `hjälp` bara när betyget är F.
-3. Om fältet innehåller något som inte är giltigt ska *ingen* av klasserna finnas kvar, och hjälptexten ska vara dold. Var i koden behöver du lägga till något för det?
-:::
-
-::: {.callout-note}
 ## Övning – Temaknappen
 
 Mörkt läge har du byggt förut: med en boolesk variabel i kapitel [-@sec-dom-intro] och med en knapp i kapitel [-@sec-handelser]. Där var det bara klassen som växlade. Nu ska också knappens text visa vilket läge du kommer till, och det kräver ett val mellan två texter, inte bara sant eller falskt.
@@ -726,9 +655,38 @@ Prova koden. Ändra sedan callbacken, så att den gör samma sak på två andra 
 Vilket av de tre sätten tycker du är tydligast? Varför går det inte att lösa enbart med en tilldelning av ett booleskt värde, som för `hidden` och `disabled`?
 :::
 
+::: {.callout-note}
+## Övning – Betyg på sidan
+
+Utgå från avsnittet *Betygsprogrammet* och övningssidan. Lägg till en hjälptext direkt under stycket med id `resultat`, och två klasser i `<style>`-elementet:
+
+```html
+<p id="hjälp" hidden>Tips: repetera materialet och försök igen.</p>
+```
+
+```css
+.godkänd {
+    color: green;
+    background-color: #e8f5e9;
+    padding: 0.5rem;
+}
+.underkänd {
+    color: red;
+    background-color: #ffebee;
+    padding: 0.5rem;
+}
+```
+
+Bygg sedan vidare på koden:
+
+1. Ge resultatet klassen `godkänd` eller `underkänd` beroende på betyget. Klicka flera gånger med olika poäng. Försvinner den gamla klassen som den ska?
+2. Visa hjälptexten med id `hjälp` bara när betyget är F.
+3. Om fältet innehåller något som inte är giltigt ska *ingen* av klasserna finnas kvar, och hjälptexten ska vara dold. Var i koden behöver du lägga till något för det?
+:::
+
 ### Egna sidor
 
-I resten av övningarna gör du en ny sida för varje övning och bestämmer själv elementen och deras id. Arbeta i samma ordning som tidigare:
+I den sista övningen gör du en ny sida och bestämmer själv elementen och deras id. Arbeta i samma ordning som tidigare:
 
 1. Gör sidan med ett tomt `<script>`-element sist i `<body>`, och ett `<style>`-element i `<head>` om sidan behöver CSS.
 2. Skriv elementen och kontrollera att sidan ser rätt ut innan du skriver någon JavaScript.
@@ -736,25 +694,17 @@ I resten av övningarna gör du en ny sida för varje övning och bestämmer sj�
 4. Skriv resten av koden ett steg i taget, och prova efter varje steg.
 
 ::: {.callout-note}
-## Övning – Formulera villkoren
-
-Skriv villkorssatser för följande situationer. Skriv varje lösning som en funktion som returnerar resultatet, och testa den med `console.log`.
-
-1. Efter en quizrunda med tio frågor ska laget få ett meddelande: 10 rätt ger "Full pott!", 7–9 rätt "Mycket bra!", 4–6 rätt "Bra kämpat!" och färre än 4 "Bättre lycka nästa gång!". Skriv funktionen `rundmeddelande(antalRätt)`. Vilka antal rätt är viktigast att testa med, och varför?
-2. Ett lag går till finalen om det har minst 30 poäng *eller* om det har vunnit någon av omgångarna. Skriv funktionen `tillFinalen(poäng, harVunnitOmgång)`, som returnerar "Till finalen!" eller "Ingen final den här gången." beroende på svaret. Testa med minst fyra kombinationer av argument.
-:::
-
-::: {.callout-note}
 ## Övning – Vem leder?
 
-Två lag har fått var sin poäng:
+Gör en sida för en frågetävling mellan två lag. Sidan har en knapp *Rätt svar* för varje lag och ett stycke som visar ställningen. Lagen sparas i två objekt:
 
 ```javascript
-const röda = { namn: "Röda stjärnor", poäng: 12 };
-const blå = { namn: "Blå blixtarna", poäng: 9 };
+const röda = { namn: "Röda stjärnor", poäng: 0 };
+const blå = { namn: "Blå blixtarna", poäng: 0 };
 ```
 
-1. Skriv en funktion `ledare(lag1, lag2)` som returnerar till exempel `"Röda stjärnor leder med 3 poäng."`, eller `"Det står lika!"` om lagen har lika många poäng. Skillnaden ska alltid vara ett positivt tal – räkna ut den på olika sätt beroende på vilket lag som leder. Testa med flera olika poäng, också när det andra laget leder.
-2. Nu ska du göra en sida med en knapp "Rätt svar" för varje lag och ett stycke som visar vem som leder. Varje klick ger laget 3 poäng och uppdaterar stycket. Planera innan du skriver: vad ska hända i varje callback? Vilken del kan båda callbackarna dela på genom att anropa samma funktion?
-3. Bygg sidan.
+1. Ett klick på ett lags knapp ska ge laget 3 poäng. Visa till att börja med bara båda lagens poäng i stycket, till exempel "Röda stjärnor 3 – Blå blixtarna 0".
+2. Låt stycket i stället säga vem som leder, till exempel "Röda stjärnor leder med 3 poäng.", eller "Det står lika!". Skillnaden ska alltid vara ett positivt tal. Räkna ut den på olika sätt beroende på vilket lag som leder.
+3. Står samma kod nu i båda callbackarna? Flytta den till en funktion, `visaLedning`, som båda callbackarna anropar.
+4. Vilka ställningar behöver du prova för att veta att alla tre vägarna i villkoret fungerar? Prova dem genom att klicka.
 :::

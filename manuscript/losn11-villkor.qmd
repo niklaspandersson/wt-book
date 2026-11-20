@@ -202,43 +202,38 @@ De tre `const`-raderna överst kan stå i vilken ordning som helst, men `gästkn
    - `if (gästnamn = "") {` – en tilldelning i stället för en jämförelse. Syntaxen är giltig, så sidan laddas utan fel. Men när någon klickar på *Skriv in* körs callbacken, och raden försöker tilldela om `gästnamn`, som är deklarerad med `const`. Det ger `TypeError: Assignment to constant variable.` – först då.
 2. Lösningen har tre utfall, och ternäroperatorn väljer mellan två värden. Det går att lägga en ternär i en annan, men den blir svår att läsa. I hälsningen i avsnittet *Ternäroperatorn* fanns bara två utfall.
 
-## Övning – Refaktorera med funktioner
+## Övning – Temaknappen
+
+Varje version ersätter den förra callbacken. Låter du flera av dem ligga kvar får knappen flera lyssnare, och två `toggle` i rad tar ut varandra.
 
 ```javascript
-function bedöm(namn, poäng) {
-    let status;
-    if (poäng >= 50) {
-        status = "Godkänd";
+const temaKnapp = document.querySelector("#tema-knapp");
+
+// 1. Med returvärdet från toggle
+temaKnapp.addEventListener("click", () => {
+    const ärMörkt = document.body.classList.toggle("dark");
+    if (ärMörkt) {
+        temaKnapp.textContent = "Ljust läge";
     } else {
-        status = "Underkänd";
+        temaKnapp.textContent = "Mörkt läge";
     }
-    console.log(`${namn}: ${status}`);
-}
-
-bedöm("Karin", 78);
-bedöm("Erik", 43);
-bedöm("Lena", 91);
+});
 ```
-
-Koden blir 13 rader i stället för 29, och de tre sista raderna säger direkt vad som händer. Vill du ändra gränsen eller formatet gör du det på ett ställe.
-
-Uppdelad i två funktioner:
 
 ```javascript
-function statusFör(poäng) {
-    return poäng >= 50 ? "Godkänd" : "Underkänd";
-}
-
-function skrivUtBedömning(namn, poäng) {
-    console.log(`${namn}: ${statusFör(poäng)}`);
-}
-
-skrivUtBedömning("Karin", 78);
-skrivUtBedömning("Erik", 43);
-skrivUtBedömning("Lena", 91);
+// 2. Med ternäroperatorn
+temaKnapp.addEventListener("click", () => {
+    const ärMörkt = document.body.classList.toggle("dark");
+    temaKnapp.textContent = ärMörkt ? "Ljust läge" : "Mörkt läge";
+});
 ```
 
-`statusFör` går att återanvända på en webbsida, eftersom den bara *returnerar* statusen och inte bryr sig om var den ska visas: `resultat.textContent = statusFör(78);`. `skrivUtBedömning` är bunden till konsolen. Och ja, `statusFör` kan skrivas med ternäroperatorn, eftersom den bara väljer ett av två värden.
+1. Nej. `toggle` säger själv om klassen lades till, så `classList.contains` behövs inte. Det booleska svaret finns redan.
+2. Se ovan.
+
+Vilket sätt som är tydligast är en smaksak, men version 2 är kortast och säger precis vad som händer: knappens text blir en av två texter.
+
+Det går inte att lösa med enbart en tilldelning av ett booleskt värde, eftersom `textContent` inte är en boolesk egenskap. `hidden` och `disabled` vill ha `true` eller `false`, och då kan svaret på en fråga tilldelas direkt. Knappens text ska vara en av två *strängar*, och då måste programmet välja – med `if`/`else` eller ternäroperatorn.
 
 ## Övning – Betyg på sidan
 
@@ -292,123 +287,65 @@ beräknaKnapp.addEventListener("click", () => {
 2. Se blocket `if (bokstav === "F")`. Hjälptexten visas bara där, och döljs annars.
 3. Nollställningen måste ske *innan* kontrollerna, högst upp i callbacken. Kontrollerna avslutar funktionen med `return`, så det som står efter dem körs inte när inmatningen är ogiltig. Alternativet är att skriva samma två rader i vart och ett av de tre `if`-blocken – men det är tre gånger så mycket kod och lätt att glömma ett.
 
-## Övning – Temaknappen
-
-Varje version ersätter den förra callbacken. Låter du flera av dem ligga kvar får knappen flera lyssnare, och två `toggle` i rad tar ut varandra.
-
-```javascript
-const temaKnapp = document.querySelector("#tema-knapp");
-
-// 1. Med returvärdet från toggle
-temaKnapp.addEventListener("click", () => {
-    const ärMörkt = document.body.classList.toggle("dark");
-    if (ärMörkt) {
-        temaKnapp.textContent = "Ljust läge";
-    } else {
-        temaKnapp.textContent = "Mörkt läge";
-    }
-});
-```
-
-```javascript
-// 2. Med ternäroperatorn
-temaKnapp.addEventListener("click", () => {
-    const ärMörkt = document.body.classList.toggle("dark");
-    temaKnapp.textContent = ärMörkt ? "Ljust läge" : "Mörkt läge";
-});
-```
-
-1. Nej. `toggle` säger själv om klassen lades till, så `classList.contains` behövs inte. Det booleska svaret finns redan.
-2. Se ovan.
-
-Vilket sätt som är tydligast är en smaksak, men version 2 är kortast och säger precis vad som händer: knappens text blir en av två texter.
-
-Det går inte att lösa med enbart en tilldelning av ett booleskt värde, eftersom `textContent` inte är en boolesk egenskap. `hidden` och `disabled` vill ha `true` eller `false`, och då kan svaret på en fråga tilldelas direkt. Knappens text ska vara en av två *strängar*, och då måste programmet välja – med `if`/`else` eller ternäroperatorn.
-
-## Övning – Formulera villkoren
-
-```javascript
-// 1
-function rundmeddelande(antalRätt) {
-    if (antalRätt === 10) {
-        return "Full pott!";
-    } else if (antalRätt >= 7) {
-        return "Mycket bra!";
-    } else if (antalRätt >= 4) {
-        return "Bra kämpat!";
-    } else {
-        return "Bättre lycka nästa gång!";
-    }
-}
-
-console.log(rundmeddelande(10));   // Full pott!
-console.log(rundmeddelande(9));    // Mycket bra!
-console.log(rundmeddelande(7));    // Mycket bra!
-console.log(rundmeddelande(6));    // Bra kämpat!
-console.log(rundmeddelande(4));    // Bra kämpat!
-console.log(rundmeddelande(3));    // Bättre lycka nästa gång!
-```
-
-```javascript
-// 2
-function tillFinalen(poäng, harVunnitOmgång) {
-    if (poäng >= 30 || harVunnitOmgång) {
-        return "Till finalen!";
-    }
-    return "Ingen final den här gången.";
-}
-
-console.log(tillFinalen(30, false));   // Till finalen!
-console.log(tillFinalen(29, false));   // Ingen final den här gången.
-console.log(tillFinalen(12, true));    // Till finalen!
-console.log(tillFinalen(35, true));    // Till finalen!
-```
-
-I uppgift 1 räcker `antalRätt >= 7` för "Mycket bra!", eftersom 10 redan är taget om hand. Viktigast att testa är gränsvärdena – 10, 9, 7, 6, 4 och 3 – eftersom det är där det är lätt att välja fel mellan `>` och `>=`. Ett värde mitt i ett intervall, som 5, visar inte om gränserna stämmer.
-
-I uppgift 2 behöver båda delarna av villkoret testas för sig: ett lag med låg poäng som har vunnit en omgång, och ett lag med minst 30 poäng som inte har det. 29 och 30 visar att gränsen är rätt. Ett `else` behövs inte, eftersom `return` avslutar funktionen.
-
 ## Övning – Vem leder?
 
-1. Funktionen:
+Sidan:
 
-    ```javascript
-    function ledare(lag1, lag2) {
-        if (lag1.poäng > lag2.poäng) {
-            return `${lag1.namn} leder med ${lag1.poäng - lag2.poäng} poäng.`;
-        } else if (lag2.poäng > lag1.poäng) {
-            return `${lag2.namn} leder med ${lag2.poäng - lag1.poäng} poäng.`;
-        } else {
-            return "Det står lika!";
-        }
-    }
+```html
+<button id="röda-knapp">Rätt svar – Röda stjärnor</button>
+<button id="blå-knapp">Rätt svar – Blå blixtarna</button>
+<p id="ställning">Det står lika!</p>
+```
 
-    const röda = { namn: "Röda stjärnor", poäng: 12 };
-    const blå = { namn: "Blå blixtarna", poäng: 9 };
-
-    console.log(ledare(röda, blå));   // Röda stjärnor leder med 3 poäng.
-    ```
-
-    Testa också med `blå` först i anropet, med blå i ledning, och med lika poäng. Skillnaden räknas alltid som det ledande lagets poäng minus det andras, så den blir aldrig negativ.
-
-2. Planeringen: varje callback ger sitt lag 3 poäng och visar sedan vem som leder. Ingenting behöver läsas, eftersom ingen skriver något. Att visa ledaren är detsamma för båda knapparna, så båda callbackarna kan anropa samma funktion.
-
-3. Sidan:
-
-    ```html
-    <button id="röda-knapp">Rätt svar – Röda stjärnor</button>
-    <button id="blå-knapp">Rätt svar – Blå blixtarna</button>
-    <p id="ledning">Det står lika!</p>
-    ```
+1. Bara poängen:
 
     ```javascript
     const röda = { namn: "Röda stjärnor", poäng: 0 };
     const blå = { namn: "Blå blixtarna", poäng: 0 };
 
-    const ledning = document.querySelector("#ledning");
+    const ställning = document.querySelector("#ställning");
+
+    document.querySelector("#röda-knapp").addEventListener("click", () => {
+        röda.poäng += 3;
+        ställning.textContent = `${röda.namn} ${röda.poäng} – ${blå.namn} ${blå.poäng}`;
+    });
+
+    document.querySelector("#blå-knapp").addEventListener("click", () => {
+        blå.poäng += 3;
+        ställning.textContent = `${röda.namn} ${röda.poäng} – ${blå.namn} ${blå.poäng}`;
+    });
+    ```
+
+2. I varje callback ersätts raden med `ställning.textContent` av en `if`-sats med tre vägar:
+
+    ```javascript
+    if (röda.poäng > blå.poäng) {
+        ställning.textContent = `${röda.namn} leder med ${röda.poäng - blå.poäng} poäng.`;
+    } else if (blå.poäng > röda.poäng) {
+        ställning.textContent = `${blå.namn} leder med ${blå.poäng - röda.poäng} poäng.`;
+    } else {
+        ställning.textContent = "Det står lika!";
+    }
+    ```
+
+    Skillnaden räknas alltid som det ledande lagets poäng minus det andras, så den blir aldrig negativ. Lika poäng behöver inget eget villkor: leder inget av lagen återstår bara lika.
+
+3. Med en gemensam funktion:
+
+    ```javascript
+    const röda = { namn: "Röda stjärnor", poäng: 0 };
+    const blå = { namn: "Blå blixtarna", poäng: 0 };
+
+    const ställning = document.querySelector("#ställning");
 
     function visaLedning() {
-        ledning.textContent = ledare(röda, blå);
+        if (röda.poäng > blå.poäng) {
+            ställning.textContent = `${röda.namn} leder med ${röda.poäng - blå.poäng} poäng.`;
+        } else if (blå.poäng > röda.poäng) {
+            ställning.textContent = `${blå.namn} leder med ${blå.poäng - röda.poäng} poäng.`;
+        } else {
+            ställning.textContent = "Det står lika!";
+        }
     }
 
     document.querySelector("#röda-knapp").addEventListener("click", () => {
@@ -422,4 +359,6 @@ I uppgift 2 behöver båda delarna av villkoret testas för sig: ett lag med lå
     });
     ```
 
-    Funktionen `ledare` från uppgift 1 måste också stå i filen. Ändra lagens poäng till 0 i objekten från uppgift 1 i stället för att deklarera `röda` och `blå` en gång till, annars blir det ett `SyntaxError`. `ledare` returnerar texten och `visaLedning` visar den: en funktion bygger texten, en annan visar den.
+    Vill du ändra texten gör du det nu på ett ställe.
+
+4. En ställning för varje väg: klicka på röda (3–0, röda leder), sedan på blå (3–3, lika) och på blå igen (3–6, blå leder). Att det blir lika efter en ledning visar att `else`-vägen nås också när poängen inte är noll. Sidan visar redan "Det står lika!" från början, men det är texten i HTML-koden, inte ditt villkor.
